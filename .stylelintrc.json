@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recommended",
+    "stylelint-config-standard-scss",
+    "stylelint-config-sass-guidelines",
+    "stylelint-config-rational-order",
+    "stylelint-config-prettier-scss"
+  ],
+  "plugins": [
+    "stylelint-prettier"
+  ],
+  "rules": {
+    "prettier/prettier": true,
+    "max-nesting-depth": 3,
+    "selector-max-compound-selectors": 4,
+    "order/properties-alphabetical-order": null
+  }
+}

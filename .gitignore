@@ -1,0 +1,45 @@
+# Created by https://www.toptal.com/developers/gitignore/api/webstorm,gatsby,react,sass,dotenv
+# Edit at https://www.toptal.com/developers/gitignore?templates=webstorm,gatsby,react,sass,dotenv
+# Modified with default from create-react-app
+
+### dotenv ###
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+/.pnp
+.pnp.js
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
+
+### testing ###
+/coverage
+
+### production ###
+/build
+
+### Sass ###
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+### WebStorm ###
+.idea/
+
+### misc ###
+npm-debug.log*
