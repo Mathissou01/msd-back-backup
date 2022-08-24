@@ -1,5 +1,9 @@
 .cache
-package.json
+.tmp
+dist
+build
 package-lock.json
 public
+
+# Misc
 loadershim.js
