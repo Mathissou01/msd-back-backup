@@ -8,9 +8,6 @@ module.exports = {
   },
   testEnvironment: "jsdom",
   testPathIgnorePatterns: [`node_modules`, `\\.cache`, `<rootDir>.*/public`],
-  globals: {
-    __PATH_PREFIX__: ``,
-  },
   setupFiles: [`<rootDir>/loadershim.js`],
   setupFilesAfterEnv: ["<rootDir>/jest-setup.js"],
 };
