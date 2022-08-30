@@ -1,6 +1,10 @@
-# MSD BACK-OFFICE
+# MSD-BACK
 
-Application frontend React.
+Application back-office (frontend) React.
+
+## Installation
+
+(WIP)
 
 ## Available Scripts
 
