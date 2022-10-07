@@ -1,9 +1,8 @@
 .cache
 .tmp
+.next
 dist
 build
 package-lock.json
 public
-
-# Misc
-loadershim.js
+coverage

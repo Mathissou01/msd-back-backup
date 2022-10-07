@@ -1,0 +1,18 @@
+.agenda {
+  &__calendar {
+    height: 800px;
+    margin: 10px 0;
+  }
+
+  &__type-event {
+    background-color: #3a3ab4;
+  }
+
+  &__type-slot {
+    background-color: #50b21e;
+  }
+
+  &__type-day {
+    background-color: #d0b53a;
+  }
+}
