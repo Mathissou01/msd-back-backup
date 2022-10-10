@@ -46,17 +46,49 @@ export async function fetchGraphQL(params: IFetchGraphQLParams) {
   const mergedOptions = {
     method: "POST",
     headers: {
+      Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ query: params.query, variables: params.variables }),
+    body: JSON.stringify({
+      query: params.query,
+      variables: params.variables,
+    }),
+    ...params.options,
+  };
+
+  const queryString = qs.stringify(params.urlParamsObject);
+  const requestUrl = getStrapiURL(
+    `/graphql${queryString ? `?${queryString}` : ""}`,
+  );
+
+  return await fetch(requestUrl, mergedOptions).then((response) => {
+    if (!response.ok) {
+      throw new Error(`An error occurred please try again`);
+    }
+    return response.json();
+  });
+}
+
+export async function fetchGraphQLDynamic(params: IFetchGraphQLParams) {
+  const mergedOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: params.query,
+      variables: params.variables,
+    }),
     ...params.options,
   };
 
   const queryString = qs.stringify(params.urlParamsObject);
   const requestUrl = `${
-    params.baseUrl ?? process.env.NEXT_PUBLIC_BASE_URL
+    params.baseUrl ?? process.env.NEXT_PUBLIC_BASE_URL ?? ""
   }/api/graphql${queryString ? `?${queryString}` : ""}`;
 
+  console.log(queryString);
+  console.log(mergedOptions);
   const response = await fetch(requestUrl, mergedOptions);
 
   if (!response.ok) {
