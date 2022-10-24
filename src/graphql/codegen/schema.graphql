@@ -1,0 +1,1926 @@
+type AudienceType {
+  createdAt: DateTime
+  publishedAt: DateTime
+  type: String
+  updatedAt: DateTime
+}
+
+type AudienceTypeEntity {
+  attributes: AudienceType
+  id: ID
+}
+
+type AudienceTypeEntityResponse {
+  data: AudienceTypeEntity
+}
+
+type AudienceTypeEntityResponseCollection {
+  data: [AudienceTypeEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input AudienceTypeFiltersInput {
+  and: [AudienceTypeFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: AudienceTypeFiltersInput
+  or: [AudienceTypeFiltersInput]
+  publishedAt: DateTimeFilterInput
+  type: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input AudienceTypeInput {
+  publishedAt: DateTime
+  type: String
+}
+
+type AudienceTypeRelationResponseCollection {
+  data: [AudienceTypeEntity!]!
+}
+
+input BooleanFilterInput {
+  and: [Boolean]
+  between: [Boolean]
+  contains: Boolean
+  containsi: Boolean
+  endsWith: Boolean
+  eq: Boolean
+  eqi: Boolean
+  gt: Boolean
+  gte: Boolean
+  in: [Boolean]
+  lt: Boolean
+  lte: Boolean
+  ne: Boolean
+  not: BooleanFilterInput
+  notContains: Boolean
+  notContainsi: Boolean
+  notIn: [Boolean]
+  notNull: Boolean
+  null: Boolean
+  or: [Boolean]
+  startsWith: Boolean
+}
+
+type ChannelType {
+  createdAt: DateTime
+  publishedAt: DateTime
+  type: String
+  updatedAt: DateTime
+}
+
+type ChannelTypeEntity {
+  attributes: ChannelType
+  id: ID
+}
+
+type ChannelTypeEntityResponse {
+  data: ChannelTypeEntity
+}
+
+type ChannelTypeEntityResponseCollection {
+  data: [ChannelTypeEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ChannelTypeFiltersInput {
+  and: [ChannelTypeFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: ChannelTypeFiltersInput
+  or: [ChannelTypeFiltersInput]
+  publishedAt: DateTimeFilterInput
+  type: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ChannelTypeInput {
+  publishedAt: DateTime
+  type: String
+}
+
+type ChannelTypeRelationResponseCollection {
+  data: [ChannelTypeEntity!]!
+}
+
+type City {
+  createdAt: DateTime
+  label: String!
+  postalCode: String!
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type CityEntity {
+  attributes: City
+  id: ID
+}
+
+type CityEntityResponse {
+  data: CityEntity
+}
+
+type CityEntityResponseCollection {
+  data: [CityEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CityFiltersInput {
+  and: [CityFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  label: StringFilterInput
+  not: CityFiltersInput
+  or: [CityFiltersInput]
+  postalCode: StringFilterInput
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input CityInput {
+  label: String
+  postalCode: String
+  publishedAt: DateTime
+}
+
+type CityRelationResponseCollection {
+  data: [CityEntity!]!
+}
+
+type Client {
+  createdAt: DateTime
+  firstname: String!
+  lastname: String!
+  mail: String
+  phone: String!
+  profile: ProfileEntityResponse
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type ClientEntity {
+  attributes: Client
+  id: ID
+}
+
+type ClientEntityResponse {
+  data: ClientEntity
+}
+
+type ClientEntityResponseCollection {
+  data: [ClientEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ClientFiltersInput {
+  and: [ClientFiltersInput]
+  createdAt: DateTimeFilterInput
+  firstname: StringFilterInput
+  id: IDFilterInput
+  lastname: StringFilterInput
+  mail: StringFilterInput
+  not: ClientFiltersInput
+  or: [ClientFiltersInput]
+  phone: StringFilterInput
+  profile: ProfileFiltersInput
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ClientInput {
+  firstname: String
+  lastname: String
+  mail: String
+  phone: String
+  profile: ID
+  publishedAt: DateTime
+}
+
+type ClientType {
+  createdAt: DateTime
+  publishedAt: DateTime
+  type: String
+  updatedAt: DateTime
+}
+
+type ClientTypeEntity {
+  attributes: ClientType
+  id: ID
+}
+
+type ClientTypeEntityResponse {
+  data: ClientTypeEntity
+}
+
+type ClientTypeEntityResponseCollection {
+  data: [ClientTypeEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ClientTypeFiltersInput {
+  and: [ClientTypeFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: ClientTypeFiltersInput
+  or: [ClientTypeFiltersInput]
+  publishedAt: DateTimeFilterInput
+  type: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ClientTypeInput {
+  publishedAt: DateTime
+  type: String
+}
+
+type ComponentMobileDescription {
+  description_service: DescriptionServiceEntityResponse
+  id: ID!
+}
+
+type ComponentMsdEditorial {
+  editorial_service: EditorialServiceEntityResponse
+  id: ID!
+}
+
+type ComponentMsdRequest {
+  id: ID!
+}
+
+type ComponentSharedMedia {
+  file: UploadFileEntityResponse
+  id: ID!
+}
+
+type ComponentSharedQuote {
+  body: String
+  id: ID!
+  title: String
+}
+
+type ComponentSharedRichText {
+  body: String
+  id: ID!
+}
+
+type ComponentSharedSeo {
+  id: ID!
+  metaDescription: String!
+  metaTitle: String!
+  shareImage: UploadFileEntityResponse
+}
+
+input ComponentSharedSeoInput {
+  id: ID
+  metaDescription: String
+  metaTitle: String
+  shareImage: ID
+}
+
+type ComponentSharedSlider {
+  files(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
+  id: ID!
+}
+
+type Contract {
+  ccap: Int
+  clear: Int
+  contract_customization: ContractCustomizationEntityResponse
+  createdAt: DateTime
+  label: String!
+  publishedAt: DateTime
+  territory: TerritoryEntityResponse
+  updatedAt: DateTime
+  users(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
+}
+
+type ContractCustomization {
+  base_url: String
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  logo(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
+  main_color: String
+  main_color_label: String
+  publishedAt: DateTime
+  secondary_color: String
+  secondary_color_label: String
+  updatedAt: DateTime
+  url_custom: String
+}
+
+type ContractCustomizationEntity {
+  attributes: ContractCustomization
+  id: ID
+}
+
+type ContractCustomizationEntityResponse {
+  data: ContractCustomizationEntity
+}
+
+type ContractCustomizationEntityResponseCollection {
+  data: [ContractCustomizationEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ContractCustomizationFiltersInput {
+  and: [ContractCustomizationFiltersInput]
+  base_url: StringFilterInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  main_color: StringFilterInput
+  main_color_label: StringFilterInput
+  not: ContractCustomizationFiltersInput
+  or: [ContractCustomizationFiltersInput]
+  publishedAt: DateTimeFilterInput
+  secondary_color: StringFilterInput
+  secondary_color_label: StringFilterInput
+  updatedAt: DateTimeFilterInput
+  url_custom: StringFilterInput
+}
+
+input ContractCustomizationInput {
+  base_url: String
+  contract: ID
+  logo: [ID]
+  main_color: String
+  main_color_label: String
+  publishedAt: DateTime
+  secondary_color: String
+  secondary_color_label: String
+  url_custom: String
+}
+
+type ContractEntity {
+  attributes: Contract
+  id: ID
+}
+
+type ContractEntityResponse {
+  data: ContractEntity
+}
+
+type ContractEntityResponseCollection {
+  data: [ContractEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ContractFiltersInput {
+  and: [ContractFiltersInput]
+  ccap: IntFilterInput
+  clear: IntFilterInput
+  contract_customization: ContractCustomizationFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  label: StringFilterInput
+  not: ContractFiltersInput
+  or: [ContractFiltersInput]
+  publishedAt: DateTimeFilterInput
+  territory: TerritoryFiltersInput
+  updatedAt: DateTimeFilterInput
+  users: UsersPermissionsUserFiltersInput
+}
+
+input ContractInput {
+  ccap: Int
+  clear: Int
+  contract_customization: ID
+  label: String
+  publishedAt: DateTime
+  territory: ID
+  users: [ID]
+}
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+input DateFilterInput {
+  and: [Date]
+  between: [Date]
+  contains: Date
+  containsi: Date
+  endsWith: Date
+  eq: Date
+  eqi: Date
+  gt: Date
+  gte: Date
+  in: [Date]
+  lt: Date
+  lte: Date
+  ne: Date
+  not: DateFilterInput
+  notContains: Date
+  notContainsi: Date
+  notIn: [Date]
+  notNull: Boolean
+  null: Boolean
+  or: [Date]
+  startsWith: Date
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+input DateTimeFilterInput {
+  and: [DateTime]
+  between: [DateTime]
+  contains: DateTime
+  containsi: DateTime
+  endsWith: DateTime
+  eq: DateTime
+  eqi: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime]
+  lt: DateTime
+  lte: DateTime
+  ne: DateTime
+  not: DateTimeFilterInput
+  notContains: DateTime
+  notContainsi: DateTime
+  notIn: [DateTime]
+  notNull: Boolean
+  null: Boolean
+  or: [DateTime]
+  startsWith: DateTime
+}
+
+type DescriptionService {
+  createdAt: DateTime
+  name: String
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type DescriptionServiceEntity {
+  attributes: DescriptionService
+  id: ID
+}
+
+type DescriptionServiceEntityResponse {
+  data: DescriptionServiceEntity
+}
+
+type DescriptionServiceEntityResponseCollection {
+  data: [DescriptionServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input DescriptionServiceFiltersInput {
+  and: [DescriptionServiceFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: DescriptionServiceFiltersInput
+  or: [DescriptionServiceFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input DescriptionServiceInput {
+  name: String
+  publishedAt: DateTime
+}
+
+type Document {
+  createdAt: DateTime
+  document: UploadFileEntityResponse!
+  event: EventEntityResponse
+  name: String!
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type DocumentEntity {
+  attributes: Document
+  id: ID
+}
+
+type DocumentEntityResponse {
+  data: DocumentEntity
+}
+
+type DocumentEntityResponseCollection {
+  data: [DocumentEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input DocumentFiltersInput {
+  and: [DocumentFiltersInput]
+  createdAt: DateTimeFilterInput
+  event: EventFiltersInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: DocumentFiltersInput
+  or: [DocumentFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input DocumentInput {
+  document: ID
+  event: ID
+  name: String
+  publishedAt: DateTime
+}
+
+type DocumentRelationResponseCollection {
+  data: [DocumentEntity!]!
+}
+
+type EditorialService {
+  createdAt: DateTime
+  events(filters: EventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): EventRelationResponseCollection
+  name: String
+  news(filters: NewFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): NewRelationResponseCollection
+  publishedAt: DateTime
+  service: ServiceEntityResponse
+  updatedAt: DateTime
+}
+
+type EditorialServiceEntity {
+  attributes: EditorialService
+  id: ID
+}
+
+type EditorialServiceEntityResponse {
+  data: EditorialServiceEntity
+}
+
+type EditorialServiceEntityResponseCollection {
+  data: [EditorialServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input EditorialServiceFiltersInput {
+  and: [EditorialServiceFiltersInput]
+  createdAt: DateTimeFilterInput
+  events: EventFiltersInput
+  id: IDFilterInput
+  name: StringFilterInput
+  news: NewFiltersInput
+  not: EditorialServiceFiltersInput
+  or: [EditorialServiceFiltersInput]
+  publishedAt: DateTimeFilterInput
+  service: ServiceFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input EditorialServiceInput {
+  events: [ID]
+  name: String
+  news: [ID]
+  publishedAt: DateTime
+  service: ID
+}
+
+type Epci {
+  cities(filters: CityFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CityRelationResponseCollection
+  createdAt: DateTime
+  name: String
+  publishedAt: DateTime
+  territories(filters: TerritoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): TerritoryRelationResponseCollection
+  updatedAt: DateTime
+}
+
+type EpciEntity {
+  attributes: Epci
+  id: ID
+}
+
+type EpciEntityResponse {
+  data: EpciEntity
+}
+
+type EpciEntityResponseCollection {
+  data: [EpciEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input EpciFiltersInput {
+  and: [EpciFiltersInput]
+  cities: CityFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: EpciFiltersInput
+  or: [EpciFiltersInput]
+  publishedAt: DateTimeFilterInput
+  territories: TerritoryFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input EpciInput {
+  cities: [ID]
+  name: String
+  publishedAt: DateTime
+  territories: [ID]
+}
+
+type EpciRelationResponseCollection {
+  data: [EpciEntity!]!
+}
+
+type Error {
+  code: String!
+  message: String
+}
+
+type Event {
+  createdAt: DateTime
+  description: String!
+  documents(filters: DocumentFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): DocumentRelationResponseCollection
+  editorial_service: EditorialServiceEntityResponse
+  end_date: DateTime!
+  events(filters: EventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): EventRelationResponseCollection
+  publishedAt: DateTime
+  related_doc_label: String!
+  short_description: String!
+  start_date: DateTime!
+  subscription_label: String!
+  suggested_events_label: String!
+  title: String!
+  updatedAt: DateTime
+}
+
+type EventEntity {
+  attributes: Event
+  id: ID
+}
+
+type EventEntityResponse {
+  data: EventEntity
+}
+
+type EventEntityResponseCollection {
+  data: [EventEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input EventFiltersInput {
+  and: [EventFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  documents: DocumentFiltersInput
+  editorial_service: EditorialServiceFiltersInput
+  end_date: DateTimeFilterInput
+  events: EventFiltersInput
+  id: IDFilterInput
+  not: EventFiltersInput
+  or: [EventFiltersInput]
+  publishedAt: DateTimeFilterInput
+  related_doc_label: StringFilterInput
+  short_description: StringFilterInput
+  start_date: DateTimeFilterInput
+  subscription_label: StringFilterInput
+  suggested_events_label: StringFilterInput
+  title: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input EventInput {
+  description: String
+  documents: [ID]
+  editorial_service: ID
+  end_date: DateTime
+  events: [ID]
+  publishedAt: DateTime
+  related_doc_label: String
+  short_description: String
+  start_date: DateTime
+  subscription_label: String
+  suggested_events_label: String
+  title: String
+}
+
+type EventRelationResponseCollection {
+  data: [EventEntity!]!
+}
+
+input FileInfoInput {
+  alternativeText: String
+  caption: String
+  name: String
+}
+
+input FloatFilterInput {
+  and: [Float]
+  between: [Float]
+  contains: Float
+  containsi: Float
+  endsWith: Float
+  eq: Float
+  eqi: Float
+  gt: Float
+  gte: Float
+  in: [Float]
+  lt: Float
+  lte: Float
+  ne: Float
+  not: FloatFilterInput
+  notContains: Float
+  notContainsi: Float
+  notIn: [Float]
+  notNull: Boolean
+  null: Boolean
+  or: [Float]
+  startsWith: Float
+}
+
+union GenericMorph = AudienceType | ChannelType | City | Client | ClientType | ComponentMobileDescription | ComponentMsdEditorial | ComponentMsdRequest | ComponentSharedMedia | ComponentSharedQuote | ComponentSharedRichText | ComponentSharedSeo | ComponentSharedSlider | Contract | ContractCustomization | DescriptionService | Document | EditorialService | Epci | Event | Global | Home | I18NLocale | New | Page | Profile | RequestService | Service | Territory | TerritoryType | TimeDay | TimeEvent | TimeSlot | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+
+type Global {
+  createdAt: DateTime
+  defaultSeo: ComponentSharedSeo
+  favicon: UploadFileEntityResponse
+  siteDescription: String!
+  siteName: String!
+  updatedAt: DateTime
+}
+
+type GlobalEntity {
+  attributes: Global
+  id: ID
+}
+
+type GlobalEntityResponse {
+  data: GlobalEntity
+}
+
+input GlobalInput {
+  defaultSeo: ComponentSharedSeoInput
+  favicon: ID
+  siteDescription: String
+  siteName: String
+}
+
+type Home {
+  content: String
+  createdAt: DateTime
+  publishedAt: DateTime
+  title: String
+  updatedAt: DateTime
+}
+
+type HomeEntity {
+  attributes: Home
+  id: ID
+}
+
+type HomeEntityResponse {
+  data: HomeEntity
+}
+
+input HomeInput {
+  content: String
+  publishedAt: DateTime
+  title: String
+}
+
+type I18NLocale {
+  code: String
+  createdAt: DateTime
+  name: String
+  updatedAt: DateTime
+}
+
+type I18NLocaleEntity {
+  attributes: I18NLocale
+  id: ID
+}
+
+type I18NLocaleEntityResponse {
+  data: I18NLocaleEntity
+}
+
+type I18NLocaleEntityResponseCollection {
+  data: [I18NLocaleEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input I18NLocaleFiltersInput {
+  and: [I18NLocaleFiltersInput]
+  code: StringFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: I18NLocaleFiltersInput
+  or: [I18NLocaleFiltersInput]
+  updatedAt: DateTimeFilterInput
+}
+
+input IDFilterInput {
+  and: [ID]
+  between: [ID]
+  contains: ID
+  containsi: ID
+  endsWith: ID
+  eq: ID
+  eqi: ID
+  gt: ID
+  gte: ID
+  in: [ID]
+  lt: ID
+  lte: ID
+  ne: ID
+  not: IDFilterInput
+  notContains: ID
+  notContainsi: ID
+  notIn: [ID]
+  notNull: Boolean
+  null: Boolean
+  or: [ID]
+  startsWith: ID
+}
+
+input IntFilterInput {
+  and: [Int]
+  between: [Int]
+  contains: Int
+  containsi: Int
+  endsWith: Int
+  eq: Int
+  eqi: Int
+  gt: Int
+  gte: Int
+  in: [Int]
+  lt: Int
+  lte: Int
+  ne: Int
+  not: IntFilterInput
+  notContains: Int
+  notContainsi: Int
+  notIn: [Int]
+  notNull: Boolean
+  null: Boolean
+  or: [Int]
+  startsWith: Int
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+input JSONFilterInput {
+  and: [JSON]
+  between: [JSON]
+  contains: JSON
+  containsi: JSON
+  endsWith: JSON
+  eq: JSON
+  eqi: JSON
+  gt: JSON
+  gte: JSON
+  in: [JSON]
+  lt: JSON
+  lte: JSON
+  ne: JSON
+  not: JSONFilterInput
+  notContains: JSON
+  notContainsi: JSON
+  notIn: [JSON]
+  notNull: Boolean
+  null: Boolean
+  or: [JSON]
+  startsWith: JSON
+}
+
+type Mutation {
+  """Change user password. Confirm with the current password."""
+  changePassword(currentPassword: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
+  createAudienceType(data: AudienceTypeInput!): AudienceTypeEntityResponse
+  createChannelType(data: ChannelTypeInput!): ChannelTypeEntityResponse
+  createCity(data: CityInput!): CityEntityResponse
+  createClient(data: ClientInput!): ClientEntityResponse
+  createClientType(data: ClientTypeInput!): ClientTypeEntityResponse
+  createContract(data: ContractInput!): ContractEntityResponse
+  createContractCustomization(data: ContractCustomizationInput!): ContractCustomizationEntityResponse
+  createDescriptionService(data: DescriptionServiceInput!): DescriptionServiceEntityResponse
+  createDocument(data: DocumentInput!): DocumentEntityResponse
+  createEditorialService(data: EditorialServiceInput!): EditorialServiceEntityResponse
+  createEpci(data: EpciInput!): EpciEntityResponse
+  createEvent(data: EventInput!): EventEntityResponse
+  createNew(data: NewInput!): NewEntityResponse
+  createPage(data: PageInput!): PageEntityResponse
+  createProfile(data: ProfileInput!): ProfileEntityResponse
+  createRequestService(data: RequestServiceInput!): RequestServiceEntityResponse
+  createService(data: ServiceInput!): ServiceEntityResponse
+  createTerritory(data: TerritoryInput!): TerritoryEntityResponse
+  createTerritoryType(data: TerritoryTypeInput!): TerritoryTypeEntityResponse
+  createTimeDay(data: TimeDayInput!): TimeDayEntityResponse
+  createTimeEvent(data: TimeEventInput!): TimeEventEntityResponse
+  createTimeSlot(data: TimeSlotInput!): TimeSlotEntityResponse
+  createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
+  createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
+
+  """Create a new role"""
+  createUsersPermissionsRole(data: UsersPermissionsRoleInput!): UsersPermissionsCreateRolePayload
+
+  """Create a new user"""
+  createUsersPermissionsUser(data: UsersPermissionsUserInput!): UsersPermissionsUserEntityResponse!
+  deleteAudienceType(id: ID!): AudienceTypeEntityResponse
+  deleteChannelType(id: ID!): ChannelTypeEntityResponse
+  deleteCity(id: ID!): CityEntityResponse
+  deleteClient(id: ID!): ClientEntityResponse
+  deleteClientType(id: ID!): ClientTypeEntityResponse
+  deleteContract(id: ID!): ContractEntityResponse
+  deleteContractCustomization(id: ID!): ContractCustomizationEntityResponse
+  deleteDescriptionService(id: ID!): DescriptionServiceEntityResponse
+  deleteDocument(id: ID!): DocumentEntityResponse
+  deleteEditorialService(id: ID!): EditorialServiceEntityResponse
+  deleteEpci(id: ID!): EpciEntityResponse
+  deleteEvent(id: ID!): EventEntityResponse
+  deleteGlobal: GlobalEntityResponse
+  deleteHome: HomeEntityResponse
+  deleteNew(id: ID!): NewEntityResponse
+  deletePage(id: ID!): PageEntityResponse
+  deleteProfile(id: ID!): ProfileEntityResponse
+  deleteRequestService(id: ID!): RequestServiceEntityResponse
+  deleteService(id: ID!): ServiceEntityResponse
+  deleteTerritory(id: ID!): TerritoryEntityResponse
+  deleteTerritoryType(id: ID!): TerritoryTypeEntityResponse
+  deleteTimeDay(id: ID!): TimeDayEntityResponse
+  deleteTimeEvent(id: ID!): TimeEventEntityResponse
+  deleteTimeSlot(id: ID!): TimeSlotEntityResponse
+  deleteUploadFile(id: ID!): UploadFileEntityResponse
+  deleteUploadFolder(id: ID!): UploadFolderEntityResponse
+
+  """Delete an existing role"""
+  deleteUsersPermissionsRole(id: ID!): UsersPermissionsDeleteRolePayload
+
+  """Delete an existing user"""
+  deleteUsersPermissionsUser(id: ID!): UsersPermissionsUserEntityResponse!
+
+  """Confirm an email users email address"""
+  emailConfirmation(confirmation: String!): UsersPermissionsLoginPayload
+
+  """Request a reset password token"""
+  forgotPassword(email: String!): UsersPermissionsPasswordPayload
+  login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
+  multipleUpload(field: String, files: [Upload]!, ref: String, refId: ID): [UploadFileEntityResponse]!
+
+  """Register a user"""
+  register(input: UsersPermissionsRegisterInput!): UsersPermissionsLoginPayload!
+  removeFile(id: ID!): UploadFileEntityResponse
+
+  """
+  Reset user password. Confirm with a code (resetToken from forgotPassword)
+  """
+  resetPassword(code: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
+  updateAudienceType(data: AudienceTypeInput!, id: ID!): AudienceTypeEntityResponse
+  updateChannelType(data: ChannelTypeInput!, id: ID!): ChannelTypeEntityResponse
+  updateCity(data: CityInput!, id: ID!): CityEntityResponse
+  updateClient(data: ClientInput!, id: ID!): ClientEntityResponse
+  updateClientType(data: ClientTypeInput!, id: ID!): ClientTypeEntityResponse
+  updateContract(data: ContractInput!, id: ID!): ContractEntityResponse
+  updateContractCustomization(data: ContractCustomizationInput!, id: ID!): ContractCustomizationEntityResponse
+  updateDescriptionService(data: DescriptionServiceInput!, id: ID!): DescriptionServiceEntityResponse
+  updateDocument(data: DocumentInput!, id: ID!): DocumentEntityResponse
+  updateEditorialService(data: EditorialServiceInput!, id: ID!): EditorialServiceEntityResponse
+  updateEpci(data: EpciInput!, id: ID!): EpciEntityResponse
+  updateEvent(data: EventInput!, id: ID!): EventEntityResponse
+  updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
+  updateGlobal(data: GlobalInput!): GlobalEntityResponse
+  updateHome(data: HomeInput!): HomeEntityResponse
+  updateNew(data: NewInput!, id: ID!): NewEntityResponse
+  updatePage(data: PageInput!, id: ID!): PageEntityResponse
+  updateProfile(data: ProfileInput!, id: ID!): ProfileEntityResponse
+  updateRequestService(data: RequestServiceInput!, id: ID!): RequestServiceEntityResponse
+  updateService(data: ServiceInput!, id: ID!): ServiceEntityResponse
+  updateTerritory(data: TerritoryInput!, id: ID!): TerritoryEntityResponse
+  updateTerritoryType(data: TerritoryTypeInput!, id: ID!): TerritoryTypeEntityResponse
+  updateTimeDay(data: TimeDayInput!, id: ID!): TimeDayEntityResponse
+  updateTimeEvent(data: TimeEventInput!, id: ID!): TimeEventEntityResponse
+  updateTimeSlot(data: TimeSlotInput!, id: ID!): TimeSlotEntityResponse
+  updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
+  updateUploadFolder(data: UploadFolderInput!, id: ID!): UploadFolderEntityResponse
+
+  """Update an existing role"""
+  updateUsersPermissionsRole(data: UsersPermissionsRoleInput!, id: ID!): UsersPermissionsUpdateRolePayload
+
+  """Update an existing user"""
+  updateUsersPermissionsUser(data: UsersPermissionsUserInput!, id: ID!): UsersPermissionsUserEntityResponse!
+  upload(field: String, file: Upload!, info: FileInfoInput, ref: String, refId: ID): UploadFileEntityResponse!
+}
+
+type New {
+  audiences(filters: AudienceTypeFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AudienceTypeRelationResponseCollection
+  channels(filters: ChannelTypeFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ChannelTypeRelationResponseCollection
+  createdAt: DateTime
+  editorial_service: EditorialServiceEntityResponse
+  image: UploadFileEntityResponse
+  publishedAt: DateTime
+  short_description: String!
+  short_description_label: String!
+  theme_label: String
+  title: String!
+  top_news: Boolean
+  updatedAt: DateTime
+  video: UploadFileEntityResponse
+}
+
+type NewEntity {
+  attributes: New
+  id: ID
+}
+
+type NewEntityResponse {
+  data: NewEntity
+}
+
+type NewEntityResponseCollection {
+  data: [NewEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input NewFiltersInput {
+  and: [NewFiltersInput]
+  audiences: AudienceTypeFiltersInput
+  channels: ChannelTypeFiltersInput
+  createdAt: DateTimeFilterInput
+  editorial_service: EditorialServiceFiltersInput
+  id: IDFilterInput
+  not: NewFiltersInput
+  or: [NewFiltersInput]
+  publishedAt: DateTimeFilterInput
+  short_description: StringFilterInput
+  short_description_label: StringFilterInput
+  theme_label: StringFilterInput
+  title: StringFilterInput
+  top_news: BooleanFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input NewInput {
+  audiences: [ID]
+  channels: [ID]
+  editorial_service: ID
+  image: ID
+  publishedAt: DateTime
+  short_description: String
+  short_description_label: String
+  theme_label: String
+  title: String
+  top_news: Boolean
+  video: ID
+}
+
+type NewRelationResponseCollection {
+  data: [NewEntity!]!
+}
+
+type Page {
+  content: String
+  createdAt: DateTime
+  publishedAt: DateTime
+  slug: String!
+  title: String!
+  updatedAt: DateTime
+}
+
+type PageEntity {
+  attributes: Page
+  id: ID
+}
+
+type PageEntityResponse {
+  data: PageEntity
+}
+
+type PageEntityResponseCollection {
+  data: [PageEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input PageFiltersInput {
+  and: [PageFiltersInput]
+  content: StringFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: PageFiltersInput
+  or: [PageFiltersInput]
+  publishedAt: DateTimeFilterInput
+  slug: StringFilterInput
+  title: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input PageInput {
+  content: String
+  publishedAt: DateTime
+  slug: String
+  title: String
+}
+
+type Pagination {
+  page: Int!
+  pageCount: Int!
+  pageSize: Int!
+  total: Int!
+}
+
+input PaginationArg {
+  limit: Int
+  page: Int
+  pageSize: Int
+  start: Int
+}
+
+type Profile {
+  createdAt: DateTime
+  name: String
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type ProfileEntity {
+  attributes: Profile
+  id: ID
+}
+
+type ProfileEntityResponse {
+  data: ProfileEntity
+}
+
+type ProfileEntityResponseCollection {
+  data: [ProfileEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ProfileFiltersInput {
+  and: [ProfileFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: ProfileFiltersInput
+  or: [ProfileFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ProfileInput {
+  name: String
+  publishedAt: DateTime
+}
+
+enum PublicationState {
+  LIVE
+  PREVIEW
+}
+
+type Query {
+  audienceType(id: ID): AudienceTypeEntityResponse
+  audienceTypes(filters: AudienceTypeFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AudienceTypeEntityResponseCollection
+  channelType(id: ID): ChannelTypeEntityResponse
+  channelTypes(filters: ChannelTypeFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ChannelTypeEntityResponseCollection
+  cities(filters: CityFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CityEntityResponseCollection
+  city(id: ID): CityEntityResponse
+  client(id: ID): ClientEntityResponse
+  clientType(id: ID): ClientTypeEntityResponse
+  clientTypes(filters: ClientTypeFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ClientTypeEntityResponseCollection
+  clients(filters: ClientFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ClientEntityResponseCollection
+  contract(id: ID): ContractEntityResponse
+  contractCustomization(id: ID): ContractCustomizationEntityResponse
+  contractCustomizations(filters: ContractCustomizationFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ContractCustomizationEntityResponseCollection
+  contracts(filters: ContractFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ContractEntityResponseCollection
+  descriptionService(id: ID): DescriptionServiceEntityResponse
+  descriptionServices(filters: DescriptionServiceFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): DescriptionServiceEntityResponseCollection
+  document(id: ID): DocumentEntityResponse
+  documents(filters: DocumentFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): DocumentEntityResponseCollection
+  editorialService(id: ID): EditorialServiceEntityResponse
+  editorialServices(filters: EditorialServiceFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): EditorialServiceEntityResponseCollection
+  epci(id: ID): EpciEntityResponse
+  epcis(filters: EpciFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): EpciEntityResponseCollection
+  event(id: ID): EventEntityResponse
+  events(filters: EventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): EventEntityResponseCollection
+  findContractsByCity(cityId: ID!): [Contract]
+  global: GlobalEntityResponse
+  home(publicationState: PublicationState = LIVE): HomeEntityResponse
+  i18NLocale(id: ID): I18NLocaleEntityResponse
+  i18NLocales(filters: I18NLocaleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): I18NLocaleEntityResponseCollection
+  me: UsersPermissionsMe
+  new(id: ID): NewEntityResponse
+  news(filters: NewFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): NewEntityResponseCollection
+  page(id: ID): PageEntityResponse
+  pages(filters: PageFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): PageEntityResponseCollection
+  profile(id: ID): ProfileEntityResponse
+  profiles(filters: ProfileFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ProfileEntityResponseCollection
+  requestService(id: ID): RequestServiceEntityResponse
+  requestServices(filters: RequestServiceFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): RequestServiceEntityResponseCollection
+  service(id: ID): ServiceEntityResponse
+  services(filters: ServiceFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ServiceEntityResponseCollection
+  territories(filters: TerritoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): TerritoryEntityResponseCollection
+  territory(id: ID): TerritoryEntityResponse
+  territoryType(id: ID): TerritoryTypeEntityResponse
+  territoryTypes(filters: TerritoryTypeFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): TerritoryTypeEntityResponseCollection
+  timeDay(id: ID): TimeDayEntityResponse
+  timeDays(filters: TimeDayFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): TimeDayEntityResponseCollection
+  timeEvent(id: ID): TimeEventEntityResponse
+  timeEvents(filters: TimeEventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): TimeEventEntityResponseCollection
+  timeSlot(id: ID): TimeSlotEntityResponse
+  timeSlots(filters: TimeSlotFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): TimeSlotEntityResponseCollection
+  uploadFile(id: ID): UploadFileEntityResponse
+  uploadFiles(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileEntityResponseCollection
+  uploadFolder(id: ID): UploadFolderEntityResponse
+  uploadFolders(filters: UploadFolderFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFolderEntityResponseCollection
+  usersPermissionsRole(id: ID): UsersPermissionsRoleEntityResponse
+  usersPermissionsRoles(filters: UsersPermissionsRoleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsRoleEntityResponseCollection
+  usersPermissionsUser(id: ID): UsersPermissionsUserEntityResponse
+  usersPermissionsUsers(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserEntityResponseCollection
+}
+
+type RequestService {
+  createdAt: DateTime
+  publishedAt: DateTime
+  service: ServiceEntityResponse
+  updatedAt: DateTime
+}
+
+type RequestServiceEntity {
+  attributes: RequestService
+  id: ID
+}
+
+type RequestServiceEntityResponse {
+  data: RequestServiceEntity
+}
+
+type RequestServiceEntityResponseCollection {
+  data: [RequestServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input RequestServiceFiltersInput {
+  and: [RequestServiceFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: RequestServiceFiltersInput
+  or: [RequestServiceFiltersInput]
+  publishedAt: DateTimeFilterInput
+  service: ServiceFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input RequestServiceInput {
+  publishedAt: DateTime
+  service: ID
+}
+
+type ResponseCollectionMeta {
+  pagination: Pagination!
+}
+
+type Service {
+  activate: Boolean!
+  channel_type: ChannelTypeEntityResponse
+  cities(filters: CityFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CityRelationResponseCollection
+  color: String
+  createdAt: DateTime
+  end_date: Date!
+  logo: UploadFileEntityResponse
+  name: String
+  publishedAt: DateTime
+  service_instance: [ServiceServiceInstanceDynamicZone]!
+  start_date: Date!
+  updatedAt: DateTime
+}
+
+type ServiceEntity {
+  attributes: Service
+  id: ID
+}
+
+type ServiceEntityResponse {
+  data: ServiceEntity
+}
+
+type ServiceEntityResponseCollection {
+  data: [ServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ServiceFiltersInput {
+  activate: BooleanFilterInput
+  and: [ServiceFiltersInput]
+  channel_type: ChannelTypeFiltersInput
+  cities: CityFiltersInput
+  color: StringFilterInput
+  createdAt: DateTimeFilterInput
+  end_date: DateFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: ServiceFiltersInput
+  or: [ServiceFiltersInput]
+  publishedAt: DateTimeFilterInput
+  start_date: DateFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ServiceInput {
+  activate: Boolean
+  channel_type: ID
+  cities: [ID]
+  color: String
+  end_date: Date
+  logo: ID
+  name: String
+  publishedAt: DateTime
+  service_instance: [ServiceServiceInstanceDynamicZoneInput!]
+  start_date: Date
+}
+
+union ServiceServiceInstanceDynamicZone = ComponentMsdEditorial | ComponentMsdRequest | Error
+
+scalar ServiceServiceInstanceDynamicZoneInput
+
+input StringFilterInput {
+  and: [String]
+  between: [String]
+  contains: String
+  containsi: String
+  endsWith: String
+  eq: String
+  eqi: String
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  not: StringFilterInput
+  notContains: String
+  notContainsi: String
+  notIn: [String]
+  notNull: Boolean
+  null: Boolean
+  or: [String]
+  startsWith: String
+}
+
+type Territory {
+  cities(filters: CityFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CityRelationResponseCollection
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  epcis(filters: EpciFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): EpciRelationResponseCollection
+  name: String
+  publishedAt: DateTime
+  territory_type: TerritoryTypeEntityResponse
+  updatedAt: DateTime
+}
+
+type TerritoryEntity {
+  attributes: Territory
+  id: ID
+}
+
+type TerritoryEntityResponse {
+  data: TerritoryEntity
+}
+
+type TerritoryEntityResponseCollection {
+  data: [TerritoryEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input TerritoryFiltersInput {
+  and: [TerritoryFiltersInput]
+  cities: CityFiltersInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  epcis: EpciFiltersInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: TerritoryFiltersInput
+  or: [TerritoryFiltersInput]
+  publishedAt: DateTimeFilterInput
+  territory_type: TerritoryTypeFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input TerritoryInput {
+  cities: [ID]
+  contract: ID
+  epcis: [ID]
+  name: String
+  publishedAt: DateTime
+  territory_type: ID
+}
+
+type TerritoryRelationResponseCollection {
+  data: [TerritoryEntity!]!
+}
+
+type TerritoryType {
+  createdAt: DateTime
+  publishedAt: DateTime
+  territory_type: String
+  updatedAt: DateTime
+}
+
+type TerritoryTypeEntity {
+  attributes: TerritoryType
+  id: ID
+}
+
+type TerritoryTypeEntityResponse {
+  data: TerritoryTypeEntity
+}
+
+type TerritoryTypeEntityResponseCollection {
+  data: [TerritoryTypeEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input TerritoryTypeFiltersInput {
+  and: [TerritoryTypeFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: TerritoryTypeFiltersInput
+  or: [TerritoryTypeFiltersInput]
+  publishedAt: DateTimeFilterInput
+  territory_type: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input TerritoryTypeInput {
+  publishedAt: DateTime
+  territory_type: String
+}
+
+type TimeDay {
+  allDay: Boolean
+  createdAt: DateTime
+  description: String
+  end: DateTime
+  publishedAt: DateTime
+  start: DateTime
+  title: String!
+  updatedAt: DateTime
+}
+
+type TimeDayEntity {
+  attributes: TimeDay
+  id: ID
+}
+
+type TimeDayEntityResponse {
+  data: TimeDayEntity
+}
+
+type TimeDayEntityResponseCollection {
+  data: [TimeDayEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input TimeDayFiltersInput {
+  allDay: BooleanFilterInput
+  and: [TimeDayFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  end: DateTimeFilterInput
+  id: IDFilterInput
+  not: TimeDayFiltersInput
+  or: [TimeDayFiltersInput]
+  publishedAt: DateTimeFilterInput
+  start: DateTimeFilterInput
+  title: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input TimeDayInput {
+  allDay: Boolean
+  description: String
+  end: DateTime
+  publishedAt: DateTime
+  start: DateTime
+  title: String
+}
+
+type TimeEvent {
+  allDay: Boolean
+  createdAt: DateTime
+  description: String
+  end: DateTime!
+  publishedAt: DateTime
+  start: DateTime!
+  title: String!
+  updatedAt: DateTime
+}
+
+type TimeEventEntity {
+  attributes: TimeEvent
+  id: ID
+}
+
+type TimeEventEntityResponse {
+  data: TimeEventEntity
+}
+
+type TimeEventEntityResponseCollection {
+  data: [TimeEventEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input TimeEventFiltersInput {
+  allDay: BooleanFilterInput
+  and: [TimeEventFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  end: DateTimeFilterInput
+  id: IDFilterInput
+  not: TimeEventFiltersInput
+  or: [TimeEventFiltersInput]
+  publishedAt: DateTimeFilterInput
+  start: DateTimeFilterInput
+  title: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input TimeEventInput {
+  allDay: Boolean
+  description: String
+  end: DateTime
+  publishedAt: DateTime
+  start: DateTime
+  title: String
+}
+
+type TimeSlot {
+  allDay: Boolean
+  createdAt: DateTime
+  description: String
+  end: DateTime
+  publishedAt: DateTime
+  start: DateTime
+  title: String!
+  updatedAt: DateTime
+}
+
+type TimeSlotEntity {
+  attributes: TimeSlot
+  id: ID
+}
+
+type TimeSlotEntityResponse {
+  data: TimeSlotEntity
+}
+
+type TimeSlotEntityResponseCollection {
+  data: [TimeSlotEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input TimeSlotFiltersInput {
+  allDay: BooleanFilterInput
+  and: [TimeSlotFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  end: DateTimeFilterInput
+  id: IDFilterInput
+  not: TimeSlotFiltersInput
+  or: [TimeSlotFiltersInput]
+  publishedAt: DateTimeFilterInput
+  start: DateTimeFilterInput
+  title: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input TimeSlotInput {
+  allDay: Boolean
+  description: String
+  end: DateTime
+  publishedAt: DateTime
+  start: DateTime
+  title: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type UploadFile {
+  alternativeText: String
+  caption: String
+  createdAt: DateTime
+  ext: String
+  formats: JSON
+  hash: String!
+  height: Int
+  mime: String!
+  name: String!
+  previewUrl: String
+  provider: String!
+  provider_metadata: JSON
+  related: [GenericMorph]
+  size: Float!
+  updatedAt: DateTime
+  url: String!
+  width: Int
+}
+
+type UploadFileEntity {
+  attributes: UploadFile
+  id: ID
+}
+
+type UploadFileEntityResponse {
+  data: UploadFileEntity
+}
+
+type UploadFileEntityResponseCollection {
+  data: [UploadFileEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UploadFileFiltersInput {
+  alternativeText: StringFilterInput
+  and: [UploadFileFiltersInput]
+  caption: StringFilterInput
+  createdAt: DateTimeFilterInput
+  ext: StringFilterInput
+  folder: UploadFolderFiltersInput
+  folderPath: StringFilterInput
+  formats: JSONFilterInput
+  hash: StringFilterInput
+  height: IntFilterInput
+  id: IDFilterInput
+  mime: StringFilterInput
+  name: StringFilterInput
+  not: UploadFileFiltersInput
+  or: [UploadFileFiltersInput]
+  previewUrl: StringFilterInput
+  provider: StringFilterInput
+  provider_metadata: JSONFilterInput
+  size: FloatFilterInput
+  updatedAt: DateTimeFilterInput
+  url: StringFilterInput
+  width: IntFilterInput
+}
+
+input UploadFileInput {
+  alternativeText: String
+  caption: String
+  ext: String
+  folder: ID
+  folderPath: String
+  formats: JSON
+  hash: String
+  height: Int
+  mime: String
+  name: String
+  previewUrl: String
+  provider: String
+  provider_metadata: JSON
+  size: Float
+  url: String
+  width: Int
+}
+
+type UploadFileRelationResponseCollection {
+  data: [UploadFileEntity!]!
+}
+
+type UploadFolder {
+  children(filters: UploadFolderFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFolderRelationResponseCollection
+  createdAt: DateTime
+  files(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
+  name: String!
+  parent: UploadFolderEntityResponse
+  path: String!
+  pathId: Int!
+  updatedAt: DateTime
+}
+
+type UploadFolderEntity {
+  attributes: UploadFolder
+  id: ID
+}
+
+type UploadFolderEntityResponse {
+  data: UploadFolderEntity
+}
+
+type UploadFolderEntityResponseCollection {
+  data: [UploadFolderEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UploadFolderFiltersInput {
+  and: [UploadFolderFiltersInput]
+  children: UploadFolderFiltersInput
+  createdAt: DateTimeFilterInput
+  files: UploadFileFiltersInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: UploadFolderFiltersInput
+  or: [UploadFolderFiltersInput]
+  parent: UploadFolderFiltersInput
+  path: StringFilterInput
+  pathId: IntFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input UploadFolderInput {
+  children: [ID]
+  files: [ID]
+  name: String
+  parent: ID
+  path: String
+  pathId: Int
+}
+
+type UploadFolderRelationResponseCollection {
+  data: [UploadFolderEntity!]!
+}
+
+type UsersPermissionsCreateRolePayload {
+  ok: Boolean!
+}
+
+type UsersPermissionsDeleteRolePayload {
+  ok: Boolean!
+}
+
+input UsersPermissionsLoginInput {
+  identifier: String!
+  password: String!
+  provider: String! = "local"
+}
+
+type UsersPermissionsLoginPayload {
+  jwt: String
+  user: UsersPermissionsMe!
+}
+
+type UsersPermissionsMe {
+  blocked: Boolean
+  confirmed: Boolean
+  email: String
+  id: ID!
+  role: UsersPermissionsMeRole
+  username: String!
+}
+
+type UsersPermissionsMeRole {
+  description: String
+  id: ID!
+  name: String!
+  type: String
+}
+
+type UsersPermissionsPasswordPayload {
+  ok: Boolean!
+}
+
+type UsersPermissionsPermission {
+  action: String!
+  createdAt: DateTime
+  role: UsersPermissionsRoleEntityResponse
+  updatedAt: DateTime
+}
+
+type UsersPermissionsPermissionEntity {
+  attributes: UsersPermissionsPermission
+  id: ID
+}
+
+input UsersPermissionsPermissionFiltersInput {
+  action: StringFilterInput
+  and: [UsersPermissionsPermissionFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: UsersPermissionsPermissionFiltersInput
+  or: [UsersPermissionsPermissionFiltersInput]
+  role: UsersPermissionsRoleFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+type UsersPermissionsPermissionRelationResponseCollection {
+  data: [UsersPermissionsPermissionEntity!]!
+}
+
+input UsersPermissionsRegisterInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+type UsersPermissionsRole {
+  createdAt: DateTime
+  description: String
+  name: String!
+  permissions(filters: UsersPermissionsPermissionFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsPermissionRelationResponseCollection
+  type: String
+  updatedAt: DateTime
+  users(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
+}
+
+type UsersPermissionsRoleEntity {
+  attributes: UsersPermissionsRole
+  id: ID
+}
+
+type UsersPermissionsRoleEntityResponse {
+  data: UsersPermissionsRoleEntity
+}
+
+type UsersPermissionsRoleEntityResponseCollection {
+  data: [UsersPermissionsRoleEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UsersPermissionsRoleFiltersInput {
+  and: [UsersPermissionsRoleFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: UsersPermissionsRoleFiltersInput
+  or: [UsersPermissionsRoleFiltersInput]
+  permissions: UsersPermissionsPermissionFiltersInput
+  type: StringFilterInput
+  updatedAt: DateTimeFilterInput
+  users: UsersPermissionsUserFiltersInput
+}
+
+input UsersPermissionsRoleInput {
+  description: String
+  name: String
+  permissions: [ID]
+  type: String
+  users: [ID]
+}
+
+type UsersPermissionsUpdateRolePayload {
+  ok: Boolean!
+}
+
+type UsersPermissionsUser {
+  blocked: Boolean
+  confirmed: Boolean
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  email: String!
+  profile: ProfileEntityResponse
+  provider: String
+  role: UsersPermissionsRoleEntityResponse
+  updatedAt: DateTime
+  username: String!
+}
+
+type UsersPermissionsUserEntity {
+  attributes: UsersPermissionsUser
+  id: ID
+}
+
+type UsersPermissionsUserEntityResponse {
+  data: UsersPermissionsUserEntity
+}
+
+type UsersPermissionsUserEntityResponseCollection {
+  data: [UsersPermissionsUserEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UsersPermissionsUserFiltersInput {
+  and: [UsersPermissionsUserFiltersInput]
+  blocked: BooleanFilterInput
+  confirmationToken: StringFilterInput
+  confirmed: BooleanFilterInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  email: StringFilterInput
+  id: IDFilterInput
+  not: UsersPermissionsUserFiltersInput
+  or: [UsersPermissionsUserFiltersInput]
+  password: StringFilterInput
+  profile: ProfileFiltersInput
+  provider: StringFilterInput
+  resetPasswordToken: StringFilterInput
+  role: UsersPermissionsRoleFiltersInput
+  updatedAt: DateTimeFilterInput
+  username: StringFilterInput
+}
+
+input UsersPermissionsUserInput {
+  blocked: Boolean
+  confirmationToken: String
+  confirmed: Boolean
+  contract: ID
+  email: String
+  password: String
+  profile: ID
+  provider: String
+  resetPasswordToken: String
+  role: ID
+  username: String
+}
+
+type UsersPermissionsUserRelationResponseCollection {
+  data: [UsersPermissionsUserEntity!]!
+}

@@ -1,0 +1,11 @@
+@use "./01-settings" as settings;
+@use "./02-tools" as tools;
+@use "./03-generic" as generic;
+@use "./04-elements" as elements;
+@use "./05-objects" as objects;
+@use "./99-utilities" as utilities; // scoped in #app, always takes priority
+
+/* Imported locally in /components or /pages :
+  - [Component].scss files imported in components and pages
+  - 06-vendors/_vendor files @used in .scss when needed
+/!\ Don't forget to include the content to read and the selectors to whitelist for PurgeCSS in postcss.config.js */

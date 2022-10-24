@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <nav
+    class="c-Header__TopBar"
+    data-testid="top-bar"
+  >
+    <a
+      href="/"
+      style="font-weight: bold;"
+    >
+      MSD BACK
+    </a>
+    <a
+      href="/page-add"
+    >
+      Nouvelle Page
+    </a>
+    <a
+      href="/gis"
+    >
+      GIS
+    </a>
+    <a
+      href="/date-add"
+    >
+      Nouvelles Dates
+    </a>
+  </nav>
+  <aside
+    class="c-Header__LeftBar"
+    data-testid="left-bar"
+  >
+    <a
+      href="/agenda"
+      style="text-transform: uppercase;"
+    >
+      Agenda
+    </a>
+    <div>
+      MENU
+    </div>
+    <div>
+      MENU
+    </div>
+    <div>
+      MENU
+    </div>
+    <div>
+      MENU
+    </div>
+    <div>
+      MENU
+    </div>
+  </aside>
+</div>
+`;

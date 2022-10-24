@@ -1,23 +1,59 @@
 # MSD-BACK
 
-Application back-office (frontend) in NextJS.
+Back-office app (frontend) in NextJS.
 
-## Installation
+## Structure
 
 (WIP)
 
-First, run the development server:
+## Config
+
+(WIP)
+
+## Conventions
+
+(WIP) Javascript, Typescript, Linters, etc
+
+### CSS/SCSS
+
+Using ITCSS with BEMIT/BEM syntax for CSS/SCSS.
+
+Using PurgeCSS plugin for PostCSS to purge unused CSS, requires config and whitelisting in order to keep some CSS. CSS
+used by imported components and libraries (from node_modules) is not detected by default and needs to be added to the
+whilelist.
+
+## Installation
+
+### Development
 
 ```bash
 npm run develop
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will run at [http://localhost:3001](http://localhost:3001).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Production
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated
-as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Build the application first :
+
+```bash
+npm run build
+```
+
+This will generate a `.next/` folder containing the built app, with various files, a cache and the pages separated in
+/server (sor SSR pages), /static (for SSG pages).
+
+Then the built application can be started as a normal web app with :
+
+```bash
+npm run start
+```
+
+Or it can be exported as a static web app with :
+
+```bash
+npm run export
+```
 
 ## Learn More
 

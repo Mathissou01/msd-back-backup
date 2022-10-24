@@ -1,0 +1,7 @@
+@use "../01-settings/settings.colors" as colors;
+
+h1 {
+  padding: 5px 0;
+  color: colors.$primary;
+  font-size: 1.5rem;
+}

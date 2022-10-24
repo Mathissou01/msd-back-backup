@@ -1,14 +1,16 @@
-import fr from "date-fns/locale/fr";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
 import type { AppProps } from "next/app";
-import "@suezenv/react-theme-components/assets/css/main.css";
-import "../styles/globals.scss";
-
-registerLocale("fr", fr);
-setDefaultLocale("fr");
+import { ApolloProvider } from "@apollo/client";
+import client from "../graphql/client";
+import "../styles/main.scss";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <ApolloProvider client={client}>
+      <div id={"app"}>
+        <Component {...pageProps} />
+      </div>
+    </ApolloProvider>
+  );
 }
 
 export default MyApp;

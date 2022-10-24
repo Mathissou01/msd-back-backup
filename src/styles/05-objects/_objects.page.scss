@@ -1,0 +1,68 @@
+.o-Page {
+  &__Title {
+    text-align: right;
+  }
+
+  &__Content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 207px;
+    padding: 0 20px;
+
+    h1,
+    h2 {
+      margin: 0;
+      font-weight: bold;
+    }
+  }
+
+  &__Form {
+    margin: 10px 0;
+
+    h2 {
+      margin: 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        display: block;
+        margin: 10px;
+      }
+    }
+
+    form input {
+      width: 300px;
+    }
+  }
+
+  &__Block {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+  }
+
+  &__Save {
+    display: flex;
+    width: fit-content;
+    margin-top: 5px;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+
+  &__Preview {
+    display: flex;
+    width: fit-content;
+    margin-top: 20px;
+    padding: 5px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #800080;
+    border: 2px solid #000;
+    border-radius: 5px;
+  }
+}

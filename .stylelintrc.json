@@ -11,8 +11,14 @@
   "rules": {
     "prettier/prettier": true,
     "max-nesting-depth": 3,
+    "selector-max-id": 1,
     "selector-max-compound-selectors": 4,
-    "order/properties-alphabetical-order": null,
-    "selector-class-pattern": "^[a-z]([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$"
+    "selector-class-pattern": [
+      "^(?:(?:s|t|g|e|o|c|u|is|has)-)?[A-Z]+(?:[a-zA-Z0-9]+)*(?:__[A-Z]+[a-zA-Z0-9]+)?(?:_[a-z]+(?:[a-zA-Z0-9]+)*)*$",
+      {
+        "resolveNestedSelectors": true
+      }
+    ],
+    "order/properties-alphabetical-order": null
   }
 }

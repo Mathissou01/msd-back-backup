@@ -1,0 +1,98 @@
+query GetTimeEvents {
+  timeEvents {
+    data {
+      id
+      attributes {
+        title
+        description
+        allDay
+        start
+        end
+        createdAt
+        publishedAt
+      }
+    }
+  }
+}
+
+mutation CreateTimeEvent($data: TimeEventInput!) {
+  createTimeEvent(data: $data) {
+    data {
+      id
+      attributes {
+        title
+        description
+        start
+        end
+        allDay
+        publishedAt
+      }
+    }
+  }
+}
+
+query GetTimeSlots {
+  timeSlots {
+    data {
+      id
+      attributes {
+        title
+        description
+        allDay
+        start
+        end
+        createdAt
+        publishedAt
+      }
+    }
+  }
+}
+
+mutation CreateTimeSlot($data: TimeSlotInput!) {
+  createTimeSlot(data: $data) {
+    data {
+      id
+      attributes {
+        title
+        description
+        start
+        end
+        allDay
+        publishedAt
+      }
+    }
+  }
+}
+
+query GetTimeDays {
+  timeDays {
+    data {
+      id
+      attributes {
+        title
+        description
+        allDay
+        start
+        end
+        createdAt
+        publishedAt
+      }
+    }
+  }
+}
+
+mutation CreateTimeDay($data: TimeDayInput!) {
+  createTimeDay(data: $data) {
+    data {
+      id
+      attributes {
+        title
+        description
+        start
+        end
+        allDay
+        publishedAt
+      }
+    }
+  }
+}
