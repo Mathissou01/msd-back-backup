@@ -1,0 +1,29 @@
+steps:
+  - task: Npm@1
+    inputs:
+      command: "custom"
+      customCommand: "run test:ci"
+    displayName: "Launch jest test"
+    continueOnError: true
+
+  - task: Npm@1
+    inputs:
+      command: "custom"
+      customCommand: "run lint"
+    displayName: "Launch lint test"
+
+  - task: PublishTestResults@2
+    displayName: "Publish Jest Unit Test Results"
+    inputs:
+      testResultsFiles: junit.xml
+      mergeTestResults: true
+      testRunTitle: "Jest Unit Tests"
+      failTaskOnFailedTests: true
+
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish code coverage from Jest tests"
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
+      # reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+      failIfCoverageEmpty: true
