@@ -16,7 +16,7 @@ Back-office app (frontend) in NextJS.
 
 ### CSS/SCSS
 
-Using ITCSS with BEMIT/BEM syntax for CSS/SCSS.
+Using an adapted ITCSS with BEMIT/BEM syntax for CSS/SCSS.
 
 Using PurgeCSS plugin for PostCSS to purge unused CSS, requires config and whitelisting in order to keep some CSS. CSS
 used by imported components and libraries (from node_modules) is not detected by default and needs to be added to the
@@ -24,20 +24,42 @@ whilelist.
 
 ## Installation
 
+This application uses graphql-codegen to get the graphql schema from the API, this schema can be used to run the
+application locally with a mocked client and mocked data.
+With mocks, you can test the application and develop without access to the real API.
+
 ### Development
 
 ```bash
 npm run develop
 ```
 
+With mocks :
+
+```bash
+npm run develop:mock
+```
+
 The app will run at [http://localhost:3001](http://localhost:3001).
 
 ### Production
 
-Build the application first :
+It is recommended to first clean the compiled and cached files by running :
+
+```bash
+npm run clean
+```
+
+Then build the application :
 
 ```bash
 npm run build
+```
+
+With mocks :
+
+```bash
+npm run build:mock
 ```
 
 This will generate a `.next/` folder containing the built app, with various files, a cache and the pages separated in
