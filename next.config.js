@@ -8,6 +8,9 @@ const nextConfig = {
     API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
   webpack(config) {
+    // Enable topLevelAwait, ES2017 in tsconfig
+    config.experiments = config.experiments || {};
+    config.experiments.topLevelAwait = true;
     // Graphql
     config.module.rules.push({
       test: /\.(graphql|gql)$/,
