@@ -12,22 +12,16 @@ export default function Header() {
       </Head>
 
       <nav className={"c-Header__TopBar"} data-testid={"top-bar"}>
-        <Link href={"/"}>
-          <a style={{ fontWeight: "bold" }}>MSD BACK</a>
+        <Link href={"/"} style={{ fontWeight: "bold" }}>
+          MSD BACK
         </Link>
-        <Link href={"/page-add"}>
-          <a>Nouvelle Page</a>
-        </Link>
-        <Link href={"/gis"}>
-          <a>GIS</a>
-        </Link>
-        <Link href={"/date-add"}>
-          <a>Nouvelles Dates</a>
-        </Link>
+        <Link href={"/page-add"}>Nouvelle Page</Link>
+        <Link href={"/gis"}>GIS</Link>
+        <Link href={"/date-add"}>Nouvelles Dates</Link>
       </nav>
       <aside className={"c-Header__LeftBar"} data-testid={"left-bar"}>
-        <Link href={`/agenda`}>
-          <a style={{ textTransform: "uppercase" }}>Agenda</a>
+        <Link href={`/agenda`} style={{ textTransform: "uppercase" }}>
+          Agenda
         </Link>
         <div>MENU</div>
         <div>MENU</div>

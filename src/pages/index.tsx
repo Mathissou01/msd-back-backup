@@ -47,8 +47,8 @@ export default function HomePage() {
               <p>No results.</p>
             )}
           </ul>
-          <Link href={"/page-add"}>
-            <a style={{ textDecoration: "underline" }}>Ajouter une page</a>
+          <Link href={"/page-add"} style={{ textDecoration: "underline" }}>
+            Ajouter une page
           </Link>
         </div>
       </main>

@@ -77,6 +77,7 @@ export default function AgendaPage() {
     Boolean || undefined,
   );
   const loading = eventsLoading || slotsLoading || daysLoading;
+  const [firstLoad, setFirstLoad] = useState(false);
 
   const [events, setEvents] = useState<ICalendarEvent[]>([]);
 
@@ -132,13 +133,14 @@ export default function AgendaPage() {
         };
       }),
     ]);
+    setFirstLoad(true);
   }, [timeEventsData, timeSlotsData, timeDaysData]);
 
   useEffect(() => {
-    if (!loading && events.length === 0) {
+    if (!loading && events.length === 0 && !firstLoad) {
       updateEvents();
     }
-  }, [events, loading, updateEvents]);
+  }, [events, loading, firstLoad, updateEvents]);
 
   const eventPropGetter = useCallback<EventPropGetter<ICalendarEvent>>(
     (event, start, end, isSelected) => ({
