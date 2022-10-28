@@ -73,5 +73,7 @@ sketch
 ### WebStorm ###
 .idea/
 
-### misc ###
+### Testing ###
 junit.xml
+/cypress/screenshots/
+/cypress/videos/
