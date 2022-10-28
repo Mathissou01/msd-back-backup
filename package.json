@@ -28,8 +28,8 @@
     "test:jest:ci": "jest --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=text --coverageReporters=cobertura --coverageReporters=html",
     "test:cypress": "cypress open",
     "test:cypress:ci": "cypress run",
-    "test:e2e": "start-server-and-test start 3001 test:cypress:ci",
-    "test:ci": "npm run test:jest:ci && npm run test:e2e"
+    "test:ci": "npm run lint && npm run test:typecheck && npm run test:jest:ci",
+    "test:e2e": "start-server-and-test start 3001 test:cypress:ci"
   },
   "dependencies": {
     "@apollo/client": "3.7.1",
