@@ -116,5 +116,5 @@
     "**/*.tsx",
     "./jest.setup.js"
   ],
-  "exclude": ["node_modules", "cypress.config.ts", "cypress/**/*.ts"]
+  "exclude": ["node_modules"]
 }
