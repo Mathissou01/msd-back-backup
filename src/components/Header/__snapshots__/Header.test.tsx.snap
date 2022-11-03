@@ -38,12 +38,12 @@ exports[`renders 1`] = `
     >
       Agenda
     </a>
-    <div>
-      MENU
-    </div>
-    <div>
-      MENU
-    </div>
+    <a
+      href="/wysiwyg"
+      style="text-transform: uppercase;"
+    >
+      WYSIWYG
+    </a>
     <div>
       MENU
     </div>

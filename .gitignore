@@ -10,6 +10,7 @@
 
 # next.js
 /.next/
+/.swc/
 /out/
 
 # production
@@ -36,7 +37,6 @@ yarn-error.log*
 next-env.d.ts
 
 #### ADDED ####
-
 ### dotenv ###
 .env
 .env.*
@@ -63,6 +63,10 @@ bower_components
 psd
 thumb
 sketch
+
+### TinyMCE ###
+public/assets/libs/tinymce/*
+!public/assets/libs/tinymce/langs
 
 ### Sass ###
 .sass-cache/

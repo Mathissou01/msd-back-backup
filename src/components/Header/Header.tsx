@@ -23,8 +23,9 @@ export default function Header() {
         <Link href={`/agenda`} style={{ textTransform: "uppercase" }}>
           Agenda
         </Link>
-        <div>MENU</div>
-        <div>MENU</div>
+        <Link href={`/wysiwyg`} style={{ textTransform: "uppercase" }}>
+          WYSIWYG
+        </Link>
         <div>MENU</div>
         <div>MENU</div>
         <div>MENU</div>
