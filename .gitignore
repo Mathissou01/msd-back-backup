@@ -78,6 +78,7 @@ public/assets/libs/tinymce/*
 .idea/
 
 ### Testing ###
-junit.xml
-/cypress/screenshots/
-/cypress/videos/
+junit*.xml
+/test-results/
+/playwright-report/
+/playwright/.cache/

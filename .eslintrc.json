@@ -4,7 +4,6 @@
     "eslint:recommended",
     "next/core-web-vitals",
     "plugin:testing-library/react",
-    "plugin:cypress/recommended",
     "plugin:prettier/recommended",
     "prettier"
   ],

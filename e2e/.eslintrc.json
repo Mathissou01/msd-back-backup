@@ -1,0 +1,7 @@
+{
+  "extends": ["../.eslintrc.json", "plugin:playwright/playwright-test"],
+  "plugins": ["testing-library", "prettier"],
+  "rules": {
+    "testing-library/prefer-screen-queries": "off"
+  }
+}
