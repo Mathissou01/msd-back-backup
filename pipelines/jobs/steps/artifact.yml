@@ -1,0 +1,14 @@
+# Steps template for artifact publication tasks
+steps:
+  - task: CopyFiles@2
+    displayName: "Stage files for artifact publication"
+    inputs:
+      SourceFolder: "out"
+      Contents: "**"
+      TargetFolder: $(Build.ArtifactStagingDirectory)
+      CleanTargetFolder: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish artifact for use in release stage"
+    inputs:
+      ArtifactName: BO Static WebApp Export $(Build.BuildId)

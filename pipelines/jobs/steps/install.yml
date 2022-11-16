@@ -1,0 +1,12 @@
+# Steps template for Node CI installation task
+steps:
+  - task: NodeTool@0
+    displayName: "Install Node.js"
+    inputs:
+      versionSpec: "16.x"
+
+  - task: Npm@1
+    displayName: "Install dependencies"
+    inputs:
+      command: "ci"
+      customEndpoint: msd-dev-npm

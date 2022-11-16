@@ -28,7 +28,7 @@
     "test:jest": "jest --watch --coverage",
     "test:jest:ci": "jest --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=text --coverageReporters=cobertura --coverageReporters=html",
     "test:e2e": "BASE_URL=$(grep NEXT_PUBLIC_BASE_URL .env | cut -d '=' -f2) npx playwright test",
-    "test:e2e:ci": "BASE_URL=$(grep NEXT_PUBLIC_BASE_URL .env | cut -d '=' -f2) npx playwright install --with-deps && npx playwright test"
+    "test:e2e:ci": "npx playwright install --with-deps && npx playwright test --reporter=junit"
   },
   "dependencies": {
     "@apollo/client": "3.7.1",

@@ -1,0 +1,27 @@
+# Main Azure pipeline configuration file for MSD BO Static WebSite
+name: MSD_BO_Site_$(Rev:rrr)
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - develop
+      - feature/*
+
+variables:
+  runCD: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: Build
+    displayName: CI tasks
+    jobs:
+      - template: pipelines/jobs/ci.yml
+
+  - stage: Release
+    displayName: Service update on Azure Cloud
+    condition: and(eq(variables.runCD, 'true'), succeeded())
+    jobs:
+      - template: pipelines/jobs/release.yml

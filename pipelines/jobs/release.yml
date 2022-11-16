@@ -1,0 +1,25 @@
+# Jobs template for static website release
+jobs:
+  - job: msd_bo_site_release
+    variables:
+      - group: bo_site_variables
+    displayName: "Release BackOffice Static WebSite"
+    steps:
+      - checkout: none
+
+      - task: DownloadPipelineArtifact@2
+        displayName: Get latest Artifact from CI pipeline
+        inputs:
+          buildType: "current"
+          path: $(System.DefaultWorkingDirectory)/
+          artifact: BO Static WebApp Export $(Build.BuildId)
+
+      - task: AzureStaticWebApp@0
+        displayName: Publish BO Static WebApp in Azure Cloud
+        inputs:
+          output_location: "out"
+          skip_app_build: true
+          verbose: true
+          is_static_export: true
+        env:
+          azure_static_web_apps_api_token: $(az.stapps.deployment.token)

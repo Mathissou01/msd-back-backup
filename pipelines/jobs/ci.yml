@@ -1,0 +1,14 @@
+# Jobs template for static website build
+jobs:
+  - job: msd_bo_site_build
+    displayName: Build BackOffice Static WebSite
+    steps:
+      - template: steps/install.yml
+
+      - template: steps/pre-tests.yml
+
+      - template: steps/e2e-tests.yml
+
+      - template: steps/export.yml
+
+      - template: steps/artifact.yml
