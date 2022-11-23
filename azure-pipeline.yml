@@ -9,8 +9,9 @@ trigger:
       - feature/*
 
 variables:
-  runCD: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
-
+  - name: runCD
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
+  - group: bo_site_variables
 pool:
   vmImage: ubuntu-latest
 
