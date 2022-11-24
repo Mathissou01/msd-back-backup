@@ -19,6 +19,12 @@
         "resolveNestedSelectors": true
       }
     ],
-    "order/properties-alphabetical-order": null
+    "order/properties-alphabetical-order": null,
+    "selector-no-qualifying-type": [
+      true,
+      {
+        "ignore": ["attribute"]
+      }
+    ]
   }
 }

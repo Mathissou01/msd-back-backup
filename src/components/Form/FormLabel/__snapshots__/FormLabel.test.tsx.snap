@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <label
+    class="c-FormLabel"
+    for="form-label"
+  >
+    <span>
+      form label 
+    </span>
+    <span
+      class="c-FormLabel__Secondary"
+    >
+      secondary label
+    </span>
+  </label>
+</div>
+`;

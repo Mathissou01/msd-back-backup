@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders loading and loaded state 1`] = `
+<div>
+  <h2
+    class="c-QuizTipsTab__Title"
+  >
+    Quiz et Astuces 
+  </h2>
+  <form
+    class="c-QuizTipsTab__Form"
+  >
+    <div
+      class="c-QuizTipsTab__Group"
+    >
+      <div
+        class="c-FormCheckbox"
+      >
+        <input
+          checked=""
+          class="c-FormCheckbox__Input "
+          data-testid="form-checkbox"
+          id="displayBlock"
+          name="displayBlock"
+          type="checkbox"
+        />
+        <label
+          class="c-FormLabel"
+          for="displayBlock"
+        >
+          <span>
+            Afficher ce bloc 
+          </span>
+          <span
+            class="c-FormLabel__Secondary"
+          />
+        </label>
+      </div>
+      <div
+        class="c-FormInput"
+      >
+        <label
+          class="c-FormLabel"
+          for="blockTitle"
+        >
+          <span>
+            Titre du bloc *
+          </span>
+          <span
+            class="c-FormLabel__Secondary"
+          />
+        </label>
+        <input
+          aria-errormessage="blockTitle_error"
+          aria-invalid="false"
+          class="c-FormInput__Input "
+          data-testid="form-input"
+          id="blockTitle"
+          name="blockTitle"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      class="c-QuizTipsTab__Group"
+    >
+      <div
+        class="c-FormCheckbox"
+      >
+        <input
+          class="c-FormCheckbox__Input "
+          data-testid="form-checkbox"
+          id="displayQuiz"
+          name="displayQuiz"
+          type="checkbox"
+        />
+        <label
+          class="c-FormLabel"
+          for="displayQuiz"
+        >
+          <span>
+            Afficher un quiz 
+          </span>
+          <span
+            class="c-FormLabel__Secondary"
+          />
+        </label>
+      </div>
+      <div
+        class="c-FormModalInput"
+        data-testid="form-modal-input"
+      >
+        <label
+          class="c-FormLabel"
+          for="quiz_button"
+        >
+          <span>
+            Quiz à afficher 
+          </span>
+          <span
+            class="c-FormLabel__Secondary"
+          />
+        </label>
+        <input
+          class="c-FormModalInput__Input"
+          disabled=""
+          name="quiz"
+          type="hidden"
+          value="[object Object]"
+        />
+        <p>
+          Nom du quiz
+        </p>
+        <div
+          aria-errormessage="quiz_error"
+          aria-invalid="false"
+        >
+          <button
+            class="c-CommonButton c-CommonButton_secondary"
+            id="quiz_button"
+            type="button"
+          >
+            Choisir le quiz
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="c-QuizTipsTab__Group"
+    >
+      <div
+        class="c-FormCheckbox"
+      >
+        <input
+          class="c-FormCheckbox__Input "
+          data-testid="form-checkbox"
+          id="displayTips"
+          name="displayTips"
+          type="checkbox"
+        />
+        <label
+          class="c-FormLabel"
+          for="displayTips"
+        >
+          <span>
+            Afficher des astuces 
+          </span>
+          <span
+            class="c-FormLabel__Secondary"
+          />
+        </label>
+      </div>
+      <div
+        class="c-FormModalInput"
+        data-testid="form-modal-input"
+      >
+        <label
+          class="c-FormLabel"
+          for="tips_button"
+        >
+          <span>
+            Astuces à afficher 
+          </span>
+          <span
+            class="c-FormLabel__Secondary"
+          />
+        </label>
+        <input
+          class="c-FormModalInput__Input"
+          disabled=""
+          name="tips"
+          type="hidden"
+          value=""
+        />
+        <div
+          aria-errormessage="tips_error"
+          aria-invalid="false"
+        >
+          <button
+            class="c-CommonButton c-CommonButton_secondary"
+            id="tips_button"
+            type="button"
+          >
+            Sélectionner les astuces à afficher
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="c-QuizTipsTab__Buttons"
+    >
+      <button
+        class="c-CommonButton c-CommonButton_primary"
+        disabled=""
+        type="submit"
+      >
+        Enregistrer les modifications
+      </button>
+      <button
+        class="c-CommonButton c-CommonButton_secondary"
+        disabled=""
+        type="button"
+      >
+        Annuler les modifications
+      </button>
+    </div>
+  </form>
+</div>
+`;

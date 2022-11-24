@@ -1,0 +1,19 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-PageTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  margin-top: 53px;
+  padding: 20px 182px 40px;
+
+  &__Description {
+    color: colors.$gray-600;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: DINPro-Regular, serif;
+    line-height: 20px;
+    text-align: center;
+  }
+}

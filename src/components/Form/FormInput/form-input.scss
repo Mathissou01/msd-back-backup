@@ -1,0 +1,50 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FormInput {
+  display: flex;
+  flex-direction: column;
+
+  &__Label {
+    margin-bottom: 2px;
+    color: colors.$blue-2;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  &__Input {
+    width: 350px;
+    height: 48px;
+    padding: 0 8px;
+    color: colors.$blue-1;
+    background-color: colors.$white;
+    border: 1px solid colors.$blue-2;
+    border-radius: 4px;
+
+    &::placeholder {
+      color: colors.$blue-1;
+      font-family: DINPro-Regular, serif;
+    }
+
+    &:placeholder-shown {
+      background-color: colors.$gray-0;
+    }
+
+    &:focus-visible {
+      color: colors.$expert-blue;
+      outline-color: colors.$expert-blue;
+    }
+
+    &:disabled {
+      background-color: colors.$gray-200;
+      border-color: colors.$blue-4;
+    }
+
+    &_invalid {
+      border-color: colors.$danger;
+
+      &:focus-visible {
+        outline-color: colors.$danger;
+      }
+    }
+  }
+}

@@ -1,32 +1,29 @@
 # MSD-BACK
 
-Back-office app (frontend) in NextJS.
+Back-office app (frontend) in NextJS, exported in static HTML and deployed on an Azure Static Web App.
 
-## Structure
-
-(WIP)
+Uses Apollo Client for GraphQL requests, mocking with graphql-codegen and graphql-tools.
 
 ## Config
 
-(WIP)
+Copy the `.env.example` and rename the copy `.env`
 
-## Conventions
+Replace the example values with real values for your environment.
 
-(WIP) Javascript, Typescript, Linters, etc
-
-### CSS/SCSS
-
-Using an adapted ITCSS with BEMIT/BEM syntax for CSS/SCSS.
-
-Using PurgeCSS plugin for PostCSS to purge unused CSS, requires config and whitelisting in order to keep some CSS. CSS
-used by imported components and libraries (from node_modules) is not detected by default and needs to be added to the
-whilelist.
+|             KEY              |               DESCRIPTION                |                     DEFAULT VALUE                     |
+| :--------------------------: | :--------------------------------------: | :---------------------------------------------------: |
+|     NEXT_PUBLIC_BASE_URL     |        URL of this app, msd-back         |                 http://localhost:3001                 |
+|      NEXT_PUBLIC_FO_URL      | URL of the other frontend app, msd-front |                 http://localhost:3002                 |
+|     NEXT_PUBLIC_API_URL      | URL of the GraphQL endpoint, msd-fn-back |                 http://localhost:7071                 |
+| NEXT_PUBLIC_AZURE_SEARCH_URL |     URL of the Azure Search service      | https://[your-azure-search-domain].search.windows.net |
 
 ## Installation
 
 This application uses graphql-codegen to get the graphql schema from the API, this schema can be used to run the
 application locally with a mocked client and mocked data.
 With mocks, you can test the application and develop without access to the real API.
+
+First install dependencies with `npm i`.
 
 ### Development
 
@@ -77,12 +74,74 @@ Or it can be exported as a static web app with :
 npm run export
 ```
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+After installing, there are many `npm` commands available.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Utilities
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions
-are welcome!
+`npm run clean` removes all of the temporary or generated folders from building or testing such as `.cache`, `.next`
+, `out`, `coverage`, etc.
+
+### Mocking
+
+`npm run codegen` runs the graphql-codegen generation configured in `src/graphql/codegen.ts`, generating a graphql
+schema and types from the URL in `.env` `NEXT_PUBLIC_API_URL`, on the /graphql endpoint.
+
+This codegen config also generates typescript typings for the entire schema, as well as custom wrapper hooks for
+all `.graphql` files as apollo `useQuery` hooks.
+
+> This schema is used only in development in order to easily have access to the schema, get queries and mutations as
+> well
+> as mock API responses in `:mock` mode.
+
+### Linting
+
+`npm run lint` runs all linters in order : ESLint, Stylelint, Prettier.
+
+`npm run lint:eslint` runs ESLint from the `.eslintrc.json` config, ignoring files from `.gitignore` and `.eslintignore`
+.
+
+`npm run lint:style` runs Stylelint from the `.stylelintrc.json` config, ignoring files from `.gitignore`.
+
+`npm run lint:prettier` runs ESLint from the `.prettierrc.json` config, ignoring files from `.gitignore`
+and `.prettier.ignore`.
+
+### Testing
+
+`npm run pretest` automatically runs when running `test`, it checks Typescript compilation.
+
+`npm run test` runs `test:jest` and `test:e2e` in order.
+
+`npm run test:ci` runs the CI versions of the same commands, `test:jest:ci` and `test:e2e:ci` in order.
+
+#### Unit Testing
+
+`npm run test:jest` runs the Jest test-runner for unit-tests with the configuration from `jest.config.js`. This checks
+all `.test.` files in the project excluding those in `/e2e/`
+
+`npm run test:jest:ci` is the same with CI parameters (no prompt, extra reporters, etc).
+
+#### End-to-end Testing
+
+`npm run test:e2e` runs the Playwright test-runner for end-to-end tests with the configuration
+from `playwright.config.ts`. This checks all `.spec.` files in the `/e2e/` folder.
+
+`npm run test:e2e:ci` is the same with CI parameters (installing playwright and dependencies, etc).
+
+> Before running Playwright for the first time, you will need to install the playwright dependencies in your local
+> environment with
+> `npx playwright install`. Occasionally, Playwright will ask you to install dependencies again when new versions of the
+> testing browsers are required.
+
+> E2E testing requires a build (a `.next` folder built with `npm run build` or `npm run build:mock`) to be available,
+> and
+> Playwright will start a webserver with this build
+> before running the tests. If the build isn't mocked, then other services (Azure Functions, API, etc) will need to be
+> running for the tests to work.
+
+## Conventions & Best Practices
+
+Refer
+to [Developer Documentation: Conventions & Coding Best Practices](https://dev.azure.com/SuezCircularSolutions/MSD/_wiki?pageId=18&friendlyName=Conventions-Coding-Best-Practices#)
+in msd-doc or the Azure Devops wiki.

@@ -1,0 +1,88 @@
+query GetQuizAndTipsBlock($contractId: ID!) {
+  contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        homepage {
+          data {
+            attributes {
+              quizAndTipsBlock {
+                data {
+                  id
+                  attributes {
+                    title
+                    displayBlock
+                    displayQuiz
+                    quiz {
+                      data {
+                        id
+                        attributes {
+                          title
+                          publishedAt
+                        }
+                      }
+                    }
+                    displayTips
+                    tips {
+                      data {
+                        id
+                        attributes {
+                          title
+                          publishedAt
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  services(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        serviceInstance {
+          __typename
+          ... on ComponentMsdEditorial {
+            id
+            editorialServices {
+              data {
+                attributes {
+                  subServiceInstance {
+                    __typename
+                    ... on ComponentEditoTipsSubService {
+                      isActivated
+                      tips {
+                        data {
+                          id
+                          attributes {
+                            title
+                            publishedAt
+                          }
+                        }
+                      }
+                    }
+                    ... on ComponentEditoQuizzesSubService {
+                      isActivated
+                      quizzes {
+                        data {
+                          id
+                          attributes {
+                            title
+                            publishedAt
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

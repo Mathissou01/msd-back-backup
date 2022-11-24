@@ -1,0 +1,32 @@
+query GetServices($contractId: ID!) {
+  services(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        isActivated
+        startDate
+        endDate
+        serviceInstance {
+          __typename
+          ... on ComponentMsdEditorial {
+            id
+            editorialServices {
+              data {
+                attributes {
+                  subServiceInstance {
+                    __typename
+                    ... on ComponentEditoTipsSubService {
+                      isActivated
+                    }
+                    ... on ComponentEditoQuizzesSubService {
+                      isActivated
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

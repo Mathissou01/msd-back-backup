@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <div
+    class="c-FormMultiselect"
+  >
+    <div>
+      <label
+        class="c-FormLabel"
+        for="form-multiselect_0"
+      >
+        <span>
+          form multiselect n°1 
+        </span>
+        <span
+          class="c-FormLabel__Secondary"
+        />
+      </label>
+      <div
+        class="o-SelectWrapper"
+      >
+        <select
+          aria-errormessage="form-multiselect_0_error"
+          aria-invalid="false"
+          class="o-SelectWrapper__Select o-SelectWrapper__Select_placeholder "
+          data-testid="form-multiselect_0"
+          id="form-multiselect_0"
+          name="form-multiselect_0"
+        >
+          <option
+            value="-1"
+          >
+            - Sélectionnez un élément -
+          </option>
+          <option
+            value="0"
+          >
+            -content 1
+          </option>
+          <option
+            value="1"
+          >
+            -content 2
+          </option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label
+        class="c-FormLabel"
+        for="form-multiselect_1"
+      >
+        <span>
+          form multiselect n°2 
+        </span>
+        <span
+          class="c-FormLabel__Secondary"
+        />
+      </label>
+      <div
+        class="o-SelectWrapper"
+      >
+        <select
+          aria-errormessage="form-multiselect_1_error"
+          aria-invalid="false"
+          class="o-SelectWrapper__Select o-SelectWrapper__Select_placeholder "
+          data-testid="form-multiselect_1"
+          id="form-multiselect_1"
+          name="form-multiselect_1"
+        >
+          <option
+            value="-1"
+          >
+            - Sélectionnez un élément -
+          </option>
+          <option
+            value="0"
+          >
+            -content 1
+          </option>
+          <option
+            value="1"
+          >
+            -content 2
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+`;

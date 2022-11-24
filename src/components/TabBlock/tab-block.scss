@@ -1,0 +1,11 @@
+.c-TabBlock {
+  display: flex;
+  flex-direction: column;
+
+  &__Content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 0;
+  }
+}

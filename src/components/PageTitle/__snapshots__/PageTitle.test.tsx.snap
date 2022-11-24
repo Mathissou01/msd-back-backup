@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <hgroup
+    class="c-PageTitle"
+  >
+    <h1
+      data-testid="title"
+    >
+      page title
+    </h1>
+    <p
+      class="c-PageTitle__Description"
+      data-testid="description"
+    >
+      page description.
+    </p>
+  </hgroup>
+</div>
+`;

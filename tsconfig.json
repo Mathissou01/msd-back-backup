@@ -111,7 +111,6 @@
     "next-env.d.ts",
     "types.d.ts",
     "graphql.d.ts",
-    "queries.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "./jest.setup.js"

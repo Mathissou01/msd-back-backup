@@ -1,0 +1,7 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FormMultiselect {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

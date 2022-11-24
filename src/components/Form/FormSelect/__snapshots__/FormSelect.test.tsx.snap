@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <div
+    class="c-FormSelect"
+  >
+    <label
+      class="c-FormLabel"
+      for="form-select"
+    >
+      <span>
+        form select 
+      </span>
+      <span
+        class="c-FormLabel__Secondary"
+      >
+        secondary label
+      </span>
+    </label>
+    <div
+      class="o-SelectWrapper"
+    >
+      <select
+        aria-errormessage="form-select_error"
+        aria-invalid="false"
+        class="o-SelectWrapper__Select  "
+        data-testid="form-select"
+        id="form-select"
+        name="form-select"
+      >
+        <option
+          value="-1"
+        >
+          none
+        </option>
+        <option
+          value="0"
+        >
+          -content 1
+        </option>
+        <option
+          value="1"
+        >
+          -content 2
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+`;

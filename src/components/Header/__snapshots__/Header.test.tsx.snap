@@ -2,57 +2,66 @@
 
 exports[`renders 1`] = `
 <div>
-  <nav
+  <header
     class="c-Header__TopBar"
     data-testid="top-bar"
+    role="banner"
   >
-    <a
-      href="/"
-      style="font-weight: bold;"
+    <nav
+      class="c-Header__Nav"
+      role="navigation"
     >
-      MSD BACK
-    </a>
-    <a
-      href="/page-add"
-    >
-      Nouvelle Page
-    </a>
-    <a
-      href="/gis"
-    >
-      GIS
-    </a>
-    <a
-      href="/date-add"
-    >
-      Nouvelles Dates
-    </a>
-  </nav>
+      <ul
+        class="c-Header__NavList c-Header__NavList_top"
+      >
+        <li
+          class="c-Header__NavItem"
+        >
+          <a
+            href="/"
+            style="font-weight: bold;"
+          >
+            MSD-BACK
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
   <aside
     class="c-Header__LeftBar"
     data-testid="left-bar"
   >
-    <a
-      href="/agenda"
-      style="text-transform: uppercase;"
+    <nav
+      class="c-Header__Nav"
+      role="navigation"
     >
-      Agenda
-    </a>
-    <a
-      href="/wysiwyg"
-      style="text-transform: uppercase;"
-    >
-      WYSIWYG
-    </a>
-    <div>
-      MENU
-    </div>
-    <div>
-      MENU
-    </div>
-    <div>
-      MENU
-    </div>
+      <ul
+        class="c-Header__NavList c-Header__NavList_side"
+      >
+        <li
+          class="c-Header__NavGroup"
+        >
+          <span
+            class="c-Header__NavItem"
+          >
+            Personnalisation
+          </span>
+          <ul>
+            <li
+              class="c-Header__NavItem"
+            >
+              <a
+                href="/personnalisation/accueil"
+              >
+                <span>
+                  Page d'accueil
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
   </aside>
 </div>
 `;

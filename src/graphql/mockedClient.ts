@@ -1,10 +1,5 @@
 import { faker } from "@faker-js/faker";
-import {
-  ApolloClient,
-  ApolloLink,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from "@apollo/client";
+import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
 import { asyncMap } from "@apollo/client/utilities";
 import { SchemaLink } from "@apollo/client/link/schema";
 import { addMocksToSchema } from "@graphql-tools/mock";
@@ -13,8 +8,6 @@ import schemaString from "src/graphql/codegen/schema.graphql";
 // import { Resolvers } from "./codegen/resolvers-types";
 
 export default function getMockedClient(delay = 0) {
-  let client: ApolloClient<NormalizedCacheObject>;
-
   const schema = makeExecutableSchema({
     typeDefs: schemaString,
     // resolvers,
@@ -45,10 +38,8 @@ export default function getMockedClient(delay = 0) {
     });
   });
 
-  client = new ApolloClient({
+  return new ApolloClient({
     cache: new InMemoryCache(),
     link: mockDelayMiddleware.concat(schemaLink),
   });
-
-  return client;
 }

@@ -1,0 +1,19 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FormLabel {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 2px;
+  color: colors.$blue-2;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+
+  &__Secondary {
+    color: colors.$gray-600;
+    font-weight: 350;
+    font-family: DINPro-Regular, serif;
+  }
+}

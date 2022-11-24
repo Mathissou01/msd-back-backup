@@ -5,7 +5,9 @@ import { devices } from "@playwright/test";
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+import { config as dotenvConfig } from "dotenv";
+
+dotenvConfig();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -38,7 +40,7 @@ const config: PlaywrightTestConfig = {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
@@ -100,8 +102,8 @@ const config: PlaywrightTestConfig = {
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: process.env.CI ? "npm run start" : "npm run develop:mock",
-    url: process.env.BASE_URL,
+    command: "npm run start",
+    url: process.env.NEXT_PUBLIC_BASE_URL,
     reuseExistingServer: !process.env.CI,
     // port: 3001,
   },

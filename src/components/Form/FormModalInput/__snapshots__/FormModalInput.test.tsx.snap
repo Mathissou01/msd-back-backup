@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <div
+    class="c-FormModalInput"
+    data-testid="form-modal-input"
+  >
+    <label
+      class="c-FormLabel"
+      for="form-modal-input_button"
+    >
+      <span>
+        form modal input 
+      </span>
+      <span
+        class="c-FormLabel__Secondary"
+      />
+    </label>
+    <input
+      class="c-FormModalInput__Input"
+      disabled=""
+      name="form-modal-input"
+      type="hidden"
+    />
+    <div
+      aria-errormessage="form-modal-input_error"
+      aria-invalid="false"
+    >
+      <button
+        class="c-CommonButton c-CommonButton_secondary"
+        id="form-modal-input_button"
+        type="button"
+      >
+        button label
+      </button>
+    </div>
+  </div>
+</div>
+`;

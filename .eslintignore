@@ -7,5 +7,3 @@ out
 package-lock.json
 public
 coverage
-
-src/graphql/codegen/*

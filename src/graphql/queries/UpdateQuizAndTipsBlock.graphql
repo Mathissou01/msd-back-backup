@@ -1,0 +1,25 @@
+mutation UpdateQuizAndTipsBlock(
+  $quizAndTipsBlockId: ID!
+  $data: QuizAndTipsBlockInput!
+) {
+  updateQuizAndTipsBlock(id: $quizAndTipsBlockId, data: $data) {
+    data {
+      attributes {
+        title
+        displayBlock
+        displayQuiz
+        quiz {
+          data {
+            id
+          }
+        }
+        displayTips
+        tips {
+          data {
+            id
+          }
+        }
+      }
+    }
+  }
+}

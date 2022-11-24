@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <div
+    class="c-FormRadioInput"
+  >
+    <fieldset>
+      <legend
+        class="c-FormLabel"
+      >
+        <span>
+          form radio input 
+        </span>
+        <span
+          class="c-FormLabel__Secondary"
+        >
+          secondary display name
+        </span>
+      </legend>
+      <div
+        class="c-FormRadioInput__Options"
+      >
+        <div
+          class="c-FormRadioInput__Option"
+        >
+          <input
+            class="c-FormRadioInput__Input "
+            data-testid="form-radio-input_0"
+            id="form-radio-input0"
+            name="form-radio-input"
+            type="radio"
+            value="0"
+          />
+          <label
+            class="c-FormLabel"
+            for="form-radio-input0"
+          >
+            <span>
+              first 
+            </span>
+            <span
+              class="c-FormLabel__Secondary"
+            />
+          </label>
+        </div>
+        <div
+          class="c-FormRadioInput__Option"
+        >
+          <input
+            class="c-FormRadioInput__Input "
+            data-testid="form-radio-input_1"
+            id="form-radio-input1"
+            name="form-radio-input"
+            type="radio"
+            value="1"
+          />
+          <label
+            class="c-FormLabel"
+            for="form-radio-input1"
+          >
+            <span>
+              second 
+            </span>
+            <span
+              class="c-FormLabel__Secondary"
+            />
+          </label>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+`;

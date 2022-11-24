@@ -1,0 +1,67 @@
+@use "sass:color" as color;
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-CommonButton {
+  padding: 14px 16px 13px;
+  color: colors.$expert-blue;
+  background-color: transparent;
+  border: 1px solid colors.$primary;
+  border-radius: 4px;
+
+  &:disabled {
+    color: colors.$gray-600;
+  }
+
+  &_primary {
+    background-color: colors.$primary;
+    border-color: transparent;
+
+    &:hover {
+      // background-color: colors.$primary-dark;
+    }
+
+    &:active,
+    &:focus {
+      // background-color: colors.$primary-dark;
+    }
+
+    &:disabled {
+      background-color: colors.$blue-4;
+      border-color: transparent;
+    }
+  }
+
+  &_secondary {
+    &:hover {
+      background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+    }
+
+    &:active,
+    &:focus {
+      background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+    }
+
+    &:disabled {
+      background-color: inherit;
+      border-color: colors.$blue-3;
+    }
+  }
+
+  &_tertiary {
+    color: colors.$blue-1;
+    border-color: transparent;
+
+    &:hover {
+      background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+    }
+
+    &:active,
+    &:focus {
+      background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+    }
+
+    &:disabled {
+      background-color: inherit;
+    }
+  }
+}

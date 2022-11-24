@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <div
+    class="c-FormInput"
+  >
+    <label
+      class="c-FormLabel"
+      for="form-input"
+    >
+      <span>
+        form input 
+      </span>
+      <span
+        class="c-FormLabel__Secondary"
+      >
+        secondary label
+      </span>
+    </label>
+    <input
+      aria-errormessage="form-input_error"
+      aria-invalid="false"
+      class="c-FormInput__Input "
+      data-testid="form-input"
+      id="form-input"
+      name="form-input"
+      type="text"
+      value=""
+    />
+  </div>
+</div>
+`;

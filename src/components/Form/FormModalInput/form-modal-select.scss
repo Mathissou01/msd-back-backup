@@ -1,0 +1,57 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FormModalInput {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+
+  &__Label {
+    color: colors.$blue-2;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  &__Input {
+    color: colors.$blue-1;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: transparent;
+    border: 0;
+  }
+
+  &__ModalTitle {
+    color: colors.$expert-blue;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 35px;
+  }
+
+  &__ModalSubtitle {
+    padding-top: 4px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  &__ModalRequired {
+    padding-top: 16px;
+    color: colors.$gray-600;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  &__ModalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  &__ModalButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+}
