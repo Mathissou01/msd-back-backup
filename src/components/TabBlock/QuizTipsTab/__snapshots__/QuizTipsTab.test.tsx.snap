@@ -26,7 +26,7 @@ exports[`renders loading and loaded state 2`] = `
     <h2
       class="c-QuizTipsTab__Title"
     >
-      Quiz et Astuces
+      Quiz & Astuces
     </h2>
     <form
       class="c-QuizTipsTab__Form"
@@ -78,7 +78,7 @@ exports[`renders loading and loaded state 2`] = `
             id="blockTitle"
             name="blockTitle"
             type="text"
-            value="Quiz et Astuces"
+            value="Titre modifié"
           />
         </div>
       </div>
@@ -127,7 +127,11 @@ exports[`renders loading and loaded state 2`] = `
             disabled=""
             name="quiz"
             type="hidden"
+            value="[object Object]"
           />
+          <p>
+            Nom du quiz
+          </p>
           <div
             aria-errormessage="quiz_error"
             aria-invalid="false"
@@ -187,6 +191,7 @@ exports[`renders loading and loaded state 2`] = `
             disabled=""
             name="tips"
             type="hidden"
+            value=""
           />
           <div
             aria-errormessage="tips_error"

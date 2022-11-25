@@ -13,7 +13,10 @@ it("renders loading and loaded state", async () => {
 
   expect(await screen.findByTestId("common-spinner")).toBeInTheDocument();
   expect(await container).toMatchSnapshot();
-  expect(await screen.findByText("Quiz et Astuces")).toBeInTheDocument();
+  expect(await screen.findByText("Nom du quiz")).toBeInTheDocument();
+  const input = await screen.findByLabelText("Titre du bloc *");
+  expect(await input).toBeInTheDocument();
+  expect(await input).toHaveValue("Titre modifié");
   expect(await container).toMatchSnapshot();
 });
 

@@ -21,7 +21,7 @@ export const defaultMockData = [
                         data: {
                           id: "1",
                           attributes: {
-                            title: "Quiz et Astuces ",
+                            title: "Titre modifié",
                             displayBlock: false,
                             displayQuiz: false,
                             quiz: {

@@ -9,7 +9,7 @@ export const contractCustomizationEntityResponseCollectionMock = {
                 data: {
                   id: "1",
                   attributes: {
-                    title: "Quiz et Astuces ",
+                    title: "Quiz & Astuces",
                     displayBlock: false,
                     displayQuiz: false,
                     quiz: {

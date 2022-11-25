@@ -39,7 +39,7 @@ interface IQuizAndTipBlock {
 export default function QuizTipsTab() {
   /* Static Data */
   const formLabels = {
-    title: "Quiz et Astuces",
+    title: "Quiz & Astuces",
     displayBlock: "Afficher ce bloc",
     blockTitle: "Titre du bloc",
     displayQuiz: "Afficher un quiz",
@@ -52,9 +52,6 @@ export default function QuizTipsTab() {
     tipsButton: "Sélectionner les astuces à afficher",
     tipsModal: "Sélection des astuces",
     tipsModalType: "Astuce",
-  };
-  const defaultValues = {
-    blockTitle: "Quiz et Astuces",
   };
   const submitButtonLabel = "Enregistrer les modifications";
   const cancelButtonLabel = "Annuler les modifications";
@@ -157,6 +154,7 @@ export default function QuizTipsTab() {
 
   /* Local Data */
   const [isShowingSpinner, setIsShowingSpinner] = useState(false);
+  const [quizTipsData, setQuizTipsData] = useState<IQuizAndTipBlock>();
   const [quizzesData, setQuizzesData] = useState<Array<QuizEntity>>([]);
   const [tipsData, setTipsData] = useState<Array<TipEntity>>([]);
   const formValidationMode = "onChange";
@@ -172,13 +170,14 @@ export default function QuizTipsTab() {
       if (quizAndTipsBlock?.id && quizAndTipsBlock?.attributes) {
         const mappedData: IQuizAndTipBlock = {
           id: quizAndTipsBlock.id,
-          blockTitle: quizAndTipsBlock.attributes.title,
+          blockTitle: quizAndTipsBlock.attributes.title ?? "Quiz & Astuces",
           displayBlock: quizAndTipsBlock.attributes.displayBlock,
           displayQuiz: quizAndTipsBlock.attributes.displayQuiz,
           quiz: quizAndTipsBlock.attributes.quiz?.data,
           displayTips: quizAndTipsBlock.attributes.displayTips,
           tips: quizAndTipsBlock?.attributes.tips?.data,
         };
+        setQuizTipsData(mappedData);
         form.reset(mappedData);
       }
       if (quizzes && quizzes?.length > 0) {
@@ -233,7 +232,7 @@ export default function QuizTipsTab() {
               label={formLabels.blockTitle}
               isRequired={true}
               isDisabled={mutationLoading}
-              defaultValue={defaultValues.blockTitle}
+              defaultValue={quizTipsData?.blockTitle}
             />
           </div>
           <div className="c-QuizTipsTab__Group">

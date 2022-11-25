@@ -112,7 +112,7 @@ export default function AccueilPage() {
       },
       {
         name: "quizAndTips",
-        title: "Quiz et Astuces",
+        title: "Quiz & Astuces",
         content: <QuizTipsTab />,
         isEnabled:
           !!editorialServiceParameters?.isServiceActivated &&
