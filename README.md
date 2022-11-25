@@ -12,8 +12,8 @@ Replace the example values with real values for your environment.
 
 |             KEY              |               DESCRIPTION                |                     DEFAULT VALUE                     |
 | :--------------------------: | :--------------------------------------: | :---------------------------------------------------: |
-|     NEXT_PUBLIC_BASE_URL     |        URL of this app, msd-back         |                 http://localhost:3001                 |
-|      NEXT_PUBLIC_FO_URL      | URL of the other frontend app, msd-front |                 http://localhost:3002                 |
+|    NEXT_PUBLIC_BASE_HOST     |        HOST of this app, msd-back        |                   http://localhost                    |
+|    NEXT_PUBLIC_BASE_HOST     |        PORT of this app, msd-back        |                         3001                          |
 |     NEXT_PUBLIC_API_URL      | URL of the GraphQL endpoint, msd-fn-back |                 http://localhost:7071                 |
 | NEXT_PUBLIC_AZURE_SEARCH_URL |     URL of the Azure Search service      | https://[your-azure-search-domain].search.windows.net |
 

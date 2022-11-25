@@ -23,7 +23,7 @@ steps:
   - task: PublishTestResults@2
     displayName: "Publish unit tests results"
     inputs:
-      testResultsFiles: junit.xml
+      testResultsFiles: coverage/junit-ut.xml
       mergeTestResults: true
       testRunTitle: "Jest Unit Tests"
       failTaskOnFailedTests: true

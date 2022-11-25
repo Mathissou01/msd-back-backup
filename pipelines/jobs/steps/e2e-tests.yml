@@ -13,13 +13,13 @@ steps:
       customCommand: "run test:e2e:ci"
     continueOnError: true
     env:
-      BASE_URL: http://localhost:3001
-      PLAYWRIGHT_JUNIT_OUTPUT_NAME: e2e.xml
+      NEXT_PUBLIC_BASE_HOST: http://localhost
+      NEXT_PUBLIC_BASE_PORT: 3001
 
   - task: PublishTestResults@2
     displayName: "Publish e2e tests results"
     inputs:
-      testResultsFiles: e2e.xml
+      testResultsFiles: coverage/junit-e2e.xml
       mergeTestResults: true
       testRunTitle: "End-to-end tests"
       failTaskOnFailedTests: true

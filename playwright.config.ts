@@ -33,14 +33,14 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI
-    ? [["dot"], ["junit", { outputFile: "junit-e2e.xml" }]]
+    ? [["list"], ["junit", { outputFile: "coverage/junit-e2e.xml" }]]
     : [["list"]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+    baseURL: process.env.NEXT_PUBLIC_BASE_HOST,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
@@ -103,9 +103,8 @@ const config: PlaywrightTestConfig = {
   /* Run your local dev server before starting the tests */
   webServer: {
     command: "npm run start",
-    url: process.env.NEXT_PUBLIC_BASE_URL,
+    port: Number.parseInt(process.env.NEXT_PUBLIC_BASE_PORT ?? "3001"),
     reuseExistingServer: !process.env.CI,
-    // port: 3001,
   },
 };
 

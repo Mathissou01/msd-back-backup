@@ -37,6 +37,7 @@ const customJestConfig = {
     [
       "jest-junit",
       {
+        outputDirectory: "coverage",
         outputName: "junit-ut.xml",
       },
     ],

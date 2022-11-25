@@ -11,13 +11,13 @@
   "scripts": {
     "prepare": "husky install",
     "codegen": "graphql-codegen --config src/graphql/codegen.ts",
-    "develop": "next dev --port 3001",
-    "develop:mock": "NEXT_PUBLIC_MOCK=true next dev --port 3001",
+    "develop": "next dev --port ${PORT-3001}",
+    "develop:mock": "NEXT_PUBLIC_MOCK=true next dev --port ${PORT-3001}",
     "build": "next build",
     "build:mock": "NEXT_PUBLIC_MOCK=true next build",
-    "start": "next start --port 3001",
+    "start": "next start --port ${PORT-3001}",
     "export": "next export",
-    "clean": "rm -rf .cache .tmp .next .swc dist build out coverage",
+    "clean": "rm -rf .cache .tmp .next .swc dist build out coverage junit.xml junit-ut.xml",
     "lint": "npm run lint:eslint && npm run lint:style && npm run lint:prettier",
     "lint:eslint": "eslint . --fix --max-warnings=0 --ignore-path .gitignore --ignore-path .eslintignore",
     "lint:style": "stylelint src/**/*.{css,scss,sass} --fix --max-warnings=0 --ignore-path .gitignore",
@@ -26,9 +26,9 @@
     "test": "npm run test:jest && npm run test:e2e",
     "test:ci": "npm run lint && npm run pretest && npm run test:jest:ci && npm run test:e2e:ci",
     "test:jest": "jest --watch --coverage",
-    "test:jest:ci": "jest --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=text --coverageReporters=cobertura --coverageReporters=html",
+    "test:jest:ci": "jest --ci --coverage --coverageReporters=text --coverageReporters=cobertura --coverageReporters=html",
     "test:e2e": "npx playwright test",
-    "test:e2e:ci": "npx playwright install --with-deps && npx playwright test"
+    "test:e2e:ci": "CI=true npx playwright install --with-deps && npx playwright test"
   },
   "dependencies": {
     "@apollo/client": "3.7.1",
