@@ -54,6 +54,5 @@ export default function getMockedClient(delay = 0) {
   return new ApolloClient({
     link: mockDelayMiddleware.concat(schemaLink),
     cache: new InMemoryCache(),
-    link: mockDelayMiddleware.concat(schemaLink),
   });
 }

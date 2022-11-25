@@ -154,8 +154,8 @@ export default function QuizTipsTab() {
   /* Local Data */
   const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [quizTipsData, setQuizTipsData] = useState<IQuizAndTipBlock>();
-  const [quizzesData, setQuizzesData] = useState<Array<QuizEntity | null>>([]);
-  const [tipsData, setTipsData] = useState<Array<TipEntity | null>>([]);
+  const [quizzesData, setQuizzesData] = useState<Array<QuizEntity>>([]);
+  const [tipsData, setTipsData] = useState<Array<TipEntity>>([]);
   const formValidationMode = "onChange";
   const form = useForm({
     mode: formValidationMode,
@@ -207,7 +207,7 @@ export default function QuizTipsTab() {
   }, []);
 
   {
-    // TODO: spinner, layout shift, handle loading, handle error redirect,
+    // TODO: layout shift, handle error redirect,
   }
   if (loading) return <CommonSpinner />;
   if (error) return <span>{error?.message}</span>;

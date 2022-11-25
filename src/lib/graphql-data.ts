@@ -13,13 +13,13 @@ import {
 /* Homepage */
 
 export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockQuery) {
-  const quizAndTipsBlock: QuizAndTipsBlockEntity = data.contractCustomizations
-    ?.data[0].attributes?.homepage?.data?.attributes?.quizAndTipsBlock
-    ?.data as QuizAndTipsBlockEntity;
-  const quizzes: Array<QuizEntity> =
-    extractQuizzes(data.services?.data as ServiceEntity[]) ?? [];
-  const tips: Array<TipEntity> =
-    extractTips(data.services?.data as ServiceEntity[]) ?? [];
+  const quizAndTipsBlock: QuizAndTipsBlockEntity | null =
+    data.contractCustomizations?.data[0].attributes?.homepage?.data?.attributes
+      ?.quizAndTipsBlock?.data ?? null;
+  const quizzes: Array<QuizEntity> | null =
+    extractQuizzes(data.services?.data as ServiceEntity[]) ?? null;
+  const tips: Array<TipEntity> | null =
+    extractTips(data.services?.data as ServiceEntity[]) ?? null;
 
   return { quizAndTipsBlock, quizzes, tips };
 }
@@ -53,8 +53,9 @@ export function extractEditoSubServiceByTypename(
 }
 
 export function extractQuizzes(
-  services: Array<ServiceEntity>,
+  services: Array<ServiceEntity> | undefined,
 ): Array<QuizEntity> | null {
+  if (!services) return null;
   const service = extractServiceByTypename(services, "ComponentMsdEditorial")
     ?.attributes?.serviceInstance[0] as ComponentMsdEditorial;
 
@@ -76,8 +77,9 @@ export function extractQuizzes(
 }
 
 export function extractTips(
-  services: Array<ServiceEntity>,
+  services: Array<ServiceEntity> | undefined,
 ): Array<TipEntity> | null {
+  if (!services) return null;
   const service = extractServiceByTypename(services, "ComponentMsdEditorial")
     ?.attributes?.serviceInstance[0] as ComponentMsdEditorial;
 
