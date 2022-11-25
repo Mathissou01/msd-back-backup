@@ -28,7 +28,7 @@
     "test:jest": "jest --watch --coverage",
     "test:jest:ci": "jest --ci --coverage --coverageReporters=text --coverageReporters=cobertura --coverageReporters=html",
     "test:e2e": "npx playwright test",
-    "test:e2e:ci": "CI=true npx playwright install --with-deps && npx playwright test"
+    "test:e2e:ci": "CI=true npx playwright install --with-deps && CI=true npx playwright test"
   },
   "dependencies": {
     "@apollo/client": "3.7.1",
