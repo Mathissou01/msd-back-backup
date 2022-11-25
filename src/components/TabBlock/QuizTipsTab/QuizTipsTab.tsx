@@ -39,6 +39,7 @@ interface IQuizAndTipBlock {
 export default function QuizTipsTab() {
   /* Static Data */
   const formLabels = {
+    title: "Quiz et Astuces",
     displayBlock: "Afficher ce bloc",
     blockTitle: "Titre du bloc",
     displayQuiz: "Afficher un quiz",
@@ -51,6 +52,9 @@ export default function QuizTipsTab() {
     tipsButton: "Sélectionner les astuces à afficher",
     tipsModal: "Sélection des astuces",
     tipsModalType: "Astuce",
+  };
+  const defaultValues = {
+    blockTitle: "Quiz et Astuces",
   };
   const submitButtonLabel = "Enregistrer les modifications";
   const cancelButtonLabel = "Annuler les modifications";
@@ -121,7 +125,7 @@ export default function QuizTipsTab() {
             null,
         },
       };
-      updateQuizAndTipsBlock({
+      await updateQuizAndTipsBlock({
         variables,
         refetchQueries: [
           {
@@ -153,7 +157,6 @@ export default function QuizTipsTab() {
 
   /* Local Data */
   const [isShowingSpinner, setIsShowingSpinner] = useState(false);
-  const [quizTipsData, setQuizTipsData] = useState<IQuizAndTipBlock>();
   const [quizzesData, setQuizzesData] = useState<Array<QuizEntity>>([]);
   const [tipsData, setTipsData] = useState<Array<TipEntity>>([]);
   const formValidationMode = "onChange";
@@ -167,7 +170,7 @@ export default function QuizTipsTab() {
     if (data && data.contractCustomizations?.data && data.services?.data) {
       const { quizAndTipsBlock, quizzes, tips } = extractQuizAndTipsBlock(data);
       if (quizAndTipsBlock?.id && quizAndTipsBlock?.attributes) {
-        const mappedData = {
+        const mappedData: IQuizAndTipBlock = {
           id: quizAndTipsBlock.id,
           blockTitle: quizAndTipsBlock.attributes.title,
           displayBlock: quizAndTipsBlock.attributes.displayBlock,
@@ -176,7 +179,6 @@ export default function QuizTipsTab() {
           displayTips: quizAndTipsBlock.attributes.displayTips,
           tips: quizAndTipsBlock?.attributes.tips?.data,
         };
-        setQuizTipsData(mappedData);
         form.reset(mappedData);
       }
       if (quizzes && quizzes?.length > 0) {
@@ -216,7 +218,7 @@ export default function QuizTipsTab() {
   return (
     <div className="c-QuizTipsTab">
       {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <h2 className="c-QuizTipsTab__Title">{quizTipsData?.blockTitle}</h2>
+      <h2 className="c-QuizTipsTab__Title">{formLabels.title}</h2>
       <FormProvider {...form}>
         <form
           onSubmit={handleSubmit(onSubmitValid)}
@@ -231,6 +233,7 @@ export default function QuizTipsTab() {
               label={formLabels.blockTitle}
               isRequired={true}
               isDisabled={mutationLoading}
+              defaultValue={defaultValues.blockTitle}
             />
           </div>
           <div className="c-QuizTipsTab__Group">
