@@ -8,6 +8,7 @@ interface ICommonButtonProps {
   isDisabled?: boolean;
   onClick?: () => void;
   formLabelId?: string;
+  buttonRef?: React.RefObject<HTMLButtonElement>;
 }
 
 export default function CommonButton({
@@ -17,6 +18,7 @@ export default function CommonButton({
   isDisabled = false,
   onClick,
   formLabelId,
+  buttonRef,
 }: ICommonButtonProps) {
   return (
     <button
@@ -25,6 +27,7 @@ export default function CommonButton({
       onClick={onClick}
       disabled={isDisabled}
       id={formLabelId}
+      ref={buttonRef}
     >
       {label}
     </button>

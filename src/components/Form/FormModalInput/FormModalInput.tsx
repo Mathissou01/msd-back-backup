@@ -27,6 +27,7 @@ interface IFormModalInputProps<T> {
   modalTitle: string;
   modalSubtitle?: string;
   isRequired?: boolean;
+  hasRequiredChildren?: "some" | "all" | null;
   isDisabled?: boolean;
   onValidate?: Validate<T>;
   onSubmit: (data: { [key: string]: Partial<T> }) => void;
@@ -44,6 +45,7 @@ export default function FormModalInput<T extends FieldValues>({
   modalTitle,
   modalSubtitle,
   isRequired = false,
+  hasRequiredChildren = null,
   isDisabled = false,
   onValidate,
   onSubmit,
@@ -52,9 +54,11 @@ export default function FormModalInput<T extends FieldValues>({
   formValidationMode,
 }: IFormModalInputProps<T>) {
   const childRef = useRef<CommonModalWrapperRef>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   /* Static Data */
-  const requiredLabel = "Tous les champs sont obligatoires";
+  const childrenRequiredAllLabel = "Tous les champs sont obligatoires";
+  const childrenRequiredSomeLabel = "* Champs obligatoires";
   const submitButtonLabel = "Enregistrer";
   const cancelButtonLabel = "Annuler";
   const errorMessages = {
@@ -73,6 +77,7 @@ export default function FormModalInput<T extends FieldValues>({
 
   function handleClose() {
     reset();
+    buttonRef.current?.focus();
   }
 
   function onLocalSubmitValid(data: { [name: string]: Partial<T> }) {
@@ -111,6 +116,7 @@ export default function FormModalInput<T extends FieldValues>({
             onClick={() => childRef.current?.toggleModal(true)}
             isDisabled={isSubmitting || isDisabled}
             formLabelId={`${name}_button`}
+            buttonRef={buttonRef}
           />
         </div>
         <ErrorMessage
@@ -137,9 +143,13 @@ export default function FormModalInput<T extends FieldValues>({
                   {modalSubtitle}
                 </div>
               )}
-              {isRequired && (
+              {hasRequiredChildren !== null && (
                 <div className="c-FormModalInput__ModalRequired">
-                  {requiredLabel}
+                  {hasRequiredChildren === "some"
+                    ? childrenRequiredSomeLabel
+                    : hasRequiredChildren === "all"
+                    ? childrenRequiredAllLabel
+                    : ""}
                 </div>
               )}
             </hgroup>

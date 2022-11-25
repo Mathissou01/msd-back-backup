@@ -6,7 +6,7 @@ Uses Apollo Client for GraphQL requests, mocking with graphql-codegen and graphq
 
 ## Config
 
-Copy the `.env.example` and rename the copy `.env`
+Copy the `.env.example` and rename the copy `.env`.
 
 Replace the example values with real values for your environment.
 

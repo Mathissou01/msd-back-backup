@@ -11,7 +11,8 @@ it("renders loading and loaded state", async () => {
     </MockedProvider>,
   );
 
-  expect(await screen.findByText("Loading...")).toBeInTheDocument();
+  expect(await screen.findByTestId("common-spinner")).toBeInTheDocument();
+  expect(await container).toMatchSnapshot();
   expect(await screen.findByText("Quiz et Astuces")).toBeInTheDocument();
   expect(await container).toMatchSnapshot();
 });

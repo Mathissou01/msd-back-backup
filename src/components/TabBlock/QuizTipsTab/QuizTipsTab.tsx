@@ -1,7 +1,13 @@
 import { format, parseJSON } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, { ReactNode, useCallback, useEffect, useState } from "react";
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   GetQuizAndTipsBlockDocument,
   QuizEntity,
@@ -18,6 +24,7 @@ import FormModalInput from "../../Form/FormModalInput/FormModalInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormMultiselect from "../../Form/FormMultiselect/FormMultiselect";
 import "./quiz-tips-tab.scss";
+import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 
 interface IQuizAndTipBlock {
   id: string;
@@ -99,7 +106,7 @@ export default function QuizTipsTab() {
     setValue("tips", tips, { shouldDirty: true });
   }
 
-  function onSubmitValid(submitData: FieldValues) {
+  async function onSubmitValid(submitData: FieldValues) {
     if (submitData["id"]) {
       const variables = {
         quizAndTipsBlockId: submitData["id"],
@@ -124,6 +131,9 @@ export default function QuizTipsTab() {
           "GetQuizAndTipsBlock",
         ],
       });
+      return new Promise<void>((resolve) => {
+        setTimeout(() => resolve(), 1000);
+      });
     }
   }
 
@@ -142,6 +152,7 @@ export default function QuizTipsTab() {
   ] = useUpdateQuizAndTipsBlockMutation();
 
   /* Local Data */
+  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [quizTipsData, setQuizTipsData] = useState<IQuizAndTipBlock>();
   const [quizzesData, setQuizzesData] = useState<Array<QuizEntity | null>>([]);
   const [tipsData, setTipsData] = useState<Array<TipEntity | null>>([]);
@@ -149,12 +160,8 @@ export default function QuizTipsTab() {
   const form = useForm({
     mode: formValidationMode,
   });
-  const {
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { isDirty },
-  } = form;
+  const { handleSubmit, setValue, watch, formState } = form;
+  const { isDirty, isSubmitting } = formState;
 
   useEffect(() => {
     if (data && data.contractCustomizations?.data && data.services?.data) {
@@ -181,6 +188,20 @@ export default function QuizTipsTab() {
     }
   }, [form, data]);
 
+  const spinnerTimerRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (isSubmitting) {
+      if (!isShowingSpinner) {
+        spinnerTimerRef.current = setTimeout(() => {
+          setIsShowingSpinner(true);
+        }, 200);
+      }
+    } else {
+      clearTimeout(spinnerTimerRef.current);
+      setIsShowingSpinner(false);
+    }
+  }, [isShowingSpinner, isSubmitting]);
+
   const focusRef = useCallback((node: HTMLFormElement) => {
     FocusFirstElement(node);
   }, []);
@@ -188,12 +209,13 @@ export default function QuizTipsTab() {
   {
     // TODO: spinner, layout shift, handle loading, handle error redirect,
   }
-  if (loading) return <span>Loading...</span>;
+  if (loading) return <CommonSpinner />;
   if (error) return <span>{error?.message}</span>;
   if (mutationError) return <span>{mutationError?.message}</span>;
 
   return (
-    <>
+    <div className="c-QuizTipsTab">
+      {isShowingSpinner && <CommonSpinner isCover={true} />}
       <h2 className="c-QuizTipsTab__Title">{quizTipsData?.blockTitle}</h2>
       <FormProvider {...form}>
         <form
@@ -202,11 +224,7 @@ export default function QuizTipsTab() {
           ref={focusRef}
         >
           <div className="c-QuizTipsTab__Group">
-            <FormCheckbox
-              name="displayBlock"
-              label={formLabels.displayBlock}
-              defaultChecked={true}
-            />
+            <FormCheckbox name="displayBlock" label={formLabels.displayBlock} />
             <FormInput
               type="text"
               name="blockTitle"
@@ -276,6 +294,6 @@ export default function QuizTipsTab() {
           </div>
         </form>
       </FormProvider>
-    </>
+    </div>
   );
 }

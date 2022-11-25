@@ -5,7 +5,11 @@ import { SchemaLink } from "@apollo/client/link/schema";
 import { addMocksToSchema } from "@graphql-tools/mock";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import schemaString from "src/graphql/codegen/schema.graphql";
-// import { Resolvers } from "./codegen/resolvers-types";
+import {
+  ComponentMsdEditorialMock,
+  GetServicesMock,
+} from "./queries/GetServices.mock";
+import { ContractCustomizationEntityResponseCollectionMock } from "./queries/GetQuizAndTipsBlock.mock";
 
 export default function getMockedClient(delay = 0) {
   const schema = makeExecutableSchema({
@@ -17,7 +21,14 @@ export default function getMockedClient(delay = 0) {
     Int: () => faker.datatype.number(),
     Float: () => faker.datatype.float(),
     String: () => faker.lorem.words(),
+    Date: () => faker.date.soon(10),
     DateTime: () => faker.date.soon(10),
+    Boolean: () => faker.datatype.boolean(),
+    // Queries
+    ServiceEntityResponseCollection: () => GetServicesMock,
+    ComponentMsdEditorial: () => ComponentMsdEditorialMock,
+    ContractCustomizationEntityResponseCollection: () =>
+      ContractCustomizationEntityResponseCollectionMock,
   };
   const preserveResolvers = true;
   const schemaWithMocks = addMocksToSchema({
@@ -25,7 +36,9 @@ export default function getMockedClient(delay = 0) {
     mocks,
     preserveResolvers,
   });
-  const schemaLink = new SchemaLink({ schema: schemaWithMocks });
+  const schemaLink = new SchemaLink({
+    schema: schemaWithMocks,
+  }) as unknown as ApolloLink;
 
   function timeout(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -39,6 +52,7 @@ export default function getMockedClient(delay = 0) {
   });
 
   return new ApolloClient({
+    link: mockDelayMiddleware.concat(schemaLink),
     cache: new InMemoryCache(),
     link: mockDelayMiddleware.concat(schemaLink),
   });

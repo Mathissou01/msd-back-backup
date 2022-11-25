@@ -14,6 +14,7 @@ import {
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import TabBlock, { Tab } from "../../../components/TabBlock/TabBlock";
 import QuizTipsTab from "../../../components/TabBlock/QuizTipsTab/QuizTipsTab";
+import CommonSpinner from "../../../components/Common/CommonSpinner/CommonSpinner";
 
 interface IEditorialServiceParameters {
   isServiceActivated: boolean;
@@ -50,27 +51,28 @@ export default function AccueilPage() {
       const service = extractServiceByTypename(
         servicesData,
         "ComponentMsdEditorial",
-      ) as ServiceEntity;
-      const editorialService = service.attributes
-        ?.serviceInstance[0] as ComponentMsdEditorial;
+      ) as ServiceEntity | null;
+      const editorialService = service?.attributes
+        ?.serviceInstance[0] as ComponentMsdEditorial | null;
       if (
-        editorialService.editorialServices &&
+        editorialService?.editorialServices &&
         editorialService.editorialServices?.data.length > 0
       ) {
         const quizSubService = extractEditoSubServiceByTypename(
           editorialService.editorialServices.data,
           "ComponentEditoQuizzesSubService",
         )?.attributes
-          ?.subServiceInstance?.[0] as ComponentEditoQuizzesSubService;
+          ?.subServiceInstance?.[0] as ComponentEditoQuizzesSubService | null;
         const tipSubService = extractEditoSubServiceByTypename(
           editorialService.editorialServices.data,
           "ComponentEditoTipsSubService",
-        )?.attributes?.subServiceInstance?.[0] as ComponentEditoTipsSubService;
+        )?.attributes
+          ?.subServiceInstance?.[0] as ComponentEditoTipsSubService | null;
 
         setEditorialServiceParameters({
-          isServiceActivated: !!service.attributes?.isActivated,
-          isQuizActivated: !!quizSubService.isActivated,
-          isTipsActivated: !!tipSubService.isActivated,
+          isServiceActivated: !!service?.attributes?.isActivated,
+          isQuizActivated: !!quizSubService?.isActivated,
+          isTipsActivated: !!tipSubService?.isActivated,
         });
       }
     }
@@ -148,6 +150,7 @@ export default function AccueilPage() {
         </ol>
       </nav>
       <PageTitle title={title} description={description} />
+      {loading && <CommonSpinner />}
       {!loading && tabs.length > 0 && (
         <TabBlock tabs={tabs} initialTabName={"quizAndTips"} />
       )}
