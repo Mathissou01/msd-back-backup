@@ -28,7 +28,6 @@ export default function RecyclingGuideTab() {
     subtitleContent: "Sous titre",
     recyclingGuideDisplayContent:
       "Texte affiché dans le moteur de recherche du guide du tri",
-    recyclingGuideDisplayContentPlaceholder: "Lampe, écran, épluchure...",
     submitButtonLabel: "Enregistrer les modifications",
     cancelButtonLabel: "Annuler les modifications",
   };
@@ -173,7 +172,6 @@ export default function RecyclingGuideTab() {
               isDisabled={mutationLoading}
               isRequired={true}
               maxLengthValidation={recyclingGuideDisplayContentMaxCharacters}
-              placeholder={formLabels.recyclingGuideDisplayContentPlaceholder}
               defaultValue={recyclingGuideData?.recyclingGuideDisplayContent}
             />
           </div>
