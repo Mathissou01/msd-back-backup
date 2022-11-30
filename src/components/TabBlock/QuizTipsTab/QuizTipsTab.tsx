@@ -23,8 +23,8 @@ import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormModalInput from "../../Form/FormModalInput/FormModalInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormMultiselect from "../../Form/FormMultiselect/FormMultiselect";
-import "./quiz-tips-tab.scss";
 import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
+import "./quiz-tips-tab.scss";
 
 interface IQuizAndTipBlock {
   id: string;
@@ -220,8 +220,8 @@ export default function QuizTipsTab() {
       <h2 className="c-QuizTipsTab__Title">{formLabels.title}</h2>
       <FormProvider {...form}>
         <form
-          onSubmit={handleSubmit(onSubmitValid)}
           className="c-QuizTipsTab__Form"
+          onSubmit={handleSubmit(onSubmitValid)}
           ref={focusRef}
         >
           <div className="c-QuizTipsTab__Group">

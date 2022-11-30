@@ -1,0 +1,24 @@
+query GetRecyclingGuideBlock($contractId: ID!) {
+  contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        homepage {
+          data {
+            attributes {
+              recyclingGuideBlock {
+                data {
+                  id
+                  attributes {
+                    titleContent
+                    subtitleContent
+                    recyclingGuideDisplayContent
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

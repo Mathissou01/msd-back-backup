@@ -10,12 +10,13 @@ exports[`renders 1`] = `
       class="c-FormLabel"
       for="form-modal-input_button"
     >
-      <span>
-        form modal input 
-      </span>
-      <span
-        class="c-FormLabel__Secondary"
-      />
+      <div
+        class="c-FormLabel__Label"
+      >
+        <span>
+          form modal input 
+        </span>
+      </div>
     </label>
     <input
       class="c-FormModalInput__Input"

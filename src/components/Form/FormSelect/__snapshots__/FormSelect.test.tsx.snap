@@ -9,14 +9,18 @@ exports[`renders 1`] = `
       class="c-FormLabel"
       for="form-select"
     >
-      <span>
-        form select 
-      </span>
-      <span
-        class="c-FormLabel__Secondary"
+      <div
+        class="c-FormLabel__Label"
       >
-        secondary label
-      </span>
+        <span>
+          form select 
+        </span>
+        <span
+          class="c-FormLabel__Secondary"
+        >
+          secondary label
+        </span>
+      </div>
     </label>
     <div
       class="o-SelectWrapper"

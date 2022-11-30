@@ -238,14 +238,9 @@ input ClientTypeInput {
 }
 
 type ComponentContentEdito {
-  activate: Boolean
-  freeContent(
-    filters: FreeContentFiltersInput
-    pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
-    sort: [String] = []
-  ): FreeContentRelationResponseCollection
+  freeContent: FreeContentEntityResponse
   id: ID!
+  isActivated: Boolean
   title: String
 }
 
@@ -257,12 +252,18 @@ type ComponentEditoEventSubService {
     sort: [String] = []
   ): EventRelationResponseCollection
   id: ID!
-  isActivated: Boolean
+  isActivated: Boolean!
+}
+
+type ComponentEditoFreeService {
+  id: ID!
+  isActivated: Boolean!
+  name: String
 }
 
 type ComponentEditoNewsSubService {
   id: ID!
-  isActivated: Boolean
+  isActivated: Boolean!
   news(
     filters: NewFiltersInput
     pagination: PaginationArg = {}
@@ -273,7 +274,7 @@ type ComponentEditoNewsSubService {
 
 type ComponentEditoQuizzesSubService {
   id: ID!
-  isActivated: Boolean
+  isActivated: Boolean!
   quizzes(
     filters: QuizFiltersInput
     pagination: PaginationArg = {}
@@ -284,7 +285,7 @@ type ComponentEditoQuizzesSubService {
 
 type ComponentEditoTipsSubService {
   id: ID!
-  isActivated: Boolean
+  isActivated: Boolean!
   tips(
     filters: TipFiltersInput
     pagination: PaginationArg = {}
@@ -296,6 +297,12 @@ type ComponentEditoTipsSubService {
 type ComponentMobileDescription {
   description_service: DescriptionServiceEntityResponse
   id: ID!
+}
+
+type ComponentMsdContactUs {
+  id: ID!
+  link: String
+  text: String
 }
 
 type ComponentMsdEditorial {
@@ -364,6 +371,7 @@ type Contract {
   contactClient: ClientEntityResponse
   contractCustomization: ContractCustomizationEntityResponse
   createdAt: DateTime
+  footer: FooterEntityResponse
   label: String!
   publishedAt: DateTime
   services(
@@ -385,6 +393,7 @@ type Contract {
 type ContractCustomization {
   contract: ContractEntityResponse
   createdAt: DateTime
+  footer: FooterEntityResponse
   homepage: HomepageEntityResponse
   publishedAt: DateTime
   updatedAt: DateTime
@@ -408,6 +417,7 @@ input ContractCustomizationFiltersInput {
   and: [ContractCustomizationFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
+  footer: FooterFiltersInput
   homepage: HomepageFiltersInput
   id: IDFilterInput
   not: ContractCustomizationFiltersInput
@@ -418,6 +428,7 @@ input ContractCustomizationFiltersInput {
 
 input ContractCustomizationInput {
   contract: ID
+  footer: ID
   homepage: ID
   publishedAt: DateTime
 }
@@ -444,6 +455,7 @@ input ContractFiltersInput {
   contactClient: ClientFiltersInput
   contractCustomization: ContractCustomizationFiltersInput
   createdAt: DateTimeFilterInput
+  footer: FooterFiltersInput
   id: IDFilterInput
   label: StringFilterInput
   not: ContractFiltersInput
@@ -462,6 +474,7 @@ input ContractInput {
   clientName: String
   contactClient: ID
   contractCustomization: ID
+  footer: ID
   label: String
   publishedAt: DateTime
   services: [ID]
@@ -623,6 +636,12 @@ type DocumentRelationResponseCollection {
   data: [DocumentEntity!]!
 }
 
+enum ENUM_FOOTER_ACCESSIBILITYLEVEL {
+  Non_conforme_moins_de_50
+  Partiellement_conforme_de_50_a_99
+  Totalement_conforme
+}
+
 type EditorialService {
   audienceTypes(
     filters: AudienceTypeFiltersInput
@@ -677,7 +696,7 @@ type EditorialServiceRelationResponseCollection {
 }
 
 union EditorialServiceSubServiceFreeInstanceDynamicZone =
-    ComponentContentEdito
+    ComponentEditoFreeService
   | Error
 
 scalar EditorialServiceSubServiceFreeInstanceDynamicZoneInput
@@ -843,6 +862,52 @@ input FloatFilterInput {
   startsWith: Float
 }
 
+type Footer {
+  AccessibilityLevel: ENUM_FOOTER_ACCESSIBILITYLEVEL
+  contract: ContractEntityResponse
+  contractCustomization: ContractCustomizationEntityResponse
+  createdAt: DateTime
+  legalContent: LegalContentEntityResponse
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type FooterEntity {
+  attributes: Footer
+  id: ID
+}
+
+type FooterEntityResponse {
+  data: FooterEntity
+}
+
+type FooterEntityResponseCollection {
+  data: [FooterEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input FooterFiltersInput {
+  AccessibilityLevel: StringFilterInput
+  and: [FooterFiltersInput]
+  contract: ContractFiltersInput
+  contractCustomization: ContractCustomizationFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  legalContent: LegalContentFiltersInput
+  not: FooterFiltersInput
+  or: [FooterFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input FooterInput {
+  AccessibilityLevel: ENUM_FOOTER_ACCESSIBILITYLEVEL
+  contract: ID
+  contractCustomization: ID
+  legalContent: ID
+  publishedAt: DateTime
+}
+
 type FreeContent {
   createdAt: DateTime
   publishedAt: DateTime
@@ -880,10 +945,6 @@ input FreeContentInput {
   title: String
 }
 
-type FreeContentRelationResponseCollection {
-  data: [FreeContentEntity!]!
-}
-
 union GenericMorph =
     AudienceType
   | ChannelType
@@ -892,10 +953,12 @@ union GenericMorph =
   | ClientType
   | ComponentContentEdito
   | ComponentEditoEventSubService
+  | ComponentEditoFreeService
   | ComponentEditoNewsSubService
   | ComponentEditoQuizzesSubService
   | ComponentEditoTipsSubService
   | ComponentMobileDescription
+  | ComponentMsdContactUs
   | ComponentMsdEditorial
   | ComponentMsdRecycling
   | ComponentMsdRequest
@@ -911,12 +974,14 @@ union GenericMorph =
   | EditorialService
   | Epci
   | Event
+  | Footer
   | FreeContent
   | Global
   | Home
   | Homepage
   | I18NLocale
   | KeyMetric
+  | LegalContent
   | New
   | Page
   | Profile
@@ -935,6 +1000,8 @@ union GenericMorph =
   | TimeEvent
   | TimeSlot
   | Tip
+  | TopContent
+  | TopContentBlock
   | UploadFile
   | UploadFolder
   | UsersPermissionsPermission
@@ -996,6 +1063,7 @@ type Homepage {
   quizAndTipsBlock: QuizAndTipsBlockEntityResponse
   recyclingGuideBlock: RecyclingGuideBlockEntityResponse
   servicesBlock: ServicesBlockEntityResponse
+  topContentBlock: TopContentBlockEntityResponse
   updatedAt: DateTime
 }
 
@@ -1024,6 +1092,7 @@ input HomepageFiltersInput {
   quizAndTipsBlock: QuizAndTipsBlockFiltersInput
   recyclingGuideBlock: RecyclingGuideBlockFiltersInput
   servicesBlock: ServicesBlockFiltersInput
+  topContentBlock: TopContentBlockFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -1033,6 +1102,7 @@ input HomepageInput {
   quizAndTipsBlock: ID
   recyclingGuideBlock: ID
   servicesBlock: ID
+  topContentBlock: ID
 }
 
 type I18NLocale {
@@ -1181,6 +1251,52 @@ input KeyMetricInput {
   title: String
 }
 
+type LegalContent {
+  GCULink: String
+  accessibilityLink: String
+  confidentiality: String
+  cookiesPolicy: String
+  createdAt: DateTime
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type LegalContentEntity {
+  attributes: LegalContent
+  id: ID
+}
+
+type LegalContentEntityResponse {
+  data: LegalContentEntity
+}
+
+type LegalContentEntityResponseCollection {
+  data: [LegalContentEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input LegalContentFiltersInput {
+  GCULink: StringFilterInput
+  accessibilityLink: StringFilterInput
+  and: [LegalContentFiltersInput]
+  confidentiality: StringFilterInput
+  cookiesPolicy: StringFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: LegalContentFiltersInput
+  or: [LegalContentFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input LegalContentInput {
+  GCULink: String
+  accessibilityLink: String
+  confidentiality: String
+  cookiesPolicy: String
+  publishedAt: DateTime
+}
+
 """
 The `BigInt` scalar type represents non-fractional signed whole numeric values.
 """
@@ -1235,11 +1351,14 @@ type Mutation {
   createEditorialService(
     data: EditorialServiceInput!
   ): EditorialServiceEntityResponse
+  createEmptyContract(name: String): ContractPayload
   createEpci(data: EpciInput!): EpciEntityResponse
   createEvent(data: EventInput!): EventEntityResponse
+  createFooter(data: FooterInput!): FooterEntityResponse
   createFreeContent(data: FreeContentInput!): FreeContentEntityResponse
   createHomepage(data: HomepageInput!): HomepageEntityResponse
   createKeyMetric(data: KeyMetricInput!): KeyMetricEntityResponse
+  createLegalContent(data: LegalContentInput!): LegalContentEntityResponse
   createNew(data: NewInput!): NewEntityResponse
   createPage(data: PageInput!): PageEntityResponse
   createProfile(data: ProfileInput!): ProfileEntityResponse
@@ -1254,6 +1373,11 @@ type Mutation {
     data: RecyclingGuideServiceInput!
   ): RecyclingGuideServiceEntityResponse
   createRequestService(data: RequestServiceInput!): RequestServiceEntityResponse
+  createRequestServiceForContract(
+    contractId: ID
+    endDate: Date
+    startDate: Date
+  ): RequestServicePayload
   createService(data: ServiceInput!): ServiceEntityResponse
   createServicesBlock(data: ServicesBlockInput!): ServicesBlockEntityResponse
   createServicesBlockLink(
@@ -1266,6 +1390,10 @@ type Mutation {
   createTimeEvent(data: TimeEventInput!): TimeEventEntityResponse
   createTimeSlot(data: TimeSlotInput!): TimeSlotEntityResponse
   createTip(data: TipInput!): TipEntityResponse
+  createTopContent(data: TopContentInput!): TopContentEntityResponse
+  createTopContentBlock(
+    data: TopContentBlockInput!
+  ): TopContentBlockEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
 
@@ -1294,11 +1422,13 @@ type Mutation {
   deleteEditorialService(id: ID!): EditorialServiceEntityResponse
   deleteEpci(id: ID!): EpciEntityResponse
   deleteEvent(id: ID!): EventEntityResponse
+  deleteFooter(id: ID!): FooterEntityResponse
   deleteFreeContent(id: ID!): FreeContentEntityResponse
   deleteGlobal: GlobalEntityResponse
   deleteHome: HomeEntityResponse
   deleteHomepage(id: ID!): HomepageEntityResponse
   deleteKeyMetric(id: ID!): KeyMetricEntityResponse
+  deleteLegalContent(id: ID!): LegalContentEntityResponse
   deleteNew(id: ID!): NewEntityResponse
   deletePage(id: ID!): PageEntityResponse
   deleteProfile(id: ID!): ProfileEntityResponse
@@ -1317,6 +1447,8 @@ type Mutation {
   deleteTimeEvent(id: ID!): TimeEventEntityResponse
   deleteTimeSlot(id: ID!): TimeSlotEntityResponse
   deleteTip(id: ID!): TipEntityResponse
+  deleteTopContent(id: ID!): TopContentEntityResponse
+  deleteTopContentBlock(id: ID!): TopContentBlockEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
 
@@ -1386,11 +1518,16 @@ type Mutation {
   updateEpci(data: EpciInput!, id: ID!): EpciEntityResponse
   updateEvent(data: EventInput!, id: ID!): EventEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
+  updateFooter(data: FooterInput!, id: ID!): FooterEntityResponse
   updateFreeContent(data: FreeContentInput!, id: ID!): FreeContentEntityResponse
   updateGlobal(data: GlobalInput!): GlobalEntityResponse
   updateHome(data: HomeInput!): HomeEntityResponse
   updateHomepage(data: HomepageInput!, id: ID!): HomepageEntityResponse
   updateKeyMetric(data: KeyMetricInput!, id: ID!): KeyMetricEntityResponse
+  updateLegalContent(
+    data: LegalContentInput!
+    id: ID!
+  ): LegalContentEntityResponse
   updateNew(data: NewInput!, id: ID!): NewEntityResponse
   updatePage(data: PageInput!, id: ID!): PageEntityResponse
   updateProfile(data: ProfileInput!, id: ID!): ProfileEntityResponse
@@ -1430,6 +1567,11 @@ type Mutation {
   updateTimeEvent(data: TimeEventInput!, id: ID!): TimeEventEntityResponse
   updateTimeSlot(data: TimeSlotInput!, id: ID!): TimeSlotEntityResponse
   updateTip(data: TipInput!, id: ID!): TipEntityResponse
+  updateTopContent(data: TopContentInput!, id: ID!): TopContentEntityResponse
+  updateTopContentBlock(
+    data: TopContentBlockInput!
+    id: ID!
+  ): TopContentBlockEntityResponse
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
   updateUploadFolder(
     data: UploadFolderInput!
@@ -1670,7 +1812,6 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): ContractEntityResponseCollection
-  createEmptyContract(name: String): ContractPayload
   descriptionService(id: ID): DescriptionServiceEntityResponse
   descriptionServices(
     filters: DescriptionServiceFiltersInput
@@ -1706,6 +1847,13 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): EventEntityResponseCollection
+  footer(id: ID): FooterEntityResponse
+  footers(
+    filters: FooterFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): FooterEntityResponseCollection
   freeContent(id: ID): FreeContentEntityResponse
   freeContents(
     filters: FreeContentFiltersInput
@@ -1713,8 +1861,6 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): FreeContentEntityResponseCollection
-  getRecyclingGuideBlock(contractId: ID!): RecyclingGuideBlock
-  getServicesBlock(contractId: ID!): ServicesBlock
   global: GlobalEntityResponse
   home(publicationState: PublicationState = LIVE): HomeEntityResponse
   homepage(id: ID): HomepageEntityResponse
@@ -1737,6 +1883,13 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): KeyMetricEntityResponseCollection
+  legalContent(id: ID): LegalContentEntityResponse
+  legalContents(
+    filters: LegalContentFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): LegalContentEntityResponseCollection
   me: UsersPermissionsMe
   new(id: ID): NewEntityResponse
   news(
@@ -1815,9 +1968,6 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): ServicesBlockEntityResponseCollection
-  shouldDisplayRecyclingGuideBlock(
-    contractId: ID!
-  ): [RecyclingBlockGuideHomepageDisplay]
   tag(id: ID): TagEntityResponse
   tags(
     filters: TagFiltersInput
@@ -1867,6 +2017,20 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): TipEntityResponseCollection
+  topContent(id: ID): TopContentEntityResponse
+  topContentBlock(id: ID): TopContentBlockEntityResponse
+  topContentBlocks(
+    filters: TopContentBlockFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): TopContentBlockEntityResponseCollection
+  topContents(
+    filters: TopContentFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): TopContentEntityResponseCollection
   uploadFile(id: ID): UploadFileEntityResponse
   uploadFiles(
     filters: UploadFileFiltersInput
@@ -1995,10 +2159,6 @@ input QuizInput {
 
 type QuizRelationResponseCollection {
   data: [QuizEntity!]!
-}
-
-type RecyclingBlockGuideHomepageDisplay {
-  activateRecylingGuide: Boolean!
 }
 
 type RecyclingGuideBlock {
@@ -2140,6 +2300,10 @@ input RequestServiceInput {
   service: ID
 }
 
+type RequestServicePayload {
+  serviceId: ID
+}
+
 type ResponseCollectionMeta {
   pagination: Pagination!
 }
@@ -2152,15 +2316,12 @@ type Service {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): CityRelationResponseCollection
-  color: String
   contract: ContractEntityResponse
   createdAt: DateTime
   endDate: Date!
   isActivated: Boolean!
-  logo: UploadFileEntityResponse
-  name: String
   publishedAt: DateTime
-  serviceInstance: [ServiceServiceInstanceDynamicZone]!
+  serviceInstance: [ServiceServiceInstanceDynamicZone]
   startDate: Date!
   updatedAt: DateTime
 }
@@ -2183,13 +2344,11 @@ input ServiceFiltersInput {
   and: [ServiceFiltersInput]
   channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
-  color: StringFilterInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   endDate: DateFilterInput
   id: IDFilterInput
   isActivated: BooleanFilterInput
-  name: StringFilterInput
   not: ServiceFiltersInput
   or: [ServiceFiltersInput]
   publishedAt: DateTimeFilterInput
@@ -2200,12 +2359,9 @@ input ServiceFiltersInput {
 input ServiceInput {
   channelType: ID
   cities: [ID]
-  color: String
   contract: ID
   endDate: Date
   isActivated: Boolean
-  logo: ID
-  name: String
   publishedAt: DateTime
   serviceInstance: [ServiceServiceInstanceDynamicZoneInput!]
   startDate: Date
@@ -2216,7 +2372,8 @@ type ServiceRelationResponseCollection {
 }
 
 union ServiceServiceInstanceDynamicZone =
-    ComponentMsdEditorial
+    ComponentMsdContactUs
+  | ComponentMsdEditorial
   | ComponentMsdRecycling
   | ComponentMsdRequest
   | Error
@@ -2233,7 +2390,7 @@ type ServicesBlock {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): ServicesBlockLinkRelationResponseCollection
-  title: String!
+  titleContent: String!
   updatedAt: DateTime
 }
 
@@ -2260,7 +2417,7 @@ input ServicesBlockFiltersInput {
   or: [ServicesBlockFiltersInput]
   publishedAt: DateTimeFilterInput
   servicesBlockLinks: ServicesBlockLinkFiltersInput
-  title: StringFilterInput
+  titleContent: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -2268,16 +2425,16 @@ input ServicesBlockInput {
   homepage: ID
   publishedAt: DateTime
   servicesBlockLinks: [ID]
-  title: String
+  titleContent: String
 }
 
 type ServicesBlockLink {
   contract: ContractEntityResponse
   createdAt: DateTime
-  isDisplay: Boolean
+  isDisplay: Boolean!
   link: String
   name: String
-  order: Int!
+  order: Int
   picto: UploadFileEntityResponse
   publishedAt: DateTime
   service: ServiceEntityResponse
@@ -2689,6 +2846,98 @@ input TipInput {
 
 type TipRelationResponseCollection {
   data: [TipEntity!]!
+}
+
+type TopContent {
+  createdAt: DateTime
+  event: EventEntityResponse
+  news: NewEntityResponse
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type TopContentBlock {
+  createdAt: DateTime
+  displayBlock: Boolean
+  displayLastThreeContents: Boolean
+  hasTopContent: Boolean
+  homepage: HomepageEntityResponse
+  publishedAt: DateTime
+  titleContent: String!
+  topContent: TopContentEntityResponse
+  updatedAt: DateTime
+}
+
+type TopContentBlockEntity {
+  attributes: TopContentBlock
+  id: ID
+}
+
+type TopContentBlockEntityResponse {
+  data: TopContentBlockEntity
+}
+
+type TopContentBlockEntityResponseCollection {
+  data: [TopContentBlockEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input TopContentBlockFiltersInput {
+  and: [TopContentBlockFiltersInput]
+  createdAt: DateTimeFilterInput
+  displayBlock: BooleanFilterInput
+  displayLastThreeContents: BooleanFilterInput
+  hasTopContent: BooleanFilterInput
+  homepage: HomepageFiltersInput
+  id: IDFilterInput
+  not: TopContentBlockFiltersInput
+  or: [TopContentBlockFiltersInput]
+  publishedAt: DateTimeFilterInput
+  titleContent: StringFilterInput
+  topContent: TopContentFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input TopContentBlockInput {
+  displayBlock: Boolean
+  displayLastThreeContents: Boolean
+  hasTopContent: Boolean
+  homepage: ID
+  publishedAt: DateTime
+  titleContent: String
+  topContent: ID
+}
+
+type TopContentEntity {
+  attributes: TopContent
+  id: ID
+}
+
+type TopContentEntityResponse {
+  data: TopContentEntity
+}
+
+type TopContentEntityResponseCollection {
+  data: [TopContentEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input TopContentFiltersInput {
+  and: [TopContentFiltersInput]
+  createdAt: DateTimeFilterInput
+  event: EventFiltersInput
+  id: IDFilterInput
+  news: NewFiltersInput
+  not: TopContentFiltersInput
+  or: [TopContentFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input TopContentInput {
+  event: ID
+  news: ID
+  publishedAt: DateTime
 }
 
 """

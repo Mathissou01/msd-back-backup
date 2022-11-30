@@ -9,13 +9,22 @@ exports[`renders 1`] = `
       class="c-FormLabel"
       for="form-input"
     >
-      <span>
-        form input 
-      </span>
-      <span
-        class="c-FormLabel__Secondary"
+      <div
+        class="c-FormLabel__Label"
       >
-        secondary label
+        <span>
+          form input 
+        </span>
+        <span
+          class="c-FormLabel__Secondary"
+        >
+          secondary label
+        </span>
+      </div>
+      <span
+        class="c-FormLabel__Validation"
+      >
+        validation label
       </span>
     </label>
     <input

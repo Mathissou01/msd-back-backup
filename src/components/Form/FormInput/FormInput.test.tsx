@@ -7,6 +7,7 @@ const mock = {
   name: "form-input",
   label: "form input",
   secondaryLabel: "secondary label",
+  validationLabel: "validation label",
 };
 
 const Wrapper = (props: { children: ReactNode }) => {
@@ -26,6 +27,7 @@ it("renders", () => {
         name={mock.name}
         label={mock.label}
         secondaryLabel={mock.secondaryLabel}
+        validationLabel={mock.validationLabel}
         isDisabled={false}
       />
     </Wrapper>,
@@ -47,6 +49,7 @@ it("can be disabled", () => {
         name={mock.name}
         label={mock.label}
         secondaryLabel={mock.secondaryLabel}
+        validationLabel={mock.validationLabel}
         isDisabled={true}
       />
     </Wrapper>,

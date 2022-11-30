@@ -3,17 +3,32 @@
 .c-FormLabel {
   display: flex;
   flex-direction: row;
-  gap: 8px;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 2px;
   color: colors.$blue-2;
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
 
-  &__Secondary {
+  &__Label {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  &__Secondary,
+  &__Validation {
     color: colors.$gray-600;
-    font-weight: 350;
     font-family: DINPro-Regular, serif;
+  }
+
+  &__Secondary {
+    font-weight: 350;
+  }
+
+  &__Validation {
+    font-weight: 400;
+    font-size: 12px;
   }
 }

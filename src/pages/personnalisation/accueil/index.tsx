@@ -1,5 +1,5 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import {
   ComponentEditoQuizzesSubService,
   ComponentEditoTipsSubService,
@@ -14,12 +14,14 @@ import {
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import TabBlock, { Tab } from "../../../components/TabBlock/TabBlock";
 import QuizTipsTab from "../../../components/TabBlock/QuizTipsTab/QuizTipsTab";
+import RecyclingGuideTab from "../../../components/TabBlock/RecyclingGuideTab/RecyclingGuideTab";
 import CommonSpinner from "../../../components/Common/CommonSpinner/CommonSpinner";
 
-interface IEditorialServiceParameters {
-  isServiceActivated: boolean;
+interface IServiceParameters {
+  isServiceEditorialActivated: boolean;
   isQuizActivated: boolean;
   isTipsActivated: boolean;
+  isServiceRecyclingGuideActivated: boolean;
 }
 
 export default function AccueilPage() {
@@ -35,48 +37,58 @@ export default function AccueilPage() {
   });
 
   /* Local Data */
-  const [servicesData, setServicesData] = useState<Array<ServiceEntity>>([]);
-  const [editorialServiceParameters, setEditorialServiceParameters] =
-    useState<IEditorialServiceParameters>();
+  const [serviceParameters, setServiceParameters] =
+    useState<IServiceParameters>();
   const [tabs, setTabs] = useState<Array<Tab>>([]);
 
   useEffect(() => {
     if (data && data.services?.data) {
-      setServicesData(data.services?.data as Array<ServiceEntity>);
-    }
-  }, [data]);
+      const servicesData = data.services?.data as Array<ServiceEntity>;
+      if (data && data.services?.data) {
+        let recyclingGuideService: ServiceEntity | null = null;
+        let serviceEditorials: ServiceEntity | null = null;
+        let quizSubService: ComponentEditoQuizzesSubService | null = null;
+        let tipSubService: ComponentEditoTipsSubService | null = null;
 
-  useEffect(() => {
-    if (servicesData.length > 0) {
-      const service = extractServiceByTypename(
-        servicesData,
-        "ComponentMsdEditorial",
-      ) as ServiceEntity | null;
-      const editorialService = service?.attributes
-        ?.serviceInstance[0] as ComponentMsdEditorial | null;
-      if (
-        editorialService?.editorialServices &&
-        editorialService.editorialServices?.data.length > 0
-      ) {
-        const quizSubService = extractEditoSubServiceByTypename(
-          editorialService.editorialServices.data,
-          "ComponentEditoQuizzesSubService",
-        )?.attributes
-          ?.subServiceInstance?.[0] as ComponentEditoQuizzesSubService | null;
-        const tipSubService = extractEditoSubServiceByTypename(
-          editorialService.editorialServices.data,
-          "ComponentEditoTipsSubService",
-        )?.attributes
-          ?.subServiceInstance?.[0] as ComponentEditoTipsSubService | null;
+        recyclingGuideService = extractServiceByTypename(
+          servicesData,
+          "ComponentMsdRecycling",
+        ) as ServiceEntity | null;
 
-        setEditorialServiceParameters({
-          isServiceActivated: !!service?.attributes?.isActivated,
+        serviceEditorials = extractServiceByTypename(
+          servicesData,
+          "ComponentMsdEditorial",
+        ) as ServiceEntity | null;
+        const editorialService = serviceEditorials?.attributes
+          ?.serviceInstance?.[0] as ComponentMsdEditorial | null;
+        if (
+          editorialService?.editorialServices &&
+          editorialService.editorialServices?.data.length > 0
+        ) {
+          quizSubService = extractEditoSubServiceByTypename(
+            editorialService.editorialServices.data,
+            "ComponentEditoQuizzesSubService",
+          )?.attributes
+            ?.subServiceInstance?.[0] as ComponentEditoQuizzesSubService | null;
+
+          tipSubService = extractEditoSubServiceByTypename(
+            editorialService.editorialServices.data,
+            "ComponentEditoTipsSubService",
+          )?.attributes
+            ?.subServiceInstance?.[0] as ComponentEditoTipsSubService | null;
+        }
+
+        setServiceParameters({
+          isServiceEditorialActivated:
+            !!serviceEditorials?.attributes?.isActivated,
           isQuizActivated: !!quizSubService?.isActivated,
           isTipsActivated: !!tipSubService?.isActivated,
+          isServiceRecyclingGuideActivated:
+            !!recyclingGuideService?.attributes?.isActivated,
         });
       }
     }
-  }, [servicesData]);
+  }, [data]);
 
   useEffect(() => {
     const tabs = [
@@ -89,8 +101,8 @@ export default function AccueilPage() {
       {
         name: "RecyclingGuide",
         title: "Guide du Tri",
-        content: <div />,
-        isEnabled: true,
+        content: <RecyclingGuideTab />,
+        isEnabled: !!serviceParameters?.isServiceRecyclingGuideActivated,
       },
       {
         name: "services",
@@ -115,9 +127,9 @@ export default function AccueilPage() {
         title: "Quiz & Astuces",
         content: <QuizTipsTab />,
         isEnabled:
-          !!editorialServiceParameters?.isServiceActivated &&
-          !!editorialServiceParameters?.isQuizActivated &&
-          !!editorialServiceParameters?.isTipsActivated,
+          !!serviceParameters?.isServiceEditorialActivated &&
+          !!serviceParameters?.isQuizActivated &&
+          !!serviceParameters?.isTipsActivated,
       },
       {
         name: "editoBlock",
@@ -127,32 +139,16 @@ export default function AccueilPage() {
       },
     ];
     setTabs(tabs);
-  }, [editorialServiceParameters]);
+  }, [serviceParameters]);
 
   if (error) return <span>{`Error ! ${error?.message}`}</span>;
 
   return (
     <>
-      {
-        // TODO: Move breadcrumbs to separate component
-      }
-      <nav className="o-Breadcrumbs" data-testid="breadcrumbs">
-        <ol>
-          <li>
-            <Link href={"/"}>{"Accueil"}</Link>
-          </li>
-          <li>
-            <Link href={"/"}>{"Personnalisation"}</Link>
-          </li>
-          <li>
-            <Link href={"/"}>{"Page d'accueil"}</Link>
-          </li>
-        </ol>
-      </nav>
       <PageTitle title={title} description={description} />
       {loading && <CommonSpinner />}
       {!loading && tabs.length > 0 && (
-        <TabBlock tabs={tabs} initialTabName={"quizAndTips"} />
+        <TabBlock tabs={tabs} initialTabName={"RecyclingGuide"} />
       )}
     </>
   );

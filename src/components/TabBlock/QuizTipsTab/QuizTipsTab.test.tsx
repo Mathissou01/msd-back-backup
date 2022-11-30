@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import React from "react";
-import { defaultMockData } from "./__mocks__/mockData";
+import { defaultMockData } from "../../../../__mocks__/quizTipsTabMockData";
 import QuizTipsTab from "./QuizTipsTab";
 
 it("renders loading and loaded state", async () => {
@@ -14,9 +14,7 @@ it("renders loading and loaded state", async () => {
   expect(await screen.findByTestId("common-spinner")).toBeInTheDocument();
   expect(await container).toMatchSnapshot();
   expect(await screen.findByText("Nom du quiz")).toBeInTheDocument();
-  const input = await screen.findByLabelText("Titre du bloc *");
-  expect(await input).toBeInTheDocument();
-  expect(await input).toHaveValue("Titre modifié");
+  expect(await screen.findByDisplayValue("Titre modifié")).toBeInTheDocument();
   expect(await container).toMatchSnapshot();
 });
 

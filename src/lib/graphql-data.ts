@@ -8,13 +8,15 @@ import {
   ComponentEditoQuizzesSubService,
   ComponentEditoTipsSubService,
   EditorialServiceEntity,
+  GetRecyclingGuideBlockQuery,
+  RecyclingGuideBlockEntity,
 } from "../graphql/codegen/generated-types";
 
 /* Homepage */
 
 export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockQuery) {
   const quizAndTipsBlock: QuizAndTipsBlockEntity | null =
-    data.contractCustomizations?.data[0].attributes?.homepage?.data?.attributes
+    data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.quizAndTipsBlock?.data ?? null;
   const quizzes: Array<QuizEntity> | null =
     extractQuizzes(data.services?.data as ServiceEntity[]) ?? null;
@@ -24,16 +26,25 @@ export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockQuery) {
   return { quizAndTipsBlock, quizzes, tips };
 }
 
+export function extractRecyclingGuideBlock(data: GetRecyclingGuideBlockQuery) {
+  const recyclingGuideBlock: RecyclingGuideBlockEntity | null =
+    data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
+      ?.recyclingGuideBlock?.data ?? null;
+
+  return { recyclingGuideBlock };
+}
+
 /** Services **/
 
 /* Editorial Service */
 export function extractServiceByTypename(
   services: Array<ServiceEntity>,
-  typename: "ComponentMsdEditorial",
+  typename: "ComponentMsdEditorial" | "ComponentMsdRecycling",
 ): ServiceEntity | null {
   const service = services?.find(
     (service) =>
-      service.attributes?.serviceInstance[0]?.__typename === typename ?? false,
+      service.attributes?.serviceInstance?.[0]?.__typename === typename ??
+      false,
   );
   return service ?? null;
 }
@@ -57,7 +68,7 @@ export function extractQuizzes(
 ): Array<QuizEntity> | null {
   if (!services) return null;
   const service = extractServiceByTypename(services, "ComponentMsdEditorial")
-    ?.attributes?.serviceInstance[0] as ComponentMsdEditorial;
+    ?.attributes?.serviceInstance?.[0] as ComponentMsdEditorial;
 
   const quizEditorialService = service.editorialServices?.data.find(
     (editorialService) => {
@@ -81,7 +92,7 @@ export function extractTips(
 ): Array<TipEntity> | null {
   if (!services) return null;
   const service = extractServiceByTypename(services, "ComponentMsdEditorial")
-    ?.attributes?.serviceInstance[0] as ComponentMsdEditorial;
+    ?.attributes?.serviceInstance?.[0] as ComponentMsdEditorial;
 
   const tipsEditorialService = service.editorialServices?.data.find(
     (editorialService) => {

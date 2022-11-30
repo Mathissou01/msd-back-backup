@@ -1,4 +1,4 @@
-import { GetQuizAndTipsBlockDocument } from "../../../../graphql/codegen/generated-types";
+import { GetQuizAndTipsBlockDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {

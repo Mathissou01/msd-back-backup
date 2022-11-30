@@ -10,12 +10,13 @@ exports[`renders 1`] = `
         class="c-FormLabel"
         for="form-multiselect_0"
       >
-        <span>
-          form multiselect n°1 
-        </span>
-        <span
-          class="c-FormLabel__Secondary"
-        />
+        <div
+          class="c-FormLabel__Label"
+        >
+          <span>
+            form multiselect n°1 
+          </span>
+        </div>
       </label>
       <div
         class="o-SelectWrapper"
@@ -51,12 +52,13 @@ exports[`renders 1`] = `
         class="c-FormLabel"
         for="form-multiselect_1"
       >
-        <span>
-          form multiselect n°2 
-        </span>
-        <span
-          class="c-FormLabel__Secondary"
-        />
+        <div
+          class="c-FormLabel__Label"
+        >
+          <span>
+            form multiselect n°2 
+          </span>
+        </div>
       </label>
       <div
         class="o-SelectWrapper"

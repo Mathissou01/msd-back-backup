@@ -7,7 +7,6 @@ export const ComponentEditoQuizzesSubServiceMock = {
   __typename: "ComponentEditoQuizzesSubService",
   isActivated: true,
 };
-
 export const ComponentMsdEditorialMock = {
   __typename: "ComponentMsdEditorial",
   id: "4",
@@ -27,18 +26,4 @@ export const ComponentMsdEditorialMock = {
       },
     ],
   },
-};
-
-export const GetServicesMock = {
-  __typename: "ServiceEntityResponseCollection",
-  data: [
-    {
-      attributes: {
-        isActivated: true,
-        startDate: () => "2022-01-01",
-        endDate: () => "2025-01-01",
-        serviceInstance: [...new Array(ComponentMsdEditorialMock)],
-      },
-    },
-  ],
 };

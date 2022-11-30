@@ -6,6 +6,7 @@ const mock = {
   name: "form-label",
   label: "form label",
   secondaryLabel: "secondary label",
+  validationLabel: "validation label",
 };
 
 it("renders", () => {
@@ -13,6 +14,7 @@ it("renders", () => {
     <FormLabel
       label={mock.label}
       secondaryLabel={mock.secondaryLabel}
+      validationLabel={mock.validationLabel}
       forId={mock.name}
       isRequired={false}
     />,

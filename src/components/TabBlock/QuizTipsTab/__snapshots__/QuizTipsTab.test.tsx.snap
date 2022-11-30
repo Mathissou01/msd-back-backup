@@ -48,12 +48,13 @@ exports[`renders loading and loaded state 2`] = `
             class="c-FormLabel"
             for="displayBlock"
           >
-            <span>
-              Afficher ce bloc 
-            </span>
-            <span
-              class="c-FormLabel__Secondary"
-            />
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Afficher ce bloc 
+              </span>
+            </div>
           </label>
         </div>
         <div
@@ -63,12 +64,13 @@ exports[`renders loading and loaded state 2`] = `
             class="c-FormLabel"
             for="blockTitle"
           >
-            <span>
-              Titre du bloc *
-            </span>
-            <span
-              class="c-FormLabel__Secondary"
-            />
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Titre du bloc *
+              </span>
+            </div>
           </label>
           <input
             aria-errormessage="blockTitle_error"
@@ -99,12 +101,13 @@ exports[`renders loading and loaded state 2`] = `
             class="c-FormLabel"
             for="displayQuiz"
           >
-            <span>
-              Afficher un quiz 
-            </span>
-            <span
-              class="c-FormLabel__Secondary"
-            />
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Afficher un quiz 
+              </span>
+            </div>
           </label>
         </div>
         <div
@@ -115,12 +118,13 @@ exports[`renders loading and loaded state 2`] = `
             class="c-FormLabel"
             for="quiz_button"
           >
-            <span>
-              Quiz à afficher 
-            </span>
-            <span
-              class="c-FormLabel__Secondary"
-            />
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Quiz à afficher 
+              </span>
+            </div>
           </label>
           <input
             class="c-FormModalInput__Input"
@@ -163,12 +167,13 @@ exports[`renders loading and loaded state 2`] = `
             class="c-FormLabel"
             for="displayTips"
           >
-            <span>
-              Afficher des astuces 
-            </span>
-            <span
-              class="c-FormLabel__Secondary"
-            />
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Afficher des astuces 
+              </span>
+            </div>
           </label>
         </div>
         <div
@@ -179,12 +184,13 @@ exports[`renders loading and loaded state 2`] = `
             class="c-FormLabel"
             for="tips_button"
           >
-            <span>
-              Astuces à afficher 
-            </span>
-            <span
-              class="c-FormLabel__Secondary"
-            />
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Astuces à afficher 
+              </span>
+            </div>
           </label>
           <input
             class="c-FormModalInput__Input"

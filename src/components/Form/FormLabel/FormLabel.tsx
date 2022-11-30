@@ -4,6 +4,7 @@ import "./form-label.scss";
 interface IFormLabelProps {
   label: string;
   secondaryLabel?: string;
+  validationLabel?: string;
   forId?: string;
   tagType?: "label" | "legend";
   isRequired?: boolean;
@@ -12,6 +13,7 @@ interface IFormLabelProps {
 export default function FormLabel({
   label,
   secondaryLabel,
+  validationLabel,
   forId,
   tagType = "label",
   isRequired = false,
@@ -20,8 +22,15 @@ export default function FormLabel({
 
   return (
     <Tag className="c-FormLabel" htmlFor={forId}>
-      <span>{`${label} ${isRequired ? "*" : ""}`}</span>
-      <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
+      <div className="c-FormLabel__Label">
+        <span>{`${label} ${isRequired ? "*" : ""}`}</span>
+        {secondaryLabel && (
+          <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
+        )}
+      </div>
+      {validationLabel && (
+        <span className="c-FormLabel__Validation">{validationLabel}</span>
+      )}
     </Tag>
   );
 }

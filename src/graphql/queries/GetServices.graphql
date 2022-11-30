@@ -25,6 +25,9 @@ query GetServices($contractId: ID!) {
               }
             }
           }
+          ... on ComponentMsdRecycling {
+            __typename
+          }
         }
       }
     }

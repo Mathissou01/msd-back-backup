@@ -12,6 +12,12 @@ export const ContractCustomizationEntityResponseCollectionMock = {
                   // random
                 },
               },
+              recyclingGuideBlock: {
+                data: {
+                  id: "1",
+                  // random
+                },
+              },
             },
           },
         },

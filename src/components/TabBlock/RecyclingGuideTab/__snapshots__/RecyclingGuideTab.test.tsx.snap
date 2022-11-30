@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders loading and loaded state 1`] = `
+<div>
+  <div
+    class="c-CommonSpinner__Wrapper "
+  >
+    <div
+      class="c-CommonSpinner"
+      data-testid="common-spinner"
+    >
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders loading and loaded state 2`] = `
+<div>
+  <div
+    class="c-RecyclingGuideTab"
+  >
+    <h2
+      class="c-RecyclingGuideTab__Title"
+    >
+      Guide du tri
+    </h2>
+    <form
+      class="c-RecyclingGuideTab__Form"
+    >
+      <div
+        class="c-RecyclingGuideTab__Group"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <label
+            class="c-FormLabel"
+            for="titleContent"
+          >
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Titre *
+              </span>
+            </div>
+            <span
+              class="c-FormLabel__Validation"
+            >
+              60 caractères maximum
+            </span>
+          </label>
+          <input
+            aria-errormessage="titleContent_error"
+            aria-invalid="false"
+            class="c-FormInput__Input "
+            data-testid="form-input"
+            id="titleContent"
+            maxlength="60"
+            name="titleContent"
+            type="text"
+            value="Titre modifié"
+          />
+        </div>
+      </div>
+      <div
+        class="c-RecyclingGuideTab__Group"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <label
+            class="c-FormLabel"
+            for="subtitleContent"
+          >
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Sous titre *
+              </span>
+            </div>
+            <span
+              class="c-FormLabel__Validation"
+            >
+              60 caractères maximum
+            </span>
+          </label>
+          <input
+            aria-errormessage="subtitleContent_error"
+            aria-invalid="false"
+            class="c-FormInput__Input "
+            data-testid="form-input"
+            id="subtitleContent"
+            maxlength="60"
+            name="subtitleContent"
+            type="text"
+            value="Trouver les consignes de tri dans ma ville"
+          />
+        </div>
+      </div>
+      <div
+        class="c-RecyclingGuideTab__Group"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <label
+            class="c-FormLabel"
+            for="recyclingGuideDisplayContent"
+          >
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Texte affiché dans le moteur de recherche du guide du tri *
+              </span>
+            </div>
+            <span
+              class="c-FormLabel__Validation"
+            >
+              30 caractères maximum
+            </span>
+          </label>
+          <input
+            aria-errormessage="recyclingGuideDisplayContent_error"
+            aria-invalid="false"
+            class="c-FormInput__Input "
+            data-testid="form-input"
+            id="recyclingGuideDisplayContent"
+            maxlength="30"
+            name="recyclingGuideDisplayContent"
+            placeholder="Lampe, écran, épluchure..."
+            type="text"
+            value="Lampe, écran, épluchure"
+          />
+        </div>
+      </div>
+      <div
+        class="c-RecyclingGuideTab__Buttons"
+      >
+        <button
+          class="c-CommonButton c-CommonButton_primary"
+          disabled=""
+          type="submit"
+        >
+          Enregistrer les modifications
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_secondary"
+          disabled=""
+          type="button"
+        >
+          Annuler les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

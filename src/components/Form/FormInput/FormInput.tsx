@@ -10,8 +10,12 @@ interface IFormInputProps {
   name: string;
   label: string;
   secondaryLabel?: string;
+  validationLabel?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
+  minLengthValidation?: number;
+  maxLengthValidation?: number;
+  lengthHardValidation?: boolean;
   defaultValue?: string;
   placeholder?: string;
 }
@@ -21,14 +25,20 @@ export default function FormInput({
   name,
   label,
   secondaryLabel,
+  validationLabel,
   isRequired = false,
   isDisabled = false,
+  minLengthValidation,
+  maxLengthValidation,
+  lengthHardValidation = true,
   defaultValue,
   placeholder,
 }: IFormInputProps) {
   /* Static Data */
   const errorMessages = {
     required: "Ce champ est obligatoire",
+    minLength: `${minLengthValidation} caractères minimum`,
+    maxLength: `${maxLengthValidation} caractères maximum`,
   };
 
   /* Local Data */
@@ -44,6 +54,7 @@ export default function FormInput({
         label={label}
         isRequired={isRequired}
         secondaryLabel={secondaryLabel}
+        validationLabel={validationLabel}
       />
       <input
         className={`c-FormInput__Input ${
@@ -51,10 +62,20 @@ export default function FormInput({
         }`}
         {...register(name, {
           required: { value: isRequired, message: errorMessages.required },
+          minLength:
+            !lengthHardValidation && minLengthValidation
+              ? { value: minLengthValidation, message: errorMessages.minLength }
+              : undefined,
+          maxLength:
+            !lengthHardValidation && maxLengthValidation
+              ? { value: maxLengthValidation, message: errorMessages.maxLength }
+              : undefined,
         })}
         type={type}
         id={name}
         defaultValue={defaultValue}
+        minLength={lengthHardValidation ? minLengthValidation : undefined}
+        maxLength={lengthHardValidation ? maxLengthValidation : undefined}
         placeholder={placeholder}
         disabled={isSubmitting || isDisabled}
         aria-invalid={!!errors[name]}
