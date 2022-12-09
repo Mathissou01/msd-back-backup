@@ -50,10 +50,10 @@
     }
 
     &_invalid {
-      border-color: colors.$danger;
+      border-color: colors.$error;
 
       &:focus-visible {
-        outline-color: colors.$danger;
+        outline-color: colors.$error;
       }
     }
   }

@@ -1,14 +1,4 @@
-@use "src/styles/01-settings/settings.colors" as colors;
-
 button {
-  background-color: transparent;
+  background: none;
   border: 0;
-
-  &:focus-visible {
-    outline: -webkit-focus-ring-color auto 1px;
-  }
-
-  &:focus:not(:focus-visible) {
-    outline: 0;
-  }
 }

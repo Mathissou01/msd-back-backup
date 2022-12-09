@@ -1,0 +1,10 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+@mixin shadow($level: 1) {
+  @if $level == 1 {
+    box-shadow: 0 0 1px rgb(17 95 251 / 5%), 0 1px 3px rgb(17 95 251 / 10%);
+  }
+  @if $level == 2 {
+    box-shadow: 0 0 2px rgb(17 95 251 / 5%), 0 4px 4px rgb(17 95 251 / 10%);
+  }
+}

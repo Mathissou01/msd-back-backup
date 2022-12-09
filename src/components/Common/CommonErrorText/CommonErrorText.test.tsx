@@ -6,9 +6,11 @@ const mock = {
   errorId: "error-1",
 };
 
-it("renders", () => {
-  const { container } = render(
-    <CommonErrorText message={mock.message} errorId={mock.errorId} />,
-  );
-  expect(container).toMatchSnapshot();
+describe("CommonErrorText", () => {
+  it("renders", () => {
+    const { container } = render(
+      <CommonErrorText message={mock.message} errorId={mock.errorId} />,
+    );
+    expect(container).toMatchSnapshot();
+  });
 });

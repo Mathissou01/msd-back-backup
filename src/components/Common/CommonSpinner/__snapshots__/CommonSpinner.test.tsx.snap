@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders 1`] = `
+exports[`CommonSpinner renders 1`] = `
 <div>
   <div
     class="c-CommonSpinner__Wrapper "
@@ -18,7 +18,7 @@ exports[`renders 1`] = `
 </div>
 `;
 
-exports[`renders in cover mode 1`] = `
+exports[`CommonSpinner renders in cover mode 1`] = `
 <div>
   <div
     class="c-CommonSpinner__Wrapper c-CommonSpinner__Wrapper_cover"

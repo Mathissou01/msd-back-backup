@@ -1,67 +1,466 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders 1`] = `
+exports[`Header renders 1`] = `
 <div>
   <header
-    class="c-Header__TopBar"
+    class="c-HeaderTopBar"
     data-testid="top-bar"
     role="banner"
   >
-    <nav
-      class="c-Header__Nav"
-      role="navigation"
+    <div
+      class="c-HeaderTopBar__Item c-HeaderTopBar__Logo"
     >
-      <ul
-        class="c-Header__NavList c-Header__NavList_top"
+      <a
+        href="/"
       >
-        <li
-          class="c-Header__NavItem"
+        [Logo Collectivité]
+      </a>
+    </div>
+    <ul
+      class="c-HeaderTopBar__List"
+    >
+      <li
+        class="c-HeaderTopBar__Item"
+        style="min-width: 151px;"
+      >
+        <a
+          href="/"
+        >
+          [Client]
+        </a>
+      </li>
+      <div
+        aria-hidden="true"
+        class="c-HeaderTopBar__Filler"
+      />
+      <li
+        class="c-HeaderTopBar__Item"
+        style="min-width: 316px;"
+      >
+        <a
+          href="/"
+        >
+          [Recherche]
+        </a>
+      </li>
+      <div
+        aria-hidden="true"
+        class="c-HeaderTopBar__Filler"
+      />
+      <li
+        class="c-HeaderTopBar__Item"
+        style="min-width: 115px;"
+      >
+        <a
+          href="/"
+        >
+          [Site]
+        </a>
+      </li>
+      <div
+        aria-hidden="true"
+        class="c-HeaderTopBar__Separator"
+      />
+      <li
+        class="c-HeaderTopBar__Item"
+      >
+        <a
+          href="/"
+        >
+          [Us]
+        </a>
+      </li>
+    </ul>
+  </header>
+  <nav
+    class="c-HeaderSideBar"
+    data-testid="side-bar"
+  >
+    <ul
+      class="c-NavigationList"
+    >
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu"
         >
           <a
+            class="c-NavigationListMenu__Button"
             href="/"
-            style="font-weight: bold;"
           >
-            MSD-BACK
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </header>
-  <aside
-    class="c-Header__LeftBar"
-    data-testid="left-bar"
-  >
-    <nav
-      class="c-Header__Nav"
-      role="navigation"
-    >
-      <ul
-        class="c-Header__NavList c-Header__NavList_side"
-      >
-        <li
-          class="c-Header__NavGroup"
-        >
-          <span
-            class="c-Header__NavItem"
-          >
-            Personnalisation
-          </span>
-          <ul>
-            <li
-              class="c-Header__NavItem"
+            <div
+              class="c-NavigationListMenu__Picto"
             >
-              <a
-                href="/personnalisation/accueil"
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
+                src="/images/pictos-temp/homepage.svg"
+                srcset="/images/pictos-temp/homepage.svg 1x, /images/pictos-temp/homepage.svg 2x"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Accueil
+            </span>
+          </a>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_open c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto"
+            >
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
+                src="/images/pictos-temp/edito.svg"
+                srcset="/images/pictos-temp/edito.svg 1x, /images/pictos-temp/edito.svg 2x"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Edito
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <a
+              class="c-NavigationListLink"
+              href="/"
+            >
+              <span
+                class="c-NavigationListLink__Label"
               >
-                <span>
-                  Page d'accueil
-                </span>
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </aside>
+                Couleurs, logo, lien
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Menu
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink c-NavigationListLink_active"
+              href="/personnalisation/accueil"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Page d'accueil
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Footer
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Types de conteneurs
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Types de lieux d'apport
+              </span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto"
+            >
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
+                src="/images/pictos-temp/services.svg"
+                srcset="/images/pictos-temp/services.svg 1x, /images/pictos-temp/services.svg 2x"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Services
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto"
+            >
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
+                src="/images/pictos-temp/personnalisation.svg"
+                srcset="/images/pictos-temp/personnalisation.svg 1x, /images/pictos-temp/personnalisation.svg 2x"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Personnalisation
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto"
+            >
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
+                src="/images/pictos-temp/sectorsAndUsers.svg"
+                srcset="/images/pictos-temp/sectorsAndUsers.svg 1x, /images/pictos-temp/sectorsAndUsers.svg 2x"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Secteurs et Usagers
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto"
+            >
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
+                src="/images/pictos-temp/administration.svg"
+                srcset="/images/pictos-temp/administration.svg 1x, /images/pictos-temp/administration.svg 2x"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Gestion
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu"
+        >
+          <a
+            class="c-NavigationListMenu__Button"
+            href="/"
+          >
+            <div
+              class="c-NavigationListMenu__Picto"
+            >
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
+                src="/images/pictos-temp/bin.svg"
+                srcset="/images/pictos-temp/bin.svg 1x, /images/pictos-temp/bin.svg 2x"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Corbeille
+            </span>
+          </a>
+        </div>
+      </li>
+    </ul>
+    <div
+      class="c-HeaderSideBar__Logo"
+    >
+      <a
+        href="/"
+      >
+        [Logo MSD]
+      </a>
+    </div>
+  </nav>
 </div>
 `;

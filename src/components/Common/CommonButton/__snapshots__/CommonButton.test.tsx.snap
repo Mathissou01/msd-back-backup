@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders 1`] = `
+exports[`CommonButton renders 1`] = `
 <div>
   <button
-    class="c-CommonButton "
+    class="c-CommonButton c-CommonButton_fontSmall"
     type="button"
   >
     common button

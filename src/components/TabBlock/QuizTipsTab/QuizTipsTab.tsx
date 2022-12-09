@@ -9,11 +9,11 @@ import React, {
   useState,
 } from "react";
 import {
-  GetQuizAndTipsBlockDocument,
   QuizEntity,
   TipEntity,
-  useGetQuizAndTipsBlockQuery,
-  useUpdateQuizAndTipsBlockMutation,
+  GetQuizAndTipsBlockByContractIdDocument,
+  useGetQuizAndTipsBlockByContractIdQuery,
+  useUpdateQuizAndTipsBlockByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { FocusFirstElement, removeNulls } from "../../../lib/utilities";
 import { extractQuizAndTipsBlock } from "../../../lib/graphql-data";
@@ -28,7 +28,7 @@ import "./quiz-tips-tab.scss";
 
 interface IQuizAndTipBlock {
   id: string;
-  blockTitle: string;
+  titleContent: string;
   displayBlock: boolean;
   displayQuiz: boolean;
   quiz?: QuizEntity | null;
@@ -41,7 +41,7 @@ export default function QuizTipsTab() {
   const formLabels = {
     title: "Quiz & Astuces",
     displayBlock: "Afficher ce bloc",
-    blockTitle: "Titre du bloc",
+    titleContent: "Titre du bloc",
     displayQuiz: "Afficher un quiz",
     quiz: "Quiz à afficher",
     quizButton: "Choisir le quiz",
@@ -112,7 +112,7 @@ export default function QuizTipsTab() {
       const variables = {
         quizAndTipsBlockId: submitData["id"],
         data: {
-          title: submitData["blockTitle"],
+          title: submitData["titleContent"],
           displayBlock: submitData["displayBlock"],
           displayQuiz: submitData["displayQuiz"],
           quiz: submitData["quiz"]?.id ?? null,
@@ -126,7 +126,7 @@ export default function QuizTipsTab() {
         variables,
         refetchQueries: [
           {
-            query: GetQuizAndTipsBlockDocument,
+            query: GetQuizAndTipsBlockByContractIdDocument,
             variables: { contractId },
           },
           "GetQuizAndTipsBlock",
@@ -144,13 +144,13 @@ export default function QuizTipsTab() {
 
   /* API Data */
   const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
-  const { loading, error, data } = useGetQuizAndTipsBlockQuery({
+  const { loading, error, data } = useGetQuizAndTipsBlockByContractIdQuery({
     variables: { contractId },
   });
   const [
     updateQuizAndTipsBlock,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateQuizAndTipsBlockMutation();
+  ] = useUpdateQuizAndTipsBlockByIdMutation();
 
   /* Local Data */
   const [isShowingSpinner, setIsShowingSpinner] = useState(false);
@@ -170,7 +170,8 @@ export default function QuizTipsTab() {
       if (quizAndTipsBlock?.id && quizAndTipsBlock?.attributes) {
         const mappedData: IQuizAndTipBlock = {
           id: quizAndTipsBlock.id,
-          blockTitle: quizAndTipsBlock.attributes.title ?? "Quiz & Astuces",
+          titleContent:
+            quizAndTipsBlock.attributes.titleContent ?? "Quiz & Astuces",
           displayBlock: quizAndTipsBlock.attributes.displayBlock,
           displayQuiz: quizAndTipsBlock.attributes.displayQuiz,
           quiz: quizAndTipsBlock.attributes.quiz?.data,
@@ -228,11 +229,11 @@ export default function QuizTipsTab() {
             <FormCheckbox name="displayBlock" label={formLabels.displayBlock} />
             <FormInput
               type="text"
-              name="blockTitle"
-              label={formLabels.blockTitle}
+              name="titleContent"
+              label={formLabels.titleContent}
               isRequired={true}
               isDisabled={mutationLoading}
-              defaultValue={quizTipsData?.blockTitle}
+              defaultValue={quizTipsData?.titleContent}
             />
           </div>
           <div className="c-QuizTipsTab__Group">

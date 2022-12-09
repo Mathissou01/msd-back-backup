@@ -1,9 +1,9 @@
-import { GetRecyclingGuideBlockDocument } from "../src/graphql/codegen/generated-types";
+import { GetRecyclingBlockByContractIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetRecyclingGuideBlockDocument,
+      query: GetRecyclingBlockByContractIdDocument,
       variables: {
         contractId: "1",
       },
@@ -26,6 +26,7 @@ export const defaultMockData = [
                               "Trouver les consignes de tri dans ma ville",
                             recyclingGuideDisplayContent:
                               "Lampe, écran, épluchure",
+                            tags: [],
                           },
                         },
                       },

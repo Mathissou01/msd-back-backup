@@ -1,4 +1,4 @@
-query GetRecyclingGuideBlock($contractId: ID!) {
+query getRecyclingBlockByContractId($contractId: ID!) {
   contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       attributes {
@@ -12,6 +12,13 @@ query GetRecyclingGuideBlock($contractId: ID!) {
                     titleContent
                     subtitleContent
                     recyclingGuideDisplayContent
+                    tags {
+                      data {
+                        attributes {
+                          name
+                        }
+                      }
+                    }
                   }
                 }
               }

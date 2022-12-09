@@ -1,0 +1,67 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+@mixin text($type: "body") {
+  color: colors.$gray-800;
+  font-family: DINPro-Medium, sans-serif;
+
+  @if $type == "body" {
+    font-weight: 400;
+    font-size: 16px;
+    font-family: DINPro-Regular, sans-serif;
+    line-height: 24px;
+  }
+
+  @if $type == "buttonSmall" or "buttonLarge" {
+    font-weight: 500;
+
+    @if $type == "buttonSmall" {
+      font-size: 14px;
+      line-height: 21px;
+      letter-spacing: 0.06px;
+    }
+
+    @if $type == "buttonLarge" {
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: initial;
+    }
+  }
+}
+
+@mixin heading($level) {
+  @if $level == 1 {
+    font-weight: 500;
+    font-size: 30px;
+    font-family: DINPro-Medium, sans-serif;
+    line-height: 26px;
+  }
+
+  @if $level == 2 {
+    font-weight: 700;
+    font-size: 28px;
+    font-family: DINPro-Bold, sans-serif;
+    line-height: 35px;
+  }
+
+  @if $level == 3 {
+    font-weight: 700;
+    font-size: 24px;
+    font-family: DINPro-Bold, sans-serif;
+    line-height: 30px;
+  }
+
+  @if $level == 4 {
+    font-weight: 700;
+    font-size: 20px;
+    font-family: DINPro-Bold, sans-serif;
+    line-height: 25px;
+    letter-spacing: initial;
+  }
+
+  @if $level == 5 {
+    font-weight: 700;
+    font-size: 16px;
+    font-family: DINPro-Bold, sans-serif;
+    line-height: 20px;
+  }
+}

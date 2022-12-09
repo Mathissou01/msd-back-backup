@@ -1,0 +1,23 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-NavigationList {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__Item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 54px;
+    border-bottom: 1px solid colors.$gray-200;
+
+    &:first-child {
+      border-top: 1px solid colors.$gray-200;
+    }
+  }
+}

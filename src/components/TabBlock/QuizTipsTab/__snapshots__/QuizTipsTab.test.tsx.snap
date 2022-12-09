@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders loading and loaded state 1`] = `
+exports[`QuizTipsTab renders loading and loaded state 1`] = `
 <div>
   <div
     class="c-CommonSpinner__Wrapper "
@@ -18,7 +18,7 @@ exports[`renders loading and loaded state 1`] = `
 </div>
 `;
 
-exports[`renders loading and loaded state 2`] = `
+exports[`QuizTipsTab renders loading and loaded state 2`] = `
 <div>
   <div
     class="c-QuizTipsTab"
@@ -62,7 +62,7 @@ exports[`renders loading and loaded state 2`] = `
         >
           <label
             class="c-FormLabel"
-            for="blockTitle"
+            for="titleContent"
           >
             <div
               class="c-FormLabel__Label"
@@ -73,12 +73,12 @@ exports[`renders loading and loaded state 2`] = `
             </div>
           </label>
           <input
-            aria-errormessage="blockTitle_error"
+            aria-errormessage="titleContent_error"
             aria-invalid="false"
             class="c-FormInput__Input "
             data-testid="form-input"
-            id="blockTitle"
-            name="blockTitle"
+            id="titleContent"
+            name="titleContent"
             type="text"
             value="Titre modifié"
           />
@@ -141,7 +141,7 @@ exports[`renders loading and loaded state 2`] = `
             aria-invalid="false"
           >
             <button
-              class="c-CommonButton c-CommonButton_secondary"
+              class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
               id="quiz_button"
               type="button"
             >
@@ -204,7 +204,7 @@ exports[`renders loading and loaded state 2`] = `
             aria-invalid="false"
           >
             <button
-              class="c-CommonButton c-CommonButton_secondary"
+              class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
               id="tips_button"
               type="button"
             >
@@ -217,14 +217,14 @@ exports[`renders loading and loaded state 2`] = `
         class="c-QuizTipsTab__Buttons"
       >
         <button
-          class="c-CommonButton c-CommonButton_primary"
+          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
           disabled=""
           type="submit"
         >
           Enregistrer les modifications
         </button>
         <button
-          class="c-CommonButton c-CommonButton_secondary"
+          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
           disabled=""
           type="button"
         >

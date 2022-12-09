@@ -1,4 +1,4 @@
-mutation UpdateRecyclingGuideBlock(
+mutation updateRecyclingGuideById(
   $updateRecyclingGuideBlockId: ID!
   $data: RecyclingGuideBlockInput!
 ) {
@@ -8,6 +8,13 @@ mutation UpdateRecyclingGuideBlock(
         titleContent
         subtitleContent
         recyclingGuideDisplayContent
+        tags {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
       }
     }
   }

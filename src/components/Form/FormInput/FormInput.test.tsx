@@ -19,42 +19,44 @@ const Wrapper = (props: { children: ReactNode }) => {
   );
 };
 
-it("renders", () => {
-  const { container } = render(
-    <Wrapper>
-      <FormInput
-        type={"text"}
-        name={mock.name}
-        label={mock.label}
-        secondaryLabel={mock.secondaryLabel}
-        validationLabel={mock.validationLabel}
-        isDisabled={false}
-      />
-    </Wrapper>,
-  );
+describe("FormInput", () => {
+  it("renders", () => {
+    const { container } = render(
+      <Wrapper>
+        <FormInput
+          type={"text"}
+          name={mock.name}
+          label={mock.label}
+          secondaryLabel={mock.secondaryLabel}
+          validationLabel={mock.validationLabel}
+          isDisabled={false}
+        />
+      </Wrapper>,
+    );
 
-  const input = screen.getByTestId("form-input");
-  expect(input).toBeInTheDocument();
-  expect(input).not.toHaveClass("c-FormInput__Input_invalid");
-  expect(input).not.toHaveAttribute("disabled");
+    const input = screen.getByTestId("form-input");
+    expect(input).toBeInTheDocument();
+    expect(input).not.toHaveClass("c-FormInput__Input_invalid");
+    expect(input).not.toHaveAttribute("disabled");
 
-  expect(container).toMatchSnapshot();
-});
+    expect(container).toMatchSnapshot();
+  });
 
-it("can be disabled", () => {
-  render(
-    <Wrapper>
-      <FormInput
-        type={"text"}
-        name={mock.name}
-        label={mock.label}
-        secondaryLabel={mock.secondaryLabel}
-        validationLabel={mock.validationLabel}
-        isDisabled={true}
-      />
-    </Wrapper>,
-  );
+  it("can be disabled", () => {
+    render(
+      <Wrapper>
+        <FormInput
+          type={"text"}
+          name={mock.name}
+          label={mock.label}
+          secondaryLabel={mock.secondaryLabel}
+          validationLabel={mock.validationLabel}
+          isDisabled={true}
+        />
+      </Wrapper>,
+    );
 
-  const input = screen.getByTestId("form-input");
-  expect(input).toHaveAttribute("disabled");
+    const input = screen.getByTestId("form-input");
+    expect(input).toHaveAttribute("disabled");
+  });
 });

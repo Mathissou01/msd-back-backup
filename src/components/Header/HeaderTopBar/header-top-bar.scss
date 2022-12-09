@@ -1,0 +1,70 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/01-settings/settings.layout" as layout;
+@use "src/styles/02-tools/tools.z-index" as index;
+@use "src/styles/02-tools/tools.typography" as typo;
+
+.c-HeaderTopBar {
+  position: fixed;
+  top: 0;
+  z-index: index.z(site-header);
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: layout.$header-height;
+  padding: 0;
+  font-weight: 500;
+  font-size: 16px;
+  font-family: DINPro-Medium, sans-serif;
+  line-height: 24px;
+  background: colors.$white;
+  box-shadow: 0 0 1px rgb(17 95 251 / 5%), 0 1px 3px rgb(17 95 251 / 10%);
+
+  &__Logo {
+    flex-grow: 0;
+    width: layout.$sidebar-width;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    box-shadow: 0 0 1px rgb(17 95 251 / 5%), 0 1px 3px rgb(17 95 251 / 10%);
+  }
+
+  &__List {
+    display: flex;
+    flex-grow: 1;
+    gap: 8px;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0 8px;
+    list-style: none;
+
+    &_top {
+      align-items: center;
+    }
+
+    &_side {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__Item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-width: 56px;
+    height: 60px;
+    color: colors.$expert-blue;
+  }
+
+  &__Filler {
+    flex-grow: 1;
+  }
+
+  &__Separator {
+    width: 2px;
+    height: 48px;
+    background-color: colors.$gray-200;
+  }
+}

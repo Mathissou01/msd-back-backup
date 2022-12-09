@@ -19,27 +19,29 @@ const Wrapper = (props: { children: ReactNode }) => {
   );
 };
 
-it("renders", () => {
-  const handleTransform = jest.fn();
-  const handleSubmit = jest.fn();
-  const { container } = render(
-    <Wrapper>
-      <FormModalInput
-        name={mock.name}
-        label={mock.label}
-        displayTransform={handleTransform}
-        buttonLabel={mock.buttonLabel}
-        modalTitle={mock.modalTitle}
-        onSubmit={handleSubmit}
-        formValidationMode={"onChange"}
-        isDisabled={false}
-      >
-        <div />
-      </FormModalInput>
-    </Wrapper>,
-  );
+describe("FormModalInput", () => {
+  it("renders", () => {
+    const handleTransform = jest.fn();
+    const handleSubmit = jest.fn();
+    const { container } = render(
+      <Wrapper>
+        <FormModalInput
+          name={mock.name}
+          label={mock.label}
+          displayTransform={handleTransform}
+          buttonLabel={mock.buttonLabel}
+          modalTitle={mock.modalTitle}
+          onSubmit={handleSubmit}
+          formValidationMode={"onChange"}
+          isDisabled={false}
+        >
+          <div />
+        </FormModalInput>
+      </Wrapper>,
+    );
 
-  const modalInput = screen.getByTestId("form-modal-input");
-  expect(modalInput).toBeInTheDocument();
-  expect(container).toMatchSnapshot();
+    const modalInput = screen.getByTestId("form-modal-input");
+    expect(modalInput).toBeInTheDocument();
+    expect(container).toMatchSnapshot();
+  });
 });

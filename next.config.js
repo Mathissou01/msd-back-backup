@@ -10,6 +10,7 @@ const nextConfig = {
   images: {
     loader: "default",
     domains: ["localhost"],
+    unoptimized: true,
   },
   env: {
     API_URL: process.env.NEXT_PUBLIC_API_URL,

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders loading and loaded state 1`] = `
+exports[`RecyclingGuideTab renders loading and loaded state 1`] = `
 <div>
   <div
     class="c-CommonSpinner__Wrapper "
@@ -18,7 +18,7 @@ exports[`renders loading and loaded state 1`] = `
 </div>
 `;
 
-exports[`renders loading and loaded state 2`] = `
+exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
 <div>
   <div
     class="c-RecyclingGuideTab"
@@ -143,14 +143,14 @@ exports[`renders loading and loaded state 2`] = `
         class="c-RecyclingGuideTab__Buttons"
       >
         <button
-          class="c-CommonButton c-CommonButton_primary"
+          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
           disabled=""
           type="submit"
         >
           Enregistrer les modifications
         </button>
         <button
-          class="c-CommonButton c-CommonButton_secondary"
+          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
           disabled=""
           type="button"
         >

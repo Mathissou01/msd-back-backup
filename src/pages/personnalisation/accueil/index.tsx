@@ -1,11 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from "react";
 import {
-  ComponentEditoQuizzesSubService,
-  ComponentEditoTipsSubService,
   ComponentMsdEditorial,
+  EditorialServiceEntity,
   ServiceEntity,
-  useGetServicesQuery,
+  useGetServicesByContractIdQuery,
 } from "../../../graphql/codegen/generated-types";
 import {
   extractEditoSubServiceByTypename,
@@ -32,7 +31,7 @@ export default function AccueilPage() {
 
   /* API Data */
   const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
-  const { loading, error, data } = useGetServicesQuery({
+  const { loading, error, data } = useGetServicesByContractIdQuery({
     variables: { contractId },
   });
 
@@ -45,44 +44,44 @@ export default function AccueilPage() {
     if (data && data.services?.data) {
       const servicesData = data.services?.data as Array<ServiceEntity>;
       if (data && data.services?.data) {
+        // TODO: simplify/extract all this into function, get only "isActived"s as result ?
         let recyclingGuideService: ServiceEntity | null = null;
-        let serviceEditorials: ServiceEntity | null = null;
-        let quizSubService: ComponentEditoQuizzesSubService | null = null;
-        let tipSubService: ComponentEditoTipsSubService | null = null;
+        let editorialServiceEntity: ServiceEntity | null = null;
+        let quizSubService: EditorialServiceEntity | null = null;
+        let tipSubService: EditorialServiceEntity | null = null;
 
         recyclingGuideService = extractServiceByTypename(
           servicesData,
           "ComponentMsdRecycling",
         ) as ServiceEntity | null;
 
-        serviceEditorials = extractServiceByTypename(
+        editorialServiceEntity = extractServiceByTypename(
           servicesData,
           "ComponentMsdEditorial",
         ) as ServiceEntity | null;
-        const editorialService = serviceEditorials?.attributes
+
+        const editorialServiceInstance = editorialServiceEntity?.attributes
           ?.serviceInstance?.[0] as ComponentMsdEditorial | null;
+
         if (
-          editorialService?.editorialServices &&
-          editorialService.editorialServices?.data.length > 0
+          editorialServiceInstance?.editorialServices &&
+          editorialServiceInstance.editorialServices?.data.length > 0
         ) {
           quizSubService = extractEditoSubServiceByTypename(
-            editorialService.editorialServices.data,
+            editorialServiceInstance.editorialServices.data,
             "ComponentEditoQuizzesSubService",
-          )?.attributes
-            ?.subServiceInstance?.[0] as ComponentEditoQuizzesSubService | null;
-
+          );
           tipSubService = extractEditoSubServiceByTypename(
-            editorialService.editorialServices.data,
+            editorialServiceInstance.editorialServices.data,
             "ComponentEditoTipsSubService",
-          )?.attributes
-            ?.subServiceInstance?.[0] as ComponentEditoTipsSubService | null;
+          );
         }
 
         setServiceParameters({
           isServiceEditorialActivated:
-            !!serviceEditorials?.attributes?.isActivated,
-          isQuizActivated: !!quizSubService?.isActivated,
-          isTipsActivated: !!tipSubService?.isActivated,
+            !!editorialServiceEntity?.attributes?.isActivated,
+          isQuizActivated: !!quizSubService?.attributes?.isActivated,
+          isTipsActivated: !!tipSubService?.attributes?.isActivated,
           isServiceRecyclingGuideActivated:
             !!recyclingGuideService?.attributes?.isActivated,
         });

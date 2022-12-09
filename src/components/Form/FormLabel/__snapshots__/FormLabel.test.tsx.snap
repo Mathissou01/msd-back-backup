@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders 1`] = `
+exports[`FormLabel renders 1`] = `
 <div>
   <label
     class="c-FormLabel"

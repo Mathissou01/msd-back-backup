@@ -1,11 +1,11 @@
-mutation UpdateQuizAndTipsBlock(
+mutation updateQuizAndTipsBlockById(
   $quizAndTipsBlockId: ID!
   $data: QuizAndTipsBlockInput!
 ) {
   updateQuizAndTipsBlock(id: $quizAndTipsBlockId, data: $data) {
     data {
       attributes {
-        title
+        titleContent
         displayBlock
         displayQuiz
         quiz {

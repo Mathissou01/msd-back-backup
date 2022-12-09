@@ -9,7 +9,6 @@ test("homepage has title and links homepage customization page", async ({
     }`,
   );
   await expect(page).toHaveTitle(/MSD-BACK/);
-  await page.getByRole("link", { name: "MSD-BACK" }).click();
   await page.getByRole("link", { name: "Page d'accueil" }).click();
   const title = page.getByTestId("title");
   await expect(title).toHaveText("Page d'accueil");

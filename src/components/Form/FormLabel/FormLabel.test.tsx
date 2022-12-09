@@ -9,19 +9,21 @@ const mock = {
   validationLabel: "validation label",
 };
 
-it("renders", () => {
-  const { container } = render(
-    <FormLabel
-      label={mock.label}
-      secondaryLabel={mock.secondaryLabel}
-      validationLabel={mock.validationLabel}
-      forId={mock.name}
-      isRequired={false}
-    />,
-  );
+describe("FormLabel", () => {
+  it("renders", () => {
+    const { container } = render(
+      <FormLabel
+        label={mock.label}
+        secondaryLabel={mock.secondaryLabel}
+        validationLabel={mock.validationLabel}
+        forId={mock.name}
+        isRequired={false}
+      />,
+    );
 
-  const label = screen.getByText("form label");
-  expect(label).toBeInTheDocument();
+    const label = screen.getByText("form label");
+    expect(label).toBeInTheDocument();
 
-  expect(container).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
+  });
 });

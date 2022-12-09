@@ -19,29 +19,31 @@ const Wrapper = (props: { children: ReactNode }) => {
   );
 };
 
-it("renders", () => {
-  const handleTransform = (data: { id: number; content: string }) => {
-    return "-" + data.content;
-  };
-  const { container } = render(
-    <Wrapper>
-      <FormSelect<{ id: number; content: string }>
-        name={mock.name}
-        label={mock.label}
-        secondaryLabel={mock.secondaryLabel}
-        displayTransform={handleTransform}
-        isRequired={false}
-        isDisabled={false}
-        options={[
-          { id: 1, content: "content 1" },
-          { id: 2, content: "content 2" },
-        ]}
-        optionKey={"id"}
-        defaultValue={{ id: 1, content: "content 2" }}
-        noneSelectedLabel={mock.noneLabel}
-      />
-    </Wrapper>,
-  );
-  expect(screen.getByTestId("form-select")).toBeInTheDocument();
-  expect(container).toMatchSnapshot();
+describe("FormSelect", () => {
+  it("renders", () => {
+    const handleTransform = (data: { id: number; content: string }) => {
+      return "-" + data.content;
+    };
+    const { container } = render(
+      <Wrapper>
+        <FormSelect<{ id: number; content: string }>
+          name={mock.name}
+          label={mock.label}
+          secondaryLabel={mock.secondaryLabel}
+          displayTransform={handleTransform}
+          isRequired={false}
+          isDisabled={false}
+          options={[
+            { id: 1, content: "content 1" },
+            { id: 2, content: "content 2" },
+          ]}
+          optionKey={"id"}
+          defaultValue={{ id: 1, content: "content 2" }}
+          noneSelectedLabel={mock.noneLabel}
+        />
+      </Wrapper>,
+    );
+    expect(screen.getByTestId("form-select")).toBeInTheDocument();
+    expect(container).toMatchSnapshot();
+  });
 });

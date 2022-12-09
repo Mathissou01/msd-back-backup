@@ -1,9 +1,9 @@
-import { GetQuizAndTipsBlockDocument } from "../src/graphql/codegen/generated-types";
+import { GetQuizAndTipsBlockByContractIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetQuizAndTipsBlockDocument,
+      query: GetQuizAndTipsBlockByContractIdDocument,
       variables: {
         contractId: "1",
       },
@@ -21,7 +21,7 @@ export const defaultMockData = [
                         data: {
                           id: "1",
                           attributes: {
-                            title: "Titre modifié",
+                            titleContent: "Titre modifié",
                             displayBlock: false,
                             displayQuiz: false,
                             quiz: {
@@ -59,10 +59,10 @@ export const defaultMockData = [
                       data: [
                         {
                           attributes: {
+                            isActivated: true,
                             subServiceInstance: [
                               {
                                 __typename: "ComponentEditoQuizzesSubService",
-                                isActivated: true,
                                 quizzes: {
                                   data: [
                                     {
@@ -87,10 +87,10 @@ export const defaultMockData = [
                         },
                         {
                           attributes: {
+                            isActivated: true,
                             subServiceInstance: [
                               {
                                 __typename: "ComponentEditoTipsSubService",
-                                isActivated: true,
                                 tips: {
                                   data: [
                                     {
@@ -144,17 +144,5 @@ export const defaultMockData = [
         },
       },
     },
-  },
-];
-
-export const errorMockData = [
-  {
-    request: {
-      query: GetQuizAndTipsBlockDocument,
-      variables: {
-        contractId: "1",
-      },
-    },
-    error: new Error("An error occured"),
   },
 ];

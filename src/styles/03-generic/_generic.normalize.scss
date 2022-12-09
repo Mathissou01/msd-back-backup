@@ -1,14 +1,22 @@
-@use "../01-settings/settings.colors" as colors;
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.typography" as typo;
 
 html,
 body {
+  @include typo.text("body");
+
+  width: 100%;
   height: 0;
   margin: 0;
   padding: 0;
-  background-color: colors.$background;
+  background-color: colors.$white;
 
   > div,
   #app {
     height: 0;
+  }
+
+  main {
+    background-color: colors.$background-default;
   }
 }

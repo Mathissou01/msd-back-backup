@@ -1,15 +1,21 @@
-@use "../01-settings/settings.layout" as layout;
+@use "src/styles/01-settings/settings.layout" as layout;
+@use "src/styles/02-tools/tools.z-index" as index;
 
 .o-Page {
-  &__Content {
+  &__Container {
     position: relative;
     top: layout.$header-height;
     left: layout.$sidebar-width;
-    display: flex;
-    flex-direction: column;
     width: calc(100vw - #{layout.$sidebar-width});
     height: calc(100vh - #{layout.$header-height});
-    padding: 0 78px;
     overflow: hidden auto;
+  }
+
+  &__Main {
+    z-index: index.z("site-content");
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - #{layout.$header-height});
+    padding: 0 78px;
   }
 }

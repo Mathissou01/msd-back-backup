@@ -2,9 +2,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import {
-  useGetRecyclingGuideBlockQuery,
-  useUpdateRecyclingGuideBlockMutation,
-  GetRecyclingGuideBlockDocument,
+  useGetRecyclingBlockByContractIdQuery,
+  useUpdateRecyclingGuideByIdMutation,
+  GetRecyclingBlockByContractIdDocument,
 } from "../../../graphql/codegen/generated-types";
 import { FocusFirstElement } from "../../../lib/utilities";
 import { extractRecyclingGuideBlock } from "../../../lib/graphql-data";
@@ -50,7 +50,7 @@ export default function RecyclingGuideTab() {
         variables,
         refetchQueries: [
           {
-            query: GetRecyclingGuideBlockDocument,
+            query: GetRecyclingBlockByContractIdDocument,
             variables: { contractId },
           },
           "GetRecyclingGuideBlock",
@@ -68,13 +68,13 @@ export default function RecyclingGuideTab() {
 
   /* API Data */
   const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
-  const { loading, error, data } = useGetRecyclingGuideBlockQuery({
+  const { loading, error, data } = useGetRecyclingBlockByContractIdQuery({
     variables: { contractId },
   });
   const [
     updateRecyclingGuideBlock,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateRecyclingGuideBlockMutation();
+  ] = useUpdateRecyclingGuideByIdMutation();
 
   /* Local Data */
   const [isShowingSpinner, setIsShowingSpinner] = useState(false);

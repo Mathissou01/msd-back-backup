@@ -1,20 +1,51 @@
-/* Generic */
+/* Static */
+// Generic
 $black: #000;
 $white: #fff;
-$off-white: #fafafa;
-$background: #faf8f4;
 
-/* Imported from SUEZ DS */
-$primary: #77b7fcff;
-$danger: #eb4a65ff;
+// Background colors
+$background-default: #faf8f4;
+$background-dark: #efeee9;
+
+// Neutral colors
+$blue-default: #77b7fc;
+$blue-clear: #84dfff;
+$expert-blue: #030f40;
+$blue-1: #3d466c;
+$blue-2: #767c97;
+$blue-3: #abafbf;
+$blue-4: #d5d6de;
+
+// Gray shades
 $gray-0: #f4f8ff;
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
 $gray-500: #adb5bd;
 $gray-600: #6c757d;
 $gray-800: #343a40;
-$expert-blue: #030f40;
-$blue-1: #3d466c;
-$blue-2: #767c97;
-$blue-3: #abafbf;
-$blue-4: #d5d6de;
+
+// Warning
+$warning: #deb861;
+$warning-light: #f1e5cb;
+$warning-dark: #a83;
+
+// Success
+$success: #30d158;
+$success-light: #c0f1cc;
+$success-dark: #107d2b;
+
+// Error
+$error: #eb4a65ff;
+$error-light: #f5c4cc;
+$error-dark: #800e21;
+
+// Accessible Contrast
+$contrast-text: $expert-blue;
+
+// Brand
+$brand-primary: $expert-blue;
+$brand-primary-dark: $expert-blue;
+$brand-primary-light: $expert-blue;
+$brand-secondary: $expert-blue;
+$brand-secondary-dark: $expert-blue;
+$brand-secondary-light: $expert-blue;

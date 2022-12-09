@@ -1,4 +1,4 @@
-query GetQuizAndTipsBlock($contractId: ID!) {
+query getQuizAndTipsBlockByContractId($contractId: ID!) {
   contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       attributes {
@@ -9,7 +9,7 @@ query GetQuizAndTipsBlock($contractId: ID!) {
                 data {
                   id
                   attributes {
-                    title
+                    titleContent
                     displayBlock
                     displayQuiz
                     quiz {
@@ -50,10 +50,10 @@ query GetQuizAndTipsBlock($contractId: ID!) {
             editorialServices {
               data {
                 attributes {
+                  isActivated
                   subServiceInstance {
                     __typename
                     ... on ComponentEditoTipsSubService {
-                      isActivated
                       tips {
                         data {
                           id
@@ -65,7 +65,6 @@ query GetQuizAndTipsBlock($contractId: ID!) {
                       }
                     }
                     ... on ComponentEditoQuizzesSubService {
-                      isActivated
                       quizzes {
                         data {
                           id

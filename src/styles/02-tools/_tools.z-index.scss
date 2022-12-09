@@ -1,4 +1,4 @@
-@use "../01-settings/settings.z-index" as z-index;
+@use "src/styles/01-settings/settings.z-index" as z-index;
 
 /* Returns an automatically updated and ordered z-index value,
 based on variable in $z-indexes, rather than manually settings numbers and updating over time */

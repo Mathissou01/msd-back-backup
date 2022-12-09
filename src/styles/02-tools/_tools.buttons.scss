@@ -1,0 +1,62 @@
+@use "sass:color" as color;
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.typography" as typo;
+
+@mixin button($type: "secondary") {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px 13px;
+  color: colors.$expert-blue;
+  background-color: transparent;
+  border: 1px solid colors.$blue-default;
+  border-radius: 4px;
+  outline: 2px solid transparent;
+
+  &:focus,
+  &:focus-visible,
+  &:active {
+    border-color: transparent;
+    outline: 2px solid colors.$blue-clear;
+  }
+
+  &:disabled {
+    color: colors.$gray-600;
+  }
+
+  @if $type == "primary" {
+    background-color: colors.$blue-default;
+    border-color: transparent;
+
+    &:hover {
+      // background-color: colors.$brand-primary-dark;
+    }
+
+    &:active,
+    &:focus {
+      // background-color: colors.$brand-primary-dark;
+    }
+
+    &:disabled {
+      background-color: colors.$blue-4;
+      border-color: transparent;
+    }
+  }
+  @if $type == "secondary" {
+    &:hover {
+      // background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+    }
+
+    &:active,
+    &:focus {
+      // background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+    }
+
+    &:disabled {
+      background-color: inherit;
+      border-color: colors.$blue-3;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders 1`] = `
+exports[`FormModalInput renders 1`] = `
 <div>
   <div
     class="c-FormModalInput"
@@ -29,7 +29,7 @@ exports[`renders 1`] = `
       aria-invalid="false"
     >
       <button
-        class="c-CommonButton c-CommonButton_secondary"
+        class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
         id="form-modal-input_button"
         type="button"
       >

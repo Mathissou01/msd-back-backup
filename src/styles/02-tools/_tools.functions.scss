@@ -17,6 +17,11 @@
   );
 }
 
+@function hex-to-url-string($hex) {
+  $string: str-replace(#{$hex}, "#", "%23");
+  @return $string;
+}
+
 /** MATH **/
 
 /* Returns half the value */

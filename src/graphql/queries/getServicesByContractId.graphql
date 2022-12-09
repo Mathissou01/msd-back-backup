@@ -1,4 +1,4 @@
-query GetServices($contractId: ID!) {
+query getServicesByContractId($contractId: ID!) {
   services(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       attributes {
@@ -12,14 +12,9 @@ query GetServices($contractId: ID!) {
             editorialServices {
               data {
                 attributes {
+                  isActivated
                   subServiceInstance {
                     __typename
-                    ... on ComponentEditoTipsSubService {
-                      isActivated
-                    }
-                    ... on ComponentEditoQuizzesSubService {
-                      isActivated
-                    }
                   }
                 }
               }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders content when opened 1`] = `
+exports[`CommonModalWrapper renders content when opened 1`] = `
 <div>
   <main>
     <input
@@ -38,7 +38,7 @@ exports[`renders content when opened 1`] = `
 </div>
 `;
 
-exports[`renders nothing when not opened 1`] = `
+exports[`CommonModalWrapper renders nothing when not opened 1`] = `
 <div>
   <main>
     <input

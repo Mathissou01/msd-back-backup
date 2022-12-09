@@ -1,2 +1,20 @@
-$small: 540px;
-$medium: 720px;
+@use "sass:map";
+
+$breakpoint-values: (
+  minimum: 320,
+  medium-mobile: 375,
+  mobile: 1439,
+  desktop: 1440,
+);
+$breakpoints: (
+  minimum: map.get($breakpoint-values, "minimum") + px,
+  medium-mobile: map.get($breakpoint-values, "medium-mobile") + px,
+  mobile: map.get($breakpoint-values, "mobile") + px,
+  desktop: map.get($breakpoint-values, "desktop") + px,
+);
+
+:root {
+  @each $name, $value in $breakpoint-values {
+    --breakpoint-#{$name}: #{$value};
+  }
+}
