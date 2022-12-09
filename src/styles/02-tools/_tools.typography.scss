@@ -17,13 +17,11 @@
     @if $type == "buttonSmall" {
       font-size: 14px;
       line-height: 21px;
-      letter-spacing: 0.06px;
     }
 
     @if $type == "buttonLarge" {
       font-size: 16px;
       line-height: 24px;
-      letter-spacing: initial;
     }
   }
 }
@@ -55,7 +53,6 @@
     font-size: 20px;
     font-family: DINPro-Bold, sans-serif;
     line-height: 25px;
-    letter-spacing: initial;
   }
 
   @if $level == 5 {

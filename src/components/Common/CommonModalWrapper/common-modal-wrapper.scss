@@ -1,4 +1,5 @@
 @use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
 
 .c-CommonModalWrapper {
   &:not(:empty) {
@@ -14,6 +15,8 @@
   }
 
   &__Modal {
+    @include shadows.shadow(2);
+
     position: relative;
     display: flex;
     flex-direction: column;
@@ -21,7 +24,6 @@
     padding: 36px;
     background-color: colors.$white;
     border-radius: 10px;
-    box-shadow: 0 0 2px rgb(17 95 251 / 5%), 0 4px 4px rgb(17 95 251 / 10%);
   }
 
   &__Close {

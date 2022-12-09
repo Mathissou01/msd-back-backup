@@ -7,7 +7,7 @@ export default function CommonSvgDefs() {
         xmlns="http://www.w3.org/2000/svg"
         width={0}
         height={0}
-        style={{ display: "none" }}
+        style={{ position: "absolute", visibility: "hidden", height: 0 }}
         aria-hidden={true}
       >
         <defs>

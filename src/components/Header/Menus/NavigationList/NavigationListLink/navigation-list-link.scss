@@ -10,7 +10,7 @@
   border-left: 4px solid transparent;
 
   &_active {
-    background-color: colors.$gray-100;
+    background-color: colors.$gray-200;
     border-color: colors.$blue-default;
   }
 
@@ -20,7 +20,6 @@
     font-size: 14px;
     font-family: DINPro-Medium, sans-serif;
     line-height: 21px;
-    letter-spacing: 0.06px;
     text-align: left;
   }
 }
