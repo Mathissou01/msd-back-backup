@@ -1,4 +1,4 @@
-.c-RecyclingGuideTab {
+.c-QuizAndTipsTab {
   position: relative;
   width: 100%;
   height: 100%;
@@ -27,6 +27,7 @@
 
   &__Buttons {
     display: flex;
+    flex-direction: row;
     gap: 16px;
   }
 }

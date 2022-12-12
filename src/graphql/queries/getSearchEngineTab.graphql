@@ -1,24 +1,15 @@
-query getRecyclingBlockByContractId($contractId: ID!) {
+query getSearchEngineTab($contractId: ID!) {
   contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       attributes {
         homepage {
           data {
             attributes {
-              recyclingGuideBlock {
+              searchEngineBlock {
                 data {
                   id
                   attributes {
                     titleContent
-                    subtitleContent
-                    recyclingGuideDisplayContent
-                    tags {
-                      data {
-                        attributes {
-                          name
-                        }
-                      }
-                    }
                   }
                 }
               }

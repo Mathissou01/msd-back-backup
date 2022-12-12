@@ -26,13 +26,13 @@ exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
     <h2
       class="c-RecyclingGuideTab__Title"
     >
-      Guide du tri
+      Guide du Tri
     </h2>
     <form
       class="c-RecyclingGuideTab__Form"
     >
       <div
-        class="c-RecyclingGuideTab__Group"
+        class="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short"
       >
         <div
           class="c-FormInput"
@@ -68,7 +68,7 @@ exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
         </div>
       </div>
       <div
-        class="c-RecyclingGuideTab__Group"
+        class="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short"
       >
         <div
           class="c-FormInput"
@@ -104,7 +104,7 @@ exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
         </div>
       </div>
       <div
-        class="c-RecyclingGuideTab__Group"
+        class="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short"
       >
         <div
           class="c-FormInput"

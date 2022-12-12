@@ -153,7 +153,7 @@ export default function FormModalInput<T extends FieldValues>({
                 </div>
               )}
             </hgroup>
-            <div>{children}</div>
+            {children}
             <div className="c-FormModalInput__ModalButtons">
               <CommonButton
                 type="submit"

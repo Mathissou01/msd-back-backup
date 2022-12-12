@@ -1,4 +1,4 @@
-mutation updateRecyclingGuideById(
+mutation updateRecyclingGuideTab(
   $updateRecyclingGuideBlockId: ID!
   $data: RecyclingGuideBlockInput!
 ) {

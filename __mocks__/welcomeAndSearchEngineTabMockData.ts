@@ -1,9 +1,9 @@
-import { GetRecyclingBlockByContractIdDocument } from "../src/graphql/codegen/generated-types";
+import { GetSearchEngineTabDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetRecyclingBlockByContractIdDocument,
+      query: GetSearchEngineTabDocument,
       variables: {
         contractId: "1",
       },
@@ -17,16 +17,11 @@ export const defaultMockData = [
                 homepage: {
                   data: {
                     attributes: {
-                      recyclingGuideBlock: {
+                      searchEngineBlock: {
                         data: {
                           id: "1",
                           attributes: {
                             titleContent: "Titre modifié",
-                            subtitleContent:
-                              "Trouver les consignes de tri dans ma ville",
-                            recyclingGuideDisplayContent:
-                              "Lampe, écran, épluchure",
-                            tags: [],
                           },
                         },
                       },

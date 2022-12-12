@@ -9,11 +9,11 @@ import React, {
   useState,
 } from "react";
 import {
+  GetQuizAndTipsBlockTabDocument,
   QuizEntity,
   TipEntity,
-  GetQuizAndTipsBlockByContractIdDocument,
-  useGetQuizAndTipsBlockByContractIdQuery,
-  useUpdateQuizAndTipsBlockByIdMutation,
+  useGetQuizAndTipsBlockTabQuery,
+  useUpdateQuizAndTipsBlockTabMutation,
 } from "../../../graphql/codegen/generated-types";
 import { FocusFirstElement, removeNulls } from "../../../lib/utilities";
 import { extractQuizAndTipsBlock } from "../../../lib/graphql-data";
@@ -24,9 +24,9 @@ import FormModalInput from "../../Form/FormModalInput/FormModalInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormMultiselect from "../../Form/FormMultiselect/FormMultiselect";
 import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
-import "./quiz-tips-tab.scss";
+import "./quiz-and-tips-tab.scss";
 
-interface IQuizAndTipBlock {
+interface IQuizAndTipsBlock {
   id: string;
   titleContent: string;
   displayBlock: boolean;
@@ -36,7 +36,7 @@ interface IQuizAndTipBlock {
   tips?: Array<TipEntity> | null;
 }
 
-export default function QuizTipsTab() {
+export default function QuizAndTipsTab() {
   /* Static Data */
   const formLabels = {
     title: "Quiz & Astuces",
@@ -112,7 +112,7 @@ export default function QuizTipsTab() {
       const variables = {
         quizAndTipsBlockId: submitData["id"],
         data: {
-          title: submitData["titleContent"],
+          titleContent: submitData["titleContent"],
           displayBlock: submitData["displayBlock"],
           displayQuiz: submitData["displayQuiz"],
           quiz: submitData["quiz"]?.id ?? null,
@@ -126,10 +126,10 @@ export default function QuizTipsTab() {
         variables,
         refetchQueries: [
           {
-            query: GetQuizAndTipsBlockByContractIdDocument,
+            query: GetQuizAndTipsBlockTabDocument,
             variables: { contractId },
           },
-          "GetQuizAndTipsBlock",
+          "getQuizAndTipsBlockTab",
         ],
       });
       return new Promise<void>((resolve) => {
@@ -144,17 +144,17 @@ export default function QuizTipsTab() {
 
   /* API Data */
   const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
-  const { loading, error, data } = useGetQuizAndTipsBlockByContractIdQuery({
+  const { loading, error, data } = useGetQuizAndTipsBlockTabQuery({
     variables: { contractId },
   });
   const [
     updateQuizAndTipsBlock,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateQuizAndTipsBlockByIdMutation();
+  ] = useUpdateQuizAndTipsBlockTabMutation();
 
   /* Local Data */
   const [isShowingSpinner, setIsShowingSpinner] = useState(false);
-  const [quizTipsData, setQuizTipsData] = useState<IQuizAndTipBlock>();
+  const [quizAndTipsData, setQuizAndTipsData] = useState<IQuizAndTipsBlock>();
   const [quizzesData, setQuizzesData] = useState<Array<QuizEntity>>([]);
   const [tipsData, setTipsData] = useState<Array<TipEntity>>([]);
   const formValidationMode = "onChange";
@@ -168,7 +168,7 @@ export default function QuizTipsTab() {
     if (data && data.contractCustomizations?.data && data.services?.data) {
       const { quizAndTipsBlock, quizzes, tips } = extractQuizAndTipsBlock(data);
       if (quizAndTipsBlock?.id && quizAndTipsBlock?.attributes) {
-        const mappedData: IQuizAndTipBlock = {
+        const mappedData: IQuizAndTipsBlock = {
           id: quizAndTipsBlock.id,
           titleContent:
             quizAndTipsBlock.attributes.titleContent ?? "Quiz & Astuces",
@@ -178,7 +178,7 @@ export default function QuizTipsTab() {
           displayTips: quizAndTipsBlock.attributes.displayTips,
           tips: quizAndTipsBlock?.attributes.tips?.data,
         };
-        setQuizTipsData(mappedData);
+        setQuizAndTipsData(mappedData);
         form.reset(mappedData);
       }
       if (quizzes && quizzes?.length > 0) {
@@ -216,16 +216,16 @@ export default function QuizTipsTab() {
   if (mutationError) return <span>{mutationError?.message}</span>;
 
   return (
-    <div className="c-QuizTipsTab">
+    <div className="c-QuizAndTipsTab">
       {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <h2 className="c-QuizTipsTab__Title">{formLabels.title}</h2>
+      <h2 className="c-QuizAndTipsTab__Title">{formLabels.title}</h2>
       <FormProvider {...form}>
         <form
-          className="c-QuizTipsTab__Form"
+          className="c-QuizAndTipsTab__Form"
           onSubmit={handleSubmit(onSubmitValid)}
           ref={focusRef}
         >
-          <div className="c-QuizTipsTab__Group">
+          <div className="c-QuizAndTipsTab__Group c-QuizAndTipsTab__Group_short">
             <FormCheckbox name="displayBlock" label={formLabels.displayBlock} />
             <FormInput
               type="text"
@@ -233,10 +233,10 @@ export default function QuizTipsTab() {
               label={formLabels.titleContent}
               isRequired={true}
               isDisabled={mutationLoading}
-              defaultValue={quizTipsData?.titleContent}
+              defaultValue={quizAndTipsData?.titleContent}
             />
           </div>
-          <div className="c-QuizTipsTab__Group">
+          <div className="c-QuizAndTipsTab__Group">
             <FormCheckbox name="displayQuiz" label={formLabels.displayQuiz} />
             <FormModalInput<QuizEntity>
               name="quiz"
@@ -258,7 +258,7 @@ export default function QuizTipsTab() {
               />
             </FormModalInput>
           </div>
-          <div className="c-QuizTipsTab__Group">
+          <div className="c-QuizAndTipsTab__Group">
             <FormCheckbox name="displayTips" label={formLabels.displayTips} />
             <FormModalInput<Array<TipEntity>>
               name="tips"
@@ -281,7 +281,7 @@ export default function QuizTipsTab() {
               />
             </FormModalInput>
           </div>
-          <div className="c-QuizTipsTab__Buttons">
+          <div className="c-QuizAndTipsTab__Buttons">
             <CommonButton
               type="submit"
               label={submitButtonLabel}

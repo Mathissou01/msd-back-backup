@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import React from "react";
-import { defaultMockData } from "../../../../__mocks__/quizTipsTabMockData";
-import QuizTipsTab from "./QuizTipsTab";
+import { defaultMockData } from "../../../../__mocks__/quizAndTipsTabMockData";
+import QuizAndTipsTab from "./QuizAndTipsTab";
 
-describe("QuizTipsTab", () => {
+describe("QuizAndTipsTab", () => {
   it("renders loading and loaded state", async () => {
     const { container } = render(
       <MockedProvider mocks={defaultMockData} addTypename={false}>
-        <QuizTipsTab />
+        <QuizAndTipsTab />
       </MockedProvider>,
     );
 
@@ -24,7 +24,7 @@ describe("QuizTipsTab", () => {
   // it("should show error UI", async () => {
   //   const { container } = render(
   //     <MockedProvider mocks={errorMockData} addTypename={false}>
-  //       <QuizTipsTab />
+  //       <QuizAndTipsTab />
   //     </MockedProvider>,
   //   );
   //

@@ -5,7 +5,7 @@ import FormLabel from "../FormLabel/FormLabel";
 import "./form-radio-input.scss";
 
 interface IOption {
-  value: string | number | readonly string[] | undefined;
+  value: string | number;
   label: string;
 }
 
@@ -17,6 +17,7 @@ interface IFormRadioInputProps {
   isDisabled?: boolean;
   options: Array<IOption>;
   defaultValue?: string;
+  onChange?: (data: unknown) => void;
 }
 
 export default function FormRadioInput({
@@ -27,6 +28,7 @@ export default function FormRadioInput({
   isDisabled = false,
   options,
   defaultValue,
+  onChange,
 }: IFormRadioInputProps) {
   /* Static Data */
   const errorMessages = {
@@ -51,6 +53,13 @@ export default function FormRadioInput({
       }
     }
   }, [defaultValue, name, options, setValue, watchChecked]);
+
+  useEffect(() => {
+    if (watchChecked && onChange) {
+      onChange(watchChecked);
+    }
+    // eslint-disable-next-line
+  }, [watchChecked]);
 
   return (
     <div className="c-FormRadioInput">

@@ -1,9 +1,9 @@
-import { GetQuizAndTipsBlockByContractIdDocument } from "../src/graphql/codegen/generated-types";
+import { GetQuizAndTipsBlockTabDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetQuizAndTipsBlockByContractIdDocument,
+      query: GetQuizAndTipsBlockTabDocument,
       variables: {
         contractId: "1",
       },

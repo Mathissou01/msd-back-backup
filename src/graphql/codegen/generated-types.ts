@@ -390,8 +390,16 @@ export type ComponentMsdContactUs = {
 
 export type ComponentMsdEditorial = {
   __typename?: "ComponentMsdEditorial";
+  editoContents?: Maybe<EditoContentRelationResponseCollection>;
   editorialServices?: Maybe<EditorialServiceRelationResponseCollection>;
   id: Scalars["ID"];
+};
+
+export type ComponentMsdEditorialEditoContentsArgs = {
+  filters?: InputMaybe<EditoContentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type ComponentMsdEditorialEditorialServicesArgs = {
@@ -439,6 +447,7 @@ export type Contract = {
   publishedAt?: Maybe<Scalars["DateTime"]>;
   services?: Maybe<ServiceRelationResponseCollection>;
   siret?: Maybe<Scalars["Long"]>;
+  tags?: Maybe<TagRelationResponseCollection>;
   territory?: Maybe<TerritoryEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
@@ -446,6 +455,13 @@ export type Contract = {
 
 export type ContractServicesArgs = {
   filters?: InputMaybe<ServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ContractTagsArgs = {
+  filters?: InputMaybe<TagFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -536,6 +552,7 @@ export type ContractFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   services?: InputMaybe<ServiceFiltersInput>;
   siret?: InputMaybe<LongFilterInput>;
+  tags?: InputMaybe<TagFiltersInput>;
   territory?: InputMaybe<TerritoryFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   users?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -551,6 +568,7 @@ export type ContractInput = {
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   services?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   siret?: InputMaybe<Scalars["Long"]>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   territory?: InputMaybe<Scalars["ID"]>;
   users?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
@@ -973,6 +991,7 @@ export type Event = {
   documents?: Maybe<DocumentRelationResponseCollection>;
   events?: Maybe<EventRelationResponseCollection>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -986,6 +1005,13 @@ export type EventDocumentsArgs = {
 
 export type EventEventsArgs = {
   filters?: InputMaybe<EventFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type EventTagsArgs = {
+  filters?: InputMaybe<TagFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -1018,6 +1044,7 @@ export type EventFiltersInput = {
   not?: InputMaybe<EventFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<EventFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -1027,6 +1054,7 @@ export type EventInput = {
   documents?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   events?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
 };
 
@@ -1789,9 +1817,9 @@ export type MutationCreateEditorialServiceArgs = {
 
 export type MutationCreateEditorialServiceForContractArgs = {
   contractId?: InputMaybe<Scalars["ID"]>;
-  endDate?: InputMaybe<Scalars["Date"]>;
+  endDate?: InputMaybe<Scalars["DateTime"]>;
   name?: InputMaybe<Scalars["String"]>;
-  startDate?: InputMaybe<Scalars["Date"]>;
+  startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type MutationCreateEmptyContractArgs = {
@@ -2356,6 +2384,7 @@ export type New = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   image?: Maybe<UploadFileEntityResponse>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
   video?: Maybe<UploadFileEntityResponse>;
@@ -2370,6 +2399,13 @@ export type NewAudiencesArgs = {
 
 export type NewChannelsArgs = {
   filters?: InputMaybe<ChannelTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type NewTagsArgs = {
+  filters?: InputMaybe<TagFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -2401,6 +2437,7 @@ export type NewFiltersInput = {
   not?: InputMaybe<NewFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<NewFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -2410,6 +2447,7 @@ export type NewInput = {
   channels?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   image?: InputMaybe<Scalars["ID"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   video?: InputMaybe<Scalars["ID"]>;
 };
@@ -2496,6 +2534,7 @@ export type Query = {
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractCustomizations?: Maybe<ContractCustomizationEntityResponseCollection>;
   contracts?: Maybe<ContractEntityResponseCollection>;
+  countContentPerTag?: Maybe<Array<Maybe<Tag>>>;
   descriptionService?: Maybe<DescriptionServiceEntityResponse>;
   descriptionServices?: Maybe<DescriptionServiceEntityResponseCollection>;
   document?: Maybe<DocumentEntityResponse>;
@@ -2649,6 +2688,10 @@ export type QueryContractsArgs = {
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCountContentPerTagArgs = {
+  contractId: Scalars["ID"];
 };
 
 export type QueryDescriptionServiceArgs = {
@@ -3043,8 +3086,16 @@ export type Quiz = {
   __typename?: "Quiz";
   createdAt?: Maybe<Scalars["DateTime"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  tags?: Maybe<TagRelationResponseCollection>;
   title?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type QuizTagsArgs = {
+  filters?: InputMaybe<TagFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type QuizAndTipsBlock = {
@@ -3137,12 +3188,14 @@ export type QuizFiltersInput = {
   not?: InputMaybe<QuizFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<QuizFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type QuizInput = {
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
 };
 
@@ -3635,9 +3688,11 @@ export type StringFilterInput = {
 
 export type Tag = {
   __typename?: "Tag";
+  contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   name?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  tagPerContent?: Maybe<Scalars["Int"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -3660,18 +3715,24 @@ export type TagEntityResponseCollection = {
 
 export type TagFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<TagFiltersInput>>>;
+  contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isSystem?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<TagFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<TagFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  tagPerContent?: InputMaybe<IntFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type TagInput = {
+  contract?: InputMaybe<Scalars["ID"]>;
+  isSystem?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  tagPerContent?: InputMaybe<Scalars["Int"]>;
 };
 
 export type TagRelationResponseCollection = {
@@ -3797,9 +3858,17 @@ export type Tip = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   link?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   titleLabel?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type TipTagsArgs = {
+  filters?: InputMaybe<TagFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type TipEntity = {
@@ -3827,6 +3896,7 @@ export type TipFiltersInput = {
   not?: InputMaybe<TipFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<TipFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   titleLabel?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -3835,6 +3905,7 @@ export type TipFiltersInput = {
 export type TipInput = {
   link?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   titleLabel?: InputMaybe<Scalars["String"]>;
 };
@@ -4319,11 +4390,209 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>;
 };
 
-export type GetQuizAndTipsBlockByContractIdQueryVariables = Exact<{
+export type GetEditoBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetQuizAndTipsBlockByContractIdQuery = {
+export type GetEditoBlockTabQuery = {
+  __typename?: "Query";
+  contractCustomizations?: {
+    __typename?: "ContractCustomizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractCustomizationEntity";
+      attributes?: {
+        __typename?: "ContractCustomization";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              editoBlock?: {
+                __typename?: "EditoBlockEntityResponse";
+                data?: {
+                  __typename?: "EditoBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "EditoBlock";
+                    displayBlock?: boolean | null;
+                    titleContent: string;
+                    editoContents?: {
+                      __typename?: "EditoContentRelationResponseCollection";
+                      data: Array<{
+                        __typename?: "EditoContentEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "EditoContent";
+                          event?: {
+                            __typename?: "EventEntityResponse";
+                            data?: {
+                              __typename?: "EventEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "Event";
+                                title: string;
+                                publishedAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                          news?: {
+                            __typename?: "NewEntityResponse";
+                            data?: {
+                              __typename?: "NewEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "New";
+                                title: string;
+                                publishedAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                          tip?: {
+                            __typename?: "TipEntityResponse";
+                            data?: {
+                              __typename?: "TipEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "Tip";
+                                title: string;
+                                publishedAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                          quiz?: {
+                            __typename?: "QuizEntityResponse";
+                            data?: {
+                              __typename?: "QuizEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "Quiz";
+                                title?: string | null;
+                                publishedAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                          freeContent?: {
+                            __typename?: "FreeContentEntityResponse";
+                            data?: {
+                              __typename?: "FreeContentEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "FreeContent";
+                                title?: string | null;
+                                publishedAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                        } | null;
+                      }>;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+  services?: {
+    __typename?: "ServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "ServiceEntity";
+      attributes?: {
+        __typename?: "Service";
+        serviceInstance?: Array<
+          | { __typename?: "ComponentMsdContactUs" }
+          | {
+              __typename?: "ComponentMsdEditorial";
+              editoContents?: {
+                __typename?: "EditoContentRelationResponseCollection";
+                data: Array<{
+                  __typename?: "EditoContentEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "EditoContent";
+                    event?: {
+                      __typename?: "EventEntityResponse";
+                      data?: {
+                        __typename?: "EventEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "Event";
+                          title: string;
+                          publishedAt?: any | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                    news?: {
+                      __typename?: "NewEntityResponse";
+                      data?: {
+                        __typename?: "NewEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "New";
+                          title: string;
+                          publishedAt?: any | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                    tip?: {
+                      __typename?: "TipEntityResponse";
+                      data?: {
+                        __typename?: "TipEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "Tip";
+                          title: string;
+                          publishedAt?: any | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                    quiz?: {
+                      __typename?: "QuizEntityResponse";
+                      data?: {
+                        __typename?: "QuizEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "Quiz";
+                          title?: string | null;
+                          publishedAt?: any | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                    freeContent?: {
+                      __typename?: "FreeContentEntityResponse";
+                      data?: {
+                        __typename?: "FreeContentEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "FreeContent";
+                          title?: string | null;
+                          publishedAt?: any | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                }>;
+              } | null;
+            }
+          | { __typename?: "ComponentMsdExternal" }
+          | { __typename?: "ComponentMsdRecycling" }
+          | { __typename?: "ComponentMsdRequest" }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetQuizAndTipsBlockTabQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetQuizAndTipsBlockTabQuery = {
   __typename?: "Query";
   contractCustomizations?: {
     __typename?: "ContractCustomizationEntityResponseCollection";
@@ -4450,11 +4719,11 @@ export type GetQuizAndTipsBlockByContractIdQuery = {
   } | null;
 };
 
-export type GetRecyclingBlockByContractIdQueryVariables = Exact<{
+export type GetRecyclingBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetRecyclingBlockByContractIdQuery = {
+export type GetRecyclingBlockTabQuery = {
   __typename?: "Query";
   contractCustomizations?: {
     __typename?: "ContractCustomizationEntityResponseCollection";
@@ -4499,11 +4768,48 @@ export type GetRecyclingBlockByContractIdQuery = {
   } | null;
 };
 
-export type GetServicesByContractIdQueryVariables = Exact<{
+export type GetSearchEngineTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetServicesByContractIdQuery = {
+export type GetSearchEngineTabQuery = {
+  __typename?: "Query";
+  contractCustomizations?: {
+    __typename?: "ContractCustomizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractCustomizationEntity";
+      attributes?: {
+        __typename?: "ContractCustomization";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              searchEngineBlock?: {
+                __typename?: "SearchEngineBlockEntityResponse";
+                data?: {
+                  __typename?: "SearchEngineBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "SearchEngineBlock";
+                    titleContent: string;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetServicesActiveQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetServicesActiveQuery = {
   __typename?: "Query";
   services?: {
     __typename?: "ServiceEntityResponseCollection";
@@ -4534,6 +4840,11 @@ export type GetServicesByContractIdQuery = {
                       | { __typename: "Error" }
                       | null
                     > | null;
+                    subServiceFreeInstance?: Array<
+                      | { __typename: "ComponentEditoFreeService" }
+                      | { __typename: "Error" }
+                      | null
+                    > | null;
                   } | null;
                 }>;
               } | null;
@@ -4549,12 +4860,182 @@ export type GetServicesByContractIdQuery = {
   } | null;
 };
 
-export type UpdateQuizAndTipsBlockByIdMutationVariables = Exact<{
+export type GetTopContentTabQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetTopContentTabQuery = {
+  __typename?: "Query";
+  contractCustomizations?: {
+    __typename?: "ContractCustomizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractCustomizationEntity";
+      attributes?: {
+        __typename?: "ContractCustomization";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              topContentBlock?: {
+                __typename?: "TopContentBlockEntityResponse";
+                data?: {
+                  __typename?: "TopContentBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "TopContentBlock";
+                    displayBlock?: boolean | null;
+                    titleContent: string;
+                    hasTopContent?: boolean | null;
+                    displayLastThreeContents?: boolean | null;
+                    topContent?: {
+                      __typename?: "TopContentEntityResponse";
+                      data?: {
+                        __typename?: "TopContentEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "TopContent";
+                          event?: {
+                            __typename?: "EventEntityResponse";
+                            data?: {
+                              __typename?: "EventEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "Event";
+                                publishedAt?: any | null;
+                                title: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                          news?: {
+                            __typename?: "NewEntityResponse";
+                            data?: {
+                              __typename?: "NewEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "New";
+                                title: string;
+                                publishedAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+  services?: {
+    __typename?: "ServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "ServiceEntity";
+      attributes?: {
+        __typename?: "Service";
+        serviceInstance?: Array<
+          | { __typename?: "ComponentMsdContactUs" }
+          | {
+              __typename?: "ComponentMsdEditorial";
+              editorialServices?: {
+                __typename?: "EditorialServiceRelationResponseCollection";
+                data: Array<{
+                  __typename?: "EditorialServiceEntity";
+                  attributes?: {
+                    __typename?: "EditorialService";
+                    isActivated: boolean;
+                    subServiceInstance?: Array<
+                      | {
+                          __typename: "ComponentEditoEventSubService";
+                          id: string;
+                          events?: {
+                            __typename?: "EventRelationResponseCollection";
+                            data: Array<{
+                              __typename?: "EventEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "Event";
+                                publishedAt?: any | null;
+                                title: string;
+                              } | null;
+                            }>;
+                          } | null;
+                        }
+                      | {
+                          __typename: "ComponentEditoNewsSubService";
+                          id: string;
+                          news?: {
+                            __typename?: "NewRelationResponseCollection";
+                            data: Array<{
+                              __typename?: "NewEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "New";
+                                publishedAt?: any | null;
+                                title: string;
+                              } | null;
+                            }>;
+                          } | null;
+                        }
+                      | { __typename?: "ComponentEditoQuizzesSubService" }
+                      | { __typename?: "ComponentEditoTipsSubService" }
+                      | { __typename?: "Error" }
+                      | null
+                    > | null;
+                  } | null;
+                }>;
+              } | null;
+            }
+          | { __typename?: "ComponentMsdExternal" }
+          | { __typename?: "ComponentMsdRecycling" }
+          | { __typename?: "ComponentMsdRequest" }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateEditoBlockTabMutationVariables = Exact<{
+  updateEditoBlockId: Scalars["ID"];
+  data: EditoBlockInput;
+}>;
+
+export type UpdateEditoBlockTabMutation = {
+  __typename?: "Mutation";
+  updateEditoBlock?: {
+    __typename?: "EditoBlockEntityResponse";
+    data?: {
+      __typename?: "EditoBlockEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "EditoBlock";
+        displayBlock?: boolean | null;
+        titleContent: string;
+        editoContents?: {
+          __typename?: "EditoContentRelationResponseCollection";
+          data: Array<{
+            __typename?: "EditoContentEntity";
+            id?: string | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateQuizAndTipsBlockTabMutationVariables = Exact<{
   quizAndTipsBlockId: Scalars["ID"];
   data: QuizAndTipsBlockInput;
 }>;
 
-export type UpdateQuizAndTipsBlockByIdMutation = {
+export type UpdateQuizAndTipsBlockTabMutation = {
   __typename?: "Mutation";
   updateQuizAndTipsBlock?: {
     __typename?: "QuizAndTipsBlockEntityResponse";
@@ -4579,12 +5060,12 @@ export type UpdateQuizAndTipsBlockByIdMutation = {
   } | null;
 };
 
-export type UpdateRecyclingGuideByIdMutationVariables = Exact<{
+export type UpdateRecyclingGuideTabMutationVariables = Exact<{
   updateRecyclingGuideBlockId: Scalars["ID"];
   data: RecyclingGuideBlockInput;
 }>;
 
-export type UpdateRecyclingGuideByIdMutation = {
+export type UpdateRecyclingGuideTabMutation = {
   __typename?: "Mutation";
   updateRecyclingGuideBlock?: {
     __typename?: "RecyclingGuideBlockEntityResponse";
@@ -4607,8 +5088,288 @@ export type UpdateRecyclingGuideByIdMutation = {
   } | null;
 };
 
-export const GetQuizAndTipsBlockByContractIdDocument = gql`
-  query getQuizAndTipsBlockByContractId($contractId: ID!) {
+export type UpdateSearchEngineTabMutationVariables = Exact<{
+  updateSearchEngineBlockId: Scalars["ID"];
+  data: SearchEngineBlockInput;
+}>;
+
+export type UpdateSearchEngineTabMutation = {
+  __typename?: "Mutation";
+  updateSearchEngineBlock?: {
+    __typename?: "SearchEngineBlockEntityResponse";
+    data?: {
+      __typename?: "SearchEngineBlockEntity";
+      attributes?: {
+        __typename?: "SearchEngineBlock";
+        titleContent: string;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateTopContentTabMutationVariables = Exact<{
+  updateTopContentBlockId: Scalars["ID"];
+  data: TopContentBlockInput;
+}>;
+
+export type UpdateTopContentTabMutation = {
+  __typename?: "Mutation";
+  updateTopContentBlock?: {
+    __typename?: "TopContentBlockEntityResponse";
+    data?: {
+      __typename?: "TopContentBlockEntity";
+      attributes?: {
+        __typename?: "TopContentBlock";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              topContentBlock?: {
+                __typename?: "TopContentBlockEntityResponse";
+                data?: {
+                  __typename?: "TopContentBlockEntity";
+                  attributes?: {
+                    __typename?: "TopContentBlock";
+                    displayBlock?: boolean | null;
+                    titleContent: string;
+                    hasTopContent?: boolean | null;
+                    displayLastThreeContents?: boolean | null;
+                    topContent?: {
+                      __typename?: "TopContentEntityResponse";
+                      data?: {
+                        __typename?: "TopContentEntity";
+                        attributes?: {
+                          __typename?: "TopContent";
+                          event?: {
+                            __typename?: "EventEntityResponse";
+                            data?: {
+                              __typename?: "EventEntity";
+                              attributes?: {
+                                __typename?: "Event";
+                                publishedAt?: any | null;
+                                title: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                          news?: {
+                            __typename?: "NewEntityResponse";
+                            data?: {
+                              __typename?: "NewEntity";
+                              attributes?: {
+                                __typename?: "New";
+                                title: string;
+                                publishedAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export const GetEditoBlockTabDocument = gql`
+  query getEditoBlockTab($contractId: ID!) {
+    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          homepage {
+            data {
+              attributes {
+                editoBlock {
+                  data {
+                    id
+                    attributes {
+                      displayBlock
+                      titleContent
+                      editoContents {
+                        data {
+                          id
+                          attributes {
+                            event {
+                              data {
+                                id
+                                attributes {
+                                  title
+                                  publishedAt
+                                }
+                              }
+                            }
+                            news {
+                              data {
+                                id
+                                attributes {
+                                  title
+                                  publishedAt
+                                }
+                              }
+                            }
+                            tip {
+                              data {
+                                id
+                                attributes {
+                                  title
+                                  publishedAt
+                                }
+                              }
+                            }
+                            quiz {
+                              data {
+                                id
+                                attributes {
+                                  title
+                                  publishedAt
+                                }
+                              }
+                            }
+                            freeContent {
+                              data {
+                                id
+                                attributes {
+                                  title
+                                  publishedAt
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    services(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          serviceInstance {
+            ... on ComponentMsdEditorial {
+              editoContents {
+                data {
+                  id
+                  attributes {
+                    event {
+                      data {
+                        id
+                        attributes {
+                          title
+                          publishedAt
+                        }
+                      }
+                    }
+                    news {
+                      data {
+                        id
+                        attributes {
+                          title
+                          publishedAt
+                        }
+                      }
+                    }
+                    tip {
+                      data {
+                        id
+                        attributes {
+                          title
+                          publishedAt
+                        }
+                      }
+                    }
+                    quiz {
+                      data {
+                        id
+                        attributes {
+                          title
+                          publishedAt
+                        }
+                      }
+                    }
+                    freeContent {
+                      data {
+                        id
+                        attributes {
+                          title
+                          publishedAt
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetEditoBlockTabQuery__
+ *
+ * To run a query within a React component, call `useGetEditoBlockTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEditoBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEditoBlockTabQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetEditoBlockTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetEditoBlockTabQuery,
+    GetEditoBlockTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetEditoBlockTabQuery, GetEditoBlockTabQueryVariables>(
+    GetEditoBlockTabDocument,
+    options,
+  );
+}
+export function useGetEditoBlockTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetEditoBlockTabQuery,
+    GetEditoBlockTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetEditoBlockTabQuery,
+    GetEditoBlockTabQueryVariables
+  >(GetEditoBlockTabDocument, options);
+}
+export type GetEditoBlockTabQueryHookResult = ReturnType<
+  typeof useGetEditoBlockTabQuery
+>;
+export type GetEditoBlockTabLazyQueryHookResult = ReturnType<
+  typeof useGetEditoBlockTabLazyQuery
+>;
+export type GetEditoBlockTabQueryResult = Apollo.QueryResult<
+  GetEditoBlockTabQuery,
+  GetEditoBlockTabQueryVariables
+>;
+export const GetQuizAndTipsBlockTabDocument = gql`
+  query getQuizAndTipsBlockTab($contractId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
@@ -4698,57 +5459,57 @@ export const GetQuizAndTipsBlockByContractIdDocument = gql`
 `;
 
 /**
- * __useGetQuizAndTipsBlockByContractIdQuery__
+ * __useGetQuizAndTipsBlockTabQuery__
  *
- * To run a query within a React component, call `useGetQuizAndTipsBlockByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetQuizAndTipsBlockByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetQuizAndTipsBlockTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetQuizAndTipsBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetQuizAndTipsBlockByContractIdQuery({
+ * const { data, loading, error } = useGetQuizAndTipsBlockTabQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetQuizAndTipsBlockByContractIdQuery(
+export function useGetQuizAndTipsBlockTabQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetQuizAndTipsBlockByContractIdQuery,
-    GetQuizAndTipsBlockByContractIdQueryVariables
+    GetQuizAndTipsBlockTabQuery,
+    GetQuizAndTipsBlockTabQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetQuizAndTipsBlockByContractIdQuery,
-    GetQuizAndTipsBlockByContractIdQueryVariables
-  >(GetQuizAndTipsBlockByContractIdDocument, options);
+    GetQuizAndTipsBlockTabQuery,
+    GetQuizAndTipsBlockTabQueryVariables
+  >(GetQuizAndTipsBlockTabDocument, options);
 }
-export function useGetQuizAndTipsBlockByContractIdLazyQuery(
+export function useGetQuizAndTipsBlockTabLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetQuizAndTipsBlockByContractIdQuery,
-    GetQuizAndTipsBlockByContractIdQueryVariables
+    GetQuizAndTipsBlockTabQuery,
+    GetQuizAndTipsBlockTabQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetQuizAndTipsBlockByContractIdQuery,
-    GetQuizAndTipsBlockByContractIdQueryVariables
-  >(GetQuizAndTipsBlockByContractIdDocument, options);
+    GetQuizAndTipsBlockTabQuery,
+    GetQuizAndTipsBlockTabQueryVariables
+  >(GetQuizAndTipsBlockTabDocument, options);
 }
-export type GetQuizAndTipsBlockByContractIdQueryHookResult = ReturnType<
-  typeof useGetQuizAndTipsBlockByContractIdQuery
+export type GetQuizAndTipsBlockTabQueryHookResult = ReturnType<
+  typeof useGetQuizAndTipsBlockTabQuery
 >;
-export type GetQuizAndTipsBlockByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetQuizAndTipsBlockByContractIdLazyQuery
+export type GetQuizAndTipsBlockTabLazyQueryHookResult = ReturnType<
+  typeof useGetQuizAndTipsBlockTabLazyQuery
 >;
-export type GetQuizAndTipsBlockByContractIdQueryResult = Apollo.QueryResult<
-  GetQuizAndTipsBlockByContractIdQuery,
-  GetQuizAndTipsBlockByContractIdQueryVariables
+export type GetQuizAndTipsBlockTabQueryResult = Apollo.QueryResult<
+  GetQuizAndTipsBlockTabQuery,
+  GetQuizAndTipsBlockTabQueryVariables
 >;
-export const GetRecyclingBlockByContractIdDocument = gql`
-  query getRecyclingBlockByContractId($contractId: ID!) {
+export const GetRecyclingBlockTabDocument = gql`
+  query getRecyclingBlockTab($contractId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
@@ -4782,57 +5543,132 @@ export const GetRecyclingBlockByContractIdDocument = gql`
 `;
 
 /**
- * __useGetRecyclingBlockByContractIdQuery__
+ * __useGetRecyclingBlockTabQuery__
  *
- * To run a query within a React component, call `useGetRecyclingBlockByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecyclingBlockByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetRecyclingBlockTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecyclingBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRecyclingBlockByContractIdQuery({
+ * const { data, loading, error } = useGetRecyclingBlockTabQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetRecyclingBlockByContractIdQuery(
+export function useGetRecyclingBlockTabQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetRecyclingBlockByContractIdQuery,
-    GetRecyclingBlockByContractIdQueryVariables
+    GetRecyclingBlockTabQuery,
+    GetRecyclingBlockTabQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetRecyclingBlockByContractIdQuery,
-    GetRecyclingBlockByContractIdQueryVariables
-  >(GetRecyclingBlockByContractIdDocument, options);
+    GetRecyclingBlockTabQuery,
+    GetRecyclingBlockTabQueryVariables
+  >(GetRecyclingBlockTabDocument, options);
 }
-export function useGetRecyclingBlockByContractIdLazyQuery(
+export function useGetRecyclingBlockTabLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetRecyclingBlockByContractIdQuery,
-    GetRecyclingBlockByContractIdQueryVariables
+    GetRecyclingBlockTabQuery,
+    GetRecyclingBlockTabQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetRecyclingBlockByContractIdQuery,
-    GetRecyclingBlockByContractIdQueryVariables
-  >(GetRecyclingBlockByContractIdDocument, options);
+    GetRecyclingBlockTabQuery,
+    GetRecyclingBlockTabQueryVariables
+  >(GetRecyclingBlockTabDocument, options);
 }
-export type GetRecyclingBlockByContractIdQueryHookResult = ReturnType<
-  typeof useGetRecyclingBlockByContractIdQuery
+export type GetRecyclingBlockTabQueryHookResult = ReturnType<
+  typeof useGetRecyclingBlockTabQuery
 >;
-export type GetRecyclingBlockByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetRecyclingBlockByContractIdLazyQuery
+export type GetRecyclingBlockTabLazyQueryHookResult = ReturnType<
+  typeof useGetRecyclingBlockTabLazyQuery
 >;
-export type GetRecyclingBlockByContractIdQueryResult = Apollo.QueryResult<
-  GetRecyclingBlockByContractIdQuery,
-  GetRecyclingBlockByContractIdQueryVariables
+export type GetRecyclingBlockTabQueryResult = Apollo.QueryResult<
+  GetRecyclingBlockTabQuery,
+  GetRecyclingBlockTabQueryVariables
 >;
-export const GetServicesByContractIdDocument = gql`
-  query getServicesByContractId($contractId: ID!) {
+export const GetSearchEngineTabDocument = gql`
+  query getSearchEngineTab($contractId: ID!) {
+    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          homepage {
+            data {
+              attributes {
+                searchEngineBlock {
+                  data {
+                    id
+                    attributes {
+                      titleContent
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSearchEngineTabQuery__
+ *
+ * To run a query within a React component, call `useGetSearchEngineTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSearchEngineTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSearchEngineTabQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetSearchEngineTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetSearchEngineTabQuery,
+    GetSearchEngineTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetSearchEngineTabQuery,
+    GetSearchEngineTabQueryVariables
+  >(GetSearchEngineTabDocument, options);
+}
+export function useGetSearchEngineTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSearchEngineTabQuery,
+    GetSearchEngineTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSearchEngineTabQuery,
+    GetSearchEngineTabQueryVariables
+  >(GetSearchEngineTabDocument, options);
+}
+export type GetSearchEngineTabQueryHookResult = ReturnType<
+  typeof useGetSearchEngineTabQuery
+>;
+export type GetSearchEngineTabLazyQueryHookResult = ReturnType<
+  typeof useGetSearchEngineTabLazyQuery
+>;
+export type GetSearchEngineTabQueryResult = Apollo.QueryResult<
+  GetSearchEngineTabQuery,
+  GetSearchEngineTabQueryVariables
+>;
+export const GetServicesActiveDocument = gql`
+  query getServicesActive($contractId: ID!) {
     services(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
@@ -4850,6 +5686,9 @@ export const GetServicesByContractIdDocument = gql`
                     subServiceInstance {
                       __typename
                     }
+                    subServiceFreeInstance {
+                      __typename
+                    }
                   }
                 }
               }
@@ -4865,57 +5704,270 @@ export const GetServicesByContractIdDocument = gql`
 `;
 
 /**
- * __useGetServicesByContractIdQuery__
+ * __useGetServicesActiveQuery__
  *
- * To run a query within a React component, call `useGetServicesByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetServicesActiveQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetServicesActiveQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetServicesByContractIdQuery({
+ * const { data, loading, error } = useGetServicesActiveQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetServicesByContractIdQuery(
+export function useGetServicesActiveQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetServicesByContractIdQuery,
-    GetServicesByContractIdQueryVariables
+    GetServicesActiveQuery,
+    GetServicesActiveQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetServicesByContractIdQuery,
-    GetServicesByContractIdQueryVariables
-  >(GetServicesByContractIdDocument, options);
+    GetServicesActiveQuery,
+    GetServicesActiveQueryVariables
+  >(GetServicesActiveDocument, options);
 }
-export function useGetServicesByContractIdLazyQuery(
+export function useGetServicesActiveLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetServicesByContractIdQuery,
-    GetServicesByContractIdQueryVariables
+    GetServicesActiveQuery,
+    GetServicesActiveQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetServicesByContractIdQuery,
-    GetServicesByContractIdQueryVariables
-  >(GetServicesByContractIdDocument, options);
+    GetServicesActiveQuery,
+    GetServicesActiveQueryVariables
+  >(GetServicesActiveDocument, options);
 }
-export type GetServicesByContractIdQueryHookResult = ReturnType<
-  typeof useGetServicesByContractIdQuery
+export type GetServicesActiveQueryHookResult = ReturnType<
+  typeof useGetServicesActiveQuery
 >;
-export type GetServicesByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetServicesByContractIdLazyQuery
+export type GetServicesActiveLazyQueryHookResult = ReturnType<
+  typeof useGetServicesActiveLazyQuery
 >;
-export type GetServicesByContractIdQueryResult = Apollo.QueryResult<
-  GetServicesByContractIdQuery,
-  GetServicesByContractIdQueryVariables
+export type GetServicesActiveQueryResult = Apollo.QueryResult<
+  GetServicesActiveQuery,
+  GetServicesActiveQueryVariables
 >;
-export const UpdateQuizAndTipsBlockByIdDocument = gql`
-  mutation updateQuizAndTipsBlockById(
+export const GetTopContentTabDocument = gql`
+  query getTopContentTab($contractId: ID!) {
+    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          homepage {
+            data {
+              attributes {
+                topContentBlock {
+                  data {
+                    id
+                    attributes {
+                      displayBlock
+                      titleContent
+                      hasTopContent
+                      topContent {
+                        data {
+                          id
+                          attributes {
+                            event {
+                              data {
+                                id
+                                attributes {
+                                  publishedAt
+                                  title
+                                }
+                              }
+                            }
+                            news {
+                              data {
+                                id
+                                attributes {
+                                  title
+                                  publishedAt
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                      displayLastThreeContents
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    services(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          serviceInstance {
+            ... on ComponentMsdEditorial {
+              editorialServices {
+                data {
+                  attributes {
+                    isActivated
+                    subServiceInstance {
+                      ... on ComponentEditoNewsSubService {
+                        __typename
+                        id
+                        news {
+                          data {
+                            id
+                            attributes {
+                              publishedAt
+                              title
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentEditoEventSubService {
+                        __typename
+                        id
+                        events {
+                          data {
+                            id
+                            attributes {
+                              publishedAt
+                              title
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTopContentTabQuery__
+ *
+ * To run a query within a React component, call `useGetTopContentTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopContentTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopContentTabQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetTopContentTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTopContentTabQuery,
+    GetTopContentTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTopContentTabQuery, GetTopContentTabQueryVariables>(
+    GetTopContentTabDocument,
+    options,
+  );
+}
+export function useGetTopContentTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTopContentTabQuery,
+    GetTopContentTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetTopContentTabQuery,
+    GetTopContentTabQueryVariables
+  >(GetTopContentTabDocument, options);
+}
+export type GetTopContentTabQueryHookResult = ReturnType<
+  typeof useGetTopContentTabQuery
+>;
+export type GetTopContentTabLazyQueryHookResult = ReturnType<
+  typeof useGetTopContentTabLazyQuery
+>;
+export type GetTopContentTabQueryResult = Apollo.QueryResult<
+  GetTopContentTabQuery,
+  GetTopContentTabQueryVariables
+>;
+export const UpdateEditoBlockTabDocument = gql`
+  mutation updateEditoBlockTab(
+    $updateEditoBlockId: ID!
+    $data: EditoBlockInput!
+  ) {
+    updateEditoBlock(id: $updateEditoBlockId, data: $data) {
+      data {
+        id
+        attributes {
+          displayBlock
+          titleContent
+          editoContents {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateEditoBlockTabMutationFn = Apollo.MutationFunction<
+  UpdateEditoBlockTabMutation,
+  UpdateEditoBlockTabMutationVariables
+>;
+
+/**
+ * __useUpdateEditoBlockTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateEditoBlockTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEditoBlockTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEditoBlockTabMutation, { data, loading, error }] = useUpdateEditoBlockTabMutation({
+ *   variables: {
+ *      updateEditoBlockId: // value for 'updateEditoBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateEditoBlockTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEditoBlockTabMutation,
+    UpdateEditoBlockTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateEditoBlockTabMutation,
+    UpdateEditoBlockTabMutationVariables
+  >(UpdateEditoBlockTabDocument, options);
+}
+export type UpdateEditoBlockTabMutationHookResult = ReturnType<
+  typeof useUpdateEditoBlockTabMutation
+>;
+export type UpdateEditoBlockTabMutationResult =
+  Apollo.MutationResult<UpdateEditoBlockTabMutation>;
+export type UpdateEditoBlockTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEditoBlockTabMutation,
+  UpdateEditoBlockTabMutationVariables
+>;
+export const UpdateQuizAndTipsBlockTabDocument = gql`
+  mutation updateQuizAndTipsBlockTab(
     $quizAndTipsBlockId: ID!
     $data: QuizAndTipsBlockInput!
   ) {
@@ -4941,53 +5993,53 @@ export const UpdateQuizAndTipsBlockByIdDocument = gql`
     }
   }
 `;
-export type UpdateQuizAndTipsBlockByIdMutationFn = Apollo.MutationFunction<
-  UpdateQuizAndTipsBlockByIdMutation,
-  UpdateQuizAndTipsBlockByIdMutationVariables
+export type UpdateQuizAndTipsBlockTabMutationFn = Apollo.MutationFunction<
+  UpdateQuizAndTipsBlockTabMutation,
+  UpdateQuizAndTipsBlockTabMutationVariables
 >;
 
 /**
- * __useUpdateQuizAndTipsBlockByIdMutation__
+ * __useUpdateQuizAndTipsBlockTabMutation__
  *
- * To run a mutation, you first call `useUpdateQuizAndTipsBlockByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateQuizAndTipsBlockByIdMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateQuizAndTipsBlockTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateQuizAndTipsBlockTabMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateQuizAndTipsBlockByIdMutation, { data, loading, error }] = useUpdateQuizAndTipsBlockByIdMutation({
+ * const [updateQuizAndTipsBlockTabMutation, { data, loading, error }] = useUpdateQuizAndTipsBlockTabMutation({
  *   variables: {
  *      quizAndTipsBlockId: // value for 'quizAndTipsBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateQuizAndTipsBlockByIdMutation(
+export function useUpdateQuizAndTipsBlockTabMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateQuizAndTipsBlockByIdMutation,
-    UpdateQuizAndTipsBlockByIdMutationVariables
+    UpdateQuizAndTipsBlockTabMutation,
+    UpdateQuizAndTipsBlockTabMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateQuizAndTipsBlockByIdMutation,
-    UpdateQuizAndTipsBlockByIdMutationVariables
-  >(UpdateQuizAndTipsBlockByIdDocument, options);
+    UpdateQuizAndTipsBlockTabMutation,
+    UpdateQuizAndTipsBlockTabMutationVariables
+  >(UpdateQuizAndTipsBlockTabDocument, options);
 }
-export type UpdateQuizAndTipsBlockByIdMutationHookResult = ReturnType<
-  typeof useUpdateQuizAndTipsBlockByIdMutation
+export type UpdateQuizAndTipsBlockTabMutationHookResult = ReturnType<
+  typeof useUpdateQuizAndTipsBlockTabMutation
 >;
-export type UpdateQuizAndTipsBlockByIdMutationResult =
-  Apollo.MutationResult<UpdateQuizAndTipsBlockByIdMutation>;
-export type UpdateQuizAndTipsBlockByIdMutationOptions =
+export type UpdateQuizAndTipsBlockTabMutationResult =
+  Apollo.MutationResult<UpdateQuizAndTipsBlockTabMutation>;
+export type UpdateQuizAndTipsBlockTabMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateQuizAndTipsBlockByIdMutation,
-    UpdateQuizAndTipsBlockByIdMutationVariables
+    UpdateQuizAndTipsBlockTabMutation,
+    UpdateQuizAndTipsBlockTabMutationVariables
   >;
-export const UpdateRecyclingGuideByIdDocument = gql`
-  mutation updateRecyclingGuideById(
+export const UpdateRecyclingGuideTabDocument = gql`
+  mutation updateRecyclingGuideTab(
     $updateRecyclingGuideBlockId: ID!
     $data: RecyclingGuideBlockInput!
   ) {
@@ -5009,48 +6061,200 @@ export const UpdateRecyclingGuideByIdDocument = gql`
     }
   }
 `;
-export type UpdateRecyclingGuideByIdMutationFn = Apollo.MutationFunction<
-  UpdateRecyclingGuideByIdMutation,
-  UpdateRecyclingGuideByIdMutationVariables
+export type UpdateRecyclingGuideTabMutationFn = Apollo.MutationFunction<
+  UpdateRecyclingGuideTabMutation,
+  UpdateRecyclingGuideTabMutationVariables
 >;
 
 /**
- * __useUpdateRecyclingGuideByIdMutation__
+ * __useUpdateRecyclingGuideTabMutation__
  *
- * To run a mutation, you first call `useUpdateRecyclingGuideByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateRecyclingGuideByIdMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateRecyclingGuideTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRecyclingGuideTabMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateRecyclingGuideByIdMutation, { data, loading, error }] = useUpdateRecyclingGuideByIdMutation({
+ * const [updateRecyclingGuideTabMutation, { data, loading, error }] = useUpdateRecyclingGuideTabMutation({
  *   variables: {
  *      updateRecyclingGuideBlockId: // value for 'updateRecyclingGuideBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateRecyclingGuideByIdMutation(
+export function useUpdateRecyclingGuideTabMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateRecyclingGuideByIdMutation,
-    UpdateRecyclingGuideByIdMutationVariables
+    UpdateRecyclingGuideTabMutation,
+    UpdateRecyclingGuideTabMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateRecyclingGuideByIdMutation,
-    UpdateRecyclingGuideByIdMutationVariables
-  >(UpdateRecyclingGuideByIdDocument, options);
+    UpdateRecyclingGuideTabMutation,
+    UpdateRecyclingGuideTabMutationVariables
+  >(UpdateRecyclingGuideTabDocument, options);
 }
-export type UpdateRecyclingGuideByIdMutationHookResult = ReturnType<
-  typeof useUpdateRecyclingGuideByIdMutation
+export type UpdateRecyclingGuideTabMutationHookResult = ReturnType<
+  typeof useUpdateRecyclingGuideTabMutation
 >;
-export type UpdateRecyclingGuideByIdMutationResult =
-  Apollo.MutationResult<UpdateRecyclingGuideByIdMutation>;
-export type UpdateRecyclingGuideByIdMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateRecyclingGuideByIdMutation,
-    UpdateRecyclingGuideByIdMutationVariables
-  >;
+export type UpdateRecyclingGuideTabMutationResult =
+  Apollo.MutationResult<UpdateRecyclingGuideTabMutation>;
+export type UpdateRecyclingGuideTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateRecyclingGuideTabMutation,
+  UpdateRecyclingGuideTabMutationVariables
+>;
+export const UpdateSearchEngineTabDocument = gql`
+  mutation updateSearchEngineTab(
+    $updateSearchEngineBlockId: ID!
+    $data: SearchEngineBlockInput!
+  ) {
+    updateSearchEngineBlock(id: $updateSearchEngineBlockId, data: $data) {
+      data {
+        attributes {
+          titleContent
+        }
+      }
+    }
+  }
+`;
+export type UpdateSearchEngineTabMutationFn = Apollo.MutationFunction<
+  UpdateSearchEngineTabMutation,
+  UpdateSearchEngineTabMutationVariables
+>;
+
+/**
+ * __useUpdateSearchEngineTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateSearchEngineTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSearchEngineTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSearchEngineTabMutation, { data, loading, error }] = useUpdateSearchEngineTabMutation({
+ *   variables: {
+ *      updateSearchEngineBlockId: // value for 'updateSearchEngineBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateSearchEngineTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateSearchEngineTabMutation,
+    UpdateSearchEngineTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateSearchEngineTabMutation,
+    UpdateSearchEngineTabMutationVariables
+  >(UpdateSearchEngineTabDocument, options);
+}
+export type UpdateSearchEngineTabMutationHookResult = ReturnType<
+  typeof useUpdateSearchEngineTabMutation
+>;
+export type UpdateSearchEngineTabMutationResult =
+  Apollo.MutationResult<UpdateSearchEngineTabMutation>;
+export type UpdateSearchEngineTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateSearchEngineTabMutation,
+  UpdateSearchEngineTabMutationVariables
+>;
+export const UpdateTopContentTabDocument = gql`
+  mutation updateTopContentTab(
+    $updateTopContentBlockId: ID!
+    $data: TopContentBlockInput!
+  ) {
+    updateTopContentBlock(id: $updateTopContentBlockId, data: $data) {
+      data {
+        attributes {
+          homepage {
+            data {
+              attributes {
+                topContentBlock {
+                  data {
+                    attributes {
+                      displayBlock
+                      titleContent
+                      hasTopContent
+                      topContent {
+                        data {
+                          attributes {
+                            event {
+                              data {
+                                attributes {
+                                  publishedAt
+                                  title
+                                }
+                              }
+                            }
+                            news {
+                              data {
+                                attributes {
+                                  title
+                                  publishedAt
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                      displayLastThreeContents
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateTopContentTabMutationFn = Apollo.MutationFunction<
+  UpdateTopContentTabMutation,
+  UpdateTopContentTabMutationVariables
+>;
+
+/**
+ * __useUpdateTopContentTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateTopContentTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTopContentTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTopContentTabMutation, { data, loading, error }] = useUpdateTopContentTabMutation({
+ *   variables: {
+ *      updateTopContentBlockId: // value for 'updateTopContentBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateTopContentTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTopContentTabMutation,
+    UpdateTopContentTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateTopContentTabMutation,
+    UpdateTopContentTabMutationVariables
+  >(UpdateTopContentTabDocument, options);
+}
+export type UpdateTopContentTabMutationHookResult = ReturnType<
+  typeof useUpdateTopContentTabMutation
+>;
+export type UpdateTopContentTabMutationResult =
+  Apollo.MutationResult<UpdateTopContentTabMutation>;
+export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTopContentTabMutation,
+  UpdateTopContentTabMutationVariables
+>;

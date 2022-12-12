@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`QuizTipsTab renders loading and loaded state 1`] = `
+exports[`QuizAndTipsTab renders loading and loaded state 1`] = `
 <div>
   <div
     class="c-CommonSpinner__Wrapper "
@@ -18,21 +18,21 @@ exports[`QuizTipsTab renders loading and loaded state 1`] = `
 </div>
 `;
 
-exports[`QuizTipsTab renders loading and loaded state 2`] = `
+exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
 <div>
   <div
-    class="c-QuizTipsTab"
+    class="c-QuizAndTipsTab"
   >
     <h2
-      class="c-QuizTipsTab__Title"
+      class="c-QuizAndTipsTab__Title"
     >
       Quiz & Astuces
     </h2>
     <form
-      class="c-QuizTipsTab__Form"
+      class="c-QuizAndTipsTab__Form"
     >
       <div
-        class="c-QuizTipsTab__Group"
+        class="c-QuizAndTipsTab__Group c-QuizAndTipsTab__Group_short"
       >
         <div
           class="c-FormCheckbox"
@@ -85,7 +85,7 @@ exports[`QuizTipsTab renders loading and loaded state 2`] = `
         </div>
       </div>
       <div
-        class="c-QuizTipsTab__Group"
+        class="c-QuizAndTipsTab__Group"
       >
         <div
           class="c-FormCheckbox"
@@ -151,7 +151,7 @@ exports[`QuizTipsTab renders loading and loaded state 2`] = `
         </div>
       </div>
       <div
-        class="c-QuizTipsTab__Group"
+        class="c-QuizAndTipsTab__Group"
       >
         <div
           class="c-FormCheckbox"
@@ -214,7 +214,7 @@ exports[`QuizTipsTab renders loading and loaded state 2`] = `
         </div>
       </div>
       <div
-        class="c-QuizTipsTab__Buttons"
+        class="c-QuizAndTipsTab__Buttons"
       >
         <button
           class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"

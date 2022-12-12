@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WelcomeAndSearchEngineTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    class="c-CommonSpinner__Wrapper "
+  >
+    <div
+      class="c-CommonSpinner"
+      data-testid="common-spinner"
+    >
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
+<div>
+  <form
+    class="c-WelcomeAndSearchEngineTab"
+  >
+    <div
+      class="c-WelcomeAndSearchEngineTab__Group"
+    >
+      <h2
+        class="c-WelcomeAndSearchEngineTab__Title"
+      >
+        Message de bienvenue
+      </h2>
+      <div
+        class="c-WelcomeAndSearchEngineTab__SubGroup"
+      >
+        <span>
+          [...]
+        </span>
+      </div>
+    </div>
+    <div
+      class="c-WelcomeAndSearchEngineTab__Group"
+    >
+      <h2
+        class="c-WelcomeAndSearchEngineTab__Title"
+      >
+        Moteur de recherche
+      </h2>
+      <div
+        class="c-WelcomeAndSearchEngineTab__SubGroup c-WelcomeAndSearchEngineTab__SubGroup_short"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <label
+            class="c-FormLabel"
+            for="titleContent"
+          >
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Texte affiché dans le moteur de recherche principal (haut de page) *
+              </span>
+            </div>
+            <span
+              class="c-FormLabel__Validation"
+            >
+              30 caractères maximum
+            </span>
+          </label>
+          <input
+            aria-errormessage="titleContent_error"
+            aria-invalid="false"
+            class="c-FormInput__Input "
+            data-testid="form-input"
+            id="titleContent"
+            maxlength="30"
+            name="titleContent"
+            type="text"
+            value="Titre modifié"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="c-WelcomeAndSearchEngineTab__Buttons"
+    >
+      <button
+        class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+        disabled=""
+        type="submit"
+      >
+        Enregistrer les modifications
+      </button>
+      <button
+        class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+        disabled=""
+        type="button"
+      >
+        Annuler les modifications
+      </button>
+    </div>
+  </form>
+</div>
+`;

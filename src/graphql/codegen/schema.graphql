@@ -316,6 +316,12 @@ type ComponentMsdContactUs {
 }
 
 type ComponentMsdEditorial {
+  editoContents(
+    filters: EditoContentFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): EditoContentRelationResponseCollection
   editorialServices(
     filters: EditorialServiceFiltersInput
     pagination: PaginationArg = {}
@@ -363,6 +369,12 @@ type Contract {
     sort: [String] = []
   ): ServiceRelationResponseCollection
   siret: Long
+  tags(
+    filters: TagFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): TagRelationResponseCollection
   territory: TerritoryEntityResponse
   updatedAt: DateTime
   users(
@@ -444,6 +456,7 @@ input ContractFiltersInput {
   publishedAt: DateTimeFilterInput
   services: ServiceFiltersInput
   siret: LongFilterInput
+  tags: TagFiltersInput
   territory: TerritoryFiltersInput
   updatedAt: DateTimeFilterInput
   users: UsersPermissionsUserFiltersInput
@@ -459,6 +472,7 @@ input ContractInput {
   publishedAt: DateTime
   services: [ID]
   siret: Long
+  tags: [ID]
   territory: ID
   users: [ID]
 }
@@ -855,6 +869,12 @@ type Event {
     sort: [String] = []
   ): EventRelationResponseCollection
   publishedAt: DateTime
+  tags(
+    filters: TagFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): TagRelationResponseCollection
   title: String!
   updatedAt: DateTime
 }
@@ -883,6 +903,7 @@ input EventFiltersInput {
   not: EventFiltersInput
   or: [EventFiltersInput]
   publishedAt: DateTimeFilterInput
+  tags: TagFiltersInput
   title: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
@@ -892,6 +913,7 @@ input EventInput {
   documents: [ID]
   events: [ID]
   publishedAt: DateTime
+  tags: [ID]
   title: String
 }
 
@@ -1446,9 +1468,9 @@ type Mutation {
   ): EditorialServiceEntityResponse
   createEditorialServiceForContract(
     contractId: ID
-    endDate: Date
+    endDate: DateTime
     name: String
-    startDate: Date
+    startDate: DateTime
   ): EditorialServicePayload
   createEmptyContract(name: String): ContractPayload
   createEpci(data: EpciInput!): EpciEntityResponse
@@ -1728,6 +1750,12 @@ type New {
   createdAt: DateTime
   image: UploadFileEntityResponse
   publishedAt: DateTime
+  tags(
+    filters: TagFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): TagRelationResponseCollection
   title: String!
   updatedAt: DateTime
   video: UploadFileEntityResponse
@@ -1756,6 +1784,7 @@ input NewFiltersInput {
   not: NewFiltersInput
   or: [NewFiltersInput]
   publishedAt: DateTimeFilterInput
+  tags: TagFiltersInput
   title: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
@@ -1765,6 +1794,7 @@ input NewInput {
   channels: [ID]
   image: ID
   publishedAt: DateTime
+  tags: [ID]
   title: String
   video: ID
 }
@@ -1879,6 +1909,7 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): ContractEntityResponseCollection
+  countContentPerTag(contractId: ID!): [Tag]
   descriptionService(id: ID): DescriptionServiceEntityResponse
   descriptionServices(
     filters: DescriptionServiceFiltersInput
@@ -2130,6 +2161,12 @@ type Query {
 type Quiz {
   createdAt: DateTime
   publishedAt: DateTime
+  tags(
+    filters: TagFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): TagRelationResponseCollection
   title: String
   updatedAt: DateTime
 }
@@ -2215,12 +2252,14 @@ input QuizFiltersInput {
   not: QuizFiltersInput
   or: [QuizFiltersInput]
   publishedAt: DateTimeFilterInput
+  tags: TagFiltersInput
   title: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input QuizInput {
   publishedAt: DateTime
+  tags: [ID]
   title: String
 }
 
@@ -2667,9 +2706,11 @@ input StringFilterInput {
 }
 
 type Tag {
+  contract: ContractEntityResponse
   createdAt: DateTime
   name: String
   publishedAt: DateTime
+  tagPerContent: Int
   updatedAt: DateTime
 }
 
@@ -2689,18 +2730,24 @@ type TagEntityResponseCollection {
 
 input TagFiltersInput {
   and: [TagFiltersInput]
+  contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
+  isSystem: BooleanFilterInput
   name: StringFilterInput
   not: TagFiltersInput
   or: [TagFiltersInput]
   publishedAt: DateTimeFilterInput
+  tagPerContent: IntFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input TagInput {
+  contract: ID
+  isSystem: Boolean
   name: String
   publishedAt: DateTime
+  tagPerContent: Int
 }
 
 type TagRelationResponseCollection {
@@ -2811,6 +2858,12 @@ type Tip {
   createdAt: DateTime
   link: String
   publishedAt: DateTime
+  tags(
+    filters: TagFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): TagRelationResponseCollection
   title: String!
   titleLabel: String
   updatedAt: DateTime
@@ -2838,6 +2891,7 @@ input TipFiltersInput {
   not: TipFiltersInput
   or: [TipFiltersInput]
   publishedAt: DateTimeFilterInput
+  tags: TagFiltersInput
   title: StringFilterInput
   titleLabel: StringFilterInput
   updatedAt: DateTimeFilterInput
@@ -2846,6 +2900,7 @@ input TipFiltersInput {
 input TipInput {
   link: String
   publishedAt: DateTime
+  tags: [ID]
   title: String
   titleLabel: String
 }

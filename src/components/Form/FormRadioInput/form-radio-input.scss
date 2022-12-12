@@ -38,6 +38,7 @@
     background-color: transparent;
     border: 2px solid colors.$expert-blue;
     border-radius: 50%;
+    cursor: pointer;
     appearance: none;
 
     &_checked::after {

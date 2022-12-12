@@ -2,9 +2,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import {
-  useGetRecyclingBlockByContractIdQuery,
-  useUpdateRecyclingGuideByIdMutation,
-  GetRecyclingBlockByContractIdDocument,
+  GetRecyclingBlockTabDocument,
+  useGetRecyclingBlockTabQuery,
+  useUpdateRecyclingGuideTabMutation,
 } from "../../../graphql/codegen/generated-types";
 import { FocusFirstElement } from "../../../lib/utilities";
 import { extractRecyclingGuideBlock } from "../../../lib/graphql-data";
@@ -23,6 +23,7 @@ interface IRecyclingGuideBlock {
 export default function RecyclingGuideTab() {
   /* Static Data */
   const formLabels = {
+    title: "Guide du Tri",
     maxCharactersLabel: "caractères maximum",
     titleContent: "Titre",
     subtitleContent: "Sous titre",
@@ -50,10 +51,10 @@ export default function RecyclingGuideTab() {
         variables,
         refetchQueries: [
           {
-            query: GetRecyclingBlockByContractIdDocument,
+            query: GetRecyclingBlockTabDocument,
             variables: { contractId },
           },
-          "GetRecyclingGuideBlock",
+          "getRecyclingBlockTab",
         ],
       });
       return new Promise<void>((resolve) => {
@@ -68,13 +69,13 @@ export default function RecyclingGuideTab() {
 
   /* API Data */
   const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
-  const { loading, error, data } = useGetRecyclingBlockByContractIdQuery({
+  const { loading, error, data } = useGetRecyclingBlockTabQuery({
     variables: { contractId },
   });
   const [
     updateRecyclingGuideBlock,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateRecyclingGuideByIdMutation();
+  ] = useUpdateRecyclingGuideTabMutation();
 
   /* Local Data */
   const [isShowingSpinner, setIsShowingSpinner] = useState(false);
@@ -132,14 +133,14 @@ export default function RecyclingGuideTab() {
   return (
     <div className="c-RecyclingGuideTab">
       {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <h2 className="c-RecyclingGuideTab__Title">Guide du tri</h2>
+      <h2 className="c-RecyclingGuideTab__Title">{formLabels.title}</h2>
       <FormProvider {...form}>
         <form
           className="c-RecyclingGuideTab__Form"
           onSubmit={handleSubmit(onSubmitValid)}
           ref={focusRef}
         >
-          <div className="c-RecyclingGuideTab__Group">
+          <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
             <FormInput
               type="text"
               name="titleContent"
@@ -151,7 +152,7 @@ export default function RecyclingGuideTab() {
               defaultValue={recyclingGuideData?.titleContent}
             />
           </div>
-          <div className="c-RecyclingGuideTab__Group">
+          <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
             <FormInput
               type="text"
               label={formLabels.subtitleContent}
@@ -163,7 +164,7 @@ export default function RecyclingGuideTab() {
               defaultValue={recyclingGuideData?.subtitleContent}
             />
           </div>
-          <div className="c-RecyclingGuideTab__Group">
+          <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
             <FormInput
               type="text"
               label={formLabels.recyclingGuideDisplayContent}
