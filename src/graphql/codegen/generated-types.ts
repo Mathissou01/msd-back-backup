@@ -4766,6 +4766,61 @@ export type GetEditoBlockTabQuery = {
   } | null> | null;
 };
 
+export type GetFooterPageQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetFooterPageQuery = {
+  __typename?: "Query";
+  contractCustomizations?: {
+    __typename?: "ContractCustomizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractCustomizationEntity";
+      attributes?: {
+        __typename?: "ContractCustomization";
+        footer?: {
+          __typename?: "FooterEntityResponse";
+          data?: {
+            __typename?: "FooterEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Footer";
+              accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
+              legalContent?: {
+                __typename?: "LegalContentEntityResponse";
+                data?: {
+                  __typename?: "LegalContentEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "LegalContent";
+                    GCULink?: string | null;
+                    accessibilityLink?: string | null;
+                    confidentiality?: string | null;
+                    cookiesPolicy?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+  contactUsServices?: {
+    __typename?: "ContactUsServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContactUsServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContactUsService";
+        isActivated: boolean;
+        label: string;
+        link: string;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetQuizAndTipsBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -5118,6 +5173,56 @@ export type UpdateEditoBlockTabMutation = {
   } | null;
 };
 
+export type UpdateFooterPageMutationVariables = Exact<{
+  updateFooterId: Scalars["ID"];
+  updateFooterData: FooterInput;
+  updateLegalContentId: Scalars["ID"];
+  updateLegalContentData: LegalContentInput;
+  updateContactUsServiceId: Scalars["ID"];
+  updateContactUsServiceData: ContactUsServiceInput;
+}>;
+
+export type UpdateFooterPageMutation = {
+  __typename?: "Mutation";
+  updateFooter?: {
+    __typename?: "FooterEntityResponse";
+    data?: {
+      __typename?: "FooterEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Footer";
+        accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
+      } | null;
+    } | null;
+  } | null;
+  updateLegalContent?: {
+    __typename?: "LegalContentEntityResponse";
+    data?: {
+      __typename?: "LegalContentEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "LegalContent";
+        GCULink?: string | null;
+        accessibilityLink?: string | null;
+        confidentiality?: string | null;
+        cookiesPolicy?: string | null;
+      } | null;
+    } | null;
+  } | null;
+  updateContactUsService?: {
+    __typename?: "ContactUsServiceEntityResponse";
+    data?: {
+      __typename?: "ContactUsServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContactUsService";
+        label: string;
+        link: string;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type UpdateQuizAndTipsBlockTabMutationVariables = Exact<{
   quizAndTipsBlockId: Scalars["ID"];
   data: QuizAndTipsBlockInput;
@@ -5343,6 +5448,96 @@ export type GetEditoBlockTabLazyQueryHookResult = ReturnType<
 export type GetEditoBlockTabQueryResult = Apollo.QueryResult<
   GetEditoBlockTabQuery,
   GetEditoBlockTabQueryVariables
+>;
+export const GetFooterPageDocument = gql`
+  query getFooterPage($contractId: ID!) {
+    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          footer {
+            data {
+              id
+              attributes {
+                accessibilityLevel
+                legalContent {
+                  data {
+                    id
+                    attributes {
+                      GCULink
+                      accessibilityLink
+                      confidentiality
+                      cookiesPolicy
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    contactUsServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          isActivated
+          label
+          link
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFooterPageQuery__
+ *
+ * To run a query within a React component, call `useGetFooterPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFooterPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFooterPageQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetFooterPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFooterPageQuery,
+    GetFooterPageQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetFooterPageQuery, GetFooterPageQueryVariables>(
+    GetFooterPageDocument,
+    options,
+  );
+}
+export function useGetFooterPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFooterPageQuery,
+    GetFooterPageQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetFooterPageQuery, GetFooterPageQueryVariables>(
+    GetFooterPageDocument,
+    options,
+  );
+}
+export type GetFooterPageQueryHookResult = ReturnType<
+  typeof useGetFooterPageQuery
+>;
+export type GetFooterPageLazyQueryHookResult = ReturnType<
+  typeof useGetFooterPageLazyQuery
+>;
+export type GetFooterPageQueryResult = Apollo.QueryResult<
+  GetFooterPageQuery,
+  GetFooterPageQueryVariables
 >;
 export const GetQuizAndTipsBlockTabDocument = gql`
   query getQuizAndTipsBlockTab($contractId: ID!) {
@@ -5896,6 +6091,99 @@ export type UpdateEditoBlockTabMutationResult =
 export type UpdateEditoBlockTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateEditoBlockTabMutation,
   UpdateEditoBlockTabMutationVariables
+>;
+export const UpdateFooterPageDocument = gql`
+  mutation updateFooterPage(
+    $updateFooterId: ID!
+    $updateFooterData: FooterInput!
+    $updateLegalContentId: ID!
+    $updateLegalContentData: LegalContentInput!
+    $updateContactUsServiceId: ID!
+    $updateContactUsServiceData: ContactUsServiceInput!
+  ) {
+    updateFooter(id: $updateFooterId, data: $updateFooterData) {
+      data {
+        id
+        attributes {
+          accessibilityLevel
+        }
+      }
+    }
+    updateLegalContent(
+      id: $updateLegalContentId
+      data: $updateLegalContentData
+    ) {
+      data {
+        id
+        attributes {
+          GCULink
+          accessibilityLink
+          confidentiality
+          cookiesPolicy
+        }
+      }
+    }
+    updateContactUsService(
+      id: $updateContactUsServiceId
+      data: $updateContactUsServiceData
+    ) {
+      data {
+        id
+        attributes {
+          label
+          link
+        }
+      }
+    }
+  }
+`;
+export type UpdateFooterPageMutationFn = Apollo.MutationFunction<
+  UpdateFooterPageMutation,
+  UpdateFooterPageMutationVariables
+>;
+
+/**
+ * __useUpdateFooterPageMutation__
+ *
+ * To run a mutation, you first call `useUpdateFooterPageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFooterPageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFooterPageMutation, { data, loading, error }] = useUpdateFooterPageMutation({
+ *   variables: {
+ *      updateFooterId: // value for 'updateFooterId'
+ *      updateFooterData: // value for 'updateFooterData'
+ *      updateLegalContentId: // value for 'updateLegalContentId'
+ *      updateLegalContentData: // value for 'updateLegalContentData'
+ *      updateContactUsServiceId: // value for 'updateContactUsServiceId'
+ *      updateContactUsServiceData: // value for 'updateContactUsServiceData'
+ *   },
+ * });
+ */
+export function useUpdateFooterPageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateFooterPageMutation,
+    UpdateFooterPageMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateFooterPageMutation,
+    UpdateFooterPageMutationVariables
+  >(UpdateFooterPageDocument, options);
+}
+export type UpdateFooterPageMutationHookResult = ReturnType<
+  typeof useUpdateFooterPageMutation
+>;
+export type UpdateFooterPageMutationResult =
+  Apollo.MutationResult<UpdateFooterPageMutation>;
+export type UpdateFooterPageMutationOptions = Apollo.BaseMutationOptions<
+  UpdateFooterPageMutation,
+  UpdateFooterPageMutationVariables
 >;
 export const UpdateQuizAndTipsBlockTabDocument = gql`
   mutation updateQuizAndTipsBlockTab(

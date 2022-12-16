@@ -198,7 +198,12 @@ export default function TopContentTab() {
   if (mutationError) return <span>{mutationError?.message}</span>;
 
   return (
-    <div className="c-TopContentTab">
+    <div
+      className="c-TopContentTab"
+      id="panel-topContent"
+      role="tabpanel"
+      aria-labelledby="tab-topContent"
+    >
       {isShowingSpinner && <CommonSpinner isCover={true} />}
       <h2 className="c-TopContentTab__Title">{formLabels.title}</h2>
       <FormProvider {...form}>

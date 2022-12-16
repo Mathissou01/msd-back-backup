@@ -14,7 +14,7 @@ exports[`FormMultiselect renders 1`] = `
           class="c-FormLabel__Label"
         >
           <span>
-            form multiselect n°1 
+            form multiselect n°1
           </span>
         </div>
       </label>
@@ -58,7 +58,7 @@ exports[`FormMultiselect renders 1`] = `
           class="c-FormLabel__Label"
         >
           <span>
-            form multiselect n°2 
+            form multiselect n°2
           </span>
         </div>
       </label>

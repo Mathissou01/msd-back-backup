@@ -68,13 +68,13 @@ export default function PersonnalisationAccueilPage() {
   useEffect(() => {
     const tabs = [
       {
-        name: "messageAndSearchEngine",
+        name: "welcomeAndSearchEngine",
         title: "Message et moteur de recherche",
         content: <WelcomeAndSearchEngineTab />,
         isEnabled: true,
       },
       {
-        name: "RecyclingGuide",
+        name: "recyclingGuide",
         title: "Guide du Tri",
         content: <RecyclingGuideTab />,
         isEnabled: !!serviceParameters?.isServiceRecyclingGuideActivated,
@@ -86,13 +86,13 @@ export default function PersonnalisationAccueilPage() {
         isEnabled: true,
       },
       {
-        name: "keyFigures",
+        name: "keyMetrics",
         title: "Chiffres clés",
         content: <div />,
         isEnabled: true,
       },
       {
-        name: "headlines",
+        name: "topContent",
         title: "A la une",
         content: <TopContentTab />,
         isEnabled:
@@ -110,7 +110,7 @@ export default function PersonnalisationAccueilPage() {
           !!serviceParameters?.isTipsActivated,
       },
       {
-        name: "editoBlock",
+        name: "edito",
         title: "Bloc Édito",
         content: <EditoTab />,
         isEnabled:
@@ -132,7 +132,7 @@ export default function PersonnalisationAccueilPage() {
       <PageTitle title={title} description={description} />
       {loading && <CommonSpinner />}
       {!loading && tabs.length > 0 && (
-        <TabBlock tabs={tabs} initialTabName={"messageAndSearchEngine"} />
+        <TabBlock tabs={tabs} initialTabName={"welcomeAndSearchEngine"} />
       )}
     </>
   );

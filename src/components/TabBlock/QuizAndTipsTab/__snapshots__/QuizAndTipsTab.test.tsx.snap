@@ -21,7 +21,10 @@ exports[`QuizAndTipsTab renders loading and loaded state 1`] = `
 exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
 <div>
   <div
+    aria-labelledby="tab-quizAndTips"
     class="c-QuizAndTipsTab"
+    id="panel-quizAndTips"
+    role="tabpanel"
   >
     <h2
       class="c-QuizAndTipsTab__Title"
@@ -52,7 +55,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
               class="c-FormLabel__Label"
             >
               <span>
-                Afficher ce bloc 
+                Afficher ce bloc
               </span>
             </div>
           </label>
@@ -105,7 +108,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
               class="c-FormLabel__Label"
             >
               <span>
-                Afficher un quiz 
+                Afficher un quiz
               </span>
             </div>
           </label>
@@ -122,7 +125,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
               class="c-FormLabel__Label"
             >
               <span>
-                Quiz à afficher 
+                Quiz à afficher
               </span>
             </div>
           </label>
@@ -171,7 +174,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
               class="c-FormLabel__Label"
             >
               <span>
-                Afficher des astuces 
+                Afficher des astuces
               </span>
             </div>
           </label>
@@ -188,7 +191,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
               class="c-FormLabel__Label"
             >
               <span>
-                Astuces à afficher 
+                Astuces à afficher
               </span>
             </div>
           </label>

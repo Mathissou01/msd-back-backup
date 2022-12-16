@@ -202,7 +202,12 @@ export default function EditoTab() {
   if (mutationError) return <span>{mutationError?.message}</span>;
 
   return (
-    <div className="c-EditoTab">
+    <div
+      className="c-EditoTab"
+      id="panel-edito"
+      role="tabpanel"
+      aria-labelledby="tab-edito"
+    >
       {isShowingSpinner && <CommonSpinner isCover={true} />}
       <h2 className="c-EditoTab__Title">{formLabels.title}</h2>
       <FormProvider {...form}>

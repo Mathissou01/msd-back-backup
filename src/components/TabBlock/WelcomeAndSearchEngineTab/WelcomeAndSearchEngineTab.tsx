@@ -124,7 +124,12 @@ export default function WelcomeAndSearchEngineTab() {
   if (mutationError) return <span>{mutationError?.message}</span>;
 
   return (
-    <>
+    <div
+      className="c-WelcomeAndSearchEngineTab"
+      id="panel-welcomeAndSearchEngine"
+      role="tabpanel"
+      aria-labelledby="tab-welcomeAndSearchEngine"
+    >
       {isShowingSpinner && <CommonSpinner isCover={true} />}
       <FormProvider {...form}>
         <form
@@ -173,6 +178,6 @@ export default function WelcomeAndSearchEngineTab() {
           </div>
         </form>
       </FormProvider>
-    </>
+    </div>
   );
 }

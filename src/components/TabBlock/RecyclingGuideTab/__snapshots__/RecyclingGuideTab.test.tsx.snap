@@ -21,7 +21,10 @@ exports[`RecyclingGuideTab renders loading and loaded state 1`] = `
 exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
 <div>
   <div
+    aria-labelledby="tab-recyclingGuide"
     class="c-RecyclingGuideTab"
+    id="panel-recyclingGuide"
+    role="tabpanel"
   >
     <h2
       class="c-RecyclingGuideTab__Title"

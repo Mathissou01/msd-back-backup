@@ -5,10 +5,6 @@ import { SchemaLink } from "@apollo/client/link/schema";
 import { addMocksToSchema } from "@graphql-tools/mock";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import schemaString from "src/graphql/codegen/schema.graphql";
-import { ServiceEntityResponseCollectionMock } from "./schema-mocks/ServiceEntityResponseCollection.mock";
-import { ComponentMsdEditorialMock } from "./schema-mocks/ComponentMsdEditorial.mock";
-import { ComponentMsdRecyclingMock } from "./schema-mocks/ComponentMsdRecycling.mock";
-import { ContractCustomizationEntityResponseCollectionMock } from "./schema-mocks/ContractCustomizationEntityResponseCollection.mock";
 
 export default function getMockedClient(delay = 0) {
   const schema = makeExecutableSchema({
@@ -22,13 +18,7 @@ export default function getMockedClient(delay = 0) {
     String: () => faker.lorem.words(),
     Date: () => faker.date.soon(10),
     DateTime: () => faker.date.soon(10),
-    Boolean: () => faker.datatype.boolean(),
-    // Queries
-    ServiceEntityResponseCollection: () => ServiceEntityResponseCollectionMock,
-    ComponentMsdEditorial: () => ComponentMsdEditorialMock,
-    ComponentMsdRecycling: () => ComponentMsdRecyclingMock,
-    ContractCustomizationEntityResponseCollection: () =>
-      ContractCustomizationEntityResponseCollectionMock,
+    Boolean: () => true,
   };
   const preserveResolvers = true;
   const schemaWithMocks = addMocksToSchema({

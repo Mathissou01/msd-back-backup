@@ -234,7 +234,12 @@ export default function QuizAndTipsTab() {
   if (mutationError) return <span>{mutationError?.message}</span>;
 
   return (
-    <div className="c-QuizAndTipsTab">
+    <div
+      className="c-QuizAndTipsTab"
+      id="panel-quizAndTips"
+      role="tabpanel"
+      aria-labelledby="tab-quizAndTips"
+    >
       {isShowingSpinner && <CommonSpinner isCover={true} />}
       <h2 className="c-QuizAndTipsTab__Title">{formLabels.title}</h2>
       <FormProvider {...form}>

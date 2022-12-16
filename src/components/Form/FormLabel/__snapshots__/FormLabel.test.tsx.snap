@@ -10,7 +10,7 @@ exports[`FormLabel renders 1`] = `
       class="c-FormLabel__Label"
     >
       <span>
-        form label 
+        form label
       </span>
       <span
         class="c-FormLabel__Secondary"

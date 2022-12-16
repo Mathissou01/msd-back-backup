@@ -13,7 +13,7 @@ exports[`FormInput renders 1`] = `
         class="c-FormLabel__Label"
       >
         <span>
-          form input 
+          form input
         </span>
         <span
           class="c-FormLabel__Secondary"

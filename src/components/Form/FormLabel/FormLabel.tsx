@@ -23,7 +23,7 @@ export default function FormLabel({
   return (
     <Tag className="c-FormLabel" htmlFor={forId}>
       <div className="c-FormLabel__Label">
-        <span>{`${label} ${isRequired ? "*" : ""}`}</span>
+        <span>{`${label}${isRequired ? " *" : ""}`}</span>
         {secondaryLabel && (
           <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
         )}

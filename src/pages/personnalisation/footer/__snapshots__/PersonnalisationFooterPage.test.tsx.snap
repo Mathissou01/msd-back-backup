@@ -1,0 +1,353 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PersonnalisationFooterPage renders loading and loaded state 1`] = `
+<div>
+  <div
+    class="c-CommonSpinner__Wrapper "
+  >
+    <div
+      class="c-CommonSpinner"
+      data-testid="common-spinner"
+    >
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
+<div>
+  <hgroup
+    class="c-PageTitle"
+  >
+    <h1
+      data-testid="title"
+    >
+      Footer
+    </h1>
+    <p
+      class="c-PageTitle__Description"
+      data-testid="description"
+    >
+      Paramétrez les liens présents en bas de page.
+    </p>
+  </hgroup>
+  <div
+    class="c-PersonnalisationFooterPage"
+  >
+    <form
+      class="c-PersonnalisationFooterPage__Form"
+    >
+      <div
+        class="c-PersonnalisationFooterPage__Group"
+      >
+        <h2
+          class="c-PersonnalisationFooterPage__Title"
+        >
+          Accessibilité
+        </h2>
+        <div
+          class="c-PersonnalisationFooterPage__SubGroup"
+        >
+          <div
+            class="c-FormRadioInput"
+          >
+            <fieldset>
+              <legend
+                class="c-FormLabel"
+              >
+                <div
+                  class="c-FormLabel__Label"
+                >
+                  <span>
+                    Niveau d’accessibilité (pourcentage des critères RGAA validés)
+                  </span>
+                </div>
+              </legend>
+              <div
+                class="c-FormRadioInput__Options"
+              >
+                <div
+                  class="c-FormRadioInput__Option"
+                >
+                  <input
+                    class="c-FormRadioInput__Input "
+                    data-testid="form-radio-input_0"
+                    id="accessibilityLevel0"
+                    name="accessibilityLevel"
+                    type="radio"
+                    value="not_conform"
+                  />
+                  <label
+                    class="c-FormLabel"
+                    for="accessibilityLevel0"
+                  >
+                    <div
+                      class="c-FormLabel__Label"
+                    >
+                      <span>
+                        Non conforme (moins de 50 %)
+                      </span>
+                    </div>
+                  </label>
+                </div>
+                <div
+                  class="c-FormRadioInput__Option"
+                >
+                  <input
+                    class="c-FormRadioInput__Input c-FormRadioInput__Input_checked"
+                    data-testid="form-radio-input_1"
+                    id="accessibilityLevel1"
+                    name="accessibilityLevel"
+                    type="radio"
+                    value="partially_conform"
+                  />
+                  <label
+                    class="c-FormLabel"
+                    for="accessibilityLevel1"
+                  >
+                    <div
+                      class="c-FormLabel__Label"
+                    >
+                      <span>
+                        Partiellement conforme  (de 50 % à 99 %)
+                      </span>
+                    </div>
+                  </label>
+                </div>
+                <div
+                  class="c-FormRadioInput__Option"
+                >
+                  <input
+                    class="c-FormRadioInput__Input "
+                    data-testid="form-radio-input_2"
+                    id="accessibilityLevel2"
+                    name="accessibilityLevel"
+                    type="radio"
+                    value="conform"
+                  />
+                  <label
+                    class="c-FormLabel"
+                    for="accessibilityLevel2"
+                  >
+                    <div
+                      class="c-FormLabel__Label"
+                    >
+                      <span>
+                        Totalement conforme (100 %)
+                      </span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-PersonnalisationFooterPage__Group"
+      >
+        <h2
+          class="c-PersonnalisationFooterPage__Title"
+        >
+          Contenus légaux
+        </h2>
+        <div
+          class="c-PersonnalisationFooterPage__SubGroup c-PersonnalisationFooterPage__SubGroup_short"
+        >
+          <div
+            class="c-FormInput"
+          >
+            <label
+              class="c-FormLabel"
+              for="legalContent.accessibilityLink"
+            >
+              <div
+                class="c-FormLabel__Label"
+              >
+                <span>
+                  Lien vers la page Accessibilité *
+                </span>
+              </div>
+            </label>
+            <input
+              aria-errormessage="legalContent.accessibilityLink_error"
+              aria-invalid="false"
+              class="c-FormInput__Input "
+              data-testid="form-input"
+              id="legalContent.accessibilityLink"
+              name="legalContent.accessibilityLink"
+              type="text"
+              value="https://google.com"
+            />
+          </div>
+          <div
+            class="c-FormInput"
+          >
+            <label
+              class="c-FormLabel"
+              for="legalContent.GCULink"
+            >
+              <div
+                class="c-FormLabel__Label"
+              >
+                <span>
+                  Lien vers la page des Conditions générales *
+                </span>
+              </div>
+            </label>
+            <input
+              aria-errormessage="legalContent.GCULink_error"
+              aria-invalid="false"
+              class="c-FormInput__Input "
+              data-testid="form-input"
+              id="legalContent.GCULink"
+              name="legalContent.GCULink"
+              type="text"
+              value="https://google.com"
+            />
+          </div>
+          <div
+            class="c-FormInput"
+          >
+            <label
+              class="c-FormLabel"
+              for="legalContent.cookiesPolicy"
+            >
+              <div
+                class="c-FormLabel__Label"
+              >
+                <span>
+                  Lien vers la page de Politique de cookie *
+                </span>
+              </div>
+            </label>
+            <input
+              aria-errormessage="legalContent.cookiesPolicy_error"
+              aria-invalid="false"
+              class="c-FormInput__Input "
+              data-testid="form-input"
+              id="legalContent.cookiesPolicy"
+              name="legalContent.cookiesPolicy"
+              type="text"
+              value="https://google.com"
+            />
+          </div>
+          <div
+            class="c-FormInput"
+          >
+            <label
+              class="c-FormLabel"
+              for="legalContent.confidentiality"
+            >
+              <div
+                class="c-FormLabel__Label"
+              >
+                <span>
+                  Lien vers la page de Confidentialité *
+                </span>
+              </div>
+            </label>
+            <input
+              aria-errormessage="legalContent.confidentiality_error"
+              aria-invalid="false"
+              class="c-FormInput__Input "
+              data-testid="form-input"
+              id="legalContent.confidentiality"
+              name="legalContent.confidentiality"
+              type="text"
+              value="https://google.com"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-PersonnalisationFooterPage__Group"
+      >
+        <h2
+          class="c-PersonnalisationFooterPage__Title"
+        >
+          Contactez-nous
+        </h2>
+        <div
+          class="c-PersonnalisationFooterPage__SubGroup c-PersonnalisationFooterPage__SubGroup_short"
+        >
+          <div
+            class="c-FormInput"
+          >
+            <label
+              class="c-FormLabel"
+              for="contactUsService.label"
+            >
+              <div
+                class="c-FormLabel__Label"
+              >
+                <span>
+                  Texte du lien *
+                </span>
+              </div>
+            </label>
+            <input
+              aria-errormessage="contactUsService.label_error"
+              aria-invalid="false"
+              class="c-FormInput__Input "
+              data-testid="form-input"
+              id="contactUsService.label"
+              name="contactUsService.label"
+              type="text"
+              value="Contactez-nous"
+            />
+          </div>
+          <div
+            class="c-FormInput"
+          >
+            <label
+              class="c-FormLabel"
+              for="contactUsService.link"
+            >
+              <div
+                class="c-FormLabel__Label"
+              >
+                <span>
+                  Lien vers la page de contact *
+                </span>
+              </div>
+            </label>
+            <input
+              aria-errormessage="contactUsService.link_error"
+              aria-invalid="false"
+              class="c-FormInput__Input "
+              data-testid="form-input"
+              id="contactUsService.link"
+              name="contactUsService.link"
+              type="text"
+              value="https://google.com"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-PersonnalisationFooterPage__Buttons"
+      >
+        <button
+          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          Enregistrer les modifications
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+          disabled=""
+          type="button"
+        >
+          Annuler les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

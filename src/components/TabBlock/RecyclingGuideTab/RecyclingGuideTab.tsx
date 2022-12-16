@@ -132,7 +132,12 @@ export default function RecyclingGuideTab() {
   if (mutationError) return <span>{mutationError?.message}</span>;
 
   return (
-    <div className="c-RecyclingGuideTab">
+    <div
+      className="c-RecyclingGuideTab"
+      id="panel-recyclingGuide"
+      role="tabpanel"
+      aria-labelledby="tab-recyclingGuide"
+    >
       {isShowingSpinner && <CommonSpinner isCover={true} />}
       <h2 className="c-RecyclingGuideTab__Title">{formLabels.title}</h2>
       <FormProvider {...form}>

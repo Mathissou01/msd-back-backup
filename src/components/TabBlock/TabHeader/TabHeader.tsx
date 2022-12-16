@@ -13,21 +13,26 @@ export default function TabHeader({
   onClick,
 }: ITabHeaderProps) {
   return (
-    <div className="c-TabHeader">
+    <nav className="c-TabHeader" role="tablist">
       {tabs.map(
         (tab, index) =>
           tab.isEnabled && (
             <button
-              key={index}
+              role="tab"
+              key={tab.name}
+              id={`tab-${tab.name}`}
               className={`c-TabHeader__Tab ${
                 index === selectedTab ? "c-TabHeader__Tab_active" : ""
               }`}
+              aria-selected={index === selectedTab}
+              aria-controls={`panel-${tab.name}`}
+              tabIndex={index === selectedTab ? 0 : -1}
               onClick={() => onClick(index)}
             >
               <span>{tab.title}</span>
             </button>
           ),
       )}
-    </div>
+    </nav>
   );
 }

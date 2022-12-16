@@ -9,6 +9,7 @@ import {
   GetTopContentTabQuery,
   GetSearchEngineTabQuery,
   SearchEngineBlockEntity,
+  GetFooterPageQuery,
 } from "../graphql/codegen/generated-types";
 
 /* Homepage */
@@ -47,10 +48,18 @@ export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockTabQuery) {
   return { quizAndTipsBlock, quizzes, tips };
 }
 
-/** Services **/
 export function extractEditoBlock(data: GetEditoBlockTabQuery) {
   const editoBlock = data.getEditoBlockDTO ?? null;
   const editoContents = data.getEditoContentDTOs ?? null;
 
   return { editoBlock, editoContents };
+}
+
+/* Footer */
+export function extractFooter(data: GetFooterPageQuery) {
+  const footer =
+    data.contractCustomizations?.data[0]?.attributes?.footer?.data ?? null;
+  const contactUsService = data.contactUsServices?.data[0] ?? null;
+
+  return { footer, contactUsService };
 }

@@ -1,0 +1,40 @@
+mutation updateFooterPage(
+  $updateFooterId: ID!
+  $updateFooterData: FooterInput!
+  $updateLegalContentId: ID!
+  $updateLegalContentData: LegalContentInput!
+  $updateContactUsServiceId: ID!
+  $updateContactUsServiceData: ContactUsServiceInput!
+) {
+  updateFooter(id: $updateFooterId, data: $updateFooterData) {
+    data {
+      id
+      attributes {
+        accessibilityLevel
+      }
+    }
+  }
+  updateLegalContent(id: $updateLegalContentId, data: $updateLegalContentData) {
+    data {
+      id
+      attributes {
+        GCULink
+        accessibilityLink
+        confidentiality
+        cookiesPolicy
+      }
+    }
+  }
+  updateContactUsService(
+    id: $updateContactUsServiceId
+    data: $updateContactUsServiceData
+  ) {
+    data {
+      id
+      attributes {
+        label
+        link
+      }
+    }
+  }
+}

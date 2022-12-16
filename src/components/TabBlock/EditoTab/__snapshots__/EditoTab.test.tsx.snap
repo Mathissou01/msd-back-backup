@@ -21,7 +21,10 @@ exports[`EditoTab renders loading and loaded state 1`] = `
 exports[`EditoTab renders loading and loaded state 2`] = `
 <div>
   <div
+    aria-labelledby="tab-edito"
     class="c-EditoTab"
+    id="panel-edito"
+    role="tabpanel"
   >
     <h2
       class="c-EditoTab__Title"
@@ -52,7 +55,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
               class="c-FormLabel__Label"
             >
               <span>
-                Afficher ce bloc 
+                Afficher ce bloc
               </span>
             </div>
           </label>
@@ -99,7 +102,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
               class="c-FormLabel__Label"
             >
               <span>
-                Contenus à afficher 
+                Contenus à afficher
               </span>
             </div>
           </label>

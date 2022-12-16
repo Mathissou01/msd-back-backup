@@ -42,17 +42,13 @@ export default function FormRadioInput({
     watch,
     formState: { isSubmitting, errors },
   } = useFormContext();
-  const watchChecked = watch(name);
+  const watchChecked: string | number = watch(name);
 
   useEffect(() => {
-    if (watchChecked === undefined) {
-      if (defaultValue) {
-        setValue(name, defaultValue);
-      } else {
-        setValue(name, options[0].value);
-      }
+    if (watchChecked === undefined && defaultValue) {
+      setValue(name, defaultValue);
     }
-  }, [defaultValue, name, options, setValue, watchChecked]);
+  }, [defaultValue, name, setValue, watchChecked]);
 
   useEffect(() => {
     if (watchChecked && onChange) {
@@ -75,7 +71,7 @@ export default function FormRadioInput({
             <div key={name + index} className="c-FormRadioInput__Option">
               <input
                 className={`c-FormRadioInput__Input ${
-                  option.value === watchChecked
+                  option.value.toString() === watchChecked
                     ? "c-FormRadioInput__Input_checked"
                     : ""
                 }`}
@@ -88,7 +84,7 @@ export default function FormRadioInput({
                 type="radio"
                 id={name + index}
                 value={option.value}
-                checked={option.value === watchChecked}
+                checked={option.value.toString() === watchChecked}
                 disabled={isSubmitting || isDisabled}
                 data-testid={`form-radio-input_${index}`}
               />

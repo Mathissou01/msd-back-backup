@@ -1,0 +1,37 @@
+query getFooterPage($contractId: ID!) {
+  contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        footer {
+          data {
+            id
+            attributes {
+              accessibilityLevel
+              legalContent {
+                data {
+                  id
+                  attributes {
+                    GCULink
+                    accessibilityLink
+                    confidentiality
+                    cookiesPolicy
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  contactUsServices(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      id
+      attributes {
+        isActivated
+        label
+        link
+      }
+    }
+  }
+}
