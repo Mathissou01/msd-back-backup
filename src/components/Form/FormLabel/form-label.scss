@@ -3,6 +3,7 @@
 .c-FormLabel {
   display: flex;
   flex-direction: row;
+  gap: 10px;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2px;
@@ -30,5 +31,6 @@
   &__Validation {
     font-weight: 400;
     font-size: 12px;
+    text-align: right;
   }
 }

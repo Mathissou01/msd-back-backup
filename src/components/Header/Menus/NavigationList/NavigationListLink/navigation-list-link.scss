@@ -1,6 +1,9 @@
 @use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.focus" as focus;
 
 .c-NavigationListLink {
+  @include focus.focus-ring;
+
   display: flex;
   flex-direction: row;
   align-items: flex-start;

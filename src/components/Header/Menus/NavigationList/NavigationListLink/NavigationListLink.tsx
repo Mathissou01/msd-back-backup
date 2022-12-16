@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import Link from "next/link";
 import "./navigation-list-link.scss";
+import { ENavigationPages } from "../../../../../hooks/useNavigation";
 
 interface INavigationListButtonProps {
-  href: string;
+  href: keyof typeof ENavigationPages;
   label: string;
   isActive: boolean;
   onClick?: () => void;

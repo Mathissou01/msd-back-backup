@@ -1,21 +1,14 @@
-/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from "react";
-import {
-  ComponentMsdEditorial,
-  EditorialServiceEntity,
-  ServiceEntity,
-  useGetServicesActiveQuery,
-} from "../../../graphql/codegen/generated-types";
-import {
-  extractEditoSubServiceByTypename,
-  extractServiceByTypename,
-} from "../../../lib/graphql-data";
+import { useGetServicesActiveQuery } from "../../../graphql/codegen/generated-types";
+import { useContract } from "../../../hooks/useContract";
 import CommonSpinner from "../../../components/Common/CommonSpinner/CommonSpinner";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import TabBlock, { Tab } from "../../../components/TabBlock/TabBlock";
+import WelcomeAndSearchEngineTab from "../../../components/TabBlock/WelcomeAndSearchEngineTab/WelcomeAndSearchEngineTab";
 import RecyclingGuideTab from "../../../components/TabBlock/RecyclingGuideTab/RecyclingGuideTab";
 import QuizAndTipsTab from "../../../components/TabBlock/QuizAndTipsTab/QuizAndTipsTab";
-import WelcomeAndSearchEngineTab from "../../../components/TabBlock/WelcomeAndSearchEngineTab/WelcomeAndSearchEngineTab";
+import TopContentTab from "../../../components/TabBlock/TopContentTab/TopContentTab";
+import EditoTab from "../../../components/TabBlock/EditoTab/EditoTab";
 
 interface IServiceParameters {
   isServiceRecyclingGuideActivated: boolean;
@@ -24,17 +17,17 @@ interface IServiceParameters {
   isTipsActivated: boolean;
   isEventsActivated: boolean;
   isNewsActivated: boolean;
-  isFreeContentsActivated: boolean;
+  hasFreeContentsActivated: boolean;
 }
 
-export default function AccueilPage() {
+export default function PersonnalisationAccueilPage() {
   /* Static Data */
   const title = "Page d'accueil";
   const description =
     "Choisissez les blocs que vous souhaitez faire figurer sur la page d’accueil. Vous pouvez choisir de renommer les blocs sélectionnés et de paramétrer certains de leur contenus.";
 
-  /* API Data */
-  const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
+  /* External Data */
+  const { contractId } = useContract();
   const { loading, error, data } = useGetServicesActiveQuery({
     variables: { contractId },
   });
@@ -45,69 +38,30 @@ export default function AccueilPage() {
   const [tabs, setTabs] = useState<Array<Tab>>([]);
 
   useEffect(() => {
-    if (data && data.services?.data) {
-      const servicesData = data.services?.data as Array<ServiceEntity>;
-      if (data && data.services?.data) {
-        // TODO: simplify/extract all this into function, get only "isActived"s as result ?
-        let recyclingGuideService: ServiceEntity | null = null;
-        let editorialServiceEntity: ServiceEntity | null = null;
-        let quizSubService: EditorialServiceEntity | null = null;
-        let tipSubService: EditorialServiceEntity | null = null;
-        let eventSubService: EditorialServiceEntity | null = null;
-        let newsSubService: EditorialServiceEntity | null = null;
-        let freeContentFreeService: EditorialServiceEntity | null = null;
-
-        recyclingGuideService = extractServiceByTypename(
-          servicesData,
-          "ComponentMsdRecycling",
-        ) as ServiceEntity | null;
-        editorialServiceEntity = extractServiceByTypename(
-          servicesData,
-          "ComponentMsdEditorial",
-        ) as ServiceEntity | null;
-
-        const editorialServiceInstance = editorialServiceEntity?.attributes
-          ?.serviceInstance?.[0] as ComponentMsdEditorial | null;
-
-        if (
-          editorialServiceInstance?.editorialServices &&
-          editorialServiceInstance.editorialServices?.data.length > 0
-        ) {
-          quizSubService = extractEditoSubServiceByTypename(
-            editorialServiceInstance.editorialServices.data,
-            "ComponentEditoQuizzesSubService",
-          );
-          tipSubService = extractEditoSubServiceByTypename(
-            editorialServiceInstance.editorialServices.data,
-            "ComponentEditoTipsSubService",
-          );
-          eventSubService = extractEditoSubServiceByTypename(
-            editorialServiceInstance.editorialServices.data,
-            "ComponentEditoEventSubService",
-          );
-          newsSubService = extractEditoSubServiceByTypename(
-            editorialServiceInstance.editorialServices.data,
-            "ComponentEditoNewsSubService",
-          );
-          freeContentFreeService = extractEditoSubServiceByTypename(
-            editorialServiceInstance.editorialServices.data,
-            "ComponentEditoFreeService",
-          );
-        }
-
-        setServiceParameters({
-          isServiceRecyclingGuideActivated:
-            !!recyclingGuideService?.attributes?.isActivated,
-          isServiceEditorialActivated:
-            !!editorialServiceEntity?.attributes?.isActivated,
-          isQuizActivated: !!quizSubService?.attributes?.isActivated,
-          isTipsActivated: !!tipSubService?.attributes?.isActivated,
-          isEventsActivated: !!eventSubService?.attributes?.isActivated,
-          isNewsActivated: !!newsSubService?.attributes?.isActivated,
-          isFreeContentsActivated:
-            !!freeContentFreeService?.attributes?.isActivated,
-        });
-      }
+    if (data) {
+      setServiceParameters({
+        isServiceRecyclingGuideActivated:
+          !!data.recyclingGuideServices?.data[0]?.attributes?.isActivated,
+        isServiceEditorialActivated:
+          !!data.editorialServices?.data[0]?.attributes?.isActivated,
+        isQuizActivated:
+          !!data.editorialServices?.data[0].attributes?.quizSubService?.data
+            ?.attributes?.isActivated,
+        isTipsActivated:
+          !!data.editorialServices?.data[0].attributes?.tipSubService?.data
+            ?.attributes?.isActivated,
+        isEventsActivated:
+          !!data.editorialServices?.data[0].attributes?.eventSubService?.data
+            ?.attributes?.isActivated,
+        isNewsActivated:
+          !!data.editorialServices?.data[0].attributes?.newsSubService?.data
+            ?.attributes?.isActivated,
+        hasFreeContentsActivated:
+          !!data.editorialServices?.data[0].attributes?.freeContentSubServices?.data.some(
+            (freeContentSubService) =>
+              freeContentSubService.attributes?.isActivated,
+          ),
+      });
     }
   }, [data]);
 
@@ -140,8 +94,11 @@ export default function AccueilPage() {
       {
         name: "headlines",
         title: "A la une",
-        content: <div />,
-        isEnabled: true,
+        content: <TopContentTab />,
+        isEnabled:
+          !!serviceParameters?.isServiceEditorialActivated &&
+          !!serviceParameters?.isEventsActivated &&
+          !!serviceParameters?.isNewsActivated,
       },
       {
         name: "quizAndTips",
@@ -155,8 +112,14 @@ export default function AccueilPage() {
       {
         name: "editoBlock",
         title: "Bloc Édito",
-        content: <div />,
-        isEnabled: true,
+        content: <EditoTab />,
+        isEnabled:
+          !!serviceParameters?.isServiceEditorialActivated &&
+          !!serviceParameters?.isQuizActivated &&
+          !!serviceParameters?.isTipsActivated &&
+          !!serviceParameters?.isEventsActivated &&
+          !!serviceParameters?.isNewsActivated &&
+          !!serviceParameters?.hasFreeContentsActivated,
       },
     ];
     setTabs(tabs);

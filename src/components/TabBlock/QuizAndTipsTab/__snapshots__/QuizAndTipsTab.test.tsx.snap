@@ -38,7 +38,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
           class="c-FormCheckbox"
         >
           <input
-            class="c-FormCheckbox__Input "
+            class="c-FormCheckbox__Input c-FormCheckbox__Input_checked"
             data-testid="form-checkbox"
             id="displayBlock"
             name="displayBlock"
@@ -157,7 +157,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
           class="c-FormCheckbox"
         >
           <input
-            class="c-FormCheckbox__Input "
+            class="c-FormCheckbox__Input c-FormCheckbox__Input_checked"
             data-testid="form-checkbox"
             id="displayTips"
             name="displayTips"
@@ -197,8 +197,14 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             disabled=""
             name="tips"
             type="hidden"
-            value=""
+            value="[object Object],[object Object]"
           />
+          <p>
+            Pas besoin de nettoyer vos pots de yaourts avant de les jeter - 19/14/2022
+          </p>
+          <p>
+            Titre de l'astuce 3 - 19/14/2022
+          </p>
           <div
             aria-errormessage="tips_error"
             aria-invalid="false"

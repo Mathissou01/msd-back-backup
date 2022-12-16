@@ -1,4 +1,5 @@
 @use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.focus" as focus;
 
 .c-NavigationListMenu {
   $self: &;
@@ -8,6 +9,8 @@
   overflow: hidden;
 
   &__Button {
+    @include focus.focus-ring;
+
     position: relative;
     display: flex;
     flex-direction: row;
@@ -18,11 +21,6 @@
     height: 54px;
     padding: 18px 28px 18px 12px;
     border-left: 4px solid transparent;
-
-    &:focus {
-      // TODO: make keyboard focus visible but not click
-      outline: 0;
-    }
 
     #{$self}_open:not(#{$self}_menu) & {
       background-color: colors.$gray-200;
@@ -39,10 +37,9 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
+      transform: rotate(-180deg);
       transition: transform 0.2s;
       content: "";
-
-      // transform: rotate(-180deg); // TODO: rotate? which direction?
     }
 
     #{$self}_menu#{$self}_open & {
@@ -50,7 +47,7 @@
     }
 
     #{$self}_menu#{$self}_open &::after {
-      // transform: rotate(0);
+      transform: rotate(0);
     }
   }
 

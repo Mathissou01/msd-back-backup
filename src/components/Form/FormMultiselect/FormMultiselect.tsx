@@ -5,6 +5,12 @@ import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import FormLabel from "../FormLabel/FormLabel";
 import "./form-multiselect.scss";
 
+export interface IOptionWrapper<T> {
+  group?: string;
+  label?: string;
+  option: T | null;
+}
+
 interface IFormMultiselectProps<T> {
   name: string;
   label: string;
@@ -13,7 +19,7 @@ interface IFormMultiselectProps<T> {
   isRequired?: boolean;
   isDisabled?: boolean;
   selectAmount: number;
-  options: Array<T | null>;
+  options: Array<IOptionWrapper<T>>;
   optionKey: keyof T & string;
   defaultValues?: Array<T>;
   noneSelectedLabel?: string;
@@ -66,14 +72,17 @@ export default function FormMultiselect<T>({
     for (let i = 0; i < selectAmount; i++) {
       if (watchValues[i] !== undefined) {
         const matchIndex = options.findIndex(
-          (option) => option && option[optionKey] === watchValues[i][optionKey],
+          (wrapper) =>
+            wrapper?.option &&
+            wrapper.option?.[optionKey] === watchValues[i][optionKey],
         );
         updatedArray[i] = matchIndex;
         setValue(`${name}_${i}`, matchIndex);
       } else if (defaultValues && defaultValues[i]) {
         const matchIndex = options.findIndex(
-          (option) =>
-            option && option[optionKey] === defaultValues[i][optionKey],
+          (wrapper) =>
+            wrapper?.option &&
+            wrapper.option[optionKey] === defaultValues[i][optionKey],
         );
         updatedArray[i] = matchIndex;
         setValue(`${name}_${i}`, matchIndex);
@@ -89,6 +98,55 @@ export default function FormMultiselect<T>({
     setValue,
     watchValues,
   ]);
+
+  const renderGroups = (i: number) => {
+    let persistentIndex = 0;
+    return [...new Map(options.map((item) => [item["group"], item]))].map(
+      (group, index) => {
+        const initialIndex = persistentIndex;
+        const groupOptions = options.filter(
+          (option) => option.group === group[0],
+        );
+        persistentIndex = persistentIndex + groupOptions.length;
+        return (
+          groupOptions.length > 0 && (
+            <optgroup
+              className="o-SelectWrapper__OptGroup"
+              key={`${name}_${i}_${index}_${group[0]}`}
+              label={group[0]}
+            >
+              {renderOptions(i, initialIndex, groupOptions)}
+            </optgroup>
+          )
+        );
+      },
+    );
+  };
+
+  const renderOptions = (
+    i: number,
+    initialIndex: number,
+    options: Array<IOptionWrapper<T>>,
+  ) => {
+    return options.map((wrapper, index) => {
+      const totalIndex = initialIndex + index;
+      return (
+        wrapper &&
+        (totalIndex === selectedIndexes[i] ||
+          !selectedIndexes.includes(totalIndex)) && (
+          <option
+            className="o-SelectWrapper__Option"
+            key={`${name}_${i}_${totalIndex}`}
+            value={totalIndex}
+          >
+            {wrapper.option && !wrapper.label
+              ? displayTransform(wrapper.option)
+              : wrapper.label}
+          </option>
+        )
+      );
+    });
+  };
 
   return (
     <div className="c-FormMultiselect">
@@ -111,7 +169,7 @@ export default function FormMultiselect<T>({
               }`}
               {...register(`${name}_${i}`, {
                 setValueAs: (v) => {
-                  return options[v];
+                  return options[v]?.option;
                 },
                 required: {
                   value: isRequired,
@@ -136,16 +194,9 @@ export default function FormMultiselect<T>({
               <option disabled={isRequired} hidden={isRequired} value={-1}>
                 {noneSelectedLabel}
               </option>
-              {options.map(
-                (option, index) =>
-                  option &&
-                  (index === selectedIndexes[i] ||
-                    !selectedIndexes.includes(index)) && (
-                    <option key={`${name}_${i}_${index}`} value={index}>
-                      {displayTransform(option)}
-                    </option>
-                  ),
-              )}
+              {options.every((wrapper) => wrapper.group)
+                ? renderGroups(i)
+                : renderOptions(i, 0, options)}
             </select>
           </div>
           <ErrorMessage

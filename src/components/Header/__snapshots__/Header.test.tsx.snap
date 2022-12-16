@@ -83,7 +83,7 @@ exports[`Header renders 1`] = `
         class="c-NavigationList__Item"
       >
         <div
-          class="c-NavigationListMenu"
+          class="c-NavigationListMenu c-NavigationListMenu_open"
         >
           <a
             class="c-NavigationListMenu__Button"
@@ -116,7 +116,7 @@ exports[`Header renders 1`] = `
         class="c-NavigationList__Item"
       >
         <div
-          class="c-NavigationListMenu c-NavigationListMenu_open c-NavigationListMenu_menu"
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
         >
           <button
             class="c-NavigationListMenu__Button"
@@ -145,66 +145,48 @@ exports[`Header renders 1`] = `
           <div
             class="c-NavigationListMenu__List"
           >
-            <a
-              class="c-NavigationListLink"
-              href="/"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Couleurs, logo, lien
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Menu
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink c-NavigationListLink_active"
-              href="/personnalisation/accueil"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Page d'accueil
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Footer
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Types de conteneurs
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Types de lieux d'apport
-              </span>
-            </a>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
+            <p>
+              link
+            </p>
           </div>
         </div>
       </li>
@@ -241,24 +223,66 @@ exports[`Header renders 1`] = `
           <div
             class="c-NavigationListMenu__List"
           >
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
+            <a
+              class="c-NavigationListLink"
+              href="/services/points-collecte"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Points de collecte
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/services/guide-tri"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Guide du tri
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/services/jour-collecte"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Jour de collecte
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/services/demandes"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Demandes
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/services/yeswescan"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                YesWeScan
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/services/alertes"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Alertes
+              </span>
+            </a>
           </div>
         </div>
       </li>
@@ -295,24 +319,66 @@ exports[`Header renders 1`] = `
           <div
             class="c-NavigationListMenu__List"
           >
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
+            <a
+              class="c-NavigationListLink"
+              href="/personnalisation/couleurs"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Couleurs, logo, lien
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/personnalisation/menu"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Menu
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/personnalisation/accueil"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Page d'accueil
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/personnalisation/footer"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Footer
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/personnalisation/types-conteneurs"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Types de conteneurs
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/personnalisation/types-apport"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Types de lieux d'apport
+              </span>
+            </a>
           </div>
         </div>
       </li>
@@ -426,7 +492,7 @@ exports[`Header renders 1`] = `
         >
           <a
             class="c-NavigationListMenu__Button"
-            href="/"
+            href="/corbeille"
           >
             <div
               class="c-NavigationListMenu__Picto"

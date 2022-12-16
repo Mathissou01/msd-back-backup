@@ -1,0 +1,25 @@
+query getEditoBlockTab($contractId: ID!) {
+  getEditoBlockDTO(contractId: $contractId) {
+    id
+    displayBlock
+    titleContent
+    editoContents {
+      id
+      contentType
+      typeName
+      attributes {
+        title
+        publishedAt
+      }
+    }
+  }
+  getEditoContentDTOs(contractId: $contractId) {
+    id
+    contentType
+    typeName
+    attributes {
+      title
+      publishedAt
+    }
+  }
+}

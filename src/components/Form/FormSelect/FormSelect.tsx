@@ -51,14 +51,16 @@ export default function FormSelect<T>({
       const matchIndex = options.findIndex(
         (option) => option && option[optionKey] === watchValue[optionKey],
       );
+      setValue(name, matchIndex);
       setSelectedIndex(matchIndex);
     } else if (defaultValue) {
       const matchIndex = options.findIndex(
         (option) => option && option[optionKey] === defaultValue[optionKey],
       );
+      setValue(name, matchIndex);
       setSelectedIndex(matchIndex);
     }
-  }, [defaultValue, name, optionKey, options, watchValue]);
+  }, [defaultValue, name, optionKey, options, setValue, watchValue]);
 
   return (
     <div className="c-FormSelect">
@@ -99,7 +101,11 @@ export default function FormSelect<T>({
           {options?.map(
             (option, index) =>
               option && (
-                <option key={name + index} value={index}>
+                <option
+                  className="o-SelectWrapper__Option"
+                  key={name + index}
+                  value={index}
+                >
                   {displayTransform(option)}
                 </option>
               ),

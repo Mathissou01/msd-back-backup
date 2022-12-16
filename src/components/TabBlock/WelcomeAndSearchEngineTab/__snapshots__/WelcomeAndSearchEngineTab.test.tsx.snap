@@ -29,22 +29,6 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
       <h2
         class="c-WelcomeAndSearchEngineTab__Title"
       >
-        Message de bienvenue
-      </h2>
-      <div
-        class="c-WelcomeAndSearchEngineTab__SubGroup"
-      >
-        <span>
-          [...]
-        </span>
-      </div>
-    </div>
-    <div
-      class="c-WelcomeAndSearchEngineTab__Group"
-    >
-      <h2
-        class="c-WelcomeAndSearchEngineTab__Title"
-      >
         Moteur de recherche
       </h2>
       <div

@@ -32,8 +32,8 @@ describe("FormMultiselect", () => {
           isDisabled={false}
           selectAmount={2}
           options={[
-            { id: 1, content: "content 1" },
-            { id: 2, content: "content 2" },
+            { option: { id: 1, content: "content 1" } },
+            { option: { id: 2, content: "content 2" } },
           ]}
           optionKey={"id"}
         />

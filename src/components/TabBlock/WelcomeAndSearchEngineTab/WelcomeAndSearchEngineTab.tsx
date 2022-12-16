@@ -7,11 +7,12 @@ import {
   useUpdateSearchEngineTabMutation,
 } from "../../../graphql/codegen/generated-types";
 import { FocusFirstElement } from "../../../lib/utilities";
+import { extractSearchEngineBlock } from "../../../lib/graphql-data";
+import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import FormInput from "../../Form/FormInput/FormInput";
 import "./welcome-and-search-engine-tab.scss";
-import { extractSearchEngineBlock } from "../../../lib/graphql-data";
 
 interface ISearchEngineBlock {
   id: string;
@@ -62,8 +63,8 @@ export default function WelcomeAndSearchEngineTab() {
     form.reset();
   }
 
-  /* API Data */
-  const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
+  /* External Data */
+  const { contractId } = useContract();
   const { loading, error, data } = useGetSearchEngineTabQuery({
     variables: { contractId },
   });
@@ -131,14 +132,14 @@ export default function WelcomeAndSearchEngineTab() {
           onSubmit={handleSubmit(onSubmitValid)}
           ref={focusRef}
         >
-          <div className="c-WelcomeAndSearchEngineTab__Group">
-            <h2 className="c-WelcomeAndSearchEngineTab__Title">
-              {formLabels.welcomeTitle}
-            </h2>
-            <div className="c-WelcomeAndSearchEngineTab__SubGroup">
-              <span>[...]</span>
-            </div>
-          </div>
+          {/*<div className="c-WelcomeAndSearchEngineTab__Group">*/}
+          {/*  <h2 className="c-WelcomeAndSearchEngineTab__Title">*/}
+          {/*    {formLabels.welcomeTitle}*/}
+          {/*  </h2>*/}
+          {/*  <div className="c-WelcomeAndSearchEngineTab__SubGroup">*/}
+          {/*    <span>[...]</span>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <div className="c-WelcomeAndSearchEngineTab__Group">
             <h2 className="c-WelcomeAndSearchEngineTab__Title">
               {formLabels.searchEngineTitle}

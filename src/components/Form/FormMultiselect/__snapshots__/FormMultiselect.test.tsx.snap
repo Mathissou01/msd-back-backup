@@ -35,11 +35,13 @@ exports[`FormMultiselect renders 1`] = `
             - Sélectionnez un élément -
           </option>
           <option
+            class="o-SelectWrapper__Option"
             value="0"
           >
             -content 1
           </option>
           <option
+            class="o-SelectWrapper__Option"
             value="1"
           >
             -content 2
@@ -77,11 +79,13 @@ exports[`FormMultiselect renders 1`] = `
             - Sélectionnez un élément -
           </option>
           <option
+            class="o-SelectWrapper__Option"
             value="0"
           >
             -content 1
           </option>
           <option
+            class="o-SelectWrapper__Option"
             value="1"
           >
             -content 2

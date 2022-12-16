@@ -17,12 +17,15 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { FocusFirstElement, removeNulls } from "../../../lib/utilities";
 import { extractQuizAndTipsBlock } from "../../../lib/graphql-data";
+import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormModalInput from "../../Form/FormModalInput/FormModalInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
-import FormMultiselect from "../../Form/FormMultiselect/FormMultiselect";
+import FormMultiselect, {
+  IOptionWrapper,
+} from "../../Form/FormMultiselect/FormMultiselect";
 import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import "./quiz-and-tips-tab.scss";
 
@@ -142,8 +145,8 @@ export default function QuizAndTipsTab() {
     form.reset();
   }
 
-  /* API Data */
-  const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
+  /* External Data */
+  const { contractId } = useContract();
   const { loading, error, data } = useGetQuizAndTipsBlockTabQuery({
     variables: { contractId },
   });
@@ -156,7 +159,9 @@ export default function QuizAndTipsTab() {
   const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [quizAndTipsData, setQuizAndTipsData] = useState<IQuizAndTipsBlock>();
   const [quizzesData, setQuizzesData] = useState<Array<QuizEntity>>([]);
-  const [tipsData, setTipsData] = useState<Array<TipEntity>>([]);
+  const [tipsData, setTipsData] = useState<Array<IOptionWrapper<TipEntity>>>(
+    [],
+  );
   const formValidationMode = "onChange";
   const form = useForm({
     mode: formValidationMode,
@@ -165,7 +170,11 @@ export default function QuizAndTipsTab() {
   const { isDirty, isSubmitting } = formState;
 
   useEffect(() => {
-    if (data && data.contractCustomizations?.data && data.services?.data) {
+    if (
+      data &&
+      data.contractCustomizations?.data &&
+      (data.quizSubServices?.data || data?.tipSubServices?.data)
+    ) {
       const { quizAndTipsBlock, quizzes, tips } = extractQuizAndTipsBlock(data);
       if (quizAndTipsBlock?.id && quizAndTipsBlock?.attributes) {
         const mappedData: IQuizAndTipsBlock = {
@@ -185,7 +194,16 @@ export default function QuizAndTipsTab() {
         setQuizzesData(quizzes);
       }
       if (tips && tips?.length > 0) {
-        setTipsData(tips);
+        const mappedOptions: Array<IOptionWrapper<TipEntity> | null> = tips.map(
+          (tip) => {
+            return tip ? { option: tip } : null;
+          },
+        );
+        setTipsData(
+          mappedOptions?.filter(
+            (e): e is Exclude<typeof e, null> => e !== null,
+          ),
+        );
       }
     }
   }, [form, data]);

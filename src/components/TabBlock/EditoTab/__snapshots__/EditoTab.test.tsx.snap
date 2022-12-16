@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditoTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    class="c-CommonSpinner__Wrapper "
+  >
+    <div
+      class="c-CommonSpinner"
+      data-testid="common-spinner"
+    >
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditoTab renders loading and loaded state 2`] = `
+<div>
+  <div
+    class="c-EditoTab"
+  >
+    <h2
+      class="c-EditoTab__Title"
+    >
+      Bloc Édito
+    </h2>
+    <form
+      class="c-EditoTab__Form"
+    >
+      <div
+        class="c-EditoTab__Group c-EditoTab__Group_short"
+      >
+        <div
+          class="c-FormCheckbox"
+        >
+          <input
+            class="c-FormCheckbox__Input c-FormCheckbox__Input_checked"
+            data-testid="form-checkbox"
+            id="displayBlock"
+            name="displayBlock"
+            type="checkbox"
+          />
+          <label
+            class="c-FormLabel"
+            for="displayBlock"
+          >
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Afficher ce bloc 
+              </span>
+            </div>
+          </label>
+        </div>
+        <div
+          class="c-FormInput"
+        >
+          <label
+            class="c-FormLabel"
+            for="titleContent"
+          >
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Titre du bloc *
+              </span>
+            </div>
+          </label>
+          <input
+            aria-errormessage="titleContent_error"
+            aria-invalid="false"
+            class="c-FormInput__Input "
+            data-testid="form-input"
+            id="titleContent"
+            name="titleContent"
+            type="text"
+            value="Titre modifié"
+          />
+        </div>
+      </div>
+      <div
+        class="c-EditoTab__Group"
+      >
+        <div
+          class="c-FormModalInput"
+          data-testid="form-modal-input"
+        >
+          <label
+            class="c-FormLabel"
+            for="editoContents_button"
+          >
+            <div
+              class="c-FormLabel__Label"
+            >
+              <span>
+                Contenus à afficher 
+              </span>
+            </div>
+          </label>
+          <input
+            class="c-FormModalInput__Input"
+            disabled=""
+            name="editoContents"
+            type="hidden"
+            value="[object Object],[object Object],[object Object]"
+          />
+          <p>
+            Remplacez vos sacs en plastique par des sacs réutilisables, un caddie ou des paniers. - 18/11/2022
+          </p>
+          <p>
+            freecontent test - 05/12/2022
+          </p>
+          <p>
+            Nom du quiz - 20/11/2022
+          </p>
+          <div
+            aria-errormessage="editoContents_error"
+            aria-invalid="false"
+          >
+            <button
+              class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+              id="editoContents_button"
+              type="button"
+            >
+              Sélectionner les articles à afficher
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-EditoTab__Buttons"
+      >
+        <button
+          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          Enregistrer les modifications
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+          disabled=""
+          type="button"
+        >
+          Annuler les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

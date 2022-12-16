@@ -12,6 +12,7 @@ import CommonButton from "../../Common/CommonButton/CommonButton";
 import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import FormInput from "../../Form/FormInput/FormInput";
 import "./recycling-guide-tab.scss";
+import { useContract } from "../../../hooks/useContract";
 
 interface IRecyclingGuideBlock {
   id: string;
@@ -67,8 +68,8 @@ export default function RecyclingGuideTab() {
     form.reset();
   }
 
-  /* API Data */
-  const contractId = "1"; // TODO: Put Contract data (ID) in STORE, maybe have hook to automatically insert ID variable in gql requests
+  /* External Data */
+  const { contractId } = useContract();
   const { loading, error, data } = useGetRecyclingBlockTabQuery({
     variables: { contractId },
   });

@@ -1,146 +1,169 @@
-import NavigationListMenu from "./NavigationListMenu/NavigationListMenu";
-import "./navigation-list.scss";
 import { useState } from "react";
+import NavigationListMenu from "./NavigationListMenu/NavigationListMenu";
 import NavigationListLink from "./NavigationListLink/NavigationListLink";
+import {
+  ENavigationPages,
+  useNavigation,
+} from "../../../../hooks/useNavigation";
+import "./navigation-list.scss";
 
 interface IActiveMenu {
-  source: string | null;
+  menuName: keyof typeof ENavigationPages | null;
   isOpen: boolean;
 }
 
 export default function NavigationList() {
-  const temporaryLabels = {
-    /* Static Data */
-    // TODO: temporary static values, remove later
-    // TODO: keep current navigation info in Context for this and breadcrumbs
-    homepage: "Accueil",
-    edito: {
-      root: "Edito",
-      colors: "Couleurs, logo, lien",
-      menu: "Menu",
-      homepage: "Page d'accueil",
-      footer: "Footer",
-      containers: "Types de conteneurs",
-      inputs: "Types de lieux d'apport",
-    },
-    services: "Services",
-    personnalisation: "Personnalisation",
-    sectorsAndUsers: "Secteurs et Usagers",
-    administration: "Gestion",
-    bin: "Corbeille",
-  };
-
   /* Methods */
-  function handleClickMenu(source: string) {
+  function handleClickMenu(source: keyof typeof ENavigationPages) {
     setActiveMenu({
-      source,
-      isOpen: activeMenu.source !== source ? true : !activeMenu.isOpen,
+      menuName: source,
+      isOpen: activeMenu.menuName !== source ? true : !activeMenu.isOpen,
     });
   }
 
-  function handleClickLink(source: string) {
-    setActiveLink(source);
-  }
+  /* External Data */
+  const { currentPage, setCurrentPage } = useNavigation();
 
   /* Local Data */
   const [activeMenu, setActiveMenu] = useState<IActiveMenu>({
-    source: "edito",
-    isOpen: true,
+    menuName: `/${currentPage.split("/")[1]}` as keyof typeof ENavigationPages,
+    isOpen: currentPage !== ("/" || "/corbeille"),
   });
-  const [activeLink, setActiveLink] = useState("edito.homepage");
 
   return (
     <ul className="c-NavigationList">
       <li className="c-NavigationList__Item">
         <NavigationListMenu
           href={"/"}
-          label={temporaryLabels.homepage}
+          label={ENavigationPages["/"]}
           pictoUrl="/images/pictos-temp/homepage.svg"
-          isOpen={activeLink === "homepage"}
-          onClick={() => handleClickLink("homepage")}
+          isOpen={currentPage === "/"}
+          onClick={() => setCurrentPage("/")}
         />
       </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
-          label={temporaryLabels.edito.root}
+          label={ENavigationPages["/edito"]}
           pictoUrl="/images/pictos-temp/edito.svg"
-          isOpen={activeMenu.source === "edito" && activeMenu.isOpen}
-          onClick={() => handleClickMenu("edito")}
+          isOpen={activeMenu.menuName === "/edito" && activeMenu.isOpen}
+          onClick={() => handleClickMenu("/edito")}
+        >
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+          <p>link</p>
+        </NavigationListMenu>
+      </li>
+      <li className="c-NavigationList__Item">
+        <NavigationListMenu
+          label={ENavigationPages["/services"]}
+          pictoUrl="/images/pictos-temp/services.svg"
+          isOpen={activeMenu.menuName === "/services" && activeMenu.isOpen}
+          onClick={() => handleClickMenu("/services")}
         >
           <NavigationListLink
-            href={"/"}
-            label={temporaryLabels.edito.colors}
-            isActive={activeLink === "edito.colors"}
-            // onClick={() => handleClickLink("edito.colors")}
+            href={"/services/points-collecte"}
+            label={ENavigationPages["/services/points-collecte"]}
+            isActive={currentPage === "/services/points-collecte"}
+            onClick={() => setCurrentPage("/services/points-collecte")}
           />
           <NavigationListLink
-            href={"/"}
-            label={temporaryLabels.edito.menu}
-            isActive={activeLink === "edito.menu"}
-            // onClick={() => handleClickLink("edito.menu")}
+            href={"/services/guide-tri"}
+            label={ENavigationPages["/services/guide-tri"]}
+            isActive={currentPage === "/services/guide-tri"}
+            onClick={() => setCurrentPage("/services/guide-tri")}
+          />
+          <NavigationListLink
+            href={"/services/jour-collecte"}
+            label={ENavigationPages["/services/jour-collecte"]}
+            isActive={currentPage === "/services/jour-collecte"}
+            onClick={() => setCurrentPage("/services/jour-collecte")}
+          />
+          <NavigationListLink
+            href={"/services/demandes"}
+            label={ENavigationPages["/services/demandes"]}
+            isActive={currentPage === "/services/demandes"}
+            onClick={() => setCurrentPage("/services/demandes")}
+          />
+          <NavigationListLink
+            href={"/services/yeswescan"}
+            label={ENavigationPages["/services/yeswescan"]}
+            isActive={currentPage === "/services/yeswescan"}
+            onClick={() => setCurrentPage("/services/yeswescan")}
+          />
+          <NavigationListLink
+            href={"/services/alertes"}
+            label={ENavigationPages["/services/alertes"]}
+            isActive={currentPage === "/services/alertes"}
+            onClick={() => setCurrentPage("/services/alertes")}
+          />
+        </NavigationListMenu>
+      </li>
+      <li className="c-NavigationList__Item">
+        <NavigationListMenu
+          label={ENavigationPages["/personnalisation"]}
+          pictoUrl="/images/pictos-temp/personnalisation.svg"
+          isOpen={
+            activeMenu.menuName === "/personnalisation" && activeMenu.isOpen
+          }
+          onClick={() => handleClickMenu("/personnalisation")}
+        >
+          <NavigationListLink
+            href={"/personnalisation/couleurs"}
+            label={ENavigationPages["/personnalisation/couleurs"]}
+            isActive={currentPage === "/personnalisation/couleurs"}
+            onClick={() => setCurrentPage("/personnalisation/couleurs")}
+          />
+          <NavigationListLink
+            href={"/personnalisation/menu"}
+            label={ENavigationPages["/personnalisation/menu"]}
+            isActive={currentPage === "/personnalisation/menu"}
+            onClick={() => setCurrentPage("/personnalisation/menu")}
           />
           <NavigationListLink
             href={"/personnalisation/accueil"}
-            label={temporaryLabels.edito.homepage}
-            isActive={activeLink === "edito.homepage"}
-            onClick={() => handleClickLink("edito.homepage")}
+            label={ENavigationPages["/personnalisation/accueil"]}
+            isActive={currentPage === "/personnalisation/accueil"}
+            onClick={() => setCurrentPage("/personnalisation/accueil")}
           />
           <NavigationListLink
-            href={"/"}
-            label={temporaryLabels.edito.footer}
-            isActive={activeLink === "edito.footer"}
-            // onClick={() => handleClickLink("edito.footer")}
+            href={"/personnalisation/footer"}
+            label={ENavigationPages["/personnalisation/footer"]}
+            isActive={currentPage === "/personnalisation/footer"}
+            onClick={() => setCurrentPage("/personnalisation/footer")}
           />
           <NavigationListLink
-            href={"/"}
-            label={temporaryLabels.edito.containers}
-            isActive={activeLink === "edito.containers"}
-            // onClick={() => handleClickLink("edito.containers")}
+            href={"/personnalisation/types-conteneurs"}
+            label={ENavigationPages["/personnalisation/types-conteneurs"]}
+            isActive={currentPage === "/personnalisation/types-conteneurs"}
+            onClick={() => setCurrentPage("/personnalisation/types-conteneurs")}
           />
           <NavigationListLink
-            href={"/"}
-            label={temporaryLabels.edito.inputs}
-            isActive={activeLink === "edito.inputs"}
-            // onClick={() => handleClickLink("edito.inputs")}
+            href={"/personnalisation/types-apport"}
+            label={ENavigationPages["/personnalisation/types-apport"]}
+            isActive={currentPage === "/personnalisation/types-apport"}
+            onClick={() => setCurrentPage("/personnalisation/types-apport")}
           />
         </NavigationListMenu>
       </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
-          label={temporaryLabels.services}
-          pictoUrl="/images/pictos-temp/services.svg"
-          isOpen={activeMenu.source === "services" && activeMenu.isOpen}
-          // onClick={() => handleClickMenu("services")}
-        >
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-        </NavigationListMenu>
-      </li>
-      <li className="c-NavigationList__Item">
-        <NavigationListMenu
-          label={temporaryLabels.personnalisation}
-          pictoUrl="/images/pictos-temp/personnalisation.svg"
-          isOpen={activeMenu.source === "personnalisation" && activeMenu.isOpen}
-          // onClick={() => handleClickMenu("personnalisation")}
-        >
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-        </NavigationListMenu>
-      </li>
-      <li className="c-NavigationList__Item">
-        <NavigationListMenu
-          label={temporaryLabels.sectorsAndUsers}
+          label={ENavigationPages["/secteurs-usagers"]}
           pictoUrl="/images/pictos-temp/sectorsAndUsers.svg"
-          isOpen={activeMenu.source === "sectorsAndUsers" && activeMenu.isOpen}
-          // onClick={() => handleClickMenu("sectorsAndUsers")}
+          isOpen={
+            activeMenu.menuName === "/secteurs-usagers" && activeMenu.isOpen
+          }
+          onClick={() => handleClickMenu("/secteurs-usagers")}
         >
           <p>link</p>
           <p>link</p>
@@ -152,10 +175,12 @@ export default function NavigationList() {
       </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
-          label={temporaryLabels.administration}
+          label={ENavigationPages["/administration"]}
           pictoUrl="/images/pictos-temp/administration.svg"
-          isOpen={activeMenu.source === "administration" && activeMenu.isOpen}
-          // onClick={() => handleClickMenu("administration")}
+          isOpen={
+            activeMenu.menuName === "/administration" && activeMenu.isOpen
+          }
+          onClick={() => handleClickMenu("/administration")}
         >
           <p>link</p>
           <p>link</p>
@@ -165,11 +190,11 @@ export default function NavigationList() {
       </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
-          href={"/"}
-          label={temporaryLabels.bin}
+          href={"/corbeille"}
+          label={ENavigationPages["/corbeille"]}
           pictoUrl="/images/pictos-temp/bin.svg"
-          isOpen={activeLink === "bin"}
-          // onClick={() => handleClickLink("bin")}
+          isOpen={currentPage === "/corbeille"}
+          onClick={() => setCurrentPage("/corbeille")}
         />
       </li>
     </ul>

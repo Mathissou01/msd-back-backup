@@ -1,0 +1,28 @@
+query getTopContentTab($contractId: ID!) {
+  getTopContentBlockDTO(contractId: $contractId) {
+    id
+    displayBlock
+    displayLastThreeContents
+    hasTopContent
+    titleContent
+    topContent {
+      id
+      contentType
+      typeName
+      attributes {
+        title
+        publishedAt
+      }
+    }
+  }
+  getTopContentDTOs(contractId: $contractId) {
+    __typename
+    id
+    contentType
+    typeName
+    attributes {
+      title
+      publishedAt
+    }
+  }
+}

@@ -40,44 +40,34 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
       }
     }
   }
-  services(filters: { contract: { id: { eq: $contractId } } }) {
+  quizSubServices(
+    filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+  ) {
     data {
       attributes {
-        serviceInstance {
-          __typename
-          ... on ComponentMsdEditorial {
+        quizzes {
+          data {
             id
-            editorialServices {
-              data {
-                attributes {
-                  isActivated
-                  subServiceInstance {
-                    __typename
-                    ... on ComponentEditoTipsSubService {
-                      tips {
-                        data {
-                          id
-                          attributes {
-                            title
-                            publishedAt
-                          }
-                        }
-                      }
-                    }
-                    ... on ComponentEditoQuizzesSubService {
-                      quizzes {
-                        data {
-                          id
-                          attributes {
-                            title
-                            publishedAt
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+            attributes {
+              title
+              publishedAt
+            }
+          }
+        }
+      }
+    }
+  }
+  tipSubServices(
+    filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+  ) {
+    data {
+      attributes {
+        tips {
+          data {
+            id
+            attributes {
+              title
+              publishedAt
             }
           }
         }

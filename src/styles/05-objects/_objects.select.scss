@@ -57,4 +57,18 @@
       }
     }
   }
+
+  &__OptGroup {
+    color: colors.$expert-blue;
+    background-color: colors.$gray-0;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__Option {
+    color: colors.$blue-1;
+    background-color: colors.$white;
+  }
 }

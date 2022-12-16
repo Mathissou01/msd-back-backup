@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopContentTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    class="c-CommonSpinner__Wrapper "
+  >
+    <div
+      class="c-CommonSpinner"
+      data-testid="common-spinner"
+    >
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TopContentTab renders loading and loaded state 2`] = `
+<div>
+  <div
+    class="c-CommonSpinner__Wrapper "
+  >
+    <div
+      class="c-CommonSpinner"
+      data-testid="common-spinner"
+    >
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;

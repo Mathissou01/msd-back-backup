@@ -4,10 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { isAbsoluteOrRelativeUrl } from "../../../../../lib/utilities";
 import "./navigation-list-menu.scss";
+import { ENavigationPages } from "../../../../../hooks/useNavigation";
 
 interface INavigationListButtonProps {
   children?: ReactNode;
-  href?: string;
+  href?: keyof typeof ENavigationPages;
   label: string;
   pictoUrl: string;
   pictoAlt?: string;
