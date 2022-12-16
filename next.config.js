@@ -15,6 +15,7 @@ const nextConfig = {
   env: {
     API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
+  pageExtensions: ["page.js", "page.jsx", "page.ts", "page.tsx"],
   webpack(config) {
     // Enable topLevelAwait, ES2017 in tsconfig
     config.experiments = config.experiments || {};

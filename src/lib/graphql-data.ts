@@ -31,7 +31,7 @@ export function extractRecyclingGuideBlock(data: GetRecyclingBlockTabQuery) {
 
 export function extractTopContentBlock(data: GetTopContentTabQuery) {
   const topContentBlock = data.getTopContentBlockDTO ?? null;
-  const topContents = data.getTopContentDTOs;
+  const topContents = data.getTopContentDTOs ?? null;
 
   return { topContentBlock, topContents };
 }

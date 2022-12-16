@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import React from "react";
 import { defaultMockData } from "../../../../__mocks__/personnalisationFooterPageMockData";
-import PersonnalisationFooterPage from "./index";
+import PersonnalisationFooterPage from "./index.page";
 
 describe("PersonnalisationFooterPage", () => {
   it("renders loading and loaded state", async () => {
