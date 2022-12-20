@@ -1,3 +1,4 @@
+import { format, parseJSON } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, {
@@ -37,7 +38,7 @@ interface ITopContentBlock {
 export default function TopContentTab() {
   /* Static Data */
   const formLabels = {
-    title: "A la une",
+    title: "À la une",
     displayBlock: "Afficher ce bloc",
     titleContent: "Titre du bloc",
     hasTopContent: "Afficher la mise en avant",
@@ -56,7 +57,25 @@ export default function TopContentTab() {
   function topContentDisplayTransformFunction(
     topContent: Partial<TopContentDto> | undefined,
   ): ReactNode {
-    return <p>{topContent?.attributes?.title ?? ""}</p>;
+    return (
+      <p>
+        {`${topContent?.attributes?.title} - ${format(
+          parseJSON(topContent?.attributes?.publishedAt),
+          "dd/MM/yyyy",
+        )}` ?? ""}
+      </p>
+    );
+  }
+
+  function topContentSelectDisplayTransformFunction(
+    topContent: TopContentDto,
+  ): string {
+    return (
+      `${topContent?.attributes?.title} - ${format(
+        parseJSON(topContent?.attributes?.publishedAt),
+        "dd/MM/yyyy",
+      )}` ?? ""
+    );
   }
 
   function onTopContentModalSubmit(submitData: {
@@ -72,12 +91,6 @@ export default function TopContentTab() {
         (topContent) => topContent?.contentType === changeData,
       ) ?? [],
     );
-  }
-
-  function topContentSelectDisplayTransformFunction(
-    topContent: TopContentDto,
-  ): string {
-    return topContent.attributes?.title ?? "";
   }
 
   async function onSubmitValid(submitData: FieldValues) {

@@ -102,7 +102,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
               class="c-FormLabel__Label"
             >
               <span>
-                Contenus à afficher
+                Contenus à afficher *
               </span>
             </div>
           </label>

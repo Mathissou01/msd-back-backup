@@ -237,6 +237,7 @@ export default function EditoTab() {
               onSubmit={onContentModalSubmit}
               formValidationMode={formValidationMode}
               isDisabled={mutationLoading}
+              isRequired={true}
             >
               <FormMultiselect<EditoContentDto>
                 name="editoContentsSelect"

@@ -121,7 +121,14 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
-    ]
+    ],
+    "rules": {
+      "body-max-line-length": [
+        0,
+        "always",
+        "Infinity"
+      ]
+    }
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint . --fix --max-warnings=0 --ignore-path .gitignore --ignore-path .eslintignore",

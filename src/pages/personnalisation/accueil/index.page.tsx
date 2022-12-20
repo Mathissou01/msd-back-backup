@@ -93,7 +93,7 @@ export default function PersonnalisationAccueilPage() {
       },
       {
         name: "topContent",
-        title: "A la une",
+        title: "À la une",
         content: <TopContentTab />,
         isEnabled:
           !!serviceParameters?.isServiceEditorialActivated &&
