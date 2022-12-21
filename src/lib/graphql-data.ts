@@ -59,7 +59,5 @@ export function extractEditoBlock(data: GetEditoBlockTabQuery) {
 export function extractFooter(data: GetFooterPageQuery) {
   const footer =
     data.contractCustomizations?.data[0]?.attributes?.footer?.data ?? null;
-  const contactUsService = data.contactUsServices?.data[0] ?? null;
-
-  return { footer, contactUsService };
+  return { footer };
 }

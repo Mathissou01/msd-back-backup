@@ -19,32 +19,50 @@ export const defaultMockData = [
                     id: "1",
                     attributes: {
                       accessibilityLevel: "partially_conform",
-                      legalContent: {
+                      cguSubService: {
                         data: {
                           id: "1",
                           attributes: {
-                            GCULink: "https://google.com",
-                            accessibilityLink: "https://google.com",
-                            confidentiality: "https://google.com",
-                            cookiesPolicy: "https://google.com",
+                            link: "https://google.com",
+                          },
+                        },
+                      },
+                      accessibilitySubService: {
+                        data: {
+                          id: "1",
+                          attributes: {
+                            link: "https://google.com",
+                          },
+                        },
+                      },
+                      confidentialitySubService: {
+                        data: {
+                          id: "1",
+                          attributes: {
+                            link: "https://google.com",
+                          },
+                        },
+                      },
+                      cookiesSubService: {
+                        data: {
+                          id: "1",
+                          attributes: {
+                            link: "https://google.com",
+                          },
+                        },
+                      },
+                      contactUsSubService: {
+                        data: {
+                          id: "1",
+                          attributes: {
+                            label: "Contactez-nous",
+                            link: "https://google.com",
                           },
                         },
                       },
                     },
                   },
                 },
-              },
-            },
-          ],
-        },
-        contactUsServices: {
-          data: [
-            {
-              id: "1",
-              attributes: {
-                isActivated: true,
-                label: "Contactez-nous",
-                link: "https://google.com",
               },
             },
           ],

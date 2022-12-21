@@ -20,18 +20,14 @@ import "./personnalisation-footer-page.scss";
 interface IFooterData {
   id: string;
   accessibilityLevel: Enum_Footer_Accessibilitylevel;
-  legalContent: {
+  cguSubService?: { id: string; link?: string };
+  accessibilitySubService?: { id: string; link?: string };
+  confidentialitySubService?: { id: string; link?: string };
+  cookiesSubService?: { id: string; link?: string };
+  contactUsSubService?: {
     id: string;
-    GCULink: string;
-    accessibilityLink: string;
-    confidentiality: string;
-    cookiesPolicy: string;
-  };
-  contactUsService?: {
-    id: string;
-    isActivated: boolean;
     label: string;
-    link: string;
+    link?: string;
   };
 }
 
@@ -67,17 +63,28 @@ export default function PersonnalisationFooterPage() {
         updateFooterData: {
           accessibilityLevel: submitData["accessibilityLevel"],
         },
-        updateLegalContentId: submitData["legalContent"]["id"],
-        updateLegalContentData: {
-          GCULink: submitData["legalContent"]["GCULink"],
-          accessibilityLink: submitData["legalContent"]["accessibilityLink"],
-          confidentiality: submitData["legalContent"]["confidentiality"],
-          cookiesPolicy: submitData["legalContent"]["cookiesPolicy"],
+        updateCguSubServiceId: submitData["accessibilitySubService"]["id"],
+        updateCguSubServiceData: {
+          link: submitData["accessibilitySubService"]["link"],
         },
-        updateContactUsServiceId: submitData["contactUsService"]["id"],
-        updateContactUsServiceData: {
-          label: submitData["contactUsService"]["label"],
-          link: submitData["contactUsService"]["link"],
+        updateAccessibilitySubServiceId:
+          submitData["accessibilitySubService"]["id"],
+        updateAccessibilitySubServiceData: {
+          link: submitData["accessibilitySubService"]["link"],
+        },
+        updateConfidentialitySubServiceId:
+          submitData["confidentialitySubService"]["id"],
+        updateConfidentialitySubServiceData: {
+          link: submitData["confidentialitySubService"]["link"],
+        },
+        updateCookiesSubServiceId: submitData["cookiesSubService"]["id"],
+        updateCookiesSubServiceData: {
+          link: submitData["cookiesSubService"]["link"],
+        },
+        updateContactUsSubServiceId: submitData["contactUsSubService"]["id"],
+        updateContactUsSubServiceData: {
+          label: submitData["contactUsSubService"]["label"],
+          link: submitData["contactUsSubService"]["link"],
         },
       };
       updateFooterPage({
@@ -120,37 +127,66 @@ export default function PersonnalisationFooterPage() {
 
   useEffect(() => {
     if (data) {
-      const { footer, contactUsService } = extractFooter(data);
-      if (
-        footer?.id &&
-        footer?.attributes?.legalContent?.data?.id &&
-        contactUsService?.id
-      ) {
+      const { footer } = extractFooter(data);
+      if (footer?.id && footer.attributes) {
         const mappedData = {
           id: footer.id,
           accessibilityLevel:
             footer.attributes.accessibilityLevel ??
             Enum_Footer_Accessibilitylevel.NotConform,
-          legalContent: {
-            id: footer.attributes.legalContent.data.id,
-            GCULink:
-              footer.attributes.legalContent?.data?.attributes?.GCULink ?? "",
-            accessibilityLink:
-              footer.attributes.legalContent?.data?.attributes
-                ?.accessibilityLink ?? "",
-            confidentiality:
-              footer.attributes.legalContent?.data?.attributes
-                ?.confidentiality ?? "",
-            cookiesPolicy:
-              footer.attributes.legalContent?.data?.attributes?.cookiesPolicy ??
-              "",
-          },
-          contactUsService: {
-            id: contactUsService.id,
-            isActivated: !!contactUsService.attributes?.isActivated,
-            label: contactUsService?.attributes?.label ?? "",
-            link: contactUsService?.attributes?.link ?? "",
-          },
+          ...(footer.attributes.cguSubService?.data?.id
+            ? {
+                cguSubService: {
+                  id: footer.attributes.cguSubService.data.id,
+                  link:
+                    footer.attributes.cguSubService.data.attributes?.link ??
+                    undefined,
+                },
+              }
+            : {}),
+          ...(footer.attributes.accessibilitySubService?.data?.id
+            ? {
+                accessibilitySubService: {
+                  id: footer.attributes.accessibilitySubService.data.id,
+                  link:
+                    footer.attributes.accessibilitySubService.data.attributes
+                      ?.link ?? undefined,
+                },
+              }
+            : {}),
+          ...(footer.attributes.confidentialitySubService?.data?.id
+            ? {
+                confidentialitySubService: {
+                  id: footer.attributes.confidentialitySubService.data.id,
+                  link:
+                    footer.attributes.confidentialitySubService.data.attributes
+                      ?.link ?? undefined,
+                },
+              }
+            : {}),
+          ...(footer.attributes.cookiesSubService?.data?.id
+            ? {
+                cookiesSubService: {
+                  id: footer.attributes.cookiesSubService.data.id,
+                  link:
+                    footer.attributes.cookiesSubService.data.attributes?.link ??
+                    undefined,
+                },
+              }
+            : {}),
+          ...(footer.attributes.contactUsSubService?.data?.id
+            ? {
+                contactUsSubService: {
+                  id: footer.attributes.contactUsSubService.data.id,
+                  label:
+                    footer.attributes.contactUsSubService.data.attributes
+                      ?.label ?? "",
+                  link:
+                    footer.attributes.contactUsSubService.data.attributes
+                      ?.link ?? undefined,
+                },
+              }
+            : {}),
         };
         setFooterData(mappedData);
         form.reset(mappedData);
@@ -235,39 +271,39 @@ export default function PersonnalisationFooterPage() {
               <div className="c-PersonnalisationFooterPage__SubGroup c-PersonnalisationFooterPage__SubGroup_short">
                 <FormInput
                   type="text"
-                  name="legalContent.accessibilityLink"
+                  name="accessibilitySubService.link"
                   label={formLabels.accessibilityLinkLabel}
                   isRequired={true}
                   isDisabled={mutationLoading}
-                  defaultValue={footerData?.legalContent.accessibilityLink}
+                  defaultValue={footerData?.accessibilitySubService?.link}
                 />
                 <FormInput
                   type="text"
-                  name="legalContent.GCULink"
+                  name="cguSubService.link"
                   label={formLabels.CGULinkLabel}
                   isRequired={true}
                   isDisabled={mutationLoading}
-                  defaultValue={footerData?.legalContent.GCULink}
+                  defaultValue={footerData?.cguSubService?.link}
                 />
                 <FormInput
                   type="text"
-                  name="legalContent.cookiesPolicy"
+                  name="cookiesSubService.link"
                   label={formLabels.cookiesPolicyLabel}
                   isRequired={true}
                   isDisabled={mutationLoading}
-                  defaultValue={footerData?.legalContent.cookiesPolicy}
+                  defaultValue={footerData?.cookiesSubService?.link}
                 />
                 <FormInput
                   type="text"
-                  name="legalContent.confidentiality"
+                  name="confidentialitySubService.link"
                   label={formLabels.confidentialityLabel}
                   isRequired={true}
                   isDisabled={mutationLoading}
-                  defaultValue={footerData?.legalContent.confidentiality}
+                  defaultValue={footerData?.confidentialitySubService?.link}
                 />
               </div>
             </div>
-            {footerData?.contactUsService?.isActivated && (
+            {footerData?.contactUsSubService && (
               <div className="c-PersonnalisationFooterPage__Group">
                 <h2 className="c-PersonnalisationFooterPage__Title">
                   {formLabels.contactUsTitle}
@@ -275,19 +311,19 @@ export default function PersonnalisationFooterPage() {
                 <div className="c-PersonnalisationFooterPage__SubGroup c-PersonnalisationFooterPage__SubGroup_short">
                   <FormInput
                     type="text"
-                    name="contactUsService.label"
+                    name="contactUsSubService.label"
                     label={formLabels.contactUsLabel}
                     isRequired={true}
                     isDisabled={mutationLoading}
-                    defaultValue={footerData?.contactUsService?.label}
+                    defaultValue={footerData.contactUsSubService?.label}
                   />
                   <FormInput
                     type="text"
-                    name="contactUsService.link"
+                    name="contactUsSubService.link"
                     label={formLabels.contactUsLink}
                     isRequired={true}
                     isDisabled={mutationLoading}
-                    defaultValue={footerData?.contactUsService?.link}
+                    defaultValue={footerData.contactUsSubService?.link}
                   />
                 </div>
               </div>

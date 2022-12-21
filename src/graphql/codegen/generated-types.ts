@@ -29,6 +29,65 @@ export type Scalars = {
   Upload: any;
 };
 
+export type AccessibilitySubService = {
+  __typename?: "AccessibilitySubService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  editorialService?: Maybe<EditorialServiceEntityResponse>;
+  isActivated: Scalars["Boolean"];
+  link?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AccessibilitySubServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AccessibilitySubServiceEntity = {
+  __typename?: "AccessibilitySubServiceEntity";
+  attributes?: Maybe<AccessibilitySubService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type AccessibilitySubServiceEntityResponse = {
+  __typename?: "AccessibilitySubServiceEntityResponse";
+  data?: Maybe<AccessibilitySubServiceEntity>;
+};
+
+export type AccessibilitySubServiceEntityResponseCollection = {
+  __typename?: "AccessibilitySubServiceEntityResponseCollection";
+  data: Array<AccessibilitySubServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type AccessibilitySubServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AccessibilitySubServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  editorialService?: InputMaybe<EditorialServiceFiltersInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  link?: InputMaybe<StringFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<AccessibilitySubServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AccessibilitySubServiceFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type AccessibilitySubServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  description?: InputMaybe<Scalars["String"]>;
+  editorialService?: InputMaybe<Scalars["ID"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  link?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+};
+
 export type Attributes = {
   __typename?: "Attributes";
   publishedAt: Scalars["DateTime"];
@@ -100,6 +159,65 @@ export type BooleanFilterInput = {
   null?: InputMaybe<Scalars["Boolean"]>;
   or?: InputMaybe<Array<InputMaybe<Scalars["Boolean"]>>>;
   startsWith?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type CguSubService = {
+  __typename?: "CguSubService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  editorialService?: Maybe<EditorialServiceEntityResponse>;
+  isActivated: Scalars["Boolean"];
+  link?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CguSubServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type CguSubServiceEntity = {
+  __typename?: "CguSubServiceEntity";
+  attributes?: Maybe<CguSubService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CguSubServiceEntityResponse = {
+  __typename?: "CguSubServiceEntityResponse";
+  data?: Maybe<CguSubServiceEntity>;
+};
+
+export type CguSubServiceEntityResponseCollection = {
+  __typename?: "CguSubServiceEntityResponseCollection";
+  data: Array<CguSubServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CguSubServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CguSubServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  editorialService?: InputMaybe<EditorialServiceFiltersInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  link?: InputMaybe<StringFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<CguSubServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CguSubServiceFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CguSubServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  description?: InputMaybe<Scalars["String"]>;
+  editorialService?: InputMaybe<Scalars["ID"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  link?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type ChannelType = {
@@ -282,33 +400,27 @@ export type ClientTypeInput = {
   type?: InputMaybe<Scalars["String"]>;
 };
 
-export type ComponentLinksContactUs = {
-  __typename?: "ComponentLinksContactUs";
-  contactUsService?: Maybe<ContactUsServiceEntityResponse>;
+export type ComponentLinksCalendar = {
+  __typename?: "ComponentLinksCalendar";
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  order?: Maybe<Scalars["Int"]>;
   picto?: Maybe<UploadFileEntityResponse>;
 };
 
-export type ComponentLinksEditorial = {
-  __typename?: "ComponentLinksEditorial";
-  editorialService?: Maybe<EditorialServiceEntityResponse>;
+export type ComponentLinksContactUs = {
+  __typename?: "ComponentLinksContactUs";
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  order?: Maybe<Scalars["Int"]>;
   picto?: Maybe<UploadFileEntityResponse>;
 };
 
 export type ComponentLinksEvents = {
   __typename?: "ComponentLinksEvents";
-  eventSubService?: Maybe<EventSubServiceEntityResponse>;
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  order?: Maybe<Scalars["Int"]>;
   picto?: Maybe<UploadFileEntityResponse>;
 };
 
@@ -318,15 +430,22 @@ export type ComponentLinksExternal = {
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
+  picto?: Maybe<UploadFileEntityResponse>;
 };
 
 export type ComponentLinksFrees = {
   __typename?: "ComponentLinksFrees";
-  freeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  order?: Maybe<Scalars["Int"]>;
+  picto?: Maybe<UploadFileEntityResponse>;
+};
+
+export type ComponentLinksMap = {
+  __typename?: "ComponentLinksMap";
+  id: Scalars["ID"];
+  isDisplayed: Scalars["Boolean"];
+  name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
 };
 
@@ -335,8 +454,6 @@ export type ComponentLinksNews = {
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  newsSubService?: Maybe<NewsSubServiceEntityResponse>;
-  order?: Maybe<Scalars["Int"]>;
   picto?: Maybe<UploadFileEntityResponse>;
 };
 
@@ -345,9 +462,7 @@ export type ComponentLinksQuizzes = {
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  order?: Maybe<Scalars["Int"]>;
   picto?: Maybe<UploadFileEntityResponse>;
-  quizSubService?: Maybe<QuizSubServiceEntityResponse>;
 };
 
 export type ComponentLinksRecycling = {
@@ -355,9 +470,7 @@ export type ComponentLinksRecycling = {
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  order?: Maybe<Scalars["Int"]>;
   picto?: Maybe<UploadFileEntityResponse>;
-  recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
 };
 
 export type ComponentLinksRequest = {
@@ -365,9 +478,7 @@ export type ComponentLinksRequest = {
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  order?: Maybe<Scalars["Int"]>;
   picto?: Maybe<UploadFileEntityResponse>;
-  requestService?: Maybe<RequestServiceEntityResponse>;
 };
 
 export type ComponentLinksTips = {
@@ -375,74 +486,136 @@ export type ComponentLinksTips = {
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  order?: Maybe<Scalars["Int"]>;
   picto?: Maybe<UploadFileEntityResponse>;
-  tipSubService?: Maybe<TipSubServiceEntityResponse>;
 };
 
-export type ContactUsService = {
-  __typename?: "ContactUsService";
-  channelType?: Maybe<ChannelTypeEntityResponse>;
-  cities?: Maybe<CityRelationResponseCollection>;
-  contract?: Maybe<ContractEntityResponse>;
+export type ConfidentialitySubService = {
+  __typename?: "ConfidentialitySubService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate: Scalars["DateTime"];
+  description?: Maybe<Scalars["String"]>;
+  editorialService?: Maybe<EditorialServiceEntityResponse>;
   isActivated: Scalars["Boolean"];
-  label: Scalars["String"];
-  link: Scalars["String"];
-  startDate: Scalars["DateTime"];
+  link?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type ContactUsServiceCitiesArgs = {
-  filters?: InputMaybe<CityFiltersInput>;
+export type ConfidentialitySubServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type ContactUsServiceEntity = {
-  __typename?: "ContactUsServiceEntity";
-  attributes?: Maybe<ContactUsService>;
+export type ConfidentialitySubServiceEntity = {
+  __typename?: "ConfidentialitySubServiceEntity";
+  attributes?: Maybe<ConfidentialitySubService>;
   id?: Maybe<Scalars["ID"]>;
 };
 
-export type ContactUsServiceEntityResponse = {
-  __typename?: "ContactUsServiceEntityResponse";
-  data?: Maybe<ContactUsServiceEntity>;
+export type ConfidentialitySubServiceEntityResponse = {
+  __typename?: "ConfidentialitySubServiceEntityResponse";
+  data?: Maybe<ConfidentialitySubServiceEntity>;
 };
 
-export type ContactUsServiceEntityResponseCollection = {
-  __typename?: "ContactUsServiceEntityResponseCollection";
-  data: Array<ContactUsServiceEntity>;
+export type ConfidentialitySubServiceEntityResponseCollection = {
+  __typename?: "ConfidentialitySubServiceEntityResponseCollection";
+  data: Array<ConfidentialitySubServiceEntity>;
   meta: ResponseCollectionMeta;
 };
 
-export type ContactUsServiceFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ContactUsServiceFiltersInput>>>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
-  cities?: InputMaybe<CityFiltersInput>;
-  contract?: InputMaybe<ContractFiltersInput>;
+export type ConfidentialitySubServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ConfidentialitySubServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  endDate?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  editorialService?: InputMaybe<EditorialServiceFiltersInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  link?: InputMaybe<StringFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ConfidentialitySubServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ConfidentialitySubServiceFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type ConfidentialitySubServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  description?: InputMaybe<Scalars["String"]>;
+  editorialService?: InputMaybe<Scalars["ID"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  link?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+};
+
+export type ContactUsSubService = {
+  __typename?: "ContactUsSubService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  editorialService?: Maybe<EditorialServiceEntityResponse>;
+  isActivated: Scalars["Boolean"];
+  label: Scalars["String"];
+  link?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type ContactUsSubServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ContactUsSubServiceEntity = {
+  __typename?: "ContactUsSubServiceEntity";
+  attributes?: Maybe<ContactUsSubService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type ContactUsSubServiceEntityResponse = {
+  __typename?: "ContactUsSubServiceEntityResponse";
+  data?: Maybe<ContactUsSubServiceEntity>;
+};
+
+export type ContactUsSubServiceEntityResponseCollection = {
+  __typename?: "ContactUsSubServiceEntityResponseCollection";
+  data: Array<ContactUsSubServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ContactUsSubServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ContactUsSubServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  editorialService?: InputMaybe<EditorialServiceFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   isActivated?: InputMaybe<BooleanFilterInput>;
   label?: InputMaybe<StringFilterInput>;
   link?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<ContactUsServiceFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ContactUsServiceFiltersInput>>>;
-  startDate?: InputMaybe<DateTimeFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ContactUsSubServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ContactUsSubServiceFiltersInput>>>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
-export type ContactUsServiceInput = {
-  channelType?: InputMaybe<Scalars["ID"]>;
-  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  contract?: InputMaybe<Scalars["ID"]>;
-  endDate?: InputMaybe<Scalars["DateTime"]>;
+export type ContactUsSubServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  description?: InputMaybe<Scalars["String"]>;
+  editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   label?: InputMaybe<Scalars["String"]>;
   link?: InputMaybe<Scalars["String"]>;
-  startDate?: InputMaybe<Scalars["DateTime"]>;
+  name?: InputMaybe<Scalars["String"]>;
+};
+
+export type ContentTypeDto = {
+  __typename?: "ContentTypeDTO";
+  description: Scalars["String"];
+  name: Scalars["String"];
+  subServiceId: Scalars["ID"];
+  type: Scalars["String"];
 };
 
 export type Contract = {
@@ -451,7 +624,6 @@ export type Contract = {
   clear?: Maybe<Scalars["Int"]>;
   clientName?: Maybe<Scalars["String"]>;
   contactClient?: Maybe<ClientEntityResponse>;
-  contactUsService?: Maybe<ContactUsServiceEntityResponse>;
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractMenu?: Maybe<ContractMenuEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -545,7 +717,6 @@ export type ContractFiltersInput = {
   clear?: InputMaybe<IntFilterInput>;
   clientName?: InputMaybe<StringFilterInput>;
   contactClient?: InputMaybe<ClientFiltersInput>;
-  contactUsService?: InputMaybe<ContactUsServiceFiltersInput>;
   contractCustomization?: InputMaybe<ContractCustomizationFiltersInput>;
   contractMenu?: InputMaybe<ContractMenuFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -568,7 +739,6 @@ export type ContractInput = {
   clear?: InputMaybe<Scalars["Int"]>;
   clientName?: InputMaybe<Scalars["String"]>;
   contactClient?: InputMaybe<Scalars["ID"]>;
-  contactUsService?: InputMaybe<Scalars["ID"]>;
   contractCustomization?: InputMaybe<Scalars["ID"]>;
   contractMenu?: InputMaybe<Scalars["ID"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -624,11 +794,12 @@ export type ContractMenuInput = {
 };
 
 export type ContractMenuServiceLinksDynamicZone =
+  | ComponentLinksCalendar
   | ComponentLinksContactUs
-  | ComponentLinksEditorial
   | ComponentLinksEvents
   | ComponentLinksExternal
   | ComponentLinksFrees
+  | ComponentLinksMap
   | ComponentLinksNews
   | ComponentLinksQuizzes
   | ComponentLinksRecycling
@@ -639,6 +810,65 @@ export type ContractMenuServiceLinksDynamicZone =
 export type ContractPayload = {
   __typename?: "ContractPayload";
   contractId?: Maybe<Scalars["ID"]>;
+};
+
+export type CookiesSubService = {
+  __typename?: "CookiesSubService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  editorialService?: Maybe<EditorialServiceEntityResponse>;
+  isActivated: Scalars["Boolean"];
+  link?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CookiesSubServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type CookiesSubServiceEntity = {
+  __typename?: "CookiesSubServiceEntity";
+  attributes?: Maybe<CookiesSubService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CookiesSubServiceEntityResponse = {
+  __typename?: "CookiesSubServiceEntityResponse";
+  data?: Maybe<CookiesSubServiceEntity>;
+};
+
+export type CookiesSubServiceEntityResponseCollection = {
+  __typename?: "CookiesSubServiceEntityResponseCollection";
+  data: Array<CookiesSubServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CookiesSubServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CookiesSubServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  editorialService?: InputMaybe<EditorialServiceFiltersInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  link?: InputMaybe<StringFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<CookiesSubServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CookiesSubServiceFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CookiesSubServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  description?: InputMaybe<Scalars["String"]>;
+  editorialService?: InputMaybe<Scalars["ID"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  link?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type DateTimeFilterInput = {
@@ -769,7 +999,7 @@ export enum Enum_Footer_Accessibilitylevel {
 export type EditoBlock = {
   __typename?: "EditoBlock";
   createdAt?: Maybe<Scalars["DateTime"]>;
-  displayBlock?: Maybe<Scalars["Boolean"]>;
+  displayBlock: Scalars["Boolean"];
   editoContents?: Maybe<EditoContentRelationResponseCollection>;
   homepage?: Maybe<HomepageEntityResponse>;
   titleContent: Scalars["String"];
@@ -898,18 +1128,20 @@ export type EditoContentRelationResponseCollection = {
 
 export type EditorialService = {
   __typename?: "EditorialService";
+  accessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  cguSubService?: Maybe<CguSubServiceEntityResponse>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
+  confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  contactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   contract?: Maybe<ContractEntityResponse>;
+  cookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   editoContents?: Maybe<EditoContentRelationResponseCollection>;
-  endDate: Scalars["DateTime"];
   eventSubService?: Maybe<EventSubServiceEntityResponse>;
   freeContentSubServices?: Maybe<FreeContentSubServiceRelationResponseCollection>;
-  isActivated: Scalars["Boolean"];
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
   quizSubService?: Maybe<QuizSubServiceEntityResponse>;
-  startDate: Scalars["DateTime"];
   tipSubService?: Maybe<TipSubServiceEntityResponse>;
   topContents?: Maybe<TopContentRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -958,39 +1190,43 @@ export type EditorialServiceEntityResponseCollection = {
 };
 
 export type EditorialServiceFiltersInput = {
+  accessibilitySubService?: InputMaybe<AccessibilitySubServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<EditorialServiceFiltersInput>>>;
+  cguSubService?: InputMaybe<CguSubServiceFiltersInput>;
   channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
+  confidentialitySubService?: InputMaybe<ConfidentialitySubServiceFiltersInput>;
+  contactUsSubService?: InputMaybe<ContactUsSubServiceFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
+  cookiesSubService?: InputMaybe<CookiesSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   editoContents?: InputMaybe<EditoContentFiltersInput>;
-  endDate?: InputMaybe<DateTimeFilterInput>;
   eventSubService?: InputMaybe<EventSubServiceFiltersInput>;
   freeContentSubServices?: InputMaybe<FreeContentSubServiceFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
-  isActivated?: InputMaybe<BooleanFilterInput>;
   newsSubService?: InputMaybe<NewsSubServiceFiltersInput>;
   not?: InputMaybe<EditorialServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<EditorialServiceFiltersInput>>>;
   quizSubService?: InputMaybe<QuizSubServiceFiltersInput>;
-  startDate?: InputMaybe<DateTimeFilterInput>;
   tipSubService?: InputMaybe<TipSubServiceFiltersInput>;
   topContents?: InputMaybe<TopContentFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type EditorialServiceInput = {
+  accessibilitySubService?: InputMaybe<Scalars["ID"]>;
+  cguSubService?: InputMaybe<Scalars["ID"]>;
   channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  confidentialitySubService?: InputMaybe<Scalars["ID"]>;
+  contactUsSubService?: InputMaybe<Scalars["ID"]>;
   contract?: InputMaybe<Scalars["ID"]>;
+  cookiesSubService?: InputMaybe<Scalars["ID"]>;
   editoContents?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  endDate?: InputMaybe<Scalars["DateTime"]>;
   eventSubService?: InputMaybe<Scalars["ID"]>;
   freeContentSubServices?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  isActivated?: InputMaybe<Scalars["Boolean"]>;
   newsSubService?: InputMaybe<Scalars["ID"]>;
   quizSubService?: InputMaybe<Scalars["ID"]>;
-  startDate?: InputMaybe<Scalars["DateTime"]>;
   tipSubService?: InputMaybe<Scalars["ID"]>;
   topContents?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
@@ -1152,7 +1388,7 @@ export type EventSubService = {
   __typename?: "EventSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   events?: Maybe<EventRelationResponseCollection>;
   isActivated: Scalars["Boolean"];
@@ -1247,9 +1483,13 @@ export type FloatFilterInput = {
 export type Footer = {
   __typename?: "Footer";
   accessibilityLevel?: Maybe<Enum_Footer_Accessibilitylevel>;
+  accessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  cguSubService?: Maybe<CguSubServiceEntityResponse>;
+  confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  contactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
+  cookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  legalContent?: Maybe<LegalContentEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -1272,11 +1512,15 @@ export type FooterEntityResponseCollection = {
 
 export type FooterFiltersInput = {
   accessibilityLevel?: InputMaybe<StringFilterInput>;
+  accessibilitySubService?: InputMaybe<AccessibilitySubServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<FooterFiltersInput>>>;
+  cguSubService?: InputMaybe<CguSubServiceFiltersInput>;
+  confidentialitySubService?: InputMaybe<ConfidentialitySubServiceFiltersInput>;
+  contactUsSubService?: InputMaybe<ContactUsSubServiceFiltersInput>;
   contractCustomization?: InputMaybe<ContractCustomizationFiltersInput>;
+  cookiesSubService?: InputMaybe<CookiesSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
-  legalContent?: InputMaybe<LegalContentFiltersInput>;
   not?: InputMaybe<FooterFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<FooterFiltersInput>>>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -1284,8 +1528,12 @@ export type FooterFiltersInput = {
 
 export type FooterInput = {
   accessibilityLevel?: InputMaybe<Enum_Footer_Accessibilitylevel>;
+  accessibilitySubService?: InputMaybe<Scalars["ID"]>;
+  cguSubService?: InputMaybe<Scalars["ID"]>;
+  confidentialitySubService?: InputMaybe<Scalars["ID"]>;
+  contactUsSubService?: InputMaybe<Scalars["ID"]>;
   contractCustomization?: InputMaybe<Scalars["ID"]>;
-  legalContent?: InputMaybe<Scalars["ID"]>;
+  cookiesSubService?: InputMaybe<Scalars["ID"]>;
 };
 
 export type FreeContent = {
@@ -1361,7 +1609,7 @@ export type FreeContentSubService = {
   __typename?: "FreeContentSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   freeContents?: Maybe<FreeContentRelationResponseCollection>;
   isActivated: Scalars["Boolean"];
@@ -1429,25 +1677,30 @@ export type FreeContentSubServiceRelationResponseCollection = {
 };
 
 export type GenericMorph =
+  | AccessibilitySubService
   | AudienceType
+  | CguSubService
   | ChannelType
   | City
   | Client
   | ClientType
+  | ComponentLinksCalendar
   | ComponentLinksContactUs
-  | ComponentLinksEditorial
   | ComponentLinksEvents
   | ComponentLinksExternal
   | ComponentLinksFrees
+  | ComponentLinksMap
   | ComponentLinksNews
   | ComponentLinksQuizzes
   | ComponentLinksRecycling
   | ComponentLinksRequest
   | ComponentLinksTips
-  | ContactUsService
+  | ConfidentialitySubService
+  | ContactUsSubService
   | Contract
   | ContractCustomization
   | ContractMenu
+  | CookiesSubService
   | DescriptionService
   | Document
   | EditoBlock
@@ -1463,7 +1716,6 @@ export type GenericMorph =
   | Homepage
   | I18NLocale
   | KeyMetric
-  | LegalContent
   | New
   | NewsSubService
   | Profile
@@ -1719,53 +1971,6 @@ export type KeyMetricInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
-export type LegalContent = {
-  __typename?: "LegalContent";
-  GCULink?: Maybe<Scalars["String"]>;
-  accessibilityLink?: Maybe<Scalars["String"]>;
-  confidentiality?: Maybe<Scalars["String"]>;
-  cookiesPolicy?: Maybe<Scalars["String"]>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type LegalContentEntity = {
-  __typename?: "LegalContentEntity";
-  attributes?: Maybe<LegalContent>;
-  id?: Maybe<Scalars["ID"]>;
-};
-
-export type LegalContentEntityResponse = {
-  __typename?: "LegalContentEntityResponse";
-  data?: Maybe<LegalContentEntity>;
-};
-
-export type LegalContentEntityResponseCollection = {
-  __typename?: "LegalContentEntityResponseCollection";
-  data: Array<LegalContentEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type LegalContentFiltersInput = {
-  GCULink?: InputMaybe<StringFilterInput>;
-  accessibilityLink?: InputMaybe<StringFilterInput>;
-  and?: InputMaybe<Array<InputMaybe<LegalContentFiltersInput>>>;
-  confidentiality?: InputMaybe<StringFilterInput>;
-  cookiesPolicy?: InputMaybe<StringFilterInput>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  not?: InputMaybe<LegalContentFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<LegalContentFiltersInput>>>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-};
-
-export type LegalContentInput = {
-  GCULink?: InputMaybe<Scalars["String"]>;
-  accessibilityLink?: InputMaybe<Scalars["String"]>;
-  confidentiality?: InputMaybe<Scalars["String"]>;
-  cookiesPolicy?: InputMaybe<Scalars["String"]>;
-};
-
 export type LongFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars["Long"]>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars["Long"]>>>;
@@ -1794,15 +1999,20 @@ export type Mutation = {
   __typename?: "Mutation";
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
+  createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   createAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  createCguSubService?: Maybe<CguSubServiceEntityResponse>;
   createChannelType?: Maybe<ChannelTypeEntityResponse>;
   createCity?: Maybe<CityEntityResponse>;
   createClient?: Maybe<ClientEntityResponse>;
   createClientType?: Maybe<ClientTypeEntityResponse>;
-  createContactUsService?: Maybe<ContactUsServiceEntityResponse>;
+  createConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  createContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
+  createContentTypeForContractId?: Maybe<FreeContentSubServiceEntity>;
   createContract?: Maybe<ContractEntityResponse>;
   createContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   createContractMenu?: Maybe<ContractMenuEntityResponse>;
+  createCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   createDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   createDocument?: Maybe<DocumentEntityResponse>;
   createEditoBlock?: Maybe<EditoBlockEntityResponse>;
@@ -1818,7 +2028,6 @@ export type Mutation = {
   createFreeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
   createHomepage?: Maybe<HomepageEntityResponse>;
   createKeyMetric?: Maybe<KeyMetricEntityResponse>;
-  createLegalContent?: Maybe<LegalContentEntityResponse>;
   createNew?: Maybe<NewEntityResponse>;
   createNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
   createProfile?: Maybe<ProfileEntityResponse>;
@@ -1844,15 +2053,19 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   deleteAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  deleteCguSubService?: Maybe<CguSubServiceEntityResponse>;
   deleteChannelType?: Maybe<ChannelTypeEntityResponse>;
   deleteCity?: Maybe<CityEntityResponse>;
   deleteClient?: Maybe<ClientEntityResponse>;
   deleteClientType?: Maybe<ClientTypeEntityResponse>;
-  deleteContactUsService?: Maybe<ContactUsServiceEntityResponse>;
+  deleteConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  deleteContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   deleteContract?: Maybe<ContractEntityResponse>;
   deleteContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   deleteContractMenu?: Maybe<ContractMenuEntityResponse>;
+  deleteCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   deleteDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   deleteDocument?: Maybe<DocumentEntityResponse>;
   deleteEditoBlock?: Maybe<EditoBlockEntityResponse>;
@@ -1867,7 +2080,6 @@ export type Mutation = {
   deleteGlobal?: Maybe<GlobalEntityResponse>;
   deleteHomepage?: Maybe<HomepageEntityResponse>;
   deleteKeyMetric?: Maybe<KeyMetricEntityResponse>;
-  deleteLegalContent?: Maybe<LegalContentEntityResponse>;
   deleteNew?: Maybe<NewEntityResponse>;
   deleteNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
   deleteProfile?: Maybe<ProfileEntityResponse>;
@@ -1903,15 +2115,19 @@ export type Mutation = {
   removeFile?: Maybe<UploadFileEntityResponse>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   updateAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  updateCguSubService?: Maybe<CguSubServiceEntityResponse>;
   updateChannelType?: Maybe<ChannelTypeEntityResponse>;
   updateCity?: Maybe<CityEntityResponse>;
   updateClient?: Maybe<ClientEntityResponse>;
   updateClientType?: Maybe<ClientTypeEntityResponse>;
-  updateContactUsService?: Maybe<ContactUsServiceEntityResponse>;
+  updateConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  updateContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   updateContract?: Maybe<ContractEntityResponse>;
   updateContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   updateContractMenu?: Maybe<ContractMenuEntityResponse>;
+  updateCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   updateDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   updateDocument?: Maybe<DocumentEntityResponse>;
   updateEditoBlock?: Maybe<EditoBlockEntityResponse>;
@@ -1927,7 +2143,6 @@ export type Mutation = {
   updateGlobal?: Maybe<GlobalEntityResponse>;
   updateHomepage?: Maybe<HomepageEntityResponse>;
   updateKeyMetric?: Maybe<KeyMetricEntityResponse>;
-  updateLegalContent?: Maybe<LegalContentEntityResponse>;
   updateNew?: Maybe<NewEntityResponse>;
   updateNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
   updateProfile?: Maybe<ProfileEntityResponse>;
@@ -1961,8 +2176,16 @@ export type MutationChangePasswordArgs = {
   passwordConfirmation: Scalars["String"];
 };
 
+export type MutationCreateAccessibilitySubServiceArgs = {
+  data: AccessibilitySubServiceInput;
+};
+
 export type MutationCreateAudienceTypeArgs = {
   data: AudienceTypeInput;
+};
+
+export type MutationCreateCguSubServiceArgs = {
+  data: CguSubServiceInput;
 };
 
 export type MutationCreateChannelTypeArgs = {
@@ -1981,8 +2204,18 @@ export type MutationCreateClientTypeArgs = {
   data: ClientTypeInput;
 };
 
-export type MutationCreateContactUsServiceArgs = {
-  data: ContactUsServiceInput;
+export type MutationCreateConfidentialitySubServiceArgs = {
+  data: ConfidentialitySubServiceInput;
+};
+
+export type MutationCreateContactUsSubServiceArgs = {
+  data: ContactUsSubServiceInput;
+};
+
+export type MutationCreateContentTypeForContractIdArgs = {
+  contractId?: InputMaybe<Scalars["ID"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type MutationCreateContractArgs = {
@@ -1995,6 +2228,10 @@ export type MutationCreateContractCustomizationArgs = {
 
 export type MutationCreateContractMenuArgs = {
   data: ContractMenuInput;
+};
+
+export type MutationCreateCookiesSubServiceArgs = {
+  data: CookiesSubServiceInput;
 };
 
 export type MutationCreateDescriptionServiceArgs = {
@@ -2058,10 +2295,6 @@ export type MutationCreateHomepageArgs = {
 
 export type MutationCreateKeyMetricArgs = {
   data: KeyMetricInput;
-};
-
-export type MutationCreateLegalContentArgs = {
-  data: LegalContentInput;
 };
 
 export type MutationCreateNewArgs = {
@@ -2158,7 +2391,15 @@ export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
 };
 
+export type MutationDeleteAccessibilitySubServiceArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteAudienceTypeArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteCguSubServiceArgs = {
   id: Scalars["ID"];
 };
 
@@ -2178,7 +2419,11 @@ export type MutationDeleteClientTypeArgs = {
   id: Scalars["ID"];
 };
 
-export type MutationDeleteContactUsServiceArgs = {
+export type MutationDeleteConfidentialitySubServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteContactUsSubServiceArgs = {
   id: Scalars["ID"];
 };
 
@@ -2191,6 +2436,10 @@ export type MutationDeleteContractCustomizationArgs = {
 };
 
 export type MutationDeleteContractMenuArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteCookiesSubServiceArgs = {
   id: Scalars["ID"];
 };
 
@@ -2243,10 +2492,6 @@ export type MutationDeleteHomepageArgs = {
 };
 
 export type MutationDeleteKeyMetricArgs = {
-  id: Scalars["ID"];
-};
-
-export type MutationDeleteLegalContentArgs = {
   id: Scalars["ID"];
 };
 
@@ -2371,8 +2616,18 @@ export type MutationResetPasswordArgs = {
   passwordConfirmation: Scalars["String"];
 };
 
+export type MutationUpdateAccessibilitySubServiceArgs = {
+  data: AccessibilitySubServiceInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateAudienceTypeArgs = {
   data: AudienceTypeInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateCguSubServiceArgs = {
+  data: CguSubServiceInput;
   id: Scalars["ID"];
 };
 
@@ -2396,8 +2651,13 @@ export type MutationUpdateClientTypeArgs = {
   id: Scalars["ID"];
 };
 
-export type MutationUpdateContactUsServiceArgs = {
-  data: ContactUsServiceInput;
+export type MutationUpdateConfidentialitySubServiceArgs = {
+  data: ConfidentialitySubServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateContactUsSubServiceArgs = {
+  data: ContactUsSubServiceInput;
   id: Scalars["ID"];
 };
 
@@ -2413,6 +2673,11 @@ export type MutationUpdateContractCustomizationArgs = {
 
 export type MutationUpdateContractMenuArgs = {
   data: ContractMenuInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateCookiesSubServiceArgs = {
+  data: CookiesSubServiceInput;
   id: Scalars["ID"];
 };
 
@@ -2487,11 +2752,6 @@ export type MutationUpdateHomepageArgs = {
 
 export type MutationUpdateKeyMetricArgs = {
   data: KeyMetricInput;
-  id: Scalars["ID"];
-};
-
-export type MutationUpdateLegalContentArgs = {
-  data: LegalContentInput;
   id: Scalars["ID"];
 };
 
@@ -2703,7 +2963,7 @@ export type NewsSubService = {
   __typename?: "NewsSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   isActivated: Scalars["Boolean"];
   name: Scalars["String"];
@@ -2825,8 +3085,12 @@ export enum PublicationState {
 
 export type Query = {
   __typename?: "Query";
+  accessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  accessibilitySubServices?: Maybe<AccessibilitySubServiceEntityResponseCollection>;
   audienceType?: Maybe<AudienceTypeEntityResponse>;
   audienceTypes?: Maybe<AudienceTypeEntityResponseCollection>;
+  cguSubService?: Maybe<CguSubServiceEntityResponse>;
+  cguSubServices?: Maybe<CguSubServiceEntityResponseCollection>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
   channelTypes?: Maybe<ChannelTypeEntityResponseCollection>;
   cities?: Maybe<CityEntityResponseCollection>;
@@ -2835,15 +3099,19 @@ export type Query = {
   clientType?: Maybe<ClientTypeEntityResponse>;
   clientTypes?: Maybe<ClientTypeEntityResponseCollection>;
   clients?: Maybe<ClientEntityResponseCollection>;
-  contactUsService?: Maybe<ContactUsServiceEntityResponse>;
-  contactUsServices?: Maybe<ContactUsServiceEntityResponseCollection>;
+  confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  confidentialitySubServices?: Maybe<ConfidentialitySubServiceEntityResponseCollection>;
+  contactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
+  contactUsSubServices?: Maybe<ContactUsSubServiceEntityResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractCustomizations?: Maybe<ContractCustomizationEntityResponseCollection>;
   contractMenu?: Maybe<ContractMenuEntityResponse>;
   contractMenus?: Maybe<ContractMenuEntityResponseCollection>;
   contracts?: Maybe<ContractEntityResponseCollection>;
-  countContentPerTag?: Maybe<Array<Maybe<Tag>>>;
+  cookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
+  cookiesSubServices?: Maybe<CookiesSubServiceEntityResponseCollection>;
+  countContentPerTag?: Maybe<Array<Maybe<TotalCountPerTag>>>;
   descriptionService?: Maybe<DescriptionServiceEntityResponse>;
   descriptionServices?: Maybe<DescriptionServiceEntityResponseCollection>;
   document?: Maybe<DocumentEntityResponse>;
@@ -2866,6 +3134,7 @@ export type Query = {
   freeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
   freeContentSubServices?: Maybe<FreeContentSubServiceEntityResponseCollection>;
   freeContents?: Maybe<FreeContentEntityResponseCollection>;
+  getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
   getEditoBlockDTO?: Maybe<EditoBlockDto>;
   getEditoContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
@@ -2877,8 +3146,6 @@ export type Query = {
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
   keyMetric?: Maybe<KeyMetricEntityResponse>;
   keyMetrics?: Maybe<KeyMetricEntityResponseCollection>;
-  legalContent?: Maybe<LegalContentEntityResponse>;
-  legalContents?: Maybe<LegalContentEntityResponseCollection>;
   me?: Maybe<UsersPermissionsMe>;
   new?: Maybe<NewEntityResponse>;
   news?: Maybe<NewEntityResponseCollection>;
@@ -2926,12 +3193,32 @@ export type Query = {
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
 };
 
+export type QueryAccessibilitySubServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryAccessibilitySubServicesArgs = {
+  filters?: InputMaybe<AccessibilitySubServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type QueryAudienceTypeArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type QueryAudienceTypesArgs = {
   filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCguSubServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryCguSubServicesArgs = {
+  filters?: InputMaybe<CguSubServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -2976,12 +3263,22 @@ export type QueryClientsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type QueryContactUsServiceArgs = {
+export type QueryConfidentialitySubServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
-export type QueryContactUsServicesArgs = {
-  filters?: InputMaybe<ContactUsServiceFiltersInput>;
+export type QueryConfidentialitySubServicesArgs = {
+  filters?: InputMaybe<ConfidentialitySubServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryContactUsSubServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryContactUsSubServicesArgs = {
+  filters?: InputMaybe<ContactUsSubServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -3012,6 +3309,16 @@ export type QueryContractMenusArgs = {
 
 export type QueryContractsArgs = {
   filters?: InputMaybe<ContractFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCookiesSubServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryCookiesSubServicesArgs = {
+  filters?: InputMaybe<CookiesSubServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -3132,6 +3439,10 @@ export type QueryFreeContentsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryGetContentTypeDtOsArgs = {
+  contractId: Scalars["ID"];
+};
+
 export type QueryGetEditoBlockDtoArgs = {
   contractId: Scalars["ID"];
 };
@@ -3176,16 +3487,6 @@ export type QueryKeyMetricsArgs = {
   filters?: InputMaybe<KeyMetricFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type QueryLegalContentArgs = {
-  id?: InputMaybe<Scalars["ID"]>;
-};
-
-export type QueryLegalContentsArgs = {
-  filters?: InputMaybe<LegalContentFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3540,7 +3841,7 @@ export type QuizSubService = {
   __typename?: "QuizSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   isActivated: Scalars["Boolean"];
   name: Scalars["String"];
@@ -3665,10 +3966,10 @@ export type RecyclingGuideService = {
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate: Scalars["DateTime"];
+  endDate?: Maybe<Scalars["DateTime"]>;
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  startDate: Scalars["DateTime"];
+  startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -3736,10 +4037,10 @@ export type RequestService = {
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate: Scalars["DateTime"];
+  endDate?: Maybe<Scalars["DateTime"]>;
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  startDate: Scalars["DateTime"];
+  startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -3893,11 +4194,12 @@ export type ServicesBlockInput = {
 };
 
 export type ServicesBlockServiceLinksDynamicZone =
+  | ComponentLinksCalendar
   | ComponentLinksContactUs
-  | ComponentLinksEditorial
   | ComponentLinksEvents
   | ComponentLinksExternal
   | ComponentLinksFrees
+  | ComponentLinksMap
   | ComponentLinksNews
   | ComponentLinksQuizzes
   | ComponentLinksRecycling
@@ -3933,14 +4235,7 @@ export type Tag = {
   __typename?: "Tag";
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  event?: Maybe<EventEntityResponse>;
-  freeContent?: Maybe<FreeContentEntityResponse>;
-  name?: Maybe<Scalars["String"]>;
-  news?: Maybe<NewEntityResponse>;
-  quiz?: Maybe<QuizEntityResponse>;
-  recyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
-  tagPerContent?: Maybe<Scalars["Int"]>;
-  tip?: Maybe<TipEntityResponse>;
+  name: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -3965,32 +4260,16 @@ export type TagFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<TagFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  event?: InputMaybe<EventFiltersInput>;
-  freeContent?: InputMaybe<FreeContentFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
-  isSystem?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
-  news?: InputMaybe<NewFiltersInput>;
   not?: InputMaybe<TagFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<TagFiltersInput>>>;
-  quiz?: InputMaybe<QuizFiltersInput>;
-  recyclingGuideBlock?: InputMaybe<RecyclingGuideBlockFiltersInput>;
-  tagPerContent?: InputMaybe<IntFilterInput>;
-  tip?: InputMaybe<TipFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type TagInput = {
   contract?: InputMaybe<Scalars["ID"]>;
-  event?: InputMaybe<Scalars["ID"]>;
-  freeContent?: InputMaybe<Scalars["ID"]>;
-  isSystem?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
-  news?: InputMaybe<Scalars["ID"]>;
-  quiz?: InputMaybe<Scalars["ID"]>;
-  recyclingGuideBlock?: InputMaybe<Scalars["ID"]>;
-  tagPerContent?: InputMaybe<Scalars["Int"]>;
-  tip?: InputMaybe<Scalars["ID"]>;
 };
 
 export type TagRelationResponseCollection = {
@@ -4174,7 +4453,7 @@ export type TipSubService = {
   __typename?: "TipSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   isActivated: Scalars["Boolean"];
   name: Scalars["String"];
@@ -4249,9 +4528,9 @@ export type TopContent = {
 export type TopContentBlock = {
   __typename?: "TopContentBlock";
   createdAt?: Maybe<Scalars["DateTime"]>;
-  displayBlock?: Maybe<Scalars["Boolean"]>;
-  displayLastThreeContents?: Maybe<Scalars["Boolean"]>;
-  hasTopContent?: Maybe<Scalars["Boolean"]>;
+  displayBlock: Scalars["Boolean"];
+  displayLastThreeContents: Scalars["Boolean"];
+  hasTopContent: Scalars["Boolean"];
   homepage?: Maybe<HomepageEntityResponse>;
   titleContent: Scalars["String"];
   topContent?: Maybe<TopContentEntityResponse>;
@@ -4734,6 +5013,13 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>;
 };
 
+export type TotalCountPerTag = {
+  __typename?: "totalCountPerTag";
+  count: Scalars["Int"];
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
 export type GetEditoBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -4786,36 +5072,65 @@ export type GetFooterPageQuery = {
             attributes?: {
               __typename?: "Footer";
               accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
-              legalContent?: {
-                __typename?: "LegalContentEntityResponse";
+              cguSubService?: {
+                __typename?: "CguSubServiceEntityResponse";
                 data?: {
-                  __typename?: "LegalContentEntity";
+                  __typename?: "CguSubServiceEntity";
                   id?: string | null;
                   attributes?: {
-                    __typename?: "LegalContent";
-                    GCULink?: string | null;
-                    accessibilityLink?: string | null;
-                    confidentiality?: string | null;
-                    cookiesPolicy?: string | null;
+                    __typename?: "CguSubService";
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              accessibilitySubService?: {
+                __typename?: "AccessibilitySubServiceEntityResponse";
+                data?: {
+                  __typename?: "AccessibilitySubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "AccessibilitySubService";
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              confidentialitySubService?: {
+                __typename?: "ConfidentialitySubServiceEntityResponse";
+                data?: {
+                  __typename?: "ConfidentialitySubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ConfidentialitySubService";
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              cookiesSubService?: {
+                __typename?: "CookiesSubServiceEntityResponse";
+                data?: {
+                  __typename?: "CookiesSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "CookiesSubService";
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              contactUsSubService?: {
+                __typename?: "ContactUsSubServiceEntityResponse";
+                data?: {
+                  __typename?: "ContactUsSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ContactUsSubService";
+                    label: string;
+                    link?: string | null;
                   } | null;
                 } | null;
               } | null;
             } | null;
           } | null;
         } | null;
-      } | null;
-    }>;
-  } | null;
-  contactUsServices?: {
-    __typename?: "ContactUsServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "ContactUsServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "ContactUsService";
-        isActivated: boolean;
-        label: string;
-        link: string;
       } | null;
     }>;
   } | null;
@@ -4961,7 +5276,7 @@ export type GetRecyclingBlockTabQuery = {
                         __typename?: "TagEntity";
                         attributes?: {
                           __typename?: "Tag";
-                          name?: string | null;
+                          name: string;
                         } | null;
                       }>;
                     } | null;
@@ -5025,7 +5340,6 @@ export type GetServicesActiveQuery = {
       __typename?: "EditorialServiceEntity";
       attributes?: {
         __typename?: "EditorialService";
-        isActivated: boolean;
         eventSubService?: {
           __typename?: "EventSubServiceEntityResponse";
           data?: {
@@ -5076,6 +5390,56 @@ export type GetServicesActiveQuery = {
             } | null;
           }>;
         } | null;
+        contactUsSubService?: {
+          __typename?: "ContactUsSubServiceEntityResponse";
+          data?: {
+            __typename?: "ContactUsSubServiceEntity";
+            attributes?: {
+              __typename?: "ContactUsSubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        cguSubService?: {
+          __typename?: "CguSubServiceEntityResponse";
+          data?: {
+            __typename?: "CguSubServiceEntity";
+            attributes?: {
+              __typename?: "CguSubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        accessibilitySubService?: {
+          __typename?: "AccessibilitySubServiceEntityResponse";
+          data?: {
+            __typename?: "AccessibilitySubServiceEntity";
+            attributes?: {
+              __typename?: "AccessibilitySubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        confidentialitySubService?: {
+          __typename?: "ConfidentialitySubServiceEntityResponse";
+          data?: {
+            __typename?: "ConfidentialitySubServiceEntity";
+            attributes?: {
+              __typename?: "ConfidentialitySubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        cookiesSubService?: {
+          __typename?: "CookiesSubServiceEntityResponse";
+          data?: {
+            __typename?: "CookiesSubServiceEntity";
+            attributes?: {
+              __typename?: "CookiesSubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
       } | null;
     }>;
   } | null;
@@ -5095,16 +5459,6 @@ export type GetServicesActiveQuery = {
       __typename?: "RequestServiceEntity";
       attributes?: {
         __typename?: "RequestService";
-        isActivated: boolean;
-      } | null;
-    }>;
-  } | null;
-  contactUsServices?: {
-    __typename?: "ContactUsServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "ContactUsServiceEntity";
-      attributes?: {
-        __typename?: "ContactUsService";
         isActivated: boolean;
       } | null;
     }>;
@@ -5159,7 +5513,7 @@ export type UpdateEditoBlockTabMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "EditoBlock";
-        displayBlock?: boolean | null;
+        displayBlock: boolean;
         titleContent: string;
         editoContents?: {
           __typename?: "EditoContentRelationResponseCollection";
@@ -5176,10 +5530,16 @@ export type UpdateEditoBlockTabMutation = {
 export type UpdateFooterPageMutationVariables = Exact<{
   updateFooterId: Scalars["ID"];
   updateFooterData: FooterInput;
-  updateLegalContentId: Scalars["ID"];
-  updateLegalContentData: LegalContentInput;
-  updateContactUsServiceId: Scalars["ID"];
-  updateContactUsServiceData: ContactUsServiceInput;
+  updateContactUsSubServiceId: Scalars["ID"];
+  updateContactUsSubServiceData: ContactUsSubServiceInput;
+  updateAccessibilitySubServiceId: Scalars["ID"];
+  updateAccessibilitySubServiceData: AccessibilitySubServiceInput;
+  updateCguSubServiceId: Scalars["ID"];
+  updateCguSubServiceData: CguSubServiceInput;
+  updateCookiesSubServiceId: Scalars["ID"];
+  updateCookiesSubServiceData: CookiesSubServiceInput;
+  updateConfidentialitySubServiceId: Scalars["ID"];
+  updateConfidentialitySubServiceData: ConfidentialitySubServiceInput;
 }>;
 
 export type UpdateFooterPageMutation = {
@@ -5195,29 +5555,54 @@ export type UpdateFooterPageMutation = {
       } | null;
     } | null;
   } | null;
-  updateLegalContent?: {
-    __typename?: "LegalContentEntityResponse";
+  updateContactUsSubService?: {
+    __typename?: "ContactUsSubServiceEntityResponse";
     data?: {
-      __typename?: "LegalContentEntity";
-      id?: string | null;
+      __typename?: "ContactUsSubServiceEntity";
       attributes?: {
-        __typename?: "LegalContent";
-        GCULink?: string | null;
-        accessibilityLink?: string | null;
-        confidentiality?: string | null;
-        cookiesPolicy?: string | null;
+        __typename?: "ContactUsSubService";
+        label: string;
+        link?: string | null;
       } | null;
     } | null;
   } | null;
-  updateContactUsService?: {
-    __typename?: "ContactUsServiceEntityResponse";
+  updateCguSubService?: {
+    __typename?: "CguSubServiceEntityResponse";
     data?: {
-      __typename?: "ContactUsServiceEntity";
-      id?: string | null;
+      __typename?: "CguSubServiceEntity";
       attributes?: {
-        __typename?: "ContactUsService";
-        label: string;
-        link: string;
+        __typename?: "CguSubService";
+        link?: string | null;
+      } | null;
+    } | null;
+  } | null;
+  updateAccessibilitySubService?: {
+    __typename?: "AccessibilitySubServiceEntityResponse";
+    data?: {
+      __typename?: "AccessibilitySubServiceEntity";
+      attributes?: {
+        __typename?: "AccessibilitySubService";
+        link?: string | null;
+      } | null;
+    } | null;
+  } | null;
+  updateConfidentialitySubService?: {
+    __typename?: "ConfidentialitySubServiceEntityResponse";
+    data?: {
+      __typename?: "ConfidentialitySubServiceEntity";
+      attributes?: {
+        __typename?: "ConfidentialitySubService";
+        link?: string | null;
+      } | null;
+    } | null;
+  } | null;
+  updateCookiesSubService?: {
+    __typename?: "CookiesSubServiceEntityResponse";
+    data?: {
+      __typename?: "CookiesSubServiceEntity";
+      attributes?: {
+        __typename?: "CookiesSubService";
+        link?: string | null;
       } | null;
     } | null;
   } | null;
@@ -5273,7 +5658,7 @@ export type UpdateRecyclingGuideTabMutation = {
           __typename?: "TagRelationResponseCollection";
           data: Array<{
             __typename?: "TagEntity";
-            attributes?: { __typename?: "Tag"; name?: string | null } | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
           }>;
         } | null;
       } | null;
@@ -5325,10 +5710,10 @@ export type UpdateTopContentTabMutation = {
                   __typename?: "TopContentBlockEntity";
                   attributes?: {
                     __typename?: "TopContentBlock";
-                    displayBlock?: boolean | null;
+                    displayBlock: boolean;
                     titleContent: string;
-                    hasTopContent?: boolean | null;
-                    displayLastThreeContents?: boolean | null;
+                    hasTopContent: boolean;
+                    displayLastThreeContents: boolean;
                     topContent?: {
                       __typename?: "TopContentEntityResponse";
                       data?: {
@@ -5459,30 +5844,50 @@ export const GetFooterPageDocument = gql`
               id
               attributes {
                 accessibilityLevel
-                legalContent {
+                cguSubService {
                   data {
                     id
                     attributes {
-                      GCULink
-                      accessibilityLink
-                      confidentiality
-                      cookiesPolicy
+                      link
+                    }
+                  }
+                }
+                accessibilitySubService {
+                  data {
+                    id
+                    attributes {
+                      link
+                    }
+                  }
+                }
+                confidentialitySubService {
+                  data {
+                    id
+                    attributes {
+                      link
+                    }
+                  }
+                }
+                cookiesSubService {
+                  data {
+                    id
+                    attributes {
+                      link
+                    }
+                  }
+                }
+                contactUsSubService {
+                  data {
+                    id
+                    attributes {
+                      label
+                      link
                     }
                   }
                 }
               }
             }
           }
-        }
-      }
-    }
-    contactUsServices(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        id
-        attributes {
-          isActivated
-          label
-          link
         }
       }
     }
@@ -5833,7 +6238,6 @@ export const GetServicesActiveDocument = gql`
     editorialServices(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
-          isActivated
           eventSubService {
             data {
               attributes {
@@ -5869,6 +6273,41 @@ export const GetServicesActiveDocument = gql`
               }
             }
           }
+          contactUsSubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          cguSubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          accessibilitySubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          confidentialitySubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          cookiesSubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
         }
       }
     }
@@ -5880,13 +6319,6 @@ export const GetServicesActiveDocument = gql`
       }
     }
     requestServices(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        attributes {
-          isActivated
-        }
-      }
-    }
-    contactUsServices(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
           isActivated
@@ -6096,10 +6528,16 @@ export const UpdateFooterPageDocument = gql`
   mutation updateFooterPage(
     $updateFooterId: ID!
     $updateFooterData: FooterInput!
-    $updateLegalContentId: ID!
-    $updateLegalContentData: LegalContentInput!
-    $updateContactUsServiceId: ID!
-    $updateContactUsServiceData: ContactUsServiceInput!
+    $updateContactUsSubServiceId: ID!
+    $updateContactUsSubServiceData: ContactUsSubServiceInput!
+    $updateAccessibilitySubServiceId: ID!
+    $updateAccessibilitySubServiceData: AccessibilitySubServiceInput!
+    $updateCguSubServiceId: ID!
+    $updateCguSubServiceData: CguSubServiceInput!
+    $updateCookiesSubServiceId: ID!
+    $updateCookiesSubServiceData: CookiesSubServiceInput!
+    $updateConfidentialitySubServiceId: ID!
+    $updateConfidentialitySubServiceData: ConfidentialitySubServiceInput!
   ) {
     updateFooter(id: $updateFooterId, data: $updateFooterData) {
       data {
@@ -6109,28 +6547,53 @@ export const UpdateFooterPageDocument = gql`
         }
       }
     }
-    updateLegalContent(
-      id: $updateLegalContentId
-      data: $updateLegalContentData
+    updateContactUsSubService(
+      id: $updateContactUsSubServiceId
+      data: $updateContactUsSubServiceData
     ) {
       data {
-        id
         attributes {
-          GCULink
-          accessibilityLink
-          confidentiality
-          cookiesPolicy
+          label
+          link
         }
       }
     }
-    updateContactUsService(
-      id: $updateContactUsServiceId
-      data: $updateContactUsServiceData
+    updateCguSubService(
+      id: $updateCguSubServiceId
+      data: $updateCguSubServiceData
     ) {
       data {
-        id
         attributes {
-          label
+          link
+        }
+      }
+    }
+    updateAccessibilitySubService(
+      id: $updateAccessibilitySubServiceId
+      data: $updateAccessibilitySubServiceData
+    ) {
+      data {
+        attributes {
+          link
+        }
+      }
+    }
+    updateConfidentialitySubService(
+      id: $updateConfidentialitySubServiceId
+      data: $updateConfidentialitySubServiceData
+    ) {
+      data {
+        attributes {
+          link
+        }
+      }
+    }
+    updateCookiesSubService(
+      id: $updateCookiesSubServiceId
+      data: $updateCookiesSubServiceData
+    ) {
+      data {
+        attributes {
           link
         }
       }
@@ -6157,10 +6620,16 @@ export type UpdateFooterPageMutationFn = Apollo.MutationFunction<
  *   variables: {
  *      updateFooterId: // value for 'updateFooterId'
  *      updateFooterData: // value for 'updateFooterData'
- *      updateLegalContentId: // value for 'updateLegalContentId'
- *      updateLegalContentData: // value for 'updateLegalContentData'
- *      updateContactUsServiceId: // value for 'updateContactUsServiceId'
- *      updateContactUsServiceData: // value for 'updateContactUsServiceData'
+ *      updateContactUsSubServiceId: // value for 'updateContactUsSubServiceId'
+ *      updateContactUsSubServiceData: // value for 'updateContactUsSubServiceData'
+ *      updateAccessibilitySubServiceId: // value for 'updateAccessibilitySubServiceId'
+ *      updateAccessibilitySubServiceData: // value for 'updateAccessibilitySubServiceData'
+ *      updateCguSubServiceId: // value for 'updateCguSubServiceId'
+ *      updateCguSubServiceData: // value for 'updateCguSubServiceData'
+ *      updateCookiesSubServiceId: // value for 'updateCookiesSubServiceId'
+ *      updateCookiesSubServiceData: // value for 'updateCookiesSubServiceData'
+ *      updateConfidentialitySubServiceId: // value for 'updateConfidentialitySubServiceId'
+ *      updateConfidentialitySubServiceData: // value for 'updateConfidentialitySubServiceData'
  *   },
  * });
  */

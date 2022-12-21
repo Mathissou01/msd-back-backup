@@ -7,30 +7,50 @@ query getFooterPage($contractId: ID!) {
             id
             attributes {
               accessibilityLevel
-              legalContent {
+              cguSubService {
                 data {
                   id
                   attributes {
-                    GCULink
-                    accessibilityLink
-                    confidentiality
-                    cookiesPolicy
+                    link
+                  }
+                }
+              }
+              accessibilitySubService {
+                data {
+                  id
+                  attributes {
+                    link
+                  }
+                }
+              }
+              confidentialitySubService {
+                data {
+                  id
+                  attributes {
+                    link
+                  }
+                }
+              }
+              cookiesSubService {
+                data {
+                  id
+                  attributes {
+                    link
+                  }
+                }
+              }
+              contactUsSubService {
+                data {
+                  id
+                  attributes {
+                    label
+                    link
                   }
                 }
               }
             }
           }
         }
-      }
-    }
-  }
-  contactUsServices(filters: { contract: { id: { eq: $contractId } } }) {
-    data {
-      id
-      attributes {
-        isActivated
-        label
-        link
       }
     }
   }

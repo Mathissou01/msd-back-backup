@@ -163,7 +163,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
           >
             <label
               class="c-FormLabel"
-              for="legalContent.accessibilityLink"
+              for="accessibilitySubService.link"
             >
               <div
                 class="c-FormLabel__Label"
@@ -174,12 +174,12 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
               </div>
             </label>
             <input
-              aria-errormessage="legalContent.accessibilityLink_error"
+              aria-errormessage="accessibilitySubService.link_error"
               aria-invalid="false"
               class="c-FormInput__Input "
               data-testid="form-input"
-              id="legalContent.accessibilityLink"
-              name="legalContent.accessibilityLink"
+              id="accessibilitySubService.link"
+              name="accessibilitySubService.link"
               type="text"
               value="https://google.com"
             />
@@ -189,7 +189,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
           >
             <label
               class="c-FormLabel"
-              for="legalContent.GCULink"
+              for="cguSubService.link"
             >
               <div
                 class="c-FormLabel__Label"
@@ -200,12 +200,12 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
               </div>
             </label>
             <input
-              aria-errormessage="legalContent.GCULink_error"
+              aria-errormessage="cguSubService.link_error"
               aria-invalid="false"
               class="c-FormInput__Input "
               data-testid="form-input"
-              id="legalContent.GCULink"
-              name="legalContent.GCULink"
+              id="cguSubService.link"
+              name="cguSubService.link"
               type="text"
               value="https://google.com"
             />
@@ -215,7 +215,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
           >
             <label
               class="c-FormLabel"
-              for="legalContent.cookiesPolicy"
+              for="cookiesSubService.link"
             >
               <div
                 class="c-FormLabel__Label"
@@ -226,12 +226,12 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
               </div>
             </label>
             <input
-              aria-errormessage="legalContent.cookiesPolicy_error"
+              aria-errormessage="cookiesSubService.link_error"
               aria-invalid="false"
               class="c-FormInput__Input "
               data-testid="form-input"
-              id="legalContent.cookiesPolicy"
-              name="legalContent.cookiesPolicy"
+              id="cookiesSubService.link"
+              name="cookiesSubService.link"
               type="text"
               value="https://google.com"
             />
@@ -241,7 +241,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
           >
             <label
               class="c-FormLabel"
-              for="legalContent.confidentiality"
+              for="confidentialitySubService.link"
             >
               <div
                 class="c-FormLabel__Label"
@@ -252,12 +252,12 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
               </div>
             </label>
             <input
-              aria-errormessage="legalContent.confidentiality_error"
+              aria-errormessage="confidentialitySubService.link_error"
               aria-invalid="false"
               class="c-FormInput__Input "
               data-testid="form-input"
-              id="legalContent.confidentiality"
-              name="legalContent.confidentiality"
+              id="confidentialitySubService.link"
+              name="confidentialitySubService.link"
               type="text"
               value="https://google.com"
             />
@@ -280,7 +280,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
           >
             <label
               class="c-FormLabel"
-              for="contactUsService.label"
+              for="contactUsSubService.label"
             >
               <div
                 class="c-FormLabel__Label"
@@ -291,12 +291,12 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
               </div>
             </label>
             <input
-              aria-errormessage="contactUsService.label_error"
+              aria-errormessage="contactUsSubService.label_error"
               aria-invalid="false"
               class="c-FormInput__Input "
               data-testid="form-input"
-              id="contactUsService.label"
-              name="contactUsService.label"
+              id="contactUsSubService.label"
+              name="contactUsSubService.label"
               type="text"
               value="Contactez-nous"
             />
@@ -306,7 +306,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
           >
             <label
               class="c-FormLabel"
-              for="contactUsService.link"
+              for="contactUsSubService.link"
             >
               <div
                 class="c-FormLabel__Label"
@@ -317,12 +317,12 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
               </div>
             </label>
             <input
-              aria-errormessage="contactUsService.link_error"
+              aria-errormessage="contactUsSubService.link_error"
               aria-invalid="false"
               class="c-FormInput__Input "
               data-testid="form-input"
-              id="contactUsService.link"
-              name="contactUsService.link"
+              id="contactUsSubService.link"
+              name="contactUsSubService.link"
               type="text"
               value="https://google.com"
             />

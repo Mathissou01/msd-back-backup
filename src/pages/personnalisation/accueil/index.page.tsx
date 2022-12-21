@@ -12,7 +12,6 @@ import EditoTab from "../../../components/TabBlock/EditoTab/EditoTab";
 
 interface IServiceParameters {
   isServiceRecyclingGuideActivated: boolean;
-  isServiceEditorialActivated: boolean;
   isQuizActivated: boolean;
   isTipsActivated: boolean;
   isEventsActivated: boolean;
@@ -42,8 +41,6 @@ export default function PersonnalisationAccueilPage() {
       setServiceParameters({
         isServiceRecyclingGuideActivated:
           !!data.recyclingGuideServices?.data[0]?.attributes?.isActivated,
-        isServiceEditorialActivated:
-          !!data.editorialServices?.data[0]?.attributes?.isActivated,
         isQuizActivated:
           !!data.editorialServices?.data[0].attributes?.quizSubService?.data
             ?.attributes?.isActivated,
@@ -96,7 +93,6 @@ export default function PersonnalisationAccueilPage() {
         title: "À la une",
         content: <TopContentTab />,
         isEnabled:
-          !!serviceParameters?.isServiceEditorialActivated &&
           !!serviceParameters?.isEventsActivated &&
           !!serviceParameters?.isNewsActivated,
       },
@@ -105,7 +101,6 @@ export default function PersonnalisationAccueilPage() {
         title: "Quiz & Astuces",
         content: <QuizAndTipsTab />,
         isEnabled:
-          !!serviceParameters?.isServiceEditorialActivated &&
           !!serviceParameters?.isQuizActivated &&
           !!serviceParameters?.isTipsActivated,
       },
@@ -114,7 +109,6 @@ export default function PersonnalisationAccueilPage() {
         title: "Bloc Édito",
         content: <EditoTab />,
         isEnabled:
-          !!serviceParameters?.isServiceEditorialActivated &&
           !!serviceParameters?.isQuizActivated &&
           !!serviceParameters?.isTipsActivated &&
           !!serviceParameters?.isEventsActivated &&
