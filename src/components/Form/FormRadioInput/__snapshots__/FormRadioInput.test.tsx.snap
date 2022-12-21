@@ -53,7 +53,7 @@ exports[`FormRadioInput renders 1`] = `
           class="c-FormRadioInput__Option"
         >
           <input
-            class="c-FormRadioInput__Input c-FormRadioInput__Input_checked"
+            class="c-FormRadioInput__Input "
             data-testid="form-radio-input_1"
             id="form-radio-input1"
             name="form-radio-input"
