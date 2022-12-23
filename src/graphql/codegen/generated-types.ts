@@ -5136,6 +5136,203 @@ export type GetFooterPageQuery = {
   } | null;
 };
 
+export type GetMenuPageQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetMenuPageQuery = {
+  __typename?: "Query";
+  contract?: {
+    __typename?: "ContractEntityResponse";
+    data?: {
+      __typename?: "ContractEntity";
+      attributes?: {
+        __typename?: "Contract";
+        contractMenu?: {
+          __typename?: "ContractMenuEntityResponse";
+          data?: {
+            __typename?: "ContractMenuEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "ContractMenu";
+              serviceLinks?: Array<
+                | {
+                    __typename?: "ComponentLinksCalendar";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksContactUs";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksEvents";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksExternal";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    externalLink?: string | null;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksFrees";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksMap";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksNews";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksQuizzes";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksRecycling";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksRequest";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksTips";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | { __typename?: "Error" }
+                | null
+              > | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetQuizAndTipsBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -5608,6 +5805,194 @@ export type UpdateFooterPageMutation = {
   } | null;
 };
 
+export type UpdateMenuPageMutationVariables = Exact<{
+  updateMenuPageId: Scalars["ID"];
+  data: ContractMenuInput;
+}>;
+
+export type UpdateMenuPageMutation = {
+  __typename?: "Mutation";
+  updateContractMenu?: {
+    __typename?: "ContractMenuEntityResponse";
+    data?: {
+      __typename?: "ContractMenuEntity";
+      attributes?: {
+        __typename?: "ContractMenu";
+        serviceLinks?: Array<
+          | {
+              __typename?: "ComponentLinksCalendar";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksContactUs";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksEvents";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksExternal";
+              name?: string | null;
+              isDisplayed: boolean;
+              externalLink?: string | null;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksFrees";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksMap";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksNews";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksQuizzes";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksRecycling";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksRequest";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentLinksTips";
+              name?: string | null;
+              isDisplayed: boolean;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type UpdateQuizAndTipsBlockTabMutationVariables = Exact<{
   quizAndTipsBlockId: Scalars["ID"];
   data: QuizAndTipsBlockInput;
@@ -5943,6 +6328,196 @@ export type GetFooterPageLazyQueryHookResult = ReturnType<
 export type GetFooterPageQueryResult = Apollo.QueryResult<
   GetFooterPageQuery,
   GetFooterPageQueryVariables
+>;
+export const GetMenuPageDocument = gql`
+  query getMenuPage($contractId: ID!) {
+    contract(id: $contractId) {
+      data {
+        attributes {
+          contractMenu {
+            data {
+              id
+              attributes {
+                serviceLinks {
+                  ... on ComponentLinksMap {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksCalendar {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksRecycling {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksRequest {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksContactUs {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksNews {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksEvents {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksQuizzes {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksTips {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksFrees {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksExternal {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    externalLink
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetMenuPageQuery__
+ *
+ * To run a query within a React component, call `useGetMenuPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMenuPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMenuPageQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetMenuPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetMenuPageQuery,
+    GetMenuPageQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetMenuPageQuery, GetMenuPageQueryVariables>(
+    GetMenuPageDocument,
+    options,
+  );
+}
+export function useGetMenuPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMenuPageQuery,
+    GetMenuPageQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetMenuPageQuery, GetMenuPageQueryVariables>(
+    GetMenuPageDocument,
+    options,
+  );
+}
+export type GetMenuPageQueryHookResult = ReturnType<typeof useGetMenuPageQuery>;
+export type GetMenuPageLazyQueryHookResult = ReturnType<
+  typeof useGetMenuPageLazyQuery
+>;
+export type GetMenuPageQueryResult = Apollo.QueryResult<
+  GetMenuPageQuery,
+  GetMenuPageQueryVariables
 >;
 export const GetQuizAndTipsBlockTabDocument = gql`
   query getQuizAndTipsBlockTab($contractId: ID!) {
@@ -6653,6 +7228,184 @@ export type UpdateFooterPageMutationResult =
 export type UpdateFooterPageMutationOptions = Apollo.BaseMutationOptions<
   UpdateFooterPageMutation,
   UpdateFooterPageMutationVariables
+>;
+export const UpdateMenuPageDocument = gql`
+  mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
+    updateContractMenu(id: $updateMenuPageId, data: $data) {
+      data {
+        attributes {
+          serviceLinks {
+            ... on ComponentLinksMap {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksCalendar {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksRecycling {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksRequest {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksContactUs {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksNews {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksEvents {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksQuizzes {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksTips {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksFrees {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+            ... on ComponentLinksExternal {
+              name
+              isDisplayed
+              picto {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+              externalLink
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateMenuPageMutationFn = Apollo.MutationFunction<
+  UpdateMenuPageMutation,
+  UpdateMenuPageMutationVariables
+>;
+
+/**
+ * __useUpdateMenuPageMutation__
+ *
+ * To run a mutation, you first call `useUpdateMenuPageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMenuPageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMenuPageMutation, { data, loading, error }] = useUpdateMenuPageMutation({
+ *   variables: {
+ *      updateMenuPageId: // value for 'updateMenuPageId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateMenuPageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateMenuPageMutation,
+    UpdateMenuPageMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateMenuPageMutation,
+    UpdateMenuPageMutationVariables
+  >(UpdateMenuPageDocument, options);
+}
+export type UpdateMenuPageMutationHookResult = ReturnType<
+  typeof useUpdateMenuPageMutation
+>;
+export type UpdateMenuPageMutationResult =
+  Apollo.MutationResult<UpdateMenuPageMutation>;
+export type UpdateMenuPageMutationOptions = Apollo.BaseMutationOptions<
+  UpdateMenuPageMutation,
+  UpdateMenuPageMutationVariables
 >;
 export const UpdateQuizAndTipsBlockTabDocument = gql`
   mutation updateQuizAndTipsBlockTab(

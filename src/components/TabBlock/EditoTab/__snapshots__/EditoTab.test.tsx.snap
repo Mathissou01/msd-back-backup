@@ -78,7 +78,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
           <input
             aria-errormessage="titleContent_error"
             aria-invalid="false"
-            class="c-FormInput__Input "
+            class="c-FormInput__Input"
             data-testid="form-input"
             id="titleContent"
             name="titleContent"
@@ -107,32 +107,35 @@ exports[`EditoTab renders loading and loaded state 2`] = `
             </div>
           </label>
           <input
-            class="c-FormModalInput__Input"
             disabled=""
             name="editoContents"
             type="hidden"
             value="[object Object],[object Object],[object Object]"
           />
-          <p>
-            Remplacez vos sacs en plastique par des sacs réutilisables, un caddie ou des paniers. - 18/11/2022
-          </p>
-          <p>
-            freecontent test - 05/12/2022
-          </p>
-          <p>
-            Nom du quiz - 20/11/2022
-          </p>
           <div
-            aria-errormessage="editoContents_error"
-            aria-invalid="false"
+            class="c-FormModalInput__Container"
           >
-            <button
-              class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
-              id="editoContents_button"
-              type="button"
+            <p>
+              Remplacez vos sacs en plastique par des sacs réutilisables, un caddie ou des paniers. - 18/11/2022
+            </p>
+            <p>
+              freecontent test - 05/12/2022
+            </p>
+            <p>
+              Nom du quiz - 20/11/2022
+            </p>
+            <div
+              aria-errormessage="editoContents_error"
+              aria-invalid="false"
             >
-              Sélectionner les articles à afficher
-            </button>
+              <button
+                class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+                id="editoContents_button"
+                type="button"
+              >
+                Sélectionner les articles à afficher
+              </button>
+            </div>
           </div>
         </div>
       </div>

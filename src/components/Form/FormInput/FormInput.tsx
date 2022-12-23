@@ -1,3 +1,5 @@
+import _ from "lodash";
+import classNames from "classnames";
 import { ErrorMessage } from "@hookform/error-message";
 import { useFormContext } from "react-hook-form";
 import React from "react";
@@ -57,9 +59,9 @@ export default function FormInput({
         validationLabel={validationLabel}
       />
       <input
-        className={`c-FormInput__Input ${
-          errors[name] ? "c-FormInput__Input_invalid" : ""
-        }`}
+        className={classNames("c-FormInput__Input", {
+          "c-FormInput__Input_invalid": _.get(errors, name),
+        })}
         {...register(name, {
           required: { value: isRequired, message: errorMessages.required },
           minLength:
@@ -78,7 +80,7 @@ export default function FormInput({
         maxLength={lengthHardValidation ? maxLengthValidation : undefined}
         placeholder={placeholder}
         disabled={isSubmitting || isDisabled}
-        aria-invalid={!!errors[name]}
+        aria-invalid={!!_.get(errors, name)}
         aria-errormessage={`${name}_error`}
         data-testid="form-input"
       />

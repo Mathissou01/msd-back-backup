@@ -1,0 +1,43 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.inputs" as inputs;
+
+.c-FormServiceLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: opacity ease 0.1s;
+  user-select: none;
+
+  &_disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &__List {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__Row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 66px;
+    padding: 8px 8px 8px 12px;
+    color: colors.$expert-blue;
+    background-color: colors.$white;
+    border: 1px solid colors.$gray-200;
+    transition: background-color ease 0.1s;
+
+    &_disabled {
+      color: colors.$gray-500;
+      background-color: colors.$gray-200;
+      border-color: colors.$blue-4;
+    }
+  }
+}

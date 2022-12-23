@@ -17,6 +17,11 @@ export default function CommonSvgDefs() {
             hexColor="#77b7fc"
             opacity={1}
           />
+          <CommonSvgFilter
+            id="recolor-expert-blue"
+            hexColor="#030f40"
+            opacity={1}
+          />
         </defs>
       </svg>
     </>

@@ -21,7 +21,7 @@ import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
-import FormModalInput from "../../Form/FormModalInput/FormModalInput";
+import FormModalButtonInput from "../../Form/FormModalButtonInput/FormModalButtonInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
 import "./top-content-tab.scss";
@@ -241,16 +241,15 @@ export default function TopContentTab() {
               name="hasTopContent"
               label={formLabels.hasTopContent}
             />
-            <FormModalInput<TopContentDto>
+            <FormModalButtonInput<TopContentDto>
               name="topContent"
               label={formLabels.topContent}
               displayTransform={topContentDisplayTransformFunction}
               buttonLabel={formLabels.topContentButton}
               modalTitle={formLabels.topContentModal}
-              onSubmit={onTopContentModalSubmit}
-              formValidationMode={formValidationMode}
+              onModalSubmit={onTopContentModalSubmit}
               isRequired={true}
-              hasRequiredChildren="all"
+              modalHasRequiredChildren="all"
               isDisabled={mutationLoading}
             >
               <div className="c-TopContentTab__Group">
@@ -277,7 +276,7 @@ export default function TopContentTab() {
                   isRequired={true}
                 />
               </div>
-            </FormModalInput>
+            </FormModalButtonInput>
           </div>
           <div className="c-TopContentTab__Group">
             <FormCheckbox

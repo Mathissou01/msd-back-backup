@@ -1,0 +1,17 @@
+.c-FormModalInput {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__Container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &_row {
+      flex-direction: row;
+      gap: 25px;
+      align-items: center;
+    }
+  }
+}

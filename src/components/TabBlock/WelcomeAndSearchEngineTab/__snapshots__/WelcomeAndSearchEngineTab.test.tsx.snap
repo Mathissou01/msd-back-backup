@@ -53,17 +53,17 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
                 <span>
                   Texte affiché dans le moteur de recherche principal (haut de page) *
                 </span>
+                <span
+                  class="c-FormLabel__Validation"
+                >
+                  30 caractères maximum
+                </span>
               </div>
-              <span
-                class="c-FormLabel__Validation"
-              >
-                30 caractères maximum
-              </span>
             </label>
             <input
               aria-errormessage="titleContent_error"
               aria-invalid="false"
-              class="c-FormInput__Input "
+              class="c-FormInput__Input"
               data-testid="form-input"
               id="titleContent"
               maxlength="30"

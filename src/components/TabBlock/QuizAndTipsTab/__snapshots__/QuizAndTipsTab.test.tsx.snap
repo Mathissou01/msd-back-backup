@@ -78,7 +78,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
           <input
             aria-errormessage="titleContent_error"
             aria-invalid="false"
-            class="c-FormInput__Input "
+            class="c-FormInput__Input"
             data-testid="form-input"
             id="titleContent"
             name="titleContent"
@@ -130,26 +130,29 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             </div>
           </label>
           <input
-            class="c-FormModalInput__Input"
             disabled=""
             name="quiz"
             type="hidden"
             value="[object Object]"
           />
-          <p>
-            Nom du quiz
-          </p>
           <div
-            aria-errormessage="quiz_error"
-            aria-invalid="false"
+            class="c-FormModalInput__Container"
           >
-            <button
-              class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
-              id="quiz_button"
-              type="button"
+            <p>
+              Nom du quiz
+            </p>
+            <div
+              aria-errormessage="quiz_error"
+              aria-invalid="false"
             >
-              Choisir le quiz
-            </button>
+              <button
+                class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+                id="quiz_button"
+                type="button"
+              >
+                Choisir le quiz
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -196,29 +199,32 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             </div>
           </label>
           <input
-            class="c-FormModalInput__Input"
             disabled=""
             name="tips"
             type="hidden"
             value="[object Object],[object Object]"
           />
-          <p>
-            Pas besoin de nettoyer vos pots de yaourts avant de les jeter - 19/14/2022
-          </p>
-          <p>
-            Titre de l'astuce 3 - 19/14/2022
-          </p>
           <div
-            aria-errormessage="tips_error"
-            aria-invalid="false"
+            class="c-FormModalInput__Container"
           >
-            <button
-              class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
-              id="tips_button"
-              type="button"
+            <p>
+              Pas besoin de nettoyer vos pots de yaourts avant de les jeter - 19/14/2022
+            </p>
+            <p>
+              Titre de l'astuce 3 - 19/14/2022
+            </p>
+            <div
+              aria-errormessage="tips_error"
+              aria-invalid="false"
             >
-              Sélectionner les astuces à afficher
-            </button>
+              <button
+                class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+                id="tips_button"
+                type="button"
+              >
+                Sélectionner les astuces à afficher
+              </button>
+            </div>
           </div>
         </div>
       </div>

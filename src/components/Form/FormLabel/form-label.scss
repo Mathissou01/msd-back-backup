@@ -2,10 +2,8 @@
 
 .c-FormLabel {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 2px;
   color: colors.$blue-2;
   font-weight: 700;
@@ -15,21 +13,23 @@
   &__Label {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &__Secondary,
   &__Validation {
     color: colors.$gray-600;
+    font-weight: 400;
     font-family: DINPro-Regular, serif;
   }
 
   &__Secondary {
-    font-weight: 350;
+    color: colors.$gray-800;
   }
 
   &__Validation {
-    font-weight: 400;
     font-size: 12px;
     text-align: right;
   }

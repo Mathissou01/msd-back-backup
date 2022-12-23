@@ -176,7 +176,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
             <input
               aria-errormessage="accessibilitySubService.link_error"
               aria-invalid="false"
-              class="c-FormInput__Input "
+              class="c-FormInput__Input"
               data-testid="form-input"
               id="accessibilitySubService.link"
               name="accessibilitySubService.link"
@@ -202,7 +202,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
             <input
               aria-errormessage="cguSubService.link_error"
               aria-invalid="false"
-              class="c-FormInput__Input "
+              class="c-FormInput__Input"
               data-testid="form-input"
               id="cguSubService.link"
               name="cguSubService.link"
@@ -228,7 +228,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
             <input
               aria-errormessage="cookiesSubService.link_error"
               aria-invalid="false"
-              class="c-FormInput__Input "
+              class="c-FormInput__Input"
               data-testid="form-input"
               id="cookiesSubService.link"
               name="cookiesSubService.link"
@@ -254,7 +254,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
             <input
               aria-errormessage="confidentialitySubService.link_error"
               aria-invalid="false"
-              class="c-FormInput__Input "
+              class="c-FormInput__Input"
               data-testid="form-input"
               id="confidentialitySubService.link"
               name="confidentialitySubService.link"
@@ -293,7 +293,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
             <input
               aria-errormessage="contactUsSubService.label_error"
               aria-invalid="false"
-              class="c-FormInput__Input "
+              class="c-FormInput__Input"
               data-testid="form-input"
               id="contactUsSubService.label"
               name="contactUsSubService.label"
@@ -319,7 +319,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
             <input
               aria-errormessage="contactUsSubService.link_error"
               aria-invalid="false"
-              class="c-FormInput__Input "
+              class="c-FormInput__Input"
               data-testid="form-input"
               id="contactUsSubService.link"
               name="contactUsSubService.link"

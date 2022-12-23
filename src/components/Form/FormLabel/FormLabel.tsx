@@ -24,12 +24,14 @@ export default function FormLabel({
     <Tag className="c-FormLabel" htmlFor={forId}>
       <div className="c-FormLabel__Label">
         <span>{`${label}${isRequired ? " *" : ""}`}</span>
-        {secondaryLabel && (
-          <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
+        {validationLabel && (
+          <span className="c-FormLabel__Validation">{validationLabel}</span>
         )}
       </div>
-      {validationLabel && (
-        <span className="c-FormLabel__Validation">{validationLabel}</span>
+      {secondaryLabel && (
+        <div className="c-FormLabel__Label">
+          <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
+        </div>
       )}
     </Tag>
   );

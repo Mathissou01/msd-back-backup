@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { FormProvider, useForm } from "react-hook-form";
 import React, { ReactNode } from "react";
-import FormModalInput from "./FormModalInput";
+import FormModalButtonInput from "./FormModalButtonInput";
 
 const mock = {
   name: "form-modal-input",
@@ -19,24 +19,24 @@ const Wrapper = (props: { children: ReactNode }) => {
   );
 };
 
-describe("FormModalInput", () => {
+describe("FormModalButtonInput", () => {
   it("renders", () => {
     const handleTransform = jest.fn();
     const handleSubmit = jest.fn();
     const { container } = render(
       <Wrapper>
-        <FormModalInput
+        <FormModalButtonInput
           name={mock.name}
           label={mock.label}
           displayTransform={handleTransform}
           buttonLabel={mock.buttonLabel}
           modalTitle={mock.modalTitle}
-          onSubmit={handleSubmit}
-          formValidationMode={"onChange"}
+          onModalSubmit={handleSubmit}
+          modalFormValidationMode={"onChange"}
           isDisabled={false}
         >
           <div />
-        </FormModalInput>
+        </FormModalButtonInput>
       </Wrapper>,
     );
 

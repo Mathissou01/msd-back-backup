@@ -3,6 +3,7 @@ import React, {
   ReactNode,
   useCallback,
   useEffect,
+  useId,
   useImperativeHandle,
   useRef,
   useState,
@@ -24,6 +25,7 @@ export default forwardRef(function CommonModalWrapper(
   { onClose, children }: ICommonModalWrapperProps,
   parentRef,
 ) {
+  const modalId = useId();
   const ref = useRef<Element | null>(null);
   const [isMounted, setMounted] = useState<boolean>(false);
 
@@ -64,7 +66,8 @@ export default forwardRef(function CommonModalWrapper(
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     if (e.key !== "Tab" || !ref.current) return;
-    const focusableModalElements = ref.current?.querySelectorAll(
+    const parentElement = ref.current?.querySelector(`[id="${modalId}"]`);
+    const focusableModalElements = parentElement?.querySelectorAll(
       "a[href], button:not([disabled]), textarea, input, select",
     );
     const firstElement = focusableModalElements?.[0] as HTMLElement;
@@ -88,6 +91,7 @@ export default forwardRef(function CommonModalWrapper(
         <div
           className="c-CommonModalWrapper"
           onClick={() => handleToggle(false)}
+          id={modalId}
           data-testid="common-modal-wrapper"
         >
           <div

@@ -24,7 +24,7 @@ import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
-import FormModalInput from "../../Form/FormModalInput/FormModalInput";
+import FormModalButtonInput from "../../Form/FormModalButtonInput/FormModalButtonInput";
 import FormMultiselect, {
   IOptionWrapper,
 } from "../../Form/FormMultiselect/FormMultiselect";
@@ -228,14 +228,13 @@ export default function EditoTab() {
             />
           </div>
           <div className="c-EditoTab__Group">
-            <FormModalInput<Array<EditoContentDto>>
+            <FormModalButtonInput<Array<EditoContentDto>>
               name="editoContents"
               label={formLabels.editoContents}
               displayTransform={editoContentsDisplayTransformFunction}
               buttonLabel={formLabels.editoContentsButton}
               modalTitle={formLabels.editoContentsModal}
-              onSubmit={onContentModalSubmit}
-              formValidationMode={formValidationMode}
+              onModalSubmit={onContentModalSubmit}
               isDisabled={mutationLoading}
               isRequired={true}
             >
@@ -248,7 +247,7 @@ export default function EditoTab() {
                 optionKey={"id"}
                 defaultValues={watch("editoContents")}
               />
-            </FormModalInput>
+            </FormModalButtonInput>
           </div>
           <div className="c-EditoTab__Buttons">
             <CommonButton

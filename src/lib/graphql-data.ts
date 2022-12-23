@@ -1,16 +1,22 @@
 import {
-  QuizAndTipsBlockEntity,
-  QuizEntity,
-  TipEntity,
-  RecyclingGuideBlockEntity,
+  GetEditoBlockTabQuery,
+  GetFooterPageQuery,
+  GetMenuPageQuery,
   GetQuizAndTipsBlockTabQuery,
   GetRecyclingBlockTabQuery,
-  GetEditoBlockTabQuery,
-  GetTopContentTabQuery,
   GetSearchEngineTabQuery,
+  GetTopContentTabQuery,
+  QuizAndTipsBlockEntity,
+  QuizEntity,
+  RecyclingGuideBlockEntity,
   SearchEngineBlockEntity,
-  GetFooterPageQuery,
+  TipEntity,
 } from "../graphql/codegen/generated-types";
+
+/* Menu */
+export function extractMenu(data: GetMenuPageQuery) {
+  return data.contract?.data?.attributes?.contractMenu?.data ?? null;
+}
 
 /* Homepage */
 export function extractSearchEngineBlock(data: GetSearchEngineTabQuery) {

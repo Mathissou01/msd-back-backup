@@ -1,3 +1,5 @@
+import _ from "lodash";
+import classNames from "classnames";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import React, { useEffect, useState } from "react";
@@ -72,9 +74,10 @@ export default function FormSelect<T>({
       />
       <div className="o-SelectWrapper">
         <select
-          className={`o-SelectWrapper__Select ${
-            selectedIndex < 0 ? "o-SelectWrapper__Select_placeholder" : ""
-          } ${errors[name] ? "o-SelectWrapper__Select_invalid" : ""}`}
+          className={classNames("o-SelectWrapper__Select", {
+            "o-SelectWrapper__Select_placeholder": selectedIndex < 0,
+            "o-SelectWrapper__Select_invalid": _.get(errors, name),
+          })}
           {...register(name, {
             setValueAs: (v) => {
               return options[v];
@@ -91,7 +94,7 @@ export default function FormSelect<T>({
             });
           }}
           disabled={isSubmitting || isDisabled}
-          aria-invalid={!!errors[name]}
+          aria-invalid={!!_.get(errors, name)}
           aria-errormessage={`${name}_error`}
           data-testid="form-select"
         >

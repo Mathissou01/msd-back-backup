@@ -15,6 +15,10 @@ exports[`FormSelect renders 1`] = `
         <span>
           form select
         </span>
+      </div>
+      <div
+        class="c-FormLabel__Label"
+      >
         <span
           class="c-FormLabel__Secondary"
         >
@@ -28,7 +32,7 @@ exports[`FormSelect renders 1`] = `
       <select
         aria-errormessage="form-select_error"
         aria-invalid="false"
-        class="o-SelectWrapper__Select  "
+        class="o-SelectWrapper__Select"
         data-testid="form-select"
         id="form-select"
         name="form-select"

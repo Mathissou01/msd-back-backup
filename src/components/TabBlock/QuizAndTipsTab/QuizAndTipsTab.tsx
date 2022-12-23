@@ -21,7 +21,7 @@ import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
-import FormModalInput from "../../Form/FormModalInput/FormModalInput";
+import FormModalButtonInput from "../../Form/FormModalButtonInput/FormModalButtonInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormMultiselect, {
   IOptionWrapper,
@@ -261,14 +261,13 @@ export default function QuizAndTipsTab() {
           </div>
           <div className="c-QuizAndTipsTab__Group">
             <FormCheckbox name="displayQuiz" label={formLabels.displayQuiz} />
-            <FormModalInput<QuizEntity>
+            <FormModalButtonInput<QuizEntity>
               name="quiz"
               label={formLabels.quiz}
               displayTransform={quizDisplayTransformFunction}
               buttonLabel={formLabels.quizButton}
               modalTitle={formLabels.quizModal}
-              onSubmit={onQuizModalSubmit}
-              formValidationMode={formValidationMode}
+              onModalSubmit={onQuizModalSubmit}
               isDisabled={mutationLoading}
             >
               <FormSelect<QuizEntity>
@@ -279,18 +278,17 @@ export default function QuizAndTipsTab() {
                 optionKey={"id"}
                 defaultValue={watch("quiz")}
               />
-            </FormModalInput>
+            </FormModalButtonInput>
           </div>
           <div className="c-QuizAndTipsTab__Group">
             <FormCheckbox name="displayTips" label={formLabels.displayTips} />
-            <FormModalInput<Array<TipEntity>>
+            <FormModalButtonInput<Array<TipEntity>>
               name="tips"
               label={formLabels.tips}
               displayTransform={tipsDisplayTransformFunction}
               buttonLabel={formLabels.tipsButton}
               modalTitle={formLabels.tipsModal}
-              onSubmit={onTipsModalSubmit}
-              formValidationMode={formValidationMode}
+              onModalSubmit={onTipsModalSubmit}
               isDisabled={mutationLoading}
             >
               <FormMultiselect<TipEntity>
@@ -302,7 +300,7 @@ export default function QuizAndTipsTab() {
                 optionKey={"id"}
                 defaultValues={watch("tips")}
               />
-            </FormModalInput>
+            </FormModalButtonInput>
           </div>
           <div className="c-QuizAndTipsTab__Buttons">
             <CommonButton
