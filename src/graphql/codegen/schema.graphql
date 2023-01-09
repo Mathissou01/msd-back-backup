@@ -4,6 +4,7 @@ type AccessibilitySubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
+  blocks: [AccessibilitySubServiceBlocksDynamicZone]
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -12,6 +13,14 @@ type AccessibilitySubService {
   name: String!
   updatedAt: DateTime
 }
+
+union AccessibilitySubServiceBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar AccessibilitySubServiceBlocksDynamicZoneInput
 
 type AccessibilitySubServiceEntity {
   attributes: AccessibilitySubService
@@ -44,6 +53,7 @@ input AccessibilitySubServiceFiltersInput {
 
 input AccessibilitySubServiceInput {
   audienceTypes: [ID]
+  blocks: [AccessibilitySubServiceBlocksDynamicZoneInput!]
   description: String
   editorialService: ID
   isActivated: Boolean
@@ -124,6 +134,7 @@ type CguSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
+  blocks: [CguSubServiceBlocksDynamicZone]
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -132,6 +143,14 @@ type CguSubService {
   name: String!
   updatedAt: DateTime
 }
+
+union CguSubServiceBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar CguSubServiceBlocksDynamicZoneInput
 
 type CguSubServiceEntity {
   attributes: CguSubService
@@ -164,6 +183,7 @@ input CguSubServiceFiltersInput {
 
 input CguSubServiceInput {
   audienceTypes: [ID]
+  blocks: [CguSubServiceBlocksDynamicZoneInput!]
   description: String
   editorialService: ID
   isActivated: Boolean
@@ -333,6 +353,32 @@ input ClientTypeInput {
   type: String
 }
 
+type ComponentBlocksHorizontalRule {
+  hr: String
+  id: ID!
+}
+
+type ComponentBlocksSubHeading {
+  id: ID!
+  subHeadingTag: ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG
+  subHeadingText: String
+}
+
+type ComponentBlocksTranscript {
+  id: ID!
+  transcriptText: String
+}
+
+type ComponentBlocksVideo {
+  id: ID!
+  videoLink: String
+}
+
+type ComponentBlocksWysiwyg {
+  id: ID!
+  textEditor: String
+}
+
 type ComponentLinksCalendar {
   id: ID!
   isDisplayed: Boolean!
@@ -417,6 +463,7 @@ type ConfidentialitySubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
+  blocks: [ConfidentialitySubServiceBlocksDynamicZone]
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -425,6 +472,14 @@ type ConfidentialitySubService {
   name: String!
   updatedAt: DateTime
 }
+
+union ConfidentialitySubServiceBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar ConfidentialitySubServiceBlocksDynamicZoneInput
 
 type ConfidentialitySubServiceEntity {
   attributes: ConfidentialitySubService
@@ -457,6 +512,7 @@ input ConfidentialitySubServiceFiltersInput {
 
 input ConfidentialitySubServiceInput {
   audienceTypes: [ID]
+  blocks: [ConfidentialitySubServiceBlocksDynamicZoneInput!]
   description: String
   editorialService: ID
   isActivated: Boolean
@@ -470,6 +526,7 @@ type ContactUsSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
+  blocks: [ContactUsSubServiceBlocksDynamicZone]
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -479,6 +536,16 @@ type ContactUsSubService {
   name: String!
   updatedAt: DateTime
 }
+
+union ContactUsSubServiceBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksTranscript
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar ContactUsSubServiceBlocksDynamicZoneInput
 
 type ContactUsSubServiceEntity {
   attributes: ContactUsSubService
@@ -512,6 +579,7 @@ input ContactUsSubServiceFiltersInput {
 
 input ContactUsSubServiceInput {
   audienceTypes: [ID]
+  blocks: [ContactUsSubServiceBlocksDynamicZoneInput!]
   description: String
   editorialService: ID
   isActivated: Boolean
@@ -710,6 +778,7 @@ type CookiesSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
+  blocks: [CookiesSubServiceBlocksDynamicZone]
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -718,6 +787,14 @@ type CookiesSubService {
   name: String!
   updatedAt: DateTime
 }
+
+union CookiesSubServiceBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar CookiesSubServiceBlocksDynamicZoneInput
 
 type CookiesSubServiceEntity {
   attributes: CookiesSubService
@@ -750,6 +827,7 @@ input CookiesSubServiceFiltersInput {
 
 input CookiesSubServiceInput {
   audienceTypes: [ID]
+  blocks: [CookiesSubServiceBlocksDynamicZoneInput!]
   description: String
   editorialService: ID
   isActivated: Boolean
@@ -789,6 +867,11 @@ input DateTimeFilterInput {
   null: Boolean
   or: [DateTime]
   startsWith: DateTime
+}
+
+type DeletedMessage {
+  id: ID
+  message: String
 }
 
 type DescriptionService {
@@ -873,6 +956,14 @@ input DocumentInput {
 
 type DocumentRelationResponseCollection {
   data: [DocumentEntity!]!
+}
+
+enum ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG {
+  h2
+  h3
+  h4
+  h5
+  h6
 }
 
 enum ENUM_FOOTER_ACCESSIBILITYLEVEL {
@@ -1149,8 +1240,8 @@ type Error {
 }
 
 type Event {
+  blocks: [EventBlocksDynamicZone]
   createdAt: DateTime
-  description: String!
   documents(
     filters: DocumentFiltersInput
     pagination: PaginationArg = {}
@@ -1164,7 +1255,9 @@ type Event {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): EventRelationResponseCollection
+  image: UploadFileEntityResponse!
   publishedAt: DateTime
+  shortDescription: String
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -1174,6 +1267,16 @@ type Event {
   topContent: TopContentEntityResponse
   updatedAt: DateTime
 }
+
+union EventBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksTranscript
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar EventBlocksDynamicZoneInput
 
 type EventEntity {
   attributes: Event
@@ -1192,7 +1295,6 @@ type EventEntityResponseCollection {
 input EventFiltersInput {
   and: [EventFiltersInput]
   createdAt: DateTimeFilterInput
-  description: StringFilterInput
   documents: DocumentFiltersInput
   editoContent: EditoContentFiltersInput
   eventSubService: EventSubServiceFiltersInput
@@ -1201,6 +1303,7 @@ input EventFiltersInput {
   not: EventFiltersInput
   or: [EventFiltersInput]
   publishedAt: DateTimeFilterInput
+  shortDescription: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
   topContent: TopContentFiltersInput
@@ -1208,15 +1311,24 @@ input EventFiltersInput {
 }
 
 input EventInput {
-  description: String
+  blocks: [EventBlocksDynamicZoneInput!]
   documents: [ID]
   editoContent: ID
   eventSubService: ID
   events: [ID]
+  image: ID
   publishedAt: DateTime
+  shortDescription: String
   tags: [ID]
   title: String
   topContent: ID
+}
+
+type EventOrNews {
+  id: ID!
+  publishedAt: DateTime!
+  shortDescription: String!
+  title: String!
 }
 
 type EventRelationResponseCollection {
@@ -1287,6 +1399,15 @@ input FileInfoInput {
   name: String
 }
 
+type Files {
+  alternativeText: String
+  folderPath: String
+  formats: String
+  id: ID
+  mime: String
+  name: String
+}
+
 input FloatFilterInput {
   and: [Float]
   between: [Float]
@@ -1309,6 +1430,13 @@ input FloatFilterInput {
   null: Boolean
   or: [Float]
   startsWith: Float
+}
+
+type Folders {
+  id: ID
+  name: String
+  path: String
+  pathId: String
 }
 
 type Footer {
@@ -1364,11 +1492,11 @@ input FooterInput {
 }
 
 type FreeContent {
-  body: String
+  blocks: [FreeContentBlocksDynamicZone]
   createdAt: DateTime
   editoContent: EditoContentEntityResponse
   freeContentSubService: FreeContentSubServiceEntityResponse
-  image: UploadFileEntityResponse
+  image: UploadFileEntityResponse!
   publishedAt: DateTime
   shortDescription: String
   tags(
@@ -1379,6 +1507,16 @@ type FreeContent {
   title: String
   updatedAt: DateTime
 }
+
+union FreeContentBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksTranscript
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar FreeContentBlocksDynamicZoneInput
 
 type FreeContentEntity {
   attributes: FreeContent
@@ -1396,7 +1534,6 @@ type FreeContentEntityResponseCollection {
 
 input FreeContentFiltersInput {
   and: [FreeContentFiltersInput]
-  body: StringFilterInput
   createdAt: DateTimeFilterInput
   editoContent: EditoContentFiltersInput
   freeContentSubService: FreeContentSubServiceFiltersInput
@@ -1411,7 +1548,7 @@ input FreeContentFiltersInput {
 }
 
 input FreeContentInput {
-  body: String
+  blocks: [FreeContentBlocksDynamicZoneInput!]
   editoContent: ID
   freeContentSubService: ID
   image: ID
@@ -1495,6 +1632,11 @@ union GenericMorph =
   | City
   | Client
   | ClientType
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksTranscript
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
   | ComponentLinksCalendar
   | ComponentLinksContactUs
   | ComponentLinksEvents
@@ -1802,6 +1944,17 @@ input LongFilterInput {
 }
 
 type Mutation {
+  bulkDeleteMedias(
+    fileRequests: [RequestFile]!
+    folderRequests: [RequestFolder]!
+  ): [DeletedMessage]
+  bulkMoveMedias(
+    fileRequests: [RequestFile]
+    folderId: ID!
+    folderRequests: [RequestFolder]
+    path: String!
+  ): [RequestFileOrFolder]
+
   """
   Change user password. Confirm with the current password.
   """
@@ -1867,6 +2020,12 @@ type Mutation {
   createHomepage(data: HomepageInput!): HomepageEntityResponse
   createKeyMetric(data: KeyMetricInput!): KeyMetricEntityResponse
   createNew(data: NewInput!): NewEntityResponse
+  createNewFolder(
+    name: String!
+    parentFolderPath: String!
+    parentFolderPathId: ID!
+  ): RequestFolderEntity
+  createNewTag(contractId: ID!, tagName: String!): RequestTagEntity
   createNewsSubService(data: NewsSubServiceInput!): NewsSubServiceEntityResponse
   createProfile(data: ProfileInput!): ProfileEntityResponse
   createQuiz(data: QuizInput!): QuizEntityResponse
@@ -2160,6 +2319,7 @@ type New {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
+  blocks: [NewBlocksDynamicZone]
   channels(
     filters: ChannelTypeFiltersInput
     pagination: PaginationArg = {}
@@ -2167,9 +2327,10 @@ type New {
   ): ChannelTypeRelationResponseCollection
   createdAt: DateTime
   editoContent: EditoContentEntityResponse
-  image: UploadFileEntityResponse
+  image: UploadFileEntityResponse!
   newsSubService: NewsSubServiceEntityResponse
   publishedAt: DateTime
+  shortDescription: String
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -2178,8 +2339,17 @@ type New {
   title: String!
   topContent: TopContentEntityResponse
   updatedAt: DateTime
-  video: UploadFileEntityResponse
 }
+
+union NewBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksTranscript
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar NewBlocksDynamicZoneInput
 
 type NewEntity {
   attributes: New
@@ -2206,6 +2376,7 @@ input NewFiltersInput {
   not: NewFiltersInput
   or: [NewFiltersInput]
   publishedAt: DateTimeFilterInput
+  shortDescription: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
   topContent: TopContentFiltersInput
@@ -2214,15 +2385,16 @@ input NewFiltersInput {
 
 input NewInput {
   audiences: [ID]
+  blocks: [NewBlocksDynamicZoneInput!]
   channels: [ID]
   editoContent: ID
   image: ID
   newsSubService: ID
   publishedAt: DateTime
+  shortDescription: String
   tags: [ID]
   title: String
   topContent: ID
-  video: ID
 }
 
 type NewRelationResponseCollection {
@@ -2488,9 +2660,11 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): FreeContentEntityResponseCollection
+  getAllFoldersHierarchy(path: String!, pathId: String!): [RequestFolders]
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
   getEditoBlockDTO(contractId: ID!): EditoBlockDTO
   getEditoContentDTOs(contractId: ID!): [EditoContentDTO]
+  getNewestTopContents(contractId: ID!): [EventOrNews]
   getTopContentBlockDTO(contractId: ID!): TopContentBlockDTO
   getTopContentDTOs(contractId: ID!): [TopContentDTO]
   global: GlobalEntityResponse
@@ -2513,6 +2687,8 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): KeyMetricEntityResponseCollection
+  libraryBreadcrumbTrail(path: String!): [Folders]
+  librarySearchEngine(path: String!, query: String!): [RequestFileOrFolder]
   me: UsersPermissionsMe
   new(id: ID): NewEntityResponse
   news(
@@ -2656,6 +2832,7 @@ type Quiz {
   editoContent: EditoContentEntityResponse
   publishedAt: DateTime
   quizSubService: QuizSubServiceEntityResponse
+  shortDescription: String
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -2745,6 +2922,7 @@ input QuizFiltersInput {
   or: [QuizFiltersInput]
   publishedAt: DateTimeFilterInput
   quizSubService: QuizSubServiceFiltersInput
+  shortDescription: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
   updatedAt: DateTimeFilterInput
@@ -2754,6 +2932,7 @@ input QuizInput {
   editoContent: ID
   publishedAt: DateTime
   quizSubService: ID
+  shortDescription: String
   tags: [ID]
   title: String
 }
@@ -2933,6 +3112,29 @@ input RecyclingGuideServiceInput {
   startDate: DateTime
 }
 
+input RequestFile {
+  id: ID
+}
+
+union RequestFileOrFolder = Files | Folders
+
+input RequestFolder {
+  id: ID
+}
+
+type RequestFolderEntity {
+  name: String
+  path: String
+  pathId: ID
+}
+
+type RequestFolders {
+  id: ID
+  name: String
+  path: String
+  pathId: String
+}
+
 type RequestService {
   audienceTypes(
     filters: AudienceTypeFiltersInput
@@ -2995,6 +3197,12 @@ input RequestServiceInput {
   isActivated: Boolean
   name: String
   startDate: DateTime
+}
+
+type RequestTagEntity {
+  contractId: String
+  id: ID
+  name: String
 }
 
 type ResponseCollectionMeta {
@@ -3251,10 +3459,12 @@ input TerritoryTypeInput {
 }
 
 type Tip {
+  blocks: [TipBlocksDynamicZone]
   createdAt: DateTime
   editoContent: EditoContentEntityResponse
   link: String
   publishedAt: DateTime
+  shortDescription: String
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -3265,6 +3475,16 @@ type Tip {
   titleLabel: String
   updatedAt: DateTime
 }
+
+union TipBlocksDynamicZone =
+    ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksTranscript
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar TipBlocksDynamicZoneInput
 
 type TipEntity {
   attributes: Tip
@@ -3289,6 +3509,7 @@ input TipFiltersInput {
   not: TipFiltersInput
   or: [TipFiltersInput]
   publishedAt: DateTimeFilterInput
+  shortDescription: StringFilterInput
   tags: TagFiltersInput
   tipSubService: TipSubServiceFiltersInput
   title: StringFilterInput
@@ -3297,9 +3518,11 @@ input TipFiltersInput {
 }
 
 input TipInput {
+  blocks: [TipBlocksDynamicZoneInput!]
   editoContent: ID
   link: String
   publishedAt: DateTime
+  shortDescription: String
   tags: [ID]
   tipSubService: ID
   title: String
