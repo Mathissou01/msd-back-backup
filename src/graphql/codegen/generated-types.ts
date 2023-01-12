@@ -200,6 +200,7 @@ export type CguSubServiceAudienceTypesArgs = {
 };
 
 export type CguSubServiceBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksSubHeading
   | ComponentBlocksWysiwyg
@@ -427,10 +428,24 @@ export type ClientTypeInput = {
   type?: InputMaybe<Scalars["String"]>;
 };
 
+export type ComponentBlocksFile = {
+  __typename?: "ComponentBlocksFile";
+  document?: Maybe<UploadFileEntityResponse>;
+  id: Scalars["ID"];
+};
+
 export type ComponentBlocksHorizontalRule = {
   __typename?: "ComponentBlocksHorizontalRule";
   hr?: Maybe<Scalars["String"]>;
   id: Scalars["ID"];
+};
+
+export type ComponentBlocksImage = {
+  __typename?: "ComponentBlocksImage";
+  altText?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
+  isDecorative?: Maybe<Scalars["Boolean"]>;
+  picture?: Maybe<UploadFileEntityResponse>;
 };
 
 export type ComponentBlocksSubHeading = {
@@ -567,6 +582,7 @@ export type ConfidentialitySubServiceAudienceTypesArgs = {
 };
 
 export type ConfidentialitySubServiceBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksSubHeading
   | ComponentBlocksWysiwyg
@@ -637,7 +653,9 @@ export type ContactUsSubServiceAudienceTypesArgs = {
 };
 
 export type ContactUsSubServiceBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
   | ComponentBlocksTranscript
   | ComponentBlocksVideo
@@ -912,6 +930,7 @@ export type CookiesSubServiceAudienceTypesArgs = {
 };
 
 export type CookiesSubServiceBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksSubHeading
   | ComponentBlocksWysiwyg
@@ -1439,7 +1458,9 @@ export type EventTagsArgs = {
 };
 
 export type EventBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
   | ComponentBlocksTranscript
   | ComponentBlocksVideo
@@ -1499,7 +1520,7 @@ export type EventOrNews = {
   __typename?: "EventOrNews";
   id: Scalars["ID"];
   publishedAt: Scalars["DateTime"];
-  shortDescription: Scalars["String"];
+  shortDescription?: Maybe<Scalars["String"]>;
   title: Scalars["String"];
 };
 
@@ -1699,7 +1720,9 @@ export type FreeContentTagsArgs = {
 };
 
 export type FreeContentBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
   | ComponentBlocksTranscript
   | ComponentBlocksVideo
@@ -1833,7 +1856,9 @@ export type GenericMorph =
   | City
   | Client
   | ClientType
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
   | ComponentBlocksTranscript
   | ComponentBlocksVideo
@@ -3090,7 +3115,9 @@ export type NewTagsArgs = {
 };
 
 export type NewBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
   | ComponentBlocksTranscript
   | ComponentBlocksVideo
@@ -4636,6 +4663,7 @@ export type Tip = {
   blocks?: Maybe<Array<Maybe<TipBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
+  image: UploadFileEntityResponse;
   link?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
@@ -4653,7 +4681,9 @@ export type TipTagsArgs = {
 };
 
 export type TipBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
   | ComponentBlocksTranscript
   | ComponentBlocksVideo
@@ -4682,6 +4712,7 @@ export type TipFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   editoContent?: InputMaybe<EditoContentFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
+  isSystem?: InputMaybe<BooleanFilterInput>;
   link?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<TipFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<TipFiltersInput>>>;
@@ -4697,6 +4728,8 @@ export type TipFiltersInput = {
 export type TipInput = {
   blocks?: InputMaybe<Array<Scalars["TipBlocksDynamicZoneInput"]>>;
   editoContent?: InputMaybe<Scalars["ID"]>;
+  image?: InputMaybe<Scalars["ID"]>;
+  isSystem?: InputMaybe<Scalars["Boolean"]>;
   link?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
@@ -5645,6 +5678,22 @@ export type GetQuizAndTipsBlockTabQuery = {
                           __typename?: "Tip";
                           title: string;
                           publishedAt?: any | null;
+                          image: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                hash: string;
+                                mime: string;
+                                name: string;
+                                provider: string;
+                                size: number;
+                                url: string;
+                                alternativeText?: string | null;
+                              } | null;
+                            } | null;
+                          };
                         } | null;
                       }>;
                     } | null;
@@ -5693,6 +5742,22 @@ export type GetQuizAndTipsBlockTabQuery = {
               __typename?: "Tip";
               title: string;
               publishedAt?: any | null;
+              image: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                  } | null;
+                } | null;
+              };
             } | null;
           }>;
         } | null;
@@ -6812,6 +6877,19 @@ export const GetQuizAndTipsBlockTabDocument = gql`
                           attributes {
                             title
                             publishedAt
+                            image {
+                              data {
+                                attributes {
+                                  hash
+                                  mime
+                                  name
+                                  provider
+                                  size
+                                  url
+                                  alternativeText
+                                }
+                              }
+                            }
                           }
                         }
                       }
@@ -6852,6 +6930,19 @@ export const GetQuizAndTipsBlockTabDocument = gql`
               attributes {
                 title
                 publishedAt
+                image {
+                  data {
+                    attributes {
+                      hash
+                      mime
+                      name
+                      provider
+                      size
+                      url
+                      alternativeText
+                    }
+                  }
+                }
               }
             }
           }

@@ -28,6 +28,19 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
                         attributes {
                           title
                           publishedAt
+                          image {
+                            data {
+                              attributes {
+                                hash
+                                mime
+                                name
+                                provider
+                                size
+                                url
+                                alternativeText
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -68,6 +81,19 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
             attributes {
               title
               publishedAt
+              image {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                  }
+                }
+              }
             }
           }
         }

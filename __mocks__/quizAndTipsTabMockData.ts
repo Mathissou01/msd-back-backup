@@ -42,6 +42,9 @@ export const defaultMockData = [
                                     title:
                                       "Pas besoin de nettoyer vos pots de yaourts avant de les jeter",
                                     publishedAt: "2022-11-19T00:14:37.403Z",
+                                    image: {
+                                      data: null,
+                                    },
                                   },
                                 },
                                 {
@@ -49,6 +52,9 @@ export const defaultMockData = [
                                   attributes: {
                                     title: "Titre de l'astuce 3",
                                     publishedAt: "2022-11-19T00:14:20.490Z",
+                                    image: {
+                                      data: null,
+                                    },
                                   },
                                 },
                               ],
@@ -101,6 +107,9 @@ export const defaultMockData = [
                         title:
                           "Découper vos peaux de bananes avant de les jeter dans votre compost.",
                         publishedAt: "2022-11-19T00:14:08.232Z",
+                        image: {
+                          data: null,
+                        },
                       },
                     },
                     {
@@ -109,6 +118,9 @@ export const defaultMockData = [
                         title:
                           "Pas besoin de nettoyer vos pots de yaourts avant de les jeter",
                         publishedAt: "2022-11-19T00:14:37.403Z",
+                        image: {
+                          data: null,
+                        },
                       },
                     },
                     {
@@ -117,6 +129,9 @@ export const defaultMockData = [
                         title:
                           "Remplacez vos sacs en plastique par des sacs réutilisables, un caddie ou des paniers.",
                         publishedAt: "2022-11-18T10:17:11.158Z",
+                        image: {
+                          data: null,
+                        },
                       },
                     },
                     {
@@ -124,6 +139,9 @@ export const defaultMockData = [
                       attributes: {
                         title: "Titre de l'astuce 3",
                         publishedAt: "2022-11-19T00:14:20.490Z",
+                        image: {
+                          data: null,
+                        },
                       },
                     },
                     {
@@ -131,6 +149,9 @@ export const defaultMockData = [
                       attributes: {
                         title: "Titre de l'astuce 4",
                         publishedAt: "2022-11-19T00:14:30.273Z",
+                        image: {
+                          data: null,
+                        },
                       },
                     },
                   ],
