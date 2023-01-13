@@ -10,6 +10,7 @@ export enum ENavigationPages {
   "/edito/libre" = "CONTENU LIBRE",
   "/edito/quiz" = "Quiz",
   "/edito/chiffres-cles" = "Chiffres clés",
+  "/edito/bibliotheque-de-medias" = "Bibliothèque de médias",
   "/edito/thematiques" = "Thématiques",
   "/edito/type-contenu" = "Type de contenu",
   "/edito/accessibilite" = "Accessibilité",

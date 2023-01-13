@@ -48,7 +48,12 @@ export default function NavigationList() {
           isOpen={activeMenu.menuName === "/edito" && activeMenu.isOpen}
           onClick={() => handleClickMenu("/edito")}
         >
-          <p>link</p>
+          <NavigationListLink
+            href={"/edito/bibliotheque-de-medias"}
+            label={ENavigationPages["/edito/bibliotheque-de-medias"]}
+            isActive={currentPage === "/edito/bibliotheque-de-medias"}
+            onClick={() => setCurrentPage("/edito")}
+          />
           <p>link</p>
           <p>link</p>
           <p>link</p>

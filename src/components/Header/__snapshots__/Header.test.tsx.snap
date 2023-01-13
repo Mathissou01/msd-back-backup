@@ -145,9 +145,16 @@ exports[`Header renders 1`] = `
           <div
             class="c-NavigationListMenu__List"
           >
-            <p>
-              link
-            </p>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/bibliotheque-de-medias"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Bibliothèque de médias
+              </span>
+            </a>
             <p>
               link
             </p>
