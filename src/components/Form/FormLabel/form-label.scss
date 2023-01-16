@@ -1,14 +1,27 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
 .c-FormLabel {
+  $self: &;
+
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 2px;
   margin-bottom: 2px;
   color: colors.$blue-2;
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
+
+  &_row {
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+  }
+
+  &_styleTable {
+    color: colors.$white;
+    line-height: 20px;
+  }
 
   &__Label {
     display: flex;
@@ -16,6 +29,19 @@
     flex-grow: 1;
     align-items: center;
     justify-content: space-between;
+
+    #{$self}_row & {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__Content {
+    display: flex;
+    flex-direction: row;
+
+    #{$self}_row & {
+      flex-grow: 7;
+    }
   }
 
   &__Secondary,
@@ -23,6 +49,11 @@
     color: colors.$gray-600;
     font-weight: 400;
     font-family: DINPro-Regular, serif;
+
+    #{$self}_styleTable & {
+      color: colors.$blue-4;
+      font-weight: 500;
+    }
   }
 
   &__Secondary {
@@ -32,5 +63,14 @@
   &__Validation {
     font-size: 12px;
     text-align: right;
+
+    #{$self}_styleTable & {
+      font-size: 14px;
+    }
+
+    &_left {
+      margin-bottom: 4px;
+      text-align: left;
+    }
   }
 }

@@ -28,6 +28,7 @@ export default function CommonButton({
   paddingStyle,
 }: ICommonButtonProps) {
   const buttonClassNames = classNames("c-CommonButton", {
+    "c-CommonButton_disabled": isDisabled,
     [`c-CommonButton_${style}`]: style,
     [`c-CommonButton_${fontStyle}`]: fontStyle,
     [`c-CommonButton_${paddingStyle}`]: paddingStyle,

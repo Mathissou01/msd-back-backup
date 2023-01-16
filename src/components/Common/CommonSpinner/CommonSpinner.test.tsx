@@ -6,9 +6,4 @@ describe("CommonSpinner", () => {
     const { container } = render(<CommonSpinner />);
     expect(container).toMatchSnapshot();
   });
-
-  it("renders in cover mode", () => {
-    const { container } = render(<CommonSpinner isCover={true} />);
-    expect(container).toMatchSnapshot();
-  });
 });

@@ -3,16 +3,23 @@
 exports[`QuizAndTipsTab renders loading and loaded state 1`] = `
 <div>
   <div
-    class="c-CommonSpinner__Wrapper "
+    aria-labelledby="tab-quizAndTips"
+    class="c-QuizAndTipsTab"
+    id="panel-quizAndTips"
+    role="tabpanel"
   >
     <div
-      class="c-CommonSpinner"
-      data-testid="common-spinner"
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
     >
-      <div />
-      <div />
-      <div />
-      <div />
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
     </div>
   </div>
 </div>
@@ -74,17 +81,21 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
                 Titre du bloc *
               </span>
             </div>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-errormessage="titleContent_error"
+                aria-invalid="false"
+                class="c-FormInput__Input"
+                data-testid="form-input"
+                id="titleContent"
+                name="titleContent"
+                type="text"
+                value="Titre modifié"
+              />
+            </div>
           </label>
-          <input
-            aria-errormessage="titleContent_error"
-            aria-invalid="false"
-            class="c-FormInput__Input"
-            data-testid="form-input"
-            id="titleContent"
-            name="titleContent"
-            type="text"
-            value="Titre modifié"
-          />
         </div>
       </div>
       <div
@@ -114,7 +125,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
           </label>
         </div>
         <div
-          class="c-FormModalInput"
+          class="c-FormModalButtonInput"
           data-testid="form-modal-input"
         >
           <label
@@ -136,7 +147,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             value="[object Object]"
           />
           <div
-            class="c-FormModalInput__Container"
+            class="c-FormModalButtonInput__Container"
           >
             <p>
               Nom du quiz
@@ -183,7 +194,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
           </label>
         </div>
         <div
-          class="c-FormModalInput"
+          class="c-FormModalButtonInput"
           data-testid="form-modal-input"
         >
           <label
@@ -205,7 +216,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             value="[object Object],[object Object]"
           />
           <div
-            class="c-FormModalInput__Container"
+            class="c-FormModalButtonInput__Container"
           >
             <p>
               Pas besoin de nettoyer vos pots de yaourts avant de les jeter - 19/14/2022
@@ -232,17 +243,23 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
         class="c-QuizAndTipsTab__Buttons"
       >
         <button
-          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
           disabled=""
           type="submit"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
           Enregistrer les modifications
         </button>
         <button
-          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
           disabled=""
           type="button"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
           Annuler les modifications
         </button>
       </div>

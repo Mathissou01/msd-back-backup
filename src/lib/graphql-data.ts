@@ -86,9 +86,9 @@ export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockTabQuery) {
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.quizAndTipsBlock?.data ?? null;
   const quizzes: Array<QuizEntity> | null =
-    data.quizSubServices?.data[0].attributes?.quizzes?.data ?? null;
+    data.quizSubServices?.data[0]?.attributes?.quizzes?.data ?? null;
   const tips: Array<TipEntity> | null =
-    data.tipSubServices?.data[0].attributes?.tips?.data ?? null;
+    data.tipSubServices?.data[0]?.attributes?.tips?.data ?? null;
 
   return { quizAndTipsBlock, quizzes, tips };
 }

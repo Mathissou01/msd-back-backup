@@ -74,7 +74,7 @@ export default function FormMultiselect<T>({
         const matchIndex = options.findIndex(
           (wrapper) =>
             wrapper?.option &&
-            wrapper.option?.[optionKey] === watchValues[i][optionKey],
+            wrapper.option?.[optionKey] === watchValues[i]?.[optionKey],
         );
         updatedArray[i] = matchIndex;
         setValue(`${name}_${i}`, matchIndex);
@@ -169,7 +169,7 @@ export default function FormMultiselect<T>({
               }`}
               {...register(`${name}_${i}`, {
                 setValueAs: (v) => {
-                  return options[v]?.option;
+                  return options[v]?.option ?? null;
                 },
                 required: {
                   value: isRequired,

@@ -1,7 +1,9 @@
 @use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.z-index" as index;
 
 .c-CommonSpinner {
   position: relative;
+  z-index: index.z("site-content");
   display: inline-block;
   width: 80px;
   height: 80px;
@@ -39,20 +41,6 @@
 
     100% {
       transform: rotate(360deg);
-    }
-  }
-
-  &__Wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-
-    &_cover {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
     }
   }
 }

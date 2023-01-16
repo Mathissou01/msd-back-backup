@@ -1,0 +1,8 @@
+query getContentTypeDTOs($contractId: ID!) {
+  getContentTypeDTOs(contractId: $contractId) {
+    subServiceId
+    type
+    name
+    description
+  }
+}

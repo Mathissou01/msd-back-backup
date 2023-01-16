@@ -15,7 +15,8 @@ type AccessibilitySubService {
 }
 
 union AccessibilitySubServiceBlocksDynamicZone =
-    ComponentBlocksHorizontalRule
+    ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
   | ComponentBlocksSubHeading
   | ComponentBlocksWysiwyg
   | Error

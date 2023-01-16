@@ -1,17 +1,18 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   GetMenuPageDocument,
   useGetMenuPageQuery,
   useUpdateMenuPageMutation,
 } from "../../../graphql/codegen/generated-types";
-import { FocusFirstElement, removeNulls } from "../../../lib/utilities";
+import { removeNulls } from "../../../lib/utilities";
 import { IServiceLink, isServiceLink } from "../../../lib/service-links";
 import { extractMenu } from "../../../lib/graphql-data";
 import { useContract } from "../../../hooks/useContract";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 import PageTitle from "../../../components/PageTitle/PageTitle";
-import CommonSpinner from "../../../components/Common/CommonSpinner/CommonSpinner";
+import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../../../components/Common/CommonButton/CommonButton";
 import FormServiceLinks from "../../../components/Form/FormServiceLinks/FormServiceLinks";
 import "./personnalisation-menu-page.scss";
@@ -47,7 +48,7 @@ export default function PersonnalisationMenuPage() {
           serviceLinks: returnValues,
         },
       };
-      updateMenuPage({
+      await updateMenuPage({
         variables,
         refetchQueries: [
           {
@@ -76,7 +77,6 @@ export default function PersonnalisationMenuPage() {
     useUpdateMenuPageMutation();
 
   /* Local Data */
-  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const formValidationMode = "onChange";
   const form = useForm({
     mode: formValidationMode,
@@ -116,67 +116,51 @@ export default function PersonnalisationMenuPage() {
     }
   }, [data, form]);
 
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isSubmitting) {
-      if (!isShowingSpinner) {
-        spinnerTimerRef.current = setTimeout(() => {
-          setIsShowingSpinner(true);
-        }, 200);
-      }
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingSpinner(false);
-    }
-  }, [isShowingSpinner, isSubmitting]);
-
-  const focusRef = useCallback((node: HTMLFormElement) => {
-    FocusFirstElement(node);
-  }, []);
-
-  {
-    // TODO: layout shift, handle error redirect,
-  }
-  if (loading) return <CommonSpinner />;
-  if (error) return <span>{error?.message}</span>;
-  if (mutationError) return <span>{mutationError?.message}</span>;
   return (
     <>
       <PageTitle title={title} description={description} />
       <div className="c-PersonnalisationMenuPage">
-        {isShowingSpinner && <CommonSpinner isCover={true} />}
-        <FormProvider {...form}>
-          <form
-            className="c-PersonnalisationMenuPage__Form"
-            onSubmit={handleSubmit(onSubmitValid)}
-            ref={focusRef}
-          >
-            <div className="c-PersonnalisationMenuPage__Group">
-              <h2 className="c-PersonnalisationFooterPage__Title">
-                {formLabels.title}
-              </h2>
-              <FormServiceLinks
-                name="serviceLinks"
-                label={formLabels.description}
-                isDisabled={mutationLoading}
-              />
-            </div>
-            <div className="c-PersonnalisationMenuPage__Buttons">
-              <CommonButton
-                type="submit"
-                label={formLabels.submitButtonLabel}
-                style="primary"
-                isDisabled={!isDirty}
-              />
-              <CommonButton
-                type="button"
-                label={formLabels.cancelButtonLabel}
-                onClick={onCancel}
-                isDisabled={!isDirty}
-              />
-            </div>
-          </form>
-        </FormProvider>
+        <CommonLoader
+          isLoading={loading || isSubmitting || mutationLoading}
+          isShowingContent={isSubmitting || mutationLoading}
+          hasDelay={isSubmitting || mutationLoading}
+          errors={[error, mutationError]}
+        >
+          <FormProvider {...form}>
+            <form
+              className="c-PersonnalisationMenuPage__Form"
+              onSubmit={handleSubmit(onSubmitValid)}
+              ref={useFocusFirstElement()}
+            >
+              <div className="c-PersonnalisationMenuPage__Group">
+                <h2 className="c-PersonnalisationFooterPage__Title">
+                  {formLabels.title}
+                </h2>
+                <FormServiceLinks
+                  name="serviceLinks"
+                  label={formLabels.description}
+                  isDisabled={mutationLoading}
+                />
+              </div>
+              <div className="c-PersonnalisationMenuPage__Buttons">
+                <CommonButton
+                  type="submit"
+                  label={formLabels.submitButtonLabel}
+                  style="primary"
+                  picto="check"
+                  isDisabled={!isDirty}
+                />
+                <CommonButton
+                  type="button"
+                  label={formLabels.cancelButtonLabel}
+                  picto="cross"
+                  onClick={onCancel}
+                  isDisabled={!isDirty}
+                />
+              </div>
+            </form>
+          </FormProvider>
+        </CommonLoader>
       </div>
     </>
   );

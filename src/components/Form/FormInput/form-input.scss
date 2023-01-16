@@ -5,6 +5,10 @@
   display: flex;
   flex-direction: column;
 
+  &_row {
+    flex-direction: row;
+  }
+
   &__Label {
     margin-bottom: 2px;
     color: colors.$blue-2;

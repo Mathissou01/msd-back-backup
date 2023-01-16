@@ -1,0 +1,14 @@
+mutation updateContentType(
+  $updateFreeContentSubServiceId: ID!
+  $data: FreeContentSubServiceInput!
+) {
+  updateFreeContentSubService(id: $updateFreeContentSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}

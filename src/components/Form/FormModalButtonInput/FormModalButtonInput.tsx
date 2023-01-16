@@ -13,7 +13,7 @@ import FormModal from "../FormModal/FormModal";
 import "./form-modal-button-input.scss";
 import classNames from "classnames";
 
-interface IFormModalInputProps<T> {
+interface IFormModalButtonInputProps<T> {
   name: string;
   label: string;
   secondaryLabel?: string;
@@ -51,7 +51,7 @@ export default function FormModalButtonInput<T extends FieldValues>({
   modalFormValidationMode = "onChange",
   onModalSubmit,
   onModalInvalid,
-}: IFormModalInputProps<T>) {
+}: IFormModalButtonInputProps<T>) {
   const childRef = useRef<CommonModalWrapperRef>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -80,7 +80,7 @@ export default function FormModalButtonInput<T extends FieldValues>({
 
   return (
     <>
-      <div className="c-FormModalInput" data-testid="form-modal-input">
+      <div className="c-FormModalButtonInput" data-testid="form-modal-input">
         <FormLabel
           forId={`${name}_button`}
           label={label}
@@ -96,8 +96,8 @@ export default function FormModalButtonInput<T extends FieldValues>({
           disabled={true}
         />
         <div
-          className={classNames("c-FormModalInput__Container", {
-            "c-FormModalInput__Container_row": isStyleRow,
+          className={classNames("c-FormModalButtonInput__Container", {
+            "c-FormModalButtonInput__Container_row": isStyleRow,
           })}
         >
           {isTruthyObjectOrArray(currentParentValues)

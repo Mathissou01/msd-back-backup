@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormInput from "../../Form/FormInput/FormInput";
 import {
   GetServicesBlockTabDocument,
@@ -8,14 +8,14 @@ import {
   useUpdateServicesBlockTabMutation,
 } from "../../../graphql/codegen/generated-types";
 import { remapServiceLinksDynamicZone } from "../../../lib/graphql-data";
-import { FocusFirstElement } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
-import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import { IServiceLink } from "../../../lib/service-links";
 import FormServiceLinks from "../../Form/FormServiceLinks/FormServiceLinks";
 import ServicesTabAddButton from "./ServicesTabAddButton/ServicesTabAddButton";
 import "./services-tab.scss";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 
 interface IServicesBlock {
   id: string;
@@ -111,7 +111,6 @@ export default function ServicesTab() {
     { loading: mutationLoading, error: mutationError },
   ] = useUpdateServicesBlockTabMutation();
   /* Local Data */
-  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [servicesBlockData, setServicesBlockData] = useState<IServicesBlock>();
   const formValidationMode = "onChange";
   const form = useForm({
@@ -139,25 +138,6 @@ export default function ServicesTab() {
     }
   }, [form, data]);
 
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isSubmitting) {
-      spinnerTimerRef.current = setTimeout(() => {
-        setIsShowingSpinner(true);
-      }, 200);
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingSpinner(false);
-    }
-  }, [isShowingSpinner, isSubmitting]);
-
-  const focusRef = useCallback((node: HTMLFormElement) => {
-    FocusFirstElement(node);
-  }, []);
-
-  if (loading) return <CommonSpinner />;
-  if (error) return <span>{error.message}</span>;
-  if (mutationError) return <span>{mutationError.message}</span>;
   return (
     <div
       className="c-ServicesTab"
@@ -165,55 +145,63 @@ export default function ServicesTab() {
       role="tabpanel"
       aria-labelledby="tab-services"
     >
-      {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <h2 className="c-ServicesTab__Title">{title}</h2>
-      <FormProvider {...form}>
-        <form
-          className="c-ServicesTab__Form"
-          onSubmit={handleSubmit(onSubmitValid)}
-          ref={focusRef}
-        >
-          <div className="c-ServicesTab__Block">
-            <div className="c-ServicesTab__Group">
-              <FormInput
-                type="text"
-                name="titleContent"
-                label={formLabels.titleContent}
-                isRequired={true}
+      <CommonLoader
+        isLoading={loading || isSubmitting || mutationLoading}
+        isShowingContent={isSubmitting || mutationLoading}
+        hasDelay={isSubmitting || mutationLoading}
+        errors={[error, mutationError]}
+      >
+        <h2 className="c-ServicesTab__Title">{title}</h2>
+        <FormProvider {...form}>
+          <form
+            className="c-ServicesTab__Form"
+            onSubmit={handleSubmit(onSubmitValid)}
+            ref={useFocusFirstElement()}
+          >
+            <div className="c-ServicesTab__Block">
+              <div className="c-ServicesTab__Group">
+                <FormInput
+                  type="text"
+                  name="titleContent"
+                  label={formLabels.titleContent}
+                  isRequired={true}
+                  isDisabled={mutationLoading}
+                  defaultValue={servicesBlockData?.titleContent}
+                />
+              </div>
+            </div>
+            <div className="c-ServicesTab__ServiceLinks">
+              <FormServiceLinks
+                name="serviceLinks"
+                label={formLabels.blockDisplayedLabel}
+                secondaryLabel={formLabels.secondaryLabel}
+                splitLabel={formLabels.blockNotDisplayedLabel}
+                splitSecondaryLabel={formLabels.blockNotDisplayedSecondaryLabel}
+                maxLimitIsDisplayed={maxLimitDisplay}
                 isDisabled={mutationLoading}
-                defaultValue={servicesBlockData?.titleContent}
+                isSplitDisplay={true}
+              />
+              <ServicesTabAddButton onSubmit={onModalSubmit} />
+            </div>
+            <div className="c-ServicesTab__Buttons">
+              <CommonButton
+                type="submit"
+                label={formLabels.submitButtonLabel}
+                style="primary"
+                picto="check"
+                isDisabled={!isDirty}
+              />
+              <CommonButton
+                type="button"
+                label={formLabels.cancelButtonLabel}
+                picto="cross"
+                onClick={onCancel}
+                isDisabled={!isDirty}
               />
             </div>
-          </div>
-          <div className="c-ServicesTab__ServiceLinks">
-            <FormServiceLinks
-              name="serviceLinks"
-              label={formLabels.blockDisplayedLabel}
-              secondaryLabel={formLabels.secondaryLabel}
-              splitLabel={formLabels.blockNotDisplayedLabel}
-              splitSecondaryLabel={formLabels.blockNotDisplayedSecondaryLabel}
-              maxLimitIsDisplayed={maxLimitDisplay}
-              isDisabled={mutationLoading}
-              isSplitDisplay={true}
-            />
-            <ServicesTabAddButton onSubmit={onModalSubmit} />
-          </div>
-          <div className="c-ServicesTab__Buttons">
-            <CommonButton
-              type="submit"
-              label={formLabels.submitButtonLabel}
-              style="primary"
-              isDisabled={!isDirty}
-            />
-            <CommonButton
-              type="button"
-              label={formLabels.cancelButtonLabel}
-              onClick={onCancel}
-              isDisabled={!isDirty}
-            />
-          </div>
-        </form>
-      </FormProvider>
+          </form>
+        </FormProvider>
+      </CommonLoader>
     </div>
   );
 }

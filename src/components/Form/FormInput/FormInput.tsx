@@ -4,7 +4,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useFormContext } from "react-hook-form";
 import React from "react";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
-import FormLabel from "../FormLabel/FormLabel";
+import FormLabel, { LabelStyle, ValidationStyle } from "../FormLabel/FormLabel";
 import "./form-input.scss";
 
 interface IFormInputProps {
@@ -20,6 +20,9 @@ interface IFormInputProps {
   lengthHardValidation?: boolean;
   defaultValue?: string;
   placeholder?: string;
+  flexStyle?: "column" | "row";
+  labelStyle?: LabelStyle;
+  validationStyle?: ValidationStyle;
 }
 
 export default function FormInput({
@@ -35,6 +38,9 @@ export default function FormInput({
   lengthHardValidation = true,
   defaultValue,
   placeholder,
+  flexStyle = "column",
+  labelStyle,
+  validationStyle,
 }: IFormInputProps) {
   /* Static Data */
   const errorMessages = {
@@ -48,42 +54,55 @@ export default function FormInput({
     register,
     formState: { isSubmitting, errors },
   } = useFormContext();
+  const inputClassNames = classNames("c-FormInput", {
+    "c-FormInput_row": flexStyle === "row",
+  });
 
   return (
-    <div className="c-FormInput">
+    <div className={inputClassNames}>
       <FormLabel
         forId={name}
         label={label}
         isRequired={isRequired}
         secondaryLabel={secondaryLabel}
         validationLabel={validationLabel}
-      />
-      <input
-        className={classNames("c-FormInput__Input", {
-          "c-FormInput__Input_invalid": _.get(errors, name),
-        })}
-        {...register(name, {
-          required: { value: isRequired, message: errorMessages.required },
-          minLength:
-            !lengthHardValidation && minLengthValidation
-              ? { value: minLengthValidation, message: errorMessages.minLength }
-              : undefined,
-          maxLength:
-            !lengthHardValidation && maxLengthValidation
-              ? { value: maxLengthValidation, message: errorMessages.maxLength }
-              : undefined,
-        })}
-        type={type}
-        id={name}
-        defaultValue={defaultValue}
-        minLength={lengthHardValidation ? minLengthValidation : undefined}
-        maxLength={lengthHardValidation ? maxLengthValidation : undefined}
-        placeholder={placeholder}
-        disabled={isSubmitting || isDisabled}
-        aria-invalid={!!_.get(errors, name)}
-        aria-errormessage={`${name}_error`}
-        data-testid="form-input"
-      />
+        flexStyle={flexStyle}
+        labelStyle={labelStyle}
+        validationStyle={validationStyle}
+      >
+        <input
+          className={classNames("c-FormInput__Input", {
+            "c-FormInput__Input_invalid": _.get(errors, name),
+          })}
+          {...register(name, {
+            required: { value: isRequired, message: errorMessages.required },
+            minLength:
+              !lengthHardValidation && minLengthValidation
+                ? {
+                    value: minLengthValidation,
+                    message: errorMessages.minLength,
+                  }
+                : undefined,
+            maxLength:
+              !lengthHardValidation && maxLengthValidation
+                ? {
+                    value: maxLengthValidation,
+                    message: errorMessages.maxLength,
+                  }
+                : undefined,
+          })}
+          type={type}
+          id={name}
+          defaultValue={defaultValue}
+          minLength={lengthHardValidation ? minLengthValidation : undefined}
+          maxLength={lengthHardValidation ? maxLengthValidation : undefined}
+          placeholder={placeholder}
+          disabled={isSubmitting || isDisabled}
+          aria-invalid={!!_.get(errors, name)}
+          aria-errormessage={`${name}_error`}
+          data-testid="form-input"
+        />
+      </FormLabel>
       <ErrorMessage
         errors={errors}
         name={name}

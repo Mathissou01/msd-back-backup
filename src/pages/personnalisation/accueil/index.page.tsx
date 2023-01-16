@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useGetServicesActiveQuery } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
-import CommonSpinner from "../../../components/Common/CommonSpinner/CommonSpinner";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import TabBlock, { Tab } from "../../../components/TabBlock/TabBlock";
 import WelcomeAndSearchEngineTab from "../../../components/TabBlock/WelcomeAndSearchEngineTab/WelcomeAndSearchEngineTab";
 import RecyclingGuideTab from "../../../components/TabBlock/RecyclingGuideTab/RecyclingGuideTab";
-import QuizAndTipsTab from "../../../components/TabBlock/QuizAndTipsTab/QuizAndTipsTab";
-import TopContentTab from "../../../components/TabBlock/TopContentTab/TopContentTab";
-import EditoTab from "../../../components/TabBlock/EditoTab/EditoTab";
 import ServiceTab from "../../../components/TabBlock/ServicesTab/ServicesTab";
+import TopContentTab from "../../../components/TabBlock/TopContentTab/TopContentTab";
+import QuizAndTipsTab from "../../../components/TabBlock/QuizAndTipsTab/QuizAndTipsTab";
+import EditoTab from "../../../components/TabBlock/EditoTab/EditoTab";
+import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 
 interface IServiceParameters {
   isServiceRecyclingGuideActivated: boolean;
@@ -120,15 +120,17 @@ export default function PersonnalisationAccueilPage() {
     setTabs(tabs);
   }, [serviceParameters]);
 
-  if (error) return <span>{`Error ! ${error?.message}`}</span>;
-
   return (
     <>
       <PageTitle title={title} description={description} />
-      {loading && <CommonSpinner />}
-      {!loading && tabs.length > 0 && (
+      <CommonLoader
+        isLoading={loading && tabs.length > 0}
+        hasDelay={false}
+        errors={[error]}
+        isFlexGrow={false}
+      >
         <TabBlock tabs={tabs} initialTabName={"welcomeAndSearchEngine"} />
-      )}
+      </CommonLoader>
     </>
   );
 }

@@ -1,23 +1,17 @@
 import { format, parseJSON } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   GetTopContentTabDocument,
   TopContentDto,
   useGetTopContentTabQuery,
   useUpdateTopContentTabMutation,
 } from "../../../graphql/codegen/generated-types";
-import { FocusFirstElement } from "../../../lib/utilities";
 import { extractTopContentBlock } from "../../../lib/graphql-data";
 import { useContract } from "../../../hooks/useContract";
-import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
@@ -136,7 +130,6 @@ export default function TopContentTab() {
   ] = useUpdateTopContentTabMutation();
 
   /* Local Data */
-  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [topContentData, setTopContentData] = useState<ITopContentBlock>();
   const [allTopContents, setAllTopContents] = useState<Array<TopContentDto>>(
     [],
@@ -185,31 +178,6 @@ export default function TopContentTab() {
     }
   }, [form, data]);
 
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isSubmitting) {
-      if (!isShowingSpinner) {
-        spinnerTimerRef.current = setTimeout(() => {
-          setIsShowingSpinner(true);
-        }, 200);
-      }
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingSpinner(false);
-    }
-  }, [isShowingSpinner, isSubmitting]);
-
-  const focusRef = useCallback((node: HTMLFormElement) => {
-    FocusFirstElement(node);
-  }, []);
-
-  {
-    // TODO: layout shift, handle error redirect,
-  }
-  if (loading) return <CommonSpinner />;
-  if (error) return <span>{error?.message}</span>;
-  if (mutationError) return <span>{mutationError?.message}</span>;
-
   return (
     <div
       className="c-TopContentTab"
@@ -217,89 +185,100 @@ export default function TopContentTab() {
       role="tabpanel"
       aria-labelledby="tab-topContent"
     >
-      {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <h2 className="c-TopContentTab__Title">{formLabels.title}</h2>
-      <FormProvider {...form}>
-        <form
-          className="c-TopContentTab__Form"
-          onSubmit={handleSubmit(onSubmitValid)}
-          ref={focusRef}
-        >
-          <div className="c-TopContentTab__Group c-TopContentTab__Group_short">
-            <FormCheckbox name="displayBlock" label={formLabels.displayBlock} />
-            <FormInput
-              type="text"
-              name="titleContent"
-              label={formLabels.titleContent}
-              isRequired={true}
-              isDisabled={mutationLoading}
-              defaultValue={topContentData?.titleContent}
-            />
-          </div>
-          <div className="c-TopContentTab__Group">
-            <FormCheckbox
-              name="hasTopContent"
-              label={formLabels.hasTopContent}
-            />
-            <FormModalButtonInput<TopContentDto>
-              name="topContent"
-              label={formLabels.topContent}
-              displayTransform={topContentDisplayTransformFunction}
-              buttonLabel={formLabels.topContentButton}
-              modalTitle={formLabels.topContentModal}
-              onModalSubmit={onTopContentModalSubmit}
-              isRequired={true}
-              modalHasRequiredChildren="all"
-              isDisabled={mutationLoading}
-            >
-              <div className="c-TopContentTab__Group">
-                <FormRadioInput
-                  name={"topContentRadio"}
-                  displayName={formLabels.topContentModalRadio}
-                  options={[
-                    { label: "Actualité", value: "news" },
-                    { label: "Evénement", value: "event" },
-                  ]}
-                  defaultValue={watch("topContent")?.contentType}
-                  isRequired={true}
-                  onChange={onTopContentModalRadioChange}
-                />
-              </div>
-              <div className="c-TopContentTab__Group">
-                <FormSelect<TopContentDto>
-                  name="topContentSelect"
-                  label={formLabels.topContentModalType}
-                  displayTransform={topContentSelectDisplayTransformFunction}
-                  options={currentTopContents}
-                  optionKey={"id"}
-                  defaultValue={watch("topContent")}
-                  isRequired={true}
-                />
-              </div>
-            </FormModalButtonInput>
-          </div>
-          <div className="c-TopContentTab__Group">
-            <FormCheckbox
-              name="displayLastThreeContents"
-              label={formLabels.displayLastThreeContents}
-            />
-          </div>
-          <div className="c-TopContentTab__Buttons">
-            <CommonButton
-              type="submit"
-              label={submitButtonLabel}
-              style="primary"
-              isDisabled={!isDirty}
-            />
-            <CommonButton
-              type="button"
-              label={cancelButtonLabel}
-              onClick={onCancel}
-              isDisabled={!isDirty}
-            />
-          </div>
-        </form>
-      </FormProvider>
+      <CommonLoader
+        isLoading={loading || isSubmitting || mutationLoading}
+        isShowingContent={isSubmitting || mutationLoading}
+        hasDelay={isSubmitting || mutationLoading}
+        errors={[error, mutationError]}
+      >
+        <h2 className="c-TopContentTab__Title">{formLabels.title}</h2>
+        <FormProvider {...form}>
+          <form
+            className="c-TopContentTab__Form"
+            onSubmit={handleSubmit(onSubmitValid)}
+            ref={useFocusFirstElement()}
+          >
+            <div className="c-TopContentTab__Group c-TopContentTab__Group_short">
+              <FormCheckbox
+                name="displayBlock"
+                label={formLabels.displayBlock}
+              />
+              <FormInput
+                type="text"
+                name="titleContent"
+                label={formLabels.titleContent}
+                isRequired={true}
+                isDisabled={mutationLoading}
+                defaultValue={topContentData?.titleContent}
+              />
+            </div>
+            <div className="c-TopContentTab__Group">
+              <FormCheckbox
+                name="hasTopContent"
+                label={formLabels.hasTopContent}
+              />
+              <FormModalButtonInput<TopContentDto>
+                name="topContent"
+                label={formLabels.topContent}
+                displayTransform={topContentDisplayTransformFunction}
+                buttonLabel={formLabels.topContentButton}
+                modalTitle={formLabels.topContentModal}
+                onModalSubmit={onTopContentModalSubmit}
+                isRequired={true}
+                modalHasRequiredChildren="all"
+                isDisabled={mutationLoading}
+              >
+                <div className="c-TopContentTab__Group">
+                  <FormRadioInput
+                    name={"topContentRadio"}
+                    displayName={formLabels.topContentModalRadio}
+                    options={[
+                      { label: "Actualité", value: "news" },
+                      { label: "Evénement", value: "event" },
+                    ]}
+                    defaultValue={watch("topContent")?.contentType}
+                    isRequired={true}
+                    onChange={onTopContentModalRadioChange}
+                  />
+                </div>
+                <div className="c-TopContentTab__Group">
+                  <FormSelect<TopContentDto>
+                    name="topContentSelect"
+                    label={formLabels.topContentModalType}
+                    displayTransform={topContentSelectDisplayTransformFunction}
+                    options={currentTopContents}
+                    optionKey={"id"}
+                    defaultValue={watch("topContent")}
+                    isRequired={true}
+                  />
+                </div>
+              </FormModalButtonInput>
+            </div>
+            <div className="c-TopContentTab__Group">
+              <FormCheckbox
+                name="displayLastThreeContents"
+                label={formLabels.displayLastThreeContents}
+              />
+            </div>
+            <div className="c-TopContentTab__Buttons">
+              <CommonButton
+                type="submit"
+                label={submitButtonLabel}
+                style="primary"
+                picto="check"
+                isDisabled={!isDirty}
+              />
+              <CommonButton
+                type="button"
+                label={cancelButtonLabel}
+                picto="cross"
+                onClick={onCancel}
+                isDisabled={!isDirty}
+              />
+            </div>
+          </form>
+        </FormProvider>
+      </CommonLoader>
     </div>
   );
 }

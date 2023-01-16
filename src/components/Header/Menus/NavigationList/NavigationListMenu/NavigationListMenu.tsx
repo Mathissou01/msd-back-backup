@@ -3,8 +3,8 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { isAbsoluteOrRelativeUrl } from "../../../../../lib/utilities";
-import "./navigation-list-menu.scss";
 import { ENavigationPages } from "../../../../../hooks/useNavigation";
+import "./navigation-list-menu.scss";
 
 interface INavigationListButtonProps {
   children?: ReactNode;

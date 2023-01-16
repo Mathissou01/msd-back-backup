@@ -37,7 +37,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      transform: rotate(-180deg);
+      transform: rotate(0);
       transition: transform 0.2s;
       content: "";
     }
@@ -47,7 +47,7 @@
     }
 
     #{$self}_menu#{$self}_open &::after {
-      transform: rotate(0);
+      transform: rotate(180deg);
     }
   }
 

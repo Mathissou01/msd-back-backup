@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonLoader renders error state 1`] = `
+<div>
+  <div
+    class="c-CommonLoader__Errors"
+  >
+    <span>
+      error message
+    </span>
+  </div>
+</div>
+`;
+
+exports[`CommonLoader renders loaded state 1`] = `
+<div>
+  <span>
+    loaded content
+  </span>
+</div>
+`;
+
+exports[`CommonLoader renders loading state 1`] = `
+<div>
+  <div
+    class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
+  >
+    <div
+      class="c-CommonSpinner"
+      data-testid="common-spinner"
+    >
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;

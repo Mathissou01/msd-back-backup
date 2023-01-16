@@ -3,7 +3,7 @@
 exports[`FormModalButtonInput renders 1`] = `
 <div>
   <div
-    class="c-FormModalInput"
+    class="c-FormModalButtonInput"
     data-testid="form-modal-input"
   >
     <label
@@ -24,7 +24,7 @@ exports[`FormModalButtonInput renders 1`] = `
       type="hidden"
     />
     <div
-      class="c-FormModalInput__Container"
+      class="c-FormModalButtonInput__Container"
     >
       <div
         aria-errormessage="form-modal-input_error"

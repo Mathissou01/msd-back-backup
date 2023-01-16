@@ -51,7 +51,7 @@ export default function FormSelect<T>({
   useEffect(() => {
     if (watchValue !== undefined) {
       const matchIndex = options.findIndex(
-        (option) => option && option[optionKey] === watchValue[optionKey],
+        (option) => option && option[optionKey] === watchValue?.[optionKey],
       );
       setValue(name, matchIndex);
       setSelectedIndex(matchIndex);
@@ -80,7 +80,7 @@ export default function FormSelect<T>({
           })}
           {...register(name, {
             setValueAs: (v) => {
-              return options[v];
+              return options[v] ?? null;
             },
             required: { value: isRequired, message: errorMessages.required },
             min: { value: 0, message: errorMessages.required },

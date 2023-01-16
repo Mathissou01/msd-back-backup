@@ -2,17 +2,36 @@
 
 exports[`PersonnalisationMenuPage renders loading and loaded state 1`] = `
 <div>
+  <hgroup
+    class="c-PageTitle"
+  >
+    <h1
+      data-testid="title"
+    >
+      Menu
+    </h1>
+    <p
+      class="c-PageTitle__Description"
+      data-testid="description"
+    >
+      Choisissez, personnalisez et ordonnez les entrées du menu de gauche
+    </p>
+  </hgroup>
   <div
-    class="c-CommonSpinner__Wrapper "
+    class="c-PersonnalisationMenuPage"
   >
     <div
-      class="c-CommonSpinner"
-      data-testid="common-spinner"
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
     >
-      <div />
-      <div />
-      <div />
-      <div />
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
     </div>
   </div>
 </div>
@@ -69,17 +88,23 @@ exports[`PersonnalisationMenuPage renders loading and loaded state 2`] = `
         class="c-PersonnalisationMenuPage__Buttons"
       >
         <button
-          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
           disabled=""
           type="submit"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
           Enregistrer les modifications
         </button>
         <button
-          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
           disabled=""
           type="button"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
           Annuler les modifications
         </button>
       </div>

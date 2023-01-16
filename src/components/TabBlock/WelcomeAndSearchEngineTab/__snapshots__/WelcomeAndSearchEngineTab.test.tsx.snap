@@ -3,16 +3,23 @@
 exports[`WelcomeAndSearchEngineTab renders loading and loaded state 1`] = `
 <div>
   <div
-    class="c-CommonSpinner__Wrapper "
+    aria-labelledby="tab-welcomeAndSearchEngine"
+    class="c-WelcomeAndSearchEngineTab"
+    id="panel-welcomeAndSearchEngine"
+    role="tabpanel"
   >
     <div
-      class="c-CommonSpinner"
-      data-testid="common-spinner"
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
     >
-      <div />
-      <div />
-      <div />
-      <div />
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
     </div>
   </div>
 </div>
@@ -59,18 +66,22 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
                   30 caractères maximum
                 </span>
               </div>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="titleContent_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="titleContent"
+                  maxlength="30"
+                  name="titleContent"
+                  type="text"
+                  value="Titre modifié"
+                />
+              </div>
             </label>
-            <input
-              aria-errormessage="titleContent_error"
-              aria-invalid="false"
-              class="c-FormInput__Input"
-              data-testid="form-input"
-              id="titleContent"
-              maxlength="30"
-              name="titleContent"
-              type="text"
-              value="Titre modifié"
-            />
           </div>
         </div>
       </div>
@@ -78,17 +89,23 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
         class="c-WelcomeAndSearchEngineTab__Buttons"
       >
         <button
-          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
           disabled=""
           type="submit"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
           Enregistrer les modifications
         </button>
         <button
-          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
           disabled=""
           type="button"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
           Annuler les modifications
         </button>
       </div>

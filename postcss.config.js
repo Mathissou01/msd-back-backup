@@ -20,6 +20,7 @@ module.exports = {
           "./src/pages/**/*.{js,jsx,ts,tsx}",
           "./src/components/**/*.{js,jsx,ts,tsx}",
           /* vendors/external libraries */
+          "./node_modules/react-data-table-component/**/*.{js,jsx,ts,tsx,html}",
           "./node_modules/react-datepicker/**/*.{js,jsx,ts,tsx,html}",
           "./node_modules/react-big-calendar/**/*.{js,jsx,ts,tsx,html}",
           "./node_modules/leaflet*/**/*.{js,jsx,ts,tsx,html}",
@@ -30,6 +31,7 @@ module.exports = {
           deep: [
             /^c-/,
             /* vendors/external libraries */
+            /^rdt/,
             /^react-datepicker/,
             /^rbc/,
             /^leaflet/,

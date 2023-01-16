@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Enum_Footer_Accessibilitylevel,
   GetFooterPageDocument,
@@ -9,9 +9,9 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { extractFooter } from "../../../lib/graphql-data";
 import { useContract } from "../../../hooks/useContract";
-import { FocusFirstElement } from "../../../lib/utilities";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 import PageTitle from "../../../components/PageTitle/PageTitle";
-import CommonSpinner from "../../../components/Common/CommonSpinner/CommonSpinner";
+import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 import FormInput from "../../../components/Form/FormInput/FormInput";
 import CommonButton from "../../../components/Common/CommonButton/CommonButton";
 import FormRadioInput from "../../../components/Form/FormRadioInput/FormRadioInput";
@@ -87,7 +87,7 @@ export default function PersonnalisationFooterPage() {
           link: submitData["contactUsSubService"]["link"],
         },
       };
-      updateFooterPage({
+      await updateFooterPage({
         variables,
         refetchQueries: [
           {
@@ -116,7 +116,6 @@ export default function PersonnalisationFooterPage() {
     useUpdateFooterPageMutation();
 
   /* Local Data */
-  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [footerData, setFooterData] = useState<IFooterData>();
   const formValidationMode = "onChange";
   const form = useForm({
@@ -194,156 +193,139 @@ export default function PersonnalisationFooterPage() {
     }
   }, [data, form]);
 
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isSubmitting) {
-      if (!isShowingSpinner) {
-        spinnerTimerRef.current = setTimeout(() => {
-          setIsShowingSpinner(true);
-        }, 200);
-      }
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingSpinner(false);
-    }
-  }, [isShowingSpinner, isSubmitting]);
-
-  const focusRef = useCallback((node: HTMLFormElement) => {
-    FocusFirstElement(node);
-  }, []);
-
-  {
-    // TODO: layout shift, handle error redirect,
-  }
-  if (loading) return <CommonSpinner />;
-  if (error) return <span>{error?.message}</span>;
-  if (mutationError) return <span>{mutationError?.message}</span>;
-
   return (
     <>
       <PageTitle title={title} description={description} />
       <div className="c-PersonnalisationFooterPage">
-        {isShowingSpinner && <CommonSpinner isCover={true} />}
-        <FormProvider {...form}>
-          <form
-            className="c-PersonnalisationFooterPage__Form"
-            onSubmit={handleSubmit(onSubmitValid)}
-            ref={focusRef}
-          >
-            {/*<div className="c-PersonnalisationFooterPage__Group">*/}
-            {/*  <h2 className="c-PersonnalisationFooterPage__Title">*/}
-            {/*    {formLabels.ecoConceptionTitle}*/}
-            {/*  </h2>*/}
-            {/*  <div className="c-PersonnalisationFooterPage__SubGroup">*/}
-            {/*    <span>[...]</span>*/}
-            {/*  </div>*/}
-            {/*</div>*/}
-            <div className="c-PersonnalisationFooterPage__Group">
-              <h2 className="c-PersonnalisationFooterPage__Title">
-                {formLabels.accessibilityLevelTitle}
-              </h2>
-              <div className="c-PersonnalisationFooterPage__SubGroup">
-                <FormRadioInput
-                  name="accessibilityLevel"
-                  displayName={formLabels.accessibilityLevelLabel}
-                  options={[
-                    {
-                      value: Enum_Footer_Accessibilitylevel.NotConform,
-                      label: formLabels.accessibilityLevelOptionNo,
-                    },
-                    {
-                      value: Enum_Footer_Accessibilitylevel.PartiallyConform,
-                      label: formLabels.accessibilityLevelOptionHalf,
-                    },
-                    {
-                      value: Enum_Footer_Accessibilitylevel.Conform,
-                      label: formLabels.accessibilityLevelOptionYes,
-                    },
-                  ]}
-                  defaultValue={footerData?.accessibilityLevel.toString()}
-                />
-              </div>
-            </div>
-            <div className="c-PersonnalisationFooterPage__Group">
-              <h2 className="c-PersonnalisationFooterPage__Title">
-                {formLabels.legalContentTitle}
-              </h2>
-              <div className="c-PersonnalisationFooterPage__SubGroup c-PersonnalisationFooterPage__SubGroup_short">
-                <FormInput
-                  type="text"
-                  name="accessibilitySubService.link"
-                  label={formLabels.accessibilityLinkLabel}
-                  isRequired={true}
-                  isDisabled={mutationLoading}
-                  defaultValue={footerData?.accessibilitySubService?.link}
-                />
-                <FormInput
-                  type="text"
-                  name="cguSubService.link"
-                  label={formLabels.CGULinkLabel}
-                  isRequired={true}
-                  isDisabled={mutationLoading}
-                  defaultValue={footerData?.cguSubService?.link}
-                />
-                <FormInput
-                  type="text"
-                  name="cookiesSubService.link"
-                  label={formLabels.cookiesPolicyLabel}
-                  isRequired={true}
-                  isDisabled={mutationLoading}
-                  defaultValue={footerData?.cookiesSubService?.link}
-                />
-                <FormInput
-                  type="text"
-                  name="confidentialitySubService.link"
-                  label={formLabels.confidentialityLabel}
-                  isRequired={true}
-                  isDisabled={mutationLoading}
-                  defaultValue={footerData?.confidentialitySubService?.link}
-                />
-              </div>
-            </div>
-            {footerData?.contactUsSubService && (
+        <CommonLoader
+          isLoading={loading || isSubmitting || mutationLoading}
+          isShowingContent={isSubmitting || mutationLoading}
+          hasDelay={isSubmitting || mutationLoading}
+          errors={[error, mutationError]}
+        >
+          <FormProvider {...form}>
+            <form
+              className="c-PersonnalisationFooterPage__Form"
+              onSubmit={handleSubmit(onSubmitValid)}
+              ref={useFocusFirstElement()}
+            >
+              {/*<div className="c-PersonnalisationFooterPage__Group">*/}
+              {/*  <h2 className="c-PersonnalisationFooterPage__Title">*/}
+              {/*    {formLabels.ecoConceptionTitle}*/}
+              {/*  </h2>*/}
+              {/*  <div className="c-PersonnalisationFooterPage__SubGroup">*/}
+              {/*    <span>[...]</span>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
               <div className="c-PersonnalisationFooterPage__Group">
                 <h2 className="c-PersonnalisationFooterPage__Title">
-                  {formLabels.contactUsTitle}
+                  {formLabels.accessibilityLevelTitle}
+                </h2>
+                <div className="c-PersonnalisationFooterPage__SubGroup">
+                  <FormRadioInput
+                    name="accessibilityLevel"
+                    displayName={formLabels.accessibilityLevelLabel}
+                    options={[
+                      {
+                        value: Enum_Footer_Accessibilitylevel.NotConform,
+                        label: formLabels.accessibilityLevelOptionNo,
+                      },
+                      {
+                        value: Enum_Footer_Accessibilitylevel.PartiallyConform,
+                        label: formLabels.accessibilityLevelOptionHalf,
+                      },
+                      {
+                        value: Enum_Footer_Accessibilitylevel.Conform,
+                        label: formLabels.accessibilityLevelOptionYes,
+                      },
+                    ]}
+                    defaultValue={footerData?.accessibilityLevel.toString()}
+                  />
+                </div>
+              </div>
+              <div className="c-PersonnalisationFooterPage__Group">
+                <h2 className="c-PersonnalisationFooterPage__Title">
+                  {formLabels.legalContentTitle}
                 </h2>
                 <div className="c-PersonnalisationFooterPage__SubGroup c-PersonnalisationFooterPage__SubGroup_short">
                   <FormInput
                     type="text"
-                    name="contactUsSubService.label"
-                    label={formLabels.contactUsLabel}
+                    name="accessibilitySubService.link"
+                    label={formLabels.accessibilityLinkLabel}
                     isRequired={true}
                     isDisabled={mutationLoading}
-                    defaultValue={footerData.contactUsSubService?.label}
+                    defaultValue={footerData?.accessibilitySubService?.link}
                   />
                   <FormInput
                     type="text"
-                    name="contactUsSubService.link"
-                    label={formLabels.contactUsLink}
+                    name="cguSubService.link"
+                    label={formLabels.CGULinkLabel}
                     isRequired={true}
                     isDisabled={mutationLoading}
-                    defaultValue={footerData.contactUsSubService?.link}
+                    defaultValue={footerData?.cguSubService?.link}
+                  />
+                  <FormInput
+                    type="text"
+                    name="cookiesSubService.link"
+                    label={formLabels.cookiesPolicyLabel}
+                    isRequired={true}
+                    isDisabled={mutationLoading}
+                    defaultValue={footerData?.cookiesSubService?.link}
+                  />
+                  <FormInput
+                    type="text"
+                    name="confidentialitySubService.link"
+                    label={formLabels.confidentialityLabel}
+                    isRequired={true}
+                    isDisabled={mutationLoading}
+                    defaultValue={footerData?.confidentialitySubService?.link}
                   />
                 </div>
               </div>
-            )}
-            <div className="c-PersonnalisationFooterPage__Buttons">
-              <CommonButton
-                type="submit"
-                label={formLabels.submitButtonLabel}
-                style="primary"
-                isDisabled={!isDirty}
-              />
-              <CommonButton
-                type="button"
-                label={formLabels.cancelButtonLabel}
-                onClick={onCancel}
-                isDisabled={!isDirty}
-              />
-            </div>
-          </form>
-        </FormProvider>
+              {footerData?.contactUsSubService && (
+                <div className="c-PersonnalisationFooterPage__Group">
+                  <h2 className="c-PersonnalisationFooterPage__Title">
+                    {formLabels.contactUsTitle}
+                  </h2>
+                  <div className="c-PersonnalisationFooterPage__SubGroup c-PersonnalisationFooterPage__SubGroup_short">
+                    <FormInput
+                      type="text"
+                      name="contactUsSubService.label"
+                      label={formLabels.contactUsLabel}
+                      isRequired={true}
+                      isDisabled={mutationLoading}
+                      defaultValue={footerData.contactUsSubService?.label}
+                    />
+                    <FormInput
+                      type="text"
+                      name="contactUsSubService.link"
+                      label={formLabels.contactUsLink}
+                      isRequired={true}
+                      isDisabled={mutationLoading}
+                      defaultValue={footerData.contactUsSubService?.link}
+                    />
+                  </div>
+                </div>
+              )}
+              <div className="c-PersonnalisationFooterPage__Buttons">
+                <CommonButton
+                  type="submit"
+                  label={formLabels.submitButtonLabel}
+                  style="primary"
+                  picto="check"
+                  isDisabled={!isDirty}
+                />
+                <CommonButton
+                  type="button"
+                  label={formLabels.cancelButtonLabel}
+                  picto="cross"
+                  onClick={onCancel}
+                  isDisabled={!isDirty}
+                />
+              </div>
+            </form>
+          </FormProvider>
+        </CommonLoader>
       </div>
     </>
   );

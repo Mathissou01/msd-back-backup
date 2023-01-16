@@ -3,16 +3,23 @@
 exports[`ServicesTab renders loading and loaded state 1`] = `
 <div>
   <div
-    class="c-CommonSpinner__Wrapper "
+    aria-labelledby="tab-services"
+    class="c-ServicesTab"
+    id="panel-services"
+    role="tabpanel"
   >
     <div
-      class="c-CommonSpinner"
-      data-testid="common-spinner"
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
     >
-      <div />
-      <div />
-      <div />
-      <div />
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
     </div>
   </div>
 </div>
@@ -54,17 +61,21 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
                   Titre du bloc *
                 </span>
               </div>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="titleContent_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="titleContent"
+                  name="titleContent"
+                  type="text"
+                  value="Les services de ma ville"
+                />
+              </div>
             </label>
-            <input
-              aria-errormessage="titleContent_error"
-              aria-invalid="false"
-              class="c-FormInput__Input"
-              data-testid="form-input"
-              id="titleContent"
-              name="titleContent"
-              type="text"
-              value="Les services de ma ville"
-            />
           </div>
         </div>
       </div>
@@ -113,17 +124,23 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
         class="c-ServicesTab__Buttons"
       >
         <button
-          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
           disabled=""
           type="submit"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
           Enregistrer les modifications
         </button>
         <button
-          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
           disabled=""
           type="button"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
           Annuler les modifications
         </button>
       </div>

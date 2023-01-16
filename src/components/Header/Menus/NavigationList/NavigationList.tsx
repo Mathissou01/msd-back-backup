@@ -22,6 +22,7 @@ export default function NavigationList() {
   }
 
   /* External Data */
+  // TODO: when Contract is selected, save context with info (which services are activated, etc..) including the free content routes
   const { currentPage, setCurrentPage } = useNavigation();
 
   /* Local Data */
@@ -43,30 +44,95 @@ export default function NavigationList() {
       </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
-          label={ENavigationPages["/edito"]}
+          label={ENavigationPages["/edito/"]}
           pictoUrl="/images/pictos-temp/edito.svg"
-          isOpen={activeMenu.menuName === "/edito" && activeMenu.isOpen}
-          onClick={() => handleClickMenu("/edito")}
+          isOpen={activeMenu.menuName === "/edito/" && activeMenu.isOpen}
+          onClick={() => handleClickMenu("/edito/")}
         >
+          <NavigationListLink
+            href={"/edito/actualites"}
+            label={ENavigationPages["/edito/actualites"]}
+            isActive={currentPage === "/edito/actualites"}
+            onClick={() => setCurrentPage("/edito/actualites")}
+          />
+          <NavigationListLink
+            href={"/edito/evenements"}
+            label={ENavigationPages["/edito/evenements"]}
+            isActive={currentPage === "/edito/evenements"}
+            onClick={() => setCurrentPage("/edito/evenements")}
+          />
+          <NavigationListLink
+            href={"/edito/astuces"}
+            label={ENavigationPages["/edito/astuces"]}
+            isActive={currentPage === "/edito/astuces"}
+            onClick={() => setCurrentPage("/edito/astuces")}
+          />
+          <NavigationListLink // TODO: add dynamic free content routes
+            href={"/edito"}
+            label={ENavigationPages["/edito"]}
+            isActive={currentPage === "/edito"}
+            onClick={() => setCurrentPage("/edito")}
+          />
+          <NavigationListLink
+            href={"/edito/quiz"}
+            label={ENavigationPages["/edito/quiz"]}
+            isActive={currentPage === "/edito/quiz"}
+            onClick={() => setCurrentPage("/edito/quiz")}
+          />
+          <NavigationListLink
+            href={"/edito/chiffres-cles"}
+            label={ENavigationPages["/edito/chiffres-cles"]}
+            isActive={currentPage === "/edito/chiffres-cles"}
+            onClick={() => setCurrentPage("/edito/chiffres-cles")}
+          />
           <NavigationListLink
             href={"/edito/bibliotheque-de-medias"}
             label={ENavigationPages["/edito/bibliotheque-de-medias"]}
             isActive={currentPage === "/edito/bibliotheque-de-medias"}
-            onClick={() => setCurrentPage("/edito")}
+            onClick={() => setCurrentPage("/edito/bibliotheque-de-medias")}
           />
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
-          <p>link</p>
+          <NavigationListLink
+            href={"/edito/thematiques"}
+            label={ENavigationPages["/edito/thematiques"]}
+            isActive={currentPage === "/edito/thematiques"}
+            onClick={() => setCurrentPage("/edito/thematiques")}
+          />
+          <NavigationListLink
+            href={"/edito/type-contenu"}
+            label={ENavigationPages["/edito/type-contenu"]}
+            isActive={currentPage === "/edito/type-contenu"}
+            onClick={() => setCurrentPage("/edito/type-contenu")}
+          />
+          <NavigationListLink
+            href={"/edito/accessibilite"}
+            label={ENavigationPages["/edito/accessibilite"]}
+            isActive={currentPage === "/edito/accessibilite"}
+            onClick={() => setCurrentPage("/edito/accessibilite")}
+          />
+          <NavigationListLink
+            href={"/edito/conditions-generales"}
+            label={ENavigationPages["/edito/conditions-generales"]}
+            isActive={currentPage === "/edito/conditions-generales"}
+            onClick={() => setCurrentPage("/edito/conditions-generales")}
+          />
+          <NavigationListLink
+            href={"/edito/politique-cookies"}
+            label={ENavigationPages["/edito/politique-cookies"]}
+            isActive={currentPage === "/edito/politique-cookies"}
+            onClick={() => setCurrentPage("/edito/politique-cookies")}
+          />
+          <NavigationListLink
+            href={"/edito/confidentialite"}
+            label={ENavigationPages["/edito/confidentialite"]}
+            isActive={currentPage === "/edito/confidentialite"}
+            onClick={() => setCurrentPage("/edito/confidentialite")}
+          />
+          <NavigationListLink
+            href={"/edito/contact"}
+            label={ENavigationPages["/edito/contact"]}
+            isActive={currentPage === "/edito/contact"}
+            onClick={() => setCurrentPage("/edito/contact")}
+          />
         </NavigationListMenu>
       </li>
       <li className="c-NavigationList__Item">

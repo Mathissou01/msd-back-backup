@@ -3,11 +3,11 @@ import React, { useContext } from "react";
 export enum ENavigationPages {
   "/" = "Accueil",
   // Edito
-  "/edito" = "Edito",
+  "/edito/" = "Edito",
   "/edito/actualites" = "Actualités",
   "/edito/evenements" = "Événements",
   "/edito/astuces" = "Astuces",
-  "/edito/libre" = "CONTENU LIBRE",
+  "/edito" = "CONTENU LIBRE",
   "/edito/quiz" = "Quiz",
   "/edito/chiffres-cles" = "Chiffres clés",
   "/edito/bibliotheque-de-medias" = "Bibliothèque de médias",

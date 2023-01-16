@@ -1,10 +1,12 @@
 .c-TabBlock {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 
   &__Content {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     align-items: flex-start;
     padding: 32px 0;
   }

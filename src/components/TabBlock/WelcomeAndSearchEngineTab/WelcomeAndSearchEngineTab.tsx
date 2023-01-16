@@ -1,16 +1,16 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   GetSearchEngineTabDocument,
   useGetSearchEngineTabQuery,
   useUpdateSearchEngineTabMutation,
 } from "../../../graphql/codegen/generated-types";
-import { FocusFirstElement } from "../../../lib/utilities";
 import { extractSearchEngineBlock } from "../../../lib/graphql-data";
 import { useContract } from "../../../hooks/useContract";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../Common/CommonButton/CommonButton";
-import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import FormInput from "../../Form/FormInput/FormInput";
 import "./welcome-and-search-engine-tab.scss";
 
@@ -74,7 +74,6 @@ export default function WelcomeAndSearchEngineTab() {
   ] = useUpdateSearchEngineTabMutation();
 
   /* Local Data */
-  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [searchEngineData, setSearchEngineData] =
     useState<ISearchEngineBlock>();
   const formValidationMode = "onChange";
@@ -98,31 +97,6 @@ export default function WelcomeAndSearchEngineTab() {
     }
   }, [form, data]);
 
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isSubmitting) {
-      if (!isShowingSpinner) {
-        spinnerTimerRef.current = setTimeout(() => {
-          setIsShowingSpinner(true);
-        }, 200);
-      }
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingSpinner(false);
-    }
-  }, [isShowingSpinner, isSubmitting]);
-
-  const focusRef = useCallback((node: HTMLFormElement) => {
-    FocusFirstElement(node);
-  }, []);
-
-  {
-    // TODO: layout shift, handle error redirect,
-  }
-  if (loading) return <CommonSpinner />;
-  if (error) return <span>{error?.message}</span>;
-  if (mutationError) return <span>{mutationError?.message}</span>;
-
   return (
     <div
       className="c-WelcomeAndSearchEngineTab"
@@ -130,54 +104,62 @@ export default function WelcomeAndSearchEngineTab() {
       role="tabpanel"
       aria-labelledby="tab-welcomeAndSearchEngine"
     >
-      {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <FormProvider {...form}>
-        <form
-          className="c-WelcomeAndSearchEngineTab"
-          onSubmit={handleSubmit(onSubmitValid)}
-          ref={focusRef}
-        >
-          {/*<div className="c-WelcomeAndSearchEngineTab__Group">*/}
-          {/*  <h2 className="c-WelcomeAndSearchEngineTab__Title">*/}
-          {/*    {formLabels.welcomeTitle}*/}
-          {/*  </h2>*/}
-          {/*  <div className="c-WelcomeAndSearchEngineTab__SubGroup">*/}
-          {/*    <span>[...]</span>*/}
-          {/*  </div>*/}
-          {/*</div>*/}
-          <div className="c-WelcomeAndSearchEngineTab__Group">
-            <h2 className="c-WelcomeAndSearchEngineTab__Title">
-              {formLabels.searchEngineTitle}
-            </h2>
-            <div className="c-WelcomeAndSearchEngineTab__SubGroup c-WelcomeAndSearchEngineTab__SubGroup_short">
-              <FormInput
-                type="text"
-                name="titleContent"
-                label={formLabels.searchEngineTitleContent}
-                maxLengthValidation={maxCharacters}
-                validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
-                isRequired={true}
-                isDisabled={mutationLoading}
-                defaultValue={searchEngineData?.titleContent}
+      <CommonLoader
+        isLoading={loading || isSubmitting || mutationLoading}
+        isShowingContent={isSubmitting || mutationLoading}
+        hasDelay={isSubmitting || mutationLoading}
+        errors={[error, mutationError]}
+      >
+        <FormProvider {...form}>
+          <form
+            className="c-WelcomeAndSearchEngineTab"
+            onSubmit={handleSubmit(onSubmitValid)}
+            ref={useFocusFirstElement()}
+          >
+            {/*<div className="c-WelcomeAndSearchEngineTab__Group">*/}
+            {/*  <h2 className="c-WelcomeAndSearchEngineTab__Title">*/}
+            {/*    {formLabels.welcomeTitle}*/}
+            {/*  </h2>*/}
+            {/*  <div className="c-WelcomeAndSearchEngineTab__SubGroup">*/}
+            {/*    <span>[...]</span>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
+            <div className="c-WelcomeAndSearchEngineTab__Group">
+              <h2 className="c-WelcomeAndSearchEngineTab__Title">
+                {formLabels.searchEngineTitle}
+              </h2>
+              <div className="c-WelcomeAndSearchEngineTab__SubGroup c-WelcomeAndSearchEngineTab__SubGroup_short">
+                <FormInput
+                  type="text"
+                  name="titleContent"
+                  label={formLabels.searchEngineTitleContent}
+                  maxLengthValidation={maxCharacters}
+                  validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
+                  isRequired={true}
+                  isDisabled={mutationLoading}
+                  defaultValue={searchEngineData?.titleContent}
+                />
+              </div>
+            </div>
+            <div className="c-WelcomeAndSearchEngineTab__Buttons">
+              <CommonButton
+                type="submit"
+                label={formLabels.submitButtonLabel}
+                style="primary"
+                picto="check"
+                isDisabled={!isDirty}
+              />
+              <CommonButton
+                type="button"
+                label={formLabels.cancelButtonLabel}
+                picto="cross"
+                onClick={onCancel}
+                isDisabled={!isDirty}
               />
             </div>
-          </div>
-          <div className="c-WelcomeAndSearchEngineTab__Buttons">
-            <CommonButton
-              type="submit"
-              label={formLabels.submitButtonLabel}
-              style="primary"
-              isDisabled={!isDirty}
-            />
-            <CommonButton
-              type="button"
-              label={formLabels.cancelButtonLabel}
-              onClick={onCancel}
-              isDisabled={!isDirty}
-            />
-          </div>
-        </form>
-      </FormProvider>
+          </form>
+        </FormProvider>
+      </CommonLoader>
     </div>
   );
 }

@@ -1,18 +1,18 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   GetRecyclingBlockTabDocument,
   useGetRecyclingBlockTabQuery,
   useUpdateRecyclingGuideTabMutation,
 } from "../../../graphql/codegen/generated-types";
-import { FocusFirstElement } from "../../../lib/utilities";
 import { extractRecyclingGuideBlock } from "../../../lib/graphql-data";
+import { useContract } from "../../../hooks/useContract";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../Common/CommonButton/CommonButton";
-import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import FormInput from "../../Form/FormInput/FormInput";
 import "./recycling-guide-tab.scss";
-import { useContract } from "../../../hooks/useContract";
 
 interface IRecyclingGuideBlock {
   id: string;
@@ -79,7 +79,6 @@ export default function RecyclingGuideTab() {
   ] = useUpdateRecyclingGuideTabMutation();
 
   /* Local Data */
-  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [recyclingGuideData, setRecyclingGuideData] =
     useState<IRecyclingGuideBlock>();
   const formValidationMode = "onChange";
@@ -106,31 +105,6 @@ export default function RecyclingGuideTab() {
     }
   }, [form, data]);
 
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isSubmitting) {
-      if (!isShowingSpinner) {
-        spinnerTimerRef.current = setTimeout(() => {
-          setIsShowingSpinner(true);
-        }, 200);
-      }
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingSpinner(false);
-    }
-  }, [isShowingSpinner, isSubmitting]);
-
-  const focusRef = useCallback((node: HTMLFormElement) => {
-    FocusFirstElement(node);
-  }, []);
-
-  {
-    // TODO: layout shift, handle error redirect,
-  }
-  if (loading) return <CommonSpinner />;
-  if (error) return <span>{error?.message}</span>;
-  if (mutationError) return <span>{mutationError?.message}</span>;
-
   return (
     <div
       className="c-RecyclingGuideTab"
@@ -138,66 +112,74 @@ export default function RecyclingGuideTab() {
       role="tabpanel"
       aria-labelledby="tab-recyclingGuide"
     >
-      {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <h2 className="c-RecyclingGuideTab__Title">{formLabels.title}</h2>
-      <FormProvider {...form}>
-        <form
-          className="c-RecyclingGuideTab__Form"
-          onSubmit={handleSubmit(onSubmitValid)}
-          ref={focusRef}
-        >
-          <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
-            <FormInput
-              type="text"
-              name="titleContent"
-              label={formLabels.titleContent}
-              validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
-              maxLengthValidation={maxCharacters}
-              isRequired={true}
-              isDisabled={mutationLoading}
-              defaultValue={recyclingGuideData?.titleContent}
-            />
-          </div>
-          <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
-            <FormInput
-              type="text"
-              label={formLabels.subtitleContent}
-              name="subtitleContent"
-              validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
-              maxLengthValidation={maxCharacters}
-              isDisabled={mutationLoading}
-              isRequired={true}
-              defaultValue={recyclingGuideData?.subtitleContent}
-            />
-          </div>
-          <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
-            <FormInput
-              type="text"
-              label={formLabels.recyclingGuideDisplayContent}
-              validationLabel={`${recyclingGuideDisplayContentMaxCharacters} ${formLabels.maxCharactersLabel}`}
-              name="recyclingGuideDisplayContent"
-              isDisabled={mutationLoading}
-              isRequired={true}
-              maxLengthValidation={recyclingGuideDisplayContentMaxCharacters}
-              defaultValue={recyclingGuideData?.recyclingGuideDisplayContent}
-            />
-          </div>
-          <div className="c-RecyclingGuideTab__Buttons">
-            <CommonButton
-              type="submit"
-              label={formLabels.submitButtonLabel}
-              style="primary"
-              isDisabled={!isDirty}
-            />
-            <CommonButton
-              type="button"
-              label={formLabels.cancelButtonLabel}
-              onClick={onCancel}
-              isDisabled={!isDirty}
-            />
-          </div>
-        </form>
-      </FormProvider>
+      <CommonLoader
+        isLoading={loading || isSubmitting || mutationLoading}
+        isShowingContent={isSubmitting || mutationLoading}
+        hasDelay={isSubmitting || mutationLoading}
+        errors={[error, mutationError]}
+      >
+        <h2 className="c-RecyclingGuideTab__Title">{formLabels.title}</h2>
+        <FormProvider {...form}>
+          <form
+            className="c-RecyclingGuideTab__Form"
+            onSubmit={handleSubmit(onSubmitValid)}
+            ref={useFocusFirstElement()}
+          >
+            <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
+              <FormInput
+                type="text"
+                name="titleContent"
+                label={formLabels.titleContent}
+                validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
+                maxLengthValidation={maxCharacters}
+                isRequired={true}
+                isDisabled={mutationLoading}
+                defaultValue={recyclingGuideData?.titleContent}
+              />
+            </div>
+            <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
+              <FormInput
+                type="text"
+                label={formLabels.subtitleContent}
+                name="subtitleContent"
+                validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
+                maxLengthValidation={maxCharacters}
+                isDisabled={mutationLoading}
+                isRequired={true}
+                defaultValue={recyclingGuideData?.subtitleContent}
+              />
+            </div>
+            <div className="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short">
+              <FormInput
+                type="text"
+                label={formLabels.recyclingGuideDisplayContent}
+                validationLabel={`${recyclingGuideDisplayContentMaxCharacters} ${formLabels.maxCharactersLabel}`}
+                name="recyclingGuideDisplayContent"
+                isDisabled={mutationLoading}
+                isRequired={true}
+                maxLengthValidation={recyclingGuideDisplayContentMaxCharacters}
+                defaultValue={recyclingGuideData?.recyclingGuideDisplayContent}
+              />
+            </div>
+            <div className="c-RecyclingGuideTab__Buttons">
+              <CommonButton
+                type="submit"
+                label={formLabels.submitButtonLabel}
+                style="primary"
+                picto="check"
+                isDisabled={!isDirty}
+              />
+              <CommonButton
+                type="button"
+                label={formLabels.cancelButtonLabel}
+                picto="cross"
+                onClick={onCancel}
+                isDisabled={!isDirty}
+              />
+            </div>
+          </form>
+        </FormProvider>
+      </CommonLoader>
     </div>
   );
 }

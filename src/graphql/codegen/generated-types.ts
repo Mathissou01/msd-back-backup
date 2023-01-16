@@ -58,6 +58,7 @@ export type AccessibilitySubServiceAudienceTypesArgs = {
 };
 
 export type AccessibilitySubServiceBlocksDynamicZone =
+  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksSubHeading
   | ComponentBlocksWysiwyg
@@ -5347,287 +5348,6 @@ export type GetEditoBlockTabQuery = {
   } | null> | null;
 };
 
-export type GetFooterPageQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetFooterPageQuery = {
-  __typename?: "Query";
-  contractCustomizations?: {
-    __typename?: "ContractCustomizationEntityResponseCollection";
-    data: Array<{
-      __typename?: "ContractCustomizationEntity";
-      attributes?: {
-        __typename?: "ContractCustomization";
-        footer?: {
-          __typename?: "FooterEntityResponse";
-          data?: {
-            __typename?: "FooterEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "Footer";
-              accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
-              cguSubService?: {
-                __typename?: "CguSubServiceEntityResponse";
-                data?: {
-                  __typename?: "CguSubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "CguSubService";
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
-              accessibilitySubService?: {
-                __typename?: "AccessibilitySubServiceEntityResponse";
-                data?: {
-                  __typename?: "AccessibilitySubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "AccessibilitySubService";
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
-              confidentialitySubService?: {
-                __typename?: "ConfidentialitySubServiceEntityResponse";
-                data?: {
-                  __typename?: "ConfidentialitySubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "ConfidentialitySubService";
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
-              cookiesSubService?: {
-                __typename?: "CookiesSubServiceEntityResponse";
-                data?: {
-                  __typename?: "CookiesSubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "CookiesSubService";
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
-              contactUsSubService?: {
-                __typename?: "ContactUsSubServiceEntityResponse";
-                data?: {
-                  __typename?: "ContactUsSubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "ContactUsSubService";
-                    label: string;
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    }>;
-  } | null;
-};
-
-export type GetMenuPageQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetMenuPageQuery = {
-  __typename?: "Query";
-  contract?: {
-    __typename?: "ContractEntityResponse";
-    data?: {
-      __typename?: "ContractEntity";
-      attributes?: {
-        __typename?: "Contract";
-        contractMenu?: {
-          __typename?: "ContractMenuEntityResponse";
-          data?: {
-            __typename?: "ContractMenuEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "ContractMenu";
-              serviceLinks?: Array<
-                | {
-                    __typename?: "ComponentLinksCalendar";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksContactUs";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksEvents";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksExternal";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    externalLink?: string | null;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksFrees";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksMap";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksNews";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksQuizzes";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksRecycling";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksRequest";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | {
-                    __typename?: "ComponentLinksTips";
-                    name?: string | null;
-                    isDisplayed: boolean;
-                    picto?: {
-                      __typename?: "UploadFileEntityResponse";
-                      data?: {
-                        __typename?: "UploadFileEntity";
-                        attributes?: {
-                          __typename?: "UploadFile";
-                          url: string;
-                        } | null;
-                      } | null;
-                    } | null;
-                  }
-                | { __typename?: "Error" }
-                | null
-              > | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export type GetQuizAndTipsBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -5849,6 +5569,501 @@ export type GetSearchEngineTabQuery = {
         } | null;
       } | null;
     }>;
+  } | null;
+};
+
+export type GetTopContentTabQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetTopContentTabQuery = {
+  __typename?: "Query";
+  getTopContentBlockDTO?: {
+    __typename?: "TopContentBlockDTO";
+    id: string;
+    displayBlock: boolean;
+    displayLastThreeContents: boolean;
+    hasTopContent: boolean;
+    titleContent: string;
+    topContent?: {
+      __typename?: "TopContentDTO";
+      id: string;
+      contentType: string;
+      typeName: string;
+      attributes: {
+        __typename?: "Attributes";
+        title: string;
+        publishedAt: any;
+      };
+    } | null;
+  } | null;
+  getTopContentDTOs?: Array<{
+    __typename: "TopContentDTO";
+    id: string;
+    contentType: string;
+    typeName: string;
+    attributes: { __typename?: "Attributes"; title: string; publishedAt: any };
+  } | null> | null;
+};
+
+export type UpdateEditoBlockTabMutationVariables = Exact<{
+  updateEditoBlockId: Scalars["ID"];
+  data: EditoBlockInput;
+}>;
+
+export type UpdateEditoBlockTabMutation = {
+  __typename?: "Mutation";
+  updateEditoBlock?: {
+    __typename?: "EditoBlockEntityResponse";
+    data?: {
+      __typename?: "EditoBlockEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "EditoBlock";
+        displayBlock: boolean;
+        titleContent: string;
+        editoContents?: {
+          __typename?: "EditoContentRelationResponseCollection";
+          data: Array<{
+            __typename?: "EditoContentEntity";
+            id?: string | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateQuizAndTipsBlockTabMutationVariables = Exact<{
+  quizAndTipsBlockId: Scalars["ID"];
+  data: QuizAndTipsBlockInput;
+}>;
+
+export type UpdateQuizAndTipsBlockTabMutation = {
+  __typename?: "Mutation";
+  updateQuizAndTipsBlock?: {
+    __typename?: "QuizAndTipsBlockEntityResponse";
+    data?: {
+      __typename?: "QuizAndTipsBlockEntity";
+      attributes?: {
+        __typename?: "QuizAndTipsBlock";
+        titleContent: string;
+        displayBlock: boolean;
+        displayQuiz: boolean;
+        displayTips: boolean;
+        quiz?: {
+          __typename?: "QuizEntityResponse";
+          data?: { __typename?: "QuizEntity"; id?: string | null } | null;
+        } | null;
+        tips?: {
+          __typename?: "TipRelationResponseCollection";
+          data: Array<{ __typename?: "TipEntity"; id?: string | null }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateRecyclingGuideTabMutationVariables = Exact<{
+  updateRecyclingGuideBlockId: Scalars["ID"];
+  data: RecyclingGuideBlockInput;
+}>;
+
+export type UpdateRecyclingGuideTabMutation = {
+  __typename?: "Mutation";
+  updateRecyclingGuideBlock?: {
+    __typename?: "RecyclingGuideBlockEntityResponse";
+    data?: {
+      __typename?: "RecyclingGuideBlockEntity";
+      attributes?: {
+        __typename?: "RecyclingGuideBlock";
+        titleContent: string;
+        subtitleContent: string;
+        recyclingGuideDisplayContent: string;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateSearchEngineTabMutationVariables = Exact<{
+  updateSearchEngineBlockId: Scalars["ID"];
+  data: SearchEngineBlockInput;
+}>;
+
+export type UpdateSearchEngineTabMutation = {
+  __typename?: "Mutation";
+  updateSearchEngineBlock?: {
+    __typename?: "SearchEngineBlockEntityResponse";
+    data?: {
+      __typename?: "SearchEngineBlockEntity";
+      attributes?: {
+        __typename?: "SearchEngineBlock";
+        titleContent: string;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateTopContentTabMutationVariables = Exact<{
+  updateTopContentBlockId: Scalars["ID"];
+  data: TopContentBlockInput;
+}>;
+
+export type UpdateTopContentTabMutation = {
+  __typename?: "Mutation";
+  updateTopContentBlock?: {
+    __typename?: "TopContentBlockEntityResponse";
+    data?: {
+      __typename?: "TopContentBlockEntity";
+      attributes?: {
+        __typename?: "TopContentBlock";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              topContentBlock?: {
+                __typename?: "TopContentBlockEntityResponse";
+                data?: {
+                  __typename?: "TopContentBlockEntity";
+                  attributes?: {
+                    __typename?: "TopContentBlock";
+                    displayBlock: boolean;
+                    titleContent: string;
+                    hasTopContent: boolean;
+                    displayLastThreeContents: boolean;
+                    topContent?: {
+                      __typename?: "TopContentEntityResponse";
+                      data?: {
+                        __typename?: "TopContentEntity";
+                        attributes?: {
+                          __typename?: "TopContent";
+                          event?: {
+                            __typename?: "EventEntityResponse";
+                            data?: {
+                              __typename?: "EventEntity";
+                              attributes?: {
+                                __typename?: "Event";
+                                publishedAt?: any | null;
+                                title: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                          news?: {
+                            __typename?: "NewEntityResponse";
+                            data?: {
+                              __typename?: "NewEntity";
+                              attributes?: {
+                                __typename?: "New";
+                                title: string;
+                                publishedAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type CountContentPerTagQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type CountContentPerTagQuery = {
+  __typename?: "Query";
+  countContentPerTag?: Array<{
+    __typename?: "totalCountPerTag";
+    id: string;
+    name: string;
+    count: number;
+  } | null> | null;
+};
+
+export type CreateNewTagMutationVariables = Exact<{
+  contractId: Scalars["ID"];
+  tagName: Scalars["String"];
+}>;
+
+export type CreateNewTagMutation = {
+  __typename?: "Mutation";
+  createNewTag?: {
+    __typename?: "RequestTagEntity";
+    contractId?: string | null;
+    id?: string | null;
+    name?: string | null;
+  } | null;
+};
+
+export type DeleteTagMutationVariables = Exact<{
+  deleteTagId: Scalars["ID"];
+}>;
+
+export type DeleteTagMutation = {
+  __typename?: "Mutation";
+  deleteTag?: {
+    __typename?: "TagEntityResponse";
+    data?: {
+      __typename?: "TagEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Tag";
+        name: string;
+        createdAt?: any | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateTagMutationVariables = Exact<{
+  updateTagId: Scalars["ID"];
+  data: TagInput;
+}>;
+
+export type UpdateTagMutation = {
+  __typename?: "Mutation";
+  updateTag?: {
+    __typename?: "TagEntityResponse";
+    data?: {
+      __typename?: "TagEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Tag";
+        name: string;
+        createdAt?: any | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type CreateContentTypeMutationVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type CreateContentTypeMutation = {
+  __typename?: "Mutation";
+  createContentTypeForContractId?: {
+    __typename?: "FreeContentSubServiceEntity";
+    id?: string | null;
+  } | null;
+};
+
+export type GetContentTypeDtOsQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetContentTypeDtOsQuery = {
+  __typename?: "Query";
+  getContentTypeDTOs?: Array<{
+    __typename?: "ContentTypeDTO";
+    subServiceId: string;
+    type: string;
+    name: string;
+    description: string;
+  } | null> | null;
+};
+
+export type UpdateContentTypeMutationVariables = Exact<{
+  updateFreeContentSubServiceId: Scalars["ID"];
+  data: FreeContentSubServiceInput;
+}>;
+
+export type UpdateContentTypeMutation = {
+  __typename?: "Mutation";
+  updateFreeContentSubService?: {
+    __typename?: "FreeContentSubServiceEntityResponse";
+    data?: {
+      __typename?: "FreeContentSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "FreeContentSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetFooterPageQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetFooterPageQuery = {
+  __typename?: "Query";
+  contractCustomizations?: {
+    __typename?: "ContractCustomizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractCustomizationEntity";
+      attributes?: {
+        __typename?: "ContractCustomization";
+        footer?: {
+          __typename?: "FooterEntityResponse";
+          data?: {
+            __typename?: "FooterEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Footer";
+              accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
+              cguSubService?: {
+                __typename?: "CguSubServiceEntityResponse";
+                data?: {
+                  __typename?: "CguSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "CguSubService";
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              accessibilitySubService?: {
+                __typename?: "AccessibilitySubServiceEntityResponse";
+                data?: {
+                  __typename?: "AccessibilitySubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "AccessibilitySubService";
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              confidentialitySubService?: {
+                __typename?: "ConfidentialitySubServiceEntityResponse";
+                data?: {
+                  __typename?: "ConfidentialitySubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ConfidentialitySubService";
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              cookiesSubService?: {
+                __typename?: "CookiesSubServiceEntityResponse";
+                data?: {
+                  __typename?: "CookiesSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "CookiesSubService";
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              contactUsSubService?: {
+                __typename?: "ContactUsSubServiceEntityResponse";
+                data?: {
+                  __typename?: "ContactUsSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ContactUsSubService";
+                    label: string;
+                    link?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateFooterPageMutationVariables = Exact<{
+  updateFooterId: Scalars["ID"];
+  updateFooterData: FooterInput;
+  updateContactUsSubServiceId: Scalars["ID"];
+  updateContactUsSubServiceData: ContactUsSubServiceInput;
+  updateAccessibilitySubServiceId: Scalars["ID"];
+  updateAccessibilitySubServiceData: AccessibilitySubServiceInput;
+  updateCguSubServiceId: Scalars["ID"];
+  updateCguSubServiceData: CguSubServiceInput;
+  updateCookiesSubServiceId: Scalars["ID"];
+  updateCookiesSubServiceData: CookiesSubServiceInput;
+  updateConfidentialitySubServiceId: Scalars["ID"];
+  updateConfidentialitySubServiceData: ConfidentialitySubServiceInput;
+}>;
+
+export type UpdateFooterPageMutation = {
+  __typename?: "Mutation";
+  updateFooter?: {
+    __typename?: "FooterEntityResponse";
+    data?: {
+      __typename?: "FooterEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Footer";
+        accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
+      } | null;
+    } | null;
+  } | null;
+  updateContactUsSubService?: {
+    __typename?: "ContactUsSubServiceEntityResponse";
+    data?: {
+      __typename?: "ContactUsSubServiceEntity";
+      attributes?: {
+        __typename?: "ContactUsSubService";
+        label: string;
+        link?: string | null;
+      } | null;
+    } | null;
+  } | null;
+  updateCguSubService?: {
+    __typename?: "CguSubServiceEntityResponse";
+    data?: {
+      __typename?: "CguSubServiceEntity";
+      attributes?: {
+        __typename?: "CguSubService";
+        link?: string | null;
+      } | null;
+    } | null;
+  } | null;
+  updateAccessibilitySubService?: {
+    __typename?: "AccessibilitySubServiceEntityResponse";
+    data?: {
+      __typename?: "AccessibilitySubServiceEntity";
+      attributes?: {
+        __typename?: "AccessibilitySubService";
+        link?: string | null;
+      } | null;
+    } | null;
+  } | null;
+  updateConfidentialitySubService?: {
+    __typename?: "ConfidentialitySubServiceEntityResponse";
+    data?: {
+      __typename?: "ConfidentialitySubServiceEntity";
+      attributes?: {
+        __typename?: "ConfidentialitySubService";
+        link?: string | null;
+      } | null;
+    } | null;
+  } | null;
+  updateCookiesSubService?: {
+    __typename?: "CookiesSubServiceEntityResponse";
+    data?: {
+      __typename?: "CookiesSubServiceEntity";
+      attributes?: {
+        __typename?: "CookiesSubService";
+        link?: string | null;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -6197,144 +6412,198 @@ export type GetServicesBlockTabQuery = {
   } | null;
 };
 
-export type GetTopContentTabQueryVariables = Exact<{
+export type GetMenuPageQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetTopContentTabQuery = {
+export type GetMenuPageQuery = {
   __typename?: "Query";
-  getTopContentBlockDTO?: {
-    __typename?: "TopContentBlockDTO";
-    id: string;
-    displayBlock: boolean;
-    displayLastThreeContents: boolean;
-    hasTopContent: boolean;
-    titleContent: string;
-    topContent?: {
-      __typename?: "TopContentDTO";
-      id: string;
-      contentType: string;
-      typeName: string;
-      attributes: {
-        __typename?: "Attributes";
-        title: string;
-        publishedAt: any;
-      };
-    } | null;
-  } | null;
-  getTopContentDTOs?: Array<{
-    __typename: "TopContentDTO";
-    id: string;
-    contentType: string;
-    typeName: string;
-    attributes: { __typename?: "Attributes"; title: string; publishedAt: any };
-  } | null> | null;
-};
-
-export type UpdateEditoBlockTabMutationVariables = Exact<{
-  updateEditoBlockId: Scalars["ID"];
-  data: EditoBlockInput;
-}>;
-
-export type UpdateEditoBlockTabMutation = {
-  __typename?: "Mutation";
-  updateEditoBlock?: {
-    __typename?: "EditoBlockEntityResponse";
+  contract?: {
+    __typename?: "ContractEntityResponse";
     data?: {
-      __typename?: "EditoBlockEntity";
-      id?: string | null;
+      __typename?: "ContractEntity";
       attributes?: {
-        __typename?: "EditoBlock";
-        displayBlock: boolean;
-        titleContent: string;
-        editoContents?: {
-          __typename?: "EditoContentRelationResponseCollection";
-          data: Array<{
-            __typename?: "EditoContentEntity";
+        __typename?: "Contract";
+        contractMenu?: {
+          __typename?: "ContractMenuEntityResponse";
+          data?: {
+            __typename?: "ContractMenuEntity";
             id?: string | null;
-          }>;
+            attributes?: {
+              __typename?: "ContractMenu";
+              serviceLinks?: Array<
+                | {
+                    __typename?: "ComponentLinksCalendar";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksContactUs";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksEvents";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksExternal";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    externalLink?: string | null;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksFrees";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksMap";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksNews";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksQuizzes";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksRecycling";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksRequest";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentLinksTips";
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | { __typename?: "Error" }
+                | null
+              > | null;
+            } | null;
+          } | null;
         } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type UpdateFooterPageMutationVariables = Exact<{
-  updateFooterId: Scalars["ID"];
-  updateFooterData: FooterInput;
-  updateContactUsSubServiceId: Scalars["ID"];
-  updateContactUsSubServiceData: ContactUsSubServiceInput;
-  updateAccessibilitySubServiceId: Scalars["ID"];
-  updateAccessibilitySubServiceData: AccessibilitySubServiceInput;
-  updateCguSubServiceId: Scalars["ID"];
-  updateCguSubServiceData: CguSubServiceInput;
-  updateCookiesSubServiceId: Scalars["ID"];
-  updateCookiesSubServiceData: CookiesSubServiceInput;
-  updateConfidentialitySubServiceId: Scalars["ID"];
-  updateConfidentialitySubServiceData: ConfidentialitySubServiceInput;
-}>;
-
-export type UpdateFooterPageMutation = {
-  __typename?: "Mutation";
-  updateFooter?: {
-    __typename?: "FooterEntityResponse";
-    data?: {
-      __typename?: "FooterEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Footer";
-        accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
-      } | null;
-    } | null;
-  } | null;
-  updateContactUsSubService?: {
-    __typename?: "ContactUsSubServiceEntityResponse";
-    data?: {
-      __typename?: "ContactUsSubServiceEntity";
-      attributes?: {
-        __typename?: "ContactUsSubService";
-        label: string;
-        link?: string | null;
-      } | null;
-    } | null;
-  } | null;
-  updateCguSubService?: {
-    __typename?: "CguSubServiceEntityResponse";
-    data?: {
-      __typename?: "CguSubServiceEntity";
-      attributes?: {
-        __typename?: "CguSubService";
-        link?: string | null;
-      } | null;
-    } | null;
-  } | null;
-  updateAccessibilitySubService?: {
-    __typename?: "AccessibilitySubServiceEntityResponse";
-    data?: {
-      __typename?: "AccessibilitySubServiceEntity";
-      attributes?: {
-        __typename?: "AccessibilitySubService";
-        link?: string | null;
-      } | null;
-    } | null;
-  } | null;
-  updateConfidentialitySubService?: {
-    __typename?: "ConfidentialitySubServiceEntityResponse";
-    data?: {
-      __typename?: "ConfidentialitySubServiceEntity";
-      attributes?: {
-        __typename?: "ConfidentialitySubService";
-        link?: string | null;
-      } | null;
-    } | null;
-  } | null;
-  updateCookiesSubService?: {
-    __typename?: "CookiesSubServiceEntityResponse";
-    data?: {
-      __typename?: "CookiesSubServiceEntity";
-      attributes?: {
-        __typename?: "CookiesSubService";
-        link?: string | null;
       } | null;
     } | null;
   } | null;
@@ -6523,83 +6792,6 @@ export type UpdateMenuPageMutation = {
           | { __typename?: "Error" }
           | null
         > | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type UpdateQuizAndTipsBlockTabMutationVariables = Exact<{
-  quizAndTipsBlockId: Scalars["ID"];
-  data: QuizAndTipsBlockInput;
-}>;
-
-export type UpdateQuizAndTipsBlockTabMutation = {
-  __typename?: "Mutation";
-  updateQuizAndTipsBlock?: {
-    __typename?: "QuizAndTipsBlockEntityResponse";
-    data?: {
-      __typename?: "QuizAndTipsBlockEntity";
-      attributes?: {
-        __typename?: "QuizAndTipsBlock";
-        titleContent: string;
-        displayBlock: boolean;
-        displayQuiz: boolean;
-        displayTips: boolean;
-        quiz?: {
-          __typename?: "QuizEntityResponse";
-          data?: { __typename?: "QuizEntity"; id?: string | null } | null;
-        } | null;
-        tips?: {
-          __typename?: "TipRelationResponseCollection";
-          data: Array<{ __typename?: "TipEntity"; id?: string | null }>;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type UpdateRecyclingGuideTabMutationVariables = Exact<{
-  updateRecyclingGuideBlockId: Scalars["ID"];
-  data: RecyclingGuideBlockInput;
-}>;
-
-export type UpdateRecyclingGuideTabMutation = {
-  __typename?: "Mutation";
-  updateRecyclingGuideBlock?: {
-    __typename?: "RecyclingGuideBlockEntityResponse";
-    data?: {
-      __typename?: "RecyclingGuideBlockEntity";
-      attributes?: {
-        __typename?: "RecyclingGuideBlock";
-        titleContent: string;
-        subtitleContent: string;
-        recyclingGuideDisplayContent: string;
-        tags?: {
-          __typename?: "TagRelationResponseCollection";
-          data: Array<{
-            __typename?: "TagEntity";
-            attributes?: { __typename?: "Tag"; name: string } | null;
-          }>;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type UpdateSearchEngineTabMutationVariables = Exact<{
-  updateSearchEngineBlockId: Scalars["ID"];
-  data: SearchEngineBlockInput;
-}>;
-
-export type UpdateSearchEngineTabMutation = {
-  __typename?: "Mutation";
-  updateSearchEngineBlock?: {
-    __typename?: "SearchEngineBlockEntityResponse";
-    data?: {
-      __typename?: "SearchEngineBlockEntity";
-      attributes?: {
-        __typename?: "SearchEngineBlock";
-        titleContent: string;
       } | null;
     } | null;
   } | null;
@@ -6814,77 +7006,6 @@ export type UpdateServicesBlockTabMutation = {
   } | null;
 };
 
-export type UpdateTopContentTabMutationVariables = Exact<{
-  updateTopContentBlockId: Scalars["ID"];
-  data: TopContentBlockInput;
-}>;
-
-export type UpdateTopContentTabMutation = {
-  __typename?: "Mutation";
-  updateTopContentBlock?: {
-    __typename?: "TopContentBlockEntityResponse";
-    data?: {
-      __typename?: "TopContentBlockEntity";
-      attributes?: {
-        __typename?: "TopContentBlock";
-        homepage?: {
-          __typename?: "HomepageEntityResponse";
-          data?: {
-            __typename?: "HomepageEntity";
-            attributes?: {
-              __typename?: "Homepage";
-              topContentBlock?: {
-                __typename?: "TopContentBlockEntityResponse";
-                data?: {
-                  __typename?: "TopContentBlockEntity";
-                  attributes?: {
-                    __typename?: "TopContentBlock";
-                    displayBlock: boolean;
-                    titleContent: string;
-                    hasTopContent: boolean;
-                    displayLastThreeContents: boolean;
-                    topContent?: {
-                      __typename?: "TopContentEntityResponse";
-                      data?: {
-                        __typename?: "TopContentEntity";
-                        attributes?: {
-                          __typename?: "TopContent";
-                          event?: {
-                            __typename?: "EventEntityResponse";
-                            data?: {
-                              __typename?: "EventEntity";
-                              attributes?: {
-                                __typename?: "Event";
-                                publishedAt?: any | null;
-                                title: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                          news?: {
-                            __typename?: "NewEntityResponse";
-                            data?: {
-                              __typename?: "NewEntity";
-                              attributes?: {
-                                __typename?: "New";
-                                title: string;
-                                publishedAt?: any | null;
-                              } | null;
-                            } | null;
-                          } | null;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                } | null;
-              } | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export const GetEditoBlockTabDocument = gql`
   query getEditoBlockTab($contractId: ID!) {
     getEditoBlockDTO(contractId: $contractId) {
@@ -6962,306 +7083,6 @@ export type GetEditoBlockTabLazyQueryHookResult = ReturnType<
 export type GetEditoBlockTabQueryResult = Apollo.QueryResult<
   GetEditoBlockTabQuery,
   GetEditoBlockTabQueryVariables
->;
-export const GetFooterPageDocument = gql`
-  query getFooterPage($contractId: ID!) {
-    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        attributes {
-          footer {
-            data {
-              id
-              attributes {
-                accessibilityLevel
-                cguSubService {
-                  data {
-                    id
-                    attributes {
-                      link
-                    }
-                  }
-                }
-                accessibilitySubService {
-                  data {
-                    id
-                    attributes {
-                      link
-                    }
-                  }
-                }
-                confidentialitySubService {
-                  data {
-                    id
-                    attributes {
-                      link
-                    }
-                  }
-                }
-                cookiesSubService {
-                  data {
-                    id
-                    attributes {
-                      link
-                    }
-                  }
-                }
-                contactUsSubService {
-                  data {
-                    id
-                    attributes {
-                      label
-                      link
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetFooterPageQuery__
- *
- * To run a query within a React component, call `useGetFooterPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFooterPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFooterPageQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetFooterPageQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetFooterPageQuery,
-    GetFooterPageQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetFooterPageQuery, GetFooterPageQueryVariables>(
-    GetFooterPageDocument,
-    options,
-  );
-}
-export function useGetFooterPageLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFooterPageQuery,
-    GetFooterPageQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetFooterPageQuery, GetFooterPageQueryVariables>(
-    GetFooterPageDocument,
-    options,
-  );
-}
-export type GetFooterPageQueryHookResult = ReturnType<
-  typeof useGetFooterPageQuery
->;
-export type GetFooterPageLazyQueryHookResult = ReturnType<
-  typeof useGetFooterPageLazyQuery
->;
-export type GetFooterPageQueryResult = Apollo.QueryResult<
-  GetFooterPageQuery,
-  GetFooterPageQueryVariables
->;
-export const GetMenuPageDocument = gql`
-  query getMenuPage($contractId: ID!) {
-    contract(id: $contractId) {
-      data {
-        attributes {
-          contractMenu {
-            data {
-              id
-              attributes {
-                serviceLinks {
-                  ... on ComponentLinksMap {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksCalendar {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksRecycling {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksRequest {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksContactUs {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksNews {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksEvents {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksQuizzes {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksTips {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksFrees {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksExternal {
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                    externalLink
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetMenuPageQuery__
- *
- * To run a query within a React component, call `useGetMenuPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMenuPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMenuPageQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetMenuPageQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMenuPageQuery,
-    GetMenuPageQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMenuPageQuery, GetMenuPageQueryVariables>(
-    GetMenuPageDocument,
-    options,
-  );
-}
-export function useGetMenuPageLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMenuPageQuery,
-    GetMenuPageQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetMenuPageQuery, GetMenuPageQueryVariables>(
-    GetMenuPageDocument,
-    options,
-  );
-}
-export type GetMenuPageQueryHookResult = ReturnType<typeof useGetMenuPageQuery>;
-export type GetMenuPageLazyQueryHookResult = ReturnType<
-  typeof useGetMenuPageLazyQuery
->;
-export type GetMenuPageQueryResult = Apollo.QueryResult<
-  GetMenuPageQuery,
-  GetMenuPageQueryVariables
 >;
 export const GetQuizAndTipsBlockTabDocument = gql`
   query getQuizAndTipsBlockTab($contractId: ID!) {
@@ -7577,6 +7398,1092 @@ export type GetSearchEngineTabLazyQueryHookResult = ReturnType<
 export type GetSearchEngineTabQueryResult = Apollo.QueryResult<
   GetSearchEngineTabQuery,
   GetSearchEngineTabQueryVariables
+>;
+export const GetTopContentTabDocument = gql`
+  query getTopContentTab($contractId: ID!) {
+    getTopContentBlockDTO(contractId: $contractId) {
+      id
+      displayBlock
+      displayLastThreeContents
+      hasTopContent
+      titleContent
+      topContent {
+        id
+        contentType
+        typeName
+        attributes {
+          title
+          publishedAt
+        }
+      }
+    }
+    getTopContentDTOs(contractId: $contractId) {
+      __typename
+      id
+      contentType
+      typeName
+      attributes {
+        title
+        publishedAt
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTopContentTabQuery__
+ *
+ * To run a query within a React component, call `useGetTopContentTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopContentTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTopContentTabQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetTopContentTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTopContentTabQuery,
+    GetTopContentTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTopContentTabQuery, GetTopContentTabQueryVariables>(
+    GetTopContentTabDocument,
+    options,
+  );
+}
+export function useGetTopContentTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTopContentTabQuery,
+    GetTopContentTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetTopContentTabQuery,
+    GetTopContentTabQueryVariables
+  >(GetTopContentTabDocument, options);
+}
+export type GetTopContentTabQueryHookResult = ReturnType<
+  typeof useGetTopContentTabQuery
+>;
+export type GetTopContentTabLazyQueryHookResult = ReturnType<
+  typeof useGetTopContentTabLazyQuery
+>;
+export type GetTopContentTabQueryResult = Apollo.QueryResult<
+  GetTopContentTabQuery,
+  GetTopContentTabQueryVariables
+>;
+export const UpdateEditoBlockTabDocument = gql`
+  mutation updateEditoBlockTab(
+    $updateEditoBlockId: ID!
+    $data: EditoBlockInput!
+  ) {
+    updateEditoBlock(id: $updateEditoBlockId, data: $data) {
+      data {
+        id
+        attributes {
+          displayBlock
+          titleContent
+          editoContents {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateEditoBlockTabMutationFn = Apollo.MutationFunction<
+  UpdateEditoBlockTabMutation,
+  UpdateEditoBlockTabMutationVariables
+>;
+
+/**
+ * __useUpdateEditoBlockTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateEditoBlockTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEditoBlockTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEditoBlockTabMutation, { data, loading, error }] = useUpdateEditoBlockTabMutation({
+ *   variables: {
+ *      updateEditoBlockId: // value for 'updateEditoBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateEditoBlockTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEditoBlockTabMutation,
+    UpdateEditoBlockTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateEditoBlockTabMutation,
+    UpdateEditoBlockTabMutationVariables
+  >(UpdateEditoBlockTabDocument, options);
+}
+export type UpdateEditoBlockTabMutationHookResult = ReturnType<
+  typeof useUpdateEditoBlockTabMutation
+>;
+export type UpdateEditoBlockTabMutationResult =
+  Apollo.MutationResult<UpdateEditoBlockTabMutation>;
+export type UpdateEditoBlockTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEditoBlockTabMutation,
+  UpdateEditoBlockTabMutationVariables
+>;
+export const UpdateQuizAndTipsBlockTabDocument = gql`
+  mutation updateQuizAndTipsBlockTab(
+    $quizAndTipsBlockId: ID!
+    $data: QuizAndTipsBlockInput!
+  ) {
+    updateQuizAndTipsBlock(id: $quizAndTipsBlockId, data: $data) {
+      data {
+        attributes {
+          titleContent
+          displayBlock
+          displayQuiz
+          quiz {
+            data {
+              id
+            }
+          }
+          displayTips
+          tips {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateQuizAndTipsBlockTabMutationFn = Apollo.MutationFunction<
+  UpdateQuizAndTipsBlockTabMutation,
+  UpdateQuizAndTipsBlockTabMutationVariables
+>;
+
+/**
+ * __useUpdateQuizAndTipsBlockTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateQuizAndTipsBlockTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateQuizAndTipsBlockTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateQuizAndTipsBlockTabMutation, { data, loading, error }] = useUpdateQuizAndTipsBlockTabMutation({
+ *   variables: {
+ *      quizAndTipsBlockId: // value for 'quizAndTipsBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateQuizAndTipsBlockTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateQuizAndTipsBlockTabMutation,
+    UpdateQuizAndTipsBlockTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateQuizAndTipsBlockTabMutation,
+    UpdateQuizAndTipsBlockTabMutationVariables
+  >(UpdateQuizAndTipsBlockTabDocument, options);
+}
+export type UpdateQuizAndTipsBlockTabMutationHookResult = ReturnType<
+  typeof useUpdateQuizAndTipsBlockTabMutation
+>;
+export type UpdateQuizAndTipsBlockTabMutationResult =
+  Apollo.MutationResult<UpdateQuizAndTipsBlockTabMutation>;
+export type UpdateQuizAndTipsBlockTabMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateQuizAndTipsBlockTabMutation,
+    UpdateQuizAndTipsBlockTabMutationVariables
+  >;
+export const UpdateRecyclingGuideTabDocument = gql`
+  mutation updateRecyclingGuideTab(
+    $updateRecyclingGuideBlockId: ID!
+    $data: RecyclingGuideBlockInput!
+  ) {
+    updateRecyclingGuideBlock(id: $updateRecyclingGuideBlockId, data: $data) {
+      data {
+        attributes {
+          titleContent
+          subtitleContent
+          recyclingGuideDisplayContent
+          tags {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateRecyclingGuideTabMutationFn = Apollo.MutationFunction<
+  UpdateRecyclingGuideTabMutation,
+  UpdateRecyclingGuideTabMutationVariables
+>;
+
+/**
+ * __useUpdateRecyclingGuideTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateRecyclingGuideTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRecyclingGuideTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRecyclingGuideTabMutation, { data, loading, error }] = useUpdateRecyclingGuideTabMutation({
+ *   variables: {
+ *      updateRecyclingGuideBlockId: // value for 'updateRecyclingGuideBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRecyclingGuideTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRecyclingGuideTabMutation,
+    UpdateRecyclingGuideTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateRecyclingGuideTabMutation,
+    UpdateRecyclingGuideTabMutationVariables
+  >(UpdateRecyclingGuideTabDocument, options);
+}
+export type UpdateRecyclingGuideTabMutationHookResult = ReturnType<
+  typeof useUpdateRecyclingGuideTabMutation
+>;
+export type UpdateRecyclingGuideTabMutationResult =
+  Apollo.MutationResult<UpdateRecyclingGuideTabMutation>;
+export type UpdateRecyclingGuideTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateRecyclingGuideTabMutation,
+  UpdateRecyclingGuideTabMutationVariables
+>;
+export const UpdateSearchEngineTabDocument = gql`
+  mutation updateSearchEngineTab(
+    $updateSearchEngineBlockId: ID!
+    $data: SearchEngineBlockInput!
+  ) {
+    updateSearchEngineBlock(id: $updateSearchEngineBlockId, data: $data) {
+      data {
+        attributes {
+          titleContent
+        }
+      }
+    }
+  }
+`;
+export type UpdateSearchEngineTabMutationFn = Apollo.MutationFunction<
+  UpdateSearchEngineTabMutation,
+  UpdateSearchEngineTabMutationVariables
+>;
+
+/**
+ * __useUpdateSearchEngineTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateSearchEngineTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSearchEngineTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSearchEngineTabMutation, { data, loading, error }] = useUpdateSearchEngineTabMutation({
+ *   variables: {
+ *      updateSearchEngineBlockId: // value for 'updateSearchEngineBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateSearchEngineTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateSearchEngineTabMutation,
+    UpdateSearchEngineTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateSearchEngineTabMutation,
+    UpdateSearchEngineTabMutationVariables
+  >(UpdateSearchEngineTabDocument, options);
+}
+export type UpdateSearchEngineTabMutationHookResult = ReturnType<
+  typeof useUpdateSearchEngineTabMutation
+>;
+export type UpdateSearchEngineTabMutationResult =
+  Apollo.MutationResult<UpdateSearchEngineTabMutation>;
+export type UpdateSearchEngineTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateSearchEngineTabMutation,
+  UpdateSearchEngineTabMutationVariables
+>;
+export const UpdateTopContentTabDocument = gql`
+  mutation updateTopContentTab(
+    $updateTopContentBlockId: ID!
+    $data: TopContentBlockInput!
+  ) {
+    updateTopContentBlock(id: $updateTopContentBlockId, data: $data) {
+      data {
+        attributes {
+          homepage {
+            data {
+              attributes {
+                topContentBlock {
+                  data {
+                    attributes {
+                      displayBlock
+                      titleContent
+                      hasTopContent
+                      topContent {
+                        data {
+                          attributes {
+                            event {
+                              data {
+                                attributes {
+                                  publishedAt
+                                  title
+                                }
+                              }
+                            }
+                            news {
+                              data {
+                                attributes {
+                                  title
+                                  publishedAt
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                      displayLastThreeContents
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateTopContentTabMutationFn = Apollo.MutationFunction<
+  UpdateTopContentTabMutation,
+  UpdateTopContentTabMutationVariables
+>;
+
+/**
+ * __useUpdateTopContentTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateTopContentTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTopContentTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTopContentTabMutation, { data, loading, error }] = useUpdateTopContentTabMutation({
+ *   variables: {
+ *      updateTopContentBlockId: // value for 'updateTopContentBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateTopContentTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTopContentTabMutation,
+    UpdateTopContentTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateTopContentTabMutation,
+    UpdateTopContentTabMutationVariables
+  >(UpdateTopContentTabDocument, options);
+}
+export type UpdateTopContentTabMutationHookResult = ReturnType<
+  typeof useUpdateTopContentTabMutation
+>;
+export type UpdateTopContentTabMutationResult =
+  Apollo.MutationResult<UpdateTopContentTabMutation>;
+export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTopContentTabMutation,
+  UpdateTopContentTabMutationVariables
+>;
+export const CountContentPerTagDocument = gql`
+  query countContentPerTag($contractId: ID!) {
+    countContentPerTag(contractId: $contractId) {
+      id
+      name
+      count
+    }
+  }
+`;
+
+/**
+ * __useCountContentPerTagQuery__
+ *
+ * To run a query within a React component, call `useCountContentPerTagQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountContentPerTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountContentPerTagQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useCountContentPerTagQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CountContentPerTagQuery,
+    CountContentPerTagQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    CountContentPerTagQuery,
+    CountContentPerTagQueryVariables
+  >(CountContentPerTagDocument, options);
+}
+export function useCountContentPerTagLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CountContentPerTagQuery,
+    CountContentPerTagQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    CountContentPerTagQuery,
+    CountContentPerTagQueryVariables
+  >(CountContentPerTagDocument, options);
+}
+export type CountContentPerTagQueryHookResult = ReturnType<
+  typeof useCountContentPerTagQuery
+>;
+export type CountContentPerTagLazyQueryHookResult = ReturnType<
+  typeof useCountContentPerTagLazyQuery
+>;
+export type CountContentPerTagQueryResult = Apollo.QueryResult<
+  CountContentPerTagQuery,
+  CountContentPerTagQueryVariables
+>;
+export const CreateNewTagDocument = gql`
+  mutation createNewTag($contractId: ID!, $tagName: String!) {
+    createNewTag(contractId: $contractId, tagName: $tagName) {
+      contractId
+      id
+      name
+    }
+  }
+`;
+export type CreateNewTagMutationFn = Apollo.MutationFunction<
+  CreateNewTagMutation,
+  CreateNewTagMutationVariables
+>;
+
+/**
+ * __useCreateNewTagMutation__
+ *
+ * To run a mutation, you first call `useCreateNewTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewTagMutation, { data, loading, error }] = useCreateNewTagMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      tagName: // value for 'tagName'
+ *   },
+ * });
+ */
+export function useCreateNewTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateNewTagMutation,
+    CreateNewTagMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateNewTagMutation,
+    CreateNewTagMutationVariables
+  >(CreateNewTagDocument, options);
+}
+export type CreateNewTagMutationHookResult = ReturnType<
+  typeof useCreateNewTagMutation
+>;
+export type CreateNewTagMutationResult =
+  Apollo.MutationResult<CreateNewTagMutation>;
+export type CreateNewTagMutationOptions = Apollo.BaseMutationOptions<
+  CreateNewTagMutation,
+  CreateNewTagMutationVariables
+>;
+export const DeleteTagDocument = gql`
+  mutation deleteTag($deleteTagId: ID!) {
+    deleteTag(id: $deleteTagId) {
+      data {
+        id
+        attributes {
+          name
+          createdAt
+        }
+      }
+    }
+  }
+`;
+export type DeleteTagMutationFn = Apollo.MutationFunction<
+  DeleteTagMutation,
+  DeleteTagMutationVariables
+>;
+
+/**
+ * __useDeleteTagMutation__
+ *
+ * To run a mutation, you first call `useDeleteTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTagMutation, { data, loading, error }] = useDeleteTagMutation({
+ *   variables: {
+ *      deleteTagId: // value for 'deleteTagId'
+ *   },
+ * });
+ */
+export function useDeleteTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteTagMutation,
+    DeleteTagMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteTagMutation, DeleteTagMutationVariables>(
+    DeleteTagDocument,
+    options,
+  );
+}
+export type DeleteTagMutationHookResult = ReturnType<
+  typeof useDeleteTagMutation
+>;
+export type DeleteTagMutationResult = Apollo.MutationResult<DeleteTagMutation>;
+export type DeleteTagMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTagMutation,
+  DeleteTagMutationVariables
+>;
+export const UpdateTagDocument = gql`
+  mutation updateTag($updateTagId: ID!, $data: TagInput!) {
+    updateTag(id: $updateTagId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          createdAt
+        }
+      }
+    }
+  }
+`;
+export type UpdateTagMutationFn = Apollo.MutationFunction<
+  UpdateTagMutation,
+  UpdateTagMutationVariables
+>;
+
+/**
+ * __useUpdateTagMutation__
+ *
+ * To run a mutation, you first call `useUpdateTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTagMutation, { data, loading, error }] = useUpdateTagMutation({
+ *   variables: {
+ *      updateTagId: // value for 'updateTagId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTagMutation,
+    UpdateTagMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateTagMutation, UpdateTagMutationVariables>(
+    UpdateTagDocument,
+    options,
+  );
+}
+export type UpdateTagMutationHookResult = ReturnType<
+  typeof useUpdateTagMutation
+>;
+export type UpdateTagMutationResult = Apollo.MutationResult<UpdateTagMutation>;
+export type UpdateTagMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTagMutation,
+  UpdateTagMutationVariables
+>;
+export const CreateContentTypeDocument = gql`
+  mutation createContentType(
+    $contractId: ID
+    $name: String
+    $description: String
+  ) {
+    createContentTypeForContractId(
+      contractId: $contractId
+      name: $name
+      description: $description
+    ) {
+      id
+    }
+  }
+`;
+export type CreateContentTypeMutationFn = Apollo.MutationFunction<
+  CreateContentTypeMutation,
+  CreateContentTypeMutationVariables
+>;
+
+/**
+ * __useCreateContentTypeMutation__
+ *
+ * To run a mutation, you first call `useCreateContentTypeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateContentTypeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createContentTypeMutation, { data, loading, error }] = useCreateContentTypeMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      name: // value for 'name'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useCreateContentTypeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateContentTypeMutation,
+    CreateContentTypeMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateContentTypeMutation,
+    CreateContentTypeMutationVariables
+  >(CreateContentTypeDocument, options);
+}
+export type CreateContentTypeMutationHookResult = ReturnType<
+  typeof useCreateContentTypeMutation
+>;
+export type CreateContentTypeMutationResult =
+  Apollo.MutationResult<CreateContentTypeMutation>;
+export type CreateContentTypeMutationOptions = Apollo.BaseMutationOptions<
+  CreateContentTypeMutation,
+  CreateContentTypeMutationVariables
+>;
+export const GetContentTypeDtOsDocument = gql`
+  query getContentTypeDTOs($contractId: ID!) {
+    getContentTypeDTOs(contractId: $contractId) {
+      subServiceId
+      type
+      name
+      description
+    }
+  }
+`;
+
+/**
+ * __useGetContentTypeDtOsQuery__
+ *
+ * To run a query within a React component, call `useGetContentTypeDtOsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContentTypeDtOsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContentTypeDtOsQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetContentTypeDtOsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetContentTypeDtOsQuery,
+    GetContentTypeDtOsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetContentTypeDtOsQuery,
+    GetContentTypeDtOsQueryVariables
+  >(GetContentTypeDtOsDocument, options);
+}
+export function useGetContentTypeDtOsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetContentTypeDtOsQuery,
+    GetContentTypeDtOsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetContentTypeDtOsQuery,
+    GetContentTypeDtOsQueryVariables
+  >(GetContentTypeDtOsDocument, options);
+}
+export type GetContentTypeDtOsQueryHookResult = ReturnType<
+  typeof useGetContentTypeDtOsQuery
+>;
+export type GetContentTypeDtOsLazyQueryHookResult = ReturnType<
+  typeof useGetContentTypeDtOsLazyQuery
+>;
+export type GetContentTypeDtOsQueryResult = Apollo.QueryResult<
+  GetContentTypeDtOsQuery,
+  GetContentTypeDtOsQueryVariables
+>;
+export const UpdateContentTypeDocument = gql`
+  mutation updateContentType(
+    $updateFreeContentSubServiceId: ID!
+    $data: FreeContentSubServiceInput!
+  ) {
+    updateFreeContentSubService(
+      id: $updateFreeContentSubServiceId
+      data: $data
+    ) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeMutation,
+  UpdateContentTypeMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeMutation, { data, loading, error }] = useUpdateContentTypeMutation({
+ *   variables: {
+ *      updateFreeContentSubServiceId: // value for 'updateFreeContentSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeMutation,
+    UpdateContentTypeMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeMutation,
+    UpdateContentTypeMutationVariables
+  >(UpdateContentTypeDocument, options);
+}
+export type UpdateContentTypeMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeMutation
+>;
+export type UpdateContentTypeMutationResult =
+  Apollo.MutationResult<UpdateContentTypeMutation>;
+export type UpdateContentTypeMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeMutation,
+  UpdateContentTypeMutationVariables
+>;
+export const GetFooterPageDocument = gql`
+  query getFooterPage($contractId: ID!) {
+    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          footer {
+            data {
+              id
+              attributes {
+                accessibilityLevel
+                cguSubService {
+                  data {
+                    id
+                    attributes {
+                      link
+                    }
+                  }
+                }
+                accessibilitySubService {
+                  data {
+                    id
+                    attributes {
+                      link
+                    }
+                  }
+                }
+                confidentialitySubService {
+                  data {
+                    id
+                    attributes {
+                      link
+                    }
+                  }
+                }
+                cookiesSubService {
+                  data {
+                    id
+                    attributes {
+                      link
+                    }
+                  }
+                }
+                contactUsSubService {
+                  data {
+                    id
+                    attributes {
+                      label
+                      link
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFooterPageQuery__
+ *
+ * To run a query within a React component, call `useGetFooterPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFooterPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFooterPageQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetFooterPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFooterPageQuery,
+    GetFooterPageQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetFooterPageQuery, GetFooterPageQueryVariables>(
+    GetFooterPageDocument,
+    options,
+  );
+}
+export function useGetFooterPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFooterPageQuery,
+    GetFooterPageQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetFooterPageQuery, GetFooterPageQueryVariables>(
+    GetFooterPageDocument,
+    options,
+  );
+}
+export type GetFooterPageQueryHookResult = ReturnType<
+  typeof useGetFooterPageQuery
+>;
+export type GetFooterPageLazyQueryHookResult = ReturnType<
+  typeof useGetFooterPageLazyQuery
+>;
+export type GetFooterPageQueryResult = Apollo.QueryResult<
+  GetFooterPageQuery,
+  GetFooterPageQueryVariables
+>;
+export const UpdateFooterPageDocument = gql`
+  mutation updateFooterPage(
+    $updateFooterId: ID!
+    $updateFooterData: FooterInput!
+    $updateContactUsSubServiceId: ID!
+    $updateContactUsSubServiceData: ContactUsSubServiceInput!
+    $updateAccessibilitySubServiceId: ID!
+    $updateAccessibilitySubServiceData: AccessibilitySubServiceInput!
+    $updateCguSubServiceId: ID!
+    $updateCguSubServiceData: CguSubServiceInput!
+    $updateCookiesSubServiceId: ID!
+    $updateCookiesSubServiceData: CookiesSubServiceInput!
+    $updateConfidentialitySubServiceId: ID!
+    $updateConfidentialitySubServiceData: ConfidentialitySubServiceInput!
+  ) {
+    updateFooter(id: $updateFooterId, data: $updateFooterData) {
+      data {
+        id
+        attributes {
+          accessibilityLevel
+        }
+      }
+    }
+    updateContactUsSubService(
+      id: $updateContactUsSubServiceId
+      data: $updateContactUsSubServiceData
+    ) {
+      data {
+        attributes {
+          label
+          link
+        }
+      }
+    }
+    updateCguSubService(
+      id: $updateCguSubServiceId
+      data: $updateCguSubServiceData
+    ) {
+      data {
+        attributes {
+          link
+        }
+      }
+    }
+    updateAccessibilitySubService(
+      id: $updateAccessibilitySubServiceId
+      data: $updateAccessibilitySubServiceData
+    ) {
+      data {
+        attributes {
+          link
+        }
+      }
+    }
+    updateConfidentialitySubService(
+      id: $updateConfidentialitySubServiceId
+      data: $updateConfidentialitySubServiceData
+    ) {
+      data {
+        attributes {
+          link
+        }
+      }
+    }
+    updateCookiesSubService(
+      id: $updateCookiesSubServiceId
+      data: $updateCookiesSubServiceData
+    ) {
+      data {
+        attributes {
+          link
+        }
+      }
+    }
+  }
+`;
+export type UpdateFooterPageMutationFn = Apollo.MutationFunction<
+  UpdateFooterPageMutation,
+  UpdateFooterPageMutationVariables
+>;
+
+/**
+ * __useUpdateFooterPageMutation__
+ *
+ * To run a mutation, you first call `useUpdateFooterPageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFooterPageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFooterPageMutation, { data, loading, error }] = useUpdateFooterPageMutation({
+ *   variables: {
+ *      updateFooterId: // value for 'updateFooterId'
+ *      updateFooterData: // value for 'updateFooterData'
+ *      updateContactUsSubServiceId: // value for 'updateContactUsSubServiceId'
+ *      updateContactUsSubServiceData: // value for 'updateContactUsSubServiceData'
+ *      updateAccessibilitySubServiceId: // value for 'updateAccessibilitySubServiceId'
+ *      updateAccessibilitySubServiceData: // value for 'updateAccessibilitySubServiceData'
+ *      updateCguSubServiceId: // value for 'updateCguSubServiceId'
+ *      updateCguSubServiceData: // value for 'updateCguSubServiceData'
+ *      updateCookiesSubServiceId: // value for 'updateCookiesSubServiceId'
+ *      updateCookiesSubServiceData: // value for 'updateCookiesSubServiceData'
+ *      updateConfidentialitySubServiceId: // value for 'updateConfidentialitySubServiceId'
+ *      updateConfidentialitySubServiceData: // value for 'updateConfidentialitySubServiceData'
+ *   },
+ * });
+ */
+export function useUpdateFooterPageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateFooterPageMutation,
+    UpdateFooterPageMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateFooterPageMutation,
+    UpdateFooterPageMutationVariables
+  >(UpdateFooterPageDocument, options);
+}
+export type UpdateFooterPageMutationHookResult = ReturnType<
+  typeof useUpdateFooterPageMutation
+>;
+export type UpdateFooterPageMutationResult =
+  Apollo.MutationResult<UpdateFooterPageMutation>;
+export type UpdateFooterPageMutationOptions = Apollo.BaseMutationOptions<
+  UpdateFooterPageMutation,
+  UpdateFooterPageMutationVariables
 >;
 export const GetServicesActiveDocument = gql`
   query getServicesActive($contractId: ID!) {
@@ -7923,101 +8830,140 @@ export type GetServicesBlockTabQueryResult = Apollo.QueryResult<
   GetServicesBlockTabQuery,
   GetServicesBlockTabQueryVariables
 >;
-export const GetTopContentTabDocument = gql`
-  query getTopContentTab($contractId: ID!) {
-    getTopContentBlockDTO(contractId: $contractId) {
-      id
-      displayBlock
-      displayLastThreeContents
-      hasTopContent
-      titleContent
-      topContent {
-        id
-        contentType
-        typeName
-        attributes {
-          title
-          publishedAt
-        }
-      }
-    }
-    getTopContentDTOs(contractId: $contractId) {
-      __typename
-      id
-      contentType
-      typeName
-      attributes {
-        title
-        publishedAt
-      }
-    }
-  }
-`;
-
-/**
- * __useGetTopContentTabQuery__
- *
- * To run a query within a React component, call `useGetTopContentTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTopContentTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTopContentTabQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetTopContentTabQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetTopContentTabQuery,
-    GetTopContentTabQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTopContentTabQuery, GetTopContentTabQueryVariables>(
-    GetTopContentTabDocument,
-    options,
-  );
-}
-export function useGetTopContentTabLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTopContentTabQuery,
-    GetTopContentTabQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetTopContentTabQuery,
-    GetTopContentTabQueryVariables
-  >(GetTopContentTabDocument, options);
-}
-export type GetTopContentTabQueryHookResult = ReturnType<
-  typeof useGetTopContentTabQuery
->;
-export type GetTopContentTabLazyQueryHookResult = ReturnType<
-  typeof useGetTopContentTabLazyQuery
->;
-export type GetTopContentTabQueryResult = Apollo.QueryResult<
-  GetTopContentTabQuery,
-  GetTopContentTabQueryVariables
->;
-export const UpdateEditoBlockTabDocument = gql`
-  mutation updateEditoBlockTab(
-    $updateEditoBlockId: ID!
-    $data: EditoBlockInput!
-  ) {
-    updateEditoBlock(id: $updateEditoBlockId, data: $data) {
+export const GetMenuPageDocument = gql`
+  query getMenuPage($contractId: ID!) {
+    contract(id: $contractId) {
       data {
-        id
         attributes {
-          displayBlock
-          titleContent
-          editoContents {
+          contractMenu {
             data {
               id
+              attributes {
+                serviceLinks {
+                  ... on ComponentLinksMap {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksCalendar {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksRecycling {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksRequest {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksContactUs {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksNews {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksEvents {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksQuizzes {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksTips {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksFrees {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksExternal {
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    externalLink
+                  }
+                }
+              }
             }
           }
         }
@@ -8025,179 +8971,54 @@ export const UpdateEditoBlockTabDocument = gql`
     }
   }
 `;
-export type UpdateEditoBlockTabMutationFn = Apollo.MutationFunction<
-  UpdateEditoBlockTabMutation,
-  UpdateEditoBlockTabMutationVariables
->;
 
 /**
- * __useUpdateEditoBlockTabMutation__
+ * __useGetMenuPageQuery__
  *
- * To run a mutation, you first call `useUpdateEditoBlockTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateEditoBlockTabMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useGetMenuPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMenuPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [updateEditoBlockTabMutation, { data, loading, error }] = useUpdateEditoBlockTabMutation({
+ * const { data, loading, error } = useGetMenuPageQuery({
  *   variables: {
- *      updateEditoBlockId: // value for 'updateEditoBlockId'
- *      data: // value for 'data'
+ *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useUpdateEditoBlockTabMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateEditoBlockTabMutation,
-    UpdateEditoBlockTabMutationVariables
+export function useGetMenuPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetMenuPageQuery,
+    GetMenuPageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateEditoBlockTabMutation,
-    UpdateEditoBlockTabMutationVariables
-  >(UpdateEditoBlockTabDocument, options);
+  return Apollo.useQuery<GetMenuPageQuery, GetMenuPageQueryVariables>(
+    GetMenuPageDocument,
+    options,
+  );
 }
-export type UpdateEditoBlockTabMutationHookResult = ReturnType<
-  typeof useUpdateEditoBlockTabMutation
->;
-export type UpdateEditoBlockTabMutationResult =
-  Apollo.MutationResult<UpdateEditoBlockTabMutation>;
-export type UpdateEditoBlockTabMutationOptions = Apollo.BaseMutationOptions<
-  UpdateEditoBlockTabMutation,
-  UpdateEditoBlockTabMutationVariables
->;
-export const UpdateFooterPageDocument = gql`
-  mutation updateFooterPage(
-    $updateFooterId: ID!
-    $updateFooterData: FooterInput!
-    $updateContactUsSubServiceId: ID!
-    $updateContactUsSubServiceData: ContactUsSubServiceInput!
-    $updateAccessibilitySubServiceId: ID!
-    $updateAccessibilitySubServiceData: AccessibilitySubServiceInput!
-    $updateCguSubServiceId: ID!
-    $updateCguSubServiceData: CguSubServiceInput!
-    $updateCookiesSubServiceId: ID!
-    $updateCookiesSubServiceData: CookiesSubServiceInput!
-    $updateConfidentialitySubServiceId: ID!
-    $updateConfidentialitySubServiceData: ConfidentialitySubServiceInput!
-  ) {
-    updateFooter(id: $updateFooterId, data: $updateFooterData) {
-      data {
-        id
-        attributes {
-          accessibilityLevel
-        }
-      }
-    }
-    updateContactUsSubService(
-      id: $updateContactUsSubServiceId
-      data: $updateContactUsSubServiceData
-    ) {
-      data {
-        attributes {
-          label
-          link
-        }
-      }
-    }
-    updateCguSubService(
-      id: $updateCguSubServiceId
-      data: $updateCguSubServiceData
-    ) {
-      data {
-        attributes {
-          link
-        }
-      }
-    }
-    updateAccessibilitySubService(
-      id: $updateAccessibilitySubServiceId
-      data: $updateAccessibilitySubServiceData
-    ) {
-      data {
-        attributes {
-          link
-        }
-      }
-    }
-    updateConfidentialitySubService(
-      id: $updateConfidentialitySubServiceId
-      data: $updateConfidentialitySubServiceData
-    ) {
-      data {
-        attributes {
-          link
-        }
-      }
-    }
-    updateCookiesSubService(
-      id: $updateCookiesSubServiceId
-      data: $updateCookiesSubServiceData
-    ) {
-      data {
-        attributes {
-          link
-        }
-      }
-    }
-  }
-`;
-export type UpdateFooterPageMutationFn = Apollo.MutationFunction<
-  UpdateFooterPageMutation,
-  UpdateFooterPageMutationVariables
->;
-
-/**
- * __useUpdateFooterPageMutation__
- *
- * To run a mutation, you first call `useUpdateFooterPageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateFooterPageMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateFooterPageMutation, { data, loading, error }] = useUpdateFooterPageMutation({
- *   variables: {
- *      updateFooterId: // value for 'updateFooterId'
- *      updateFooterData: // value for 'updateFooterData'
- *      updateContactUsSubServiceId: // value for 'updateContactUsSubServiceId'
- *      updateContactUsSubServiceData: // value for 'updateContactUsSubServiceData'
- *      updateAccessibilitySubServiceId: // value for 'updateAccessibilitySubServiceId'
- *      updateAccessibilitySubServiceData: // value for 'updateAccessibilitySubServiceData'
- *      updateCguSubServiceId: // value for 'updateCguSubServiceId'
- *      updateCguSubServiceData: // value for 'updateCguSubServiceData'
- *      updateCookiesSubServiceId: // value for 'updateCookiesSubServiceId'
- *      updateCookiesSubServiceData: // value for 'updateCookiesSubServiceData'
- *      updateConfidentialitySubServiceId: // value for 'updateConfidentialitySubServiceId'
- *      updateConfidentialitySubServiceData: // value for 'updateConfidentialitySubServiceData'
- *   },
- * });
- */
-export function useUpdateFooterPageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateFooterPageMutation,
-    UpdateFooterPageMutationVariables
+export function useGetMenuPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMenuPageQuery,
+    GetMenuPageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateFooterPageMutation,
-    UpdateFooterPageMutationVariables
-  >(UpdateFooterPageDocument, options);
+  return Apollo.useLazyQuery<GetMenuPageQuery, GetMenuPageQueryVariables>(
+    GetMenuPageDocument,
+    options,
+  );
 }
-export type UpdateFooterPageMutationHookResult = ReturnType<
-  typeof useUpdateFooterPageMutation
+export type GetMenuPageQueryHookResult = ReturnType<typeof useGetMenuPageQuery>;
+export type GetMenuPageLazyQueryHookResult = ReturnType<
+  typeof useGetMenuPageLazyQuery
 >;
-export type UpdateFooterPageMutationResult =
-  Apollo.MutationResult<UpdateFooterPageMutation>;
-export type UpdateFooterPageMutationOptions = Apollo.BaseMutationOptions<
-  UpdateFooterPageMutation,
-  UpdateFooterPageMutationVariables
+export type GetMenuPageQueryResult = Apollo.QueryResult<
+  GetMenuPageQuery,
+  GetMenuPageQueryVariables
 >;
 export const UpdateMenuPageDocument = gql`
   mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
@@ -8376,203 +9197,6 @@ export type UpdateMenuPageMutationResult =
 export type UpdateMenuPageMutationOptions = Apollo.BaseMutationOptions<
   UpdateMenuPageMutation,
   UpdateMenuPageMutationVariables
->;
-export const UpdateQuizAndTipsBlockTabDocument = gql`
-  mutation updateQuizAndTipsBlockTab(
-    $quizAndTipsBlockId: ID!
-    $data: QuizAndTipsBlockInput!
-  ) {
-    updateQuizAndTipsBlock(id: $quizAndTipsBlockId, data: $data) {
-      data {
-        attributes {
-          titleContent
-          displayBlock
-          displayQuiz
-          quiz {
-            data {
-              id
-            }
-          }
-          displayTips
-          tips {
-            data {
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-export type UpdateQuizAndTipsBlockTabMutationFn = Apollo.MutationFunction<
-  UpdateQuizAndTipsBlockTabMutation,
-  UpdateQuizAndTipsBlockTabMutationVariables
->;
-
-/**
- * __useUpdateQuizAndTipsBlockTabMutation__
- *
- * To run a mutation, you first call `useUpdateQuizAndTipsBlockTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateQuizAndTipsBlockTabMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateQuizAndTipsBlockTabMutation, { data, loading, error }] = useUpdateQuizAndTipsBlockTabMutation({
- *   variables: {
- *      quizAndTipsBlockId: // value for 'quizAndTipsBlockId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateQuizAndTipsBlockTabMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateQuizAndTipsBlockTabMutation,
-    UpdateQuizAndTipsBlockTabMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateQuizAndTipsBlockTabMutation,
-    UpdateQuizAndTipsBlockTabMutationVariables
-  >(UpdateQuizAndTipsBlockTabDocument, options);
-}
-export type UpdateQuizAndTipsBlockTabMutationHookResult = ReturnType<
-  typeof useUpdateQuizAndTipsBlockTabMutation
->;
-export type UpdateQuizAndTipsBlockTabMutationResult =
-  Apollo.MutationResult<UpdateQuizAndTipsBlockTabMutation>;
-export type UpdateQuizAndTipsBlockTabMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateQuizAndTipsBlockTabMutation,
-    UpdateQuizAndTipsBlockTabMutationVariables
-  >;
-export const UpdateRecyclingGuideTabDocument = gql`
-  mutation updateRecyclingGuideTab(
-    $updateRecyclingGuideBlockId: ID!
-    $data: RecyclingGuideBlockInput!
-  ) {
-    updateRecyclingGuideBlock(id: $updateRecyclingGuideBlockId, data: $data) {
-      data {
-        attributes {
-          titleContent
-          subtitleContent
-          recyclingGuideDisplayContent
-          tags {
-            data {
-              attributes {
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-export type UpdateRecyclingGuideTabMutationFn = Apollo.MutationFunction<
-  UpdateRecyclingGuideTabMutation,
-  UpdateRecyclingGuideTabMutationVariables
->;
-
-/**
- * __useUpdateRecyclingGuideTabMutation__
- *
- * To run a mutation, you first call `useUpdateRecyclingGuideTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateRecyclingGuideTabMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateRecyclingGuideTabMutation, { data, loading, error }] = useUpdateRecyclingGuideTabMutation({
- *   variables: {
- *      updateRecyclingGuideBlockId: // value for 'updateRecyclingGuideBlockId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateRecyclingGuideTabMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateRecyclingGuideTabMutation,
-    UpdateRecyclingGuideTabMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateRecyclingGuideTabMutation,
-    UpdateRecyclingGuideTabMutationVariables
-  >(UpdateRecyclingGuideTabDocument, options);
-}
-export type UpdateRecyclingGuideTabMutationHookResult = ReturnType<
-  typeof useUpdateRecyclingGuideTabMutation
->;
-export type UpdateRecyclingGuideTabMutationResult =
-  Apollo.MutationResult<UpdateRecyclingGuideTabMutation>;
-export type UpdateRecyclingGuideTabMutationOptions = Apollo.BaseMutationOptions<
-  UpdateRecyclingGuideTabMutation,
-  UpdateRecyclingGuideTabMutationVariables
->;
-export const UpdateSearchEngineTabDocument = gql`
-  mutation updateSearchEngineTab(
-    $updateSearchEngineBlockId: ID!
-    $data: SearchEngineBlockInput!
-  ) {
-    updateSearchEngineBlock(id: $updateSearchEngineBlockId, data: $data) {
-      data {
-        attributes {
-          titleContent
-        }
-      }
-    }
-  }
-`;
-export type UpdateSearchEngineTabMutationFn = Apollo.MutationFunction<
-  UpdateSearchEngineTabMutation,
-  UpdateSearchEngineTabMutationVariables
->;
-
-/**
- * __useUpdateSearchEngineTabMutation__
- *
- * To run a mutation, you first call `useUpdateSearchEngineTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateSearchEngineTabMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateSearchEngineTabMutation, { data, loading, error }] = useUpdateSearchEngineTabMutation({
- *   variables: {
- *      updateSearchEngineBlockId: // value for 'updateSearchEngineBlockId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateSearchEngineTabMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateSearchEngineTabMutation,
-    UpdateSearchEngineTabMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateSearchEngineTabMutation,
-    UpdateSearchEngineTabMutationVariables
-  >(UpdateSearchEngineTabDocument, options);
-}
-export type UpdateSearchEngineTabMutationHookResult = ReturnType<
-  typeof useUpdateSearchEngineTabMutation
->;
-export type UpdateSearchEngineTabMutationResult =
-  Apollo.MutationResult<UpdateSearchEngineTabMutation>;
-export type UpdateSearchEngineTabMutationOptions = Apollo.BaseMutationOptions<
-  UpdateSearchEngineTabMutation,
-  UpdateSearchEngineTabMutationVariables
 >;
 export const UpdateServicesBlockTabDocument = gql`
   mutation updateServicesBlockTab(
@@ -8769,99 +9393,4 @@ export type UpdateServicesBlockTabMutationResult =
 export type UpdateServicesBlockTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateServicesBlockTabMutation,
   UpdateServicesBlockTabMutationVariables
->;
-export const UpdateTopContentTabDocument = gql`
-  mutation updateTopContentTab(
-    $updateTopContentBlockId: ID!
-    $data: TopContentBlockInput!
-  ) {
-    updateTopContentBlock(id: $updateTopContentBlockId, data: $data) {
-      data {
-        attributes {
-          homepage {
-            data {
-              attributes {
-                topContentBlock {
-                  data {
-                    attributes {
-                      displayBlock
-                      titleContent
-                      hasTopContent
-                      topContent {
-                        data {
-                          attributes {
-                            event {
-                              data {
-                                attributes {
-                                  publishedAt
-                                  title
-                                }
-                              }
-                            }
-                            news {
-                              data {
-                                attributes {
-                                  title
-                                  publishedAt
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                      displayLastThreeContents
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-export type UpdateTopContentTabMutationFn = Apollo.MutationFunction<
-  UpdateTopContentTabMutation,
-  UpdateTopContentTabMutationVariables
->;
-
-/**
- * __useUpdateTopContentTabMutation__
- *
- * To run a mutation, you first call `useUpdateTopContentTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateTopContentTabMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateTopContentTabMutation, { data, loading, error }] = useUpdateTopContentTabMutation({
- *   variables: {
- *      updateTopContentBlockId: // value for 'updateTopContentBlockId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateTopContentTabMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateTopContentTabMutation,
-    UpdateTopContentTabMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateTopContentTabMutation,
-    UpdateTopContentTabMutationVariables
-  >(UpdateTopContentTabDocument, options);
-}
-export type UpdateTopContentTabMutationHookResult = ReturnType<
-  typeof useUpdateTopContentTabMutation
->;
-export type UpdateTopContentTabMutationResult =
-  Apollo.MutationResult<UpdateTopContentTabMutation>;
-export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
-  UpdateTopContentTabMutation,
-  UpdateTopContentTabMutationVariables
 >;

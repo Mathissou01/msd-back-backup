@@ -1,13 +1,7 @@
 import { format, parseJSON } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   EditoContentDto,
   GetEditoBlockTabDocument,
@@ -16,11 +10,12 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import {
   comparePropertyValueByPriority,
-  FocusFirstElement,
   removeNulls,
 } from "../../../lib/utilities";
 import { extractEditoBlock } from "../../../lib/graphql-data";
 import { useContract } from "../../../hooks/useContract";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
@@ -28,7 +23,6 @@ import FormModalButtonInput from "../../Form/FormModalButtonInput/FormModalButto
 import FormMultiselect, {
   IOptionWrapper,
 } from "../../Form/FormMultiselect/FormMultiselect";
-import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import "./edito-tab.scss";
 
 interface IEditoBlock {
@@ -130,7 +124,6 @@ export default function EditoTab() {
     useUpdateEditoBlockTabMutation();
 
   /* Local Data */
-  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [editoData, setEditoData] = useState<IEditoBlock>();
   const [editoContents, setEditoContents] = useState<
     Array<IOptionWrapper<EditoContentDto>>
@@ -177,30 +170,6 @@ export default function EditoTab() {
     }
   }, [form, data]);
 
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isSubmitting) {
-      if (!isShowingSpinner) {
-        spinnerTimerRef.current = setTimeout(() => {
-          setIsShowingSpinner(true);
-        }, 200);
-      }
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingSpinner(false);
-    }
-  }, [isShowingSpinner, isSubmitting]);
-
-  const focusRef = useCallback((node: HTMLFormElement) => {
-    FocusFirstElement(node);
-  }, []);
-  {
-    // TODO: layout shift, handle error redirect,
-  }
-  if (loading) return <CommonSpinner />;
-  if (error) return <span>{error?.message}</span>;
-  if (mutationError) return <span>{mutationError?.message}</span>;
-
   return (
     <div
       className="c-EditoTab"
@@ -208,63 +177,74 @@ export default function EditoTab() {
       role="tabpanel"
       aria-labelledby="tab-edito"
     >
-      {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <h2 className="c-EditoTab__Title">{formLabels.title}</h2>
-      <FormProvider {...form}>
-        <form
-          className="c-EditoTab__Form"
-          onSubmit={handleSubmit(onSubmitValid)}
-          ref={focusRef}
-        >
-          <div className="c-EditoTab__Group c-EditoTab__Group_short">
-            <FormCheckbox name="displayBlock" label={formLabels.displayBlock} />
-            <FormInput
-              type="text"
-              name="titleContent"
-              label={formLabels.titleContent}
-              isRequired={true}
-              isDisabled={mutationLoading}
-              defaultValue={editoData?.titleContent}
-            />
-          </div>
-          <div className="c-EditoTab__Group">
-            <FormModalButtonInput<Array<EditoContentDto>>
-              name="editoContents"
-              label={formLabels.editoContents}
-              displayTransform={editoContentsDisplayTransformFunction}
-              buttonLabel={formLabels.editoContentsButton}
-              modalTitle={formLabels.editoContentsModal}
-              onModalSubmit={onContentModalSubmit}
-              isDisabled={mutationLoading}
-              isRequired={true}
-            >
-              <FormMultiselect<EditoContentDto>
-                name="editoContentsSelect"
-                label={formLabels.editoContentsModalType}
-                displayTransform={editoContentSelectDisplayTransformFunction}
-                options={editoContents}
-                selectAmount={3}
-                optionKey={"id"}
-                defaultValues={watch("editoContents")}
+      <CommonLoader
+        isLoading={loading || isSubmitting || mutationLoading}
+        isShowingContent={isSubmitting || mutationLoading}
+        hasDelay={isSubmitting || mutationLoading}
+        errors={[error, mutationError]}
+      >
+        <h2 className="c-EditoTab__Title">{formLabels.title}</h2>
+        <FormProvider {...form}>
+          <form
+            className="c-EditoTab__Form"
+            onSubmit={handleSubmit(onSubmitValid)}
+            ref={useFocusFirstElement()}
+          >
+            <div className="c-EditoTab__Group c-EditoTab__Group_short">
+              <FormCheckbox
+                name="displayBlock"
+                label={formLabels.displayBlock}
               />
-            </FormModalButtonInput>
-          </div>
-          <div className="c-EditoTab__Buttons">
-            <CommonButton
-              type="submit"
-              label={submitButtonLabel}
-              style="primary"
-              isDisabled={!isDirty}
-            />
-            <CommonButton
-              type="button"
-              label={cancelButtonLabel}
-              onClick={onCancel}
-              isDisabled={!isDirty}
-            />
-          </div>
-        </form>
-      </FormProvider>
+              <FormInput
+                type="text"
+                name="titleContent"
+                label={formLabels.titleContent}
+                isRequired={true}
+                isDisabled={mutationLoading}
+                defaultValue={editoData?.titleContent}
+              />
+            </div>
+            <div className="c-EditoTab__Group">
+              <FormModalButtonInput<Array<EditoContentDto>>
+                name="editoContents"
+                label={formLabels.editoContents}
+                displayTransform={editoContentsDisplayTransformFunction}
+                buttonLabel={formLabels.editoContentsButton}
+                modalTitle={formLabels.editoContentsModal}
+                onModalSubmit={onContentModalSubmit}
+                isDisabled={mutationLoading}
+                isRequired={true}
+              >
+                <FormMultiselect<EditoContentDto>
+                  name="editoContentsSelect"
+                  label={formLabels.editoContentsModalType}
+                  displayTransform={editoContentSelectDisplayTransformFunction}
+                  options={editoContents}
+                  selectAmount={3}
+                  optionKey={"id"}
+                  defaultValues={watch("editoContents")}
+                />
+              </FormModalButtonInput>
+            </div>
+            <div className="c-EditoTab__Buttons">
+              <CommonButton
+                type="submit"
+                label={submitButtonLabel}
+                style="primary"
+                picto="check"
+                isDisabled={!isDirty}
+              />
+              <CommonButton
+                type="button"
+                label={cancelButtonLabel}
+                picto="cross"
+                onClick={onCancel}
+                isDisabled={!isDirty}
+              />
+            </div>
+          </form>
+        </FormProvider>
+      </CommonLoader>
     </div>
   );
 }

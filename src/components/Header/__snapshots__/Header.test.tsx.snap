@@ -99,7 +99,6 @@ exports[`Header renders 1`] = `
                 height="18"
                 loading="lazy"
                 src="/images/pictos-temp/homepage.svg"
-                srcset="/images/pictos-temp/homepage.svg 1x, /images/pictos-temp/homepage.svg 2x"
                 style="color: transparent;"
                 width="18"
               />
@@ -131,7 +130,6 @@ exports[`Header renders 1`] = `
                 height="18"
                 loading="lazy"
                 src="/images/pictos-temp/edito.svg"
-                srcset="/images/pictos-temp/edito.svg 1x, /images/pictos-temp/edito.svg 2x"
                 style="color: transparent;"
                 width="18"
               />
@@ -147,6 +145,66 @@ exports[`Header renders 1`] = `
           >
             <a
               class="c-NavigationListLink"
+              href="/edito/actualites"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Actualités
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/evenements"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Événements
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/astuces"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Astuces
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                CONTENU LIBRE
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/quiz"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Quiz
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/chiffres-cles"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Chiffres clés
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
               href="/edito/bibliotheque-de-medias"
             >
               <span
@@ -155,45 +213,76 @@ exports[`Header renders 1`] = `
                 Bibliothèque de médias
               </span>
             </a>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/thematiques"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Thématiques
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/type-contenu"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Type de contenu
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/accessibilite"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Accessibilité
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/conditions-generales"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Conditions générales
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/politique-cookies"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Politique de cookies
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/confidentialite"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Confidentialité
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="/edito/contact"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Contact
+              </span>
+            </a>
           </div>
         </div>
       </li>
@@ -216,7 +305,6 @@ exports[`Header renders 1`] = `
                 height="18"
                 loading="lazy"
                 src="/images/pictos-temp/services.svg"
-                srcset="/images/pictos-temp/services.svg 1x, /images/pictos-temp/services.svg 2x"
                 style="color: transparent;"
                 width="18"
               />
@@ -312,7 +400,6 @@ exports[`Header renders 1`] = `
                 height="18"
                 loading="lazy"
                 src="/images/pictos-temp/personnalisation.svg"
-                srcset="/images/pictos-temp/personnalisation.svg 1x, /images/pictos-temp/personnalisation.svg 2x"
                 style="color: transparent;"
                 width="18"
               />
@@ -408,7 +495,6 @@ exports[`Header renders 1`] = `
                 height="18"
                 loading="lazy"
                 src="/images/pictos-temp/sectorsAndUsers.svg"
-                srcset="/images/pictos-temp/sectorsAndUsers.svg 1x, /images/pictos-temp/sectorsAndUsers.svg 2x"
                 style="color: transparent;"
                 width="18"
               />
@@ -462,7 +548,6 @@ exports[`Header renders 1`] = `
                 height="18"
                 loading="lazy"
                 src="/images/pictos-temp/administration.svg"
-                srcset="/images/pictos-temp/administration.svg 1x, /images/pictos-temp/administration.svg 2x"
                 style="color: transparent;"
                 width="18"
               />
@@ -511,7 +596,6 @@ exports[`Header renders 1`] = `
                 height="18"
                 loading="lazy"
                 src="/images/pictos-temp/bin.svg"
-                srcset="/images/pictos-temp/bin.svg 1x, /images/pictos-temp/bin.svg 2x"
                 style="color: transparent;"
                 width="18"
               />

@@ -30,17 +30,21 @@ exports[`FormInput renders 1`] = `
           secondary label
         </span>
       </div>
+      <div
+        class="c-FormLabel__Content"
+      >
+        <input
+          aria-errormessage="form-input_error"
+          aria-invalid="false"
+          class="c-FormInput__Input"
+          data-testid="form-input"
+          id="form-input"
+          name="form-input"
+          type="text"
+          value=""
+        />
+      </div>
     </label>
-    <input
-      aria-errormessage="form-input_error"
-      aria-invalid="false"
-      class="c-FormInput__Input"
-      data-testid="form-input"
-      id="form-input"
-      name="form-input"
-      type="text"
-      value=""
-    />
   </div>
 </div>
 `;

@@ -2,17 +2,36 @@
 
 exports[`PersonnalisationFooterPage renders loading and loaded state 1`] = `
 <div>
+  <hgroup
+    class="c-PageTitle"
+  >
+    <h1
+      data-testid="title"
+    >
+      Footer
+    </h1>
+    <p
+      class="c-PageTitle__Description"
+      data-testid="description"
+    >
+      Paramétrez les liens présents en bas de page.
+    </p>
+  </hgroup>
   <div
-    class="c-CommonSpinner__Wrapper "
+    class="c-PersonnalisationFooterPage"
   >
     <div
-      class="c-CommonSpinner"
-      data-testid="common-spinner"
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
     >
-      <div />
-      <div />
-      <div />
-      <div />
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
     </div>
   </div>
 </div>
@@ -172,17 +191,21 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   Lien vers la page Accessibilité *
                 </span>
               </div>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="accessibilitySubService.link_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="accessibilitySubService.link"
+                  name="accessibilitySubService.link"
+                  type="text"
+                  value="https://google.com"
+                />
+              </div>
             </label>
-            <input
-              aria-errormessage="accessibilitySubService.link_error"
-              aria-invalid="false"
-              class="c-FormInput__Input"
-              data-testid="form-input"
-              id="accessibilitySubService.link"
-              name="accessibilitySubService.link"
-              type="text"
-              value="https://google.com"
-            />
           </div>
           <div
             class="c-FormInput"
@@ -198,17 +221,21 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   Lien vers la page des Conditions générales *
                 </span>
               </div>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="cguSubService.link_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="cguSubService.link"
+                  name="cguSubService.link"
+                  type="text"
+                  value="https://google.com"
+                />
+              </div>
             </label>
-            <input
-              aria-errormessage="cguSubService.link_error"
-              aria-invalid="false"
-              class="c-FormInput__Input"
-              data-testid="form-input"
-              id="cguSubService.link"
-              name="cguSubService.link"
-              type="text"
-              value="https://google.com"
-            />
           </div>
           <div
             class="c-FormInput"
@@ -224,17 +251,21 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   Lien vers la page de Politique de cookie *
                 </span>
               </div>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="cookiesSubService.link_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="cookiesSubService.link"
+                  name="cookiesSubService.link"
+                  type="text"
+                  value="https://google.com"
+                />
+              </div>
             </label>
-            <input
-              aria-errormessage="cookiesSubService.link_error"
-              aria-invalid="false"
-              class="c-FormInput__Input"
-              data-testid="form-input"
-              id="cookiesSubService.link"
-              name="cookiesSubService.link"
-              type="text"
-              value="https://google.com"
-            />
           </div>
           <div
             class="c-FormInput"
@@ -250,17 +281,21 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   Lien vers la page de Confidentialité *
                 </span>
               </div>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="confidentialitySubService.link_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="confidentialitySubService.link"
+                  name="confidentialitySubService.link"
+                  type="text"
+                  value="https://google.com"
+                />
+              </div>
             </label>
-            <input
-              aria-errormessage="confidentialitySubService.link_error"
-              aria-invalid="false"
-              class="c-FormInput__Input"
-              data-testid="form-input"
-              id="confidentialitySubService.link"
-              name="confidentialitySubService.link"
-              type="text"
-              value="https://google.com"
-            />
           </div>
         </div>
       </div>
@@ -289,17 +324,21 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   Texte du lien *
                 </span>
               </div>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="contactUsSubService.label_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="contactUsSubService.label"
+                  name="contactUsSubService.label"
+                  type="text"
+                  value="Contactez-nous"
+                />
+              </div>
             </label>
-            <input
-              aria-errormessage="contactUsSubService.label_error"
-              aria-invalid="false"
-              class="c-FormInput__Input"
-              data-testid="form-input"
-              id="contactUsSubService.label"
-              name="contactUsSubService.label"
-              type="text"
-              value="Contactez-nous"
-            />
           </div>
           <div
             class="c-FormInput"
@@ -315,17 +354,21 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   Lien vers la page de contact *
                 </span>
               </div>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="contactUsSubService.link_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="contactUsSubService.link"
+                  name="contactUsSubService.link"
+                  type="text"
+                  value="https://google.com"
+                />
+              </div>
             </label>
-            <input
-              aria-errormessage="contactUsSubService.link_error"
-              aria-invalid="false"
-              class="c-FormInput__Input"
-              data-testid="form-input"
-              id="contactUsSubService.link"
-              name="contactUsSubService.link"
-              type="text"
-              value="https://google.com"
-            />
           </div>
         </div>
       </div>
@@ -333,17 +376,23 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
         class="c-PersonnalisationFooterPage__Buttons"
       >
         <button
-          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
           disabled=""
           type="submit"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
           Enregistrer les modifications
         </button>
         <button
-          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
           disabled=""
           type="button"
         >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
           Annuler les modifications
         </button>
       </div>

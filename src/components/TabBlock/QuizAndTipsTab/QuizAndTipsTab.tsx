@@ -1,13 +1,7 @@
 import { format, parseJSON } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   GetQuizAndTipsBlockTabDocument,
   QuizEntity,
@@ -15,9 +9,11 @@ import {
   useGetQuizAndTipsBlockTabQuery,
   useUpdateQuizAndTipsBlockTabMutation,
 } from "../../../graphql/codegen/generated-types";
-import { FocusFirstElement, removeNulls } from "../../../lib/utilities";
+import { removeNulls } from "../../../lib/utilities";
 import { extractQuizAndTipsBlock } from "../../../lib/graphql-data";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 import { useContract } from "../../../hooks/useContract";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
@@ -26,7 +22,6 @@ import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormMultiselect, {
   IOptionWrapper,
 } from "../../Form/FormMultiselect/FormMultiselect";
-import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import "./quiz-and-tips-tab.scss";
 
 interface IQuizAndTipsBlock {
@@ -156,7 +151,6 @@ export default function QuizAndTipsTab() {
   ] = useUpdateQuizAndTipsBlockTabMutation();
 
   /* Local Data */
-  const [isShowingSpinner, setIsShowingSpinner] = useState(false);
   const [quizAndTipsData, setQuizAndTipsData] = useState<IQuizAndTipsBlock>();
   const [quizzesData, setQuizzesData] = useState<Array<QuizEntity>>([]);
   const [tipsData, setTipsData] = useState<Array<IOptionWrapper<TipEntity>>>(
@@ -208,31 +202,6 @@ export default function QuizAndTipsTab() {
     }
   }, [form, data]);
 
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isSubmitting) {
-      if (!isShowingSpinner) {
-        spinnerTimerRef.current = setTimeout(() => {
-          setIsShowingSpinner(true);
-        }, 200);
-      }
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingSpinner(false);
-    }
-  }, [isShowingSpinner, isSubmitting]);
-
-  const focusRef = useCallback((node: HTMLFormElement) => {
-    FocusFirstElement(node);
-  }, []);
-
-  {
-    // TODO: layout shift, handle error redirect,
-  }
-  if (loading) return <CommonSpinner />;
-  if (error) return <span>{error?.message}</span>;
-  if (mutationError) return <span>{mutationError?.message}</span>;
-
   return (
     <div
       className="c-QuizAndTipsTab"
@@ -240,84 +209,95 @@ export default function QuizAndTipsTab() {
       role="tabpanel"
       aria-labelledby="tab-quizAndTips"
     >
-      {isShowingSpinner && <CommonSpinner isCover={true} />}
-      <h2 className="c-QuizAndTipsTab__Title">{formLabels.title}</h2>
-      <FormProvider {...form}>
-        <form
-          className="c-QuizAndTipsTab__Form"
-          onSubmit={handleSubmit(onSubmitValid)}
-          ref={focusRef}
-        >
-          <div className="c-QuizAndTipsTab__Group c-QuizAndTipsTab__Group_short">
-            <FormCheckbox name="displayBlock" label={formLabels.displayBlock} />
-            <FormInput
-              type="text"
-              name="titleContent"
-              label={formLabels.titleContent}
-              isRequired={true}
-              isDisabled={mutationLoading}
-              defaultValue={quizAndTipsData?.titleContent}
-            />
-          </div>
-          <div className="c-QuizAndTipsTab__Group">
-            <FormCheckbox name="displayQuiz" label={formLabels.displayQuiz} />
-            <FormModalButtonInput<QuizEntity>
-              name="quiz"
-              label={formLabels.quiz}
-              displayTransform={quizDisplayTransformFunction}
-              buttonLabel={formLabels.quizButton}
-              modalTitle={formLabels.quizModal}
-              onModalSubmit={onQuizModalSubmit}
-              isDisabled={mutationLoading}
-            >
-              <FormSelect<QuizEntity>
-                name="quizSelect"
-                label={formLabels.quizModalType}
-                displayTransform={quizSelectDisplayTransformFunction}
-                options={quizzesData}
-                optionKey={"id"}
-                defaultValue={watch("quiz")}
+      <CommonLoader
+        isLoading={loading || isSubmitting || mutationLoading}
+        isShowingContent={isSubmitting || mutationLoading}
+        hasDelay={isSubmitting || mutationLoading}
+        errors={[error, mutationError]}
+      >
+        <h2 className="c-QuizAndTipsTab__Title">{formLabels.title}</h2>
+        <FormProvider {...form}>
+          <form
+            className="c-QuizAndTipsTab__Form"
+            onSubmit={handleSubmit(onSubmitValid)}
+            ref={useFocusFirstElement()}
+          >
+            <div className="c-QuizAndTipsTab__Group c-QuizAndTipsTab__Group_short">
+              <FormCheckbox
+                name="displayBlock"
+                label={formLabels.displayBlock}
               />
-            </FormModalButtonInput>
-          </div>
-          <div className="c-QuizAndTipsTab__Group">
-            <FormCheckbox name="displayTips" label={formLabels.displayTips} />
-            <FormModalButtonInput<Array<TipEntity>>
-              name="tips"
-              label={formLabels.tips}
-              displayTransform={tipsDisplayTransformFunction}
-              buttonLabel={formLabels.tipsButton}
-              modalTitle={formLabels.tipsModal}
-              onModalSubmit={onTipsModalSubmit}
-              isDisabled={mutationLoading}
-            >
-              <FormMultiselect<TipEntity>
-                name="tipsSelect"
-                label={formLabels.tipsModalType}
-                displayTransform={tipSelectDisplayTransformFunction}
-                options={tipsData}
-                selectAmount={3}
-                optionKey={"id"}
-                defaultValues={watch("tips")}
+              <FormInput
+                type="text"
+                name="titleContent"
+                label={formLabels.titleContent}
+                isRequired={true}
+                isDisabled={mutationLoading}
+                defaultValue={quizAndTipsData?.titleContent}
               />
-            </FormModalButtonInput>
-          </div>
-          <div className="c-QuizAndTipsTab__Buttons">
-            <CommonButton
-              type="submit"
-              label={submitButtonLabel}
-              style="primary"
-              isDisabled={!isDirty}
-            />
-            <CommonButton
-              type="button"
-              label={cancelButtonLabel}
-              onClick={onCancel}
-              isDisabled={!isDirty}
-            />
-          </div>
-        </form>
-      </FormProvider>
+            </div>
+            <div className="c-QuizAndTipsTab__Group">
+              <FormCheckbox name="displayQuiz" label={formLabels.displayQuiz} />
+              <FormModalButtonInput<QuizEntity>
+                name="quiz"
+                label={formLabels.quiz}
+                displayTransform={quizDisplayTransformFunction}
+                buttonLabel={formLabels.quizButton}
+                modalTitle={formLabels.quizModal}
+                onModalSubmit={onQuizModalSubmit}
+                isDisabled={mutationLoading}
+              >
+                <FormSelect<QuizEntity>
+                  name="quizSelect"
+                  label={formLabels.quizModalType}
+                  displayTransform={quizSelectDisplayTransformFunction}
+                  options={quizzesData}
+                  optionKey={"id"}
+                  defaultValue={watch("quiz")}
+                />
+              </FormModalButtonInput>
+            </div>
+            <div className="c-QuizAndTipsTab__Group">
+              <FormCheckbox name="displayTips" label={formLabels.displayTips} />
+              <FormModalButtonInput<Array<TipEntity>>
+                name="tips"
+                label={formLabels.tips}
+                displayTransform={tipsDisplayTransformFunction}
+                buttonLabel={formLabels.tipsButton}
+                modalTitle={formLabels.tipsModal}
+                onModalSubmit={onTipsModalSubmit}
+                isDisabled={mutationLoading}
+              >
+                <FormMultiselect<TipEntity>
+                  name="tipsSelect"
+                  label={formLabels.tipsModalType}
+                  displayTransform={tipSelectDisplayTransformFunction}
+                  options={tipsData}
+                  selectAmount={3}
+                  optionKey={"id"}
+                  defaultValues={watch("tips")}
+                />
+              </FormModalButtonInput>
+            </div>
+            <div className="c-QuizAndTipsTab__Buttons">
+              <CommonButton
+                type="submit"
+                label={submitButtonLabel}
+                style="primary"
+                picto="check"
+                isDisabled={!isDirty}
+              />
+              <CommonButton
+                type="button"
+                label={cancelButtonLabel}
+                picto="cross"
+                onClick={onCancel}
+                isDisabled={!isDirty}
+              />
+            </div>
+          </form>
+        </FormProvider>
+      </CommonLoader>
     </div>
   );
 }

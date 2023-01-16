@@ -94,7 +94,7 @@ export default function FormServiceLinksRow({
         >
           <Image
             style={{ transform: "rotate(180deg)" }}
-            src={"/images/pictos/arrow.svg"}
+            src={"/images/pictos/arrow-down.svg"}
             alt={""}
             width={16}
             height={16}
@@ -110,7 +110,7 @@ export default function FormServiceLinksRow({
           onClick={() => onReorder(1)}
         >
           <Image
-            src={"/images/pictos/arrow.svg"}
+            src={"/images/pictos/arrow-down.svg"}
             alt={""}
             width={16}
             height={16}
