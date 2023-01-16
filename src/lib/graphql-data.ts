@@ -5,6 +5,7 @@ import {
   GetQuizAndTipsBlockTabQuery,
   GetRecyclingBlockTabQuery,
   GetSearchEngineTabQuery,
+  GetServicesBlockTabQuery,
   GetTopContentTabQuery,
   QuizAndTipsBlockEntity,
   QuizEntity,
@@ -12,6 +13,8 @@ import {
   SearchEngineBlockEntity,
   TipEntity,
 } from "../graphql/codegen/generated-types";
+import { IServiceLink, isServiceLink } from "./service-links";
+import { removeNulls } from "./utilities";
 
 /* Menu */
 export function extractMenu(data: GetMenuPageQuery) {
@@ -33,6 +36,42 @@ export function extractRecyclingGuideBlock(data: GetRecyclingBlockTabQuery) {
       ?.recyclingGuideBlock?.data ?? null;
 
   return { recyclingGuideBlock };
+}
+
+export interface IRemappedServiceBlock {
+  id: string | null;
+  titleContent: string | null;
+  serviceLinks: Array<IServiceLink> | null;
+}
+
+export function remapServiceLinksDynamicZone(
+  data: GetServicesBlockTabQuery,
+): IRemappedServiceBlock {
+  const serviceBlock =
+    data.contractCustomizations?.data[0].attributes?.homepage?.data?.attributes
+      ?.servicesBlock?.data ?? null;
+  return {
+    id: serviceBlock?.id ?? null,
+    titleContent: serviceBlock?.attributes?.titleContent ?? null,
+    serviceLinks:
+      serviceBlock?.attributes?.serviceLinks
+        ?.map((link, index) => {
+          if (link) {
+            const type = link.__typename;
+            if (type && isServiceLink(link)) {
+              return {
+                type,
+                localId: index,
+                name: link?.name,
+                externalLink: link?.externalLink,
+                isDisplayed: link?.isDisplayed,
+                picto: link?.picto,
+              };
+            }
+          }
+        })
+        .filter(removeNulls) ?? null,
+  };
 }
 
 export function extractTopContentBlock(data: GetTopContentTabQuery) {

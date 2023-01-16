@@ -23,6 +23,10 @@
       filter: url("#recolor-expert-blue");
     }
 
+    &_darkened {
+      opacity: 0.5;
+    }
+
     &_disabled {
       opacity: 0.2;
     }

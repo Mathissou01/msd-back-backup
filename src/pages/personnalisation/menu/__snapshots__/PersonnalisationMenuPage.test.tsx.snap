@@ -54,7 +54,6 @@ exports[`PersonnalisationMenuPage renders loading and loaded state 2`] = `
         >
           <label
             class="c-FormLabel"
-            for="serviceLinks"
           >
             <div
               class="c-FormLabel__Label"

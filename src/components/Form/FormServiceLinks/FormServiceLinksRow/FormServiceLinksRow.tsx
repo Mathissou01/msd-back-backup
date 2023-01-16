@@ -6,29 +6,35 @@ import "./form-service-links-row.scss";
 
 interface IFormServiceLinksRowProps {
   serviceLink: IServiceLink;
-  isUpDisabled?: boolean;
-  isDownDisabled?: boolean;
   onEdit: () => void;
   onToggleDisplay: () => void;
   onReorder: (shift: number) => void;
   buttonRef: React.RefObject<HTMLButtonElement>;
+  isDisabled?: boolean;
+  isEditDisabled?: boolean;
+  isToggleDisplayDisabled?: boolean;
+  isUpDisabled?: boolean;
+  isDownDisabled?: boolean;
 }
 
 export default function FormServiceLinksRow({
   serviceLink,
-  isUpDisabled,
-  isDownDisabled,
   onEdit,
   onToggleDisplay,
   onReorder,
   buttonRef,
+  isDisabled,
+  isEditDisabled,
+  isToggleDisplayDisabled,
+  isUpDisabled,
+  isDownDisabled,
 }: IFormServiceLinksRowProps) {
   return (
     <>
       <div className="c-FormServiceLinksRow__Info">
         <Image
           className={classNames("c-FormServiceLinksRow__Picto", {
-            "c-FormServiceLinksRow__Picto_disabled": !serviceLink.isDisplayed,
+            "c-FormServiceLinksRow__Picto_disabled": isDisabled,
           })}
           src={
             serviceLink.picto?.data?.attributes?.url ??
@@ -43,7 +49,8 @@ export default function FormServiceLinksRow({
       <div className="c-FormServiceLinksRow__Actions">
         <button
           className={classNames("c-FormServiceLinksRow__Action", {
-            "c-FormServiceLinksRow__Action_disabled": !serviceLink.isDisplayed,
+            "c-FormServiceLinksRow__Action_darkened": isDisabled,
+            "c-FormServiceLinksRow__Action_disabled": isEditDisabled,
           })}
           type="button"
           onClick={onEdit}
@@ -58,13 +65,19 @@ export default function FormServiceLinksRow({
         </button>
         <button
           className={classNames("c-FormServiceLinksRow__Action", {
-            "c-FormServiceLinksRow__Action_disabled": !serviceLink.isDisplayed,
+            "c-FormServiceLinksRow__Action_darkened": isDisabled,
+            "c-FormServiceLinksRow__Action_disabled": isToggleDisplayDisabled,
           })}
           type="button"
+          disabled={isToggleDisplayDisabled}
           onClick={onToggleDisplay}
         >
           <Image
-            src={"/images/pictos/view.svg"}
+            src={
+              isToggleDisplayDisabled
+                ? "/images/pictos/view-off.svg"
+                : "/images/pictos/view.svg"
+            }
             alt={""}
             width={16}
             height={16}
@@ -72,8 +85,8 @@ export default function FormServiceLinksRow({
         </button>
         <button
           className={classNames("c-FormServiceLinksRow__Action", {
-            "c-FormServiceLinksRow__Action_disabled":
-              !serviceLink.isDisplayed || isUpDisabled,
+            "c-FormServiceLinksRow__Action_darkened": isDisabled,
+            "c-FormServiceLinksRow__Action_disabled": isUpDisabled,
           })}
           type="button"
           disabled={isUpDisabled}
@@ -89,8 +102,8 @@ export default function FormServiceLinksRow({
         </button>
         <button
           className={classNames("c-FormServiceLinksRow__Action", {
-            "c-FormServiceLinksRow__Action_disabled":
-              !serviceLink.isDisplayed || isDownDisabled,
+            "c-FormServiceLinksRow__Action_darkened": isDisabled,
+            "c-FormServiceLinksRow__Action_disabled": isDownDisabled,
           })}
           type="button"
           disabled={isDownDisabled}

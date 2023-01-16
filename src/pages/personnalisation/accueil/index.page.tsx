@@ -9,6 +9,7 @@ import RecyclingGuideTab from "../../../components/TabBlock/RecyclingGuideTab/Re
 import QuizAndTipsTab from "../../../components/TabBlock/QuizAndTipsTab/QuizAndTipsTab";
 import TopContentTab from "../../../components/TabBlock/TopContentTab/TopContentTab";
 import EditoTab from "../../../components/TabBlock/EditoTab/EditoTab";
+import ServiceTab from "../../../components/TabBlock/ServicesTab/ServicesTab";
 
 interface IServiceParameters {
   isServiceRecyclingGuideActivated: boolean;
@@ -79,7 +80,7 @@ export default function PersonnalisationAccueilPage() {
       {
         name: "services",
         title: "Services",
-        content: <div />,
+        content: <ServiceTab />,
         isEnabled: true,
       },
       {

@@ -8,10 +8,11 @@ export interface IPicto {
 
 export interface IServiceLink {
   type?: string;
+  localId: number;
   name: string;
   isDisplayed: boolean;
   picto?: IPicto | null;
-  path?: string;
+  externalLink?: string;
 }
 
 // eslint-disable-next-line

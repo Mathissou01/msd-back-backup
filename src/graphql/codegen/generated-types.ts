@@ -5989,6 +5989,214 @@ export type GetServicesActiveQuery = {
   } | null;
 };
 
+export type GetServicesBlockTabQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetServicesBlockTabQuery = {
+  __typename?: "Query";
+  contractCustomizations?: {
+    __typename?: "ContractCustomizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractCustomizationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContractCustomization";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              servicesBlock?: {
+                __typename?: "ServicesBlockEntityResponse";
+                data?: {
+                  __typename?: "ServicesBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ServicesBlock";
+                    titleContent: string;
+                    serviceLinks?: Array<
+                      | {
+                          __typename?: "ComponentLinksCalendar";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksContactUs";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksEvents";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksExternal";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          externalLink?: string | null;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksFrees";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksMap";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksNews";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksQuizzes";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksRecycling";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksRequest";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksTips";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | { __typename?: "Error" }
+                      | null
+                    > | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetTopContentTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -6392,6 +6600,215 @@ export type UpdateSearchEngineTabMutation = {
       attributes?: {
         __typename?: "SearchEngineBlock";
         titleContent: string;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateServicesBlockTabMutationVariables = Exact<{
+  updateServicesBlockId: Scalars["ID"];
+  data: ServicesBlockInput;
+}>;
+
+export type UpdateServicesBlockTabMutation = {
+  __typename?: "Mutation";
+  updateServicesBlock?: {
+    __typename?: "ServicesBlockEntityResponse";
+    data?: {
+      __typename?: "ServicesBlockEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ServicesBlock";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              servicesBlock?: {
+                __typename?: "ServicesBlockEntityResponse";
+                data?: {
+                  __typename?: "ServicesBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ServicesBlock";
+                    titleContent: string;
+                    serviceLinks?: Array<
+                      | {
+                          __typename?: "ComponentLinksCalendar";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksContactUs";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksEvents";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksExternal";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          externalLink?: string | null;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksFrees";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksMap";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksNews";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksQuizzes";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksRecycling";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksRequest";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksTips";
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | { __typename?: "Error" }
+                      | null
+                    > | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -7306,6 +7723,206 @@ export type GetServicesActiveQueryResult = Apollo.QueryResult<
   GetServicesActiveQuery,
   GetServicesActiveQueryVariables
 >;
+export const GetServicesBlockTabDocument = gql`
+  query getServicesBlockTab($contractId: ID!) {
+    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          homepage {
+            data {
+              attributes {
+                servicesBlock {
+                  data {
+                    id
+                    attributes {
+                      titleContent
+                      serviceLinks {
+                        ... on ComponentLinksMap {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksCalendar {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksRecycling {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksRequest {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksContactUs {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksNews {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksEvents {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksQuizzes {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksTips {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksFrees {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksExternal {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                          externalLink
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetServicesBlockTabQuery__
+ *
+ * To run a query within a React component, call `useGetServicesBlockTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetServicesBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetServicesBlockTabQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetServicesBlockTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetServicesBlockTabQuery,
+    GetServicesBlockTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetServicesBlockTabQuery,
+    GetServicesBlockTabQueryVariables
+  >(GetServicesBlockTabDocument, options);
+}
+export function useGetServicesBlockTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetServicesBlockTabQuery,
+    GetServicesBlockTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetServicesBlockTabQuery,
+    GetServicesBlockTabQueryVariables
+  >(GetServicesBlockTabDocument, options);
+}
+export type GetServicesBlockTabQueryHookResult = ReturnType<
+  typeof useGetServicesBlockTabQuery
+>;
+export type GetServicesBlockTabLazyQueryHookResult = ReturnType<
+  typeof useGetServicesBlockTabLazyQuery
+>;
+export type GetServicesBlockTabQueryResult = Apollo.QueryResult<
+  GetServicesBlockTabQuery,
+  GetServicesBlockTabQueryVariables
+>;
 export const GetTopContentTabDocument = gql`
   query getTopContentTab($contractId: ID!) {
     getTopContentBlockDTO(contractId: $contractId) {
@@ -7956,6 +8573,202 @@ export type UpdateSearchEngineTabMutationResult =
 export type UpdateSearchEngineTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateSearchEngineTabMutation,
   UpdateSearchEngineTabMutationVariables
+>;
+export const UpdateServicesBlockTabDocument = gql`
+  mutation updateServicesBlockTab(
+    $updateServicesBlockId: ID!
+    $data: ServicesBlockInput!
+  ) {
+    updateServicesBlock(id: $updateServicesBlockId, data: $data) {
+      data {
+        id
+        attributes {
+          homepage {
+            data {
+              attributes {
+                servicesBlock {
+                  data {
+                    id
+                    attributes {
+                      titleContent
+                      serviceLinks {
+                        ... on ComponentLinksMap {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksCalendar {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksRecycling {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksRequest {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksContactUs {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksNews {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksEvents {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksQuizzes {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksTips {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksFrees {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksExternal {
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                          externalLink
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateServicesBlockTabMutationFn = Apollo.MutationFunction<
+  UpdateServicesBlockTabMutation,
+  UpdateServicesBlockTabMutationVariables
+>;
+
+/**
+ * __useUpdateServicesBlockTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateServicesBlockTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateServicesBlockTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateServicesBlockTabMutation, { data, loading, error }] = useUpdateServicesBlockTabMutation({
+ *   variables: {
+ *      updateServicesBlockId: // value for 'updateServicesBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateServicesBlockTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateServicesBlockTabMutation,
+    UpdateServicesBlockTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateServicesBlockTabMutation,
+    UpdateServicesBlockTabMutationVariables
+  >(UpdateServicesBlockTabDocument, options);
+}
+export type UpdateServicesBlockTabMutationHookResult = ReturnType<
+  typeof useUpdateServicesBlockTabMutation
+>;
+export type UpdateServicesBlockTabMutationResult =
+  Apollo.MutationResult<UpdateServicesBlockTabMutation>;
+export type UpdateServicesBlockTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateServicesBlockTabMutation,
+  UpdateServicesBlockTabMutationVariables
 >;
 export const UpdateTopContentTabDocument = gql`
   mutation updateTopContentTab(

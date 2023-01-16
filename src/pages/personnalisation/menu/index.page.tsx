@@ -95,12 +95,13 @@ export default function PersonnalisationMenuPage() {
         const mappedData = {
           id: contractMenu.id,
           serviceLinks: contractMenu.attributes.serviceLinks
-            .map((link) => {
+            .map((link, index) => {
               if (link) {
                 const type = link.__typename;
                 if (type && isServiceLink(link)) {
                   return {
                     type,
+                    localId: index,
                     name: link?.name,
                     isDisplayed: link?.isDisplayed,
                     picto: link?.picto,

@@ -1,17 +1,19 @@
 import classNames from "classnames";
 import { ErrorMessage } from "@hookform/error-message";
 import { useFormContext } from "react-hook-form";
-import { Flipper, Flipped } from "react-flip-toolkit";
-import React, { createRef, ReactNode, useRef } from "react";
+import React, {
+  createRef,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { IPicto, IServiceLink } from "../../../lib/service-links";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import FormLabel from "../FormLabel/FormLabel";
-import FormServiceLinksRow from "./FormServiceLinksRow/FormServiceLinksRow";
-import FormModal from "../FormModal/FormModal";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
-import FormInput from "../FormInput/FormInput";
-import FormModalButtonInput from "../FormModalButtonInput/FormModalButtonInput";
+import FormServiceLinksList from "./FormServiceLinksList/FormServiceLinksList";
 import "./form-service-links.scss";
 
 interface IFormServiceLinksProps {
@@ -19,6 +21,10 @@ interface IFormServiceLinksProps {
   label: string;
   secondaryLabel?: string;
   isDisabled?: boolean;
+  isSplitDisplay?: boolean;
+  splitLabel?: string;
+  splitSecondaryLabel?: string;
+  maxLimitIsDisplayed?: number;
 }
 
 export default function FormServiceLinks({
@@ -26,11 +32,16 @@ export default function FormServiceLinks({
   label,
   secondaryLabel,
   isDisabled,
+  isSplitDisplay = false,
+  splitLabel,
+  splitSecondaryLabel,
+  maxLimitIsDisplayed,
 }: IFormServiceLinksProps) {
   /* Static Data */
   const formLabels = {
     modalTitle: "Menu",
-    linkLabel: "Texte du lien",
+    nameLabel: "Texte du lien",
+    externalLinkLabel: "Lien vers le service",
     pictoLabel: "Picto",
     pictoButton: "Choisir un autre picto",
   };
@@ -49,18 +60,27 @@ export default function FormServiceLinks({
     return childRefs.current[i];
   }
 
+  function getOriginalIndex(i: number, filterBool: boolean) {
+    const link = values.filter((value) =>
+      filterBool ? value.isDisplayed : !value.isDisplayed,
+    )[i];
+    return values.findIndex((value) => value.localId === link.localId);
+  }
+
   function onEdit(i: number) {
     childRefs.current[i].current?.toggleModal(true);
   }
 
-  function onToggleDisplay(i: number) {
+  function onToggleDisplay(i: number, shiftToEnd = false) {
     const updatedServiceLink: IServiceLink = {
       ...values[i],
       isDisplayed: !values[i].isDisplayed,
     };
     setValue(
       name,
-      [...values.slice(0, i), updatedServiceLink, ...values.slice(i + 1)],
+      shiftToEnd
+        ? [...values.slice(0, i), ...values.slice(i + 1), updatedServiceLink]
+        : [...values.slice(0, i), updatedServiceLink, ...values.slice(i + 1)],
       { shouldDirty: true },
     );
   }
@@ -83,6 +103,7 @@ export default function FormServiceLinks({
     const updatedServiceLink: IServiceLink = {
       ...values[i],
       name: content[modalName].name ?? "",
+      externalLink: content[modalName].externalLink ?? undefined,
       picto: content[modalName].picto ?? null,
     };
     setValue(
@@ -107,10 +128,11 @@ export default function FormServiceLinks({
 
   function onPictoModalSubmit(
     submitData: { [key: string]: Partial<IPicto> },
-    name: string,
+    modalName: string,
+    i: number,
   ) {
     // TODO: implement media server, set picto object to be sent in mutation here
-    console.log(submitData, name);
+    console.log(submitData, modalName, i);
     // const contents = Object.values(submitData)?.filter(removeNulls);
     // setValue(name, contents, { shouldDirty: true });
   }
@@ -125,7 +147,39 @@ export default function FormServiceLinks({
   register(name, {
     required: { value: true, message: errorMessages.required },
   });
-  const values: Array<IServiceLink> = watch(name, []);
+  const currentParentValues = watch(name);
+  const [values, setValues] = useState<Array<IServiceLink>>([]);
+  const [hasSixDisplayed, setSixDisplayed] = useState<boolean>(false);
+
+  useEffect(() => {
+    setValues(
+      currentParentValues?.sort((a: IServiceLink, b: IServiceLink) => {
+        if (a.isDisplayed && b.isDisplayed) {
+          return 0;
+        }
+        if (a.isDisplayed && !b.isDisplayed) {
+          return 1;
+        }
+        if (!a.isDisplayed && b.isDisplayed) {
+          return -1;
+        }
+      }),
+    );
+  }, [currentParentValues]);
+
+  useEffect(() => {
+    setSixDisplayed(values?.filter((value) => value.isDisplayed).length >= 6);
+  }, [values]);
+
+  useEffect(() => {
+    setSixDisplayed(
+      maxLimitIsDisplayed
+        ? values?.filter((value) => value.isDisplayed).length >=
+            maxLimitIsDisplayed
+        : false,
+    );
+  }, [maxLimitIsDisplayed, values]);
+
   const editButtonRefs = useRef<Array<React.RefObject<HTMLButtonElement>>>([]);
   const childRefs = useRef<Array<React.RefObject<CommonModalWrapperRef>>>([]);
 
@@ -136,68 +190,111 @@ export default function FormServiceLinks({
           "c-FormServiceLinks_disabled": isDisabled || isSubmitting,
         })}
       >
-        <FormLabel forId={name} label={label} secondaryLabel={secondaryLabel} />
-        {values && values.length > 0 && (
-          <Flipper
-            className="c-FormServiceLinks__List"
-            flipKey={values}
-            element="ul"
-          >
-            {values.map((link, index) => (
-              <div key={`${link.type}_${link.name}`}>
-                <Flipped flipId={`${link.type}_${link.name}`}>
-                  <li
-                    className={classNames("c-FormServiceLinks__Row", {
-                      "c-FormServiceLinks__Row_disabled": !link.isDisplayed,
-                    })}
-                  >
-                    <FormServiceLinksRow
-                      serviceLink={link}
-                      isUpDisabled={index <= 0}
-                      isDownDisabled={index + 1 >= values.length}
-                      onEdit={() => onEdit(index)}
-                      onToggleDisplay={() => onToggleDisplay(index)}
-                      onReorder={(shift) => onReorder(index, shift)}
-                      buttonRef={getEditButtonRef(index)}
-                    />
-                  </li>
-                </Flipped>
-                <FormModal<IServiceLink>
-                  modalRef={getRef(index)}
-                  modalTitle={formLabels.modalTitle}
-                  modalSubtitle={link.name}
-                  hasRequiredChildren={"all"}
-                  onClose={() => onModalClose(index)}
-                  onSubmit={(data) =>
-                    onModalSubmit(data, `modal_${index}`, index)
+        <FormLabel label={label} secondaryLabel={secondaryLabel} />
+        {!isSplitDisplay ? (
+          <>
+            {values && values.length > 0 && (
+              <FormServiceLinksList
+                values={values}
+                onEdit={onEdit}
+                onToggleDisplay={onToggleDisplay}
+                onReorder={onReorder}
+                getEditButtonRef={getEditButtonRef}
+                getRef={getRef}
+                formLabels={formLabels}
+                onModalClose={onModalClose}
+                onModalSubmit={onModalSubmit}
+                modalPictoDisplayTransformFunction={
+                  modalPictoDisplayTransformFunction
+                }
+                onPictoModalSubmit={onPictoModalSubmit}
+              />
+            )}
+          </>
+        ) : (
+          <>
+            {values?.filter((value) => value.isDisplayed)?.length > 0 && (
+              <FormServiceLinksList
+                values={values.filter((value) => value.isDisplayed)}
+                onEdit={(i) => onEdit(getOriginalIndex(i, true))}
+                onToggleDisplay={(i) =>
+                  onToggleDisplay(getOriginalIndex(i, true), true)
+                }
+                onReorder={(i, shift) =>
+                  onReorder(getOriginalIndex(i, true), shift)
+                }
+                getEditButtonRef={(i) =>
+                  getEditButtonRef(getOriginalIndex(i, true))
+                }
+                getRef={(i) => getRef(getOriginalIndex(i, true))}
+                formLabels={formLabels}
+                onModalClose={(i) => onModalClose(getOriginalIndex(i, true))}
+                onModalSubmit={(submitData, modalName, i) =>
+                  onModalSubmit(
+                    submitData,
+                    modalName,
+                    getOriginalIndex(i, true),
+                  )
+                }
+                modalPictoDisplayTransformFunction={
+                  modalPictoDisplayTransformFunction
+                }
+                onPictoModalSubmit={(submitData, modalName, i) =>
+                  onPictoModalSubmit(
+                    submitData,
+                    modalName,
+                    getOriginalIndex(i, true),
+                  )
+                }
+              />
+            )}
+            {values?.filter((value) => !value.isDisplayed)?.length > 0 && (
+              <>
+                <FormLabel label={splitLabel ?? ""} />
+                {hasSixDisplayed && (
+                  <span className="c-FormServiceLinks__SplitSecondaryLabel">
+                    {splitSecondaryLabel}
+                  </span>
+                )}
+                <FormServiceLinksList
+                  values={values.filter((value) => !value.isDisplayed)}
+                  onEdit={(i) => onEdit(getOriginalIndex(i, false))}
+                  onToggleDisplay={(i) =>
+                    onToggleDisplay(getOriginalIndex(i, false), true)
                   }
-                >
-                  <FormInput
-                    type="text"
-                    name={`modal_${index}.name`}
-                    label={formLabels.linkLabel}
-                    isRequired={true}
-                    defaultValue={link.name}
-                  />
-                  <FormModalButtonInput<IPicto>
-                    name={`modal_${index}.picto`}
-                    label={formLabels.pictoLabel}
-                    buttonLabel={formLabels.pictoButton}
-                    isStyleRow={true}
-                    displayTransform={modalPictoDisplayTransformFunction}
-                    defaultValue={link.picto}
-                    isRequired={true}
-                    modalTitle={"WIP MEDIA SERVER"}
-                    onModalSubmit={(data) =>
-                      onPictoModalSubmit(data, `modal_${index}.picto`)
-                    }
-                  >
-                    <span>WIP MEDIA SERVER</span>
-                  </FormModalButtonInput>
-                </FormModal>
-              </div>
-            ))}
-          </Flipper>
+                  onReorder={(i, shift) =>
+                    onReorder(getOriginalIndex(i, false), shift)
+                  }
+                  getEditButtonRef={(i) =>
+                    getEditButtonRef(getOriginalIndex(i, false))
+                  }
+                  getRef={(i) => getRef(getOriginalIndex(i, false))}
+                  formLabels={formLabels}
+                  onModalClose={(i) => onModalClose(getOriginalIndex(i, false))}
+                  onModalSubmit={(submitData, modalName, i) =>
+                    onModalSubmit(
+                      submitData,
+                      modalName,
+                      getOriginalIndex(i, false),
+                    )
+                  }
+                  modalPictoDisplayTransformFunction={
+                    modalPictoDisplayTransformFunction
+                  }
+                  onPictoModalSubmit={(submitData, modalName, i) =>
+                    onPictoModalSubmit(
+                      submitData,
+                      modalName,
+                      getOriginalIndex(i, false),
+                    )
+                  }
+                  isToggleDisplayDisabled={hasSixDisplayed}
+                  isUpDisabled={true}
+                  isDownDisabled={true}
+                />
+              </>
+            )}
+          </>
         )}
         <ErrorMessage
           errors={errors}

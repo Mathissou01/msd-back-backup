@@ -5,7 +5,7 @@ import "./common-button.scss";
 interface ICommonButtonProps {
   label?: string;
   type?: "button" | "submit" | "reset" | undefined;
-  picto?: "check" | "cross";
+  picto?: "check" | "cross" | "plus";
   isDisabled?: boolean;
   onClick?: () => void;
   formLabelId?: string;
