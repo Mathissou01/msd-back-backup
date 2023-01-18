@@ -71,7 +71,7 @@ export default function EditoThematiquesPage() {
         name: inputRefs.current[i].current?.value,
       },
     };
-    await updateTagMutation({
+    return updateTagMutation({
       variables,
       refetchQueries: [
         {
@@ -80,9 +80,6 @@ export default function EditoThematiquesPage() {
         },
         "countContentPerTag",
       ],
-    });
-    return new Promise<void>((resolve) => {
-      setTimeout(() => resolve(), 1000);
     });
   }
 
@@ -90,7 +87,7 @@ export default function EditoThematiquesPage() {
     const variables = {
       deleteTagId: row.id,
     };
-    await deleteTagMutation({
+    return deleteTagMutation({
       variables,
       refetchQueries: [
         {
@@ -99,9 +96,6 @@ export default function EditoThematiquesPage() {
         },
         "countContentPerTag",
       ],
-    });
-    return new Promise<void>((resolve) => {
-      setTimeout(() => resolve(), 1000);
     });
   }
 
@@ -115,7 +109,7 @@ export default function EditoThematiquesPage() {
       contractId,
       tagName: data["name"],
     };
-    await createNewTagMutation({
+    return createNewTagMutation({
       variables,
       refetchQueries: [
         {
@@ -124,9 +118,6 @@ export default function EditoThematiquesPage() {
         },
         "countContentPerTag",
       ],
-    });
-    return new Promise<void>((resolve) => {
-      setTimeout(() => resolve(), 1000);
     });
   }
 

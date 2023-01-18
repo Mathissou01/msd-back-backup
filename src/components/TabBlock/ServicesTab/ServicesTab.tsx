@@ -7,7 +7,6 @@ import {
   useGetServicesBlockTabQuery,
   useUpdateServicesBlockTabMutation,
 } from "../../../graphql/codegen/generated-types";
-import { remapServiceLinksDynamicZone } from "../../../lib/graphql-data";
 import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import { IServiceLink } from "../../../lib/service-links";
@@ -16,6 +15,7 @@ import ServicesTabAddButton from "./ServicesTabAddButton/ServicesTabAddButton";
 import "./services-tab.scss";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
+import { extractServicesBlock } from "../../../lib/graphql-data";
 
 interface IServicesBlock {
   id: string;
@@ -81,7 +81,7 @@ export default function ServicesTab() {
           serviceLinks: returnValues,
         },
       };
-      await updateServicesBlockTab({
+      return updateServicesBlockTab({
         variables,
         refetchQueries: [
           {
@@ -90,9 +90,6 @@ export default function ServicesTab() {
           },
           "getServicesBlockTab",
         ],
-      });
-      return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000);
       });
     }
   }
@@ -121,7 +118,7 @@ export default function ServicesTab() {
 
   useEffect(() => {
     if (data) {
-      const serviceBlockMapped = remapServiceLinksDynamicZone(data);
+      const serviceBlockMapped = extractServicesBlock(data);
       if (
         serviceBlockMapped.id &&
         serviceBlockMapped.titleContent &&

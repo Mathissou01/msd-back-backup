@@ -48,7 +48,7 @@ export default function RecyclingGuideTab() {
             submitData["recyclingGuideDisplayContent"],
         },
       };
-      updateRecyclingGuideBlock({
+      return updateRecyclingGuideBlock({
         variables,
         refetchQueries: [
           {
@@ -57,9 +57,6 @@ export default function RecyclingGuideTab() {
           },
           "getRecyclingBlockTab",
         ],
-      });
-      return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000);
       });
     }
   }

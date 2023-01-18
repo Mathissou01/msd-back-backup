@@ -87,7 +87,7 @@ export default function PersonnalisationFooterPage() {
           link: submitData["contactUsSubService"]["link"],
         },
       };
-      await updateFooterPage({
+      return updateFooterPage({
         variables,
         refetchQueries: [
           {
@@ -96,9 +96,6 @@ export default function PersonnalisationFooterPage() {
           },
           "getFooterPage",
         ],
-      });
-      return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000);
       });
     }
   }

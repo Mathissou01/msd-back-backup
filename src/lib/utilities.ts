@@ -1,3 +1,13 @@
+export const removeNulls = <S>(value: S | undefined): value is S =>
+  value != null;
+
+export function isAbsoluteOrRelativeUrl(url: string) {
+  const regex = new RegExp(
+    "^((http|https)\\/\\/(www\\.)?[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,})|((\\/)?\\S\\s?)+$",
+  );
+  return regex.test(url);
+}
+
 export function FocusFirstElement(node: Element) {
   if (node) {
     const focusableModalElements = node.querySelectorAll(
@@ -52,14 +62,4 @@ export function comparePropertyValueByPriority(
     else if (first > second) result = 1;
     return order === "desc" ? ~result : result;
   };
-}
-
-export const removeNulls = <S>(value: S | undefined): value is S =>
-  value != null;
-
-export function isAbsoluteOrRelativeUrl(url: string) {
-  const regex = new RegExp(
-    "^((http|https)\\/\\/(www\\.)?[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,})|((\\/)?\\S\\s?)+$",
-  );
-  return regex.test(url);
 }

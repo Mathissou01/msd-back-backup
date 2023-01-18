@@ -120,7 +120,7 @@ export default function QuizAndTipsTab() {
             null,
         },
       };
-      await updateQuizAndTipsBlock({
+      return updateQuizAndTipsBlock({
         variables,
         refetchQueries: [
           {
@@ -129,9 +129,6 @@ export default function QuizAndTipsTab() {
           },
           "getQuizAndTipsBlockTab",
         ],
-      });
-      return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000);
       });
     }
   }

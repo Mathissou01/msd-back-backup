@@ -21,6 +21,7 @@ interface IFormServiceLinksProps {
   label: string;
   secondaryLabel?: string;
   isDisabled?: boolean;
+  isSortByIsDisplayed?: boolean;
   isSplitDisplay?: boolean;
   splitLabel?: string;
   splitSecondaryLabel?: string;
@@ -32,6 +33,7 @@ export default function FormServiceLinks({
   label,
   secondaryLabel,
   isDisabled,
+  isSortByIsDisplayed,
   isSplitDisplay = false,
   splitLabel,
   splitSecondaryLabel,
@@ -153,19 +155,21 @@ export default function FormServiceLinks({
 
   useEffect(() => {
     setValues(
-      currentParentValues?.sort((a: IServiceLink, b: IServiceLink) => {
-        if (a.isDisplayed && b.isDisplayed) {
-          return 0;
-        }
-        if (a.isDisplayed && !b.isDisplayed) {
-          return 1;
-        }
-        if (!a.isDisplayed && b.isDisplayed) {
-          return -1;
-        }
-      }),
+      isSortByIsDisplayed
+        ? currentParentValues?.sort((a: IServiceLink, b: IServiceLink) => {
+            if (a.isDisplayed && b.isDisplayed) {
+              return 0;
+            }
+            if (a.isDisplayed && !b.isDisplayed) {
+              return 1;
+            }
+            if (!a.isDisplayed && b.isDisplayed) {
+              return -1;
+            }
+          })
+        : currentParentValues,
     );
-  }, [currentParentValues]);
+  }, [currentParentValues, isSortByIsDisplayed]);
 
   useEffect(() => {
     setSixDisplayed(values?.filter((value) => value.isDisplayed).length >= 6);

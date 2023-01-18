@@ -11,14 +11,12 @@ import { removeNulls } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
-import CommonDataTable, {
-  ICommonDataTableValidation,
-} from "../../../components/Common/CommonDataTable/CommonDataTable";
+import CommonDataTable from "../../../components/Common/CommonDataTable/CommonDataTable";
 import DataTableInput from "../../../components/Common/CommonDataTable/Inputs/DataTableInput/DataTableInput";
 import DataTableTextArea from "../../../components/Common/CommonDataTable/Inputs/DataTableTextArea/DataTableTextArea";
-import "./edito-type-contenu-page.scss";
 import DataTableForm from "../../../components/Common/CommonDataTable/DataTableForm/DataTableForm";
 import FormInput from "../../../components/Form/FormInput/FormInput";
+import "./edito-type-contenu-page.scss";
 
 interface IContentTypeTableRow {
   id: string;
@@ -50,7 +48,6 @@ export default function EditoTypeContenuPage() {
   const tableValidation = {
     maxLengthName: 30,
     maxLengthDescription: 70,
-    contentTypeName: "Un Type de contenu avec ce nom existe déjà",
   };
 
   /* Methods */
@@ -64,17 +61,10 @@ export default function EditoTypeContenuPage() {
     return textAreaRefs.current[i];
   }
 
-  function confirmValidation(
-    row: IContentTypeTableRow,
-    i: number,
-  ): ICommonDataTableValidation {
-    const isValid = !tableData.some(
-      (row) => row.name === inputRefs.current[i].current?.value,
-    );
-    return { isValid, errorMessage: tableValidation.contentTypeName };
-  }
-
   async function onConfirm(row: IContentTypeTableRow, i: number) {
+    console.log(row, inputRefs.current[i].current, i);
+    console.log(inputRefs.current[i].current?.value);
+    console.log(textAreaRefs.current[i].current?.value);
     const variables = {
       updateFreeContentSubServiceId: row.subServiceId,
       data: {
@@ -82,7 +72,7 @@ export default function EditoTypeContenuPage() {
         description: textAreaRefs.current[i].current?.value,
       },
     };
-    await updateContentTypeMutation({
+    return updateContentTypeMutation({
       variables,
       refetchQueries: [
         {
@@ -92,16 +82,13 @@ export default function EditoTypeContenuPage() {
         "getContentTypeDTOs",
       ],
     });
-    return new Promise<void>((resolve) => {
-      setTimeout(() => resolve(), 1000);
-    });
   }
 
   // async function onDelete(row: IContentTypeTableRow) {
   //   const variables = {
   //     deleteTagId: row.subServiceId,
   //   };
-  //   await deleteContentTypeMutation({
+  //   return deleteContentTypeMutation({
   //     variables,
   //     refetchQueries: [
   //       {
@@ -111,15 +98,7 @@ export default function EditoTypeContenuPage() {
   //       "getContentTypeDTOs",
   //     ],
   //   });
-  //   return new Promise<void>((resolve) => {
-  //     setTimeout(() => resolve(), 1000);
-  //   });
   // }
-
-  function addRowValidation(data: FieldValues): ICommonDataTableValidation {
-    const isValid = !tableData.some((row) => row.name === data["name"]);
-    return { isValid, errorMessage: tableValidation.contentTypeName };
-  }
 
   async function onAddRow(data: FieldValues) {
     const variables = {
@@ -127,7 +106,7 @@ export default function EditoTypeContenuPage() {
       name: data["name"],
       description: data["description"],
     };
-    await createContentTypeMutation({
+    return createContentTypeMutation({
       variables,
       refetchQueries: [
         {
@@ -136,9 +115,6 @@ export default function EditoTypeContenuPage() {
         },
         "getContentTypeDTOs",
       ],
-    });
-    return new Promise<void>((resolve) => {
-      setTimeout(() => resolve(), 1000);
     });
   }
 
@@ -261,15 +237,11 @@ export default function EditoTypeContenuPage() {
               hasDeleteAction={true}
               deleteVisibleCondition={() => false}
               onConfirm={(row, rowIndex) => onConfirm(row, rowIndex)}
-              confirmValidation={(row, rowIndex) =>
-                confirmValidation(row, rowIndex)
-              }
               // onDelete={(row) => onDelete(row)}
             />
             <DataTableForm
               title={tableLabels.addRow.title}
               onFormSubmit={(data) => onAddRow(data)}
-              validationFunction={(row) => addRowValidation(row)}
             >
               <FormInput
                 type="text"

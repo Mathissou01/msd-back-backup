@@ -48,7 +48,7 @@ export default function PersonnalisationMenuPage() {
           serviceLinks: returnValues,
         },
       };
-      await updateMenuPage({
+      return updateMenuPage({
         variables,
         refetchQueries: [
           {
@@ -57,9 +57,6 @@ export default function PersonnalisationMenuPage() {
           },
           "getMenuPage",
         ],
-      });
-      return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000);
       });
     }
   }

@@ -43,7 +43,7 @@ export default function WelcomeAndSearchEngineTab() {
           titleContent: submitData["titleContent"],
         },
       };
-      updateSearchEngineBlock({
+      return updateSearchEngineBlock({
         variables,
         refetchQueries: [
           {
@@ -52,9 +52,6 @@ export default function WelcomeAndSearchEngineTab() {
           },
           "getSearchEngineTab",
         ],
-      });
-      return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000);
       });
     }
   }

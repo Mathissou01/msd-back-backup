@@ -23,7 +23,7 @@ interface IFormModalButtonInputProps<T> {
   defaultValue?: Partial<T> | null;
   isRequired?: boolean;
   isDisabled?: boolean;
-  onValidate?: Validate<T>;
+  onValidate?: Validate<string, FieldValues>;
   modalTitle: string;
   modalSubtitle?: string;
   modalHasRequiredChildren?: "some" | "all" | null;

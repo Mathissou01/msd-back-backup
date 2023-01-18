@@ -95,7 +95,7 @@ export default function EditoTab() {
             ) ?? null,
         },
       };
-      await updateEditoBlock({
+      return updateEditoBlock({
         variables,
         refetchQueries: [
           {
@@ -104,9 +104,6 @@ export default function EditoTab() {
           },
           "getEditoBlockTab",
         ],
-      });
-      return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000);
       });
     }
   }

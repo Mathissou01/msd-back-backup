@@ -99,7 +99,7 @@ export default function TopContentTab() {
           topContent: submitData["topContent"]?.id ?? null,
         },
       };
-      await updateTopContentBlock({
+      return updateTopContentBlock({
         variables,
         refetchQueries: [
           {
@@ -108,9 +108,6 @@ export default function TopContentTab() {
           },
           "getTopContentTab",
         ],
-      });
-      return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000);
       });
     }
   }
