@@ -1,7 +1,12 @@
 # Jobs template for static website release
+parameters:
+  - name: env
+    type: string
+    default: dev
+
 jobs:
   - job: msd_bo_site_release
-    displayName: "Release BackOffice Static WebSite"
+    displayName: "[${{ upper(parameters.env) }}] Publish BO Website"
     steps:
       - checkout: none
 
@@ -13,7 +18,7 @@ jobs:
           artifact: BO Static WebApp Export $(Build.BuildId)
 
       - task: AzureStaticWebApp@0
-        displayName: Publish BO Static WebApp in Azure Cloud
+        displayName: Update BO Static WebApp in Azure Cloud
         inputs:
           output_location: "out"
           skip_app_build: true
