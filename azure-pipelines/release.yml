@@ -20,4 +20,4 @@ jobs:
           verbose: true
           is_static_export: true
         env:
-          azure_static_web_apps_api_token: $(az.stapps.deployment.token)
+          azure_static_web_apps_api_token: $(az-stapps-deployment-token)

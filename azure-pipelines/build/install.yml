@@ -9,4 +9,4 @@ steps:
     displayName: "Install dependencies"
     inputs:
       command: "ci"
-      customEndpoint: msd-dev-npm
+      customEndpoint: msd-design-system-npm

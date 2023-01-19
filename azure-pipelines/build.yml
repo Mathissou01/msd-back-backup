@@ -1,0 +1,21 @@
+# Jobs template for static website build
+parameters:
+  - name: env
+    type: string
+    default: dev
+
+jobs:
+  - job: msd_bo_site_build
+    displayName: Build BackOffice Static WebSite
+    steps:
+      - template: build/install.yml
+
+      - template: build/pre-tests.yml
+
+      - template: build/e2e-tests.yml
+
+      - template: build/export.yml
+        parameters:
+          env: ${{ parameters.env }}
+
+      - template: build/artifact.yml
