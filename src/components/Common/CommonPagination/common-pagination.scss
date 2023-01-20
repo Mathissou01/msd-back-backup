@@ -1,0 +1,93 @@
+@use "src/styles/02-tools/tools.typography" as typo;
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-CommonPagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__MediaPerPage {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  &__Select {
+    @include shadows.shadow(1);
+
+    padding: 10px;
+    color: colors.$blue-1;
+    background-color: #fff;
+    border: hidden;
+    border-radius: 5px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__Label {
+    color: colors.$blue-1;
+  }
+
+  &__Navigation {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    padding: 0;
+  }
+
+  &__NumberPage {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 4px 0 2px;
+  }
+
+  &__Page {
+    color: colors.$blue-1;
+
+    &_active {
+      color: colors.$expert-blue;
+      font-weight: 700;
+    }
+  }
+
+  &__ButtonsPreview,
+  &__ButtonsNext {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 0;
+
+    &_disabled {
+      opacity: 0.3;
+      user-select: none;
+      pointer-events: none;
+    }
+  }
+
+  &__ButtonsPreview {
+    transform: rotate(180deg);
+  }
+
+  &__Icon {
+    display: flex;
+  }
+
+  button {
+    padding: 0;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

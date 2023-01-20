@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonPagination renders 1`] = `
+<div>
+  <div
+    class="c-CommonPagination"
+  >
+    <div
+      class="c-CommonPagination__MediaPerPage"
+    >
+      <select
+        class="c-CommonPagination__Select"
+        id="mediaPerPage"
+        name="mediaPerPage"
+      >
+        <option
+          value="10"
+        >
+          10
+        </option>
+        <option
+          value="20"
+        >
+          20
+        </option>
+        <option
+          value="50"
+        >
+          50
+        </option>
+        <option
+          value="100"
+        >
+          100
+        </option>
+      </select>
+      <span
+        class="c-CommonPagination__Label"
+      >
+        médias par page
+      </span>
+    </div>
+    <nav
+      class="c-CommonPagination__Navigation"
+    >
+      <div
+        class="c-CommonPagination__ButtonsPreview c-CommonPagination__ButtonsPreview_disabled"
+      >
+        <button
+          class="c-CommonPagination__Icon"
+          type="button"
+        >
+          <img
+            alt="arrow button"
+            class="c-CommonPagination__IconDisabled"
+            data-nimg="1"
+            decoding="async"
+            height="24"
+            loading="lazy"
+            src="/images/pictos/arrow-button.svg"
+            style="color: transparent;"
+            width="24"
+          />
+        </button>
+        <button
+          class="c-CommonPagination__Icon"
+          type="button"
+        >
+          <img
+            alt="Button First Page"
+            class="c-CommonPagination__IconDisabled"
+            data-nimg="1"
+            decoding="async"
+            height="24"
+            loading="lazy"
+            src="/images/pictos/button.svg"
+            style="color: transparent;"
+            width="24"
+          />
+        </button>
+      </div>
+      <div
+        class="c-CommonPagination__NumberPage"
+      >
+        <button
+          class="c-CommonPagination__Page c-CommonPagination__Page_active"
+        >
+          1
+        </button>
+        <button
+          class="c-CommonPagination__Page"
+        >
+          2
+        </button>
+        <button
+          class="c-CommonPagination__Page"
+        >
+          3
+        </button>
+        <button
+          class="c-CommonPagination__Page"
+        >
+          4
+        </button>
+        <button
+          class="c-CommonPagination__Page"
+        >
+          5
+        </button>
+      </div>
+      <div
+        class="c-CommonPagination__ButtonsNext"
+      >
+        <button
+          class="c-CommonPagination__Icon"
+          type="button"
+        >
+          <img
+            alt="arrow button"
+            data-nimg="1"
+            decoding="async"
+            height="24"
+            loading="lazy"
+            src="/images/pictos/arrow-button.svg"
+            style="color: transparent;"
+            width="24"
+          />
+        </button>
+        <button
+          class="c-CommonPagination__Icon"
+          type="button"
+        >
+          <img
+            alt="Bouton Last page"
+            data-nimg="1"
+            decoding="async"
+            height="24"
+            loading="lazy"
+            src="/images/pictos/button.svg"
+            style="color: transparent;"
+            width="24"
+          />
+        </button>
+      </div>
+    </nav>
+  </div>
+</div>
+`;

@@ -58,7 +58,6 @@ export type AccessibilitySubServiceAudienceTypesArgs = {
 };
 
 export type AccessibilitySubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksSubHeading
   | ComponentBlocksWysiwyg
@@ -5782,6 +5781,43 @@ export type UpdateTopContentTabMutation = {
   } | null;
 };
 
+export type GetFilesPaginationByFolderIdQueryVariables = Exact<{
+  filters?: InputMaybe<UploadFileFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetFilesPaginationByFolderIdQuery = {
+  __typename?: "Query";
+  uploadFiles?: {
+    __typename?: "UploadFileEntityResponseCollection";
+    data: Array<{
+      __typename?: "UploadFileEntity";
+      attributes?: {
+        __typename?: "UploadFile";
+        name: string;
+        mime: string;
+        size: number;
+        width?: number | null;
+        height?: number | null;
+        createdAt?: any | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        total: number;
+        pageSize: number;
+        pageCount: number;
+        page: number;
+      };
+    };
+  } | null;
+};
+
 export type CountContentPerTagQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -7836,6 +7872,87 @@ export type UpdateTopContentTabMutationResult =
 export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateTopContentTabMutation,
   UpdateTopContentTabMutationVariables
+>;
+export const GetFilesPaginationByFolderIdDocument = gql`
+  query getFilesPaginationByFolderId(
+    $filters: UploadFileFiltersInput
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    uploadFiles(filters: $filters, pagination: $pagination, sort: $sort) {
+      data {
+        attributes {
+          name
+          mime
+          size
+          width
+          height
+          createdAt
+        }
+      }
+      meta {
+        pagination {
+          total
+          pageSize
+          pageCount
+          page
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFilesPaginationByFolderIdQuery__
+ *
+ * To run a query within a React component, call `useGetFilesPaginationByFolderIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFilesPaginationByFolderIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFilesPaginationByFolderIdQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetFilesPaginationByFolderIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetFilesPaginationByFolderIdQuery,
+    GetFilesPaginationByFolderIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFilesPaginationByFolderIdQuery,
+    GetFilesPaginationByFolderIdQueryVariables
+  >(GetFilesPaginationByFolderIdDocument, options);
+}
+export function useGetFilesPaginationByFolderIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFilesPaginationByFolderIdQuery,
+    GetFilesPaginationByFolderIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFilesPaginationByFolderIdQuery,
+    GetFilesPaginationByFolderIdQueryVariables
+  >(GetFilesPaginationByFolderIdDocument, options);
+}
+export type GetFilesPaginationByFolderIdQueryHookResult = ReturnType<
+  typeof useGetFilesPaginationByFolderIdQuery
+>;
+export type GetFilesPaginationByFolderIdLazyQueryHookResult = ReturnType<
+  typeof useGetFilesPaginationByFolderIdLazyQuery
+>;
+export type GetFilesPaginationByFolderIdQueryResult = Apollo.QueryResult<
+  GetFilesPaginationByFolderIdQuery,
+  GetFilesPaginationByFolderIdQueryVariables
 >;
 export const CountContentPerTagDocument = gql`
   query countContentPerTag($contractId: ID!) {
