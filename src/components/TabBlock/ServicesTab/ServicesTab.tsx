@@ -35,6 +35,8 @@ export default function ServicesTab() {
     blockNotDisplayedLabel: "Bloc non affichés",
     blockNotDisplayedSecondaryLabel:
       "Nombre maximum de blocs atteints. Pour afficher un autre bloc, vous devez masquer un bloc ci-dessus.",
+    editModalTitle: "Encart service",
+    editModalNameLabel: "Texte du bouton",
     submitButtonLabel: "Enregistrer les modifications",
     cancelButtonLabel: "Annuler les modifications",
   };
@@ -172,6 +174,8 @@ export default function ServicesTab() {
                 name="serviceLinks"
                 label={formLabels.blockDisplayedLabel}
                 secondaryLabel={formLabels.secondaryLabel}
+                editModalTitle={formLabels.editModalTitle}
+                editModalNameLabel={formLabels.editModalNameLabel}
                 splitLabel={formLabels.blockNotDisplayedLabel}
                 splitSecondaryLabel={formLabels.blockNotDisplayedSecondaryLabel}
                 maxLimitIsDisplayed={maxLimitDisplay}

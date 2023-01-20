@@ -20,6 +20,8 @@ interface IFormServiceLinksProps {
   name: string;
   label: string;
   secondaryLabel?: string;
+  editModalTitle: string;
+  editModalNameLabel: string;
   isDisabled?: boolean;
   isSortByIsDisplayed?: boolean;
   isSplitDisplay?: boolean;
@@ -32,6 +34,8 @@ export default function FormServiceLinks({
   name,
   label,
   secondaryLabel,
+  editModalTitle,
+  editModalNameLabel,
   isDisabled,
   isSortByIsDisplayed,
   isSplitDisplay = false,
@@ -41,8 +45,8 @@ export default function FormServiceLinks({
 }: IFormServiceLinksProps) {
   /* Static Data */
   const formLabels = {
-    modalTitle: "Menu",
-    nameLabel: "Texte du lien",
+    modalTitle: editModalTitle,
+    nameLabel: editModalNameLabel,
     externalLinkLabel: "Lien vers le service",
     pictoLabel: "Picto",
     pictoButton: "Choisir un autre picto",

@@ -1,10 +1,73 @@
+type Accessibility {
+  blocks: [AccessibilityBlocksDynamicZone]
+  createdAt: DateTime
+  publishedAt: DateTime
+  status: ENUM_ACCESSIBILITY_STATUS
+  title: String!
+  unpublish: DateTime
+  updatedAt: DateTime
+}
+
+union AccessibilityBlocksDynamicZone =
+    ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar AccessibilityBlocksDynamicZoneInput
+
+type AccessibilityEntity {
+  attributes: Accessibility
+  id: ID
+}
+
+type AccessibilityEntityResponse {
+  data: AccessibilityEntity
+}
+
+type AccessibilityEntityResponseCollection {
+  data: [AccessibilityEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input AccessibilityFiltersInput {
+  and: [AccessibilityFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: AccessibilityFiltersInput
+  or: [AccessibilityFiltersInput]
+  publishedAt: DateTimeFilterInput
+  status: StringFilterInput
+  title: StringFilterInput
+  unpublish: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input AccessibilityInput {
+  blocks: [AccessibilityBlocksDynamicZoneInput!]
+  publishedAt: DateTime
+  status: ENUM_ACCESSIBILITY_STATUS
+  title: String
+  unpublish: DateTime
+}
+
+type AccessibilityRelationResponseCollection {
+  data: [AccessibilityEntity!]!
+}
+
 type AccessibilitySubService {
+  accessibilities(
+    filters: AccessibilityFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): AccessibilityRelationResponseCollection
   audienceTypes(
     filters: AudienceTypeFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  blocks: [AccessibilitySubServiceBlocksDynamicZone]
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -13,14 +76,6 @@ type AccessibilitySubService {
   name: String!
   updatedAt: DateTime
 }
-
-union AccessibilitySubServiceBlocksDynamicZone =
-    ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error
-
-scalar AccessibilitySubServiceBlocksDynamicZoneInput
 
 type AccessibilitySubServiceEntity {
   attributes: AccessibilitySubService
@@ -37,6 +92,7 @@ type AccessibilitySubServiceEntityResponseCollection {
 }
 
 input AccessibilitySubServiceFiltersInput {
+  accessibilities: AccessibilityFiltersInput
   and: [AccessibilitySubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
   createdAt: DateTimeFilterInput
@@ -52,13 +108,131 @@ input AccessibilitySubServiceFiltersInput {
 }
 
 input AccessibilitySubServiceInput {
+  accessibilities: [ID]
   audienceTypes: [ID]
-  blocks: [AccessibilitySubServiceBlocksDynamicZoneInput!]
   description: String
   editorialService: ID
   isActivated: Boolean
   link: String
   name: String
+}
+
+type AlertNotification {
+  createdAt: DateTime
+  description: String
+  name: String
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type AlertNotificationEntity {
+  attributes: AlertNotification
+  id: ID
+}
+
+type AlertNotificationEntityResponse {
+  data: AlertNotificationEntity
+}
+
+type AlertNotificationEntityResponseCollection {
+  data: [AlertNotificationEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input AlertNotificationFiltersInput {
+  and: [AlertNotificationFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: AlertNotificationFiltersInput
+  or: [AlertNotificationFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input AlertNotificationInput {
+  description: String
+  name: String
+  publishedAt: DateTime
+}
+
+type AlertNotificationRelationResponseCollection {
+  data: [AlertNotificationEntity!]!
+}
+
+type AlertNotificationService {
+  alertNotifications(
+    filters: AlertNotificationFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): AlertNotificationRelationResponseCollection
+  audienceTypes(
+    filters: AudienceTypeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceTypeRelationResponseCollection
+  channelType: ChannelTypeEntityResponse
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  endDate: DateTime!
+  isActivated: Boolean!
+  name: String
+  publishedAt: DateTime
+  startDate: DateTime!
+  updatedAt: DateTime
+}
+
+type AlertNotificationServiceEntity {
+  attributes: AlertNotificationService
+  id: ID
+}
+
+type AlertNotificationServiceEntityResponse {
+  data: AlertNotificationServiceEntity
+}
+
+type AlertNotificationServiceEntityResponseCollection {
+  data: [AlertNotificationServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input AlertNotificationServiceFiltersInput {
+  alertNotifications: AlertNotificationFiltersInput
+  and: [AlertNotificationServiceFiltersInput]
+  audienceTypes: AudienceTypeFiltersInput
+  channelType: ChannelTypeFiltersInput
+  cities: CityFiltersInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  endDate: DateTimeFilterInput
+  id: IDFilterInput
+  isActivated: BooleanFilterInput
+  name: StringFilterInput
+  not: AlertNotificationServiceFiltersInput
+  or: [AlertNotificationServiceFiltersInput]
+  publishedAt: DateTimeFilterInput
+  startDate: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input AlertNotificationServiceInput {
+  alertNotifications: [ID]
+  audienceTypes: [ID]
+  channelType: ID
+  cities: [ID]
+  contract: ID
+  endDate: DateTime
+  isActivated: Boolean
+  name: String
+  publishedAt: DateTime
+  startDate: DateTime
 }
 
 type Attributes {
@@ -128,13 +302,79 @@ input BooleanFilterInput {
   startsWith: Boolean
 }
 
+type Cgu {
+  blocks: [CguBlocksDynamicZone]
+  cguSubService: CguSubServiceEntityResponse
+  createdAt: DateTime
+  publishedAt: DateTime
+  status: ENUM_CGU_STATUS
+  title: String!
+  unpublish: DateTime
+  updatedAt: DateTime
+}
+
+union CguBlocksDynamicZone =
+    ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar CguBlocksDynamicZoneInput
+
+type CguEntity {
+  attributes: Cgu
+  id: ID
+}
+
+type CguEntityResponse {
+  data: CguEntity
+}
+
+type CguEntityResponseCollection {
+  data: [CguEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CguFiltersInput {
+  and: [CguFiltersInput]
+  cguSubService: CguSubServiceFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: CguFiltersInput
+  or: [CguFiltersInput]
+  publishedAt: DateTimeFilterInput
+  status: StringFilterInput
+  title: StringFilterInput
+  unpublish: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input CguInput {
+  blocks: [CguBlocksDynamicZoneInput!]
+  cguSubService: ID
+  publishedAt: DateTime
+  status: ENUM_CGU_STATUS
+  title: String
+  unpublish: DateTime
+}
+
+type CguRelationResponseCollection {
+  data: [CguEntity!]!
+}
+
 type CguSubService {
   audienceTypes(
     filters: AudienceTypeFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  blocks: [CguSubServiceBlocksDynamicZone]
+  cgus(
+    filters: CguFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): CguRelationResponseCollection
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -143,15 +383,6 @@ type CguSubService {
   name: String!
   updatedAt: DateTime
 }
-
-union CguSubServiceBlocksDynamicZone =
-    ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error
-
-scalar CguSubServiceBlocksDynamicZoneInput
 
 type CguSubServiceEntity {
   attributes: CguSubService
@@ -170,6 +401,7 @@ type CguSubServiceEntityResponseCollection {
 input CguSubServiceFiltersInput {
   and: [CguSubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
+  cgus: CguFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   editorialService: EditorialServiceFiltersInput
@@ -184,7 +416,7 @@ input CguSubServiceFiltersInput {
 
 input CguSubServiceInput {
   audienceTypes: [ID]
-  blocks: [CguSubServiceBlocksDynamicZoneInput!]
+  cgus: [ID]
   description: String
   editorialService: ID
   isActivated: Boolean
@@ -470,13 +702,79 @@ type ComponentLinksTips {
   picto: UploadFileEntityResponse
 }
 
+type Confidentiality {
+  blocks: [ConfidentialityBlocksDynamicZone]
+  confidentialitySubService: ConfidentialitySubServiceEntityResponse
+  createdAt: DateTime
+  publishedAt: DateTime
+  status: ENUM_CONFIDENTIALITY_STATUS
+  title: String!
+  unpublish: DateTime
+  updatedAt: DateTime
+}
+
+union ConfidentialityBlocksDynamicZone =
+    ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar ConfidentialityBlocksDynamicZoneInput
+
+type ConfidentialityEntity {
+  attributes: Confidentiality
+  id: ID
+}
+
+type ConfidentialityEntityResponse {
+  data: ConfidentialityEntity
+}
+
+type ConfidentialityEntityResponseCollection {
+  data: [ConfidentialityEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ConfidentialityFiltersInput {
+  and: [ConfidentialityFiltersInput]
+  confidentialitySubService: ConfidentialitySubServiceFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: ConfidentialityFiltersInput
+  or: [ConfidentialityFiltersInput]
+  publishedAt: DateTimeFilterInput
+  status: StringFilterInput
+  title: StringFilterInput
+  unpublish: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ConfidentialityInput {
+  blocks: [ConfidentialityBlocksDynamicZoneInput!]
+  confidentialitySubService: ID
+  publishedAt: DateTime
+  status: ENUM_CONFIDENTIALITY_STATUS
+  title: String
+  unpublish: DateTime
+}
+
+type ConfidentialityRelationResponseCollection {
+  data: [ConfidentialityEntity!]!
+}
+
 type ConfidentialitySubService {
   audienceTypes(
     filters: AudienceTypeFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  blocks: [ConfidentialitySubServiceBlocksDynamicZone]
+  confidentialities(
+    filters: ConfidentialityFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): ConfidentialityRelationResponseCollection
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -485,15 +783,6 @@ type ConfidentialitySubService {
   name: String!
   updatedAt: DateTime
 }
-
-union ConfidentialitySubServiceBlocksDynamicZone =
-    ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error
-
-scalar ConfidentialitySubServiceBlocksDynamicZoneInput
 
 type ConfidentialitySubServiceEntity {
   attributes: ConfidentialitySubService
@@ -512,6 +801,7 @@ type ConfidentialitySubServiceEntityResponseCollection {
 input ConfidentialitySubServiceFiltersInput {
   and: [ConfidentialitySubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
+  confidentialities: ConfidentialityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   editorialService: EditorialServiceFiltersInput
@@ -526,7 +816,7 @@ input ConfidentialitySubServiceFiltersInput {
 
 input ConfidentialitySubServiceInput {
   audienceTypes: [ID]
-  blocks: [ConfidentialitySubServiceBlocksDynamicZoneInput!]
+  confidentialities: [ID]
   description: String
   editorialService: ID
   isActivated: Boolean
@@ -534,24 +824,22 @@ input ConfidentialitySubServiceInput {
   name: String
 }
 
-type ContactUsSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
+type ContactUs {
+  blocks: [ContactUsBlocksDynamicZone]
+  createdAt: DateTime
+  publishedAt: DateTime
+  status: ENUM_CONTACTUS_STATUS
+  tags(
+    filters: TagFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
-  blocks: [ContactUsSubServiceBlocksDynamicZone]
-  createdAt: DateTime
-  description: String
-  editorialService: EditorialServiceEntityResponse
-  isActivated: Boolean!
-  label: String!
-  link: String
-  name: String!
+  ): TagRelationResponseCollection
+  title: String!
+  unpublish: DateTime
   updatedAt: DateTime
 }
 
-union ContactUsSubServiceBlocksDynamicZone =
+union ContactUsBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
@@ -561,7 +849,70 @@ union ContactUsSubServiceBlocksDynamicZone =
   | ComponentBlocksWysiwyg
   | Error
 
-scalar ContactUsSubServiceBlocksDynamicZoneInput
+scalar ContactUsBlocksDynamicZoneInput
+
+type ContactUsEntity {
+  attributes: ContactUs
+  id: ID
+}
+
+type ContactUsEntityResponse {
+  data: ContactUsEntity
+}
+
+type ContactUsEntityResponseCollection {
+  data: [ContactUsEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ContactUsFiltersInput {
+  and: [ContactUsFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: ContactUsFiltersInput
+  or: [ContactUsFiltersInput]
+  publishedAt: DateTimeFilterInput
+  status: StringFilterInput
+  tags: TagFiltersInput
+  title: StringFilterInput
+  unpublish: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ContactUsInput {
+  blocks: [ContactUsBlocksDynamicZoneInput!]
+  publishedAt: DateTime
+  status: ENUM_CONTACTUS_STATUS
+  tags: [ID]
+  title: String
+  unpublish: DateTime
+}
+
+type ContactUsRelationResponseCollection {
+  data: [ContactUsEntity!]!
+}
+
+type ContactUsSubService {
+  audienceTypes(
+    filters: AudienceTypeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceTypeRelationResponseCollection
+  contactUses(
+    filters: ContactUsFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): ContactUsRelationResponseCollection
+  createdAt: DateTime
+  description: String
+  editorialService: EditorialServiceEntityResponse
+  isActivated: Boolean!
+  label: String!
+  link: String
+  name: String!
+  updatedAt: DateTime
+}
 
 type ContactUsSubServiceEntity {
   attributes: ContactUsSubService
@@ -580,6 +931,7 @@ type ContactUsSubServiceEntityResponseCollection {
 input ContactUsSubServiceFiltersInput {
   and: [ContactUsSubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
+  contactUses: ContactUsFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   editorialService: EditorialServiceFiltersInput
@@ -595,7 +947,7 @@ input ContactUsSubServiceFiltersInput {
 
 input ContactUsSubServiceInput {
   audienceTypes: [ID]
-  blocks: [ContactUsSubServiceBlocksDynamicZoneInput!]
+  contactUses: [ID]
   description: String
   editorialService: ID
   isActivated: Boolean
@@ -612,6 +964,7 @@ type ContentTypeDTO {
 }
 
 type Contract {
+  alertNotificationService: AlertNotificationServiceEntityResponse
   ccap: Int
   clear: Int
   clientName: String
@@ -619,8 +972,11 @@ type Contract {
   contractCustomization: ContractCustomizationEntityResponse
   contractMenu: ContractMenuEntityResponse
   createdAt: DateTime
+  dropOffMapService: DropOffMapServiceEntityResponse
   editorialService: EditorialServiceEntityResponse
+  folderPathId: Long
   label: String!
+  pickUpDayService: PickUpDayServiceEntityResponse
   recyclingGuideService: RecyclingGuideServiceEntityResponse
   requestService: RequestServiceEntityResponse
   siret: Long
@@ -693,6 +1049,7 @@ type ContractEntityResponseCollection {
 }
 
 input ContractFiltersInput {
+  alertNotificationService: AlertNotificationServiceFiltersInput
   and: [ContractFiltersInput]
   ccap: IntFilterInput
   clear: IntFilterInput
@@ -701,11 +1058,14 @@ input ContractFiltersInput {
   contractCustomization: ContractCustomizationFiltersInput
   contractMenu: ContractMenuFiltersInput
   createdAt: DateTimeFilterInput
+  dropOffMapService: DropOffMapServiceFiltersInput
   editorialService: EditorialServiceFiltersInput
+  folderPathId: LongFilterInput
   id: IDFilterInput
   label: StringFilterInput
   not: ContractFiltersInput
   or: [ContractFiltersInput]
+  pickUpDayService: PickUpDayServiceFiltersInput
   recyclingGuideService: RecyclingGuideServiceFiltersInput
   requestService: RequestServiceFiltersInput
   siret: LongFilterInput
@@ -716,14 +1076,18 @@ input ContractFiltersInput {
 }
 
 input ContractInput {
+  alertNotificationService: ID
   ccap: Int
   clear: Int
   clientName: String
   contactClient: ID
   contractCustomization: ID
   contractMenu: ID
+  dropOffMapService: ID
   editorialService: ID
+  folderPathId: Long
   label: String
+  pickUpDayService: ID
   recyclingGuideService: ID
   requestService: ID
   siret: Long
@@ -784,8 +1148,62 @@ union ContractMenuServiceLinksDynamicZone =
 
 scalar ContractMenuServiceLinksDynamicZoneInput
 
-type ContractPayload {
-  contractId: ID
+type Cookie {
+  blocks: [CookieBlocksDynamicZone]
+  createdAt: DateTime
+  publishedAt: DateTime
+  status: ENUM_COOKIE_STATUS
+  title: String!
+  unpublish: DateTime
+  updatedAt: DateTime
+}
+
+union CookieBlocksDynamicZone =
+    ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar CookieBlocksDynamicZoneInput
+
+type CookieEntity {
+  attributes: Cookie
+  id: ID
+}
+
+type CookieEntityResponse {
+  data: CookieEntity
+}
+
+type CookieEntityResponseCollection {
+  data: [CookieEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CookieFiltersInput {
+  and: [CookieFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: CookieFiltersInput
+  or: [CookieFiltersInput]
+  publishedAt: DateTimeFilterInput
+  status: StringFilterInput
+  title: StringFilterInput
+  unpublish: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input CookieInput {
+  blocks: [CookieBlocksDynamicZoneInput!]
+  publishedAt: DateTime
+  status: ENUM_COOKIE_STATUS
+  title: String
+  unpublish: DateTime
+}
+
+type CookieRelationResponseCollection {
+  data: [CookieEntity!]!
 }
 
 type CookiesSubService {
@@ -794,7 +1212,12 @@ type CookiesSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  blocks: [CookiesSubServiceBlocksDynamicZone]
+  cookies(
+    filters: CookieFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): CookieRelationResponseCollection
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -803,15 +1226,6 @@ type CookiesSubService {
   name: String!
   updatedAt: DateTime
 }
-
-union CookiesSubServiceBlocksDynamicZone =
-    ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error
-
-scalar CookiesSubServiceBlocksDynamicZoneInput
 
 type CookiesSubServiceEntity {
   attributes: CookiesSubService
@@ -830,6 +1244,7 @@ type CookiesSubServiceEntityResponseCollection {
 input CookiesSubServiceFiltersInput {
   and: [CookiesSubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
+  cookies: CookieFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   editorialService: EditorialServiceFiltersInput
@@ -844,18 +1259,13 @@ input CookiesSubServiceFiltersInput {
 
 input CookiesSubServiceInput {
   audienceTypes: [ID]
-  blocks: [CookiesSubServiceBlocksDynamicZoneInput!]
+  cookies: [ID]
   description: String
   editorialService: ID
   isActivated: Boolean
   link: String
   name: String
 }
-
-"""
-A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
-"""
-scalar Date
 
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
@@ -975,6 +1385,136 @@ type DocumentRelationResponseCollection {
   data: [DocumentEntity!]!
 }
 
+type DropOffMap {
+  createdAt: DateTime
+  description: String
+  name: String
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type DropOffMapEntity {
+  attributes: DropOffMap
+  id: ID
+}
+
+type DropOffMapEntityResponse {
+  data: DropOffMapEntity
+}
+
+type DropOffMapEntityResponseCollection {
+  data: [DropOffMapEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input DropOffMapFiltersInput {
+  and: [DropOffMapFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: DropOffMapFiltersInput
+  or: [DropOffMapFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input DropOffMapInput {
+  description: String
+  name: String
+  publishedAt: DateTime
+}
+
+type DropOffMapRelationResponseCollection {
+  data: [DropOffMapEntity!]!
+}
+
+type DropOffMapService {
+  audienceTypes(
+    filters: AudienceTypeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceTypeRelationResponseCollection
+  channelType: ChannelTypeEntityResponse
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  dropOffMaps(
+    filters: DropOffMapFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): DropOffMapRelationResponseCollection
+  endDate: DateTime!
+  isActivated: Boolean!
+  name: String
+  publishedAt: DateTime
+  startDate: DateTime!
+  updatedAt: DateTime
+}
+
+type DropOffMapServiceEntity {
+  attributes: DropOffMapService
+  id: ID
+}
+
+type DropOffMapServiceEntityResponse {
+  data: DropOffMapServiceEntity
+}
+
+type DropOffMapServiceEntityResponseCollection {
+  data: [DropOffMapServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input DropOffMapServiceFiltersInput {
+  and: [DropOffMapServiceFiltersInput]
+  audienceTypes: AudienceTypeFiltersInput
+  channelType: ChannelTypeFiltersInput
+  cities: CityFiltersInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  dropOffMaps: DropOffMapFiltersInput
+  endDate: DateTimeFilterInput
+  id: IDFilterInput
+  isActivated: BooleanFilterInput
+  name: StringFilterInput
+  not: DropOffMapServiceFiltersInput
+  or: [DropOffMapServiceFiltersInput]
+  publishedAt: DateTimeFilterInput
+  startDate: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input DropOffMapServiceInput {
+  audienceTypes: [ID]
+  channelType: ID
+  cities: [ID]
+  contract: ID
+  dropOffMaps: [ID]
+  endDate: DateTime
+  isActivated: Boolean
+  name: String
+  publishedAt: DateTime
+  startDate: DateTime
+}
+
+enum ENUM_ACCESSIBILITY_STATUS {
+  archived
+  draft
+  published
+}
+
+enum ENUM_CGU_STATUS {
+  archived
+  draft
+  published
+}
+
 enum ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG {
   h2
   h3
@@ -983,10 +1523,58 @@ enum ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG {
   h6
 }
 
+enum ENUM_CONFIDENTIALITY_STATUS {
+  archived
+  draft
+  published
+}
+
+enum ENUM_CONTACTUS_STATUS {
+  archived
+  draft
+  published
+}
+
+enum ENUM_COOKIE_STATUS {
+  archived
+  draft
+  published
+}
+
+enum ENUM_EVENT_STATUS {
+  archived
+  draft
+  published
+}
+
 enum ENUM_FOOTER_ACCESSIBILITYLEVEL {
   conform
   not_conform
   partially_conform
+}
+
+enum ENUM_FREECONTENT_STATUS {
+  archived
+  draft
+  published
+}
+
+enum ENUM_NEW_STATUS {
+  archived
+  draft
+  published
+}
+
+enum ENUM_QUIZ_STATUS {
+  archived
+  draft
+  published
+}
+
+enum ENUM_TIP_STATUS {
+  archived
+  draft
+  published
 }
 
 type EditoBlock {
@@ -1145,7 +1733,6 @@ type EditorialService {
 type EditorialServiceEntity {
   attributes: EditorialService
   id: ID
-  serviceId: ID
 }
 
 type EditorialServiceEntityResponse {
@@ -1275,6 +1862,7 @@ type Event {
   image: UploadFileEntityResponse!
   publishedAt: DateTime
   shortDescription: String
+  status: ENUM_EVENT_STATUS
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -1282,6 +1870,7 @@ type Event {
   ): TagRelationResponseCollection
   title: String!
   topContent: TopContentEntityResponse
+  unpublish: DateTime
   updatedAt: DateTime
 }
 
@@ -1323,9 +1912,11 @@ input EventFiltersInput {
   or: [EventFiltersInput]
   publishedAt: DateTimeFilterInput
   shortDescription: StringFilterInput
+  status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
   topContent: TopContentFiltersInput
+  unpublish: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -1338,9 +1929,11 @@ input EventInput {
   image: ID
   publishedAt: DateTime
   shortDescription: String
+  status: ENUM_EVENT_STATUS
   tags: [ID]
   title: String
   topContent: ID
+  unpublish: DateTime
 }
 
 type EventOrNews {
@@ -1518,12 +2111,14 @@ type FreeContent {
   image: UploadFileEntityResponse!
   publishedAt: DateTime
   shortDescription: String
+  status: ENUM_FREECONTENT_STATUS
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): TagRelationResponseCollection
-  title: String
+  title: String!
+  unpublish: DateTime
   updatedAt: DateTime
 }
 
@@ -1563,8 +2158,10 @@ input FreeContentFiltersInput {
   or: [FreeContentFiltersInput]
   publishedAt: DateTimeFilterInput
   shortDescription: StringFilterInput
+  status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  unpublish: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -1575,8 +2172,10 @@ input FreeContentInput {
   image: ID
   publishedAt: DateTime
   shortDescription: String
+  status: ENUM_FREECONTENT_STATUS
   tags: [ID]
   title: String
+  unpublish: DateTime
 }
 
 type FreeContentRelationResponseCollection {
@@ -1646,8 +2245,12 @@ type FreeContentSubServiceRelationResponseCollection {
 }
 
 union GenericMorph =
-    AccessibilitySubService
+    Accessibility
+  | AccessibilitySubService
+  | AlertNotification
+  | AlertNotificationService
   | AudienceType
+  | Cgu
   | CguSubService
   | ChannelType
   | City
@@ -1671,14 +2274,19 @@ union GenericMorph =
   | ComponentLinksRecycling
   | ComponentLinksRequest
   | ComponentLinksTips
+  | Confidentiality
   | ConfidentialitySubService
+  | ContactUs
   | ContactUsSubService
   | Contract
   | ContractCustomization
   | ContractMenu
+  | Cookie
   | CookiesSubService
   | DescriptionService
   | Document
+  | DropOffMap
+  | DropOffMapService
   | EditoBlock
   | EditoContent
   | EditorialService
@@ -1694,12 +2302,15 @@ union GenericMorph =
   | KeyMetric
   | New
   | NewsSubService
+  | PickUpDay
+  | PickUpDayService
   | Profile
   | Quiz
   | QuizAndTipsBlock
   | QuizSubService
   | RecyclingGuideBlock
   | RecyclingGuideService
+  | Request
   | RequestService
   | SearchEngineBlock
   | ServicesBlock
@@ -1715,6 +2326,7 @@ union GenericMorph =
   | UsersPermissionsPermission
   | UsersPermissionsRole
   | UsersPermissionsUser
+  | WasteForm
 
 type Global {
   createdAt: DateTime
@@ -1986,18 +2598,31 @@ type Mutation {
     password: String!
     passwordConfirmation: String!
   ): UsersPermissionsLoginPayload
+  checkUnpublishDate(date: String): Boolean
+  createAccessibility(data: AccessibilityInput!): AccessibilityEntityResponse
   createAccessibilitySubService(
     data: AccessibilitySubServiceInput!
   ): AccessibilitySubServiceEntityResponse
+  createAlertNotification(
+    data: AlertNotificationInput!
+  ): AlertNotificationEntityResponse
+  createAlertNotificationService(
+    data: AlertNotificationServiceInput!
+  ): AlertNotificationServiceEntityResponse
   createAudienceType(data: AudienceTypeInput!): AudienceTypeEntityResponse
+  createCgu(data: CguInput!): CguEntityResponse
   createCguSubService(data: CguSubServiceInput!): CguSubServiceEntityResponse
   createChannelType(data: ChannelTypeInput!): ChannelTypeEntityResponse
   createCity(data: CityInput!): CityEntityResponse
   createClient(data: ClientInput!): ClientEntityResponse
   createClientType(data: ClientTypeInput!): ClientTypeEntityResponse
+  createConfidentiality(
+    data: ConfidentialityInput!
+  ): ConfidentialityEntityResponse
   createConfidentialitySubService(
     data: ConfidentialitySubServiceInput!
   ): ConfidentialitySubServiceEntityResponse
+  createContactUs(data: ContactUsInput!): ContactUsEntityResponse
   createContactUsSubService(
     data: ContactUsSubServiceInput!
   ): ContactUsSubServiceEntityResponse
@@ -2011,6 +2636,7 @@ type Mutation {
     data: ContractCustomizationInput!
   ): ContractCustomizationEntityResponse
   createContractMenu(data: ContractMenuInput!): ContractMenuEntityResponse
+  createCookie(data: CookieInput!): CookieEntityResponse
   createCookiesSubService(
     data: CookiesSubServiceInput!
   ): CookiesSubServiceEntityResponse
@@ -2018,18 +2644,16 @@ type Mutation {
     data: DescriptionServiceInput!
   ): DescriptionServiceEntityResponse
   createDocument(data: DocumentInput!): DocumentEntityResponse
+  createDropOffMap(data: DropOffMapInput!): DropOffMapEntityResponse
+  createDropOffMapService(
+    data: DropOffMapServiceInput!
+  ): DropOffMapServiceEntityResponse
   createEditoBlock(data: EditoBlockInput!): EditoBlockEntityResponse
   createEditoContent(data: EditoContentInput!): EditoContentEntityResponse
   createEditorialService(
     data: EditorialServiceInput!
   ): EditorialServiceEntityResponse
-  createEditorialServiceForContract(
-    contractId: ID
-    endDate: DateTime
-    name: String
-    startDate: DateTime
-  ): EditorialServiceEntity
-  createEmptyContract(name: String): ContractPayload
+  createEmptyContract(name: String): ContractEntity
   createEpci(data: EpciInput!): EpciEntityResponse
   createEvent(data: EventInput!): EventEntityResponse
   createEventSubService(
@@ -2050,6 +2674,10 @@ type Mutation {
   ): RequestFolderEntity
   createNewTag(contractId: ID!, tagName: String!): RequestTagEntity
   createNewsSubService(data: NewsSubServiceInput!): NewsSubServiceEntityResponse
+  createPickUpDay(data: PickUpDayInput!): PickUpDayEntityResponse
+  createPickUpDayService(
+    data: PickUpDayServiceInput!
+  ): PickUpDayServiceEntityResponse
   createProfile(data: ProfileInput!): ProfileEntityResponse
   createQuiz(data: QuizInput!): QuizEntityResponse
   createQuizAndTipsBlock(
@@ -2062,12 +2690,8 @@ type Mutation {
   createRecyclingGuideService(
     data: RecyclingGuideServiceInput!
   ): RecyclingGuideServiceEntityResponse
+  createRequest(data: RequestInput!): RequestEntityResponse
   createRequestService(data: RequestServiceInput!): RequestServiceEntityResponse
-  createRequestServiceForContract(
-    contractId: ID
-    endDate: Date
-    startDate: Date
-  ): RequestServiceEntity
   createSearchEngineBlock(
     data: SearchEngineBlockInput!
   ): SearchEngineBlockEntityResponse
@@ -2097,23 +2721,36 @@ type Mutation {
   createUsersPermissionsUser(
     data: UsersPermissionsUserInput!
   ): UsersPermissionsUserEntityResponse!
+  createWasteForm(data: WasteFormInput!): WasteFormEntityResponse
+  deleteAccessibility(id: ID!): AccessibilityEntityResponse
   deleteAccessibilitySubService(id: ID!): AccessibilitySubServiceEntityResponse
+  deleteAlertNotification(id: ID!): AlertNotificationEntityResponse
+  deleteAlertNotificationService(
+    id: ID!
+  ): AlertNotificationServiceEntityResponse
   deleteAudienceType(id: ID!): AudienceTypeEntityResponse
+  deleteCgu(id: ID!): CguEntityResponse
   deleteCguSubService(id: ID!): CguSubServiceEntityResponse
   deleteChannelType(id: ID!): ChannelTypeEntityResponse
   deleteCity(id: ID!): CityEntityResponse
   deleteClient(id: ID!): ClientEntityResponse
   deleteClientType(id: ID!): ClientTypeEntityResponse
+  deleteConfidentiality(id: ID!): ConfidentialityEntityResponse
   deleteConfidentialitySubService(
     id: ID!
   ): ConfidentialitySubServiceEntityResponse
+  deleteContactUs(id: ID!): ContactUsEntityResponse
   deleteContactUsSubService(id: ID!): ContactUsSubServiceEntityResponse
+  deleteContent(id: ID!, type: String): Boolean
   deleteContract(id: ID!): ContractEntityResponse
   deleteContractCustomization(id: ID!): ContractCustomizationEntityResponse
   deleteContractMenu(id: ID!): ContractMenuEntityResponse
+  deleteCookie(id: ID!): CookieEntityResponse
   deleteCookiesSubService(id: ID!): CookiesSubServiceEntityResponse
   deleteDescriptionService(id: ID!): DescriptionServiceEntityResponse
   deleteDocument(id: ID!): DocumentEntityResponse
+  deleteDropOffMap(id: ID!): DropOffMapEntityResponse
+  deleteDropOffMapService(id: ID!): DropOffMapServiceEntityResponse
   deleteEditoBlock(id: ID!): EditoBlockEntityResponse
   deleteEditoContent(id: ID!): EditoContentEntityResponse
   deleteEditorialService(id: ID!): EditorialServiceEntityResponse
@@ -2128,12 +2765,15 @@ type Mutation {
   deleteKeyMetric(id: ID!): KeyMetricEntityResponse
   deleteNew(id: ID!): NewEntityResponse
   deleteNewsSubService(id: ID!): NewsSubServiceEntityResponse
+  deletePickUpDay(id: ID!): PickUpDayEntityResponse
+  deletePickUpDayService(id: ID!): PickUpDayServiceEntityResponse
   deleteProfile(id: ID!): ProfileEntityResponse
   deleteQuiz(id: ID!): QuizEntityResponse
   deleteQuizAndTipsBlock(id: ID!): QuizAndTipsBlockEntityResponse
   deleteQuizSubService(id: ID!): QuizSubServiceEntityResponse
   deleteRecyclingGuideBlock(id: ID!): RecyclingGuideBlockEntityResponse
   deleteRecyclingGuideService(id: ID!): RecyclingGuideServiceEntityResponse
+  deleteRequest(id: ID!): RequestEntityResponse
   deleteRequestService(id: ID!): RequestServiceEntityResponse
   deleteSearchEngineBlock(id: ID!): SearchEngineBlockEntityResponse
   deleteServicesBlock(id: ID!): ServicesBlockEntityResponse
@@ -2156,6 +2796,8 @@ type Mutation {
   Delete an existing user
   """
   deleteUsersPermissionsUser(id: ID!): UsersPermissionsUserEntityResponse!
+  deleteWasteForm(id: ID!): WasteFormEntityResponse
+  duplicateContent(id: ID!, type: String): Boolean
 
   """
   Confirm an email users email address
@@ -2188,14 +2830,27 @@ type Mutation {
     password: String!
     passwordConfirmation: String!
   ): UsersPermissionsLoginPayload
+  updateAccessibility(
+    data: AccessibilityInput!
+    id: ID!
+  ): AccessibilityEntityResponse
   updateAccessibilitySubService(
     data: AccessibilitySubServiceInput!
     id: ID!
   ): AccessibilitySubServiceEntityResponse
+  updateAlertNotification(
+    data: AlertNotificationInput!
+    id: ID!
+  ): AlertNotificationEntityResponse
+  updateAlertNotificationService(
+    data: AlertNotificationServiceInput!
+    id: ID!
+  ): AlertNotificationServiceEntityResponse
   updateAudienceType(
     data: AudienceTypeInput!
     id: ID!
   ): AudienceTypeEntityResponse
+  updateCgu(data: CguInput!, id: ID!): CguEntityResponse
   updateCguSubService(
     data: CguSubServiceInput!
     id: ID!
@@ -2204,10 +2859,15 @@ type Mutation {
   updateCity(data: CityInput!, id: ID!): CityEntityResponse
   updateClient(data: ClientInput!, id: ID!): ClientEntityResponse
   updateClientType(data: ClientTypeInput!, id: ID!): ClientTypeEntityResponse
+  updateConfidentiality(
+    data: ConfidentialityInput!
+    id: ID!
+  ): ConfidentialityEntityResponse
   updateConfidentialitySubService(
     data: ConfidentialitySubServiceInput!
     id: ID!
   ): ConfidentialitySubServiceEntityResponse
+  updateContactUs(data: ContactUsInput!, id: ID!): ContactUsEntityResponse
   updateContactUsSubService(
     data: ContactUsSubServiceInput!
     id: ID!
@@ -2221,6 +2881,7 @@ type Mutation {
     data: ContractMenuInput!
     id: ID!
   ): ContractMenuEntityResponse
+  updateCookie(data: CookieInput!, id: ID!): CookieEntityResponse
   updateCookiesSubService(
     data: CookiesSubServiceInput!
     id: ID!
@@ -2230,6 +2891,11 @@ type Mutation {
     id: ID!
   ): DescriptionServiceEntityResponse
   updateDocument(data: DocumentInput!, id: ID!): DocumentEntityResponse
+  updateDropOffMap(data: DropOffMapInput!, id: ID!): DropOffMapEntityResponse
+  updateDropOffMapService(
+    data: DropOffMapServiceInput!
+    id: ID!
+  ): DropOffMapServiceEntityResponse
   updateEditoBlock(data: EditoBlockInput!, id: ID!): EditoBlockEntityResponse
   updateEditoContent(
     data: EditoContentInput!
@@ -2260,6 +2926,11 @@ type Mutation {
     data: NewsSubServiceInput!
     id: ID!
   ): NewsSubServiceEntityResponse
+  updatePickUpDay(data: PickUpDayInput!, id: ID!): PickUpDayEntityResponse
+  updatePickUpDayService(
+    data: PickUpDayServiceInput!
+    id: ID!
+  ): PickUpDayServiceEntityResponse
   updateProfile(data: ProfileInput!, id: ID!): ProfileEntityResponse
   updateQuiz(data: QuizInput!, id: ID!): QuizEntityResponse
   updateQuizAndTipsBlock(
@@ -2278,6 +2949,7 @@ type Mutation {
     data: RecyclingGuideServiceInput!
     id: ID!
   ): RecyclingGuideServiceEntityResponse
+  updateRequest(data: RequestInput!, id: ID!): RequestEntityResponse
   updateRequestService(
     data: RequestServiceInput!
     id: ID!
@@ -2327,6 +2999,7 @@ type Mutation {
     data: UsersPermissionsUserInput!
     id: ID!
   ): UsersPermissionsUserEntityResponse!
+  updateWasteForm(data: WasteFormInput!, id: ID!): WasteFormEntityResponse
   upload(
     field: String
     file: Upload!
@@ -2354,6 +3027,7 @@ type New {
   newsSubService: NewsSubServiceEntityResponse
   publishedAt: DateTime
   shortDescription: String
+  status: ENUM_NEW_STATUS
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -2361,6 +3035,7 @@ type New {
   ): TagRelationResponseCollection
   title: String!
   topContent: TopContentEntityResponse
+  unpublish: DateTime
   updatedAt: DateTime
 }
 
@@ -2402,9 +3077,11 @@ input NewFiltersInput {
   or: [NewFiltersInput]
   publishedAt: DateTimeFilterInput
   shortDescription: StringFilterInput
+  status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
   topContent: TopContentFiltersInput
+  unpublish: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -2417,9 +3094,11 @@ input NewInput {
   newsSubService: ID
   publishedAt: DateTime
   shortDescription: String
+  status: ENUM_NEW_STATUS
   tags: [ID]
   title: String
   topContent: ID
+  unpublish: DateTime
 }
 
 type NewRelationResponseCollection {
@@ -2498,6 +3177,124 @@ input PaginationArg {
   start: Int
 }
 
+type PickUpDay {
+  createdAt: DateTime
+  description: String
+  name: String
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type PickUpDayEntity {
+  attributes: PickUpDay
+  id: ID
+}
+
+type PickUpDayEntityResponse {
+  data: PickUpDayEntity
+}
+
+type PickUpDayEntityResponseCollection {
+  data: [PickUpDayEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input PickUpDayFiltersInput {
+  and: [PickUpDayFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: PickUpDayFiltersInput
+  or: [PickUpDayFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input PickUpDayInput {
+  description: String
+  name: String
+  publishedAt: DateTime
+}
+
+type PickUpDayRelationResponseCollection {
+  data: [PickUpDayEntity!]!
+}
+
+type PickUpDayService {
+  audienceTypes(
+    filters: AudienceTypeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceTypeRelationResponseCollection
+  channelType: ChannelTypeEntityResponse
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  endDate: DateTime!
+  isActivated: Boolean!
+  name: String
+  pickUpDays(
+    filters: PickUpDayFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): PickUpDayRelationResponseCollection
+  publishedAt: DateTime
+  startDate: DateTime!
+  updatedAt: DateTime
+}
+
+type PickUpDayServiceEntity {
+  attributes: PickUpDayService
+  id: ID
+}
+
+type PickUpDayServiceEntityResponse {
+  data: PickUpDayServiceEntity
+}
+
+type PickUpDayServiceEntityResponseCollection {
+  data: [PickUpDayServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input PickUpDayServiceFiltersInput {
+  and: [PickUpDayServiceFiltersInput]
+  audienceTypes: AudienceTypeFiltersInput
+  channelType: ChannelTypeFiltersInput
+  cities: CityFiltersInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  endDate: DateTimeFilterInput
+  id: IDFilterInput
+  isActivated: BooleanFilterInput
+  name: StringFilterInput
+  not: PickUpDayServiceFiltersInput
+  or: [PickUpDayServiceFiltersInput]
+  pickUpDays: PickUpDayFiltersInput
+  publishedAt: DateTimeFilterInput
+  startDate: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input PickUpDayServiceInput {
+  audienceTypes: [ID]
+  channelType: ID
+  cities: [ID]
+  contract: ID
+  endDate: DateTime
+  isActivated: Boolean
+  name: String
+  pickUpDays: [ID]
+  publishedAt: DateTime
+  startDate: DateTime
+}
+
 type Profile {
   createdAt: DateTime
   name: String
@@ -2538,24 +3335,52 @@ enum PublicationState {
 }
 
 type Query {
+  accessibilities(
+    filters: AccessibilityFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): AccessibilityEntityResponseCollection
+  accessibility(id: ID): AccessibilityEntityResponse
   accessibilitySubService(id: ID): AccessibilitySubServiceEntityResponse
   accessibilitySubServices(
     filters: AccessibilitySubServiceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AccessibilitySubServiceEntityResponseCollection
+  alertNotification(id: ID): AlertNotificationEntityResponse
+  alertNotificationService(id: ID): AlertNotificationServiceEntityResponse
+  alertNotificationServices(
+    filters: AlertNotificationServiceFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): AlertNotificationServiceEntityResponseCollection
+  alertNotifications(
+    filters: AlertNotificationFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): AlertNotificationEntityResponseCollection
   audienceType(id: ID): AudienceTypeEntityResponse
   audienceTypes(
     filters: AudienceTypeFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeEntityResponseCollection
+  cgu(id: ID): CguEntityResponse
   cguSubService(id: ID): CguSubServiceEntityResponse
   cguSubServices(
     filters: CguSubServiceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): CguSubServiceEntityResponseCollection
+  cgus(
+    filters: CguFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): CguEntityResponseCollection
   channelType(id: ID): ChannelTypeEntityResponse
   channelTypes(
     filters: ChannelTypeFiltersInput
@@ -2580,18 +3405,32 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): ClientEntityResponseCollection
+  confidentialities(
+    filters: ConfidentialityFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): ConfidentialityEntityResponseCollection
+  confidentiality(id: ID): ConfidentialityEntityResponse
   confidentialitySubService(id: ID): ConfidentialitySubServiceEntityResponse
   confidentialitySubServices(
     filters: ConfidentialitySubServiceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): ConfidentialitySubServiceEntityResponseCollection
+  contactUs(id: ID): ContactUsEntityResponse
   contactUsSubService(id: ID): ContactUsSubServiceEntityResponse
   contactUsSubServices(
     filters: ContactUsSubServiceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): ContactUsSubServiceEntityResponseCollection
+  contactUses(
+    filters: ContactUsFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): ContactUsEntityResponseCollection
   contract(id: ID): ContractEntityResponse
   contractCustomization(id: ID): ContractCustomizationEntityResponse
   contractCustomizations(
@@ -2610,6 +3449,13 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): ContractEntityResponseCollection
+  cookie(id: ID): CookieEntityResponse
+  cookies(
+    filters: CookieFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): CookieEntityResponseCollection
   cookiesSubService(id: ID): CookiesSubServiceEntityResponse
   cookiesSubServices(
     filters: CookiesSubServiceFiltersInput
@@ -2629,6 +3475,20 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): DocumentEntityResponseCollection
+  dropOffMap(id: ID): DropOffMapEntityResponse
+  dropOffMapService(id: ID): DropOffMapServiceEntityResponse
+  dropOffMapServices(
+    filters: DropOffMapServiceFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): DropOffMapServiceEntityResponseCollection
+  dropOffMaps(
+    filters: DropOffMapFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): DropOffMapEntityResponseCollection
   editoBlock(id: ID): EditoBlockEntityResponse
   editoBlocks(
     filters: EditoBlockFiltersInput
@@ -2728,6 +3588,20 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): NewsSubServiceEntityResponseCollection
+  pickUpDay(id: ID): PickUpDayEntityResponse
+  pickUpDayService(id: ID): PickUpDayServiceEntityResponse
+  pickUpDayServices(
+    filters: PickUpDayServiceFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): PickUpDayServiceEntityResponseCollection
+  pickUpDays(
+    filters: PickUpDayFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): PickUpDayEntityResponseCollection
   profile(id: ID): ProfileEntityResponse
   profiles(
     filters: ProfileFiltersInput
@@ -2765,12 +3639,19 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): RecyclingGuideServiceEntityResponseCollection
+  request(id: ID): RequestEntityResponse
   requestService(id: ID): RequestServiceEntityResponse
   requestServices(
     filters: RequestServiceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): RequestServiceEntityResponseCollection
+  requests(
+    filters: RequestFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): RequestEntityResponseCollection
   searchEngineBlock(id: ID): SearchEngineBlockEntityResponse
   searchEngineBlocks(
     filters: SearchEngineBlockFiltersInput
@@ -2850,6 +3731,13 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserEntityResponseCollection
+  wasteForm(id: ID): WasteFormEntityResponse
+  wasteForms(
+    filters: WasteFormFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): WasteFormEntityResponseCollection
 }
 
 type Quiz {
@@ -2858,12 +3746,14 @@ type Quiz {
   publishedAt: DateTime
   quizSubService: QuizSubServiceEntityResponse
   shortDescription: String
+  status: ENUM_QUIZ_STATUS
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String
+  unpublish: DateTime
   updatedAt: DateTime
 }
 
@@ -2948,8 +3838,10 @@ input QuizFiltersInput {
   publishedAt: DateTimeFilterInput
   quizSubService: QuizSubServiceFiltersInput
   shortDescription: StringFilterInput
+  status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  unpublish: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -2958,8 +3850,10 @@ input QuizInput {
   publishedAt: DateTime
   quizSubService: ID
   shortDescription: String
+  status: ENUM_QUIZ_STATUS
   tags: [ID]
   title: String
+  unpublish: DateTime
 }
 
 type QuizRelationResponseCollection {
@@ -3088,11 +3982,17 @@ type RecyclingGuideService {
   ): CityRelationResponseCollection
   contract: ContractEntityResponse
   createdAt: DateTime
-  endDate: DateTime
+  endDate: DateTime!
   isActivated: Boolean!
   name: String
-  startDate: DateTime
+  startDate: DateTime!
   updatedAt: DateTime
+  wasteForms(
+    filters: WasteFormFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): WasteFormRelationResponseCollection
 }
 
 type RecyclingGuideServiceEntity {
@@ -3124,6 +4024,7 @@ input RecyclingGuideServiceFiltersInput {
   or: [RecyclingGuideServiceFiltersInput]
   startDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  wasteForms: WasteFormFiltersInput
 }
 
 input RecyclingGuideServiceInput {
@@ -3135,6 +4036,29 @@ input RecyclingGuideServiceInput {
   isActivated: Boolean
   name: String
   startDate: DateTime
+  wasteForms: [ID]
+}
+
+type Request {
+  createdAt: DateTime
+  description: String
+  name: String
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type RequestEntity {
+  attributes: Request
+  id: ID
+}
+
+type RequestEntityResponse {
+  data: RequestEntity
+}
+
+type RequestEntityResponseCollection {
+  data: [RequestEntity!]!
+  meta: ResponseCollectionMeta!
 }
 
 input RequestFile {
@@ -3143,11 +4067,24 @@ input RequestFile {
 
 union RequestFileOrFolder = Files | Folders
 
+input RequestFiltersInput {
+  and: [RequestFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: RequestFiltersInput
+  or: [RequestFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
 input RequestFolder {
   id: ID
 }
 
 type RequestFolderEntity {
+  id: ID
   name: String
   path: String
   pathId: ID
@@ -3158,6 +4095,16 @@ type RequestFolders {
   name: String
   path: String
   pathId: String
+}
+
+input RequestInput {
+  description: String
+  name: String
+  publishedAt: DateTime
+}
+
+type RequestRelationResponseCollection {
+  data: [RequestEntity!]!
 }
 
 type RequestService {
@@ -3174,17 +4121,22 @@ type RequestService {
   ): CityRelationResponseCollection
   contract: ContractEntityResponse
   createdAt: DateTime
-  endDate: DateTime
+  endDate: DateTime!
   isActivated: Boolean!
   name: String
-  startDate: DateTime
+  requests(
+    filters: RequestFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): RequestRelationResponseCollection
+  startDate: DateTime!
   updatedAt: DateTime
 }
 
 type RequestServiceEntity {
   attributes: RequestService
   id: ID
-  serviceId: ID
 }
 
 type RequestServiceEntityResponse {
@@ -3209,6 +4161,7 @@ input RequestServiceFiltersInput {
   name: StringFilterInput
   not: RequestServiceFiltersInput
   or: [RequestServiceFiltersInput]
+  requests: RequestFiltersInput
   startDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
@@ -3221,6 +4174,7 @@ input RequestServiceInput {
   endDate: DateTime
   isActivated: Boolean
   name: String
+  requests: [ID]
   startDate: DateTime
 }
 
@@ -3491,6 +4445,7 @@ type Tip {
   link: String
   publishedAt: DateTime
   shortDescription: String
+  status: ENUM_TIP_STATUS
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -3499,6 +4454,7 @@ type Tip {
   tipSubService: TipSubServiceEntityResponse
   title: String!
   titleLabel: String
+  unpublish: DateTime
   updatedAt: DateTime
 }
 
@@ -3539,10 +4495,12 @@ input TipFiltersInput {
   or: [TipFiltersInput]
   publishedAt: DateTimeFilterInput
   shortDescription: StringFilterInput
+  status: StringFilterInput
   tags: TagFiltersInput
   tipSubService: TipSubServiceFiltersInput
   title: StringFilterInput
   titleLabel: StringFilterInput
+  unpublish: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -3554,10 +4512,12 @@ input TipInput {
   link: String
   publishedAt: DateTime
   shortDescription: String
+  status: ENUM_TIP_STATUS
   tags: [ID]
   tipSubService: ID
   title: String
   titleLabel: String
+  unpublish: DateTime
 }
 
 type TipRelationResponseCollection {
@@ -4075,6 +5035,50 @@ input UsersPermissionsUserInput {
 
 type UsersPermissionsUserRelationResponseCollection {
   data: [UsersPermissionsUserEntity!]!
+}
+
+type WasteForm {
+  createdAt: DateTime
+  description: String
+  name: String
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type WasteFormEntity {
+  attributes: WasteForm
+  id: ID
+}
+
+type WasteFormEntityResponse {
+  data: WasteFormEntity
+}
+
+type WasteFormEntityResponseCollection {
+  data: [WasteFormEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input WasteFormFiltersInput {
+  and: [WasteFormFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: WasteFormFiltersInput
+  or: [WasteFormFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input WasteFormInput {
+  description: String
+  name: String
+  publishedAt: DateTime
+}
+
+type WasteFormRelationResponseCollection {
+  data: [WasteFormEntity!]!
 }
 
 type totalCountPerTag {

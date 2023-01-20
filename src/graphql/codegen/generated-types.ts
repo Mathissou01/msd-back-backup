@@ -20,13 +20,12 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  AccessibilitySubServiceBlocksDynamicZoneInput: any;
-  CguSubServiceBlocksDynamicZoneInput: any;
-  ConfidentialitySubServiceBlocksDynamicZoneInput: any;
-  ContactUsSubServiceBlocksDynamicZoneInput: any;
+  AccessibilityBlocksDynamicZoneInput: any;
+  CguBlocksDynamicZoneInput: any;
+  ConfidentialityBlocksDynamicZoneInput: any;
+  ContactUsBlocksDynamicZoneInput: any;
   ContractMenuServiceLinksDynamicZoneInput: any;
-  CookiesSubServiceBlocksDynamicZoneInput: any;
-  Date: any;
+  CookieBlocksDynamicZoneInput: any;
   DateTime: any;
   EventBlocksDynamicZoneInput: any;
   FreeContentBlocksDynamicZoneInput: any;
@@ -38,10 +37,71 @@ export type Scalars = {
   Upload: any;
 };
 
+export type Accessibility = {
+  __typename?: "Accessibility";
+  blocks?: Maybe<Array<Maybe<AccessibilityBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Accessibility_Status>;
+  title: Scalars["String"];
+  unpublish?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AccessibilityBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type AccessibilityEntity = {
+  __typename?: "AccessibilityEntity";
+  attributes?: Maybe<Accessibility>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type AccessibilityEntityResponse = {
+  __typename?: "AccessibilityEntityResponse";
+  data?: Maybe<AccessibilityEntity>;
+};
+
+export type AccessibilityEntityResponseCollection = {
+  __typename?: "AccessibilityEntityResponseCollection";
+  data: Array<AccessibilityEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type AccessibilityFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AccessibilityFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<AccessibilityFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AccessibilityFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type AccessibilityInput = {
+  blocks?: InputMaybe<Array<Scalars["AccessibilityBlocksDynamicZoneInput"]>>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Accessibility_Status>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type AccessibilityRelationResponseCollection = {
+  __typename?: "AccessibilityRelationResponseCollection";
+  data: Array<AccessibilityEntity>;
+};
+
 export type AccessibilitySubService = {
   __typename?: "AccessibilitySubService";
+  accessibilities?: Maybe<AccessibilityRelationResponseCollection>;
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<AccessibilitySubServiceBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -51,17 +111,18 @@ export type AccessibilitySubService = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
+export type AccessibilitySubServiceAccessibilitiesArgs = {
+  filters?: InputMaybe<AccessibilityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type AccessibilitySubServiceAudienceTypesArgs = {
   filters?: InputMaybe<AudienceTypeFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
-
-export type AccessibilitySubServiceBlocksDynamicZone =
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error;
 
 export type AccessibilitySubServiceEntity = {
   __typename?: "AccessibilitySubServiceEntity";
@@ -81,6 +142,7 @@ export type AccessibilitySubServiceEntityResponseCollection = {
 };
 
 export type AccessibilitySubServiceFiltersInput = {
+  accessibilities?: InputMaybe<AccessibilityFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AccessibilitySubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -96,15 +158,146 @@ export type AccessibilitySubServiceFiltersInput = {
 };
 
 export type AccessibilitySubServiceInput = {
+  accessibilities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<
-    Array<Scalars["AccessibilitySubServiceBlocksDynamicZoneInput"]>
-  >;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   link?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
+};
+
+export type AlertNotification = {
+  __typename?: "AlertNotification";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationEntity = {
+  __typename?: "AlertNotificationEntity";
+  attributes?: Maybe<AlertNotification>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type AlertNotificationEntityResponse = {
+  __typename?: "AlertNotificationEntityResponse";
+  data?: Maybe<AlertNotificationEntity>;
+};
+
+export type AlertNotificationEntityResponseCollection = {
+  __typename?: "AlertNotificationEntityResponseCollection";
+  data: Array<AlertNotificationEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type AlertNotificationFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<AlertNotificationFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type AlertNotificationInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationRelationResponseCollection = {
+  __typename?: "AlertNotificationRelationResponseCollection";
+  data: Array<AlertNotificationEntity>;
+};
+
+export type AlertNotificationService = {
+  __typename?: "AlertNotificationService";
+  alertNotifications?: Maybe<AlertNotificationRelationResponseCollection>;
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  channelType?: Maybe<ChannelTypeEntityResponse>;
+  cities?: Maybe<CityRelationResponseCollection>;
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  endDate: Scalars["DateTime"];
+  isActivated: Scalars["Boolean"];
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  startDate: Scalars["DateTime"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationServiceAlertNotificationsArgs = {
+  filters?: InputMaybe<AlertNotificationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationServiceCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationServiceEntity = {
+  __typename?: "AlertNotificationServiceEntity";
+  attributes?: Maybe<AlertNotificationService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type AlertNotificationServiceEntityResponse = {
+  __typename?: "AlertNotificationServiceEntityResponse";
+  data?: Maybe<AlertNotificationServiceEntity>;
+};
+
+export type AlertNotificationServiceEntityResponseCollection = {
+  __typename?: "AlertNotificationServiceEntityResponseCollection";
+  data: Array<AlertNotificationServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type AlertNotificationServiceFiltersInput = {
+  alertNotifications?: InputMaybe<AlertNotificationFiltersInput>;
+  and?: InputMaybe<Array<InputMaybe<AlertNotificationServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  channelType?: InputMaybe<ChannelTypeFiltersInput>;
+  cities?: InputMaybe<CityFiltersInput>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  endDate?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AlertNotificationServiceFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  startDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type AlertNotificationServiceInput = {
+  alertNotifications?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  channelType?: InputMaybe<Scalars["ID"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  contract?: InputMaybe<Scalars["ID"]>;
+  endDate?: InputMaybe<Scalars["DateTime"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type Attributes = {
@@ -180,10 +373,74 @@ export type BooleanFilterInput = {
   startsWith?: InputMaybe<Scalars["Boolean"]>;
 };
 
+export type Cgu = {
+  __typename?: "Cgu";
+  blocks?: Maybe<Array<Maybe<CguBlocksDynamicZone>>>;
+  cguSubService?: Maybe<CguSubServiceEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Cgu_Status>;
+  title: Scalars["String"];
+  unpublish?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CguBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type CguEntity = {
+  __typename?: "CguEntity";
+  attributes?: Maybe<Cgu>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CguEntityResponse = {
+  __typename?: "CguEntityResponse";
+  data?: Maybe<CguEntity>;
+};
+
+export type CguEntityResponseCollection = {
+  __typename?: "CguEntityResponseCollection";
+  data: Array<CguEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CguFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
+  cguSubService?: InputMaybe<CguSubServiceFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<CguFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CguInput = {
+  blocks?: InputMaybe<Array<Scalars["CguBlocksDynamicZoneInput"]>>;
+  cguSubService?: InputMaybe<Scalars["ID"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Cgu_Status>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type CguRelationResponseCollection = {
+  __typename?: "CguRelationResponseCollection";
+  data: Array<CguEntity>;
+};
+
 export type CguSubService = {
   __typename?: "CguSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<CguSubServiceBlocksDynamicZone>>>;
+  cgus?: Maybe<CguRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -199,12 +456,12 @@ export type CguSubServiceAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type CguSubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error;
+export type CguSubServiceCgusArgs = {
+  filters?: InputMaybe<CguFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
 
 export type CguSubServiceEntity = {
   __typename?: "CguSubServiceEntity";
@@ -226,6 +483,7 @@ export type CguSubServiceEntityResponseCollection = {
 export type CguSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CguSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  cgus?: InputMaybe<CguFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -240,7 +498,7 @@ export type CguSubServiceFiltersInput = {
 
 export type CguSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<Array<Scalars["CguSubServiceBlocksDynamicZoneInput"]>>;
+  cgus?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -562,10 +820,74 @@ export type ComponentLinksTips = {
   picto?: Maybe<UploadFileEntityResponse>;
 };
 
+export type Confidentiality = {
+  __typename?: "Confidentiality";
+  blocks?: Maybe<Array<Maybe<ConfidentialityBlocksDynamicZone>>>;
+  confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Confidentiality_Status>;
+  title: Scalars["String"];
+  unpublish?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type ConfidentialityBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type ConfidentialityEntity = {
+  __typename?: "ConfidentialityEntity";
+  attributes?: Maybe<Confidentiality>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type ConfidentialityEntityResponse = {
+  __typename?: "ConfidentialityEntityResponse";
+  data?: Maybe<ConfidentialityEntity>;
+};
+
+export type ConfidentialityEntityResponseCollection = {
+  __typename?: "ConfidentialityEntityResponseCollection";
+  data: Array<ConfidentialityEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ConfidentialityFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ConfidentialityFiltersInput>>>;
+  confidentialitySubService?: InputMaybe<ConfidentialitySubServiceFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<ConfidentialityFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ConfidentialityFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type ConfidentialityInput = {
+  blocks?: InputMaybe<Array<Scalars["ConfidentialityBlocksDynamicZoneInput"]>>;
+  confidentialitySubService?: InputMaybe<Scalars["ID"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Confidentiality_Status>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type ConfidentialityRelationResponseCollection = {
+  __typename?: "ConfidentialityRelationResponseCollection";
+  data: Array<ConfidentialityEntity>;
+};
+
 export type ConfidentialitySubService = {
   __typename?: "ConfidentialitySubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<ConfidentialitySubServiceBlocksDynamicZone>>>;
+  confidentialities?: Maybe<ConfidentialityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -581,12 +903,12 @@ export type ConfidentialitySubServiceAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type ConfidentialitySubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error;
+export type ConfidentialitySubServiceConfidentialitiesArgs = {
+  filters?: InputMaybe<ConfidentialityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
 
 export type ConfidentialitySubServiceEntity = {
   __typename?: "ConfidentialitySubServiceEntity";
@@ -608,6 +930,7 @@ export type ConfidentialitySubServiceEntityResponseCollection = {
 export type ConfidentialitySubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ConfidentialitySubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  confidentialities?: InputMaybe<ConfidentialityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -622,9 +945,7 @@ export type ConfidentialitySubServiceFiltersInput = {
 
 export type ConfidentialitySubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<
-    Array<Scalars["ConfidentialitySubServiceBlocksDynamicZoneInput"]>
-  >;
+  confidentialities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -632,10 +953,83 @@ export type ConfidentialitySubServiceInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type ContactUs = {
+  __typename?: "ContactUs";
+  blocks?: Maybe<Array<Maybe<ContactUsBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Contactus_Status>;
+  tags?: Maybe<TagRelationResponseCollection>;
+  title: Scalars["String"];
+  unpublish?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type ContactUsTagsArgs = {
+  filters?: InputMaybe<TagFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ContactUsBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksTranscript
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type ContactUsEntity = {
+  __typename?: "ContactUsEntity";
+  attributes?: Maybe<ContactUs>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type ContactUsEntityResponse = {
+  __typename?: "ContactUsEntityResponse";
+  data?: Maybe<ContactUsEntity>;
+};
+
+export type ContactUsEntityResponseCollection = {
+  __typename?: "ContactUsEntityResponseCollection";
+  data: Array<ContactUsEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ContactUsFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<ContactUsFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  tags?: InputMaybe<TagFiltersInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type ContactUsInput = {
+  blocks?: InputMaybe<Array<Scalars["ContactUsBlocksDynamicZoneInput"]>>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Contactus_Status>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type ContactUsRelationResponseCollection = {
+  __typename?: "ContactUsRelationResponseCollection";
+  data: Array<ContactUsEntity>;
+};
+
 export type ContactUsSubService = {
   __typename?: "ContactUsSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<ContactUsSubServiceBlocksDynamicZone>>>;
+  contactUses?: Maybe<ContactUsRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -652,15 +1046,12 @@ export type ContactUsSubServiceAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type ContactUsSubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksImage
-  | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
-  | ComponentBlocksVideo
-  | ComponentBlocksWysiwyg
-  | Error;
+export type ContactUsSubServiceContactUsesArgs = {
+  filters?: InputMaybe<ContactUsFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
 
 export type ContactUsSubServiceEntity = {
   __typename?: "ContactUsSubServiceEntity";
@@ -682,6 +1073,7 @@ export type ContactUsSubServiceEntityResponseCollection = {
 export type ContactUsSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ContactUsSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  contactUses?: InputMaybe<ContactUsFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -697,9 +1089,7 @@ export type ContactUsSubServiceFiltersInput = {
 
 export type ContactUsSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<
-    Array<Scalars["ContactUsSubServiceBlocksDynamicZoneInput"]>
-  >;
+  contactUses?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -718,6 +1108,7 @@ export type ContentTypeDto = {
 
 export type Contract = {
   __typename?: "Contract";
+  alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   ccap?: Maybe<Scalars["Int"]>;
   clear?: Maybe<Scalars["Int"]>;
   clientName?: Maybe<Scalars["String"]>;
@@ -725,8 +1116,11 @@ export type Contract = {
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractMenu?: Maybe<ContractMenuEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
+  folderPathId?: Maybe<Scalars["Long"]>;
   label: Scalars["String"];
+  pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
   siret?: Maybe<Scalars["Long"]>;
@@ -810,6 +1204,7 @@ export type ContractEntityResponseCollection = {
 };
 
 export type ContractFiltersInput = {
+  alertNotificationService?: InputMaybe<AlertNotificationServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
   ccap?: InputMaybe<IntFilterInput>;
   clear?: InputMaybe<IntFilterInput>;
@@ -818,11 +1213,14 @@ export type ContractFiltersInput = {
   contractCustomization?: InputMaybe<ContractCustomizationFiltersInput>;
   contractMenu?: InputMaybe<ContractMenuFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
+  folderPathId?: InputMaybe<LongFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   label?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ContractFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
+  pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   recyclingGuideService?: InputMaybe<RecyclingGuideServiceFiltersInput>;
   requestService?: InputMaybe<RequestServiceFiltersInput>;
   siret?: InputMaybe<LongFilterInput>;
@@ -833,14 +1231,18 @@ export type ContractFiltersInput = {
 };
 
 export type ContractInput = {
+  alertNotificationService?: InputMaybe<Scalars["ID"]>;
   ccap?: InputMaybe<Scalars["Int"]>;
   clear?: InputMaybe<Scalars["Int"]>;
   clientName?: InputMaybe<Scalars["String"]>;
   contactClient?: InputMaybe<Scalars["ID"]>;
   contractCustomization?: InputMaybe<Scalars["ID"]>;
   contractMenu?: InputMaybe<Scalars["ID"]>;
+  dropOffMapService?: InputMaybe<Scalars["ID"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
+  folderPathId?: InputMaybe<Scalars["Long"]>;
   label?: InputMaybe<Scalars["String"]>;
+  pickUpDayService?: InputMaybe<Scalars["ID"]>;
   recyclingGuideService?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
   siret?: InputMaybe<Scalars["Long"]>;
@@ -905,15 +1307,71 @@ export type ContractMenuServiceLinksDynamicZone =
   | ComponentLinksTips
   | Error;
 
-export type ContractPayload = {
-  __typename?: "ContractPayload";
-  contractId?: Maybe<Scalars["ID"]>;
+export type Cookie = {
+  __typename?: "Cookie";
+  blocks?: Maybe<Array<Maybe<CookieBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Cookie_Status>;
+  title: Scalars["String"];
+  unpublish?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CookieBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type CookieEntity = {
+  __typename?: "CookieEntity";
+  attributes?: Maybe<Cookie>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CookieEntityResponse = {
+  __typename?: "CookieEntityResponse";
+  data?: Maybe<CookieEntity>;
+};
+
+export type CookieEntityResponseCollection = {
+  __typename?: "CookieEntityResponseCollection";
+  data: Array<CookieEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CookieFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<CookieFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CookieInput = {
+  blocks?: InputMaybe<Array<Scalars["CookieBlocksDynamicZoneInput"]>>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Cookie_Status>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type CookieRelationResponseCollection = {
+  __typename?: "CookieRelationResponseCollection";
+  data: Array<CookieEntity>;
 };
 
 export type CookiesSubService = {
   __typename?: "CookiesSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<CookiesSubServiceBlocksDynamicZone>>>;
+  cookies?: Maybe<CookieRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -929,12 +1387,12 @@ export type CookiesSubServiceAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type CookiesSubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error;
+export type CookiesSubServiceCookiesArgs = {
+  filters?: InputMaybe<CookieFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
 
 export type CookiesSubServiceEntity = {
   __typename?: "CookiesSubServiceEntity";
@@ -956,6 +1414,7 @@ export type CookiesSubServiceEntityResponseCollection = {
 export type CookiesSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CookiesSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  cookies?: InputMaybe<CookieFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -970,9 +1429,7 @@ export type CookiesSubServiceFiltersInput = {
 
 export type CookiesSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<
-    Array<Scalars["CookiesSubServiceBlocksDynamicZoneInput"]>
-  >;
+  cookies?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -1105,6 +1562,151 @@ export type DocumentRelationResponseCollection = {
   data: Array<DocumentEntity>;
 };
 
+export type DropOffMap = {
+  __typename?: "DropOffMap";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type DropOffMapEntity = {
+  __typename?: "DropOffMapEntity";
+  attributes?: Maybe<DropOffMap>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type DropOffMapEntityResponse = {
+  __typename?: "DropOffMapEntityResponse";
+  data?: Maybe<DropOffMapEntity>;
+};
+
+export type DropOffMapEntityResponseCollection = {
+  __typename?: "DropOffMapEntityResponseCollection";
+  data: Array<DropOffMapEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type DropOffMapFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<DropOffMapFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type DropOffMapInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type DropOffMapRelationResponseCollection = {
+  __typename?: "DropOffMapRelationResponseCollection";
+  data: Array<DropOffMapEntity>;
+};
+
+export type DropOffMapService = {
+  __typename?: "DropOffMapService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  channelType?: Maybe<ChannelTypeEntityResponse>;
+  cities?: Maybe<CityRelationResponseCollection>;
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
+  endDate: Scalars["DateTime"];
+  isActivated: Scalars["Boolean"];
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  startDate: Scalars["DateTime"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type DropOffMapServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type DropOffMapServiceCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type DropOffMapServiceDropOffMapsArgs = {
+  filters?: InputMaybe<DropOffMapFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type DropOffMapServiceEntity = {
+  __typename?: "DropOffMapServiceEntity";
+  attributes?: Maybe<DropOffMapService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type DropOffMapServiceEntityResponse = {
+  __typename?: "DropOffMapServiceEntityResponse";
+  data?: Maybe<DropOffMapServiceEntity>;
+};
+
+export type DropOffMapServiceEntityResponseCollection = {
+  __typename?: "DropOffMapServiceEntityResponseCollection";
+  data: Array<DropOffMapServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type DropOffMapServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<DropOffMapServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  channelType?: InputMaybe<ChannelTypeFiltersInput>;
+  cities?: InputMaybe<CityFiltersInput>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  dropOffMaps?: InputMaybe<DropOffMapFiltersInput>;
+  endDate?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<DropOffMapServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<DropOffMapServiceFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  startDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type DropOffMapServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  channelType?: InputMaybe<Scalars["ID"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  contract?: InputMaybe<Scalars["ID"]>;
+  dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  endDate?: InputMaybe<Scalars["DateTime"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  startDate?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export enum Enum_Accessibility_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Cgu_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
 export enum Enum_Componentblockssubheading_Subheadingtag {
   H2 = "h2",
   H3 = "h3",
@@ -1113,10 +1715,58 @@ export enum Enum_Componentblockssubheading_Subheadingtag {
   H6 = "h6",
 }
 
+export enum Enum_Confidentiality_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Contactus_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Cookie_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Event_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
 export enum Enum_Footer_Accessibilitylevel {
   Conform = "conform",
   NotConform = "not_conform",
   PartiallyConform = "partially_conform",
+}
+
+export enum Enum_Freecontent_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_New_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Quiz_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Tip_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
 }
 
 export type EditoBlock = {
@@ -1298,7 +1948,6 @@ export type EditorialServiceEntity = {
   __typename?: "EditorialServiceEntity";
   attributes?: Maybe<EditorialService>;
   id?: Maybe<Scalars["ID"]>;
-  serviceId?: Maybe<Scalars["ID"]>;
 };
 
 export type EditorialServiceEntityResponse = {
@@ -1432,9 +2081,11 @@ export type Event = {
   image: UploadFileEntityResponse;
   publishedAt?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Event_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   topContent?: Maybe<TopContentEntityResponse>;
+  unpublish?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -1496,9 +2147,11 @@ export type EventFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<EventFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   topContent?: InputMaybe<TopContentFiltersInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -1511,9 +2164,11 @@ export type EventInput = {
   image?: InputMaybe<Scalars["ID"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Event_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   topContent?: InputMaybe<Scalars["ID"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type EventOrNews = {
@@ -1708,8 +2363,10 @@ export type FreeContent = {
   image: UploadFileEntityResponse;
   publishedAt?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Freecontent_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
-  title?: Maybe<Scalars["String"]>;
+  title: Scalars["String"];
+  unpublish?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -1756,8 +2413,10 @@ export type FreeContentFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<FreeContentFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -1768,8 +2427,10 @@ export type FreeContentInput = {
   image?: InputMaybe<Scalars["ID"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Freecontent_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type FreeContentRelationResponseCollection = {
@@ -1849,8 +2510,12 @@ export type FreeContentSubServiceRelationResponseCollection = {
 };
 
 export type GenericMorph =
+  | Accessibility
   | AccessibilitySubService
+  | AlertNotification
+  | AlertNotificationService
   | AudienceType
+  | Cgu
   | CguSubService
   | ChannelType
   | City
@@ -1874,14 +2539,19 @@ export type GenericMorph =
   | ComponentLinksRecycling
   | ComponentLinksRequest
   | ComponentLinksTips
+  | Confidentiality
   | ConfidentialitySubService
+  | ContactUs
   | ContactUsSubService
   | Contract
   | ContractCustomization
   | ContractMenu
+  | Cookie
   | CookiesSubService
   | DescriptionService
   | Document
+  | DropOffMap
+  | DropOffMapService
   | EditoBlock
   | EditoContent
   | EditorialService
@@ -1897,12 +2567,15 @@ export type GenericMorph =
   | KeyMetric
   | New
   | NewsSubService
+  | PickUpDay
+  | PickUpDayService
   | Profile
   | Quiz
   | QuizAndTipsBlock
   | QuizSubService
   | RecyclingGuideBlock
   | RecyclingGuideService
+  | Request
   | RequestService
   | SearchEngineBlock
   | ServicesBlock
@@ -1917,7 +2590,8 @@ export type GenericMorph =
   | UploadFolder
   | UsersPermissionsPermission
   | UsersPermissionsRole
-  | UsersPermissionsUser;
+  | UsersPermissionsUser
+  | WasteForm;
 
 export type Global = {
   __typename?: "Global";
@@ -2180,27 +2854,36 @@ export type Mutation = {
   bulkMoveMedias?: Maybe<Array<Maybe<RequestFileOrFolder>>>;
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
+  checkUnpublishDate?: Maybe<Scalars["Boolean"]>;
+  createAccessibility?: Maybe<AccessibilityEntityResponse>;
   createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  createAlertNotification?: Maybe<AlertNotificationEntityResponse>;
+  createAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   createAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  createCgu?: Maybe<CguEntityResponse>;
   createCguSubService?: Maybe<CguSubServiceEntityResponse>;
   createChannelType?: Maybe<ChannelTypeEntityResponse>;
   createCity?: Maybe<CityEntityResponse>;
   createClient?: Maybe<ClientEntityResponse>;
   createClientType?: Maybe<ClientTypeEntityResponse>;
+  createConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   createConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  createContactUs?: Maybe<ContactUsEntityResponse>;
   createContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   createContentTypeForContractId?: Maybe<FreeContentSubServiceEntity>;
   createContract?: Maybe<ContractEntityResponse>;
   createContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   createContractMenu?: Maybe<ContractMenuEntityResponse>;
+  createCookie?: Maybe<CookieEntityResponse>;
   createCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   createDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   createDocument?: Maybe<DocumentEntityResponse>;
+  createDropOffMap?: Maybe<DropOffMapEntityResponse>;
+  createDropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   createEditoBlock?: Maybe<EditoBlockEntityResponse>;
   createEditoContent?: Maybe<EditoContentEntityResponse>;
   createEditorialService?: Maybe<EditorialServiceEntityResponse>;
-  createEditorialServiceForContract?: Maybe<EditorialServiceEntity>;
-  createEmptyContract?: Maybe<ContractPayload>;
+  createEmptyContract?: Maybe<ContractEntity>;
   createEpci?: Maybe<EpciEntityResponse>;
   createEvent?: Maybe<EventEntityResponse>;
   createEventSubService?: Maybe<EventSubServiceEntityResponse>;
@@ -2213,14 +2896,16 @@ export type Mutation = {
   createNewFolder?: Maybe<RequestFolderEntity>;
   createNewTag?: Maybe<RequestTagEntity>;
   createNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
+  createPickUpDay?: Maybe<PickUpDayEntityResponse>;
+  createPickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   createProfile?: Maybe<ProfileEntityResponse>;
   createQuiz?: Maybe<QuizEntityResponse>;
   createQuizAndTipsBlock?: Maybe<QuizAndTipsBlockEntityResponse>;
   createQuizSubService?: Maybe<QuizSubServiceEntityResponse>;
   createRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   createRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
+  createRequest?: Maybe<RequestEntityResponse>;
   createRequestService?: Maybe<RequestServiceEntityResponse>;
-  createRequestServiceForContract?: Maybe<RequestServiceEntity>;
   createSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   createServicesBlock?: Maybe<ServicesBlockEntityResponse>;
   createTag?: Maybe<TagEntityResponse>;
@@ -2236,21 +2921,32 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  createWasteForm?: Maybe<WasteFormEntityResponse>;
+  deleteAccessibility?: Maybe<AccessibilityEntityResponse>;
   deleteAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  deleteAlertNotification?: Maybe<AlertNotificationEntityResponse>;
+  deleteAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   deleteAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  deleteCgu?: Maybe<CguEntityResponse>;
   deleteCguSubService?: Maybe<CguSubServiceEntityResponse>;
   deleteChannelType?: Maybe<ChannelTypeEntityResponse>;
   deleteCity?: Maybe<CityEntityResponse>;
   deleteClient?: Maybe<ClientEntityResponse>;
   deleteClientType?: Maybe<ClientTypeEntityResponse>;
+  deleteConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   deleteConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  deleteContactUs?: Maybe<ContactUsEntityResponse>;
   deleteContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
+  deleteContent?: Maybe<Scalars["Boolean"]>;
   deleteContract?: Maybe<ContractEntityResponse>;
   deleteContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   deleteContractMenu?: Maybe<ContractMenuEntityResponse>;
+  deleteCookie?: Maybe<CookieEntityResponse>;
   deleteCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   deleteDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   deleteDocument?: Maybe<DocumentEntityResponse>;
+  deleteDropOffMap?: Maybe<DropOffMapEntityResponse>;
+  deleteDropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   deleteEditoBlock?: Maybe<EditoBlockEntityResponse>;
   deleteEditoContent?: Maybe<EditoContentEntityResponse>;
   deleteEditorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -2265,12 +2961,15 @@ export type Mutation = {
   deleteKeyMetric?: Maybe<KeyMetricEntityResponse>;
   deleteNew?: Maybe<NewEntityResponse>;
   deleteNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
+  deletePickUpDay?: Maybe<PickUpDayEntityResponse>;
+  deletePickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   deleteProfile?: Maybe<ProfileEntityResponse>;
   deleteQuiz?: Maybe<QuizEntityResponse>;
   deleteQuizAndTipsBlock?: Maybe<QuizAndTipsBlockEntityResponse>;
   deleteQuizSubService?: Maybe<QuizSubServiceEntityResponse>;
   deleteRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   deleteRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
+  deleteRequest?: Maybe<RequestEntityResponse>;
   deleteRequestService?: Maybe<RequestServiceEntityResponse>;
   deleteSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   deleteServicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -2287,6 +2986,8 @@ export type Mutation = {
   deleteUsersPermissionsRole?: Maybe<UsersPermissionsDeleteRolePayload>;
   /** Delete an existing user */
   deleteUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteWasteForm?: Maybe<WasteFormEntityResponse>;
+  duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
   /** Request a reset password token */
@@ -2298,21 +2999,30 @@ export type Mutation = {
   removeFile?: Maybe<UploadFileEntityResponse>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateAccessibility?: Maybe<AccessibilityEntityResponse>;
   updateAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  updateAlertNotification?: Maybe<AlertNotificationEntityResponse>;
+  updateAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   updateAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  updateCgu?: Maybe<CguEntityResponse>;
   updateCguSubService?: Maybe<CguSubServiceEntityResponse>;
   updateChannelType?: Maybe<ChannelTypeEntityResponse>;
   updateCity?: Maybe<CityEntityResponse>;
   updateClient?: Maybe<ClientEntityResponse>;
   updateClientType?: Maybe<ClientTypeEntityResponse>;
+  updateConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   updateConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  updateContactUs?: Maybe<ContactUsEntityResponse>;
   updateContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   updateContract?: Maybe<ContractEntityResponse>;
   updateContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   updateContractMenu?: Maybe<ContractMenuEntityResponse>;
+  updateCookie?: Maybe<CookieEntityResponse>;
   updateCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   updateDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   updateDocument?: Maybe<DocumentEntityResponse>;
+  updateDropOffMap?: Maybe<DropOffMapEntityResponse>;
+  updateDropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   updateEditoBlock?: Maybe<EditoBlockEntityResponse>;
   updateEditoContent?: Maybe<EditoContentEntityResponse>;
   updateEditorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -2328,12 +3038,15 @@ export type Mutation = {
   updateKeyMetric?: Maybe<KeyMetricEntityResponse>;
   updateNew?: Maybe<NewEntityResponse>;
   updateNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
+  updatePickUpDay?: Maybe<PickUpDayEntityResponse>;
+  updatePickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   updateProfile?: Maybe<ProfileEntityResponse>;
   updateQuiz?: Maybe<QuizEntityResponse>;
   updateQuizAndTipsBlock?: Maybe<QuizAndTipsBlockEntityResponse>;
   updateQuizSubService?: Maybe<QuizSubServiceEntityResponse>;
   updateRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   updateRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
+  updateRequest?: Maybe<RequestEntityResponse>;
   updateRequestService?: Maybe<RequestServiceEntityResponse>;
   updateSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   updateServicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -2350,6 +3063,7 @@ export type Mutation = {
   updateUsersPermissionsRole?: Maybe<UsersPermissionsUpdateRolePayload>;
   /** Update an existing user */
   updateUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  updateWasteForm?: Maybe<WasteFormEntityResponse>;
   upload: UploadFileEntityResponse;
 };
 
@@ -2371,12 +3085,32 @@ export type MutationChangePasswordArgs = {
   passwordConfirmation: Scalars["String"];
 };
 
+export type MutationCheckUnpublishDateArgs = {
+  date?: InputMaybe<Scalars["String"]>;
+};
+
+export type MutationCreateAccessibilityArgs = {
+  data: AccessibilityInput;
+};
+
 export type MutationCreateAccessibilitySubServiceArgs = {
   data: AccessibilitySubServiceInput;
 };
 
+export type MutationCreateAlertNotificationArgs = {
+  data: AlertNotificationInput;
+};
+
+export type MutationCreateAlertNotificationServiceArgs = {
+  data: AlertNotificationServiceInput;
+};
+
 export type MutationCreateAudienceTypeArgs = {
   data: AudienceTypeInput;
+};
+
+export type MutationCreateCguArgs = {
+  data: CguInput;
 };
 
 export type MutationCreateCguSubServiceArgs = {
@@ -2399,8 +3133,16 @@ export type MutationCreateClientTypeArgs = {
   data: ClientTypeInput;
 };
 
+export type MutationCreateConfidentialityArgs = {
+  data: ConfidentialityInput;
+};
+
 export type MutationCreateConfidentialitySubServiceArgs = {
   data: ConfidentialitySubServiceInput;
+};
+
+export type MutationCreateContactUsArgs = {
+  data: ContactUsInput;
 };
 
 export type MutationCreateContactUsSubServiceArgs = {
@@ -2425,6 +3167,10 @@ export type MutationCreateContractMenuArgs = {
   data: ContractMenuInput;
 };
 
+export type MutationCreateCookieArgs = {
+  data: CookieInput;
+};
+
 export type MutationCreateCookiesSubServiceArgs = {
   data: CookiesSubServiceInput;
 };
@@ -2437,6 +3183,14 @@ export type MutationCreateDocumentArgs = {
   data: DocumentInput;
 };
 
+export type MutationCreateDropOffMapArgs = {
+  data: DropOffMapInput;
+};
+
+export type MutationCreateDropOffMapServiceArgs = {
+  data: DropOffMapServiceInput;
+};
+
 export type MutationCreateEditoBlockArgs = {
   data: EditoBlockInput;
 };
@@ -2447,13 +3201,6 @@ export type MutationCreateEditoContentArgs = {
 
 export type MutationCreateEditorialServiceArgs = {
   data: EditorialServiceInput;
-};
-
-export type MutationCreateEditorialServiceForContractArgs = {
-  contractId?: InputMaybe<Scalars["ID"]>;
-  endDate?: InputMaybe<Scalars["DateTime"]>;
-  name?: InputMaybe<Scalars["String"]>;
-  startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type MutationCreateEmptyContractArgs = {
@@ -2511,6 +3258,14 @@ export type MutationCreateNewsSubServiceArgs = {
   data: NewsSubServiceInput;
 };
 
+export type MutationCreatePickUpDayArgs = {
+  data: PickUpDayInput;
+};
+
+export type MutationCreatePickUpDayServiceArgs = {
+  data: PickUpDayServiceInput;
+};
+
 export type MutationCreateProfileArgs = {
   data: ProfileInput;
 };
@@ -2535,14 +3290,12 @@ export type MutationCreateRecyclingGuideServiceArgs = {
   data: RecyclingGuideServiceInput;
 };
 
-export type MutationCreateRequestServiceArgs = {
-  data: RequestServiceInput;
+export type MutationCreateRequestArgs = {
+  data: RequestInput;
 };
 
-export type MutationCreateRequestServiceForContractArgs = {
-  contractId?: InputMaybe<Scalars["ID"]>;
-  endDate?: InputMaybe<Scalars["Date"]>;
-  startDate?: InputMaybe<Scalars["Date"]>;
+export type MutationCreateRequestServiceArgs = {
+  data: RequestServiceInput;
 };
 
 export type MutationCreateSearchEngineBlockArgs = {
@@ -2597,11 +3350,31 @@ export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
 };
 
+export type MutationCreateWasteFormArgs = {
+  data: WasteFormInput;
+};
+
+export type MutationDeleteAccessibilityArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteAccessibilitySubServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteAlertNotificationArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteAlertNotificationServiceArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteAudienceTypeArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteCguArgs = {
   id: Scalars["ID"];
 };
 
@@ -2625,12 +3398,25 @@ export type MutationDeleteClientTypeArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteConfidentialityArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteConfidentialitySubServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteContactUsArgs = {
   id: Scalars["ID"];
 };
 
 export type MutationDeleteContactUsSubServiceArgs = {
   id: Scalars["ID"];
+};
+
+export type MutationDeleteContentArgs = {
+  id: Scalars["ID"];
+  type?: InputMaybe<Scalars["String"]>;
 };
 
 export type MutationDeleteContractArgs = {
@@ -2645,6 +3431,10 @@ export type MutationDeleteContractMenuArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteCookieArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteCookiesSubServiceArgs = {
   id: Scalars["ID"];
 };
@@ -2654,6 +3444,14 @@ export type MutationDeleteDescriptionServiceArgs = {
 };
 
 export type MutationDeleteDocumentArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteDropOffMapArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteDropOffMapServiceArgs = {
   id: Scalars["ID"];
 };
 
@@ -2709,6 +3507,14 @@ export type MutationDeleteNewsSubServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeletePickUpDayArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeletePickUpDayServiceArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteProfileArgs = {
   id: Scalars["ID"];
 };
@@ -2730,6 +3536,10 @@ export type MutationDeleteRecyclingGuideBlockArgs = {
 };
 
 export type MutationDeleteRecyclingGuideServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteRequestArgs = {
   id: Scalars["ID"];
 };
 
@@ -2789,6 +3599,15 @@ export type MutationDeleteUsersPermissionsUserArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteWasteFormArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDuplicateContentArgs = {
+  id: Scalars["ID"];
+  type?: InputMaybe<Scalars["String"]>;
+};
+
 export type MutationEmailConfirmationArgs = {
   confirmation: Scalars["String"];
 };
@@ -2822,13 +3641,33 @@ export type MutationResetPasswordArgs = {
   passwordConfirmation: Scalars["String"];
 };
 
+export type MutationUpdateAccessibilityArgs = {
+  data: AccessibilityInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateAccessibilitySubServiceArgs = {
   data: AccessibilitySubServiceInput;
   id: Scalars["ID"];
 };
 
+export type MutationUpdateAlertNotificationArgs = {
+  data: AlertNotificationInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateAlertNotificationServiceArgs = {
+  data: AlertNotificationServiceInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateAudienceTypeArgs = {
   data: AudienceTypeInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateCguArgs = {
+  data: CguInput;
   id: Scalars["ID"];
 };
 
@@ -2857,8 +3696,18 @@ export type MutationUpdateClientTypeArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateConfidentialityArgs = {
+  data: ConfidentialityInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateConfidentialitySubServiceArgs = {
   data: ConfidentialitySubServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateContactUsArgs = {
+  data: ContactUsInput;
   id: Scalars["ID"];
 };
 
@@ -2882,6 +3731,11 @@ export type MutationUpdateContractMenuArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateCookieArgs = {
+  data: CookieInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateCookiesSubServiceArgs = {
   data: CookiesSubServiceInput;
   id: Scalars["ID"];
@@ -2894,6 +3748,16 @@ export type MutationUpdateDescriptionServiceArgs = {
 
 export type MutationUpdateDocumentArgs = {
   data: DocumentInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateDropOffMapArgs = {
+  data: DropOffMapInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateDropOffMapServiceArgs = {
+  data: DropOffMapServiceInput;
   id: Scalars["ID"];
 };
 
@@ -2971,6 +3835,16 @@ export type MutationUpdateNewsSubServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdatePickUpDayArgs = {
+  data: PickUpDayInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdatePickUpDayServiceArgs = {
+  data: PickUpDayServiceInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateProfileArgs = {
   data: ProfileInput;
   id: Scalars["ID"];
@@ -2998,6 +3872,11 @@ export type MutationUpdateRecyclingGuideBlockArgs = {
 
 export type MutationUpdateRecyclingGuideServiceArgs = {
   data: RecyclingGuideServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateRequestArgs = {
+  data: RequestInput;
   id: Scalars["ID"];
 };
 
@@ -3071,6 +3950,11 @@ export type MutationUpdateUsersPermissionsUserArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateWasteFormArgs = {
+  data: WasteFormInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUploadArgs = {
   field?: InputMaybe<Scalars["String"]>;
   file: Scalars["Upload"];
@@ -3090,9 +3974,11 @@ export type New = {
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_New_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   topContent?: Maybe<TopContentEntityResponse>;
+  unpublish?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -3153,9 +4039,11 @@ export type NewFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<NewFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   topContent?: InputMaybe<TopContentFiltersInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -3168,9 +4056,11 @@ export type NewInput = {
   newsSubService?: InputMaybe<Scalars["ID"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_New_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   topContent?: InputMaybe<Scalars["ID"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type NewRelationResponseCollection = {
@@ -3259,6 +4149,139 @@ export type PaginationArg = {
   start?: InputMaybe<Scalars["Int"]>;
 };
 
+export type PickUpDay = {
+  __typename?: "PickUpDay";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type PickUpDayEntity = {
+  __typename?: "PickUpDayEntity";
+  attributes?: Maybe<PickUpDay>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type PickUpDayEntityResponse = {
+  __typename?: "PickUpDayEntityResponse";
+  data?: Maybe<PickUpDayEntity>;
+};
+
+export type PickUpDayEntityResponseCollection = {
+  __typename?: "PickUpDayEntityResponseCollection";
+  data: Array<PickUpDayEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type PickUpDayFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<PickUpDayFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type PickUpDayInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type PickUpDayRelationResponseCollection = {
+  __typename?: "PickUpDayRelationResponseCollection";
+  data: Array<PickUpDayEntity>;
+};
+
+export type PickUpDayService = {
+  __typename?: "PickUpDayService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  channelType?: Maybe<ChannelTypeEntityResponse>;
+  cities?: Maybe<CityRelationResponseCollection>;
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  endDate: Scalars["DateTime"];
+  isActivated: Scalars["Boolean"];
+  name?: Maybe<Scalars["String"]>;
+  pickUpDays?: Maybe<PickUpDayRelationResponseCollection>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  startDate: Scalars["DateTime"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type PickUpDayServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type PickUpDayServiceCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type PickUpDayServicePickUpDaysArgs = {
+  filters?: InputMaybe<PickUpDayFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type PickUpDayServiceEntity = {
+  __typename?: "PickUpDayServiceEntity";
+  attributes?: Maybe<PickUpDayService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type PickUpDayServiceEntityResponse = {
+  __typename?: "PickUpDayServiceEntityResponse";
+  data?: Maybe<PickUpDayServiceEntity>;
+};
+
+export type PickUpDayServiceEntityResponseCollection = {
+  __typename?: "PickUpDayServiceEntityResponseCollection";
+  data: Array<PickUpDayServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type PickUpDayServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<PickUpDayServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  channelType?: InputMaybe<ChannelTypeFiltersInput>;
+  cities?: InputMaybe<CityFiltersInput>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  endDate?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<PickUpDayServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<PickUpDayServiceFiltersInput>>>;
+  pickUpDays?: InputMaybe<PickUpDayFiltersInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  startDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type PickUpDayServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  channelType?: InputMaybe<Scalars["ID"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  contract?: InputMaybe<Scalars["ID"]>;
+  endDate?: InputMaybe<Scalars["DateTime"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  pickUpDays?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  startDate?: InputMaybe<Scalars["DateTime"]>;
+};
+
 export type Profile = {
   __typename?: "Profile";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -3304,12 +4327,20 @@ export enum PublicationState {
 
 export type Query = {
   __typename?: "Query";
+  accessibilities?: Maybe<AccessibilityEntityResponseCollection>;
+  accessibility?: Maybe<AccessibilityEntityResponse>;
   accessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   accessibilitySubServices?: Maybe<AccessibilitySubServiceEntityResponseCollection>;
+  alertNotification?: Maybe<AlertNotificationEntityResponse>;
+  alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
+  alertNotificationServices?: Maybe<AlertNotificationServiceEntityResponseCollection>;
+  alertNotifications?: Maybe<AlertNotificationEntityResponseCollection>;
   audienceType?: Maybe<AudienceTypeEntityResponse>;
   audienceTypes?: Maybe<AudienceTypeEntityResponseCollection>;
+  cgu?: Maybe<CguEntityResponse>;
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   cguSubServices?: Maybe<CguSubServiceEntityResponseCollection>;
+  cgus?: Maybe<CguEntityResponseCollection>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
   channelTypes?: Maybe<ChannelTypeEntityResponseCollection>;
   cities?: Maybe<CityEntityResponseCollection>;
@@ -3318,16 +4349,22 @@ export type Query = {
   clientType?: Maybe<ClientTypeEntityResponse>;
   clientTypes?: Maybe<ClientTypeEntityResponseCollection>;
   clients?: Maybe<ClientEntityResponseCollection>;
+  confidentialities?: Maybe<ConfidentialityEntityResponseCollection>;
+  confidentiality?: Maybe<ConfidentialityEntityResponse>;
   confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
   confidentialitySubServices?: Maybe<ConfidentialitySubServiceEntityResponseCollection>;
+  contactUs?: Maybe<ContactUsEntityResponse>;
   contactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   contactUsSubServices?: Maybe<ContactUsSubServiceEntityResponseCollection>;
+  contactUses?: Maybe<ContactUsEntityResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractCustomizations?: Maybe<ContractCustomizationEntityResponseCollection>;
   contractMenu?: Maybe<ContractMenuEntityResponse>;
   contractMenus?: Maybe<ContractMenuEntityResponseCollection>;
   contracts?: Maybe<ContractEntityResponseCollection>;
+  cookie?: Maybe<CookieEntityResponse>;
+  cookies?: Maybe<CookieEntityResponseCollection>;
   cookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   cookiesSubServices?: Maybe<CookiesSubServiceEntityResponseCollection>;
   countContentPerTag?: Maybe<Array<Maybe<TotalCountPerTag>>>;
@@ -3335,6 +4372,10 @@ export type Query = {
   descriptionServices?: Maybe<DescriptionServiceEntityResponseCollection>;
   document?: Maybe<DocumentEntityResponse>;
   documents?: Maybe<DocumentEntityResponseCollection>;
+  dropOffMap?: Maybe<DropOffMapEntityResponse>;
+  dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
+  dropOffMapServices?: Maybe<DropOffMapServiceEntityResponseCollection>;
+  dropOffMaps?: Maybe<DropOffMapEntityResponseCollection>;
   editoBlock?: Maybe<EditoBlockEntityResponse>;
   editoBlocks?: Maybe<EditoBlockEntityResponseCollection>;
   editoContent?: Maybe<EditoContentEntityResponse>;
@@ -3374,6 +4415,10 @@ export type Query = {
   news?: Maybe<NewEntityResponseCollection>;
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
   newsSubServices?: Maybe<NewsSubServiceEntityResponseCollection>;
+  pickUpDay?: Maybe<PickUpDayEntityResponse>;
+  pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
+  pickUpDayServices?: Maybe<PickUpDayServiceEntityResponseCollection>;
+  pickUpDays?: Maybe<PickUpDayEntityResponseCollection>;
   profile?: Maybe<ProfileEntityResponse>;
   profiles?: Maybe<ProfileEntityResponseCollection>;
   quiz?: Maybe<QuizEntityResponse>;
@@ -3386,8 +4431,10 @@ export type Query = {
   recyclingGuideBlocks?: Maybe<RecyclingGuideBlockEntityResponseCollection>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   recyclingGuideServices?: Maybe<RecyclingGuideServiceEntityResponseCollection>;
+  request?: Maybe<RequestEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
   requestServices?: Maybe<RequestServiceEntityResponseCollection>;
+  requests?: Maybe<RequestEntityResponseCollection>;
   searchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   searchEngineBlocks?: Maybe<SearchEngineBlockEntityResponseCollection>;
   servicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -3414,6 +4461,19 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+  wasteForm?: Maybe<WasteFormEntityResponse>;
+  wasteForms?: Maybe<WasteFormEntityResponseCollection>;
+};
+
+export type QueryAccessibilitiesArgs = {
+  filters?: InputMaybe<AccessibilityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryAccessibilityArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type QueryAccessibilitySubServiceArgs = {
@@ -3423,6 +4483,28 @@ export type QueryAccessibilitySubServiceArgs = {
 export type QueryAccessibilitySubServicesArgs = {
   filters?: InputMaybe<AccessibilitySubServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryAlertNotificationArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryAlertNotificationServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryAlertNotificationServicesArgs = {
+  filters?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryAlertNotificationsArgs = {
+  filters?: InputMaybe<AlertNotificationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3436,6 +4518,10 @@ export type QueryAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryCguArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryCguSubServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -3443,6 +4529,13 @@ export type QueryCguSubServiceArgs = {
 export type QueryCguSubServicesArgs = {
   filters?: InputMaybe<CguSubServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCgusArgs = {
+  filters?: InputMaybe<CguFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3486,6 +4579,17 @@ export type QueryClientsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryConfidentialitiesArgs = {
+  filters?: InputMaybe<ConfidentialityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryConfidentialityArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryConfidentialitySubServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -3496,6 +4600,10 @@ export type QueryConfidentialitySubServicesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryContactUsArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryContactUsSubServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -3503,6 +4611,13 @@ export type QueryContactUsSubServiceArgs = {
 export type QueryContactUsSubServicesArgs = {
   filters?: InputMaybe<ContactUsSubServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryContactUsesArgs = {
+  filters?: InputMaybe<ContactUsFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3533,6 +4648,17 @@ export type QueryContractMenusArgs = {
 export type QueryContractsArgs = {
   filters?: InputMaybe<ContractFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCookieArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryCookiesArgs = {
+  filters?: InputMaybe<CookieFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3567,6 +4693,28 @@ export type QueryDocumentArgs = {
 export type QueryDocumentsArgs = {
   filters?: InputMaybe<DocumentFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryDropOffMapArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryDropOffMapServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryDropOffMapServicesArgs = {
+  filters?: InputMaybe<DropOffMapServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryDropOffMapsArgs = {
+  filters?: InputMaybe<DropOffMapFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3752,6 +4900,28 @@ export type QueryNewsSubServicesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryPickUpDayArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryPickUpDayServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryPickUpDayServicesArgs = {
+  filters?: InputMaybe<PickUpDayServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryPickUpDaysArgs = {
+  filters?: InputMaybe<PickUpDayFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type QueryProfileArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -3813,6 +4983,10 @@ export type QueryRecyclingGuideServicesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryRequestArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryRequestServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -3820,6 +4994,13 @@ export type QueryRequestServiceArgs = {
 export type QueryRequestServicesArgs = {
   filters?: InputMaybe<RequestServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryRequestsArgs = {
+  filters?: InputMaybe<RequestFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3954,6 +5135,17 @@ export type QueryUsersPermissionsUsersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryWasteFormArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryWasteFormsArgs = {
+  filters?: InputMaybe<WasteFormFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type Quiz = {
   __typename?: "Quiz";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -3961,8 +5153,10 @@ export type Quiz = {
   publishedAt?: Maybe<Scalars["DateTime"]>;
   quizSubService?: Maybe<QuizSubServiceEntityResponse>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Quiz_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title?: Maybe<Scalars["String"]>;
+  unpublish?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -4062,8 +5256,10 @@ export type QuizFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   quizSubService?: InputMaybe<QuizSubServiceFiltersInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -4072,8 +5268,10 @@ export type QuizInput = {
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   quizSubService?: InputMaybe<Scalars["ID"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Quiz_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type QuizRelationResponseCollection = {
@@ -4210,11 +5408,12 @@ export type RecyclingGuideService = {
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate?: Maybe<Scalars["DateTime"]>;
+  endDate: Scalars["DateTime"];
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  startDate?: Maybe<Scalars["DateTime"]>;
+  startDate: Scalars["DateTime"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  wasteForms?: Maybe<WasteFormRelationResponseCollection>;
 };
 
 export type RecyclingGuideServiceAudienceTypesArgs = {
@@ -4226,6 +5425,13 @@ export type RecyclingGuideServiceAudienceTypesArgs = {
 export type RecyclingGuideServiceCitiesArgs = {
   filters?: InputMaybe<CityFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type RecyclingGuideServiceWasteFormsArgs = {
+  filters?: InputMaybe<WasteFormFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4261,6 +5467,7 @@ export type RecyclingGuideServiceFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<RecyclingGuideServiceFiltersInput>>>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  wasteForms?: InputMaybe<WasteFormFiltersInput>;
 };
 
 export type RecyclingGuideServiceInput = {
@@ -4272,6 +5479,33 @@ export type RecyclingGuideServiceInput = {
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
+  wasteForms?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type Request = {
+  __typename?: "Request";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type RequestEntity = {
+  __typename?: "RequestEntity";
+  attributes?: Maybe<Request>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type RequestEntityResponse = {
+  __typename?: "RequestEntityResponse";
+  data?: Maybe<RequestEntity>;
+};
+
+export type RequestEntityResponseCollection = {
+  __typename?: "RequestEntityResponseCollection";
+  data: Array<RequestEntity>;
+  meta: ResponseCollectionMeta;
 };
 
 export type RequestFile = {
@@ -4280,12 +5514,25 @@ export type RequestFile = {
 
 export type RequestFileOrFolder = Files | Folders;
 
+export type RequestFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<RequestFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
 export type RequestFolder = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type RequestFolderEntity = {
   __typename?: "RequestFolderEntity";
+  id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
   path?: Maybe<Scalars["String"]>;
   pathId?: Maybe<Scalars["ID"]>;
@@ -4299,6 +5546,17 @@ export type RequestFolders = {
   pathId?: Maybe<Scalars["String"]>;
 };
 
+export type RequestInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type RequestRelationResponseCollection = {
+  __typename?: "RequestRelationResponseCollection";
+  data: Array<RequestEntity>;
+};
+
 export type RequestService = {
   __typename?: "RequestService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
@@ -4306,10 +5564,11 @@ export type RequestService = {
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate?: Maybe<Scalars["DateTime"]>;
+  endDate: Scalars["DateTime"];
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  startDate?: Maybe<Scalars["DateTime"]>;
+  requests?: Maybe<RequestRelationResponseCollection>;
+  startDate: Scalars["DateTime"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -4325,11 +5584,17 @@ export type RequestServiceCitiesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type RequestServiceRequestsArgs = {
+  filters?: InputMaybe<RequestFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type RequestServiceEntity = {
   __typename?: "RequestServiceEntity";
   attributes?: Maybe<RequestService>;
   id?: Maybe<Scalars["ID"]>;
-  serviceId?: Maybe<Scalars["ID"]>;
 };
 
 export type RequestServiceEntityResponse = {
@@ -4356,6 +5621,7 @@ export type RequestServiceFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RequestServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestServiceFiltersInput>>>;
+  requests?: InputMaybe<RequestFiltersInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -4368,6 +5634,7 @@ export type RequestServiceInput = {
   endDate?: InputMaybe<Scalars["DateTime"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
+  requests?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
@@ -4667,10 +5934,12 @@ export type Tip = {
   link?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Tip_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   tipSubService?: Maybe<TipSubServiceEntityResponse>;
   title: Scalars["String"];
   titleLabel?: Maybe<Scalars["String"]>;
+  unpublish?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -4718,10 +5987,12 @@ export type TipFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<TipFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   tipSubService?: InputMaybe<TipSubServiceFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   titleLabel?: InputMaybe<StringFilterInput>;
+  unpublish?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -4733,10 +6004,12 @@ export type TipInput = {
   link?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Tip_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   tipSubService?: InputMaybe<Scalars["ID"]>;
   title?: InputMaybe<Scalars["String"]>;
   titleLabel?: InputMaybe<Scalars["String"]>;
+  unpublish?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type TipRelationResponseCollection = {
@@ -5306,6 +6579,55 @@ export type UsersPermissionsUserInput = {
 export type UsersPermissionsUserRelationResponseCollection = {
   __typename?: "UsersPermissionsUserRelationResponseCollection";
   data: Array<UsersPermissionsUserEntity>;
+};
+
+export type WasteForm = {
+  __typename?: "WasteForm";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type WasteFormEntity = {
+  __typename?: "WasteFormEntity";
+  attributes?: Maybe<WasteForm>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type WasteFormEntityResponse = {
+  __typename?: "WasteFormEntityResponse";
+  data?: Maybe<WasteFormEntity>;
+};
+
+export type WasteFormEntityResponseCollection = {
+  __typename?: "WasteFormEntityResponseCollection";
+  data: Array<WasteFormEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type WasteFormFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<WasteFormFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type WasteFormInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type WasteFormRelationResponseCollection = {
+  __typename?: "WasteFormRelationResponseCollection";
+  data: Array<WasteFormEntity>;
 };
 
 export type TotalCountPerTag = {
@@ -5917,12 +7239,201 @@ export type GetContentTypeDtOsQuery = {
   } | null> | null;
 };
 
-export type UpdateContentTypeMutationVariables = Exact<{
-  updateFreeContentSubServiceId: Scalars["ID"];
+export type UpdateContentTypeCookiesMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: CookiesSubServiceInput;
+}>;
+
+export type UpdateContentTypeCookiesMutation = {
+  __typename?: "Mutation";
+  updateCookiesSubService?: {
+    __typename?: "CookiesSubServiceEntityResponse";
+    data?: {
+      __typename?: "CookiesSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CookiesSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeAccessibilityMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: AccessibilitySubServiceInput;
+}>;
+
+export type UpdateContentTypeAccessibilityMutation = {
+  __typename?: "Mutation";
+  updateAccessibilitySubService?: {
+    __typename?: "AccessibilitySubServiceEntityResponse";
+    data?: {
+      __typename?: "AccessibilitySubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "AccessibilitySubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeContactUsMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: ContactUsSubServiceInput;
+}>;
+
+export type UpdateContentTypeContactUsMutation = {
+  __typename?: "Mutation";
+  updateContactUsSubService?: {
+    __typename?: "ContactUsSubServiceEntityResponse";
+    data?: {
+      __typename?: "ContactUsSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContactUsSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeCguMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: CguSubServiceInput;
+}>;
+
+export type UpdateContentTypeCguMutation = {
+  __typename?: "Mutation";
+  updateCguSubService?: {
+    __typename?: "CguSubServiceEntityResponse";
+    data?: {
+      __typename?: "CguSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CguSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeConfidentialityMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: ConfidentialitySubServiceInput;
+}>;
+
+export type UpdateContentTypeConfidentialityMutation = {
+  __typename?: "Mutation";
+  updateConfidentialitySubService?: {
+    __typename?: "ConfidentialitySubServiceEntityResponse";
+    data?: {
+      __typename?: "ConfidentialitySubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ConfidentialitySubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeNewsMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: NewsSubServiceInput;
+}>;
+
+export type UpdateContentTypeNewsMutation = {
+  __typename?: "Mutation";
+  updateNewsSubService?: {
+    __typename?: "NewsSubServiceEntityResponse";
+    data?: {
+      __typename?: "NewsSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "NewsSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeTipMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: TipSubServiceInput;
+}>;
+
+export type UpdateContentTypeTipMutation = {
+  __typename?: "Mutation";
+  updateTipSubService?: {
+    __typename?: "TipSubServiceEntityResponse";
+    data?: {
+      __typename?: "TipSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "TipSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeQuizMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: QuizSubServiceInput;
+}>;
+
+export type UpdateContentTypeQuizMutation = {
+  __typename?: "Mutation";
+  updateQuizSubService?: {
+    __typename?: "QuizSubServiceEntityResponse";
+    data?: {
+      __typename?: "QuizSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "QuizSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeEventMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: EventSubServiceInput;
+}>;
+
+export type UpdateContentTypeEventMutation = {
+  __typename?: "Mutation";
+  updateEventSubService?: {
+    __typename?: "EventSubServiceEntityResponse";
+    data?: {
+      __typename?: "EventSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "EventSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeFreeContentMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
   data: FreeContentSubServiceInput;
 }>;
 
-export type UpdateContentTypeMutation = {
+export type UpdateContentTypeFreeContentMutation = {
   __typename?: "Mutation";
   updateFreeContentSubService?: {
     __typename?: "FreeContentSubServiceEntityResponse";
@@ -8299,15 +9810,12 @@ export type GetContentTypeDtOsQueryResult = Apollo.QueryResult<
   GetContentTypeDtOsQuery,
   GetContentTypeDtOsQueryVariables
 >;
-export const UpdateContentTypeDocument = gql`
-  mutation updateContentType(
-    $updateFreeContentSubServiceId: ID!
-    $data: FreeContentSubServiceInput!
+export const UpdateContentTypeCookiesDocument = gql`
+  mutation updateContentTypeCookies(
+    $updateSubServiceId: ID!
+    $data: CookiesSubServiceInput!
   ) {
-    updateFreeContentSubService(
-      id: $updateFreeContentSubServiceId
-      data: $data
-    ) {
+    updateCookiesSubService(id: $updateSubServiceId, data: $data) {
       data {
         id
         attributes {
@@ -8318,50 +9826,596 @@ export const UpdateContentTypeDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeMutation,
-  UpdateContentTypeMutationVariables
+export type UpdateContentTypeCookiesMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeCookiesMutation,
+  UpdateContentTypeCookiesMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeMutation__
+ * __useUpdateContentTypeCookiesMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContentTypeCookiesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeCookiesMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeMutation, { data, loading, error }] = useUpdateContentTypeMutation({
+ * const [updateContentTypeCookiesMutation, { data, loading, error }] = useUpdateContentTypeCookiesMutation({
  *   variables: {
- *      updateFreeContentSubServiceId: // value for 'updateFreeContentSubServiceId'
+ *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeMutation(
+export function useUpdateContentTypeCookiesMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeMutation,
-    UpdateContentTypeMutationVariables
+    UpdateContentTypeCookiesMutation,
+    UpdateContentTypeCookiesMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeMutation,
-    UpdateContentTypeMutationVariables
-  >(UpdateContentTypeDocument, options);
+    UpdateContentTypeCookiesMutation,
+    UpdateContentTypeCookiesMutationVariables
+  >(UpdateContentTypeCookiesDocument, options);
 }
-export type UpdateContentTypeMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeMutation
+export type UpdateContentTypeCookiesMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeCookiesMutation
 >;
-export type UpdateContentTypeMutationResult =
-  Apollo.MutationResult<UpdateContentTypeMutation>;
-export type UpdateContentTypeMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContentTypeMutation,
-  UpdateContentTypeMutationVariables
+export type UpdateContentTypeCookiesMutationResult =
+  Apollo.MutationResult<UpdateContentTypeCookiesMutation>;
+export type UpdateContentTypeCookiesMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeCookiesMutation,
+    UpdateContentTypeCookiesMutationVariables
+  >;
+export const UpdateContentTypeAccessibilityDocument = gql`
+  mutation updateContentTypeAccessibility(
+    $updateSubServiceId: ID!
+    $data: AccessibilitySubServiceInput!
+  ) {
+    updateAccessibilitySubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeAccessibilityMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeAccessibilityMutation,
+  UpdateContentTypeAccessibilityMutationVariables
 >;
+
+/**
+ * __useUpdateContentTypeAccessibilityMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeAccessibilityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeAccessibilityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeAccessibilityMutation, { data, loading, error }] = useUpdateContentTypeAccessibilityMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeAccessibilityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeAccessibilityMutation,
+    UpdateContentTypeAccessibilityMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeAccessibilityMutation,
+    UpdateContentTypeAccessibilityMutationVariables
+  >(UpdateContentTypeAccessibilityDocument, options);
+}
+export type UpdateContentTypeAccessibilityMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeAccessibilityMutation
+>;
+export type UpdateContentTypeAccessibilityMutationResult =
+  Apollo.MutationResult<UpdateContentTypeAccessibilityMutation>;
+export type UpdateContentTypeAccessibilityMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeAccessibilityMutation,
+    UpdateContentTypeAccessibilityMutationVariables
+  >;
+export const UpdateContentTypeContactUsDocument = gql`
+  mutation updateContentTypeContactUs(
+    $updateSubServiceId: ID!
+    $data: ContactUsSubServiceInput!
+  ) {
+    updateContactUsSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeContactUsMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeContactUsMutation,
+  UpdateContentTypeContactUsMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeContactUsMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeContactUsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeContactUsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeContactUsMutation, { data, loading, error }] = useUpdateContentTypeContactUsMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeContactUsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeContactUsMutation,
+    UpdateContentTypeContactUsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeContactUsMutation,
+    UpdateContentTypeContactUsMutationVariables
+  >(UpdateContentTypeContactUsDocument, options);
+}
+export type UpdateContentTypeContactUsMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeContactUsMutation
+>;
+export type UpdateContentTypeContactUsMutationResult =
+  Apollo.MutationResult<UpdateContentTypeContactUsMutation>;
+export type UpdateContentTypeContactUsMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeContactUsMutation,
+    UpdateContentTypeContactUsMutationVariables
+  >;
+export const UpdateContentTypeCguDocument = gql`
+  mutation updateContentTypeCGU(
+    $updateSubServiceId: ID!
+    $data: CguSubServiceInput!
+  ) {
+    updateCguSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeCguMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeCguMutation,
+  UpdateContentTypeCguMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeCguMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeCguMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeCguMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeCguMutation, { data, loading, error }] = useUpdateContentTypeCguMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeCguMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeCguMutation,
+    UpdateContentTypeCguMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeCguMutation,
+    UpdateContentTypeCguMutationVariables
+  >(UpdateContentTypeCguDocument, options);
+}
+export type UpdateContentTypeCguMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeCguMutation
+>;
+export type UpdateContentTypeCguMutationResult =
+  Apollo.MutationResult<UpdateContentTypeCguMutation>;
+export type UpdateContentTypeCguMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeCguMutation,
+  UpdateContentTypeCguMutationVariables
+>;
+export const UpdateContentTypeConfidentialityDocument = gql`
+  mutation updateContentTypeConfidentiality(
+    $updateSubServiceId: ID!
+    $data: ConfidentialitySubServiceInput!
+  ) {
+    updateConfidentialitySubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeConfidentialityMutationFn =
+  Apollo.MutationFunction<
+    UpdateContentTypeConfidentialityMutation,
+    UpdateContentTypeConfidentialityMutationVariables
+  >;
+
+/**
+ * __useUpdateContentTypeConfidentialityMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeConfidentialityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeConfidentialityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeConfidentialityMutation, { data, loading, error }] = useUpdateContentTypeConfidentialityMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeConfidentialityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeConfidentialityMutation,
+    UpdateContentTypeConfidentialityMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeConfidentialityMutation,
+    UpdateContentTypeConfidentialityMutationVariables
+  >(UpdateContentTypeConfidentialityDocument, options);
+}
+export type UpdateContentTypeConfidentialityMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeConfidentialityMutation
+>;
+export type UpdateContentTypeConfidentialityMutationResult =
+  Apollo.MutationResult<UpdateContentTypeConfidentialityMutation>;
+export type UpdateContentTypeConfidentialityMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeConfidentialityMutation,
+    UpdateContentTypeConfidentialityMutationVariables
+  >;
+export const UpdateContentTypeNewsDocument = gql`
+  mutation updateContentTypeNews(
+    $updateSubServiceId: ID!
+    $data: NewsSubServiceInput!
+  ) {
+    updateNewsSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeNewsMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeNewsMutation,
+  UpdateContentTypeNewsMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeNewsMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeNewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeNewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeNewsMutation, { data, loading, error }] = useUpdateContentTypeNewsMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeNewsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeNewsMutation,
+    UpdateContentTypeNewsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeNewsMutation,
+    UpdateContentTypeNewsMutationVariables
+  >(UpdateContentTypeNewsDocument, options);
+}
+export type UpdateContentTypeNewsMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeNewsMutation
+>;
+export type UpdateContentTypeNewsMutationResult =
+  Apollo.MutationResult<UpdateContentTypeNewsMutation>;
+export type UpdateContentTypeNewsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeNewsMutation,
+  UpdateContentTypeNewsMutationVariables
+>;
+export const UpdateContentTypeTipDocument = gql`
+  mutation updateContentTypeTip(
+    $updateSubServiceId: ID!
+    $data: TipSubServiceInput!
+  ) {
+    updateTipSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeTipMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeTipMutation,
+  UpdateContentTypeTipMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeTipMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeTipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeTipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeTipMutation, { data, loading, error }] = useUpdateContentTypeTipMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeTipMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeTipMutation,
+    UpdateContentTypeTipMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeTipMutation,
+    UpdateContentTypeTipMutationVariables
+  >(UpdateContentTypeTipDocument, options);
+}
+export type UpdateContentTypeTipMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeTipMutation
+>;
+export type UpdateContentTypeTipMutationResult =
+  Apollo.MutationResult<UpdateContentTypeTipMutation>;
+export type UpdateContentTypeTipMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeTipMutation,
+  UpdateContentTypeTipMutationVariables
+>;
+export const UpdateContentTypeQuizDocument = gql`
+  mutation updateContentTypeQuiz(
+    $updateSubServiceId: ID!
+    $data: QuizSubServiceInput!
+  ) {
+    updateQuizSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeQuizMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeQuizMutation,
+  UpdateContentTypeQuizMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeQuizMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeQuizMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeQuizMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeQuizMutation, { data, loading, error }] = useUpdateContentTypeQuizMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeQuizMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeQuizMutation,
+    UpdateContentTypeQuizMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeQuizMutation,
+    UpdateContentTypeQuizMutationVariables
+  >(UpdateContentTypeQuizDocument, options);
+}
+export type UpdateContentTypeQuizMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeQuizMutation
+>;
+export type UpdateContentTypeQuizMutationResult =
+  Apollo.MutationResult<UpdateContentTypeQuizMutation>;
+export type UpdateContentTypeQuizMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeQuizMutation,
+  UpdateContentTypeQuizMutationVariables
+>;
+export const UpdateContentTypeEventDocument = gql`
+  mutation updateContentTypeEvent(
+    $updateSubServiceId: ID!
+    $data: EventSubServiceInput!
+  ) {
+    updateEventSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeEventMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeEventMutation,
+  UpdateContentTypeEventMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeEventMutation, { data, loading, error }] = useUpdateContentTypeEventMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeEventMutation,
+    UpdateContentTypeEventMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeEventMutation,
+    UpdateContentTypeEventMutationVariables
+  >(UpdateContentTypeEventDocument, options);
+}
+export type UpdateContentTypeEventMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeEventMutation
+>;
+export type UpdateContentTypeEventMutationResult =
+  Apollo.MutationResult<UpdateContentTypeEventMutation>;
+export type UpdateContentTypeEventMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeEventMutation,
+  UpdateContentTypeEventMutationVariables
+>;
+export const UpdateContentTypeFreeContentDocument = gql`
+  mutation updateContentTypeFreeContent(
+    $updateSubServiceId: ID!
+    $data: FreeContentSubServiceInput!
+  ) {
+    updateFreeContentSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeFreeContentMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeFreeContentMutation,
+  UpdateContentTypeFreeContentMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeFreeContentMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeFreeContentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeFreeContentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeFreeContentMutation, { data, loading, error }] = useUpdateContentTypeFreeContentMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeFreeContentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeFreeContentMutation,
+    UpdateContentTypeFreeContentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeFreeContentMutation,
+    UpdateContentTypeFreeContentMutationVariables
+  >(UpdateContentTypeFreeContentDocument, options);
+}
+export type UpdateContentTypeFreeContentMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeFreeContentMutation
+>;
+export type UpdateContentTypeFreeContentMutationResult =
+  Apollo.MutationResult<UpdateContentTypeFreeContentMutation>;
+export type UpdateContentTypeFreeContentMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeFreeContentMutation,
+    UpdateContentTypeFreeContentMutationVariables
+  >;
 export const GetFooterPageDocument = gql`
   query getFooterPage($contractId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {

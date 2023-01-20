@@ -1,6 +1,8 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
 .c-DataTableForm {
+  $self: &;
+
   padding: 13px 20px;
   background-color: colors.$expert-blue;
   border-top: 1px solid colors.$blue-4;
@@ -30,5 +32,9 @@
     > * {
       flex: 1;
     }
+  }
+
+  #{$self}_invalid &__Button {
+    margin-bottom: 28px;
   }
 }

@@ -36,7 +36,7 @@ export default function BibliothequeDeMedia() {
   }
 
   /* External Data */
-  const folderId = "2"; //TODO folderId
+  const folderId = "2"; // TODO folderId
   const { loading, error, data } = useGetFilesPaginationByFolderIdQuery({
     variables: {
       filters: {

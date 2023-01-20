@@ -25,6 +25,8 @@ export default function PersonnalisationMenuPage() {
   const formLabels = {
     title: "Menu",
     description: "Ordre d’affichage du menu",
+    editModalTitle: "Menu",
+    editModalNameLabel: "Texte du lien",
     submitButtonLabel: "Enregistrer les modifications",
     cancelButtonLabel: "Annuler les modifications",
   };
@@ -136,6 +138,8 @@ export default function PersonnalisationMenuPage() {
                 <FormServiceLinks
                   name="serviceLinks"
                   label={formLabels.description}
+                  editModalTitle={formLabels.editModalTitle}
+                  editModalNameLabel={formLabels.editModalNameLabel}
                   isDisabled={mutationLoading}
                 />
               </div>

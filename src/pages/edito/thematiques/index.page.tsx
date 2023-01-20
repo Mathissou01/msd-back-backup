@@ -28,7 +28,6 @@ interface ITagTableRow {
 }
 
 export default function EditoThematiquesPage() {
-  // TODO: write Tests for FormServiceLinks and CommonDataTable (+ sub components)
   /* Static Data */
   const title = "Gestion des thématiques";
   const description =
@@ -65,6 +64,7 @@ export default function EditoThematiquesPage() {
   }
 
   async function onConfirm(row: ITagTableRow, i: number) {
+    setIsUpdatingData(true);
     const variables = {
       updateTagId: row.id,
       data: {
@@ -84,6 +84,7 @@ export default function EditoThematiquesPage() {
   }
 
   async function onDelete(row: ITagTableRow) {
+    setIsUpdatingData(true);
     const variables = {
       deleteTagId: row.id,
     };
@@ -105,6 +106,7 @@ export default function EditoThematiquesPage() {
   }
 
   async function onAddRow(data: FieldValues) {
+    setIsUpdatingData(true);
     const variables = {
       contractId,
       tagName: data["name"],
@@ -146,6 +148,19 @@ export default function EditoThematiquesPage() {
   /* Local Data */
   const inputRefs = useRef<Array<React.RefObject<HTMLInputElement>>>([]);
   const [tableData, setTableData] = useState<Array<ITagTableRow>>([]);
+  const [isUpdatingData, setIsUpdatingData] = useState(false);
+  const isLoadingMutation =
+    isUpdatingData ||
+    updateTagMutationLoading ||
+    deleteTagMutationLoading ||
+    newTagMutationLoading;
+  const isLoading = dataLoading || isLoadingMutation;
+  const errors = [
+    error,
+    updateTagMutationError,
+    deleteTagMutationError,
+    newTagMutationError,
+  ];
 
   const tableColumns: Array<TableColumn<ITagTableRow>> = [
     {
@@ -186,6 +201,10 @@ export default function EditoThematiquesPage() {
     );
   }, [data]);
 
+  useEffect(() => {
+    setIsUpdatingData(false);
+  }, [tableData]);
+
   return (
     <>
       <div className="c-EditoThematiquesPage">
@@ -193,38 +212,16 @@ export default function EditoThematiquesPage() {
         <h2 className="c-EditoThematiquesPage__Title">{tableLabels.title}</h2>
         <div className="c-EditoThematiquesPage__Table">
           <CommonLoader
-            isLoading={
-              dataLoading ||
-              updateTagMutationLoading ||
-              deleteTagMutationLoading ||
-              newTagMutationLoading
-            }
-            isShowingContent={
-              updateTagMutationLoading ||
-              deleteTagMutationLoading ||
-              newTagMutationLoading
-            }
-            hasDelay={
-              updateTagMutationLoading ||
-              deleteTagMutationLoading ||
-              newTagMutationLoading
-            }
-            errors={[
-              error,
-              updateTagMutationError,
-              deleteTagMutationError,
-              newTagMutationError,
-            ]}
+            isLoading={isLoading}
+            isShowingContent={isLoadingMutation}
+            hasDelay={isLoadingMutation}
+            errors={errors}
           >
             <CommonDataTable
               columns={tableColumns}
               data={tableData}
               defaultSortFieldId={"name"}
-              isLoading={
-                updateTagMutationLoading ||
-                deleteTagMutationLoading ||
-                newTagMutationLoading
-              }
+              isLoading={isLoading}
               hasEditAction={true}
               hasDeleteAction={true}
               deleteVisibleCondition={(row) => row.count === 0}
