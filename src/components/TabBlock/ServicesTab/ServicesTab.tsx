@@ -31,7 +31,7 @@ export default function ServicesTab() {
     titleContent: "Titre du bloc",
     blockDisplayedLabel:
       "Ordre d’affichage des services sur la page d’accueil (accès rapide)",
-    secondaryLabel: `Vous pouvez choisir d’afficher jusqu’à ${maxLimitDisplay} blocs maximum`,
+    secondaryLabel: `Vous pouvez choisir d’afficher jusqu’à ${maxLimitDisplay} blocs maximum, à choisir en fonction du menu défini préalablement`,
     blockNotDisplayedLabel: "Bloc non affichés",
     blockNotDisplayedSecondaryLabel:
       "Nombre maximum de blocs atteints. Pour afficher un autre bloc, vous devez masquer un bloc ci-dessus.",

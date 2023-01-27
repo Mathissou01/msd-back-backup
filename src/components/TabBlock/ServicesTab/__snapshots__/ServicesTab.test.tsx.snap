@@ -101,7 +101,7 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
               <span
                 class="c-FormLabel__Secondary"
               >
-                Vous pouvez choisir d’afficher jusqu’à 6 blocs maximum
+                Vous pouvez choisir d’afficher jusqu’à 6 blocs maximum, à choisir en fonction du menu défini préalablement
               </span>
             </div>
           </label>
