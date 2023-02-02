@@ -6,13 +6,13 @@
     position: relative;
     top: layout.$header-height;
     left: layout.$sidebar-width;
+    z-index: index.z("site-content");
     width: calc(100vw - #{layout.$sidebar-width});
     height: calc(100vh - #{layout.$header-height});
     overflow: hidden auto;
   }
 
   &__Main {
-    z-index: index.z("site-content");
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - #{layout.$header-height});

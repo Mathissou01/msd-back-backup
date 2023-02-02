@@ -6,17 +6,17 @@ exports[`FormRadioInput renders 1`] = `
     class="c-FormRadioInput"
   >
     <fieldset>
-      <legend
+      <div
         class="c-FormLabel"
       >
-        <div
+        <legend
           class="c-FormLabel__Label"
         >
           <span>
             form radio input
           </span>
-        </div>
-        <div
+        </legend>
+        <legend
           class="c-FormLabel__Label"
         >
           <span
@@ -24,8 +24,8 @@ exports[`FormRadioInput renders 1`] = `
           >
             secondary display name
           </span>
-        </div>
-      </legend>
+        </legend>
+      </div>
       <div
         class="c-FormRadioInput__Options"
       >
@@ -40,18 +40,18 @@ exports[`FormRadioInput renders 1`] = `
             type="radio"
             value="0"
           />
-          <label
+          <div
             class="c-FormLabel"
-            for="form-radio-input0"
           >
-            <div
+            <label
               class="c-FormLabel__Label"
+              for="form-radio-input0"
             >
               <span>
                 first
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
         <div
           class="c-FormRadioInput__Option"
@@ -64,18 +64,18 @@ exports[`FormRadioInput renders 1`] = `
             type="radio"
             value="1"
           />
-          <label
+          <div
             class="c-FormLabel"
-            for="form-radio-input1"
           >
-            <div
+            <label
               class="c-FormLabel__Label"
+              for="form-radio-input1"
             >
               <span>
                 second
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
       </div>
     </fieldset>

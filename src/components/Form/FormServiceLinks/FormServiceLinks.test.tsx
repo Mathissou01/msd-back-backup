@@ -11,19 +11,19 @@ const mock = {
   serviceLinks: [
     {
       type: "ComponentLinksFrees",
-      localId: 0,
+      id: 0,
       name: "Valoriser mes déchets",
       isDisplayed: true,
     },
     {
       type: "ComponentLinksContactUs",
-      localId: 1,
+      id: 1,
       name: "Contact",
       isDisplayed: true,
     },
     {
       type: "ComponentLinksRecycling",
-      localId: 2,
+      id: 2,
       name: "Guide du tri",
       isDisplayed: true,
     },

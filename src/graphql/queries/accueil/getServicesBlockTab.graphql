@@ -13,6 +13,7 @@ query getServicesBlockTab($contractId: ID!) {
                     titleContent
                     serviceLinks {
                       ... on ComponentLinksMap {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -24,6 +25,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksCalendar {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -35,6 +37,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksRecycling {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -46,6 +49,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksRequest {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -57,6 +61,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksContactUs {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -68,6 +73,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksNews {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -79,6 +85,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksEvents {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -90,6 +97,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksQuizzes {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -101,6 +109,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksTips {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -112,6 +121,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksFrees {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -123,6 +133,7 @@ query getServicesBlockTab($contractId: ID!) {
                         }
                       }
                       ... on ComponentLinksExternal {
+                        id
                         name
                         isDisplayed
                         picto {

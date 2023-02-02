@@ -38,15 +38,15 @@ export default function FormLabel({
   });
 
   return (
-    <Tag className={labelClassNames} htmlFor={forId}>
-      <div className="c-FormLabel__Label">
+    <div className={labelClassNames}>
+      <Tag className="c-FormLabel__Label" htmlFor={forId}>
         <span>{`${label}${isRequired ? " *" : ""}`}</span>
         {validationStyle === "inline" &&
           flexStyle === "column" &&
           validationLabel && (
             <span className="c-FormLabel__Validation">{validationLabel}</span>
           )}
-      </div>
+      </Tag>
       {validationStyle === "multiline" &&
         flexStyle === "column" &&
         validationLabel && (
@@ -55,18 +55,18 @@ export default function FormLabel({
           </span>
         )}
       {secondaryLabel && (
-        <div className="c-FormLabel__Label">
+        <Tag className="c-FormLabel__Label" htmlFor={forId}>
           <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
-        </div>
+        </Tag>
       )}
       {children && <div className="c-FormLabel__Content">{children}</div>}
       {flexStyle === "row" && (
-        <div className="c-FormLabel__Label">
+        <Tag className="c-FormLabel__Label" htmlFor={forId}>
           {validationLabel && (
             <span className="c-FormLabel__Validation">{validationLabel}</span>
           )}
-        </div>
+        </Tag>
       )}
-    </Tag>
+    </div>
   );
 }

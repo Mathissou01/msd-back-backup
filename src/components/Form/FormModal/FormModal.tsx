@@ -45,7 +45,8 @@ export default function FormModal<T extends FieldValues>({
     mode: formValidationMode,
     defaultValues,
   });
-  const { handleSubmit, reset } = form;
+  const { handleSubmit, reset, formState } = form;
+  const { isDirty } = formState;
 
   function handleClose() {
     reset();
@@ -92,6 +93,7 @@ export default function FormModal<T extends FieldValues>({
               type="submit"
               label={submitButtonLabel}
               style="primary"
+              isDisabled={!isDirty}
             />
             <CommonButton
               type="button"

@@ -50,17 +50,17 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="titleContent"
             >
-              <div
+              <label
                 class="c-FormLabel__Label"
+                for="titleContent"
               >
                 <span>
                   Titre du bloc *
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -75,7 +75,7 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
                   value="Les services de ma ville"
                 />
               </div>
-            </label>
+            </div>
           </div>
         </div>
       </div>
@@ -85,17 +85,17 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
         <div
           class="c-FormServiceLinks"
         >
-          <label
+          <div
             class="c-FormLabel"
           >
-            <div
+            <label
               class="c-FormLabel__Label"
             >
               <span>
                 Ordre d’affichage des services sur la page d’accueil (accès rapide)
               </span>
-            </div>
-            <div
+            </label>
+            <label
               class="c-FormLabel__Label"
             >
               <span
@@ -103,8 +103,8 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
               >
                 Vous pouvez choisir d’afficher jusqu’à 6 blocs maximum, à choisir en fonction du menu défini préalablement
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
         <div
           class="c-ServicesTabAddButton"

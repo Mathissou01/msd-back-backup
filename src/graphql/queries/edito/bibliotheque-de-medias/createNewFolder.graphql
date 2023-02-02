@@ -1,0 +1,16 @@
+mutation createNewFolder(
+  $name: String!
+  $parentFolderPath: String!
+  $parentFolderPathId: ID!
+) {
+  createNewFolder(
+    name: $name
+    parentFolderPath: $parentFolderPath
+    parentFolderPathId: $parentFolderPathId
+  ) {
+    id
+    name
+    path
+    pathId
+  }
+}

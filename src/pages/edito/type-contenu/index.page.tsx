@@ -310,6 +310,7 @@ export default function EditoTypeContenuPage() {
             return {
               id: `${contentType.type}_${contentType.subServiceId}`,
               ...contentType,
+              description: contentType.description ?? "",
               editState: false,
             };
           }

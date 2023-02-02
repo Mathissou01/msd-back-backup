@@ -11,6 +11,7 @@ import "../styles/main.scss";
 
 function MsdBackApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  // TODO: get value from .env, and fetch values from contract
   const [contractId, setContractId] = useState<`${number}`>("1");
   const [currentPage, setCurrentPage] = useState<keyof typeof ENavigationPages>(
     router.route as keyof typeof ENavigationPages,
@@ -18,7 +19,9 @@ function MsdBackApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={client}>
-      <ContractContext.Provider value={{ contractId, setContractId }}>
+      <ContractContext.Provider
+        value={{ contractId, setContractId, contractPathId: 2 }}
+      >
         <NavigationContext.Provider value={{ currentPage, setCurrentPage }}>
           <div id={"app"}>
             <CommonSvgDefs />

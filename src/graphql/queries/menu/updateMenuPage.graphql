@@ -4,6 +4,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
       attributes {
         serviceLinks {
           ... on ComponentLinksMap {
+            id
             name
             isDisplayed
             picto {
@@ -15,6 +16,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksCalendar {
+            id
             name
             isDisplayed
             picto {
@@ -26,6 +28,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksRecycling {
+            id
             name
             isDisplayed
             picto {
@@ -37,6 +40,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksRequest {
+            id
             name
             isDisplayed
             picto {
@@ -48,6 +52,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksContactUs {
+            id
             name
             isDisplayed
             picto {
@@ -59,6 +64,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksNews {
+            id
             name
             isDisplayed
             picto {
@@ -70,6 +76,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksEvents {
+            id
             name
             isDisplayed
             picto {
@@ -81,6 +88,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksQuizzes {
+            id
             name
             isDisplayed
             picto {
@@ -92,6 +100,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksTips {
+            id
             name
             isDisplayed
             picto {
@@ -103,6 +112,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksFrees {
+            id
             name
             isDisplayed
             picto {
@@ -114,6 +124,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
             }
           }
           ... on ComponentLinksExternal {
+            id
             name
             isDisplayed
             picto {

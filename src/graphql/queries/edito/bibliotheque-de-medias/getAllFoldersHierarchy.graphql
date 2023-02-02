@@ -1,0 +1,8 @@
+query getAllFoldersHierarchy($path: String!, $pathId: String!) {
+  getAllFoldersHierarchy(path: $path, pathId: $pathId) {
+    id
+    name
+    path
+    pathId
+  }
+}

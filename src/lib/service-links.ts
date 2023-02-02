@@ -10,7 +10,7 @@ export interface IPicto {
 
 export interface IServiceLink {
   type?: string;
-  localId: number;
+  id?: string;
   name: string;
   externalLink?: string;
   isDisplayed: boolean;
@@ -32,13 +32,13 @@ export function remapServiceLinksDynamicZone(
 ): Array<IServiceLink> | null {
   return (
     serviceLinks
-      ?.map((link, index) => {
+      ?.map((link) => {
         if (link) {
           const type = link.__typename;
           if (type && isServiceLink(link)) {
             return {
               type,
-              localId: index,
+              id: link.id,
               name: link?.name,
               ...(link?.externalLink && { externalLink: link?.externalLink }),
               isDisplayed: link?.isDisplayed,

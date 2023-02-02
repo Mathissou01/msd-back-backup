@@ -50,12 +50,12 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="titleContent"
             >
-              <div
+              <label
                 class="c-FormLabel__Label"
+                for="titleContent"
               >
                 <span>
                   Texte affiché dans le moteur de recherche principal (haut de page) *
@@ -65,7 +65,7 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
                 >
                   30 caractères maximum
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -81,7 +81,7 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
                   value="Titre modifié"
                 />
               </div>
-            </label>
+            </div>
           </div>
         </div>
       </div>

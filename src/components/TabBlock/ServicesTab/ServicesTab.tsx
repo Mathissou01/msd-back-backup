@@ -8,14 +8,14 @@ import {
   useUpdateServicesBlockTabMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
-import CommonButton from "../../Common/CommonButton/CommonButton";
 import { IServiceLink } from "../../../lib/service-links";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
+import { extractServicesBlock } from "../../../lib/graphql-data";
+import CommonButton from "../../Common/CommonButton/CommonButton";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import FormServiceLinks from "../../Form/FormServiceLinks/FormServiceLinks";
 import ServicesTabAddButton from "./ServicesTabAddButton/ServicesTabAddButton";
 import "./services-tab.scss";
-import CommonLoader from "../../Common/CommonLoader/CommonLoader";
-import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
-import { extractServicesBlock } from "../../../lib/graphql-data";
 
 interface IServicesBlock {
   id: string;
@@ -47,7 +47,6 @@ export default function ServicesTab() {
     if (modalData && servicesBlockData?.serviceLinks) {
       const newLink: IServiceLink = {
         type: "ComponentLinksExternal",
-        localId: servicesBlockData.serviceLinks.length,
         isDisplayed: false,
         name: modalData["name"],
         externalLink: modalData["externalLink"],
@@ -121,6 +120,7 @@ export default function ServicesTab() {
   useEffect(() => {
     if (data) {
       const serviceBlockMapped = extractServicesBlock(data);
+      console.log(serviceBlockMapped.serviceLinks);
       if (
         serviceBlockMapped.id &&
         serviceBlockMapped.titleContent &&
@@ -176,11 +176,12 @@ export default function ServicesTab() {
                 secondaryLabel={formLabels.secondaryLabel}
                 editModalTitle={formLabels.editModalTitle}
                 editModalNameLabel={formLabels.editModalNameLabel}
+                isDisabled={mutationLoading}
+                isSortByIsDisplayed={true}
+                isSplitDisplay={true}
                 splitLabel={formLabels.blockNotDisplayedLabel}
                 splitSecondaryLabel={formLabels.blockNotDisplayedSecondaryLabel}
                 maxLimitIsDisplayed={maxLimitDisplay}
-                isDisabled={mutationLoading}
-                isSplitDisplay={true}
               />
               <ServicesTabAddButton onSubmit={onModalSubmit} />
             </div>

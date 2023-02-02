@@ -22,6 +22,7 @@ import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormModalButtonInput from "../../Form/FormModalButtonInput/FormModalButtonInput";
 import FormMultiselect, {
   IOptionWrapper,
+  mapOptionsInWrappers,
 } from "../../Form/FormMultiselect/FormMultiselect";
 import "./edito-tab.scss";
 
@@ -145,6 +146,7 @@ export default function EditoTab() {
         setEditoData(mappedData);
         form.reset(mappedData);
       }
+
       const sortedEditoContents = [...(editoContents ?? [])];
       sortedEditoContents?.sort(
         comparePropertyValueByPriority("contentType", {
@@ -155,15 +157,7 @@ export default function EditoTab() {
           freeContent: 4,
         }),
       );
-      const mappedOptions: Array<IOptionWrapper<EditoContentDto> | null> =
-        sortedEditoContents.map((editoContent) => {
-          return editoContent
-            ? { group: editoContent.typeName, option: editoContent }
-            : null;
-        });
-      setEditoContents(
-        mappedOptions?.filter((e): e is Exclude<typeof e, null> => e !== null),
-      );
+      setEditoContents(mapOptionsInWrappers(sortedEditoContents, "typeName"));
     }
   }, [form, data]);
 

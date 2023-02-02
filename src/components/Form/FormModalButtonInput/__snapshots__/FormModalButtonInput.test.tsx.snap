@@ -6,18 +6,18 @@ exports[`FormModalButtonInput renders 1`] = `
     class="c-FormModalButtonInput"
     data-testid="form-modal-input"
   >
-    <label
+    <div
       class="c-FormLabel"
-      for="form-modal-input_button"
     >
-      <div
+      <label
         class="c-FormLabel__Label"
+        for="form-modal-input_button"
       >
         <span>
           form modal input
         </span>
-      </div>
-    </label>
+      </label>
+    </div>
     <input
       disabled=""
       name="form-modal-input"

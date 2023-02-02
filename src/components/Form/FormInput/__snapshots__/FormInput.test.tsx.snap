@@ -5,12 +5,12 @@ exports[`FormInput renders 1`] = `
   <div
     class="c-FormInput"
   >
-    <label
+    <div
       class="c-FormLabel"
-      for="form-input"
     >
-      <div
+      <label
         class="c-FormLabel__Label"
+        for="form-input"
       >
         <span>
           form input
@@ -20,16 +20,17 @@ exports[`FormInput renders 1`] = `
         >
           validation label
         </span>
-      </div>
-      <div
+      </label>
+      <label
         class="c-FormLabel__Label"
+        for="form-input"
       >
         <span
           class="c-FormLabel__Secondary"
         >
           secondary label
         </span>
-      </div>
+      </label>
       <div
         class="c-FormLabel__Content"
       >
@@ -44,7 +45,7 @@ exports[`FormInput renders 1`] = `
           value=""
         />
       </div>
-    </label>
+    </div>
   </div>
 </div>
 `;

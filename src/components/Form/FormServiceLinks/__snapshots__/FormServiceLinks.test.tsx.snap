@@ -5,17 +5,17 @@ exports[`FormServiceLinks renders 1`] = `
   <div
     class="c-FormServiceLinks"
   >
-    <label
+    <div
       class="c-FormLabel"
     >
-      <div
+      <label
         class="c-FormLabel__Label"
       >
         <span>
           label
         </span>
-      </div>
-    </label>
+      </label>
+    </div>
     <ul
       class="c-FormServiceLinksList"
     >

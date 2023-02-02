@@ -29,6 +29,7 @@
     flex-grow: 1;
     align-items: center;
     justify-content: space-between;
+    margin-right: auto;
 
     #{$self}_row & {
       flex-wrap: nowrap;

@@ -1,8 +1,8 @@
-import CommonSpinner from "../CommonSpinner/CommonSpinner";
-import { ReactNode, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import "./common-loader.scss";
 import { ApolloError } from "@apollo/client";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import CommonSpinner from "../CommonSpinner/CommonSpinner";
+import "./common-loader.scss";
 
 interface ICommonLoaderProps {
   isLoading: boolean;

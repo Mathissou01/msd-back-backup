@@ -957,7 +957,7 @@ input ContactUsSubServiceInput {
 }
 
 type ContentTypeDTO {
-  description: String!
+  description: String
   name: String!
   subServiceId: ID!
   type: String!
@@ -1937,9 +1937,11 @@ input EventInput {
 }
 
 type EventOrNews {
-  id: ID!
+  image: UploadFile
+  originalId: ID!
   publishedAt: DateTime!
   shortDescription: String
+  tags: [Tag]
   title: String!
 }
 

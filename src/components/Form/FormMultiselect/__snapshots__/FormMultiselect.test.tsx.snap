@@ -6,18 +6,18 @@ exports[`FormMultiselect renders 1`] = `
     class="c-FormMultiselect"
   >
     <div>
-      <label
+      <div
         class="c-FormLabel"
-        for="form-multiselect_0"
       >
-        <div
+        <label
           class="c-FormLabel__Label"
+          for="form-multiselect_0"
         >
           <span>
             form multiselect n°1
           </span>
-        </div>
-      </label>
+        </label>
+      </div>
       <div
         class="o-SelectWrapper"
       >
@@ -50,18 +50,18 @@ exports[`FormMultiselect renders 1`] = `
       </div>
     </div>
     <div>
-      <label
+      <div
         class="c-FormLabel"
-        for="form-multiselect_1"
       >
-        <div
+        <label
           class="c-FormLabel__Label"
+          for="form-multiselect_1"
         >
           <span>
             form multiselect n°2
           </span>
-        </div>
-      </label>
+        </label>
+      </div>
       <div
         class="o-SelectWrapper"
       >

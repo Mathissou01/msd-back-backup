@@ -1,0 +1,41 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.buttons" as buttons;
+@use "src/styles/02-tools/tools.typography" as typo;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-MediaFolderCard {
+  @include shadows.shadow(1);
+
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  width: 210px;
+  padding: 16px;
+  border-radius: 4px;
+
+  &__Informations {
+    display: block;
+    text-align: left;
+  }
+
+  &__Title {
+    @include typo.heading(5);
+  }
+
+  &__Description {
+    @include typo.text("body");
+
+    font-size: 12px;
+  }
+
+  &__Picto {
+    width: 26px;
+    height: 26px;
+
+    &_folder {
+      background-image: url("data:image/svg+xml,%3Csvg width='26' height='26' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-folder'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+    }
+  }
+}

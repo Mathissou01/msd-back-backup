@@ -1,5 +1,6 @@
-export const removeNulls = <S>(value: S | undefined): value is S =>
-  value != null;
+export const removeNulls = <S>(
+  value: S | undefined,
+): value is Exclude<S, null> => value != null;
 
 export function isAbsoluteOrRelativeUrl(url: string) {
   const regex = new RegExp(
@@ -26,6 +27,10 @@ export function isTruthyObjectOrArray(value: unknown): boolean {
       Array.isArray(value) &&
       value.filter((i) => i !== undefined).length > 0)
   );
+}
+
+export function isString(value: unknown): value is string {
+  return typeof value === "string";
 }
 
 export function comparePropertyValueByPriority(

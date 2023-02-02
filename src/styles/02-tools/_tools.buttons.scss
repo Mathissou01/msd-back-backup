@@ -31,12 +31,13 @@
     border-color: transparent;
 
     &:hover {
-      // background-color: colors.$brand-primary-dark;
+      background-color: colors.$blue-dark;
     }
 
     &:active,
     &:focus {
-      // background-color: colors.$brand-primary-dark;
+      background-color: colors.$blue-dark;
+      border-color: colors.$blue-light;
     }
 
     &:disabled {
@@ -46,12 +47,12 @@
   }
   @if $type == "secondary" {
     &:hover {
-      // background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+      background-color: colors.$blue-light;
     }
 
     &:active,
     &:focus {
-      // background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+      background-color: colors.$blue-light;
     }
 
     &:disabled {
