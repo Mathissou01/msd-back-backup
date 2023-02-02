@@ -120,7 +120,6 @@ export default function ServicesTab() {
   useEffect(() => {
     if (data) {
       const serviceBlockMapped = extractServicesBlock(data);
-      console.log(serviceBlockMapped.serviceLinks);
       if (
         serviceBlockMapped.id &&
         serviceBlockMapped.titleContent &&

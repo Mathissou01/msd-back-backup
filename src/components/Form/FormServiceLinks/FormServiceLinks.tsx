@@ -92,11 +92,8 @@ export default function FormServiceLinks({
   }
 
   function onReorder(i: number, shift: number) {
-    console.log(i, shift, i + shift);
     const updatedValues = [...values];
-    console.log(JSON.stringify(updatedValues, null, 2));
     updatedValues.splice(i + shift, 0, updatedValues.splice(i, 1)[0]);
-    console.log(JSON.stringify(updatedValues, null, 2));
     setValue(name, updatedValues, { shouldDirty: true });
   }
 
