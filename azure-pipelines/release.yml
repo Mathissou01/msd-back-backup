@@ -3,10 +3,13 @@ parameters:
   - name: env
     type: string
     default: dev
+  - name: instance
+    type: string
+    default: smile
 
 jobs:
-  - job: msd_bo_site_release
-    displayName: "[${{ upper(parameters.env) }}] Publish BO Website"
+  - job: msd_bo_site_release_${{ parameters.env }}
+    displayName: "[${{ upper(parameters.env) }}] Publish BO (${{ parameters.instance }})"
     steps:
       - checkout: none
 
@@ -24,5 +27,6 @@ jobs:
           skip_app_build: true
           verbose: true
           is_static_export: true
+          deployment_environment: ${{ parameters.instance }}
         env:
           azure_static_web_apps_api_token: $(az-stapps-deployment-token)

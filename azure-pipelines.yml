@@ -14,6 +14,15 @@ variables:
   - name: releaseRec
     value: ${{ startsWith(variables['Build.SourceBranch'], 'refs/heads/release') }}
 
+parameters:
+  - name: az_env
+    displayName: Instance à livrer
+    type: string
+    default: smile
+    values:
+      - smile
+      - production
+
 pool:
   vmImage: ubuntu-latest
 
@@ -43,3 +52,4 @@ stages:
       - template: azure-pipelines/release.yml
         parameters:
           env: ${{ variables.env }}
+          instance: ${{ parameters.az_env }}
