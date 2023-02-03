@@ -5,14 +5,28 @@ parameters:
     default: dev
 
 jobs:
-  - job: msd_bo_site_build
-    displayName: Build BackOffice Static WebSite
+  - job: msd_bo_site_build_install
+    displayName: Install node modules
     steps:
+      - template: build/node.yml
+
       - template: build/install.yml
+
+  - job: msd_bo_site_build_test
+    displayName: Run tests
+    dependsOn: msd_bo_site_build_install
+    steps:
+      - template: build/node.yml
 
       - template: build/pre-tests.yml
 
       - template: build/e2e-tests.yml
+
+  - job: msd_bo_site_build_package
+    dependsOn: msd_bo_site_build_install
+    displayName: Build package
+    steps:
+      - template: build/node.yml
 
       - template: build/export.yml
         parameters:
