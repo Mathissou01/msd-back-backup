@@ -52,4 +52,7 @@ stages:
       - template: azure-pipelines/release.yml
         parameters:
           env: ${{ variables.env }}
-          instance: ${{ parameters.az_env }}
+          ${{ if eq(variables.releaseRec, 'true') }}:
+            instance: ${{ parameters.az_env }}
+          ${{ else }}:
+            instance: "production"
