@@ -9,10 +9,12 @@ exports[`FormInput renders 1`] = `
       class="c-FormLabel"
     >
       <label
-        class="c-FormLabel__Label"
+        class="c-FormLabel__LabelWrapper"
         for="form-input"
       >
-        <span>
+        <span
+          class="c-FormLabel__Label"
+        >
           form input
         </span>
         <span
@@ -22,7 +24,7 @@ exports[`FormInput renders 1`] = `
         </span>
       </label>
       <label
-        class="c-FormLabel__Label"
+        class="c-FormLabel__LabelWrapper"
         for="form-input"
       >
         <span

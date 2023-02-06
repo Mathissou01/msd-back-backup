@@ -10,14 +10,16 @@ exports[`FormRadioInput renders 1`] = `
         class="c-FormLabel"
       >
         <legend
-          class="c-FormLabel__Label"
+          class="c-FormLabel__LabelWrapper"
         >
-          <span>
+          <span
+            class="c-FormLabel__Label"
+          >
             form radio input
           </span>
         </legend>
         <legend
-          class="c-FormLabel__Label"
+          class="c-FormLabel__LabelWrapper"
         >
           <span
             class="c-FormLabel__Secondary"
@@ -44,10 +46,12 @@ exports[`FormRadioInput renders 1`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
               for="form-radio-input0"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 first
               </span>
             </label>
@@ -68,10 +72,12 @@ exports[`FormRadioInput renders 1`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
               for="form-radio-input1"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 second
               </span>
             </label>

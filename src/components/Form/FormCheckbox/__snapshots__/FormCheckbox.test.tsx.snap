@@ -16,15 +16,17 @@ exports[`FormCheckbox renders 1`] = `
       class="c-FormLabel"
     >
       <label
-        class="c-FormLabel__Label"
+        class="c-FormLabel__LabelWrapper"
         for="form-checkbox"
       >
-        <span>
+        <span
+          class="c-FormLabel__Label"
+        >
           form checkbox
         </span>
       </label>
       <label
-        class="c-FormLabel__Label"
+        class="c-FormLabel__LabelWrapper"
         for="form-checkbox"
       >
         <span

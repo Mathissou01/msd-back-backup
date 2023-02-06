@@ -10,10 +10,12 @@ exports[`FormMultiselect renders 1`] = `
         class="c-FormLabel"
       >
         <label
-          class="c-FormLabel__Label"
+          class="c-FormLabel__LabelWrapper"
           for="form-multiselect_0"
         >
-          <span>
+          <span
+            class="c-FormLabel__Label"
+          >
             form multiselect n°1
           </span>
         </label>
@@ -54,10 +56,12 @@ exports[`FormMultiselect renders 1`] = `
         class="c-FormLabel"
       >
         <label
-          class="c-FormLabel__Label"
+          class="c-FormLabel__LabelWrapper"
           for="form-multiselect_1"
         >
-          <span>
+          <span
+            class="c-FormLabel__Label"
+          >
             form multiselect n°2
           </span>
         </label>

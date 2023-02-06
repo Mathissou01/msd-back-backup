@@ -6,10 +6,12 @@ exports[`FormLabel renders 1`] = `
     class="c-FormLabel"
   >
     <label
-      class="c-FormLabel__Label"
+      class="c-FormLabel__LabelWrapper"
       for="form-label"
     >
-      <span>
+      <span
+        class="c-FormLabel__Label"
+      >
         form label
       </span>
       <span
@@ -19,7 +21,7 @@ exports[`FormLabel renders 1`] = `
       </span>
     </label>
     <label
-      class="c-FormLabel__Label"
+      class="c-FormLabel__LabelWrapper"
       for="form-label"
     >
       <span

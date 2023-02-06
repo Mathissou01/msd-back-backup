@@ -54,10 +54,12 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
               class="c-FormLabel"
             >
               <label
-                class="c-FormLabel__Label"
+                class="c-FormLabel__LabelWrapper"
                 for="titleContent"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Titre du bloc *
                 </span>
               </label>
@@ -89,14 +91,16 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Ordre d’affichage des services sur la page d’accueil (accès rapide)
               </span>
             </label>
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
             >
               <span
                 class="c-FormLabel__Secondary"

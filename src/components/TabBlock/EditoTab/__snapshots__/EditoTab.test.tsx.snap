@@ -58,10 +58,12 @@ exports[`EditoTab renders loading and loaded state 2`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
               for="displayBlock"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Afficher ce bloc
               </span>
             </label>
@@ -74,10 +76,12 @@ exports[`EditoTab renders loading and loaded state 2`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
               for="titleContent"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Titre du bloc *
               </span>
             </label>
@@ -109,10 +113,12 @@ exports[`EditoTab renders loading and loaded state 2`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
               for="editoContents_button"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Contenus à afficher *
               </span>
             </label>

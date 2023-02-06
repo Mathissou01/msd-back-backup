@@ -23,26 +23,20 @@
     line-height: 20px;
   }
 
-  &__Label {
+  &__LabelWrapper {
     display: flex;
     flex-direction: row;
     flex-grow: 1;
     align-items: center;
     justify-content: space-between;
-    margin-right: auto;
 
     #{$self}_row & {
       flex-wrap: nowrap;
     }
   }
 
-  &__Content {
-    display: flex;
-    flex-direction: row;
-
-    #{$self}_row & {
-      flex-grow: 7;
-    }
+  &__Label {
+    margin-right: auto;
   }
 
   &__Secondary,
@@ -72,6 +66,15 @@
     &_left {
       margin-bottom: 4px;
       text-align: left;
+    }
+  }
+
+  &__Content {
+    display: flex;
+    flex-direction: row;
+
+    #{$self}_row & {
+      flex-grow: 7;
     }
   }
 }

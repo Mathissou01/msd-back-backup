@@ -54,10 +54,12 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
               class="c-FormLabel"
             >
               <label
-                class="c-FormLabel__Label"
+                class="c-FormLabel__LabelWrapper"
                 for="titleContent"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Texte affiché dans le moteur de recherche principal (haut de page) *
                 </span>
                 <span

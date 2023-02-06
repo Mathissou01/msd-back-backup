@@ -51,10 +51,12 @@ exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
               for="titleContent"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Titre *
               </span>
               <span
@@ -91,10 +93,12 @@ exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
               for="subtitleContent"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Sous titre *
               </span>
               <span
@@ -131,10 +135,12 @@ exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
             class="c-FormLabel"
           >
             <label
-              class="c-FormLabel__Label"
+              class="c-FormLabel__LabelWrapper"
               for="recyclingGuideDisplayContent"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Texte affiché dans le moteur de recherche du guide du tri *
               </span>
               <span
