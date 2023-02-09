@@ -118,7 +118,7 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
             type="button"
           >
             <div
-              class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+              class="c-CommonButton__Picto c-CommonButton__Picto_plus"
             />
             Ajouter un service personnalisé
           </button>

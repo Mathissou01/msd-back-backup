@@ -43,19 +43,19 @@ export default function PersonnalisationAccueilPage() {
         isServiceRecyclingGuideActivated:
           !!data.recyclingGuideServices?.data[0]?.attributes?.isActivated,
         isQuizActivated:
-          !!data.editorialServices?.data[0].attributes?.quizSubService?.data
+          !!data.editorialServices?.data[0]?.attributes?.quizSubService?.data
             ?.attributes?.isActivated,
         isTipsActivated:
-          !!data.editorialServices?.data[0].attributes?.tipSubService?.data
+          !!data.editorialServices?.data[0]?.attributes?.tipSubService?.data
             ?.attributes?.isActivated,
         isEventsActivated:
-          !!data.editorialServices?.data[0].attributes?.eventSubService?.data
+          !!data.editorialServices?.data[0]?.attributes?.eventSubService?.data
             ?.attributes?.isActivated,
         isNewsActivated:
-          !!data.editorialServices?.data[0].attributes?.newsSubService?.data
+          !!data.editorialServices?.data[0]?.attributes?.newsSubService?.data
             ?.attributes?.isActivated,
         hasFreeContentsActivated:
-          !!data.editorialServices?.data[0].attributes?.freeContentSubServices?.data.some(
+          !!data.editorialServices?.data[0]?.attributes?.freeContentSubServices?.data.some(
             (freeContentSubService) =>
               freeContentSubService.attributes?.isActivated,
           ),

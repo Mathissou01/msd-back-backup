@@ -66,7 +66,7 @@ export default function ServicesTabAddButton({
     <div className="c-ServicesTabAddButton">
       <CommonButton
         label={modalLabels.buttonLabel}
-        picto="cross"
+        picto="plus"
         onClick={onAddButtonClick}
       />
       <FormModal<IServiceLink>

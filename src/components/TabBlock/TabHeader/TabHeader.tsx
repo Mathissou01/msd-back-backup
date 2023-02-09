@@ -1,19 +1,25 @@
+import classNames from "classnames";
 import "./tab-header.scss";
 import { Tab } from "../TabBlock";
 
 interface ITabHeaderProps {
   tabs: Array<Tab>;
   selectedTab: number;
+  isAlignStart?: boolean;
   onClick: (tabIndex: number) => void;
 }
 
 export default function TabHeader({
   tabs,
   selectedTab,
+  isAlignStart,
   onClick,
 }: ITabHeaderProps) {
+  const tabHeaderClassNames = classNames("c-TabHeader", {
+    "c-TabHeader_alignLeft": isAlignStart,
+  });
   return (
-    <nav className="c-TabHeader" role="tablist">
+    <nav className={tabHeaderClassNames} role="tablist">
       {tabs.map(
         (tab, index) =>
           tab.isEnabled && (

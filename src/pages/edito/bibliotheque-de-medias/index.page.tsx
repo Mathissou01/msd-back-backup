@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import {
+  useGetFilesPaginationByFolderIdQuery,
   useGetAllFoldersHierarchyQuery,
   useGetFolderAndChildrenByIdQuery,
 } from "../../../graphql/codegen/generated-types";
+import { useContract } from "../../../hooks/useContract";
+import { removeNulls } from "../../../lib/utilities";
 import PageTitle from "../../../components/PageTitle/PageTitle";
+import CommonPagination from "../../../components/Common/CommonPagination/CommonPagination";
 import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 import MediaCreateFolderButton from "../../../components/Media/MediaCreateFolderButton/MediaCreateFolderButton";
 import MediaFolderCard from "../../../components/Media/MediaFolderCard/MediaFolderCard";
+import MediaImportButton from "../../../components/Media/MediaImportButton/MediaImportButton";
 import "./edito-bibliotheque-de-medias.scss";
-import { useContract } from "../../../hooks/useContract";
 
 export interface IFolder {
   id: string | null;
@@ -25,8 +29,12 @@ export default function EditoBibliothequeDeMedia() {
     title: "Ajouter des médias",
     description: "",
     defaultValueName: "Bibliothèque de Médias",
+    MediaSectionTitle: "Médias",
     FolderSectionTitle: "Dossiers",
   };
+
+  // TODO: pagination refactor
+  const pageSizes = [10, 20, 50, 100];
 
   /* Local Data */
   const { contractPathId } = useContract();
@@ -34,15 +42,45 @@ export default function EditoBibliothequeDeMedia() {
   const [activePathId, setActivePathId] = useState<number>(contractPathId);
   const [activePath] = useState<string>(defaultPath);
   const [folders, setFolders] = useState<Array<IFolder>>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPageSize, setCurrentPageSize] = useState<number>(10);
+
+  /* Methods */
+  function previousPage() {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  function nextPage() {
+    if (
+      currentPage <
+      (paginationData?.uploadFiles?.meta.pagination?.pageCount ?? 1)
+    ) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+
+  function lastPage() {
+    if (
+      currentPage <
+      (paginationData?.uploadFiles?.meta.pagination?.pageCount ?? 1)
+    ) {
+      setCurrentPage(
+        paginationData?.uploadFiles?.meta.pagination?.pageCount ?? 1,
+      );
+    }
+  }
 
   /* External Data */
   const {
-    data,
+    data: foldersData,
     loading: foldersLoading,
     error: foldersError,
   } = useGetFolderAndChildrenByIdQuery({
     variables: { filters: { pathId: { eq: activePathId } } },
   });
+
   const {
     data: folderHierarchy,
     loading: hierarchyLoading,
@@ -50,25 +88,57 @@ export default function EditoBibliothequeDeMedia() {
   } = useGetAllFoldersHierarchyQuery({
     variables: { path: activePath, pathId: `${activePathId}` },
   });
-  const loading = foldersLoading || hierarchyLoading;
-  const errors = [foldersError, hierarchyError];
+
+  const folderId = "2"; // TODO folderId
+  const {
+    data: paginationData,
+    loading: paginationLoading,
+    error: paginationError,
+  } = useGetFilesPaginationByFolderIdQuery({
+    variables: {
+      filters: {
+        folder: {
+          id: {
+            eq: folderId,
+          },
+        },
+      },
+      pagination: {
+        page: currentPage,
+        pageSize: currentPageSize,
+      },
+      sort: "createdAt:desc",
+    },
+  });
+
+  const loading = foldersLoading || hierarchyLoading || paginationLoading;
+  const errors = [foldersError, hierarchyError, paginationError];
 
   useEffect(() => {
-    if (data) {
+    if (foldersData) {
       const mappedFolders: Array<IFolder> =
-        data.uploadFolders?.data[0]?.attributes?.children?.data?.map(
-          (folder) => ({
-            id: folder.id ?? null,
-            name: folder.attributes?.name ?? null,
-            path: folder.attributes?.path ?? null,
-            pathId: folder.attributes?.pathId ?? contractPathId,
-            childrenAmount: folder.attributes?.children?.data.length ?? 0,
-            filesAmount: folder.attributes?.files?.data.length ?? 0,
-          }),
-        ) ?? [];
+        foldersData.uploadFolders?.data[0]?.attributes?.children?.data
+          ?.map((folder) => {
+            if (
+              folder.id &&
+              folder.attributes?.name &&
+              folder.attributes?.path &&
+              folder.attributes?.pathId
+            ) {
+              return {
+                id: folder.id,
+                name: folder.attributes?.name,
+                path: folder.attributes?.path,
+                pathId: folder.attributes?.pathId,
+                childrenAmount: folder.attributes?.children?.data.length ?? 0,
+                filesAmount: folder.attributes?.files?.data.length ?? 0,
+              };
+            }
+          })
+          .filter(removeNulls) ?? [];
       setFolders(mappedFolders);
     }
-  }, [data, activePathId, contractPathId]);
+  }, [foldersData, activePathId, contractPathId]);
 
   return (
     <>
@@ -89,6 +159,7 @@ export default function EditoBibliothequeDeMedia() {
                 folderHierarchy={folderHierarchy?.getAllFoldersHierarchy ?? []}
                 localFolderPathId={`${activePathId}`}
               />
+              <MediaImportButton />
             </div>
           </div>
           <div className="c-EditoBibliothequeDeMedia__Filters"></div>
@@ -97,19 +168,47 @@ export default function EditoBibliothequeDeMedia() {
           <h2>{formLabels.FolderSectionTitle}</h2>
           <div className="c-EditoBibliothequeDeMedia__FolderCards">
             {folders &&
-              folders.map((folder, index) => (
-                <MediaFolderCard
-                  key={index}
-                  name={folder.name}
-                  childrenAmount={folder.childrenAmount ?? 0}
-                  filesAmount={folder.filesAmount ?? 0}
-                  picto="folder"
-                  onClick={() => setActivePathId(folder.pathId)}
-                />
-              ))}
+              folders
+                .map((folder, index) => {
+                  if (
+                    folder.name &&
+                    folder.childrenAmount &&
+                    folder.filesAmount &&
+                    folder.pathId
+                  )
+                    return (
+                      <MediaFolderCard
+                        key={index}
+                        name={folder.name}
+                        childrenAmount={folder.childrenAmount}
+                        filesAmount={folder.filesAmount}
+                        picto="folder"
+                        onClick={() => setActivePathId(folder.pathId)}
+                      />
+                    );
+                })
+                .filter(removeNulls)}
           </div>
         </div>
-        <div className="c-EditoBibliothequeDeMedia__MediaList"></div>
+        <div className="c-EditoBibliothequeDeMedia__MediaList">
+          <h2>{formLabels.MediaSectionTitle}</h2>
+          <div className="c-EditoBibliothequeDeMedia__MediaCards">
+            {/* {foldersData?.uploadFiles?.data?.map((media, index) => ( // TODO: Image/File will be replaced here 
+              <MediaCard key={index} file={media} />
+            ))} */}
+          </div>
+        </div>
+        <CommonPagination
+          pageSize={pageSizes}
+          pageCount={paginationData?.uploadFiles?.meta.pagination?.pageCount}
+          page={currentPage}
+          onPreviousPage={previousPage}
+          onNextPage={nextPage}
+          onFirstPage={() => setCurrentPage(1)}
+          onLastPage={lastPage}
+          onSpecificPage={(i) => setCurrentPage(i)}
+          setCurrentPagesize={setCurrentPageSize}
+        />
       </CommonLoader>
     </>
   );

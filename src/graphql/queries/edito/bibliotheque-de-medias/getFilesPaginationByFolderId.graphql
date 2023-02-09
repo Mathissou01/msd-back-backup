@@ -5,6 +5,7 @@ query getFilesPaginationByFolderId(
 ) {
   uploadFiles(filters: $filters, pagination: $pagination, sort: $sort) {
     data {
+      id
       attributes {
         name
         mime
@@ -12,6 +13,8 @@ query getFilesPaginationByFolderId(
         width
         height
         createdAt
+        url
+        ext
       }
     }
     meta {

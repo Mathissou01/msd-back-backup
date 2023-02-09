@@ -1,16 +1,28 @@
-.c-EditoBibliothequeDeMedia__ActionButtons {
-  display: flex;
-  justify-content: flex-end;
-}
+.c-EditoBibliothequeDeMedia {
+  &__ActionButtons {
+    display: flex;
+    justify-content: flex-end;
 
-.c-EditoBibliothequeDeMedia__FolderCards {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 12px;
-  margin-top: 12px;
-}
+    div {
+      margin-left: 10px;
+    }
+  }
 
-.c-EditoBibliothequeDeMedia__Folders {
-  display: flex;
-  flex-direction: column;
+  &__FolderCards {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  &__Folders {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__MediaList {
+    margin: 20px 0;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+  }
 }

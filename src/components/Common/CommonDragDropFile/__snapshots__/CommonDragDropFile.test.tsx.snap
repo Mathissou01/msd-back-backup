@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonDragDropFile renders component 1`] = `
+<div>
+  <form
+    class="c-CommonDragDropFile"
+    data-testid="common-drag-drop-file-form"
+  >
+    <input
+      accept="image/png image/jpeg image/gif image/svg image/tiff image/ico image/dvu .doc .docx .pdf .txt application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      data-testid="common-drag-drop-file-input"
+      hidden=""
+      id="input-file-upload"
+      multiple=""
+      type="file"
+    />
+    <label
+      class="c-CommonDragDropFile__LabelDragDrop"
+      for="input-file-upload"
+    >
+      <div
+        class="c-CommonDragDropFile__Drag"
+      >
+        <img
+          alt=""
+          data-nimg="1"
+          decoding="async"
+          height="50"
+          loading="lazy"
+          src="/images/pictos/add_photo.svg"
+          style="color: transparent;"
+          width="50"
+        />
+        <span
+          class="c-CommonDragDropFile__LabelInfo"
+        >
+          Glissez-déposez une image dans cette zone ou
+        </span>
+        <button
+          class="c-CommonButton c-CommonButton_primary c-CommonButton_fontSmall"
+          type="button"
+        >
+          Parcourir les fichiers
+        </button>
+      </div>
+    </label>
+  </form>
+</div>
+`;

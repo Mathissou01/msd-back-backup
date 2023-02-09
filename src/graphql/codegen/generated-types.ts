@@ -7591,6 +7591,7 @@ export type GetFilesPaginationByFolderIdQuery = {
     __typename?: "UploadFileEntityResponseCollection";
     data: Array<{
       __typename?: "UploadFileEntity";
+      id?: string | null;
       attributes?: {
         __typename?: "UploadFile";
         name: string;
@@ -7599,6 +7600,8 @@ export type GetFilesPaginationByFolderIdQuery = {
         width?: number | null;
         height?: number | null;
         createdAt?: any | null;
+        url: string;
+        ext?: string | null;
       } | null;
     }>;
     meta: {
@@ -10066,6 +10069,7 @@ export const GetFilesPaginationByFolderIdDocument = gql`
   ) {
     uploadFiles(filters: $filters, pagination: $pagination, sort: $sort) {
       data {
+        id
         attributes {
           name
           mime
@@ -10073,6 +10077,8 @@ export const GetFilesPaginationByFolderIdDocument = gql`
           width
           height
           createdAt
+          url
+          ext
         }
       }
       meta {
