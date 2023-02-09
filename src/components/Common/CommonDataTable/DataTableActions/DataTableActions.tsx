@@ -1,111 +1,125 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import "./data-table-actions.scss";
+import { ICommonDataTableValidation } from "../CommonDataTable";
+import Link from "next/link";
 
-interface IDataTableActionsProps {
-  hasEditAction?: boolean;
-  hasDuplicateAction?: boolean;
-  hasDeleteAction?: boolean;
-  deleteVisibleCondition?: boolean;
-  onEdit?: () => void;
-  onDuplicate?: () => void;
-  onDelete?: () => void;
-  isConfirmState?: boolean;
-  onConfirm?: () => void;
+export interface IConfirmStateOptions {
+  onConfirm: () => void;
+  onConfirmValidation?: () => ICommonDataTableValidation;
   onCancel?: () => void;
+  onCancelValidation?: () => ICommonDataTableValidation;
+  confirmStyle?: "warning";
 }
 
-export default function DataTableActions({
-  hasEditAction = true,
-  hasDuplicateAction = true,
-  hasDeleteAction = true,
-  deleteVisibleCondition,
-  onEdit,
-  onDuplicate,
-  onDelete,
-  isConfirmState = false,
-  onConfirm,
-  onCancel,
-}: IDataTableActionsProps) {
+export interface IDataTableAction {
+  id: string;
+  picto: string;
+  onClick?: () => void;
+  href?: string;
+  isDisabled?: boolean;
+  confirmStateOptions?: IConfirmStateOptions;
+}
+
+interface IDataTableActionsProps {
+  actions: Array<IDataTableAction>;
+}
+
+export default function DataTableActions({ actions }: IDataTableActionsProps) {
+  /* Methods */
+  function handleClick(action: IDataTableAction) {
+    if (action.confirmStateOptions) {
+      setConfirmState(true);
+      setCurrentAction(action.confirmStateOptions);
+    }
+    action.onClick?.();
+  }
+
+  function handleConfirm(isConfirmed: boolean) {
+    const validation = isConfirmed
+      ? currentAction?.onConfirmValidation?.()
+      : currentAction?.onCancelValidation?.();
+    if (
+      typeof validation === "undefined" ||
+      (typeof validation !== "undefined" && validation.isValid)
+    ) {
+      isConfirmed ? currentAction?.onConfirm() : currentAction?.onCancel?.();
+      setCurrentAction(null);
+      setConfirmState(false);
+    } else {
+      // TODO: what to do with validation error message ?
+      console.log(validation?.errorMessage);
+    }
+  }
+
+  /* Local Data */
+  const [isConfirmState, setConfirmState] = useState<boolean>(false);
+  const [currentAction, setCurrentAction] =
+    useState<IConfirmStateOptions | null>(null);
   const dynamicClassNames = classNames("c-DataTableActions", {
-    "c-DataTableActions_edit": isConfirmState,
+    "c-DataTableActions_confirm": isConfirmState,
+    [`c-DataTableActions_${currentAction?.confirmStyle}`]:
+      currentAction?.confirmStyle && isConfirmState,
   });
 
   return (
     <div className={dynamicClassNames}>
       <div className="c-DataTableActions__Actions">
-        {hasEditAction && (
-          <button
-            className={classNames("c-DataTableActions__Button")}
-            type="button"
-            onClick={onEdit}
-          >
-            <Image
-              src={"/images/pictos/edit.svg"}
-              alt={""}
-              width={16}
-              height={16}
-            />
-          </button>
-        )}
-        {hasDuplicateAction && (
-          <button
-            className={classNames("c-DataTableActions__Button")}
-            type="button"
-            onClick={onDuplicate}
-          >
-            <Image
-              src={"/images/pictos/duplicate.svg"}
-              alt={""}
-              width={16}
-              height={16}
-            />
-          </button>
-        )}
-        {hasDeleteAction && (
-          <button
-            className={classNames("c-DataTableActions__Button", {
-              "c-DataTableActions__Button_disabled": !deleteVisibleCondition,
-            })}
-            type="button"
-            onClick={onDelete}
-          >
-            <Image
-              src={"/images/pictos/delete.svg"}
-              alt={""}
-              width={16}
-              height={16}
-            />
-          </button>
+        {actions.map((action, index) =>
+          action.href ? (
+            <Link
+              key={`${action.id}_${index}`}
+              className={classNames("c-DataTableActions__Button", {
+                "c-DataTableActions__Button_disabled": action.isDisabled,
+              })}
+              href={action.href}
+              onClick={() => handleClick(action)}
+            >
+              <Image src={action.picto} alt={""} width={16} height={16} />
+            </Link>
+          ) : (
+            <button
+              key={`${action.id}_${index}`}
+              className={classNames("c-DataTableActions__Button", {
+                "c-DataTableActions__Button_disabled": action.isDisabled,
+              })}
+              type="button"
+              onClick={() => handleClick(action)}
+            >
+              <Image src={action.picto} alt={""} width={16} height={16} />
+            </button>
+          ),
         )}
       </div>
-      <div className="c-DataTableActions__EditActions">
-        <button
-          className={classNames("c-DataTableActions__Button")}
-          type="button"
-          onClick={onConfirm}
-        >
-          <Image
-            src={"/images/pictos/yes.svg"}
-            alt={""}
-            width={16}
-            height={16}
-          />
-        </button>
-        <button
-          className={classNames("c-DataTableActions__Button")}
-          type="button"
-          onClick={onCancel}
-        >
-          <Image
-            src={"/images/pictos/no.svg"}
-            alt={""}
-            width={16}
-            height={16}
-          />
-        </button>
-      </div>
+      {currentAction && (
+        <div className="c-DataTableActions__EditActions">
+          <button
+            className="c-DataTableActions__Button"
+            type="button"
+            onClick={() => handleConfirm(true)}
+          >
+            <Image
+              src={"/images/pictos/yes.svg"}
+              alt={""}
+              width={16}
+              height={16}
+            />
+          </button>
+          <button
+            className="c-DataTableActions__Button"
+            type="button"
+            onClick={() => handleConfirm(false)}
+          >
+            <Image
+              src={"/images/pictos/no.svg"}
+              alt={""}
+              width={16}
+              height={16}
+            />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

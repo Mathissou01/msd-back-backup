@@ -1,11 +1,13 @@
 type Accessibility {
   blocks: [AccessibilityBlocksDynamicZone]
   createdAt: DateTime
-  publishedAt: DateTime
+  customId: String
+  publishedDate: DateTime
   status: ENUM_ACCESSIBILITY_STATUS
   title: String!
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union AccessibilityBlocksDynamicZone =
@@ -34,22 +36,26 @@ type AccessibilityEntityResponseCollection {
 input AccessibilityFiltersInput {
   and: [AccessibilityFiltersInput]
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   id: IDFilterInput
   not: AccessibilityFiltersInput
   or: [AccessibilityFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input AccessibilityInput {
   blocks: [AccessibilityBlocksDynamicZoneInput!]
-  publishedAt: DateTime
+  customId: String
+  publishedDate: DateTime
   status: ENUM_ACCESSIBILITY_STATUS
   title: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 type AccessibilityRelationResponseCollection {
@@ -60,7 +66,6 @@ type AccessibilitySubService {
   accessibilities(
     filters: AccessibilityFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): AccessibilityRelationResponseCollection
   audienceTypes(
@@ -240,11 +245,6 @@ input AlertNotificationServiceInput {
   startDate: DateTime
 }
 
-type Attributes {
-  publishedAt: DateTime!
-  title: String!
-}
-
 type AudienceType {
   createdAt: DateTime
   type: String
@@ -308,14 +308,16 @@ input BooleanFilterInput {
 }
 
 type Cgu {
+  CustomId: String
   blocks: [CguBlocksDynamicZone]
   cguSubService: CguSubServiceEntityResponse
   createdAt: DateTime
-  publishedAt: DateTime
+  publishedDate: DateTime
   status: ENUM_CGU_STATUS
   title: String!
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union CguBlocksDynamicZone =
@@ -342,26 +344,30 @@ type CguEntityResponseCollection {
 }
 
 input CguFiltersInput {
+  CustomId: StringFilterInput
   and: [CguFiltersInput]
   cguSubService: CguSubServiceFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
   not: CguFiltersInput
   or: [CguFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input CguInput {
+  CustomId: String
   blocks: [CguBlocksDynamicZoneInput!]
   cguSubService: ID
-  publishedAt: DateTime
+  publishedDate: DateTime
   status: ENUM_CGU_STATUS
   title: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 type CguRelationResponseCollection {
@@ -377,7 +383,6 @@ type CguSubService {
   cgus(
     filters: CguFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): CguRelationResponseCollection
   createdAt: DateTime
@@ -717,11 +722,14 @@ type Confidentiality {
   blocks: [ConfidentialityBlocksDynamicZone]
   confidentialitySubService: ConfidentialitySubServiceEntityResponse
   createdAt: DateTime
+  customId: String
   publishedAt: DateTime
+  publishedDate: DateTime
   status: ENUM_CONFIDENTIALITY_STATUS
   title: String!
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union ConfidentialityBlocksDynamicZone =
@@ -751,23 +759,29 @@ input ConfidentialityFiltersInput {
   and: [ConfidentialityFiltersInput]
   confidentialitySubService: ConfidentialitySubServiceFiltersInput
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   id: IDFilterInput
   not: ConfidentialityFiltersInput
   or: [ConfidentialityFiltersInput]
   publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input ConfidentialityInput {
   blocks: [ConfidentialityBlocksDynamicZoneInput!]
   confidentialitySubService: ID
+  customId: String
   publishedAt: DateTime
+  publishedDate: DateTime
   status: ENUM_CONFIDENTIALITY_STATUS
   title: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 type ConfidentialityRelationResponseCollection {
@@ -838,7 +852,8 @@ input ConfidentialitySubServiceInput {
 type ContactUs {
   blocks: [ContactUsBlocksDynamicZone]
   createdAt: DateTime
-  publishedAt: DateTime
+  customId: String
+  publishedDate: DateTime
   status: ENUM_CONTACTUS_STATUS
   tags(
     filters: TagFiltersInput
@@ -846,8 +861,9 @@ type ContactUs {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union ContactUsBlocksDynamicZone =
@@ -879,24 +895,28 @@ type ContactUsEntityResponseCollection {
 input ContactUsFiltersInput {
   and: [ContactUsFiltersInput]
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   id: IDFilterInput
   not: ContactUsFiltersInput
   or: [ContactUsFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input ContactUsInput {
   blocks: [ContactUsBlocksDynamicZoneInput!]
-  publishedAt: DateTime
+  customId: String
+  publishedDate: DateTime
   status: ENUM_CONTACTUS_STATUS
   tags: [ID]
   title: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 type ContactUsRelationResponseCollection {
@@ -912,7 +932,6 @@ type ContactUsSubService {
   contactUses(
     filters: ContactUsFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): ContactUsRelationResponseCollection
   createdAt: DateTime
@@ -1162,11 +1181,13 @@ scalar ContractMenuServiceLinksDynamicZoneInput
 type Cookie {
   blocks: [CookieBlocksDynamicZone]
   createdAt: DateTime
-  publishedAt: DateTime
+  customId: String
+  publishedDate: DateTime
   status: ENUM_COOKIE_STATUS
   title: String!
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union CookieBlocksDynamicZone =
@@ -1195,22 +1216,26 @@ type CookieEntityResponseCollection {
 input CookieFiltersInput {
   and: [CookieFiltersInput]
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   id: IDFilterInput
   not: CookieFiltersInput
   or: [CookieFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input CookieInput {
   blocks: [CookieBlocksDynamicZoneInput!]
-  publishedAt: DateTime
+  customId: String
+  publishedDate: DateTime
   status: ENUM_COOKIE_STATUS
   title: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 type CookieRelationResponseCollection {
@@ -1226,7 +1251,6 @@ type CookiesSubService {
   cookies(
     filters: CookieFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): CookieRelationResponseCollection
   createdAt: DateTime
@@ -1549,6 +1573,12 @@ enum ENUM_COOKIE_STATUS {
   published
 }
 
+enum ENUM_EDITOCONTENTDTO_STATUS {
+  archived
+  draft
+  published
+}
+
 enum ENUM_EVENT_STATUS {
   archived
   draft
@@ -1580,6 +1610,12 @@ enum ENUM_QUIZ_STATUS {
 }
 
 enum ENUM_TIP_STATUS {
+  archived
+  draft
+  published
+}
+
+enum ENUM_TOPCONTENTDTO_STATUS {
   archived
   draft
   published
@@ -1652,10 +1688,16 @@ type EditoContent {
 }
 
 type EditoContentDTO {
-  attributes: Attributes!
+  attributes: EditoContentDTOAttributes!
   contentType: String!
   id: ID!
   typeName: String!
+}
+
+type EditoContentDTOAttributes {
+  publishedDate: DateTime
+  status: ENUM_EDITOCONTENTDTO_STATUS
+  title: String!
 }
 
 type EditoContentEntity {
@@ -1864,11 +1906,10 @@ type Event {
   events(
     filters: EventFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): EventRelationResponseCollection
   image: UploadFileEntityResponse!
-  publishedAt: DateTime
+  publishedDate: DateTime
   shortDescription: String
   status: ENUM_EVENT_STATUS
   tags(
@@ -1878,7 +1919,7 @@ type Event {
   ): TagRelationResponseCollection
   title: String!
   topContent: TopContentEntityResponse
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
 }
 
@@ -1918,13 +1959,13 @@ input EventFiltersInput {
   id: IDFilterInput
   not: EventFiltersInput
   or: [EventFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   shortDescription: StringFilterInput
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
   topContent: TopContentFiltersInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -1935,19 +1976,19 @@ input EventInput {
   eventSubService: ID
   events: [ID]
   image: ID
-  publishedAt: DateTime
+  publishedDate: DateTime
   shortDescription: String
   status: ENUM_EVENT_STATUS
   tags: [ID]
   title: String
   topContent: ID
-  unpublish: DateTime
+  unpublishedDate: DateTime
 }
 
 type EventOrNews {
   image: UploadFile
   originalId: ID!
-  publishedAt: DateTime!
+  publishedDate: DateTime!
   shortDescription: String
   tags: [Tag]
   title: String!
@@ -1969,7 +2010,6 @@ type EventSubService {
   events(
     filters: EventFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): EventRelationResponseCollection
   isActivated: Boolean!
@@ -2119,7 +2159,7 @@ type FreeContent {
   editoContent: EditoContentEntityResponse
   freeContentSubService: FreeContentSubServiceEntityResponse
   image: UploadFileEntityResponse!
-  publishedAt: DateTime
+  publishedDate: DateTime
   shortDescription: String
   status: ENUM_FREECONTENT_STATUS
   tags(
@@ -2128,7 +2168,7 @@ type FreeContent {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
 }
 
@@ -2166,12 +2206,12 @@ input FreeContentFiltersInput {
   id: IDFilterInput
   not: FreeContentFiltersInput
   or: [FreeContentFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   shortDescription: StringFilterInput
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -2180,12 +2220,12 @@ input FreeContentInput {
   editoContent: ID
   freeContentSubService: ID
   image: ID
-  publishedAt: DateTime
+  publishedDate: DateTime
   shortDescription: String
   status: ENUM_FREECONTENT_STATUS
   tags: [ID]
   title: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
 }
 
 type FreeContentRelationResponseCollection {
@@ -2204,7 +2244,6 @@ type FreeContentSubService {
   freeContents(
     filters: FreeContentFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): FreeContentRelationResponseCollection
   isActivated: Boolean!
@@ -2612,7 +2651,7 @@ type Mutation {
     contractId: ID!
     typeActivation: String!
   ): [ActivationAndService]
-  checkUnpublishDate(date: String): Boolean
+  checkUnpublishedDate(date: String): Boolean
   createAccessibility(data: AccessibilityInput!): AccessibilityEntityResponse
   createAccessibilitySubService(
     data: AccessibilitySubServiceInput!
@@ -3036,10 +3075,11 @@ type New {
     sort: [String] = []
   ): ChannelTypeRelationResponseCollection
   createdAt: DateTime
+  customId: String
   editoContent: EditoContentEntityResponse
   image: UploadFileEntityResponse!
   newsSubService: NewsSubServiceEntityResponse
-  publishedAt: DateTime
+  publishedDate: DateTime
   shortDescription: String
   status: ENUM_NEW_STATUS
   tags(
@@ -3049,8 +3089,9 @@ type New {
   ): TagRelationResponseCollection
   title: String!
   topContent: TopContentEntityResponse
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union NewBlocksDynamicZone =
@@ -3084,35 +3125,39 @@ input NewFiltersInput {
   audiences: AudienceTypeFiltersInput
   channels: ChannelTypeFiltersInput
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   editoContent: EditoContentFiltersInput
   id: IDFilterInput
   newsSubService: NewsSubServiceFiltersInput
   not: NewFiltersInput
   or: [NewFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   shortDescription: StringFilterInput
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
   topContent: TopContentFiltersInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input NewInput {
   audiences: [ID]
   blocks: [NewBlocksDynamicZoneInput!]
   channels: [ID]
+  customId: String
   editoContent: ID
   image: ID
   newsSubService: ID
-  publishedAt: DateTime
+  publishedDate: DateTime
   shortDescription: String
   status: ENUM_NEW_STATUS
   tags: [ID]
   title: String
   topContent: ID
-  unpublish: DateTime
+  unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 type NewRelationResponseCollection {
@@ -3133,7 +3178,6 @@ type NewsSubService {
   news(
     filters: NewFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): NewRelationResponseCollection
   updatedAt: DateTime
@@ -3349,7 +3393,6 @@ type Query {
   accessibilities(
     filters: AccessibilityFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): AccessibilityEntityResponseCollection
   accessibility(id: ID): AccessibilityEntityResponse
@@ -3388,7 +3431,6 @@ type Query {
   cgus(
     filters: CguFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): CguEntityResponseCollection
   channelType(id: ID): ChannelTypeEntityResponse
@@ -3438,7 +3480,6 @@ type Query {
   contactUses(
     filters: ContactUsFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): ContactUsEntityResponseCollection
   contract(id: ID): ContractEntityResponse
@@ -3463,7 +3504,6 @@ type Query {
   cookies(
     filters: CookieFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): CookieEntityResponseCollection
   cookiesSubService(id: ID): CookiesSubServiceEntityResponse
@@ -3532,7 +3572,6 @@ type Query {
   events(
     filters: EventFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): EventEntityResponseCollection
   footer(id: ID): FooterEntityResponse
@@ -3551,16 +3590,27 @@ type Query {
   freeContents(
     filters: FreeContentFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): FreeContentEntityResponseCollection
   getAllFoldersHierarchy(path: String!, pathId: String!): [RequestFolders]
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
-  getEditoBlockDTO(contractId: ID!): EditoBlockDTO
-  getEditoContentDTOs(contractId: ID!): [EditoContentDTO]
+  getEditoBlockDTO(
+    contractId: ID!
+    status: ENUM_EDITOCONTENTDTO_STATUS
+  ): EditoBlockDTO
+  getEditoContentDTOs(
+    contractId: ID!
+    status: ENUM_EDITOCONTENTDTO_STATUS
+  ): [EditoContentDTO]
   getNewestTopContents(contractId: ID!): [EventOrNews]
-  getTopContentBlockDTO(contractId: ID!): TopContentBlockDTO
-  getTopContentDTOs(contractId: ID!): [TopContentDTO]
+  getTopContentBlockDTO(
+    contractId: ID!
+    status: ENUM_TOPCONTENTDTO_STATUS
+  ): TopContentBlockDTO
+  getTopContentDTOs(
+    contractId: ID!
+    status: ENUM_TOPCONTENTDTO_STATUS
+  ): [TopContentDTO]
   global: GlobalEntityResponse
   homepage(id: ID): HomepageEntityResponse
   homepages(
@@ -3588,7 +3638,6 @@ type Query {
   news(
     filters: NewFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): NewEntityResponseCollection
   newsSubService(id: ID): NewsSubServiceEntityResponse
@@ -3632,7 +3681,6 @@ type Query {
   quizzes(
     filters: QuizFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): QuizEntityResponseCollection
   recyclingGuideBlock(id: ID): RecyclingGuideBlockEntityResponse
@@ -3700,7 +3748,6 @@ type Query {
   tips(
     filters: TipFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): TipEntityResponseCollection
   topContent(id: ID): TopContentEntityResponse
@@ -3751,7 +3798,7 @@ type Query {
 type Quiz {
   createdAt: DateTime
   editoContent: EditoContentEntityResponse
-  publishedAt: DateTime
+  publishedDate: DateTime
   quizSubService: QuizSubServiceEntityResponse
   shortDescription: String
   status: ENUM_QUIZ_STATUS
@@ -3761,7 +3808,7 @@ type Quiz {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
 }
 
@@ -3775,7 +3822,6 @@ type QuizAndTipsBlock {
   tips(
     filters: TipFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): TipRelationResponseCollection
   titleContent: String!
@@ -3843,25 +3889,25 @@ input QuizFiltersInput {
   id: IDFilterInput
   not: QuizFiltersInput
   or: [QuizFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   quizSubService: QuizSubServiceFiltersInput
   shortDescription: StringFilterInput
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input QuizInput {
   editoContent: ID
-  publishedAt: DateTime
+  publishedDate: DateTime
   quizSubService: ID
   shortDescription: String
   status: ENUM_QUIZ_STATUS
   tags: [ID]
   title: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
 }
 
 type QuizRelationResponseCollection {
@@ -3882,7 +3928,6 @@ type QuizSubService {
   quizzes(
     filters: QuizFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): QuizRelationResponseCollection
   updatedAt: DateTime
@@ -4457,7 +4502,7 @@ type Tip {
   editoContent: EditoContentEntityResponse
   image: UploadFileEntityResponse!
   link: String
-  publishedAt: DateTime
+  publishedDate: DateTime
   shortDescription: String
   status: ENUM_TIP_STATUS
   tags(
@@ -4468,7 +4513,7 @@ type Tip {
   tipSubService: TipSubServiceEntityResponse
   title: String!
   titleLabel: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
   updatedAt: DateTime
 }
 
@@ -4507,14 +4552,14 @@ input TipFiltersInput {
   link: StringFilterInput
   not: TipFiltersInput
   or: [TipFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
   shortDescription: StringFilterInput
   status: StringFilterInput
   tags: TagFiltersInput
   tipSubService: TipSubServiceFiltersInput
   title: StringFilterInput
   titleLabel: StringFilterInput
-  unpublish: DateTimeFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -4524,14 +4569,14 @@ input TipInput {
   image: ID
   isSystem: Boolean
   link: String
-  publishedAt: DateTime
+  publishedDate: DateTime
   shortDescription: String
   status: ENUM_TIP_STATUS
   tags: [ID]
   tipSubService: ID
   title: String
   titleLabel: String
-  unpublish: DateTime
+  unpublishedDate: DateTime
 }
 
 type TipRelationResponseCollection {
@@ -4552,7 +4597,6 @@ type TipSubService {
   tips(
     filters: TipFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): TipRelationResponseCollection
   updatedAt: DateTime
@@ -4664,10 +4708,16 @@ input TopContentBlockInput {
 }
 
 type TopContentDTO {
-  attributes: Attributes!
+  attributes: TopContentDTOAttributes!
   contentType: String!
   id: ID!
   typeName: String!
+}
+
+type TopContentDTOAttributes {
+  publishedDate: DateTime
+  status: ENUM_TOPCONTENTDTO_STATUS
+  title: String!
 }
 
 type TopContentEntity {

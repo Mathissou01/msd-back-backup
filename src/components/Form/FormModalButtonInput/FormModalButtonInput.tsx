@@ -1,4 +1,5 @@
 import _ from "lodash";
+import classNames from "classnames";
 import { FieldValues, Mode, useFormContext } from "react-hook-form";
 import { Validate } from "react-hook-form/dist/types/validator";
 import { FieldErrors } from "react-hook-form/dist/types/errors";
@@ -11,7 +12,6 @@ import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import FormLabel from "../FormLabel/FormLabel";
 import FormModal from "../FormModal/FormModal";
 import "./form-modal-button-input.scss";
-import classNames from "classnames";
 
 interface IFormModalButtonInputProps<T> {
   name: string;

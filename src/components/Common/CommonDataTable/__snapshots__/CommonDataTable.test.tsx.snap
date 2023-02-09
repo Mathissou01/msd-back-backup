@@ -44,9 +44,8 @@ exports[`CommonDataTable renders 1`] = `
                 </div>
               </div>
               <div
-                class="sc-hLBbgP sc-eDvSVe sc-ipEyDJ glyQNg iaTFrn dlSNBX rdt_TableCol"
-                data-column-id="actions"
-                width="140px"
+                class="sc-hLBbgP sc-eDvSVe sc-ipEyDJ glyQNg bQdYbR dlSNBX rdt_TableCol"
+                data-column-id="3"
               />
             </div>
           </div>
@@ -73,54 +72,15 @@ exports[`CommonDataTable renders 1`] = `
                 </div>
               </div>
               <div
-                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF iaTFrn DlhbO rdt_TableCell"
-                data-column-id="actions"
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="3"
                 data-tag="allowRowEvents"
-                id="cell-actions-1"
+                id="cell-3-1"
                 role="cell"
-                width="140px"
               >
                 <div
-                  class="c-DataTableActions"
-                >
-                  <div
-                    class="c-DataTableActions__Actions"
-                  />
-                  <div
-                    class="c-DataTableActions__EditActions"
-                  >
-                    <button
-                      class="c-DataTableActions__Button"
-                      type="button"
-                    >
-                      <img
-                        alt=""
-                        data-nimg="1"
-                        decoding="async"
-                        height="16"
-                        loading="lazy"
-                        src="/images/pictos/yes.svg"
-                        style="color: transparent;"
-                        width="16"
-                      />
-                    </button>
-                    <button
-                      class="c-DataTableActions__Button"
-                      type="button"
-                    >
-                      <img
-                        alt=""
-                        data-nimg="1"
-                        decoding="async"
-                        height="16"
-                        loading="lazy"
-                        src="/images/pictos/no.svg"
-                        style="color: transparent;"
-                        width="16"
-                      />
-                    </button>
-                  </div>
-                </div>
+                  data-tag="allowRowEvents"
+                />
               </div>
             </div>
             <div
@@ -142,54 +102,15 @@ exports[`CommonDataTable renders 1`] = `
                 </div>
               </div>
               <div
-                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF iaTFrn DlhbO rdt_TableCell"
-                data-column-id="actions"
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="3"
                 data-tag="allowRowEvents"
-                id="cell-actions-2"
+                id="cell-3-2"
                 role="cell"
-                width="140px"
               >
                 <div
-                  class="c-DataTableActions"
-                >
-                  <div
-                    class="c-DataTableActions__Actions"
-                  />
-                  <div
-                    class="c-DataTableActions__EditActions"
-                  >
-                    <button
-                      class="c-DataTableActions__Button"
-                      type="button"
-                    >
-                      <img
-                        alt=""
-                        data-nimg="1"
-                        decoding="async"
-                        height="16"
-                        loading="lazy"
-                        src="/images/pictos/yes.svg"
-                        style="color: transparent;"
-                        width="16"
-                      />
-                    </button>
-                    <button
-                      class="c-DataTableActions__Button"
-                      type="button"
-                    >
-                      <img
-                        alt=""
-                        data-nimg="1"
-                        decoding="async"
-                        height="16"
-                        loading="lazy"
-                        src="/images/pictos/no.svg"
-                        style="color: transparent;"
-                        width="16"
-                      />
-                    </button>
-                  </div>
-                </div>
+                  data-tag="allowRowEvents"
+                />
               </div>
             </div>
             <div
@@ -211,54 +132,15 @@ exports[`CommonDataTable renders 1`] = `
                 </div>
               </div>
               <div
-                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF iaTFrn DlhbO rdt_TableCell"
-                data-column-id="actions"
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="3"
                 data-tag="allowRowEvents"
-                id="cell-actions-5"
+                id="cell-3-5"
                 role="cell"
-                width="140px"
               >
                 <div
-                  class="c-DataTableActions"
-                >
-                  <div
-                    class="c-DataTableActions__Actions"
-                  />
-                  <div
-                    class="c-DataTableActions__EditActions"
-                  >
-                    <button
-                      class="c-DataTableActions__Button"
-                      type="button"
-                    >
-                      <img
-                        alt=""
-                        data-nimg="1"
-                        decoding="async"
-                        height="16"
-                        loading="lazy"
-                        src="/images/pictos/yes.svg"
-                        style="color: transparent;"
-                        width="16"
-                      />
-                    </button>
-                    <button
-                      class="c-DataTableActions__Button"
-                      type="button"
-                    >
-                      <img
-                        alt=""
-                        data-nimg="1"
-                        decoding="async"
-                        height="16"
-                        loading="lazy"
-                        src="/images/pictos/no.svg"
-                        style="color: transparent;"
-                        width="16"
-                      />
-                    </button>
-                  </div>
-                </div>
+                  data-tag="allowRowEvents"
+                />
               </div>
             </div>
             <div
@@ -280,54 +162,15 @@ exports[`CommonDataTable renders 1`] = `
                 </div>
               </div>
               <div
-                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF iaTFrn DlhbO rdt_TableCell"
-                data-column-id="actions"
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="3"
                 data-tag="allowRowEvents"
-                id="cell-actions-10"
+                id="cell-3-10"
                 role="cell"
-                width="140px"
               >
                 <div
-                  class="c-DataTableActions"
-                >
-                  <div
-                    class="c-DataTableActions__Actions"
-                  />
-                  <div
-                    class="c-DataTableActions__EditActions"
-                  >
-                    <button
-                      class="c-DataTableActions__Button"
-                      type="button"
-                    >
-                      <img
-                        alt=""
-                        data-nimg="1"
-                        decoding="async"
-                        height="16"
-                        loading="lazy"
-                        src="/images/pictos/yes.svg"
-                        style="color: transparent;"
-                        width="16"
-                      />
-                    </button>
-                    <button
-                      class="c-DataTableActions__Button"
-                      type="button"
-                    >
-                      <img
-                        alt=""
-                        data-nimg="1"
-                        decoding="async"
-                        height="16"
-                        loading="lazy"
-                        src="/images/pictos/no.svg"
-                        style="color: transparent;"
-                        width="16"
-                      />
-                    </button>
-                  </div>
-                </div>
+                  data-tag="allowRowEvents"
+                />
               </div>
             </div>
           </div>

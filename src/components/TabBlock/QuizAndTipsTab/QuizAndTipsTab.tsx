@@ -80,7 +80,7 @@ export default function QuizAndTipsTab() {
         return (
           <p key={tip.id + index}>
             {`${tip.attributes?.title} - ${format(
-              parseJSON(tip.attributes?.publishedAt),
+              parseJSON(tip.attributes?.publishedDate),
               "dd/mm/yyyy",
             )}` ?? ""}
           </p>
@@ -92,7 +92,7 @@ export default function QuizAndTipsTab() {
   function tipSelectDisplayTransformFunction(tip: TipEntity): string {
     return (
       `${tip.attributes?.title} - ${format(
-        parseJSON(tip.attributes?.publishedAt),
+        parseJSON(tip.attributes?.publishedDate),
         "dd/mm/yyyy",
       )}` ?? ""
     );

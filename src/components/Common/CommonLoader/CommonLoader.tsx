@@ -24,14 +24,14 @@ export default function CommonLoader({
   isFlexGrow = true,
   hasSpinner = true,
   hasSkeleton = false,
-  hasDelay = true,
+  hasDelay = false,
   minHeight,
   errors,
   children,
 }: ICommonLoaderProps) {
   const hasErrors = errors?.some((error) => error);
 
-  const [isShowingLoader, setIsShowingLoader] = useState(false);
+  const [isShowingLoader, setIsShowingLoader] = useState(!hasDelay);
   const spinnerTimerRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
     if (isLoading) {

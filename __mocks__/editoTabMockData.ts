@@ -6,6 +6,7 @@ export const defaultMockData = [
       query: GetEditoBlockTabDocument,
       variables: {
         contractId: "1",
+        status: "published",
       },
     },
     result: {
@@ -22,7 +23,8 @@ export const defaultMockData = [
               attributes: {
                 title:
                   "Remplacez vos sacs en plastique par des sacs réutilisables, un caddie ou des paniers.",
-                publishedAt: "2022-11-18T10:17:11.158Z",
+                status: "published",
+                publishedDate: "2022-11-18T10:17:11.158Z",
               },
             },
             {
@@ -31,7 +33,8 @@ export const defaultMockData = [
               typeName: "Valoriser mes déchets",
               attributes: {
                 title: "freecontent test",
-                publishedAt: "2022-12-05T15:59:38.467Z",
+                status: "published",
+                publishedDate: "2022-12-05T15:59:38.467Z",
               },
             },
             {
@@ -40,7 +43,8 @@ export const defaultMockData = [
               typeName: "Quiz",
               attributes: {
                 title: "Nom du quiz",
-                publishedAt: "2022-11-20T02:34:14.535Z",
+                status: "published",
+                publishedDate: "2022-11-20T02:34:14.535Z",
               },
             },
           ],
@@ -53,7 +57,8 @@ export const defaultMockData = [
             attributes: {
               title:
                 "Découper vos peaux de bananes avant de les jeter dans votre compost.",
-              publishedAt: "2022-11-19T00:14:08.232Z",
+              status: "published",
+              publishedDate: "2022-11-19T00:14:08.232Z",
             },
           },
           {
@@ -62,7 +67,8 @@ export const defaultMockData = [
             typeName: "Quiz",
             attributes: {
               title: "Nom du quiz",
-              publishedAt: "2022-11-20T02:34:14.535Z",
+              status: "published",
+              publishedDate: "2022-11-20T02:34:14.535Z",
             },
           },
           {
@@ -72,7 +78,8 @@ export const defaultMockData = [
             attributes: {
               title:
                 "Remplacez vos sacs en plastique par des sacs réutilisables, un caddie ou des paniers.",
-              publishedAt: "2022-11-18T10:17:11.158Z",
+              status: "published",
+              publishedDate: "2022-11-18T10:17:11.158Z",
             },
           },
           {
@@ -81,7 +88,8 @@ export const defaultMockData = [
             typeName: "Astuces",
             attributes: {
               title: "Titre de l'astuce 3",
-              publishedAt: "2022-11-19T00:14:20.490Z",
+              status: "published",
+              publishedDate: "2022-11-19T00:14:20.490Z",
             },
           },
           {
@@ -90,7 +98,8 @@ export const defaultMockData = [
             typeName: "Astuces",
             attributes: {
               title: "Titre de l'astuce 4",
-              publishedAt: "2022-11-19T00:14:30.273Z",
+              status: "published",
+              publishedDate: "2022-11-19T00:14:30.273Z",
             },
           },
           {
@@ -99,7 +108,8 @@ export const defaultMockData = [
             typeName: "Quiz",
             attributes: {
               title: "truc",
-              publishedAt: "2022-11-18T10:16:08.936Z",
+              status: "published",
+              publishedDate: "2022-11-18T10:16:08.936Z",
             },
           },
           {
@@ -108,7 +118,8 @@ export const defaultMockData = [
             typeName: "Actualités",
             attributes: {
               title: "news test",
-              publishedAt: "2022-12-05T15:59:19.503Z",
+              status: "published",
+              publishedDate: "2022-12-05T15:59:19.503Z",
             },
           },
           {
@@ -117,7 +128,8 @@ export const defaultMockData = [
             typeName: "Evénement",
             attributes: {
               title: "event test",
-              publishedAt: "2022-12-05T15:58:52.482Z",
+              status: "published",
+              publishedDate: "2022-12-05T15:58:52.482Z",
             },
           },
           {
@@ -126,7 +138,8 @@ export const defaultMockData = [
             typeName: "Valoriser mes déchets",
             attributes: {
               title: "freecontent test",
-              publishedAt: "2022-12-05T15:59:38.467Z",
+              status: "published",
+              publishedDate: "2022-12-05T15:59:38.467Z",
             },
           },
         ],

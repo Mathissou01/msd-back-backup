@@ -4,6 +4,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
 import {
   EditoContentDto,
+  Enum_Editocontentdto_Status,
   GetEditoBlockTabDocument,
   useGetEditoBlockTabQuery,
   useUpdateEditoBlockTabMutation,
@@ -56,7 +57,7 @@ export default function EditoTab() {
         return (
           <p key={editoContent.id + index}>
             {`${editoContent.attributes?.title} - ${format(
-              parseJSON(editoContent.attributes?.publishedAt),
+              parseJSON(editoContent.attributes?.publishedDate),
               "dd/MM/yyyy",
             )}` ?? ""}
           </p>
@@ -70,7 +71,7 @@ export default function EditoTab() {
   ): string {
     return (
       `${editoContent.attributes?.title} - ${format(
-        parseJSON(editoContent.attributes?.publishedAt),
+        parseJSON(editoContent.attributes?.publishedDate),
         "dd/MM/yyyy",
       )}` ?? ""
     );
@@ -101,7 +102,10 @@ export default function EditoTab() {
         refetchQueries: [
           {
             query: GetEditoBlockTabDocument,
-            variables: { contractId },
+            variables: {
+              contractId,
+              status: Enum_Editocontentdto_Status.Published,
+            },
           },
           "getEditoBlockTab",
         ],
@@ -116,7 +120,10 @@ export default function EditoTab() {
   /* External Data */
   const { contractId } = useContract();
   const { loading, error, data } = useGetEditoBlockTabQuery({
-    variables: { contractId },
+    variables: {
+      contractId,
+      status: Enum_Editocontentdto_Status.Published,
+    },
   });
   const [updateEditoBlock, { loading: mutationLoading, error: mutationError }] =
     useUpdateEditoBlockTabMutation();

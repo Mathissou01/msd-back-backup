@@ -1,5 +1,5 @@
-query getTopContentTab($contractId: ID!) {
-  getTopContentBlockDTO(contractId: $contractId) {
+query getTopContentTab($contractId: ID!, $status: ENUM_TOPCONTENTDTO_STATUS) {
+  getTopContentBlockDTO(contractId: $contractId, status: $status) {
     id
     displayBlock
     displayLastThreeContents
@@ -11,18 +11,19 @@ query getTopContentTab($contractId: ID!) {
       typeName
       attributes {
         title
-        publishedAt
+        status
+        publishedDate
       }
     }
   }
-  getTopContentDTOs(contractId: $contractId) {
-    __typename
+  getTopContentDTOs(contractId: $contractId, status: $status) {
     id
     contentType
     typeName
     attributes {
       title
-      publishedAt
+      status
+      publishedDate
     }
   }
 }

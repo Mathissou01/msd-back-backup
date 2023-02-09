@@ -8,6 +8,7 @@ import {
 import { removeNulls } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
 import { useContentTypeMutations } from "../../../hooks/useContentTypeMutations";
+import { IDataTableAction } from "../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../../components/Common/CommonDataTable/CommonDataTable";
@@ -69,6 +70,38 @@ export default function EditoTypeContenuPage() {
   function getTextAreaRef(i: number) {
     textAreaRefs.current[i] = createRef();
     return textAreaRefs.current[i];
+  }
+
+  function onEditState(
+    row: IContentTypeTableRow,
+    i: number,
+    setValue?: boolean,
+  ) {
+    let copiedStates = confirmStatesRef.current;
+    let copiedData = tableDataRef.current;
+    if (
+      copiedStates.filter(Boolean).length > 0 &&
+      (!copiedStates[i] || setValue === true)
+    ) {
+      copiedStates = new Array(tableData?.length).fill(false);
+      copiedData = tableData.map((row) => {
+        return { ...row, editState: false };
+      });
+    }
+    setTableData(
+      copiedData.map((data) => {
+        if (data.id === row.id) {
+          return { ...data, editState: setValue ?? !data.editState };
+        } else {
+          return { ...data };
+        }
+      }),
+    );
+    setConfirmStates([
+      ...copiedStates.slice(0, i),
+      setValue ?? !copiedStates[i],
+      ...copiedStates.slice(i + 1),
+    ]);
   }
 
   async function onConfirm(row: IContentTypeTableRow, i: number) {
@@ -194,21 +227,23 @@ export default function EditoTypeContenuPage() {
     }
   }
 
-  // async function onDelete(row: IContentTypeTableRow) {
-  //   const variables = {
-  //     deleteTagId: row.subServiceId,
-  //   };
-  //   return deleteContentTypeMutation({
-  //     variables,
-  //     refetchQueries: [
-  //       {
-  //         query: GetContentTypeDtOsDocument,
-  //         variables: { contractId },
-  //       },
-  //       "getContentTypeDTOs",
-  //     ],
-  //   });
-  // }
+  async function onDelete(row: IContentTypeTableRow) {
+    // TODO: delete feature
+    console.log("delete ?", row);
+    // const variables = {
+    //   deleteTagId: row.subServiceId,
+    // };
+    // return deleteContentTypeMutation({
+    //   variables,
+    //   refetchQueries: [
+    //     {
+    //       query: GetContentTypeDtOsDocument,
+    //       variables: { contractId },
+    //     },
+    //     "getContentTypeDTOs",
+    //   ],
+    // });
+  }
 
   async function onAddRow(data: FieldValues) {
     setIsUpdatingData(true);
@@ -261,6 +296,9 @@ export default function EditoTypeContenuPage() {
   const inputRefs = useRef<Array<React.RefObject<HTMLInputElement>>>([]);
   const textAreaRefs = useRef<Array<React.RefObject<HTMLTextAreaElement>>>([]);
   const [tableData, setTableData] = useState<Array<IContentTypeTableRow>>([]);
+  const tableDataRef = useRef<Array<IContentTypeTableRow>>(tableData);
+  const [confirmStates, setConfirmStates] = useState<Array<boolean>>([]);
+  const confirmStatesRef = useRef<Array<boolean>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation = isUpdatingData || loadingMutation;
   const isLoading = dataLoading || isLoadingMutation;
@@ -301,6 +339,29 @@ export default function EditoTypeContenuPage() {
       sortable: true,
     },
   ];
+  const actionColumn = (
+    row: IContentTypeTableRow,
+    rowIndex: number,
+  ): Array<IDataTableAction> => [
+    {
+      id: "edit",
+      picto: "/images/pictos/edit.svg",
+      onClick: () => onEditState(row, rowIndex),
+      confirmStateOptions: {
+        onConfirm: () => onConfirm(row, rowIndex),
+        onCancel: () => onEditState(row, rowIndex, false),
+      },
+    },
+    {
+      id: "delete",
+      picto: "/images/pictos/delete.svg",
+      isDisabled: true,
+      confirmStateOptions: {
+        onConfirm: () => onDelete(row),
+        confirmStyle: "warning",
+      },
+    },
+  ];
 
   useEffect(() => {
     setTableData(
@@ -320,6 +381,14 @@ export default function EditoTypeContenuPage() {
   }, [data]);
 
   useEffect(() => {
+    if (confirmStates.length !== tableData.length) {
+      setConfirmStates(new Array(tableData?.length).fill(false));
+    }
+    tableDataRef.current = tableData;
+    confirmStatesRef.current = confirmStates;
+  }, [confirmStates, tableData]);
+
+  useEffect(() => {
     setIsUpdatingData(false);
   }, [tableData]);
 
@@ -337,14 +406,10 @@ export default function EditoTypeContenuPage() {
           >
             <CommonDataTable
               columns={tableColumns}
+              actionColumn={actionColumn}
               data={tableData}
               defaultSortFieldId={"name"}
               isLoading={isLoading}
-              hasEditAction={true}
-              hasDeleteAction={true}
-              deleteVisibleCondition={() => false}
-              onConfirm={(row, rowIndex) => onConfirm(row, rowIndex)}
-              // onDelete={(row) => onDelete(row)}
             />
             <DataTableForm
               title={tableLabels.addRow.title}

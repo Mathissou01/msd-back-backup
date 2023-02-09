@@ -3,17 +3,18 @@
 exports[`CommonPagination renders 1`] = `
 <div>
   <div
-    class="c-CommonPagination"
+    class="c-CommonPagination c-CommonPagination_hasRowsPerPage"
   >
     <div
-      class="c-CommonPagination__MediaPerPage"
+      class="c-CommonPagination__RowsPerPage"
     >
       <select
         class="c-CommonPagination__Select"
-        id="mediaPerPage"
-        name="mediaPerPage"
+        id="rowsPerPage"
+        name="rowsPerPage"
       >
         <option
+          selected=""
           value="10"
         >
           10
@@ -37,50 +38,28 @@ exports[`CommonPagination renders 1`] = `
       <span
         class="c-CommonPagination__Label"
       >
-        médias par page
+        Entrées par page
       </span>
     </div>
     <nav
       class="c-CommonPagination__Navigation"
     >
       <div
-        class="c-CommonPagination__ButtonsPreview c-CommonPagination__ButtonsPreview_disabled"
+        class="c-CommonPagination__Backward c-CommonPagination__Backward_disabled"
       >
         <button
-          class="c-CommonPagination__Icon"
+          class="c-CommonPagination__Button c-CommonPagination__Button_arrowTo c-CommonPagination__Button_reverse"
+          disabled=""
           type="button"
-        >
-          <img
-            alt="arrow button"
-            class="c-CommonPagination__IconDisabled"
-            data-nimg="1"
-            decoding="async"
-            height="24"
-            loading="lazy"
-            src="/images/pictos/arrow-button.svg"
-            style="color: transparent;"
-            width="24"
-          />
-        </button>
+        />
         <button
-          class="c-CommonPagination__Icon"
+          class="c-CommonPagination__Button c-CommonPagination__Button_arrow c-CommonPagination__Button_reverse"
+          disabled=""
           type="button"
-        >
-          <img
-            alt="Button First Page"
-            class="c-CommonPagination__IconDisabled"
-            data-nimg="1"
-            decoding="async"
-            height="24"
-            loading="lazy"
-            src="/images/pictos/button.svg"
-            style="color: transparent;"
-            width="24"
-          />
-        </button>
+        />
       </div>
       <div
-        class="c-CommonPagination__NumberPage"
+        class="c-CommonPagination__Pages"
       >
         <button
           class="c-CommonPagination__Page c-CommonPagination__Page_active"
@@ -97,50 +76,18 @@ exports[`CommonPagination renders 1`] = `
         >
           3
         </button>
-        <button
-          class="c-CommonPagination__Page"
-        >
-          4
-        </button>
-        <button
-          class="c-CommonPagination__Page"
-        >
-          5
-        </button>
       </div>
       <div
-        class="c-CommonPagination__ButtonsNext"
+        class="c-CommonPagination__Forward"
       >
         <button
-          class="c-CommonPagination__Icon"
+          class="c-CommonPagination__Button c-CommonPagination__Button_arrow"
           type="button"
-        >
-          <img
-            alt="arrow button"
-            data-nimg="1"
-            decoding="async"
-            height="24"
-            loading="lazy"
-            src="/images/pictos/arrow-button.svg"
-            style="color: transparent;"
-            width="24"
-          />
-        </button>
+        />
         <button
-          class="c-CommonPagination__Icon"
+          class="c-CommonPagination__Button c-CommonPagination__Button_arrowTo"
           type="button"
-        >
-          <img
-            alt="Bouton Last page"
-            data-nimg="1"
-            decoding="async"
-            height="24"
-            loading="lazy"
-            src="/images/pictos/button.svg"
-            style="color: transparent;"
-            width="24"
-          />
-        </button>
+        />
       </div>
     </nav>
   </div>

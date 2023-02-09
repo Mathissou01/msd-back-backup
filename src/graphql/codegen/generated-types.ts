@@ -41,11 +41,13 @@ export type Accessibility = {
   __typename?: "Accessibility";
   blocks?: Maybe<Array<Maybe<AccessibilityBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Accessibility_Status>;
   title: Scalars["String"];
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type AccessibilityBlocksDynamicZone =
@@ -75,22 +77,26 @@ export type AccessibilityEntityResponseCollection = {
 export type AccessibilityFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<AccessibilityFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<AccessibilityFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AccessibilityFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type AccessibilityInput = {
   blocks?: InputMaybe<Array<Scalars["AccessibilityBlocksDynamicZoneInput"]>>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  customId?: InputMaybe<Scalars["String"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Accessibility_Status>;
   title?: InputMaybe<Scalars["String"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type AccessibilityRelationResponseCollection = {
@@ -114,7 +120,6 @@ export type AccessibilitySubService = {
 export type AccessibilitySubServiceAccessibilitiesArgs = {
   filters?: InputMaybe<AccessibilityFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -306,12 +311,6 @@ export type AlertNotificationServiceInput = {
   startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
-export type Attributes = {
-  __typename?: "Attributes";
-  publishedAt: Scalars["DateTime"];
-  title: Scalars["String"];
-};
-
 export type AudienceType = {
   __typename?: "AudienceType";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -381,14 +380,16 @@ export type BooleanFilterInput = {
 
 export type Cgu = {
   __typename?: "Cgu";
+  CustomId?: Maybe<Scalars["String"]>;
   blocks?: Maybe<Array<Maybe<CguBlocksDynamicZone>>>;
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Cgu_Status>;
   title: Scalars["String"];
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type CguBlocksDynamicZone =
@@ -416,26 +417,30 @@ export type CguEntityResponseCollection = {
 };
 
 export type CguFiltersInput = {
+  CustomId?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
   cguSubService?: InputMaybe<CguSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<CguFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type CguInput = {
+  CustomId?: InputMaybe<Scalars["String"]>;
   blocks?: InputMaybe<Array<Scalars["CguBlocksDynamicZoneInput"]>>;
   cguSubService?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Cgu_Status>;
   title?: InputMaybe<Scalars["String"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type CguRelationResponseCollection = {
@@ -465,7 +470,6 @@ export type CguSubServiceAudienceTypesArgs = {
 export type CguSubServiceCgusArgs = {
   filters?: InputMaybe<CguFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -837,11 +841,14 @@ export type Confidentiality = {
   blocks?: Maybe<Array<Maybe<ConfidentialityBlocksDynamicZone>>>;
   confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Confidentiality_Status>;
   title: Scalars["String"];
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type ConfidentialityBlocksDynamicZone =
@@ -872,23 +879,29 @@ export type ConfidentialityFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ConfidentialityFiltersInput>>>;
   confidentialitySubService?: InputMaybe<ConfidentialitySubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ConfidentialityFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ConfidentialityFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type ConfidentialityInput = {
   blocks?: InputMaybe<Array<Scalars["ConfidentialityBlocksDynamicZoneInput"]>>;
   confidentialitySubService?: InputMaybe<Scalars["ID"]>;
+  customId?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Confidentiality_Status>;
   title?: InputMaybe<Scalars["String"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type ConfidentialityRelationResponseCollection = {
@@ -969,12 +982,14 @@ export type ContactUs = {
   __typename?: "ContactUs";
   blocks?: Maybe<Array<Maybe<ContactUsBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Contactus_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type ContactUsTagsArgs = {
@@ -1013,24 +1028,28 @@ export type ContactUsEntityResponseCollection = {
 export type ContactUsFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ContactUsFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type ContactUsInput = {
   blocks?: InputMaybe<Array<Scalars["ContactUsBlocksDynamicZoneInput"]>>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  customId?: InputMaybe<Scalars["String"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Contactus_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type ContactUsRelationResponseCollection = {
@@ -1061,7 +1080,6 @@ export type ContactUsSubServiceAudienceTypesArgs = {
 export type ContactUsSubServiceContactUsesArgs = {
   filters?: InputMaybe<ContactUsFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -1323,11 +1341,13 @@ export type Cookie = {
   __typename?: "Cookie";
   blocks?: Maybe<Array<Maybe<CookieBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Cookie_Status>;
   title: Scalars["String"];
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type CookieBlocksDynamicZone =
@@ -1357,22 +1377,26 @@ export type CookieEntityResponseCollection = {
 export type CookieFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<CookieFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type CookieInput = {
   blocks?: InputMaybe<Array<Scalars["CookieBlocksDynamicZoneInput"]>>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  customId?: InputMaybe<Scalars["String"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Cookie_Status>;
   title?: InputMaybe<Scalars["String"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type CookieRelationResponseCollection = {
@@ -1402,7 +1426,6 @@ export type CookiesSubServiceAudienceTypesArgs = {
 export type CookiesSubServiceCookiesArgs = {
   filters?: InputMaybe<CookieFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -1742,6 +1765,12 @@ export enum Enum_Cookie_Status {
   Published = "published",
 }
 
+export enum Enum_Editocontentdto_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
 export enum Enum_Event_Status {
   Archived = "archived",
   Draft = "draft",
@@ -1773,6 +1802,12 @@ export enum Enum_Quiz_Status {
 }
 
 export enum Enum_Tip_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Topcontentdto_Status {
   Archived = "archived",
   Draft = "draft",
   Published = "published",
@@ -1854,10 +1889,17 @@ export type EditoContent = {
 
 export type EditoContentDto = {
   __typename?: "EditoContentDTO";
-  attributes: Attributes;
+  attributes: EditoContentDtoAttributes;
   contentType: Scalars["String"];
   id: Scalars["ID"];
   typeName: Scalars["String"];
+};
+
+export type EditoContentDtoAttributes = {
+  __typename?: "EditoContentDTOAttributes";
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Editocontentdto_Status>;
+  title: Scalars["String"];
 };
 
 export type EditoContentEntity = {
@@ -2088,13 +2130,13 @@ export type Event = {
   eventSubService?: Maybe<EventSubServiceEntityResponse>;
   events?: Maybe<EventRelationResponseCollection>;
   image: UploadFileEntityResponse;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
   status?: Maybe<Enum_Event_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   topContent?: Maybe<TopContentEntityResponse>;
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -2107,7 +2149,6 @@ export type EventDocumentsArgs = {
 export type EventEventsArgs = {
   filters?: InputMaybe<EventFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -2154,13 +2195,13 @@ export type EventFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<EventFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<EventFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   topContent?: InputMaybe<TopContentFiltersInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -2171,20 +2212,20 @@ export type EventInput = {
   eventSubService?: InputMaybe<Scalars["ID"]>;
   events?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   image?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
   status?: InputMaybe<Enum_Event_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   topContent?: InputMaybe<Scalars["ID"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type EventOrNews = {
   __typename?: "EventOrNews";
   image?: Maybe<UploadFile>;
   originalId: Scalars["ID"];
-  publishedAt: Scalars["DateTime"];
+  publishedDate: Scalars["DateTime"];
   shortDescription?: Maybe<Scalars["String"]>;
   tags?: Maybe<Array<Maybe<Tag>>>;
   title: Scalars["String"];
@@ -2216,7 +2257,6 @@ export type EventSubServiceAudienceTypesArgs = {
 export type EventSubServiceEventsArgs = {
   filters?: InputMaybe<EventFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -2372,12 +2412,12 @@ export type FreeContent = {
   editoContent?: Maybe<EditoContentEntityResponse>;
   freeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
   image: UploadFileEntityResponse;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
   status?: Maybe<Enum_Freecontent_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -2422,12 +2462,12 @@ export type FreeContentFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<FreeContentFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<FreeContentFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -2436,12 +2476,12 @@ export type FreeContentInput = {
   editoContent?: InputMaybe<Scalars["ID"]>;
   freeContentSubService?: InputMaybe<Scalars["ID"]>;
   image?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
   status?: InputMaybe<Enum_Freecontent_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type FreeContentRelationResponseCollection = {
@@ -2470,7 +2510,6 @@ export type FreeContentSubServiceAudienceTypesArgs = {
 export type FreeContentSubServiceFreeContentsArgs = {
   filters?: InputMaybe<FreeContentFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -2866,7 +2905,7 @@ export type Mutation = {
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
   channelsActivation?: Maybe<Array<Maybe<ActivationAndService>>>;
-  checkUnpublishDate?: Maybe<Scalars["Boolean"]>;
+  checkUnpublishedDate?: Maybe<Scalars["Boolean"]>;
   createAccessibility?: Maybe<AccessibilityEntityResponse>;
   createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   createAlertNotification?: Maybe<AlertNotificationEntityResponse>;
@@ -3102,7 +3141,7 @@ export type MutationChannelsActivationArgs = {
   typeActivation: Scalars["String"];
 };
 
-export type MutationCheckUnpublishDateArgs = {
+export type MutationCheckUnpublishedDateArgs = {
   date?: InputMaybe<Scalars["String"]>;
 };
 
@@ -3986,17 +4025,19 @@ export type New = {
   blocks?: Maybe<Array<Maybe<NewBlocksDynamicZone>>>;
   channels?: Maybe<ChannelTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
   image: UploadFileEntityResponse;
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
   status?: Maybe<Enum_New_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   topContent?: Maybe<TopContentEntityResponse>;
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type NewAudiencesArgs = {
@@ -4049,35 +4090,39 @@ export type NewFiltersInput = {
   audiences?: InputMaybe<AudienceTypeFiltersInput>;
   channels?: InputMaybe<ChannelTypeFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   editoContent?: InputMaybe<EditoContentFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   newsSubService?: InputMaybe<NewsSubServiceFiltersInput>;
   not?: InputMaybe<NewFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<NewFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   topContent?: InputMaybe<TopContentFiltersInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type NewInput = {
   audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   blocks?: InputMaybe<Array<Scalars["NewBlocksDynamicZoneInput"]>>;
   channels?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  customId?: InputMaybe<Scalars["String"]>;
   editoContent?: InputMaybe<Scalars["ID"]>;
   image?: InputMaybe<Scalars["ID"]>;
   newsSubService?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
   status?: InputMaybe<Enum_New_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   topContent?: InputMaybe<Scalars["ID"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type NewRelationResponseCollection = {
@@ -4106,7 +4151,6 @@ export type NewsSubServiceAudienceTypesArgs = {
 export type NewsSubServiceNewsArgs = {
   filters?: InputMaybe<NewFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4482,7 +4526,6 @@ export type Query = {
 export type QueryAccessibilitiesArgs = {
   filters?: InputMaybe<AccessibilityFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4548,7 +4591,6 @@ export type QueryCguSubServicesArgs = {
 export type QueryCgusArgs = {
   filters?: InputMaybe<CguFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4630,7 +4672,6 @@ export type QueryContactUsSubServicesArgs = {
 export type QueryContactUsesArgs = {
   filters?: InputMaybe<ContactUsFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4671,7 +4712,6 @@ export type QueryCookieArgs = {
 export type QueryCookiesArgs = {
   filters?: InputMaybe<CookieFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4787,7 +4827,6 @@ export type QueryEventSubServicesArgs = {
 export type QueryEventsArgs = {
   filters?: InputMaybe<EventFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4818,7 +4857,6 @@ export type QueryFreeContentSubServicesArgs = {
 export type QueryFreeContentsArgs = {
   filters?: InputMaybe<FreeContentFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4833,10 +4871,12 @@ export type QueryGetContentTypeDtOsArgs = {
 
 export type QueryGetEditoBlockDtoArgs = {
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Editocontentdto_Status>;
 };
 
 export type QueryGetEditoContentDtOsArgs = {
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Editocontentdto_Status>;
 };
 
 export type QueryGetNewestTopContentsArgs = {
@@ -4845,10 +4885,12 @@ export type QueryGetNewestTopContentsArgs = {
 
 export type QueryGetTopContentBlockDtoArgs = {
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Topcontentdto_Status>;
 };
 
 export type QueryGetTopContentDtOsArgs = {
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Topcontentdto_Status>;
 };
 
 export type QueryHomepageArgs = {
@@ -4898,7 +4940,6 @@ export type QueryNewArgs = {
 export type QueryNewsArgs = {
   filters?: InputMaybe<NewFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4970,7 +5011,6 @@ export type QueryQuizSubServicesArgs = {
 export type QueryQuizzesArgs = {
   filters?: InputMaybe<QuizFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -5082,7 +5122,6 @@ export type QueryTipSubServicesArgs = {
 export type QueryTipsArgs = {
   filters?: InputMaybe<TipFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -5161,13 +5200,13 @@ export type Quiz = {
   __typename?: "Quiz";
   createdAt?: Maybe<Scalars["DateTime"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   quizSubService?: Maybe<QuizSubServiceEntityResponse>;
   shortDescription?: Maybe<Scalars["String"]>;
   status?: Maybe<Enum_Quiz_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title?: Maybe<Scalars["String"]>;
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -5193,7 +5232,6 @@ export type QuizAndTipsBlock = {
 export type QuizAndTipsBlockTipsArgs = {
   filters?: InputMaybe<TipFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -5264,25 +5302,25 @@ export type QuizFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<QuizFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<QuizFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   quizSubService?: InputMaybe<QuizSubServiceFiltersInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type QuizInput = {
   editoContent?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   quizSubService?: InputMaybe<Scalars["ID"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
   status?: InputMaybe<Enum_Quiz_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type QuizRelationResponseCollection = {
@@ -5311,7 +5349,6 @@ export type QuizSubServiceAudienceTypesArgs = {
 export type QuizSubServiceQuizzesArgs = {
   filters?: InputMaybe<QuizFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -5950,14 +5987,14 @@ export type Tip = {
   editoContent?: Maybe<EditoContentEntityResponse>;
   image: UploadFileEntityResponse;
   link?: Maybe<Scalars["String"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
   status?: Maybe<Enum_Tip_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   tipSubService?: Maybe<TipSubServiceEntityResponse>;
   title: Scalars["String"];
   titleLabel?: Maybe<Scalars["String"]>;
-  unpublish?: Maybe<Scalars["DateTime"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -6003,14 +6040,14 @@ export type TipFiltersInput = {
   link?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<TipFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<TipFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   tipSubService?: InputMaybe<TipSubServiceFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   titleLabel?: InputMaybe<StringFilterInput>;
-  unpublish?: InputMaybe<DateTimeFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -6020,14 +6057,14 @@ export type TipInput = {
   image?: InputMaybe<Scalars["ID"]>;
   isSystem?: InputMaybe<Scalars["Boolean"]>;
   link?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
   status?: InputMaybe<Enum_Tip_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   tipSubService?: InputMaybe<Scalars["ID"]>;
   title?: InputMaybe<Scalars["String"]>;
   titleLabel?: InputMaybe<Scalars["String"]>;
-  unpublish?: InputMaybe<Scalars["DateTime"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type TipRelationResponseCollection = {
@@ -6056,7 +6093,6 @@ export type TipSubServiceAudienceTypesArgs = {
 export type TipSubServiceTipsArgs = {
   filters?: InputMaybe<TipFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -6176,10 +6212,17 @@ export type TopContentBlockInput = {
 
 export type TopContentDto = {
   __typename?: "TopContentDTO";
-  attributes: Attributes;
+  attributes: TopContentDtoAttributes;
   contentType: Scalars["String"];
   id: Scalars["ID"];
   typeName: Scalars["String"];
+};
+
+export type TopContentDtoAttributes = {
+  __typename?: "TopContentDTOAttributes";
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Topcontentdto_Status>;
+  title: Scalars["String"];
 };
 
 export type TopContentEntity = {
@@ -6657,6 +6700,7 @@ export type TotalCountPerTag = {
 
 export type GetEditoBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Editocontentdto_Status>;
 }>;
 
 export type GetEditoBlockTabQuery = {
@@ -6672,9 +6716,10 @@ export type GetEditoBlockTabQuery = {
       contentType: string;
       typeName: string;
       attributes: {
-        __typename?: "Attributes";
+        __typename?: "EditoContentDTOAttributes";
         title: string;
-        publishedAt: any;
+        status?: Enum_Editocontentdto_Status | null;
+        publishedDate?: any | null;
       };
     } | null> | null;
   } | null;
@@ -6683,7 +6728,12 @@ export type GetEditoBlockTabQuery = {
     id: string;
     contentType: string;
     typeName: string;
-    attributes: { __typename?: "Attributes"; title: string; publishedAt: any };
+    attributes: {
+      __typename?: "EditoContentDTOAttributes";
+      title: string;
+      status?: Enum_Editocontentdto_Status | null;
+      publishedDate?: any | null;
+    };
   } | null> | null;
 };
 
@@ -6724,7 +6774,8 @@ export type GetQuizAndTipsBlockTabQuery = {
                         attributes?: {
                           __typename?: "Quiz";
                           title?: string | null;
-                          publishedAt?: any | null;
+                          status?: Enum_Quiz_Status | null;
+                          publishedDate?: any | null;
                         } | null;
                       } | null;
                     } | null;
@@ -6736,7 +6787,8 @@ export type GetQuizAndTipsBlockTabQuery = {
                         attributes?: {
                           __typename?: "Tip";
                           title: string;
-                          publishedAt?: any | null;
+                          status?: Enum_Tip_Status | null;
+                          publishedDate?: any | null;
                           image: {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
@@ -6779,7 +6831,8 @@ export type GetQuizAndTipsBlockTabQuery = {
             attributes?: {
               __typename?: "Quiz";
               title?: string | null;
-              publishedAt?: any | null;
+              status?: Enum_Quiz_Status | null;
+              publishedDate?: any | null;
             } | null;
           }>;
         } | null;
@@ -6800,7 +6853,8 @@ export type GetQuizAndTipsBlockTabQuery = {
             attributes?: {
               __typename?: "Tip";
               title: string;
-              publishedAt?: any | null;
+              status?: Enum_Tip_Status | null;
+              publishedDate?: any | null;
               image: {
                 __typename?: "UploadFileEntityResponse";
                 data?: {
@@ -7132,6 +7186,7 @@ export type GetServicesBlockTabQuery = {
 
 export type GetTopContentTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Topcontentdto_Status>;
 }>;
 
 export type GetTopContentTabQuery = {
@@ -7149,18 +7204,24 @@ export type GetTopContentTabQuery = {
       contentType: string;
       typeName: string;
       attributes: {
-        __typename?: "Attributes";
+        __typename?: "TopContentDTOAttributes";
         title: string;
-        publishedAt: any;
+        status?: Enum_Topcontentdto_Status | null;
+        publishedDate?: any | null;
       };
     } | null;
   } | null;
   getTopContentDTOs?: Array<{
-    __typename: "TopContentDTO";
+    __typename?: "TopContentDTO";
     id: string;
     contentType: string;
     typeName: string;
-    attributes: { __typename?: "Attributes"; title: string; publishedAt: any };
+    attributes: {
+      __typename?: "TopContentDTOAttributes";
+      title: string;
+      status?: Enum_Topcontentdto_Status | null;
+      publishedDate?: any | null;
+    };
   } | null> | null;
 };
 
@@ -7530,7 +7591,6 @@ export type UpdateTopContentTabMutation = {
                               __typename?: "EventEntity";
                               attributes?: {
                                 __typename?: "Event";
-                                publishedAt?: any | null;
                                 title: string;
                               } | null;
                             } | null;
@@ -7542,7 +7602,6 @@ export type UpdateTopContentTabMutation = {
                               attributes?: {
                                 __typename?: "New";
                                 title: string;
-                                publishedAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -7557,6 +7616,218 @@ export type UpdateTopContentTabMutation = {
         } | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type DeleteNewMutationVariables = Exact<{
+  deleteNewId: Scalars["ID"];
+}>;
+
+export type DeleteNewMutation = {
+  __typename?: "Mutation";
+  deleteNew?: {
+    __typename?: "NewEntityResponse";
+    data?: {
+      __typename?: "NewEntity";
+      attributes?: {
+        __typename?: "New";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_New_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksTranscript";
+              id: string;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetNewsByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  statusFilter?: InputMaybe<StringFilterInput>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetNewsByContractIdQuery = {
+  __typename?: "Query";
+  newsCount?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountDraft?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountPublished?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountArchived?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  news?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "NewEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "New";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_New_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksTranscript";
+              id: string;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -8726,8 +8997,11 @@ export type UpdateMenuPageMutation = {
 };
 
 export const GetEditoBlockTabDocument = gql`
-  query getEditoBlockTab($contractId: ID!) {
-    getEditoBlockDTO(contractId: $contractId) {
+  query getEditoBlockTab(
+    $contractId: ID!
+    $status: ENUM_EDITOCONTENTDTO_STATUS
+  ) {
+    getEditoBlockDTO(contractId: $contractId, status: $status) {
       id
       displayBlock
       titleContent
@@ -8737,17 +9011,19 @@ export const GetEditoBlockTabDocument = gql`
         typeName
         attributes {
           title
-          publishedAt
+          status
+          publishedDate
         }
       }
     }
-    getEditoContentDTOs(contractId: $contractId) {
+    getEditoContentDTOs(contractId: $contractId, status: $status) {
       id
       contentType
       typeName
       attributes {
         title
-        publishedAt
+        status
+        publishedDate
       }
     }
   }
@@ -8766,6 +9042,7 @@ export const GetEditoBlockTabDocument = gql`
  * const { data, loading, error } = useGetEditoBlockTabQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      status: // value for 'status'
  *   },
  * });
  */
@@ -8823,7 +9100,8 @@ export const GetQuizAndTipsBlockTabDocument = gql`
                           id
                           attributes {
                             title
-                            publishedAt
+                            status
+                            publishedDate
                           }
                         }
                       }
@@ -8833,7 +9111,8 @@ export const GetQuizAndTipsBlockTabDocument = gql`
                           id
                           attributes {
                             title
-                            publishedAt
+                            status
+                            publishedDate
                             image {
                               data {
                                 attributes {
@@ -8869,7 +9148,8 @@ export const GetQuizAndTipsBlockTabDocument = gql`
               id
               attributes {
                 title
-                publishedAt
+                status
+                publishedDate
               }
             }
           }
@@ -8886,7 +9166,8 @@ export const GetQuizAndTipsBlockTabDocument = gql`
               id
               attributes {
                 title
-                publishedAt
+                status
+                publishedDate
                 image {
                   data {
                     attributes {
@@ -9330,8 +9611,8 @@ export type GetServicesBlockTabQueryResult = Apollo.QueryResult<
   GetServicesBlockTabQueryVariables
 >;
 export const GetTopContentTabDocument = gql`
-  query getTopContentTab($contractId: ID!) {
-    getTopContentBlockDTO(contractId: $contractId) {
+  query getTopContentTab($contractId: ID!, $status: ENUM_TOPCONTENTDTO_STATUS) {
+    getTopContentBlockDTO(contractId: $contractId, status: $status) {
       id
       displayBlock
       displayLastThreeContents
@@ -9343,18 +9624,19 @@ export const GetTopContentTabDocument = gql`
         typeName
         attributes {
           title
-          publishedAt
+          status
+          publishedDate
         }
       }
     }
-    getTopContentDTOs(contractId: $contractId) {
-      __typename
+    getTopContentDTOs(contractId: $contractId, status: $status) {
       id
       contentType
       typeName
       attributes {
         title
-        publishedAt
+        status
+        publishedDate
       }
     }
   }
@@ -9373,6 +9655,7 @@ export const GetTopContentTabDocument = gql`
  * const { data, loading, error } = useGetTopContentTabQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      status: // value for 'status'
  *   },
  * });
  */
@@ -9902,7 +10185,6 @@ export const UpdateTopContentTabDocument = gql`
                             event {
                               data {
                                 attributes {
-                                  publishedAt
                                   title
                                 }
                               }
@@ -9911,7 +10193,6 @@ export const UpdateTopContentTabDocument = gql`
                               data {
                                 attributes {
                                   title
-                                  publishedAt
                                 }
                               }
                             }
@@ -9973,6 +10254,312 @@ export type UpdateTopContentTabMutationResult =
 export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateTopContentTabMutation,
   UpdateTopContentTabMutationVariables
+>;
+export const DeleteNewDocument = gql`
+  mutation deleteNew($deleteNewId: ID!) {
+    deleteNew(id: $deleteNewId) {
+      data {
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+            }
+            ... on ComponentBlocksTranscript {
+              id
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type DeleteNewMutationFn = Apollo.MutationFunction<
+  DeleteNewMutation,
+  DeleteNewMutationVariables
+>;
+
+/**
+ * __useDeleteNewMutation__
+ *
+ * To run a mutation, you first call `useDeleteNewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteNewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteNewMutation, { data, loading, error }] = useDeleteNewMutation({
+ *   variables: {
+ *      deleteNewId: // value for 'deleteNewId'
+ *   },
+ * });
+ */
+export function useDeleteNewMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteNewMutation,
+    DeleteNewMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteNewMutation, DeleteNewMutationVariables>(
+    DeleteNewDocument,
+    options,
+  );
+}
+export type DeleteNewMutationHookResult = ReturnType<
+  typeof useDeleteNewMutation
+>;
+export type DeleteNewMutationResult = Apollo.MutationResult<DeleteNewMutation>;
+export type DeleteNewMutationOptions = Apollo.BaseMutationOptions<
+  DeleteNewMutation,
+  DeleteNewMutationVariables
+>;
+export const GetNewsByContractIdDocument = gql`
+  query getNewsByContractId(
+    $contractId: ID!
+    $statusFilter: StringFilterInput
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    newsCount: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountDraft: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountPublished: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountArchived: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: $statusFilter
+      }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+            }
+            ... on ComponentBlocksTranscript {
+              id
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetNewsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetNewsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewsByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      statusFilter: // value for 'statusFilter'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetNewsByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetNewsByContractIdQuery,
+    GetNewsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetNewsByContractIdQuery,
+    GetNewsByContractIdQueryVariables
+  >(GetNewsByContractIdDocument, options);
+}
+export function useGetNewsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetNewsByContractIdQuery,
+    GetNewsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetNewsByContractIdQuery,
+    GetNewsByContractIdQueryVariables
+  >(GetNewsByContractIdDocument, options);
+}
+export type GetNewsByContractIdQueryHookResult = ReturnType<
+  typeof useGetNewsByContractIdQuery
+>;
+export type GetNewsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetNewsByContractIdLazyQuery
+>;
+export type GetNewsByContractIdQueryResult = Apollo.QueryResult<
+  GetNewsByContractIdQuery,
+  GetNewsByContractIdQueryVariables
 >;
 export const CreateNewFolderDocument = gql`
   mutation createNewFolder(

@@ -1,14 +1,18 @@
 @use "src/styles/02-tools/tools.typography" as typo;
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.shadows" as shadows;
+@use "src/styles/02-tools/tools.focus" as focus;
 
 .c-CommonPagination {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: center;
 
-  &__MediaPerPage {
+  &_hasRowsPerPage {
+    justify-content: space-between;
+  }
+
+  &__RowsPerPage {
     display: flex;
     flex-direction: row;
     gap: 16px;
@@ -19,16 +23,13 @@
 
   &__Select {
     @include shadows.shadow(1);
+    @include focus.focus-ring(true, 2px);
 
     padding: 10px;
     color: colors.$blue-1;
     background-color: #fff;
     border: hidden;
     border-radius: 5px;
-
-    &:focus {
-      outline: none;
-    }
   }
 
   &__Label {
@@ -38,34 +39,39 @@
   &__Navigation {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: 14px;
     align-items: center;
     padding: 0;
   }
 
-  &__NumberPage {
+  &__Pages {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    gap: 4px;
     align-items: flex-start;
     justify-content: center;
-    padding: 4px 0 2px;
   }
 
   &__Page {
+    @include focus.focus-ring(true, 2px);
+
+    padding: 4px 2px;
     color: colors.$blue-1;
+    font-weight: 350;
+    line-height: 18px;
 
     &_active {
       color: colors.$expert-blue;
       font-weight: 700;
+      font-family: DINPro-Medium, sans-serif;
     }
   }
 
-  &__ButtonsPreview,
-  &__ButtonsNext {
+  &__Backward,
+  &__Forward {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    gap: 2px;
     align-items: flex-start;
     padding: 0;
 
@@ -76,19 +82,32 @@
     }
   }
 
-  &__ButtonsPreview {
-    transform: rotate(180deg);
-  }
+  &__Button {
+    @include focus.focus-ring;
 
-  &__Icon {
     display: flex;
-  }
+    box-sizing: content-box;
+    width: 24px;
+    height: 24px;
+    padding: 4px 3px;
 
-  button {
-    padding: 0;
+    &_reverse {
+      transform: rotate(180deg);
+    }
 
-    &:focus {
-      outline: none;
+    &_arrow,
+    &_arrowTo {
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 24px;
+    }
+
+    &_arrow {
+      background-image: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M.5 12a12 12 0 1 0 24 0 12 12 0 0 0-24 0Zm13.71-5.21 4.5 4.5a1 1 0 0 1 0 1.41l-4.5 4.5a1 1 0 0 1-1.42-1.41l2.37-2.37a.24.24 0 0 0 .05-.27.25.25 0 0 0-.23-.15H6.5a1 1 0 0 1 0-2h8.48a.259.259 0 0 0 .24-.3.26.26 0 0 0-.06-.13L12.79 8.2a1 1 0 1 1 1.42-1.41Z' fill='%23767C97'/%3E%3C/svg%3E");
+    }
+
+    &_arrowTo {
+      background-image: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.488 15.658a.855.855 0 0 1-1.238-.765V9.1a.855.855 0 0 1 1.238-.765l5.789 2.894a.857.857 0 0 1 0 1.531l-5.789 2.898Z' stroke='%23767C97' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.25 11.998a11.25 11.25 0 1 0 22.5 0 11.25 11.25 0 0 0-22.5 0v0Zm16.5-3.75v7.5' stroke='%23767C97' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
   }
 }

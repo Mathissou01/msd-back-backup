@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import CommonPagination from "./CommonPagination";
+import React from "react";
 
 const mock = {
-  page: 1,
-  pageCount: 5,
-  pagiSize: [10, 20, 50, 100],
+  currentPage: 1,
+  rowCount: 21,
 };
 
 describe("CommonPagination", () => {
@@ -12,19 +12,14 @@ describe("CommonPagination", () => {
     const handleClick = jest.fn();
     const { container } = render(
       <CommonPagination
-        pageCount={mock.pageCount}
-        page={mock.page}
-        pageSize={mock.pagiSize}
-        onPreviousPage={handleClick}
-        onNextPage={handleClick}
-        onFirstPage={handleClick}
-        onLastPage={handleClick}
-        onSpecificPage={handleClick}
-        setCurrentPagesize={handleClick}
+        currentPage={mock.currentPage}
+        rowCount={mock.rowCount}
+        onChangePage={handleClick}
+        onChangeRowsPerPage={handleClick}
       />,
     );
-    expect(container).toMatchSnapshot();
-    fireEvent.click(screen.getByText(1));
+    fireEvent.click(screen.getByText(3));
     expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(container).toMatchSnapshot();
   });
 });

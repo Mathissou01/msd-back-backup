@@ -1,0 +1,142 @@
+query getNewsByContractId(
+  $contractId: ID!
+  $statusFilter: StringFilterInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  newsCount: news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  newsCountDraft: news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      status: { eq: "draft" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  newsCountPublished: news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      status: { eq: "published" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  newsCountArchived: news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      status: { eq: "archived" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      status: $statusFilter
+    }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        title
+        shortDescription
+        status
+        publishedDate
+        unpublishedDate
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksVideo {
+            id
+            videoLink
+          }
+          ... on ComponentBlocksTranscript {
+            id
+            transcriptText
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksHorizontalRule {
+            id
+            hr
+          }
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+            isDecorative
+            altText
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+          }
+          ... on Error {
+            code
+            message
+          }
+        }
+      }
+    }
+  }
+}

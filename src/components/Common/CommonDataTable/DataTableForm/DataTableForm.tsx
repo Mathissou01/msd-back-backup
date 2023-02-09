@@ -2,15 +2,11 @@ import classNames from "classnames";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React from "react";
+import { ICommonDataTableValidation } from "../CommonDataTable";
 import CommonButton from "../../CommonButton/CommonButton";
 import "./data-table-form.scss";
 
-export interface ICommonDataTableValidation {
-  isValid: boolean;
-  errorMessage: string;
-}
-
-interface ICommonDataTableProps {
+interface ICommonDataFormProps {
   children: React.ReactNode;
   title?: string;
   submitButtonLabel?: string;
@@ -26,7 +22,7 @@ export default function DataTableForm({
   validationFunction,
   onFormSubmit,
   invalidStyle = "rowInput",
-}: ICommonDataTableProps) {
+}: ICommonDataFormProps) {
   /* Static Data */
   async function onSubmit(submitData: FieldValues) {
     const validation = validationFunction?.(submitData);
