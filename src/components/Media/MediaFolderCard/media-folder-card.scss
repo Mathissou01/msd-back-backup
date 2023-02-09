@@ -6,13 +6,20 @@
 .c-MediaFolderCard {
   @include shadows.shadow(1);
 
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  align-items: center;
-  width: 210px;
+  position: relative;
+  width: 270px;
   padding: 16px;
+  border: 1px solid colors.$blue-4;
   border-radius: 4px;
+
+  &__Button {
+    $self: &;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 0;
+  }
 
   &__Informations {
     display: block;
@@ -27,6 +34,17 @@
     @include typo.text("body");
 
     font-size: 12px;
+  }
+
+  &__Edit {
+    position: absolute;
+    top: 12px;
+    right: 6px;
+    display: none;
+  }
+
+  &:hover &__Edit {
+    display: block;
   }
 
   &__Picto {

@@ -1,37 +1,65 @@
 import classNames from "classnames";
 import React from "react";
+import { RequestFolders } from "../../../graphql/codegen/generated-types";
+import MediaUpdateFolderButton from "../MediaUpdateFolderButton/MediaUpdateFolderButton";
 import "./media-folder-card.scss";
 
 interface IMediaFolderCardProps {
-  name: string | null;
+  id: string;
+  name: string;
+  path: string;
   picto: "folder";
-  childrenAmount: number;
-  filesAmount: number;
+  childrenAmount?: number;
+  filesAmount?: number;
   onClick: () => void;
+  folderHierarchy: Array<RequestFolders>;
+  localFolderPathId: `${number}`;
   //localActivePathId: number;
 }
 
 export default function MediaFolderCard({
   //localActivePathId
+  id,
   name,
+  path,
   picto,
   childrenAmount,
   filesAmount,
+  folderHierarchy,
+  localFolderPathId,
   onClick,
 }: IMediaFolderCardProps) {
   const pictoClassNames = classNames("c-MediaFolderCard__Picto", {
     [`c-MediaFolderCard__Picto_${picto}`]: picto,
   });
   return (
-    <button className="c-MediaFolderCard" onClick={onClick}>
-      {picto && <div className={pictoClassNames} />}
-      <div className="c-MediaFolderCard__Informations">
-        <div className="c-MediaFolderCard__Title">{name}</div>
-        <div className="c-MediaFolderCard__Description">
-          {childrenAmount} {childrenAmount > 1 ? "dossiers" : "dossier"},{" "}
-          {filesAmount} {filesAmount > 1 ? "médias" : "média"}
+    <div className="c-MediaFolderCard">
+      <button className="c-MediaFolderCard__Button" onClick={onClick}>
+        {picto && <div className={pictoClassNames} />}
+        <div className="c-MediaFolderCard__Informations">
+          <div className="c-MediaFolderCard__Title">{name}</div>
+          <div className="c-MediaFolderCard__Description">
+            {`${childrenAmount ?? 0} ${
+              !childrenAmount || (childrenAmount && childrenAmount > 1)
+                ? "dossiers"
+                : "dossier"
+            }, ${filesAmount ?? 0} ${
+              !filesAmount || (filesAmount && filesAmount > 1)
+                ? "medias"
+                : "media"
+            }`}
+          </div>
         </div>
+      </button>
+      <div className="c-MediaFolderCard__Edit">
+        <MediaUpdateFolderButton
+          id={id}
+          name={name}
+          path={path}
+          folderHierarchy={folderHierarchy}
+          localFolderPathId={localFolderPathId}
+        />
       </div>
-    </button>
+    </div>
   );
 }

@@ -167,6 +167,15 @@ export type AccessibilitySubServiceInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type Activation = {
+  __typename?: "Activation";
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  typeActivation?: Maybe<Scalars["String"]>;
+};
+
+export type ActivationAndService = Activation | Service;
+
 export type AlertNotification = {
   __typename?: "AlertNotification";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -224,11 +233,10 @@ export type AlertNotificationService = {
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate: Scalars["DateTime"];
+  endDate?: Maybe<Scalars["DateTime"]>;
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
-  startDate: Scalars["DateTime"];
+  startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -282,7 +290,6 @@ export type AlertNotificationServiceFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<AlertNotificationServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AlertNotificationServiceFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -296,7 +303,6 @@ export type AlertNotificationServiceInput = {
   endDate?: InputMaybe<Scalars["DateTime"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
@@ -509,7 +515,9 @@ export type CguSubServiceInput = {
 export type ChannelType = {
   __typename?: "ChannelType";
   createdAt?: Maybe<Scalars["DateTime"]>;
-  type?: Maybe<Scalars["String"]>;
+  hasWebApp?: Maybe<Scalars["Boolean"]>;
+  hasWebSite?: Maybe<Scalars["Boolean"]>;
+  hasYesWeScan?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -533,15 +541,19 @@ export type ChannelTypeEntityResponseCollection = {
 export type ChannelTypeFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ChannelTypeFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  hasWebApp?: InputMaybe<BooleanFilterInput>;
+  hasWebSite?: InputMaybe<BooleanFilterInput>;
+  hasYesWeScan?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ChannelTypeFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ChannelTypeFiltersInput>>>;
-  type?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type ChannelTypeInput = {
-  type?: InputMaybe<Scalars["String"]>;
+  hasWebApp?: InputMaybe<Scalars["Boolean"]>;
+  hasWebSite?: InputMaybe<Scalars["Boolean"]>;
+  hasYesWeScan?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type ChannelTypeRelationResponseCollection = {
@@ -1619,11 +1631,10 @@ export type DropOffMapService = {
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
-  endDate: Scalars["DateTime"];
+  endDate?: Maybe<Scalars["DateTime"]>;
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
-  startDate: Scalars["DateTime"];
+  startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -1677,7 +1688,6 @@ export type DropOffMapServiceFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<DropOffMapServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<DropOffMapServiceFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -1691,7 +1701,6 @@ export type DropOffMapServiceInput = {
   endDate?: InputMaybe<Scalars["DateTime"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
@@ -2856,6 +2865,7 @@ export type Mutation = {
   bulkMoveMedias?: Maybe<Array<Maybe<RequestFileOrFolder>>>;
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
+  channelsActivation?: Maybe<Array<Maybe<ActivationAndService>>>;
   checkUnpublishDate?: Maybe<Scalars["Boolean"]>;
   createAccessibility?: Maybe<AccessibilityEntityResponse>;
   createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
@@ -3085,6 +3095,11 @@ export type MutationChangePasswordArgs = {
   currentPassword: Scalars["String"];
   password: Scalars["String"];
   passwordConfirmation: Scalars["String"];
+};
+
+export type MutationChannelsActivationArgs = {
+  contractId: Scalars["ID"];
+  typeActivation: Scalars["String"];
 };
 
 export type MutationCheckUnpublishDateArgs = {
@@ -4207,12 +4222,11 @@ export type PickUpDayService = {
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate: Scalars["DateTime"];
+  endDate?: Maybe<Scalars["DateTime"]>;
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
   pickUpDays?: Maybe<PickUpDayRelationResponseCollection>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
-  startDate: Scalars["DateTime"];
+  startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -4266,7 +4280,6 @@ export type PickUpDayServiceFiltersInput = {
   not?: InputMaybe<PickUpDayServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PickUpDayServiceFiltersInput>>>;
   pickUpDays?: InputMaybe<PickUpDayFiltersInput>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -4280,7 +4293,6 @@ export type PickUpDayServiceInput = {
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   pickUpDays?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
@@ -4499,7 +4511,6 @@ export type QueryAlertNotificationServiceArgs = {
 export type QueryAlertNotificationServicesArgs = {
   filters?: InputMaybe<AlertNotificationServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4709,7 +4720,6 @@ export type QueryDropOffMapServiceArgs = {
 export type QueryDropOffMapServicesArgs = {
   filters?: InputMaybe<DropOffMapServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4913,7 +4923,6 @@ export type QueryPickUpDayServiceArgs = {
 export type QueryPickUpDayServicesArgs = {
   filters?: InputMaybe<PickUpDayServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -5410,10 +5419,10 @@ export type RecyclingGuideService = {
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate: Scalars["DateTime"];
+  endDate?: Maybe<Scalars["DateTime"]>;
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  startDate: Scalars["DateTime"];
+  startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   wasteForms?: Maybe<WasteFormRelationResponseCollection>;
 };
@@ -5566,11 +5575,11 @@ export type RequestService = {
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  endDate: Scalars["DateTime"];
+  endDate?: Maybe<Scalars["DateTime"]>;
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
   requests?: Maybe<RequestRelationResponseCollection>;
-  startDate: Scalars["DateTime"];
+  startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -5691,6 +5700,13 @@ export type SearchEngineBlockFiltersInput = {
 export type SearchEngineBlockInput = {
   homepage?: InputMaybe<Scalars["ID"]>;
   titleContent?: InputMaybe<Scalars["String"]>;
+};
+
+export type Service = {
+  __typename?: "Service";
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  serviceName?: Maybe<Scalars["String"]>;
 };
 
 export type ServicesBlock = {
@@ -7666,6 +7682,28 @@ export type GetFolderAndChildrenByIdQuery = {
         } | null;
       } | null;
     }>;
+  } | null;
+};
+
+export type UpdateUploadFolderMutationVariables = Exact<{
+  updateUploadFolderId: Scalars["ID"];
+  data: UploadFolderInput;
+}>;
+
+export type UpdateUploadFolderMutation = {
+  __typename?: "Mutation";
+  updateUploadFolder?: {
+    __typename?: "UploadFolderEntityResponse";
+    data?: {
+      __typename?: "UploadFolderEntity";
+      attributes?: {
+        __typename?: "UploadFolder";
+        path: string;
+        pathId: number;
+        updatedAt?: any | null;
+        name: string;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -10234,6 +10272,67 @@ export type GetFolderAndChildrenByIdLazyQueryHookResult = ReturnType<
 export type GetFolderAndChildrenByIdQueryResult = Apollo.QueryResult<
   GetFolderAndChildrenByIdQuery,
   GetFolderAndChildrenByIdQueryVariables
+>;
+export const UpdateUploadFolderDocument = gql`
+  mutation updateUploadFolder(
+    $updateUploadFolderId: ID!
+    $data: UploadFolderInput!
+  ) {
+    updateUploadFolder(id: $updateUploadFolderId, data: $data) {
+      data {
+        attributes {
+          path
+          pathId
+          updatedAt
+          name
+        }
+      }
+    }
+  }
+`;
+export type UpdateUploadFolderMutationFn = Apollo.MutationFunction<
+  UpdateUploadFolderMutation,
+  UpdateUploadFolderMutationVariables
+>;
+
+/**
+ * __useUpdateUploadFolderMutation__
+ *
+ * To run a mutation, you first call `useUpdateUploadFolderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUploadFolderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUploadFolderMutation, { data, loading, error }] = useUpdateUploadFolderMutation({
+ *   variables: {
+ *      updateUploadFolderId: // value for 'updateUploadFolderId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateUploadFolderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUploadFolderMutation,
+    UpdateUploadFolderMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateUploadFolderMutation,
+    UpdateUploadFolderMutationVariables
+  >(UpdateUploadFolderDocument, options);
+}
+export type UpdateUploadFolderMutationHookResult = ReturnType<
+  typeof useUpdateUploadFolderMutation
+>;
+export type UpdateUploadFolderMutationResult =
+  Apollo.MutationResult<UpdateUploadFolderMutation>;
+export type UpdateUploadFolderMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUploadFolderMutation,
+  UpdateUploadFolderMutationVariables
 >;
 export const CountContentPerTagDocument = gql`
   query countContentPerTag($contractId: ID!) {

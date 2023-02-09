@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaUpdateFolderButton renders the button 1`] = `
+<div>
+  <div
+    data-testid="media-update-folder-button"
+  >
+    <button
+      class="c-MediaUpdateFolderButton__Button"
+      type="button"
+    />
+  </div>
+</div>
+`;

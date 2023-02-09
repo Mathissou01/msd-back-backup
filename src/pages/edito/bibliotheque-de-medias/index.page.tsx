@@ -15,12 +15,12 @@ import MediaImportButton from "../../../components/Media/MediaImportButton/Media
 import "./edito-bibliotheque-de-medias.scss";
 
 export interface IFolder {
-  id: string | null;
-  name: string | null;
-  path: string | null;
+  id: string;
+  name: string;
+  path: string;
   pathId: number;
-  childrenAmount?: number | null;
-  filesAmount?: number | null;
+  childrenAmount?: number;
+  filesAmount?: number;
 }
 
 export default function EditoBibliothequeDeMedia() {
@@ -127,11 +127,11 @@ export default function EditoBibliothequeDeMedia() {
             ) {
               return {
                 id: folder.id,
-                name: folder.attributes?.name,
-                path: folder.attributes?.path,
+                name: folder.attributes.name,
+                path: folder.attributes.path,
                 pathId: folder.attributes?.pathId,
-                childrenAmount: folder.attributes?.children?.data.length ?? 0,
-                filesAmount: folder.attributes?.files?.data.length ?? 0,
+                childrenAmount: folder.attributes.children?.data.length,
+                filesAmount: folder.attributes.files?.data.length,
               };
             }
           })
@@ -156,7 +156,11 @@ export default function EditoBibliothequeDeMedia() {
             <div className="c-EditoBibliothequeDeMedia__Navigation"></div>
             <div className="c-EditoBibliothequeDeMedia__ActionButtons">
               <MediaCreateFolderButton
-                folderHierarchy={folderHierarchy?.getAllFoldersHierarchy ?? []}
+                folderHierarchy={
+                  folderHierarchy?.getAllFoldersHierarchy?.filter(
+                    removeNulls,
+                  ) ?? []
+                }
                 localFolderPathId={`${activePathId}`}
               />
               <MediaImportButton />
@@ -168,26 +172,24 @@ export default function EditoBibliothequeDeMedia() {
           <h2>{formLabels.FolderSectionTitle}</h2>
           <div className="c-EditoBibliothequeDeMedia__FolderCards">
             {folders &&
-              folders
-                .map((folder, index) => {
-                  if (
-                    folder.name &&
-                    folder.childrenAmount &&
-                    folder.filesAmount &&
-                    folder.pathId
-                  )
-                    return (
-                      <MediaFolderCard
-                        key={index}
-                        name={folder.name}
-                        childrenAmount={folder.childrenAmount}
-                        filesAmount={folder.filesAmount}
-                        picto="folder"
-                        onClick={() => setActivePathId(folder.pathId)}
-                      />
-                    );
-                })
-                .filter(removeNulls)}
+              folders.map((folder, index) => (
+                <MediaFolderCard
+                  key={index}
+                  id={folder.id}
+                  name={folder.name}
+                  path={folder.path}
+                  childrenAmount={folder.childrenAmount}
+                  filesAmount={folder.filesAmount}
+                  picto="folder"
+                  folderHierarchy={
+                    folderHierarchy?.getAllFoldersHierarchy?.filter(
+                      removeNulls,
+                    ) ?? []
+                  }
+                  localFolderPathId={`${activePathId}`}
+                  onClick={() => setActivePathId(folder.pathId)}
+                />
+              ))}
           </div>
         </div>
         <div className="c-EditoBibliothequeDeMedia__MediaList">

@@ -117,6 +117,14 @@ input AccessibilitySubServiceInput {
   name: String
 }
 
+type Activation {
+  id: ID
+  name: String
+  typeActivation: String
+}
+
+union ActivationAndService = Activation | Service
+
 type AlertNotification {
   createdAt: DateTime
   description: String
@@ -181,11 +189,10 @@ type AlertNotificationService {
   ): CityRelationResponseCollection
   contract: ContractEntityResponse
   createdAt: DateTime
-  endDate: DateTime!
+  endDate: DateTime
   isActivated: Boolean!
   name: String
-  publishedAt: DateTime
-  startDate: DateTime!
+  startDate: DateTime
   updatedAt: DateTime
 }
 
@@ -217,7 +224,6 @@ input AlertNotificationServiceFiltersInput {
   name: StringFilterInput
   not: AlertNotificationServiceFiltersInput
   or: [AlertNotificationServiceFiltersInput]
-  publishedAt: DateTimeFilterInput
   startDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
@@ -231,7 +237,6 @@ input AlertNotificationServiceInput {
   endDate: DateTime
   isActivated: Boolean
   name: String
-  publishedAt: DateTime
   startDate: DateTime
 }
 
@@ -426,7 +431,9 @@ input CguSubServiceInput {
 
 type ChannelType {
   createdAt: DateTime
-  type: String
+  hasWebApp: Boolean
+  hasWebSite: Boolean
+  hasYesWeScan: Boolean
   updatedAt: DateTime
 }
 
@@ -447,15 +454,19 @@ type ChannelTypeEntityResponseCollection {
 input ChannelTypeFiltersInput {
   and: [ChannelTypeFiltersInput]
   createdAt: DateTimeFilterInput
+  hasWebApp: BooleanFilterInput
+  hasWebSite: BooleanFilterInput
+  hasYesWeScan: BooleanFilterInput
   id: IDFilterInput
   not: ChannelTypeFiltersInput
   or: [ChannelTypeFiltersInput]
-  type: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input ChannelTypeInput {
-  type: String
+  hasWebApp: Boolean
+  hasWebSite: Boolean
+  hasYesWeScan: Boolean
 }
 
 type ChannelTypeRelationResponseCollection {
@@ -1449,11 +1460,10 @@ type DropOffMapService {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): DropOffMapRelationResponseCollection
-  endDate: DateTime!
+  endDate: DateTime
   isActivated: Boolean!
   name: String
-  publishedAt: DateTime
-  startDate: DateTime!
+  startDate: DateTime
   updatedAt: DateTime
 }
 
@@ -1485,7 +1495,6 @@ input DropOffMapServiceFiltersInput {
   name: StringFilterInput
   not: DropOffMapServiceFiltersInput
   or: [DropOffMapServiceFiltersInput]
-  publishedAt: DateTimeFilterInput
   startDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
@@ -1499,7 +1508,6 @@ input DropOffMapServiceInput {
   endDate: DateTime
   isActivated: Boolean
   name: String
-  publishedAt: DateTime
   startDate: DateTime
 }
 
@@ -2600,6 +2608,10 @@ type Mutation {
     password: String!
     passwordConfirmation: String!
   ): UsersPermissionsLoginPayload
+  channelsActivation(
+    contractId: ID!
+    typeActivation: String!
+  ): [ActivationAndService]
   checkUnpublishDate(date: String): Boolean
   createAccessibility(data: AccessibilityInput!): AccessibilityEntityResponse
   createAccessibilitySubService(
@@ -3237,7 +3249,7 @@ type PickUpDayService {
   ): CityRelationResponseCollection
   contract: ContractEntityResponse
   createdAt: DateTime
-  endDate: DateTime!
+  endDate: DateTime
   isActivated: Boolean!
   name: String
   pickUpDays(
@@ -3246,8 +3258,7 @@ type PickUpDayService {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): PickUpDayRelationResponseCollection
-  publishedAt: DateTime
-  startDate: DateTime!
+  startDate: DateTime
   updatedAt: DateTime
 }
 
@@ -3279,7 +3290,6 @@ input PickUpDayServiceFiltersInput {
   not: PickUpDayServiceFiltersInput
   or: [PickUpDayServiceFiltersInput]
   pickUpDays: PickUpDayFiltersInput
-  publishedAt: DateTimeFilterInput
   startDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
@@ -3293,7 +3303,6 @@ input PickUpDayServiceInput {
   isActivated: Boolean
   name: String
   pickUpDays: [ID]
-  publishedAt: DateTime
   startDate: DateTime
 }
 
@@ -3355,7 +3364,6 @@ type Query {
   alertNotificationServices(
     filters: AlertNotificationServiceFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): AlertNotificationServiceEntityResponseCollection
   alertNotifications(
@@ -3482,7 +3490,6 @@ type Query {
   dropOffMapServices(
     filters: DropOffMapServiceFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): DropOffMapServiceEntityResponseCollection
   dropOffMaps(
@@ -3595,7 +3602,6 @@ type Query {
   pickUpDayServices(
     filters: PickUpDayServiceFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): PickUpDayServiceEntityResponseCollection
   pickUpDays(
@@ -3984,10 +3990,10 @@ type RecyclingGuideService {
   ): CityRelationResponseCollection
   contract: ContractEntityResponse
   createdAt: DateTime
-  endDate: DateTime!
+  endDate: DateTime
   isActivated: Boolean!
   name: String
-  startDate: DateTime!
+  startDate: DateTime
   updatedAt: DateTime
   wasteForms(
     filters: WasteFormFiltersInput
@@ -4123,7 +4129,7 @@ type RequestService {
   ): CityRelationResponseCollection
   contract: ContractEntityResponse
   createdAt: DateTime
-  endDate: DateTime!
+  endDate: DateTime
   isActivated: Boolean!
   name: String
   requests(
@@ -4132,7 +4138,7 @@ type RequestService {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): RequestRelationResponseCollection
-  startDate: DateTime!
+  startDate: DateTime
   updatedAt: DateTime
 }
 
@@ -4225,6 +4231,12 @@ input SearchEngineBlockFiltersInput {
 input SearchEngineBlockInput {
   homepage: ID
   titleContent: String
+}
+
+type Service {
+  id: ID
+  name: String
+  serviceName: String
 }
 
 type ServicesBlock {

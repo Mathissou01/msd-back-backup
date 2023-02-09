@@ -1,0 +1,15 @@
+mutation updateUploadFolder(
+  $updateUploadFolderId: ID!
+  $data: UploadFolderInput!
+) {
+  updateUploadFolder(id: $updateUploadFolderId, data: $data) {
+    data {
+      attributes {
+        path
+        pathId
+        updatedAt
+        name
+      }
+    }
+  }
+}

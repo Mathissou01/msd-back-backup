@@ -3,49 +3,59 @@ import { useRef } from "react";
 import {
   GetFolderAndChildrenByIdDocument,
   RequestFolders,
-  useCreateNewFolderMutation,
+  useUpdateUploadFolderMutation,
 } from "../../../graphql/codegen/generated-types";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
-import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormModal from "../../Form/FormModal/FormModal";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../Form/FormMultiselect/FormMultiselect";
+import "./media-update-folder-button.scss";
 
-interface IMediaCreateFolderButtonProps {
+interface IMediaUpdateFolderButtonProps {
+  id: string;
+  name: string;
+  path: string;
   folderHierarchy: Array<RequestFolders>;
   localFolderPathId: `${number}`;
 }
 
-export default function MediaCreateFolderButton({
+export default function MediaUpdateFolderButton({
+  id,
+  name,
+  path,
   folderHierarchy,
   localFolderPathId,
-}: IMediaCreateFolderButtonProps) {
+}: IMediaUpdateFolderButtonProps) {
   /* Static Data */
   const formLabels = {
-    addFolderLabel: "Ajouter un dossier",
-    modalTitle: "Créer un nouveau dossier",
+    modalTitle: "Modifier le dossier",
     titleFolderContent: "Nom du dossier",
     locationFolder: "Emplacement",
   };
-
+  // const imagesPicto = "/images/pictos/edit.svg";
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
-    const variables = {
-      name: submitData["folderTitle"],
-      parentFolderPath: submitData["folderLocation"]?.["path"],
-      parentFolderPathId: submitData["folderLocation"]?.["pathId"],
-    };
-    return createNewFolder({
-      variables,
-      refetchQueries: [
-        {
-          query: GetFolderAndChildrenByIdDocument,
-          variables: { localFolderPathId },
+    if (submitData["folderLocation"]?.["pathId"]) {
+      const variables = {
+        updateUploadFolderId: id,
+        data: {
+          name: submitData["folderTitle"],
+          parent: submitData["folderLocation"]["pathId"],
+          path: path,
         },
-        "getFolderAndChildrenById",
-      ],
-    });
+      };
+      return updateUploadFolder({
+        variables,
+        refetchQueries: [
+          {
+            query: GetFolderAndChildrenByIdDocument,
+            variables: { localFolderPathId },
+          },
+          "getFolderAndChildrenById",
+        ],
+      });
+    }
   }
 
   function folderHierarchyDisplayTransformFunction(
@@ -55,7 +65,7 @@ export default function MediaCreateFolderButton({
     return "\xa0\xa0\xa0\xa0".repeat(folderLevel) + folder?.name;
   }
 
-  function sortFolderHierarchy(folderHierarchy: Array<RequestFolders | null>) {
+  function sortFolderHierarchy(folderHierarchy: Array<RequestFolders>) {
     const folderHierarchyCopy = [...folderHierarchy];
     const sortedFolderHierarchy = folderHierarchyCopy.sort(
       (firstFolder, secondFolder) => {
@@ -68,15 +78,20 @@ export default function MediaCreateFolderButton({
   }
 
   /* External Data */
-  const [createNewFolder, { loading: mutationLoading }] =
-    useCreateNewFolderMutation();
+  const [updateUploadFolder, { loading: mutationLoading }] =
+    useUpdateUploadFolderMutation();
 
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);
 
   return (
     <>
-      <div data-testid="media-create-folder-button">
+      <div data-testid="media-update-folder-button">
+        <button
+          type="button"
+          className="c-MediaUpdateFolderButton__Button"
+          onClick={() => modalRef.current?.toggleModal(true)}
+        />
         <FormModal
           modalRef={modalRef}
           modalTitle={formLabels.modalTitle}
@@ -84,17 +99,18 @@ export default function MediaCreateFolderButton({
           onSubmit={onSubmitValid}
           formValidationMode="onChange"
         >
-          <div className="c-MediaCreateFolderButton__Block">
-            <div className="c-MediaCreateFolderButton__Input">
+          <div className="c-MediaUpdateFolderButton__Block">
+            <div className="c-MediaUpdateFolderButton__Input">
               <FormInput
                 type="text"
                 name="folderTitle"
                 label={formLabels.titleFolderContent}
                 isRequired={true}
                 isDisabled={mutationLoading}
+                defaultValue={name}
               />
             </div>
-            <div className="c-MediaCreateFolderButton__Select">
+            <div className="c-MediaUpdateFolderButton__Select">
               <FormSelect<RequestFolders>
                 name="folderLocation"
                 label={formLabels.locationFolder}
@@ -111,12 +127,6 @@ export default function MediaCreateFolderButton({
             </div>
           </div>
         </FormModal>
-        <CommonButton
-          style="secondary"
-          label={formLabels.addFolderLabel}
-          picto="add"
-          onClick={() => modalRef.current?.toggleModal(true)}
-        />
       </div>
     </>
   );
