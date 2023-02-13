@@ -1,23 +1,36 @@
 # Jobs template for static website release
+parameters:
+  - name: env
+    type: string
+    default: dev
+  - name: instance
+    type: string
+    default: smile
+
 jobs:
-  - job: msd_bo_site_release
-    displayName: "Release BackOffice Static WebSite"
-    steps:
-      - checkout: none
+  - deployment: msd_bo_site_release_${{ parameters.env }}
+    displayName: "[${{ upper(parameters.env) }}] Publish BO (${{ parameters.instance }})"
+    environment: msd-${{ parameters.env }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
 
-      - task: DownloadPipelineArtifact@2
-        displayName: Get latest Artifact from CI pipeline
-        inputs:
-          buildType: "current"
-          path: $(System.DefaultWorkingDirectory)/
-          artifact: BO Static WebApp Export $(Build.BuildId)
+            - task: DownloadPipelineArtifact@2
+              displayName: Get latest Artifact from CI pipeline
+              inputs:
+                buildType: "current"
+                path: $(System.DefaultWorkingDirectory)/
+                artifact: BO Static WebApp Export $(Build.BuildId)
 
-      - task: AzureStaticWebApp@0
-        displayName: Publish BO Static WebApp in Azure Cloud
-        inputs:
-          output_location: "out"
-          skip_app_build: true
-          verbose: true
-          is_static_export: true
-        env:
-          azure_static_web_apps_api_token: $(az-stapps-deployment-token)
+            - task: AzureStaticWebApp@0
+              displayName: Update BO Static WebApp in Azure Cloud
+              inputs:
+                output_location: "out"
+                skip_app_build: true
+                verbose: true
+                is_static_export: true
+                deployment_environment: ${{ parameters.instance }}
+              env:
+                azure_static_web_apps_api_token: $(az-stapps-deployment-token)
