@@ -4,6 +4,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
 import {
   EditoContentDto,
+  Enum_Editocontentdto_Status,
   GetEditoBlockTabDocument,
   useGetEditoBlockTabQuery,
   useUpdateEditoBlockTabMutation,
@@ -22,6 +23,7 @@ import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormModalButtonInput from "../../Form/FormModalButtonInput/FormModalButtonInput";
 import FormMultiselect, {
   IOptionWrapper,
+  mapOptionsInWrappers,
 } from "../../Form/FormMultiselect/FormMultiselect";
 import "./edito-tab.scss";
 
@@ -55,7 +57,7 @@ export default function EditoTab() {
         return (
           <p key={editoContent.id + index}>
             {`${editoContent.attributes?.title} - ${format(
-              parseJSON(editoContent.attributes?.publishedAt),
+              parseJSON(editoContent.attributes?.publishedDate),
               "dd/MM/yyyy",
             )}` ?? ""}
           </p>
@@ -69,7 +71,7 @@ export default function EditoTab() {
   ): string {
     return (
       `${editoContent.attributes?.title} - ${format(
-        parseJSON(editoContent.attributes?.publishedAt),
+        parseJSON(editoContent.attributes?.publishedDate),
         "dd/MM/yyyy",
       )}` ?? ""
     );
@@ -100,7 +102,10 @@ export default function EditoTab() {
         refetchQueries: [
           {
             query: GetEditoBlockTabDocument,
-            variables: { contractId },
+            variables: {
+              contractId,
+              status: Enum_Editocontentdto_Status.Published,
+            },
           },
           "getEditoBlockTab",
         ],
@@ -115,7 +120,10 @@ export default function EditoTab() {
   /* External Data */
   const { contractId } = useContract();
   const { loading, error, data } = useGetEditoBlockTabQuery({
-    variables: { contractId },
+    variables: {
+      contractId,
+      status: Enum_Editocontentdto_Status.Published,
+    },
   });
   const [updateEditoBlock, { loading: mutationLoading, error: mutationError }] =
     useUpdateEditoBlockTabMutation();
@@ -145,6 +153,7 @@ export default function EditoTab() {
         setEditoData(mappedData);
         form.reset(mappedData);
       }
+
       const sortedEditoContents = [...(editoContents ?? [])];
       sortedEditoContents?.sort(
         comparePropertyValueByPriority("contentType", {
@@ -155,15 +164,7 @@ export default function EditoTab() {
           freeContent: 4,
         }),
       );
-      const mappedOptions: Array<IOptionWrapper<EditoContentDto> | null> =
-        sortedEditoContents.map((editoContent) => {
-          return editoContent
-            ? { group: editoContent.typeName, option: editoContent }
-            : null;
-        });
-      setEditoContents(
-        mappedOptions?.filter((e): e is Exclude<typeof e, null> => e !== null),
-      );
+      setEditoContents(mapOptionsInWrappers(sortedEditoContents, "typeName"));
     }
   }, [form, data]);
 

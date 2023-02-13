@@ -16,9 +16,10 @@ import CommonDataTable, {
   ICommonDataTableValidation,
 } from "../../../components/Common/CommonDataTable/CommonDataTable";
 import DataTableInput from "../../../components/Common/CommonDataTable/Inputs/DataTableInput/DataTableInput";
-import "./edito-thematiques-page.scss";
+import { IDataTableAction } from "../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import DataTableForm from "../../../components/Common/CommonDataTable/DataTableForm/DataTableForm";
 import FormInput from "../../../components/Form/FormInput/FormInput";
+import "./edito-thematiques-page.scss";
 
 interface ITagTableRow {
   id: string;
@@ -28,7 +29,6 @@ interface ITagTableRow {
 }
 
 export default function EditoThematiquesPage() {
-  // TODO: write Tests for FormServiceLinks and CommonDataTable (+ sub components)
   /* Static Data */
   const title = "Gestion des thématiques";
   const description =
@@ -54,6 +54,34 @@ export default function EditoThematiquesPage() {
     return inputRefs.current[i];
   }
 
+  function onEditState(row: ITagTableRow, i: number, setValue?: boolean) {
+    let copiedStates = confirmStatesRef.current;
+    let copiedData = tableDataRef.current;
+    if (
+      copiedStates.filter(Boolean).length > 0 &&
+      (!copiedStates[i] || setValue === true)
+    ) {
+      copiedStates = new Array(tableData?.length).fill(false);
+      copiedData = tableData.map((row) => {
+        return { ...row, editState: false };
+      });
+    }
+    setTableData(
+      copiedData.map((data) => {
+        if (data.id === row.id) {
+          return { ...data, editState: setValue ?? !data.editState };
+        } else {
+          return { ...data };
+        }
+      }),
+    );
+    setConfirmStates([
+      ...copiedStates.slice(0, i),
+      setValue ?? !copiedStates[i],
+      ...copiedStates.slice(i + 1),
+    ]);
+  }
+
   function confirmValidation(
     row: ITagTableRow,
     i: number,
@@ -64,7 +92,8 @@ export default function EditoThematiquesPage() {
     return { isValid, errorMessage: tableValidation.tagName };
   }
 
-  async function onConfirm(row: ITagTableRow, i: number) {
+  async function onConfirmEdit(row: ITagTableRow, i: number) {
+    setIsUpdatingData(true);
     const variables = {
       updateTagId: row.id,
       data: {
@@ -84,6 +113,7 @@ export default function EditoThematiquesPage() {
   }
 
   async function onDelete(row: ITagTableRow) {
+    setIsUpdatingData(true);
     const variables = {
       deleteTagId: row.id,
     };
@@ -105,6 +135,7 @@ export default function EditoThematiquesPage() {
   }
 
   async function onAddRow(data: FieldValues) {
+    setIsUpdatingData(true);
     const variables = {
       contractId,
       tagName: data["name"],
@@ -146,6 +177,22 @@ export default function EditoThematiquesPage() {
   /* Local Data */
   const inputRefs = useRef<Array<React.RefObject<HTMLInputElement>>>([]);
   const [tableData, setTableData] = useState<Array<ITagTableRow>>([]);
+  const tableDataRef = useRef<Array<ITagTableRow>>(tableData);
+  const [confirmStates, setConfirmStates] = useState<Array<boolean>>([]);
+  const confirmStatesRef = useRef<Array<boolean>>([]);
+  const [isUpdatingData, setIsUpdatingData] = useState(false);
+  const isLoadingMutation =
+    isUpdatingData ||
+    updateTagMutationLoading ||
+    deleteTagMutationLoading ||
+    newTagMutationLoading;
+  const isLoading = dataLoading || isLoadingMutation;
+  const errors = [
+    error,
+    updateTagMutationError,
+    deleteTagMutationError,
+    newTagMutationError,
+  ];
 
   const tableColumns: Array<TableColumn<ITagTableRow>> = [
     {
@@ -173,6 +220,30 @@ export default function EditoThematiquesPage() {
       sortable: true,
     },
   ];
+  const actionColumn = (
+    row: ITagTableRow,
+    rowIndex: number,
+  ): Array<IDataTableAction> => [
+    {
+      id: "edit",
+      picto: "/images/pictos/edit.svg",
+      onClick: () => onEditState(row, rowIndex),
+      confirmStateOptions: {
+        onConfirmValidation: () => confirmValidation(row, rowIndex),
+        onConfirm: () => onConfirmEdit(row, rowIndex),
+        onCancel: () => onEditState(row, rowIndex, false),
+      },
+    },
+    {
+      id: "delete",
+      picto: "/images/pictos/delete.svg",
+      isDisabled: row.count !== 0,
+      confirmStateOptions: {
+        onConfirm: () => onDelete(row),
+        confirmStyle: "warning",
+      },
+    },
+  ];
 
   useEffect(() => {
     setTableData(
@@ -186,6 +257,18 @@ export default function EditoThematiquesPage() {
     );
   }, [data]);
 
+  useEffect(() => {
+    if (confirmStates.length !== tableData.length) {
+      setConfirmStates(new Array(tableData?.length).fill(false));
+    }
+    tableDataRef.current = tableData;
+    confirmStatesRef.current = confirmStates;
+  }, [confirmStates, tableData]);
+
+  useEffect(() => {
+    setIsUpdatingData(false);
+  }, [tableData]);
+
   return (
     <>
       <div className="c-EditoThematiquesPage">
@@ -193,46 +276,17 @@ export default function EditoThematiquesPage() {
         <h2 className="c-EditoThematiquesPage__Title">{tableLabels.title}</h2>
         <div className="c-EditoThematiquesPage__Table">
           <CommonLoader
-            isLoading={
-              dataLoading ||
-              updateTagMutationLoading ||
-              deleteTagMutationLoading ||
-              newTagMutationLoading
-            }
-            isShowingContent={
-              updateTagMutationLoading ||
-              deleteTagMutationLoading ||
-              newTagMutationLoading
-            }
-            hasDelay={
-              updateTagMutationLoading ||
-              deleteTagMutationLoading ||
-              newTagMutationLoading
-            }
-            errors={[
-              error,
-              updateTagMutationError,
-              deleteTagMutationError,
-              newTagMutationError,
-            ]}
+            isLoading={isLoading}
+            isShowingContent={isLoadingMutation}
+            hasDelay={isLoadingMutation}
+            errors={errors}
           >
             <CommonDataTable
               columns={tableColumns}
+              actionColumn={actionColumn}
               data={tableData}
               defaultSortFieldId={"name"}
-              isLoading={
-                updateTagMutationLoading ||
-                deleteTagMutationLoading ||
-                newTagMutationLoading
-              }
-              hasEditAction={true}
-              hasDeleteAction={true}
-              deleteVisibleCondition={(row) => row.count === 0}
-              onConfirm={(row, rowIndex) => onConfirm(row, rowIndex)}
-              confirmValidation={(row, rowIndex) =>
-                confirmValidation(row, rowIndex)
-              }
-              onDelete={(row) => onDelete(row)}
+              isLoading={isLoading}
             />
             <DataTableForm
               onFormSubmit={(data) => onAddRow(data)}

@@ -75,17 +75,19 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
             class="c-FormRadioInput"
           >
             <fieldset>
-              <legend
+              <div
                 class="c-FormLabel"
               >
-                <div
-                  class="c-FormLabel__Label"
+                <legend
+                  class="c-FormLabel__LabelWrapper"
                 >
-                  <span>
+                  <span
+                    class="c-FormLabel__Label"
+                  >
                     Niveau d’accessibilité (pourcentage des critères RGAA validés)
                   </span>
-                </div>
-              </legend>
+                </legend>
+              </div>
               <div
                 class="c-FormRadioInput__Options"
               >
@@ -100,18 +102,20 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                     type="radio"
                     value="not_conform"
                   />
-                  <label
+                  <div
                     class="c-FormLabel"
-                    for="accessibilityLevel0"
                   >
-                    <div
-                      class="c-FormLabel__Label"
+                    <label
+                      class="c-FormLabel__LabelWrapper"
+                      for="accessibilityLevel0"
                     >
-                      <span>
+                      <span
+                        class="c-FormLabel__Label"
+                      >
                         Non conforme (moins de 50 %)
                       </span>
-                    </div>
-                  </label>
+                    </label>
+                  </div>
                 </div>
                 <div
                   class="c-FormRadioInput__Option"
@@ -124,18 +128,20 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                     type="radio"
                     value="partially_conform"
                   />
-                  <label
+                  <div
                     class="c-FormLabel"
-                    for="accessibilityLevel1"
                   >
-                    <div
-                      class="c-FormLabel__Label"
+                    <label
+                      class="c-FormLabel__LabelWrapper"
+                      for="accessibilityLevel1"
                     >
-                      <span>
+                      <span
+                        class="c-FormLabel__Label"
+                      >
                         Partiellement conforme  (de 50 % à 99 %)
                       </span>
-                    </div>
-                  </label>
+                    </label>
+                  </div>
                 </div>
                 <div
                   class="c-FormRadioInput__Option"
@@ -148,18 +154,20 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                     type="radio"
                     value="conform"
                   />
-                  <label
+                  <div
                     class="c-FormLabel"
-                    for="accessibilityLevel2"
                   >
-                    <div
-                      class="c-FormLabel__Label"
+                    <label
+                      class="c-FormLabel__LabelWrapper"
+                      for="accessibilityLevel2"
                     >
-                      <span>
+                      <span
+                        class="c-FormLabel__Label"
+                      >
                         Totalement conforme (100 %)
                       </span>
-                    </div>
-                  </label>
+                    </label>
+                  </div>
                 </div>
               </div>
             </fieldset>
@@ -180,17 +188,19 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="accessibilitySubService.link"
             >
-              <div
-                class="c-FormLabel__Label"
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="accessibilitySubService.link"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Lien vers la page Accessibilité *
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -205,22 +215,24 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   value="https://google.com"
                 />
               </div>
-            </label>
+            </div>
           </div>
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="cguSubService.link"
             >
-              <div
-                class="c-FormLabel__Label"
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="cguSubService.link"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Lien vers la page des Conditions générales *
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -235,22 +247,24 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   value="https://google.com"
                 />
               </div>
-            </label>
+            </div>
           </div>
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="cookiesSubService.link"
             >
-              <div
-                class="c-FormLabel__Label"
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="cookiesSubService.link"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Lien vers la page de Politique de cookie *
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -265,22 +279,24 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   value="https://google.com"
                 />
               </div>
-            </label>
+            </div>
           </div>
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="confidentialitySubService.link"
             >
-              <div
-                class="c-FormLabel__Label"
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="confidentialitySubService.link"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Lien vers la page de Confidentialité *
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -295,7 +311,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   value="https://google.com"
                 />
               </div>
-            </label>
+            </div>
           </div>
         </div>
       </div>
@@ -313,17 +329,19 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="contactUsSubService.label"
             >
-              <div
-                class="c-FormLabel__Label"
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="contactUsSubService.label"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Texte du lien *
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -338,22 +356,24 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   value="Contactez-nous"
                 />
               </div>
-            </label>
+            </div>
           </div>
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="contactUsSubService.link"
             >
-              <div
-                class="c-FormLabel__Label"
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="contactUsSubService.link"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Lien vers la page de contact *
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -368,7 +388,7 @@ exports[`PersonnalisationFooterPage renders loading and loaded state 2`] = `
                   value="https://google.com"
                 />
               </div>
-            </label>
+            </div>
           </div>
         </div>
       </div>

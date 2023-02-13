@@ -5,27 +5,30 @@ exports[`FormSelect renders 1`] = `
   <div
     class="c-FormSelect"
   >
-    <label
+    <div
       class="c-FormLabel"
-      for="form-select"
     >
-      <div
-        class="c-FormLabel__Label"
+      <label
+        class="c-FormLabel__LabelWrapper"
+        for="form-select"
       >
-        <span>
+        <span
+          class="c-FormLabel__Label"
+        >
           form select
         </span>
-      </div>
-      <div
-        class="c-FormLabel__Label"
+      </label>
+      <label
+        class="c-FormLabel__LabelWrapper"
+        for="form-select"
       >
         <span
           class="c-FormLabel__Secondary"
         >
           secondary label
         </span>
-      </div>
-    </label>
+      </label>
+    </div>
     <div
       class="o-SelectWrapper"
     >

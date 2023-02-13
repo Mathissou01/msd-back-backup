@@ -20,13 +20,12 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  AccessibilitySubServiceBlocksDynamicZoneInput: any;
-  CguSubServiceBlocksDynamicZoneInput: any;
-  ConfidentialitySubServiceBlocksDynamicZoneInput: any;
-  ContactUsSubServiceBlocksDynamicZoneInput: any;
+  AccessibilityBlocksDynamicZoneInput: any;
+  CguBlocksDynamicZoneInput: any;
+  ConfidentialityBlocksDynamicZoneInput: any;
+  ContactUsBlocksDynamicZoneInput: any;
   ContractMenuServiceLinksDynamicZoneInput: any;
-  CookiesSubServiceBlocksDynamicZoneInput: any;
-  Date: any;
+  CookieBlocksDynamicZoneInput: any;
   DateTime: any;
   EventBlocksDynamicZoneInput: any;
   FreeContentBlocksDynamicZoneInput: any;
@@ -38,10 +37,77 @@ export type Scalars = {
   Upload: any;
 };
 
+export type Accessibility = {
+  __typename?: "Accessibility";
+  blocks?: Maybe<Array<Maybe<AccessibilityBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Accessibility_Status>;
+  title: Scalars["String"];
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
+};
+
+export type AccessibilityBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type AccessibilityEntity = {
+  __typename?: "AccessibilityEntity";
+  attributes?: Maybe<Accessibility>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type AccessibilityEntityResponse = {
+  __typename?: "AccessibilityEntityResponse";
+  data?: Maybe<AccessibilityEntity>;
+};
+
+export type AccessibilityEntityResponseCollection = {
+  __typename?: "AccessibilityEntityResponseCollection";
+  data: Array<AccessibilityEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type AccessibilityFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AccessibilityFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<AccessibilityFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AccessibilityFiltersInput>>>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
+};
+
+export type AccessibilityInput = {
+  blocks?: InputMaybe<Array<Scalars["AccessibilityBlocksDynamicZoneInput"]>>;
+  customId?: InputMaybe<Scalars["String"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Accessibility_Status>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
+};
+
+export type AccessibilityRelationResponseCollection = {
+  __typename?: "AccessibilityRelationResponseCollection";
+  data: Array<AccessibilityEntity>;
+};
+
 export type AccessibilitySubService = {
   __typename?: "AccessibilitySubService";
+  accessibilities?: Maybe<AccessibilityRelationResponseCollection>;
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<AccessibilitySubServiceBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -51,18 +117,17 @@ export type AccessibilitySubService = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
+export type AccessibilitySubServiceAccessibilitiesArgs = {
+  filters?: InputMaybe<AccessibilityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type AccessibilitySubServiceAudienceTypesArgs = {
   filters?: InputMaybe<AudienceTypeFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
-
-export type AccessibilitySubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error;
 
 export type AccessibilitySubServiceEntity = {
   __typename?: "AccessibilitySubServiceEntity";
@@ -82,6 +147,7 @@ export type AccessibilitySubServiceEntityResponseCollection = {
 };
 
 export type AccessibilitySubServiceFiltersInput = {
+  accessibilities?: InputMaybe<AccessibilityFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AccessibilitySubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -97,10 +163,8 @@ export type AccessibilitySubServiceFiltersInput = {
 };
 
 export type AccessibilitySubServiceInput = {
+  accessibilities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<
-    Array<Scalars["AccessibilitySubServiceBlocksDynamicZoneInput"]>
-  >;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -108,10 +172,143 @@ export type AccessibilitySubServiceInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
-export type Attributes = {
-  __typename?: "Attributes";
-  publishedAt: Scalars["DateTime"];
-  title: Scalars["String"];
+export type Activation = {
+  __typename?: "Activation";
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  typeActivation?: Maybe<Scalars["String"]>;
+};
+
+export type ActivationAndService = Activation | Service;
+
+export type AlertNotification = {
+  __typename?: "AlertNotification";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationEntity = {
+  __typename?: "AlertNotificationEntity";
+  attributes?: Maybe<AlertNotification>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type AlertNotificationEntityResponse = {
+  __typename?: "AlertNotificationEntityResponse";
+  data?: Maybe<AlertNotificationEntity>;
+};
+
+export type AlertNotificationEntityResponseCollection = {
+  __typename?: "AlertNotificationEntityResponseCollection";
+  data: Array<AlertNotificationEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type AlertNotificationFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<AlertNotificationFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type AlertNotificationInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationRelationResponseCollection = {
+  __typename?: "AlertNotificationRelationResponseCollection";
+  data: Array<AlertNotificationEntity>;
+};
+
+export type AlertNotificationService = {
+  __typename?: "AlertNotificationService";
+  alertNotifications?: Maybe<AlertNotificationRelationResponseCollection>;
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  channelType?: Maybe<ChannelTypeEntityResponse>;
+  cities?: Maybe<CityRelationResponseCollection>;
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  isActivated: Scalars["Boolean"];
+  name?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationServiceAlertNotificationsArgs = {
+  filters?: InputMaybe<AlertNotificationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationServiceCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationServiceEntity = {
+  __typename?: "AlertNotificationServiceEntity";
+  attributes?: Maybe<AlertNotificationService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type AlertNotificationServiceEntityResponse = {
+  __typename?: "AlertNotificationServiceEntityResponse";
+  data?: Maybe<AlertNotificationServiceEntity>;
+};
+
+export type AlertNotificationServiceEntityResponseCollection = {
+  __typename?: "AlertNotificationServiceEntityResponseCollection";
+  data: Array<AlertNotificationServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type AlertNotificationServiceFiltersInput = {
+  alertNotifications?: InputMaybe<AlertNotificationFiltersInput>;
+  and?: InputMaybe<Array<InputMaybe<AlertNotificationServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  channelType?: InputMaybe<ChannelTypeFiltersInput>;
+  cities?: InputMaybe<CityFiltersInput>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  endDate?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AlertNotificationServiceFiltersInput>>>;
+  startDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type AlertNotificationServiceInput = {
+  alertNotifications?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  channelType?: InputMaybe<Scalars["ID"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  contract?: InputMaybe<Scalars["ID"]>;
+  endDate?: InputMaybe<Scalars["DateTime"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type AudienceType = {
@@ -181,10 +378,80 @@ export type BooleanFilterInput = {
   startsWith?: InputMaybe<Scalars["Boolean"]>;
 };
 
+export type Cgu = {
+  __typename?: "Cgu";
+  CustomId?: Maybe<Scalars["String"]>;
+  blocks?: Maybe<Array<Maybe<CguBlocksDynamicZone>>>;
+  cguSubService?: Maybe<CguSubServiceEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Cgu_Status>;
+  title: Scalars["String"];
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
+};
+
+export type CguBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type CguEntity = {
+  __typename?: "CguEntity";
+  attributes?: Maybe<Cgu>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CguEntityResponse = {
+  __typename?: "CguEntityResponse";
+  data?: Maybe<CguEntity>;
+};
+
+export type CguEntityResponseCollection = {
+  __typename?: "CguEntityResponseCollection";
+  data: Array<CguEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CguFiltersInput = {
+  CustomId?: InputMaybe<StringFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
+  cguSubService?: InputMaybe<CguSubServiceFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<CguFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
+};
+
+export type CguInput = {
+  CustomId?: InputMaybe<Scalars["String"]>;
+  blocks?: InputMaybe<Array<Scalars["CguBlocksDynamicZoneInput"]>>;
+  cguSubService?: InputMaybe<Scalars["ID"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Cgu_Status>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
+};
+
+export type CguRelationResponseCollection = {
+  __typename?: "CguRelationResponseCollection";
+  data: Array<CguEntity>;
+};
+
 export type CguSubService = {
   __typename?: "CguSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<CguSubServiceBlocksDynamicZone>>>;
+  cgus?: Maybe<CguRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -200,12 +467,11 @@ export type CguSubServiceAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type CguSubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error;
+export type CguSubServiceCgusArgs = {
+  filters?: InputMaybe<CguFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
 
 export type CguSubServiceEntity = {
   __typename?: "CguSubServiceEntity";
@@ -227,6 +493,7 @@ export type CguSubServiceEntityResponseCollection = {
 export type CguSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CguSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  cgus?: InputMaybe<CguFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -241,7 +508,7 @@ export type CguSubServiceFiltersInput = {
 
 export type CguSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<Array<Scalars["CguSubServiceBlocksDynamicZoneInput"]>>;
+  cgus?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -252,7 +519,9 @@ export type CguSubServiceInput = {
 export type ChannelType = {
   __typename?: "ChannelType";
   createdAt?: Maybe<Scalars["DateTime"]>;
-  type?: Maybe<Scalars["String"]>;
+  hasWebApp?: Maybe<Scalars["Boolean"]>;
+  hasWebSite?: Maybe<Scalars["Boolean"]>;
+  hasYesWeScan?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -276,15 +545,19 @@ export type ChannelTypeEntityResponseCollection = {
 export type ChannelTypeFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ChannelTypeFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  hasWebApp?: InputMaybe<BooleanFilterInput>;
+  hasWebSite?: InputMaybe<BooleanFilterInput>;
+  hasYesWeScan?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ChannelTypeFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ChannelTypeFiltersInput>>>;
-  type?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type ChannelTypeInput = {
-  type?: InputMaybe<Scalars["String"]>;
+  hasWebApp?: InputMaybe<Scalars["Boolean"]>;
+  hasWebSite?: InputMaybe<Scalars["Boolean"]>;
+  hasYesWeScan?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type ChannelTypeRelationResponseCollection = {
@@ -563,10 +836,83 @@ export type ComponentLinksTips = {
   picto?: Maybe<UploadFileEntityResponse>;
 };
 
+export type Confidentiality = {
+  __typename?: "Confidentiality";
+  blocks?: Maybe<Array<Maybe<ConfidentialityBlocksDynamicZone>>>;
+  confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Confidentiality_Status>;
+  title: Scalars["String"];
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
+};
+
+export type ConfidentialityBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type ConfidentialityEntity = {
+  __typename?: "ConfidentialityEntity";
+  attributes?: Maybe<Confidentiality>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type ConfidentialityEntityResponse = {
+  __typename?: "ConfidentialityEntityResponse";
+  data?: Maybe<ConfidentialityEntity>;
+};
+
+export type ConfidentialityEntityResponseCollection = {
+  __typename?: "ConfidentialityEntityResponseCollection";
+  data: Array<ConfidentialityEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ConfidentialityFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ConfidentialityFiltersInput>>>;
+  confidentialitySubService?: InputMaybe<ConfidentialitySubServiceFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<ConfidentialityFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ConfidentialityFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
+};
+
+export type ConfidentialityInput = {
+  blocks?: InputMaybe<Array<Scalars["ConfidentialityBlocksDynamicZoneInput"]>>;
+  confidentialitySubService?: InputMaybe<Scalars["ID"]>;
+  customId?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Confidentiality_Status>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
+};
+
+export type ConfidentialityRelationResponseCollection = {
+  __typename?: "ConfidentialityRelationResponseCollection";
+  data: Array<ConfidentialityEntity>;
+};
+
 export type ConfidentialitySubService = {
   __typename?: "ConfidentialitySubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<ConfidentialitySubServiceBlocksDynamicZone>>>;
+  confidentialities?: Maybe<ConfidentialityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -582,12 +928,12 @@ export type ConfidentialitySubServiceAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type ConfidentialitySubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error;
+export type ConfidentialitySubServiceConfidentialitiesArgs = {
+  filters?: InputMaybe<ConfidentialityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
 
 export type ConfidentialitySubServiceEntity = {
   __typename?: "ConfidentialitySubServiceEntity";
@@ -609,6 +955,7 @@ export type ConfidentialitySubServiceEntityResponseCollection = {
 export type ConfidentialitySubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ConfidentialitySubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  confidentialities?: InputMaybe<ConfidentialityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -623,9 +970,7 @@ export type ConfidentialitySubServiceFiltersInput = {
 
 export type ConfidentialitySubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<
-    Array<Scalars["ConfidentialitySubServiceBlocksDynamicZoneInput"]>
-  >;
+  confidentialities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -633,10 +978,89 @@ export type ConfidentialitySubServiceInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type ContactUs = {
+  __typename?: "ContactUs";
+  blocks?: Maybe<Array<Maybe<ContactUsBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Contactus_Status>;
+  tags?: Maybe<TagRelationResponseCollection>;
+  title: Scalars["String"];
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
+};
+
+export type ContactUsTagsArgs = {
+  filters?: InputMaybe<TagFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ContactUsBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksTranscript
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type ContactUsEntity = {
+  __typename?: "ContactUsEntity";
+  attributes?: Maybe<ContactUs>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type ContactUsEntityResponse = {
+  __typename?: "ContactUsEntityResponse";
+  data?: Maybe<ContactUsEntity>;
+};
+
+export type ContactUsEntityResponseCollection = {
+  __typename?: "ContactUsEntityResponseCollection";
+  data: Array<ContactUsEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ContactUsFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<ContactUsFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  tags?: InputMaybe<TagFiltersInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
+};
+
+export type ContactUsInput = {
+  blocks?: InputMaybe<Array<Scalars["ContactUsBlocksDynamicZoneInput"]>>;
+  customId?: InputMaybe<Scalars["String"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Contactus_Status>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
+};
+
+export type ContactUsRelationResponseCollection = {
+  __typename?: "ContactUsRelationResponseCollection";
+  data: Array<ContactUsEntity>;
+};
+
 export type ContactUsSubService = {
   __typename?: "ContactUsSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<ContactUsSubServiceBlocksDynamicZone>>>;
+  contactUses?: Maybe<ContactUsRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -653,15 +1077,11 @@ export type ContactUsSubServiceAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type ContactUsSubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksImage
-  | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
-  | ComponentBlocksVideo
-  | ComponentBlocksWysiwyg
-  | Error;
+export type ContactUsSubServiceContactUsesArgs = {
+  filters?: InputMaybe<ContactUsFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
 
 export type ContactUsSubServiceEntity = {
   __typename?: "ContactUsSubServiceEntity";
@@ -683,6 +1103,7 @@ export type ContactUsSubServiceEntityResponseCollection = {
 export type ContactUsSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ContactUsSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  contactUses?: InputMaybe<ContactUsFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -698,9 +1119,7 @@ export type ContactUsSubServiceFiltersInput = {
 
 export type ContactUsSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<
-    Array<Scalars["ContactUsSubServiceBlocksDynamicZoneInput"]>
-  >;
+  contactUses?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -711,7 +1130,7 @@ export type ContactUsSubServiceInput = {
 
 export type ContentTypeDto = {
   __typename?: "ContentTypeDTO";
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   subServiceId: Scalars["ID"];
   type: Scalars["String"];
@@ -719,6 +1138,7 @@ export type ContentTypeDto = {
 
 export type Contract = {
   __typename?: "Contract";
+  alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   ccap?: Maybe<Scalars["Int"]>;
   clear?: Maybe<Scalars["Int"]>;
   clientName?: Maybe<Scalars["String"]>;
@@ -726,8 +1146,11 @@ export type Contract = {
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractMenu?: Maybe<ContractMenuEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
+  folderPathId?: Maybe<Scalars["Long"]>;
   label: Scalars["String"];
+  pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
   siret?: Maybe<Scalars["Long"]>;
@@ -811,6 +1234,7 @@ export type ContractEntityResponseCollection = {
 };
 
 export type ContractFiltersInput = {
+  alertNotificationService?: InputMaybe<AlertNotificationServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
   ccap?: InputMaybe<IntFilterInput>;
   clear?: InputMaybe<IntFilterInput>;
@@ -819,11 +1243,14 @@ export type ContractFiltersInput = {
   contractCustomization?: InputMaybe<ContractCustomizationFiltersInput>;
   contractMenu?: InputMaybe<ContractMenuFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
+  folderPathId?: InputMaybe<LongFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   label?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ContractFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
+  pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   recyclingGuideService?: InputMaybe<RecyclingGuideServiceFiltersInput>;
   requestService?: InputMaybe<RequestServiceFiltersInput>;
   siret?: InputMaybe<LongFilterInput>;
@@ -834,14 +1261,18 @@ export type ContractFiltersInput = {
 };
 
 export type ContractInput = {
+  alertNotificationService?: InputMaybe<Scalars["ID"]>;
   ccap?: InputMaybe<Scalars["Int"]>;
   clear?: InputMaybe<Scalars["Int"]>;
   clientName?: InputMaybe<Scalars["String"]>;
   contactClient?: InputMaybe<Scalars["ID"]>;
   contractCustomization?: InputMaybe<Scalars["ID"]>;
   contractMenu?: InputMaybe<Scalars["ID"]>;
+  dropOffMapService?: InputMaybe<Scalars["ID"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
+  folderPathId?: InputMaybe<Scalars["Long"]>;
   label?: InputMaybe<Scalars["String"]>;
+  pickUpDayService?: InputMaybe<Scalars["ID"]>;
   recyclingGuideService?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
   siret?: InputMaybe<Scalars["Long"]>;
@@ -906,15 +1337,77 @@ export type ContractMenuServiceLinksDynamicZone =
   | ComponentLinksTips
   | Error;
 
-export type ContractPayload = {
-  __typename?: "ContractPayload";
-  contractId?: Maybe<Scalars["ID"]>;
+export type Cookie = {
+  __typename?: "Cookie";
+  blocks?: Maybe<Array<Maybe<CookieBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Cookie_Status>;
+  title: Scalars["String"];
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
+};
+
+export type CookieBlocksDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksSubHeading
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type CookieEntity = {
+  __typename?: "CookieEntity";
+  attributes?: Maybe<Cookie>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CookieEntityResponse = {
+  __typename?: "CookieEntityResponse";
+  data?: Maybe<CookieEntity>;
+};
+
+export type CookieEntityResponseCollection = {
+  __typename?: "CookieEntityResponseCollection";
+  data: Array<CookieEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CookieFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<CookieFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
+};
+
+export type CookieInput = {
+  blocks?: InputMaybe<Array<Scalars["CookieBlocksDynamicZoneInput"]>>;
+  customId?: InputMaybe<Scalars["String"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
+  status?: InputMaybe<Enum_Cookie_Status>;
+  title?: InputMaybe<Scalars["String"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
+};
+
+export type CookieRelationResponseCollection = {
+  __typename?: "CookieRelationResponseCollection";
+  data: Array<CookieEntity>;
 };
 
 export type CookiesSubService = {
   __typename?: "CookiesSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  blocks?: Maybe<Array<Maybe<CookiesSubServiceBlocksDynamicZone>>>;
+  cookies?: Maybe<CookieRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -930,12 +1423,11 @@ export type CookiesSubServiceAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type CookiesSubServiceBlocksDynamicZone =
-  | ComponentBlocksFile
-  | ComponentBlocksHorizontalRule
-  | ComponentBlocksSubHeading
-  | ComponentBlocksWysiwyg
-  | Error;
+export type CookiesSubServiceCookiesArgs = {
+  filters?: InputMaybe<CookieFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
 
 export type CookiesSubServiceEntity = {
   __typename?: "CookiesSubServiceEntity";
@@ -957,6 +1449,7 @@ export type CookiesSubServiceEntityResponseCollection = {
 export type CookiesSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CookiesSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  cookies?: InputMaybe<CookieFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -971,9 +1464,7 @@ export type CookiesSubServiceFiltersInput = {
 
 export type CookiesSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  blocks?: InputMaybe<
-    Array<Scalars["CookiesSubServiceBlocksDynamicZoneInput"]>
-  >;
+  cookies?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
@@ -1106,6 +1597,148 @@ export type DocumentRelationResponseCollection = {
   data: Array<DocumentEntity>;
 };
 
+export type DropOffMap = {
+  __typename?: "DropOffMap";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type DropOffMapEntity = {
+  __typename?: "DropOffMapEntity";
+  attributes?: Maybe<DropOffMap>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type DropOffMapEntityResponse = {
+  __typename?: "DropOffMapEntityResponse";
+  data?: Maybe<DropOffMapEntity>;
+};
+
+export type DropOffMapEntityResponseCollection = {
+  __typename?: "DropOffMapEntityResponseCollection";
+  data: Array<DropOffMapEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type DropOffMapFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<DropOffMapFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type DropOffMapInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type DropOffMapRelationResponseCollection = {
+  __typename?: "DropOffMapRelationResponseCollection";
+  data: Array<DropOffMapEntity>;
+};
+
+export type DropOffMapService = {
+  __typename?: "DropOffMapService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  channelType?: Maybe<ChannelTypeEntityResponse>;
+  cities?: Maybe<CityRelationResponseCollection>;
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  isActivated: Scalars["Boolean"];
+  name?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type DropOffMapServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type DropOffMapServiceCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type DropOffMapServiceDropOffMapsArgs = {
+  filters?: InputMaybe<DropOffMapFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type DropOffMapServiceEntity = {
+  __typename?: "DropOffMapServiceEntity";
+  attributes?: Maybe<DropOffMapService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type DropOffMapServiceEntityResponse = {
+  __typename?: "DropOffMapServiceEntityResponse";
+  data?: Maybe<DropOffMapServiceEntity>;
+};
+
+export type DropOffMapServiceEntityResponseCollection = {
+  __typename?: "DropOffMapServiceEntityResponseCollection";
+  data: Array<DropOffMapServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type DropOffMapServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<DropOffMapServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  channelType?: InputMaybe<ChannelTypeFiltersInput>;
+  cities?: InputMaybe<CityFiltersInput>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  dropOffMaps?: InputMaybe<DropOffMapFiltersInput>;
+  endDate?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<DropOffMapServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<DropOffMapServiceFiltersInput>>>;
+  startDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type DropOffMapServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  channelType?: InputMaybe<Scalars["ID"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  contract?: InputMaybe<Scalars["ID"]>;
+  dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  endDate?: InputMaybe<Scalars["DateTime"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  startDate?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export enum Enum_Accessibility_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Cgu_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
 export enum Enum_Componentblockssubheading_Subheadingtag {
   H2 = "h2",
   H3 = "h3",
@@ -1114,10 +1747,70 @@ export enum Enum_Componentblockssubheading_Subheadingtag {
   H6 = "h6",
 }
 
+export enum Enum_Confidentiality_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Contactus_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Cookie_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Editocontentdto_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Event_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
 export enum Enum_Footer_Accessibilitylevel {
   Conform = "conform",
   NotConform = "not_conform",
   PartiallyConform = "partially_conform",
+}
+
+export enum Enum_Freecontent_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_New_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Quiz_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Tip_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
+export enum Enum_Topcontentdto_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
 }
 
 export type EditoBlock = {
@@ -1196,10 +1889,17 @@ export type EditoContent = {
 
 export type EditoContentDto = {
   __typename?: "EditoContentDTO";
-  attributes: Attributes;
+  attributes: EditoContentDtoAttributes;
   contentType: Scalars["String"];
   id: Scalars["ID"];
   typeName: Scalars["String"];
+};
+
+export type EditoContentDtoAttributes = {
+  __typename?: "EditoContentDTOAttributes";
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Editocontentdto_Status>;
+  title: Scalars["String"];
 };
 
 export type EditoContentEntity = {
@@ -1299,7 +1999,6 @@ export type EditorialServiceEntity = {
   __typename?: "EditorialServiceEntity";
   attributes?: Maybe<EditorialService>;
   id?: Maybe<Scalars["ID"]>;
-  serviceId?: Maybe<Scalars["ID"]>;
 };
 
 export type EditorialServiceEntityResponse = {
@@ -1431,11 +2130,13 @@ export type Event = {
   eventSubService?: Maybe<EventSubServiceEntityResponse>;
   events?: Maybe<EventRelationResponseCollection>;
   image: UploadFileEntityResponse;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Event_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   topContent?: Maybe<TopContentEntityResponse>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -1448,7 +2149,6 @@ export type EventDocumentsArgs = {
 export type EventEventsArgs = {
   filters?: InputMaybe<EventFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -1495,11 +2195,13 @@ export type EventFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<EventFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<EventFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   topContent?: InputMaybe<TopContentFiltersInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -1510,18 +2212,22 @@ export type EventInput = {
   eventSubService?: InputMaybe<Scalars["ID"]>;
   events?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   image?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Event_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   topContent?: InputMaybe<Scalars["ID"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type EventOrNews = {
   __typename?: "EventOrNews";
-  id: Scalars["ID"];
-  publishedAt: Scalars["DateTime"];
+  image?: Maybe<UploadFile>;
+  originalId: Scalars["ID"];
+  publishedDate: Scalars["DateTime"];
   shortDescription?: Maybe<Scalars["String"]>;
+  tags?: Maybe<Array<Maybe<Tag>>>;
   title: Scalars["String"];
 };
 
@@ -1551,7 +2257,6 @@ export type EventSubServiceAudienceTypesArgs = {
 export type EventSubServiceEventsArgs = {
   filters?: InputMaybe<EventFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -1707,10 +2412,12 @@ export type FreeContent = {
   editoContent?: Maybe<EditoContentEntityResponse>;
   freeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
   image: UploadFileEntityResponse;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Freecontent_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
-  title?: Maybe<Scalars["String"]>;
+  title: Scalars["String"];
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -1755,10 +2462,12 @@ export type FreeContentFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<FreeContentFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<FreeContentFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -1767,10 +2476,12 @@ export type FreeContentInput = {
   editoContent?: InputMaybe<Scalars["ID"]>;
   freeContentSubService?: InputMaybe<Scalars["ID"]>;
   image?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Freecontent_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type FreeContentRelationResponseCollection = {
@@ -1799,7 +2510,6 @@ export type FreeContentSubServiceAudienceTypesArgs = {
 export type FreeContentSubServiceFreeContentsArgs = {
   filters?: InputMaybe<FreeContentFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -1850,8 +2560,12 @@ export type FreeContentSubServiceRelationResponseCollection = {
 };
 
 export type GenericMorph =
+  | Accessibility
   | AccessibilitySubService
+  | AlertNotification
+  | AlertNotificationService
   | AudienceType
+  | Cgu
   | CguSubService
   | ChannelType
   | City
@@ -1875,14 +2589,19 @@ export type GenericMorph =
   | ComponentLinksRecycling
   | ComponentLinksRequest
   | ComponentLinksTips
+  | Confidentiality
   | ConfidentialitySubService
+  | ContactUs
   | ContactUsSubService
   | Contract
   | ContractCustomization
   | ContractMenu
+  | Cookie
   | CookiesSubService
   | DescriptionService
   | Document
+  | DropOffMap
+  | DropOffMapService
   | EditoBlock
   | EditoContent
   | EditorialService
@@ -1898,12 +2617,15 @@ export type GenericMorph =
   | KeyMetric
   | New
   | NewsSubService
+  | PickUpDay
+  | PickUpDayService
   | Profile
   | Quiz
   | QuizAndTipsBlock
   | QuizSubService
   | RecyclingGuideBlock
   | RecyclingGuideService
+  | Request
   | RequestService
   | SearchEngineBlock
   | ServicesBlock
@@ -1918,7 +2640,8 @@ export type GenericMorph =
   | UploadFolder
   | UsersPermissionsPermission
   | UsersPermissionsRole
-  | UsersPermissionsUser;
+  | UsersPermissionsUser
+  | WasteForm;
 
 export type Global = {
   __typename?: "Global";
@@ -2181,27 +2904,37 @@ export type Mutation = {
   bulkMoveMedias?: Maybe<Array<Maybe<RequestFileOrFolder>>>;
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
+  channelsActivation?: Maybe<Array<Maybe<ActivationAndService>>>;
+  checkUnpublishedDate?: Maybe<Scalars["Boolean"]>;
+  createAccessibility?: Maybe<AccessibilityEntityResponse>;
   createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  createAlertNotification?: Maybe<AlertNotificationEntityResponse>;
+  createAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   createAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  createCgu?: Maybe<CguEntityResponse>;
   createCguSubService?: Maybe<CguSubServiceEntityResponse>;
   createChannelType?: Maybe<ChannelTypeEntityResponse>;
   createCity?: Maybe<CityEntityResponse>;
   createClient?: Maybe<ClientEntityResponse>;
   createClientType?: Maybe<ClientTypeEntityResponse>;
+  createConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   createConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  createContactUs?: Maybe<ContactUsEntityResponse>;
   createContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   createContentTypeForContractId?: Maybe<FreeContentSubServiceEntity>;
   createContract?: Maybe<ContractEntityResponse>;
   createContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   createContractMenu?: Maybe<ContractMenuEntityResponse>;
+  createCookie?: Maybe<CookieEntityResponse>;
   createCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   createDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   createDocument?: Maybe<DocumentEntityResponse>;
+  createDropOffMap?: Maybe<DropOffMapEntityResponse>;
+  createDropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   createEditoBlock?: Maybe<EditoBlockEntityResponse>;
   createEditoContent?: Maybe<EditoContentEntityResponse>;
   createEditorialService?: Maybe<EditorialServiceEntityResponse>;
-  createEditorialServiceForContract?: Maybe<EditorialServiceEntity>;
-  createEmptyContract?: Maybe<ContractPayload>;
+  createEmptyContract?: Maybe<ContractEntity>;
   createEpci?: Maybe<EpciEntityResponse>;
   createEvent?: Maybe<EventEntityResponse>;
   createEventSubService?: Maybe<EventSubServiceEntityResponse>;
@@ -2214,14 +2947,16 @@ export type Mutation = {
   createNewFolder?: Maybe<RequestFolderEntity>;
   createNewTag?: Maybe<RequestTagEntity>;
   createNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
+  createPickUpDay?: Maybe<PickUpDayEntityResponse>;
+  createPickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   createProfile?: Maybe<ProfileEntityResponse>;
   createQuiz?: Maybe<QuizEntityResponse>;
   createQuizAndTipsBlock?: Maybe<QuizAndTipsBlockEntityResponse>;
   createQuizSubService?: Maybe<QuizSubServiceEntityResponse>;
   createRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   createRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
+  createRequest?: Maybe<RequestEntityResponse>;
   createRequestService?: Maybe<RequestServiceEntityResponse>;
-  createRequestServiceForContract?: Maybe<RequestServiceEntity>;
   createSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   createServicesBlock?: Maybe<ServicesBlockEntityResponse>;
   createTag?: Maybe<TagEntityResponse>;
@@ -2237,21 +2972,32 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  createWasteForm?: Maybe<WasteFormEntityResponse>;
+  deleteAccessibility?: Maybe<AccessibilityEntityResponse>;
   deleteAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  deleteAlertNotification?: Maybe<AlertNotificationEntityResponse>;
+  deleteAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   deleteAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  deleteCgu?: Maybe<CguEntityResponse>;
   deleteCguSubService?: Maybe<CguSubServiceEntityResponse>;
   deleteChannelType?: Maybe<ChannelTypeEntityResponse>;
   deleteCity?: Maybe<CityEntityResponse>;
   deleteClient?: Maybe<ClientEntityResponse>;
   deleteClientType?: Maybe<ClientTypeEntityResponse>;
+  deleteConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   deleteConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  deleteContactUs?: Maybe<ContactUsEntityResponse>;
   deleteContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
+  deleteContent?: Maybe<Scalars["Boolean"]>;
   deleteContract?: Maybe<ContractEntityResponse>;
   deleteContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   deleteContractMenu?: Maybe<ContractMenuEntityResponse>;
+  deleteCookie?: Maybe<CookieEntityResponse>;
   deleteCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   deleteDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   deleteDocument?: Maybe<DocumentEntityResponse>;
+  deleteDropOffMap?: Maybe<DropOffMapEntityResponse>;
+  deleteDropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   deleteEditoBlock?: Maybe<EditoBlockEntityResponse>;
   deleteEditoContent?: Maybe<EditoContentEntityResponse>;
   deleteEditorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -2266,12 +3012,15 @@ export type Mutation = {
   deleteKeyMetric?: Maybe<KeyMetricEntityResponse>;
   deleteNew?: Maybe<NewEntityResponse>;
   deleteNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
+  deletePickUpDay?: Maybe<PickUpDayEntityResponse>;
+  deletePickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   deleteProfile?: Maybe<ProfileEntityResponse>;
   deleteQuiz?: Maybe<QuizEntityResponse>;
   deleteQuizAndTipsBlock?: Maybe<QuizAndTipsBlockEntityResponse>;
   deleteQuizSubService?: Maybe<QuizSubServiceEntityResponse>;
   deleteRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   deleteRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
+  deleteRequest?: Maybe<RequestEntityResponse>;
   deleteRequestService?: Maybe<RequestServiceEntityResponse>;
   deleteSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   deleteServicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -2288,6 +3037,8 @@ export type Mutation = {
   deleteUsersPermissionsRole?: Maybe<UsersPermissionsDeleteRolePayload>;
   /** Delete an existing user */
   deleteUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteWasteForm?: Maybe<WasteFormEntityResponse>;
+  duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
   /** Request a reset password token */
@@ -2299,21 +3050,30 @@ export type Mutation = {
   removeFile?: Maybe<UploadFileEntityResponse>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateAccessibility?: Maybe<AccessibilityEntityResponse>;
   updateAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
+  updateAlertNotification?: Maybe<AlertNotificationEntityResponse>;
+  updateAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   updateAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  updateCgu?: Maybe<CguEntityResponse>;
   updateCguSubService?: Maybe<CguSubServiceEntityResponse>;
   updateChannelType?: Maybe<ChannelTypeEntityResponse>;
   updateCity?: Maybe<CityEntityResponse>;
   updateClient?: Maybe<ClientEntityResponse>;
   updateClientType?: Maybe<ClientTypeEntityResponse>;
+  updateConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   updateConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
+  updateContactUs?: Maybe<ContactUsEntityResponse>;
   updateContactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   updateContract?: Maybe<ContractEntityResponse>;
   updateContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   updateContractMenu?: Maybe<ContractMenuEntityResponse>;
+  updateCookie?: Maybe<CookieEntityResponse>;
   updateCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   updateDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   updateDocument?: Maybe<DocumentEntityResponse>;
+  updateDropOffMap?: Maybe<DropOffMapEntityResponse>;
+  updateDropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   updateEditoBlock?: Maybe<EditoBlockEntityResponse>;
   updateEditoContent?: Maybe<EditoContentEntityResponse>;
   updateEditorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -2329,12 +3089,15 @@ export type Mutation = {
   updateKeyMetric?: Maybe<KeyMetricEntityResponse>;
   updateNew?: Maybe<NewEntityResponse>;
   updateNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
+  updatePickUpDay?: Maybe<PickUpDayEntityResponse>;
+  updatePickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   updateProfile?: Maybe<ProfileEntityResponse>;
   updateQuiz?: Maybe<QuizEntityResponse>;
   updateQuizAndTipsBlock?: Maybe<QuizAndTipsBlockEntityResponse>;
   updateQuizSubService?: Maybe<QuizSubServiceEntityResponse>;
   updateRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   updateRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
+  updateRequest?: Maybe<RequestEntityResponse>;
   updateRequestService?: Maybe<RequestServiceEntityResponse>;
   updateSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   updateServicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -2351,6 +3114,7 @@ export type Mutation = {
   updateUsersPermissionsRole?: Maybe<UsersPermissionsUpdateRolePayload>;
   /** Update an existing user */
   updateUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  updateWasteForm?: Maybe<WasteFormEntityResponse>;
   upload: UploadFileEntityResponse;
 };
 
@@ -2372,12 +3136,37 @@ export type MutationChangePasswordArgs = {
   passwordConfirmation: Scalars["String"];
 };
 
+export type MutationChannelsActivationArgs = {
+  contractId: Scalars["ID"];
+  typeActivation: Scalars["String"];
+};
+
+export type MutationCheckUnpublishedDateArgs = {
+  date?: InputMaybe<Scalars["String"]>;
+};
+
+export type MutationCreateAccessibilityArgs = {
+  data: AccessibilityInput;
+};
+
 export type MutationCreateAccessibilitySubServiceArgs = {
   data: AccessibilitySubServiceInput;
 };
 
+export type MutationCreateAlertNotificationArgs = {
+  data: AlertNotificationInput;
+};
+
+export type MutationCreateAlertNotificationServiceArgs = {
+  data: AlertNotificationServiceInput;
+};
+
 export type MutationCreateAudienceTypeArgs = {
   data: AudienceTypeInput;
+};
+
+export type MutationCreateCguArgs = {
+  data: CguInput;
 };
 
 export type MutationCreateCguSubServiceArgs = {
@@ -2400,8 +3189,16 @@ export type MutationCreateClientTypeArgs = {
   data: ClientTypeInput;
 };
 
+export type MutationCreateConfidentialityArgs = {
+  data: ConfidentialityInput;
+};
+
 export type MutationCreateConfidentialitySubServiceArgs = {
   data: ConfidentialitySubServiceInput;
+};
+
+export type MutationCreateContactUsArgs = {
+  data: ContactUsInput;
 };
 
 export type MutationCreateContactUsSubServiceArgs = {
@@ -2426,6 +3223,10 @@ export type MutationCreateContractMenuArgs = {
   data: ContractMenuInput;
 };
 
+export type MutationCreateCookieArgs = {
+  data: CookieInput;
+};
+
 export type MutationCreateCookiesSubServiceArgs = {
   data: CookiesSubServiceInput;
 };
@@ -2438,6 +3239,14 @@ export type MutationCreateDocumentArgs = {
   data: DocumentInput;
 };
 
+export type MutationCreateDropOffMapArgs = {
+  data: DropOffMapInput;
+};
+
+export type MutationCreateDropOffMapServiceArgs = {
+  data: DropOffMapServiceInput;
+};
+
 export type MutationCreateEditoBlockArgs = {
   data: EditoBlockInput;
 };
@@ -2448,13 +3257,6 @@ export type MutationCreateEditoContentArgs = {
 
 export type MutationCreateEditorialServiceArgs = {
   data: EditorialServiceInput;
-};
-
-export type MutationCreateEditorialServiceForContractArgs = {
-  contractId?: InputMaybe<Scalars["ID"]>;
-  endDate?: InputMaybe<Scalars["DateTime"]>;
-  name?: InputMaybe<Scalars["String"]>;
-  startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type MutationCreateEmptyContractArgs = {
@@ -2512,6 +3314,14 @@ export type MutationCreateNewsSubServiceArgs = {
   data: NewsSubServiceInput;
 };
 
+export type MutationCreatePickUpDayArgs = {
+  data: PickUpDayInput;
+};
+
+export type MutationCreatePickUpDayServiceArgs = {
+  data: PickUpDayServiceInput;
+};
+
 export type MutationCreateProfileArgs = {
   data: ProfileInput;
 };
@@ -2536,14 +3346,12 @@ export type MutationCreateRecyclingGuideServiceArgs = {
   data: RecyclingGuideServiceInput;
 };
 
-export type MutationCreateRequestServiceArgs = {
-  data: RequestServiceInput;
+export type MutationCreateRequestArgs = {
+  data: RequestInput;
 };
 
-export type MutationCreateRequestServiceForContractArgs = {
-  contractId?: InputMaybe<Scalars["ID"]>;
-  endDate?: InputMaybe<Scalars["Date"]>;
-  startDate?: InputMaybe<Scalars["Date"]>;
+export type MutationCreateRequestServiceArgs = {
+  data: RequestServiceInput;
 };
 
 export type MutationCreateSearchEngineBlockArgs = {
@@ -2598,11 +3406,31 @@ export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
 };
 
+export type MutationCreateWasteFormArgs = {
+  data: WasteFormInput;
+};
+
+export type MutationDeleteAccessibilityArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteAccessibilitySubServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteAlertNotificationArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteAlertNotificationServiceArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteAudienceTypeArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteCguArgs = {
   id: Scalars["ID"];
 };
 
@@ -2626,12 +3454,25 @@ export type MutationDeleteClientTypeArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteConfidentialityArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteConfidentialitySubServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteContactUsArgs = {
   id: Scalars["ID"];
 };
 
 export type MutationDeleteContactUsSubServiceArgs = {
   id: Scalars["ID"];
+};
+
+export type MutationDeleteContentArgs = {
+  id: Scalars["ID"];
+  type?: InputMaybe<Scalars["String"]>;
 };
 
 export type MutationDeleteContractArgs = {
@@ -2646,6 +3487,10 @@ export type MutationDeleteContractMenuArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteCookieArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteCookiesSubServiceArgs = {
   id: Scalars["ID"];
 };
@@ -2655,6 +3500,14 @@ export type MutationDeleteDescriptionServiceArgs = {
 };
 
 export type MutationDeleteDocumentArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteDropOffMapArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteDropOffMapServiceArgs = {
   id: Scalars["ID"];
 };
 
@@ -2710,6 +3563,14 @@ export type MutationDeleteNewsSubServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeletePickUpDayArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeletePickUpDayServiceArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteProfileArgs = {
   id: Scalars["ID"];
 };
@@ -2731,6 +3592,10 @@ export type MutationDeleteRecyclingGuideBlockArgs = {
 };
 
 export type MutationDeleteRecyclingGuideServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteRequestArgs = {
   id: Scalars["ID"];
 };
 
@@ -2790,6 +3655,15 @@ export type MutationDeleteUsersPermissionsUserArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteWasteFormArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDuplicateContentArgs = {
+  id: Scalars["ID"];
+  type?: InputMaybe<Scalars["String"]>;
+};
+
 export type MutationEmailConfirmationArgs = {
   confirmation: Scalars["String"];
 };
@@ -2823,13 +3697,33 @@ export type MutationResetPasswordArgs = {
   passwordConfirmation: Scalars["String"];
 };
 
+export type MutationUpdateAccessibilityArgs = {
+  data: AccessibilityInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateAccessibilitySubServiceArgs = {
   data: AccessibilitySubServiceInput;
   id: Scalars["ID"];
 };
 
+export type MutationUpdateAlertNotificationArgs = {
+  data: AlertNotificationInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateAlertNotificationServiceArgs = {
+  data: AlertNotificationServiceInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateAudienceTypeArgs = {
   data: AudienceTypeInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateCguArgs = {
+  data: CguInput;
   id: Scalars["ID"];
 };
 
@@ -2858,8 +3752,18 @@ export type MutationUpdateClientTypeArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateConfidentialityArgs = {
+  data: ConfidentialityInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateConfidentialitySubServiceArgs = {
   data: ConfidentialitySubServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateContactUsArgs = {
+  data: ContactUsInput;
   id: Scalars["ID"];
 };
 
@@ -2883,6 +3787,11 @@ export type MutationUpdateContractMenuArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateCookieArgs = {
+  data: CookieInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateCookiesSubServiceArgs = {
   data: CookiesSubServiceInput;
   id: Scalars["ID"];
@@ -2895,6 +3804,16 @@ export type MutationUpdateDescriptionServiceArgs = {
 
 export type MutationUpdateDocumentArgs = {
   data: DocumentInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateDropOffMapArgs = {
+  data: DropOffMapInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateDropOffMapServiceArgs = {
+  data: DropOffMapServiceInput;
   id: Scalars["ID"];
 };
 
@@ -2972,6 +3891,16 @@ export type MutationUpdateNewsSubServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdatePickUpDayArgs = {
+  data: PickUpDayInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdatePickUpDayServiceArgs = {
+  data: PickUpDayServiceInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateProfileArgs = {
   data: ProfileInput;
   id: Scalars["ID"];
@@ -2999,6 +3928,11 @@ export type MutationUpdateRecyclingGuideBlockArgs = {
 
 export type MutationUpdateRecyclingGuideServiceArgs = {
   data: RecyclingGuideServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateRequestArgs = {
+  data: RequestInput;
   id: Scalars["ID"];
 };
 
@@ -3072,6 +4006,11 @@ export type MutationUpdateUsersPermissionsUserArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateWasteFormArgs = {
+  data: WasteFormInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUploadArgs = {
   field?: InputMaybe<Scalars["String"]>;
   file: Scalars["Upload"];
@@ -3086,15 +4025,19 @@ export type New = {
   blocks?: Maybe<Array<Maybe<NewBlocksDynamicZone>>>;
   channels?: Maybe<ChannelTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
   image: UploadFileEntityResponse;
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_New_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   topContent?: Maybe<TopContentEntityResponse>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type NewAudiencesArgs = {
@@ -3147,31 +4090,39 @@ export type NewFiltersInput = {
   audiences?: InputMaybe<AudienceTypeFiltersInput>;
   channels?: InputMaybe<ChannelTypeFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   editoContent?: InputMaybe<EditoContentFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   newsSubService?: InputMaybe<NewsSubServiceFiltersInput>;
   not?: InputMaybe<NewFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<NewFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   topContent?: InputMaybe<TopContentFiltersInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type NewInput = {
   audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   blocks?: InputMaybe<Array<Scalars["NewBlocksDynamicZoneInput"]>>;
   channels?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  customId?: InputMaybe<Scalars["String"]>;
   editoContent?: InputMaybe<Scalars["ID"]>;
   image?: InputMaybe<Scalars["ID"]>;
   newsSubService?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_New_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   topContent?: InputMaybe<Scalars["ID"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type NewRelationResponseCollection = {
@@ -3200,7 +4151,6 @@ export type NewsSubServiceAudienceTypesArgs = {
 export type NewsSubServiceNewsArgs = {
   filters?: InputMaybe<NewFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3260,6 +4210,136 @@ export type PaginationArg = {
   start?: InputMaybe<Scalars["Int"]>;
 };
 
+export type PickUpDay = {
+  __typename?: "PickUpDay";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type PickUpDayEntity = {
+  __typename?: "PickUpDayEntity";
+  attributes?: Maybe<PickUpDay>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type PickUpDayEntityResponse = {
+  __typename?: "PickUpDayEntityResponse";
+  data?: Maybe<PickUpDayEntity>;
+};
+
+export type PickUpDayEntityResponseCollection = {
+  __typename?: "PickUpDayEntityResponseCollection";
+  data: Array<PickUpDayEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type PickUpDayFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<PickUpDayFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type PickUpDayInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type PickUpDayRelationResponseCollection = {
+  __typename?: "PickUpDayRelationResponseCollection";
+  data: Array<PickUpDayEntity>;
+};
+
+export type PickUpDayService = {
+  __typename?: "PickUpDayService";
+  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  channelType?: Maybe<ChannelTypeEntityResponse>;
+  cities?: Maybe<CityRelationResponseCollection>;
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  isActivated: Scalars["Boolean"];
+  name?: Maybe<Scalars["String"]>;
+  pickUpDays?: Maybe<PickUpDayRelationResponseCollection>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type PickUpDayServiceAudienceTypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type PickUpDayServiceCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type PickUpDayServicePickUpDaysArgs = {
+  filters?: InputMaybe<PickUpDayFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type PickUpDayServiceEntity = {
+  __typename?: "PickUpDayServiceEntity";
+  attributes?: Maybe<PickUpDayService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type PickUpDayServiceEntityResponse = {
+  __typename?: "PickUpDayServiceEntityResponse";
+  data?: Maybe<PickUpDayServiceEntity>;
+};
+
+export type PickUpDayServiceEntityResponseCollection = {
+  __typename?: "PickUpDayServiceEntityResponseCollection";
+  data: Array<PickUpDayServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type PickUpDayServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<PickUpDayServiceFiltersInput>>>;
+  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  channelType?: InputMaybe<ChannelTypeFiltersInput>;
+  cities?: InputMaybe<CityFiltersInput>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  endDate?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<PickUpDayServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<PickUpDayServiceFiltersInput>>>;
+  pickUpDays?: InputMaybe<PickUpDayFiltersInput>;
+  startDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type PickUpDayServiceInput = {
+  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  channelType?: InputMaybe<Scalars["ID"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  contract?: InputMaybe<Scalars["ID"]>;
+  endDate?: InputMaybe<Scalars["DateTime"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  pickUpDays?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  startDate?: InputMaybe<Scalars["DateTime"]>;
+};
+
 export type Profile = {
   __typename?: "Profile";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -3305,12 +4385,20 @@ export enum PublicationState {
 
 export type Query = {
   __typename?: "Query";
+  accessibilities?: Maybe<AccessibilityEntityResponseCollection>;
+  accessibility?: Maybe<AccessibilityEntityResponse>;
   accessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   accessibilitySubServices?: Maybe<AccessibilitySubServiceEntityResponseCollection>;
+  alertNotification?: Maybe<AlertNotificationEntityResponse>;
+  alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
+  alertNotificationServices?: Maybe<AlertNotificationServiceEntityResponseCollection>;
+  alertNotifications?: Maybe<AlertNotificationEntityResponseCollection>;
   audienceType?: Maybe<AudienceTypeEntityResponse>;
   audienceTypes?: Maybe<AudienceTypeEntityResponseCollection>;
+  cgu?: Maybe<CguEntityResponse>;
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   cguSubServices?: Maybe<CguSubServiceEntityResponseCollection>;
+  cgus?: Maybe<CguEntityResponseCollection>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
   channelTypes?: Maybe<ChannelTypeEntityResponseCollection>;
   cities?: Maybe<CityEntityResponseCollection>;
@@ -3319,16 +4407,22 @@ export type Query = {
   clientType?: Maybe<ClientTypeEntityResponse>;
   clientTypes?: Maybe<ClientTypeEntityResponseCollection>;
   clients?: Maybe<ClientEntityResponseCollection>;
+  confidentialities?: Maybe<ConfidentialityEntityResponseCollection>;
+  confidentiality?: Maybe<ConfidentialityEntityResponse>;
   confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
   confidentialitySubServices?: Maybe<ConfidentialitySubServiceEntityResponseCollection>;
+  contactUs?: Maybe<ContactUsEntityResponse>;
   contactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   contactUsSubServices?: Maybe<ContactUsSubServiceEntityResponseCollection>;
+  contactUses?: Maybe<ContactUsEntityResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractCustomizations?: Maybe<ContractCustomizationEntityResponseCollection>;
   contractMenu?: Maybe<ContractMenuEntityResponse>;
   contractMenus?: Maybe<ContractMenuEntityResponseCollection>;
   contracts?: Maybe<ContractEntityResponseCollection>;
+  cookie?: Maybe<CookieEntityResponse>;
+  cookies?: Maybe<CookieEntityResponseCollection>;
   cookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   cookiesSubServices?: Maybe<CookiesSubServiceEntityResponseCollection>;
   countContentPerTag?: Maybe<Array<Maybe<TotalCountPerTag>>>;
@@ -3336,6 +4430,10 @@ export type Query = {
   descriptionServices?: Maybe<DescriptionServiceEntityResponseCollection>;
   document?: Maybe<DocumentEntityResponse>;
   documents?: Maybe<DocumentEntityResponseCollection>;
+  dropOffMap?: Maybe<DropOffMapEntityResponse>;
+  dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
+  dropOffMapServices?: Maybe<DropOffMapServiceEntityResponseCollection>;
+  dropOffMaps?: Maybe<DropOffMapEntityResponseCollection>;
   editoBlock?: Maybe<EditoBlockEntityResponse>;
   editoBlocks?: Maybe<EditoBlockEntityResponseCollection>;
   editoContent?: Maybe<EditoContentEntityResponse>;
@@ -3375,6 +4473,10 @@ export type Query = {
   news?: Maybe<NewEntityResponseCollection>;
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
   newsSubServices?: Maybe<NewsSubServiceEntityResponseCollection>;
+  pickUpDay?: Maybe<PickUpDayEntityResponse>;
+  pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
+  pickUpDayServices?: Maybe<PickUpDayServiceEntityResponseCollection>;
+  pickUpDays?: Maybe<PickUpDayEntityResponseCollection>;
   profile?: Maybe<ProfileEntityResponse>;
   profiles?: Maybe<ProfileEntityResponseCollection>;
   quiz?: Maybe<QuizEntityResponse>;
@@ -3387,8 +4489,10 @@ export type Query = {
   recyclingGuideBlocks?: Maybe<RecyclingGuideBlockEntityResponseCollection>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   recyclingGuideServices?: Maybe<RecyclingGuideServiceEntityResponseCollection>;
+  request?: Maybe<RequestEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
   requestServices?: Maybe<RequestServiceEntityResponseCollection>;
+  requests?: Maybe<RequestEntityResponseCollection>;
   searchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   searchEngineBlocks?: Maybe<SearchEngineBlockEntityResponseCollection>;
   servicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -3415,6 +4519,18 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+  wasteForm?: Maybe<WasteFormEntityResponse>;
+  wasteForms?: Maybe<WasteFormEntityResponseCollection>;
+};
+
+export type QueryAccessibilitiesArgs = {
+  filters?: InputMaybe<AccessibilityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryAccessibilityArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type QueryAccessibilitySubServiceArgs = {
@@ -3424,6 +4540,27 @@ export type QueryAccessibilitySubServiceArgs = {
 export type QueryAccessibilitySubServicesArgs = {
   filters?: InputMaybe<AccessibilitySubServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryAlertNotificationArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryAlertNotificationServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryAlertNotificationServicesArgs = {
+  filters?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryAlertNotificationsArgs = {
+  filters?: InputMaybe<AlertNotificationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3437,12 +4574,22 @@ export type QueryAudienceTypesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryCguArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryCguSubServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type QueryCguSubServicesArgs = {
   filters?: InputMaybe<CguSubServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCgusArgs = {
+  filters?: InputMaybe<CguFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -3487,6 +4634,17 @@ export type QueryClientsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryConfidentialitiesArgs = {
+  filters?: InputMaybe<ConfidentialityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryConfidentialityArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryConfidentialitySubServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -3497,12 +4655,22 @@ export type QueryConfidentialitySubServicesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryContactUsArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryContactUsSubServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type QueryContactUsSubServicesArgs = {
   filters?: InputMaybe<ContactUsSubServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryContactUsesArgs = {
+  filters?: InputMaybe<ContactUsFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -3533,6 +4701,16 @@ export type QueryContractMenusArgs = {
 
 export type QueryContractsArgs = {
   filters?: InputMaybe<ContractFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCookieArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryCookiesArgs = {
+  filters?: InputMaybe<CookieFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -3568,6 +4746,27 @@ export type QueryDocumentArgs = {
 export type QueryDocumentsArgs = {
   filters?: InputMaybe<DocumentFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryDropOffMapArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryDropOffMapServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryDropOffMapServicesArgs = {
+  filters?: InputMaybe<DropOffMapServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryDropOffMapsArgs = {
+  filters?: InputMaybe<DropOffMapFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3628,7 +4827,6 @@ export type QueryEventSubServicesArgs = {
 export type QueryEventsArgs = {
   filters?: InputMaybe<EventFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3659,7 +4857,6 @@ export type QueryFreeContentSubServicesArgs = {
 export type QueryFreeContentsArgs = {
   filters?: InputMaybe<FreeContentFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3674,10 +4871,12 @@ export type QueryGetContentTypeDtOsArgs = {
 
 export type QueryGetEditoBlockDtoArgs = {
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Editocontentdto_Status>;
 };
 
 export type QueryGetEditoContentDtOsArgs = {
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Editocontentdto_Status>;
 };
 
 export type QueryGetNewestTopContentsArgs = {
@@ -3686,10 +4885,12 @@ export type QueryGetNewestTopContentsArgs = {
 
 export type QueryGetTopContentBlockDtoArgs = {
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Topcontentdto_Status>;
 };
 
 export type QueryGetTopContentDtOsArgs = {
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Topcontentdto_Status>;
 };
 
 export type QueryHomepageArgs = {
@@ -3739,7 +4940,6 @@ export type QueryNewArgs = {
 export type QueryNewsArgs = {
   filters?: InputMaybe<NewFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3750,6 +4950,27 @@ export type QueryNewsSubServiceArgs = {
 export type QueryNewsSubServicesArgs = {
   filters?: InputMaybe<NewsSubServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryPickUpDayArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryPickUpDayServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryPickUpDayServicesArgs = {
+  filters?: InputMaybe<PickUpDayServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryPickUpDaysArgs = {
+  filters?: InputMaybe<PickUpDayFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3790,7 +5011,6 @@ export type QueryQuizSubServicesArgs = {
 export type QueryQuizzesArgs = {
   filters?: InputMaybe<QuizFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3814,6 +5034,10 @@ export type QueryRecyclingGuideServicesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryRequestArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryRequestServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -3821,6 +5045,13 @@ export type QueryRequestServiceArgs = {
 export type QueryRequestServicesArgs = {
   filters?: InputMaybe<RequestServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryRequestsArgs = {
+  filters?: InputMaybe<RequestFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3891,7 +5122,6 @@ export type QueryTipSubServicesArgs = {
 export type QueryTipsArgs = {
   filters?: InputMaybe<TipFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -3955,15 +5185,28 @@ export type QueryUsersPermissionsUsersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryWasteFormArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryWasteFormsArgs = {
+  filters?: InputMaybe<WasteFormFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type Quiz = {
   __typename?: "Quiz";
   createdAt?: Maybe<Scalars["DateTime"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   quizSubService?: Maybe<QuizSubServiceEntityResponse>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Quiz_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title?: Maybe<Scalars["String"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -3989,7 +5232,6 @@ export type QuizAndTipsBlock = {
 export type QuizAndTipsBlockTipsArgs = {
   filters?: InputMaybe<TipFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4060,21 +5302,25 @@ export type QuizFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<QuizFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<QuizFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   quizSubService?: InputMaybe<QuizSubServiceFiltersInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type QuizInput = {
   editoContent?: InputMaybe<Scalars["ID"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   quizSubService?: InputMaybe<Scalars["ID"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Quiz_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type QuizRelationResponseCollection = {
@@ -4103,7 +5349,6 @@ export type QuizSubServiceAudienceTypesArgs = {
 export type QuizSubServiceQuizzesArgs = {
   filters?: InputMaybe<QuizFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4216,6 +5461,7 @@ export type RecyclingGuideService = {
   name?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  wasteForms?: Maybe<WasteFormRelationResponseCollection>;
 };
 
 export type RecyclingGuideServiceAudienceTypesArgs = {
@@ -4227,6 +5473,13 @@ export type RecyclingGuideServiceAudienceTypesArgs = {
 export type RecyclingGuideServiceCitiesArgs = {
   filters?: InputMaybe<CityFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type RecyclingGuideServiceWasteFormsArgs = {
+  filters?: InputMaybe<WasteFormFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4262,6 +5515,7 @@ export type RecyclingGuideServiceFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<RecyclingGuideServiceFiltersInput>>>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  wasteForms?: InputMaybe<WasteFormFiltersInput>;
 };
 
 export type RecyclingGuideServiceInput = {
@@ -4273,6 +5527,33 @@ export type RecyclingGuideServiceInput = {
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
+  wasteForms?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type Request = {
+  __typename?: "Request";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type RequestEntity = {
+  __typename?: "RequestEntity";
+  attributes?: Maybe<Request>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type RequestEntityResponse = {
+  __typename?: "RequestEntityResponse";
+  data?: Maybe<RequestEntity>;
+};
+
+export type RequestEntityResponseCollection = {
+  __typename?: "RequestEntityResponseCollection";
+  data: Array<RequestEntity>;
+  meta: ResponseCollectionMeta;
 };
 
 export type RequestFile = {
@@ -4281,12 +5562,25 @@ export type RequestFile = {
 
 export type RequestFileOrFolder = Files | Folders;
 
+export type RequestFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<RequestFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
 export type RequestFolder = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type RequestFolderEntity = {
   __typename?: "RequestFolderEntity";
+  id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
   path?: Maybe<Scalars["String"]>;
   pathId?: Maybe<Scalars["ID"]>;
@@ -4300,6 +5594,17 @@ export type RequestFolders = {
   pathId?: Maybe<Scalars["String"]>;
 };
 
+export type RequestInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type RequestRelationResponseCollection = {
+  __typename?: "RequestRelationResponseCollection";
+  data: Array<RequestEntity>;
+};
+
 export type RequestService = {
   __typename?: "RequestService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
@@ -4310,6 +5615,7 @@ export type RequestService = {
   endDate?: Maybe<Scalars["DateTime"]>;
   isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
+  requests?: Maybe<RequestRelationResponseCollection>;
   startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -4326,11 +5632,17 @@ export type RequestServiceCitiesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type RequestServiceRequestsArgs = {
+  filters?: InputMaybe<RequestFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type RequestServiceEntity = {
   __typename?: "RequestServiceEntity";
   attributes?: Maybe<RequestService>;
   id?: Maybe<Scalars["ID"]>;
-  serviceId?: Maybe<Scalars["ID"]>;
 };
 
 export type RequestServiceEntityResponse = {
@@ -4357,6 +5669,7 @@ export type RequestServiceFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RequestServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestServiceFiltersInput>>>;
+  requests?: InputMaybe<RequestFiltersInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -4369,6 +5682,7 @@ export type RequestServiceInput = {
   endDate?: InputMaybe<Scalars["DateTime"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
+  requests?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
@@ -4423,6 +5737,13 @@ export type SearchEngineBlockFiltersInput = {
 export type SearchEngineBlockInput = {
   homepage?: InputMaybe<Scalars["ID"]>;
   titleContent?: InputMaybe<Scalars["String"]>;
+};
+
+export type Service = {
+  __typename?: "Service";
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  serviceName?: Maybe<Scalars["String"]>;
 };
 
 export type ServicesBlock = {
@@ -4666,12 +5987,14 @@ export type Tip = {
   editoContent?: Maybe<EditoContentEntityResponse>;
   image: UploadFileEntityResponse;
   link?: Maybe<Scalars["String"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Tip_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   tipSubService?: Maybe<TipSubServiceEntityResponse>;
   title: Scalars["String"];
   titleLabel?: Maybe<Scalars["String"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -4717,12 +6040,14 @@ export type TipFiltersInput = {
   link?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<TipFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<TipFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   shortDescription?: InputMaybe<StringFilterInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   tipSubService?: InputMaybe<TipSubServiceFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   titleLabel?: InputMaybe<StringFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -4732,12 +6057,14 @@ export type TipInput = {
   image?: InputMaybe<Scalars["ID"]>;
   isSystem?: InputMaybe<Scalars["Boolean"]>;
   link?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Tip_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   tipSubService?: InputMaybe<Scalars["ID"]>;
   title?: InputMaybe<Scalars["String"]>;
   titleLabel?: InputMaybe<Scalars["String"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type TipRelationResponseCollection = {
@@ -4766,7 +6093,6 @@ export type TipSubServiceAudienceTypesArgs = {
 export type TipSubServiceTipsArgs = {
   filters?: InputMaybe<TipFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -4886,10 +6212,17 @@ export type TopContentBlockInput = {
 
 export type TopContentDto = {
   __typename?: "TopContentDTO";
-  attributes: Attributes;
+  attributes: TopContentDtoAttributes;
   contentType: Scalars["String"];
   id: Scalars["ID"];
   typeName: Scalars["String"];
+};
+
+export type TopContentDtoAttributes = {
+  __typename?: "TopContentDTOAttributes";
+  publishedDate?: Maybe<Scalars["DateTime"]>;
+  status?: Maybe<Enum_Topcontentdto_Status>;
+  title: Scalars["String"];
 };
 
 export type TopContentEntity = {
@@ -5309,6 +6642,55 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>;
 };
 
+export type WasteForm = {
+  __typename?: "WasteForm";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type WasteFormEntity = {
+  __typename?: "WasteFormEntity";
+  attributes?: Maybe<WasteForm>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type WasteFormEntityResponse = {
+  __typename?: "WasteFormEntityResponse";
+  data?: Maybe<WasteFormEntity>;
+};
+
+export type WasteFormEntityResponseCollection = {
+  __typename?: "WasteFormEntityResponseCollection";
+  data: Array<WasteFormEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type WasteFormFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<WasteFormFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type WasteFormInput = {
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type WasteFormRelationResponseCollection = {
+  __typename?: "WasteFormRelationResponseCollection";
+  data: Array<WasteFormEntity>;
+};
+
 export type TotalCountPerTag = {
   __typename?: "totalCountPerTag";
   count: Scalars["Int"];
@@ -5318,6 +6700,7 @@ export type TotalCountPerTag = {
 
 export type GetEditoBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Editocontentdto_Status>;
 }>;
 
 export type GetEditoBlockTabQuery = {
@@ -5333,9 +6716,10 @@ export type GetEditoBlockTabQuery = {
       contentType: string;
       typeName: string;
       attributes: {
-        __typename?: "Attributes";
+        __typename?: "EditoContentDTOAttributes";
         title: string;
-        publishedAt: any;
+        status?: Enum_Editocontentdto_Status | null;
+        publishedDate?: any | null;
       };
     } | null> | null;
   } | null;
@@ -5344,7 +6728,12 @@ export type GetEditoBlockTabQuery = {
     id: string;
     contentType: string;
     typeName: string;
-    attributes: { __typename?: "Attributes"; title: string; publishedAt: any };
+    attributes: {
+      __typename?: "EditoContentDTOAttributes";
+      title: string;
+      status?: Enum_Editocontentdto_Status | null;
+      publishedDate?: any | null;
+    };
   } | null> | null;
 };
 
@@ -5385,7 +6774,8 @@ export type GetQuizAndTipsBlockTabQuery = {
                         attributes?: {
                           __typename?: "Quiz";
                           title?: string | null;
-                          publishedAt?: any | null;
+                          status?: Enum_Quiz_Status | null;
+                          publishedDate?: any | null;
                         } | null;
                       } | null;
                     } | null;
@@ -5397,7 +6787,8 @@ export type GetQuizAndTipsBlockTabQuery = {
                         attributes?: {
                           __typename?: "Tip";
                           title: string;
-                          publishedAt?: any | null;
+                          status?: Enum_Tip_Status | null;
+                          publishedDate?: any | null;
                           image: {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
@@ -5440,7 +6831,8 @@ export type GetQuizAndTipsBlockTabQuery = {
             attributes?: {
               __typename?: "Quiz";
               title?: string | null;
-              publishedAt?: any | null;
+              status?: Enum_Quiz_Status | null;
+              publishedDate?: any | null;
             } | null;
           }>;
         } | null;
@@ -5461,7 +6853,8 @@ export type GetQuizAndTipsBlockTabQuery = {
             attributes?: {
               __typename?: "Tip";
               title: string;
-              publishedAt?: any | null;
+              status?: Enum_Tip_Status | null;
+              publishedDate?: any | null;
               image: {
                 __typename?: "UploadFileEntityResponse";
                 data?: {
@@ -5572,8 +6965,228 @@ export type GetSearchEngineTabQuery = {
   } | null;
 };
 
+export type GetServicesBlockTabQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetServicesBlockTabQuery = {
+  __typename?: "Query";
+  contractCustomizations?: {
+    __typename?: "ContractCustomizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractCustomizationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContractCustomization";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              servicesBlock?: {
+                __typename?: "ServicesBlockEntityResponse";
+                data?: {
+                  __typename?: "ServicesBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ServicesBlock";
+                    titleContent: string;
+                    serviceLinks?: Array<
+                      | {
+                          __typename?: "ComponentLinksCalendar";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksContactUs";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksEvents";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksExternal";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          externalLink?: string | null;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksFrees";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksMap";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksNews";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksQuizzes";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksRecycling";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksRequest";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksTips";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | { __typename?: "Error" }
+                      | null
+                    > | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetTopContentTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
+  status?: InputMaybe<Enum_Topcontentdto_Status>;
 }>;
 
 export type GetTopContentTabQuery = {
@@ -5591,18 +7204,24 @@ export type GetTopContentTabQuery = {
       contentType: string;
       typeName: string;
       attributes: {
-        __typename?: "Attributes";
+        __typename?: "TopContentDTOAttributes";
         title: string;
-        publishedAt: any;
+        status?: Enum_Topcontentdto_Status | null;
+        publishedDate?: any | null;
       };
     } | null;
   } | null;
   getTopContentDTOs?: Array<{
-    __typename: "TopContentDTO";
+    __typename?: "TopContentDTO";
     id: string;
     contentType: string;
     typeName: string;
-    attributes: { __typename?: "Attributes"; title: string; publishedAt: any };
+    attributes: {
+      __typename?: "TopContentDTOAttributes";
+      title: string;
+      status?: Enum_Topcontentdto_Status | null;
+      publishedDate?: any | null;
+    };
   } | null> | null;
 };
 
@@ -5711,6 +7330,226 @@ export type UpdateSearchEngineTabMutation = {
   } | null;
 };
 
+export type UpdateServicesBlockTabMutationVariables = Exact<{
+  updateServicesBlockId: Scalars["ID"];
+  data: ServicesBlockInput;
+}>;
+
+export type UpdateServicesBlockTabMutation = {
+  __typename?: "Mutation";
+  updateServicesBlock?: {
+    __typename?: "ServicesBlockEntityResponse";
+    data?: {
+      __typename?: "ServicesBlockEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ServicesBlock";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              servicesBlock?: {
+                __typename?: "ServicesBlockEntityResponse";
+                data?: {
+                  __typename?: "ServicesBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ServicesBlock";
+                    titleContent: string;
+                    serviceLinks?: Array<
+                      | {
+                          __typename?: "ComponentLinksCalendar";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksContactUs";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksEvents";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksExternal";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          externalLink?: string | null;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksFrees";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksMap";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksNews";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksQuizzes";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksRecycling";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksRequest";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: "ComponentLinksTips";
+                          id: string;
+                          name?: string | null;
+                          isDisplayed: boolean;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
+                      | { __typename?: "Error" }
+                      | null
+                    > | null;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type UpdateTopContentTabMutationVariables = Exact<{
   updateTopContentBlockId: Scalars["ID"];
   data: TopContentBlockInput;
@@ -5752,7 +7591,6 @@ export type UpdateTopContentTabMutation = {
                               __typename?: "EventEntity";
                               attributes?: {
                                 __typename?: "Event";
-                                publishedAt?: any | null;
                                 title: string;
                               } | null;
                             } | null;
@@ -5764,7 +7602,6 @@ export type UpdateTopContentTabMutation = {
                               attributes?: {
                                 __typename?: "New";
                                 title: string;
-                                publishedAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -5777,6 +7614,365 @@ export type UpdateTopContentTabMutation = {
             } | null;
           } | null;
         } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type DeleteNewMutationVariables = Exact<{
+  deleteNewId: Scalars["ID"];
+}>;
+
+export type DeleteNewMutation = {
+  __typename?: "Mutation";
+  deleteNew?: {
+    __typename?: "NewEntityResponse";
+    data?: {
+      __typename?: "NewEntity";
+      attributes?: {
+        __typename?: "New";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_New_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksTranscript";
+              id: string;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetNewsByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  statusFilter?: InputMaybe<StringFilterInput>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetNewsByContractIdQuery = {
+  __typename?: "Query";
+  newsCount?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountDraft?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountPublished?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountArchived?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  news?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "NewEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "New";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_New_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksTranscript";
+              id: string;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type CreateNewFolderMutationVariables = Exact<{
+  name: Scalars["String"];
+  parentFolderPath: Scalars["String"];
+  parentFolderPathId: Scalars["ID"];
+}>;
+
+export type CreateNewFolderMutation = {
+  __typename?: "Mutation";
+  createNewFolder?: {
+    __typename?: "RequestFolderEntity";
+    id?: string | null;
+    name?: string | null;
+    path?: string | null;
+    pathId?: string | null;
+  } | null;
+};
+
+export type GetAllFoldersHierarchyQueryVariables = Exact<{
+  path: Scalars["String"];
+  pathId: Scalars["String"];
+}>;
+
+export type GetAllFoldersHierarchyQuery = {
+  __typename?: "Query";
+  getAllFoldersHierarchy?: Array<{
+    __typename?: "RequestFolders";
+    id?: string | null;
+    name?: string | null;
+    path?: string | null;
+    pathId?: string | null;
+  } | null> | null;
+};
+
+export type GetFilesPaginationByFolderIdQueryVariables = Exact<{
+  filters?: InputMaybe<UploadFileFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetFilesPaginationByFolderIdQuery = {
+  __typename?: "Query";
+  uploadFiles?: {
+    __typename?: "UploadFileEntityResponseCollection";
+    data: Array<{
+      __typename?: "UploadFileEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "UploadFile";
+        name: string;
+        mime: string;
+        size: number;
+        width?: number | null;
+        height?: number | null;
+        createdAt?: any | null;
+        url: string;
+        ext?: string | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        total: number;
+        pageSize: number;
+        pageCount: number;
+        page: number;
+      };
+    };
+  } | null;
+};
+
+export type GetFolderAndChildrenByIdQueryVariables = Exact<{
+  filters?: InputMaybe<UploadFolderFiltersInput>;
+}>;
+
+export type GetFolderAndChildrenByIdQuery = {
+  __typename?: "Query";
+  uploadFolders?: {
+    __typename?: "UploadFolderEntityResponseCollection";
+    data: Array<{
+      __typename?: "UploadFolderEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "UploadFolder";
+        name: string;
+        pathId: number;
+        path: string;
+        files?: {
+          __typename?: "UploadFileRelationResponseCollection";
+          data: Array<{ __typename?: "UploadFileEntity"; id?: string | null }>;
+        } | null;
+        children?: {
+          __typename?: "UploadFolderRelationResponseCollection";
+          data: Array<{
+            __typename?: "UploadFolderEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFolder";
+              name: string;
+              pathId: number;
+              path: string;
+              files?: {
+                __typename?: "UploadFileRelationResponseCollection";
+                data: Array<{
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                }>;
+              } | null;
+              children?: {
+                __typename?: "UploadFolderRelationResponseCollection";
+                data: Array<{
+                  __typename?: "UploadFolderEntity";
+                  id?: string | null;
+                }>;
+              } | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateUploadFolderMutationVariables = Exact<{
+  updateUploadFolderId: Scalars["ID"];
+  data: UploadFolderInput;
+}>;
+
+export type UpdateUploadFolderMutation = {
+  __typename?: "Mutation";
+  updateUploadFolder?: {
+    __typename?: "UploadFolderEntityResponse";
+    data?: {
+      __typename?: "UploadFolderEntity";
+      attributes?: {
+        __typename?: "UploadFolder";
+        path: string;
+        pathId: number;
+        updatedAt?: any | null;
+        name: string;
       } | null;
     } | null;
   } | null;
@@ -5877,16 +8073,205 @@ export type GetContentTypeDtOsQuery = {
     subServiceId: string;
     type: string;
     name: string;
-    description: string;
+    description?: string | null;
   } | null> | null;
 };
 
-export type UpdateContentTypeMutationVariables = Exact<{
-  updateFreeContentSubServiceId: Scalars["ID"];
+export type UpdateContentTypeCookiesMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: CookiesSubServiceInput;
+}>;
+
+export type UpdateContentTypeCookiesMutation = {
+  __typename?: "Mutation";
+  updateCookiesSubService?: {
+    __typename?: "CookiesSubServiceEntityResponse";
+    data?: {
+      __typename?: "CookiesSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CookiesSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeAccessibilityMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: AccessibilitySubServiceInput;
+}>;
+
+export type UpdateContentTypeAccessibilityMutation = {
+  __typename?: "Mutation";
+  updateAccessibilitySubService?: {
+    __typename?: "AccessibilitySubServiceEntityResponse";
+    data?: {
+      __typename?: "AccessibilitySubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "AccessibilitySubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeContactUsMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: ContactUsSubServiceInput;
+}>;
+
+export type UpdateContentTypeContactUsMutation = {
+  __typename?: "Mutation";
+  updateContactUsSubService?: {
+    __typename?: "ContactUsSubServiceEntityResponse";
+    data?: {
+      __typename?: "ContactUsSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContactUsSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeCguMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: CguSubServiceInput;
+}>;
+
+export type UpdateContentTypeCguMutation = {
+  __typename?: "Mutation";
+  updateCguSubService?: {
+    __typename?: "CguSubServiceEntityResponse";
+    data?: {
+      __typename?: "CguSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CguSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeConfidentialityMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: ConfidentialitySubServiceInput;
+}>;
+
+export type UpdateContentTypeConfidentialityMutation = {
+  __typename?: "Mutation";
+  updateConfidentialitySubService?: {
+    __typename?: "ConfidentialitySubServiceEntityResponse";
+    data?: {
+      __typename?: "ConfidentialitySubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ConfidentialitySubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeNewsMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: NewsSubServiceInput;
+}>;
+
+export type UpdateContentTypeNewsMutation = {
+  __typename?: "Mutation";
+  updateNewsSubService?: {
+    __typename?: "NewsSubServiceEntityResponse";
+    data?: {
+      __typename?: "NewsSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "NewsSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeTipMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: TipSubServiceInput;
+}>;
+
+export type UpdateContentTypeTipMutation = {
+  __typename?: "Mutation";
+  updateTipSubService?: {
+    __typename?: "TipSubServiceEntityResponse";
+    data?: {
+      __typename?: "TipSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "TipSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeQuizMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: QuizSubServiceInput;
+}>;
+
+export type UpdateContentTypeQuizMutation = {
+  __typename?: "Mutation";
+  updateQuizSubService?: {
+    __typename?: "QuizSubServiceEntityResponse";
+    data?: {
+      __typename?: "QuizSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "QuizSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeEventMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
+  data: EventSubServiceInput;
+}>;
+
+export type UpdateContentTypeEventMutation = {
+  __typename?: "Mutation";
+  updateEventSubService?: {
+    __typename?: "EventSubServiceEntityResponse";
+    data?: {
+      __typename?: "EventSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "EventSubService";
+        name: string;
+        description?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContentTypeFreeContentMutationVariables = Exact<{
+  updateSubServiceId: Scalars["ID"];
   data: FreeContentSubServiceInput;
 }>;
 
-export type UpdateContentTypeMutation = {
+export type UpdateContentTypeFreeContentMutation = {
   __typename?: "Mutation";
   updateFreeContentSubService?: {
     __typename?: "FreeContentSubServiceEntityResponse";
@@ -6204,214 +8589,6 @@ export type GetServicesActiveQuery = {
   } | null;
 };
 
-export type GetServicesBlockTabQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetServicesBlockTabQuery = {
-  __typename?: "Query";
-  contractCustomizations?: {
-    __typename?: "ContractCustomizationEntityResponseCollection";
-    data: Array<{
-      __typename?: "ContractCustomizationEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "ContractCustomization";
-        homepage?: {
-          __typename?: "HomepageEntityResponse";
-          data?: {
-            __typename?: "HomepageEntity";
-            attributes?: {
-              __typename?: "Homepage";
-              servicesBlock?: {
-                __typename?: "ServicesBlockEntityResponse";
-                data?: {
-                  __typename?: "ServicesBlockEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "ServicesBlock";
-                    titleContent: string;
-                    serviceLinks?: Array<
-                      | {
-                          __typename?: "ComponentLinksCalendar";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksContactUs";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksEvents";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksExternal";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          externalLink?: string | null;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksFrees";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksMap";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksNews";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksQuizzes";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksRecycling";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksRequest";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksTips";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | { __typename?: "Error" }
-                      | null
-                    > | null;
-                  } | null;
-                } | null;
-              } | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    }>;
-  } | null;
-};
-
 export type GetMenuPageQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -6434,6 +8611,7 @@ export type GetMenuPageQuery = {
               serviceLinks?: Array<
                 | {
                     __typename?: "ComponentLinksCalendar";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6449,6 +8627,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksContactUs";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6464,6 +8643,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksEvents";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6479,6 +8659,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksExternal";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     externalLink?: string | null;
@@ -6495,6 +8676,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksFrees";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6510,6 +8692,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksMap";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6525,6 +8708,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksNews";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6540,6 +8724,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksQuizzes";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6555,6 +8740,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksRecycling";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6570,6 +8756,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksRequest";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6585,6 +8772,7 @@ export type GetMenuPageQuery = {
                   }
                 | {
                     __typename?: "ComponentLinksTips";
+                    id: string;
                     name?: string | null;
                     isDisplayed: boolean;
                     picto?: {
@@ -6625,6 +8813,7 @@ export type UpdateMenuPageMutation = {
         serviceLinks?: Array<
           | {
               __typename?: "ComponentLinksCalendar";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6640,6 +8829,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksContactUs";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6655,6 +8845,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksEvents";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6670,6 +8861,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksExternal";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               externalLink?: string | null;
@@ -6686,6 +8878,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksFrees";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6701,6 +8894,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksMap";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6716,6 +8910,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksNews";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6731,6 +8926,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksQuizzes";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6746,6 +8942,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksRecycling";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6761,6 +8958,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksRequest";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6776,6 +8974,7 @@ export type UpdateMenuPageMutation = {
             }
           | {
               __typename?: "ComponentLinksTips";
+              id: string;
               name?: string | null;
               isDisplayed: boolean;
               picto?: {
@@ -6797,218 +8996,12 @@ export type UpdateMenuPageMutation = {
   } | null;
 };
 
-export type UpdateServicesBlockTabMutationVariables = Exact<{
-  updateServicesBlockId: Scalars["ID"];
-  data: ServicesBlockInput;
-}>;
-
-export type UpdateServicesBlockTabMutation = {
-  __typename?: "Mutation";
-  updateServicesBlock?: {
-    __typename?: "ServicesBlockEntityResponse";
-    data?: {
-      __typename?: "ServicesBlockEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "ServicesBlock";
-        homepage?: {
-          __typename?: "HomepageEntityResponse";
-          data?: {
-            __typename?: "HomepageEntity";
-            attributes?: {
-              __typename?: "Homepage";
-              servicesBlock?: {
-                __typename?: "ServicesBlockEntityResponse";
-                data?: {
-                  __typename?: "ServicesBlockEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "ServicesBlock";
-                    titleContent: string;
-                    serviceLinks?: Array<
-                      | {
-                          __typename?: "ComponentLinksCalendar";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksContactUs";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksEvents";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksExternal";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          externalLink?: string | null;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksFrees";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksMap";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksNews";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksQuizzes";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksRecycling";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksRequest";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | {
-                          __typename?: "ComponentLinksTips";
-                          name?: string | null;
-                          isDisplayed: boolean;
-                          picto?: {
-                            __typename?: "UploadFileEntityResponse";
-                            data?: {
-                              __typename?: "UploadFileEntity";
-                              attributes?: {
-                                __typename?: "UploadFile";
-                                url: string;
-                              } | null;
-                            } | null;
-                          } | null;
-                        }
-                      | { __typename?: "Error" }
-                      | null
-                    > | null;
-                  } | null;
-                } | null;
-              } | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export const GetEditoBlockTabDocument = gql`
-  query getEditoBlockTab($contractId: ID!) {
-    getEditoBlockDTO(contractId: $contractId) {
+  query getEditoBlockTab(
+    $contractId: ID!
+    $status: ENUM_EDITOCONTENTDTO_STATUS
+  ) {
+    getEditoBlockDTO(contractId: $contractId, status: $status) {
       id
       displayBlock
       titleContent
@@ -7018,17 +9011,19 @@ export const GetEditoBlockTabDocument = gql`
         typeName
         attributes {
           title
-          publishedAt
+          status
+          publishedDate
         }
       }
     }
-    getEditoContentDTOs(contractId: $contractId) {
+    getEditoContentDTOs(contractId: $contractId, status: $status) {
       id
       contentType
       typeName
       attributes {
         title
-        publishedAt
+        status
+        publishedDate
       }
     }
   }
@@ -7047,6 +9042,7 @@ export const GetEditoBlockTabDocument = gql`
  * const { data, loading, error } = useGetEditoBlockTabQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      status: // value for 'status'
  *   },
  * });
  */
@@ -7104,7 +9100,8 @@ export const GetQuizAndTipsBlockTabDocument = gql`
                           id
                           attributes {
                             title
-                            publishedAt
+                            status
+                            publishedDate
                           }
                         }
                       }
@@ -7114,7 +9111,8 @@ export const GetQuizAndTipsBlockTabDocument = gql`
                           id
                           attributes {
                             title
-                            publishedAt
+                            status
+                            publishedDate
                             image {
                               data {
                                 attributes {
@@ -7150,7 +9148,8 @@ export const GetQuizAndTipsBlockTabDocument = gql`
               id
               attributes {
                 title
-                publishedAt
+                status
+                publishedDate
               }
             }
           }
@@ -7167,7 +9166,8 @@ export const GetQuizAndTipsBlockTabDocument = gql`
               id
               attributes {
                 title
-                publishedAt
+                status
+                publishedDate
                 image {
                   data {
                     attributes {
@@ -7399,9 +9399,220 @@ export type GetSearchEngineTabQueryResult = Apollo.QueryResult<
   GetSearchEngineTabQuery,
   GetSearchEngineTabQueryVariables
 >;
+export const GetServicesBlockTabDocument = gql`
+  query getServicesBlockTab($contractId: ID!) {
+    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          homepage {
+            data {
+              attributes {
+                servicesBlock {
+                  data {
+                    id
+                    attributes {
+                      titleContent
+                      serviceLinks {
+                        ... on ComponentLinksMap {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksCalendar {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksRecycling {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksRequest {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksContactUs {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksNews {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksEvents {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksQuizzes {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksTips {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksFrees {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksExternal {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                          externalLink
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetServicesBlockTabQuery__
+ *
+ * To run a query within a React component, call `useGetServicesBlockTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetServicesBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetServicesBlockTabQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetServicesBlockTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetServicesBlockTabQuery,
+    GetServicesBlockTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetServicesBlockTabQuery,
+    GetServicesBlockTabQueryVariables
+  >(GetServicesBlockTabDocument, options);
+}
+export function useGetServicesBlockTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetServicesBlockTabQuery,
+    GetServicesBlockTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetServicesBlockTabQuery,
+    GetServicesBlockTabQueryVariables
+  >(GetServicesBlockTabDocument, options);
+}
+export type GetServicesBlockTabQueryHookResult = ReturnType<
+  typeof useGetServicesBlockTabQuery
+>;
+export type GetServicesBlockTabLazyQueryHookResult = ReturnType<
+  typeof useGetServicesBlockTabLazyQuery
+>;
+export type GetServicesBlockTabQueryResult = Apollo.QueryResult<
+  GetServicesBlockTabQuery,
+  GetServicesBlockTabQueryVariables
+>;
 export const GetTopContentTabDocument = gql`
-  query getTopContentTab($contractId: ID!) {
-    getTopContentBlockDTO(contractId: $contractId) {
+  query getTopContentTab($contractId: ID!, $status: ENUM_TOPCONTENTDTO_STATUS) {
+    getTopContentBlockDTO(contractId: $contractId, status: $status) {
       id
       displayBlock
       displayLastThreeContents
@@ -7413,18 +9624,19 @@ export const GetTopContentTabDocument = gql`
         typeName
         attributes {
           title
-          publishedAt
+          status
+          publishedDate
         }
       }
     }
-    getTopContentDTOs(contractId: $contractId) {
-      __typename
+    getTopContentDTOs(contractId: $contractId, status: $status) {
       id
       contentType
       typeName
       attributes {
         title
-        publishedAt
+        status
+        publishedDate
       }
     }
   }
@@ -7443,6 +9655,7 @@ export const GetTopContentTabDocument = gql`
  * const { data, loading, error } = useGetTopContentTabQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      status: // value for 'status'
  *   },
  * });
  */
@@ -7742,6 +9955,213 @@ export type UpdateSearchEngineTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateSearchEngineTabMutation,
   UpdateSearchEngineTabMutationVariables
 >;
+export const UpdateServicesBlockTabDocument = gql`
+  mutation updateServicesBlockTab(
+    $updateServicesBlockId: ID!
+    $data: ServicesBlockInput!
+  ) {
+    updateServicesBlock(id: $updateServicesBlockId, data: $data) {
+      data {
+        id
+        attributes {
+          homepage {
+            data {
+              attributes {
+                servicesBlock {
+                  data {
+                    id
+                    attributes {
+                      titleContent
+                      serviceLinks {
+                        ... on ComponentLinksMap {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksCalendar {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksRecycling {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksRequest {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksContactUs {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksNews {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksEvents {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksQuizzes {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksTips {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksFrees {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksExternal {
+                          id
+                          name
+                          isDisplayed
+                          picto {
+                            data {
+                              attributes {
+                                url
+                              }
+                            }
+                          }
+                          externalLink
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateServicesBlockTabMutationFn = Apollo.MutationFunction<
+  UpdateServicesBlockTabMutation,
+  UpdateServicesBlockTabMutationVariables
+>;
+
+/**
+ * __useUpdateServicesBlockTabMutation__
+ *
+ * To run a mutation, you first call `useUpdateServicesBlockTabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateServicesBlockTabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateServicesBlockTabMutation, { data, loading, error }] = useUpdateServicesBlockTabMutation({
+ *   variables: {
+ *      updateServicesBlockId: // value for 'updateServicesBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateServicesBlockTabMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateServicesBlockTabMutation,
+    UpdateServicesBlockTabMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateServicesBlockTabMutation,
+    UpdateServicesBlockTabMutationVariables
+  >(UpdateServicesBlockTabDocument, options);
+}
+export type UpdateServicesBlockTabMutationHookResult = ReturnType<
+  typeof useUpdateServicesBlockTabMutation
+>;
+export type UpdateServicesBlockTabMutationResult =
+  Apollo.MutationResult<UpdateServicesBlockTabMutation>;
+export type UpdateServicesBlockTabMutationOptions = Apollo.BaseMutationOptions<
+  UpdateServicesBlockTabMutation,
+  UpdateServicesBlockTabMutationVariables
+>;
 export const UpdateTopContentTabDocument = gql`
   mutation updateTopContentTab(
     $updateTopContentBlockId: ID!
@@ -7765,7 +10185,6 @@ export const UpdateTopContentTabDocument = gql`
                             event {
                               data {
                                 attributes {
-                                  publishedAt
                                   title
                                 }
                               }
@@ -7774,7 +10193,6 @@ export const UpdateTopContentTabDocument = gql`
                               data {
                                 attributes {
                                   title
-                                  publishedAt
                                 }
                               }
                             }
@@ -7836,6 +10254,672 @@ export type UpdateTopContentTabMutationResult =
 export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateTopContentTabMutation,
   UpdateTopContentTabMutationVariables
+>;
+export const DeleteNewDocument = gql`
+  mutation deleteNew($deleteNewId: ID!) {
+    deleteNew(id: $deleteNewId) {
+      data {
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+            }
+            ... on ComponentBlocksTranscript {
+              id
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type DeleteNewMutationFn = Apollo.MutationFunction<
+  DeleteNewMutation,
+  DeleteNewMutationVariables
+>;
+
+/**
+ * __useDeleteNewMutation__
+ *
+ * To run a mutation, you first call `useDeleteNewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteNewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteNewMutation, { data, loading, error }] = useDeleteNewMutation({
+ *   variables: {
+ *      deleteNewId: // value for 'deleteNewId'
+ *   },
+ * });
+ */
+export function useDeleteNewMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteNewMutation,
+    DeleteNewMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteNewMutation, DeleteNewMutationVariables>(
+    DeleteNewDocument,
+    options,
+  );
+}
+export type DeleteNewMutationHookResult = ReturnType<
+  typeof useDeleteNewMutation
+>;
+export type DeleteNewMutationResult = Apollo.MutationResult<DeleteNewMutation>;
+export type DeleteNewMutationOptions = Apollo.BaseMutationOptions<
+  DeleteNewMutation,
+  DeleteNewMutationVariables
+>;
+export const GetNewsByContractIdDocument = gql`
+  query getNewsByContractId(
+    $contractId: ID!
+    $statusFilter: StringFilterInput
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    newsCount: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountDraft: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountPublished: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountArchived: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: $statusFilter
+      }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+            }
+            ... on ComponentBlocksTranscript {
+              id
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetNewsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetNewsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewsByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      statusFilter: // value for 'statusFilter'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetNewsByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetNewsByContractIdQuery,
+    GetNewsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetNewsByContractIdQuery,
+    GetNewsByContractIdQueryVariables
+  >(GetNewsByContractIdDocument, options);
+}
+export function useGetNewsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetNewsByContractIdQuery,
+    GetNewsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetNewsByContractIdQuery,
+    GetNewsByContractIdQueryVariables
+  >(GetNewsByContractIdDocument, options);
+}
+export type GetNewsByContractIdQueryHookResult = ReturnType<
+  typeof useGetNewsByContractIdQuery
+>;
+export type GetNewsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetNewsByContractIdLazyQuery
+>;
+export type GetNewsByContractIdQueryResult = Apollo.QueryResult<
+  GetNewsByContractIdQuery,
+  GetNewsByContractIdQueryVariables
+>;
+export const CreateNewFolderDocument = gql`
+  mutation createNewFolder(
+    $name: String!
+    $parentFolderPath: String!
+    $parentFolderPathId: ID!
+  ) {
+    createNewFolder(
+      name: $name
+      parentFolderPath: $parentFolderPath
+      parentFolderPathId: $parentFolderPathId
+    ) {
+      id
+      name
+      path
+      pathId
+    }
+  }
+`;
+export type CreateNewFolderMutationFn = Apollo.MutationFunction<
+  CreateNewFolderMutation,
+  CreateNewFolderMutationVariables
+>;
+
+/**
+ * __useCreateNewFolderMutation__
+ *
+ * To run a mutation, you first call `useCreateNewFolderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewFolderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewFolderMutation, { data, loading, error }] = useCreateNewFolderMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      parentFolderPath: // value for 'parentFolderPath'
+ *      parentFolderPathId: // value for 'parentFolderPathId'
+ *   },
+ * });
+ */
+export function useCreateNewFolderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateNewFolderMutation,
+    CreateNewFolderMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateNewFolderMutation,
+    CreateNewFolderMutationVariables
+  >(CreateNewFolderDocument, options);
+}
+export type CreateNewFolderMutationHookResult = ReturnType<
+  typeof useCreateNewFolderMutation
+>;
+export type CreateNewFolderMutationResult =
+  Apollo.MutationResult<CreateNewFolderMutation>;
+export type CreateNewFolderMutationOptions = Apollo.BaseMutationOptions<
+  CreateNewFolderMutation,
+  CreateNewFolderMutationVariables
+>;
+export const GetAllFoldersHierarchyDocument = gql`
+  query getAllFoldersHierarchy($path: String!, $pathId: String!) {
+    getAllFoldersHierarchy(path: $path, pathId: $pathId) {
+      id
+      name
+      path
+      pathId
+    }
+  }
+`;
+
+/**
+ * __useGetAllFoldersHierarchyQuery__
+ *
+ * To run a query within a React component, call `useGetAllFoldersHierarchyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllFoldersHierarchyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllFoldersHierarchyQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *      pathId: // value for 'pathId'
+ *   },
+ * });
+ */
+export function useGetAllFoldersHierarchyQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetAllFoldersHierarchyQuery,
+    GetAllFoldersHierarchyQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAllFoldersHierarchyQuery,
+    GetAllFoldersHierarchyQueryVariables
+  >(GetAllFoldersHierarchyDocument, options);
+}
+export function useGetAllFoldersHierarchyLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllFoldersHierarchyQuery,
+    GetAllFoldersHierarchyQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAllFoldersHierarchyQuery,
+    GetAllFoldersHierarchyQueryVariables
+  >(GetAllFoldersHierarchyDocument, options);
+}
+export type GetAllFoldersHierarchyQueryHookResult = ReturnType<
+  typeof useGetAllFoldersHierarchyQuery
+>;
+export type GetAllFoldersHierarchyLazyQueryHookResult = ReturnType<
+  typeof useGetAllFoldersHierarchyLazyQuery
+>;
+export type GetAllFoldersHierarchyQueryResult = Apollo.QueryResult<
+  GetAllFoldersHierarchyQuery,
+  GetAllFoldersHierarchyQueryVariables
+>;
+export const GetFilesPaginationByFolderIdDocument = gql`
+  query getFilesPaginationByFolderId(
+    $filters: UploadFileFiltersInput
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    uploadFiles(filters: $filters, pagination: $pagination, sort: $sort) {
+      data {
+        id
+        attributes {
+          name
+          mime
+          size
+          width
+          height
+          createdAt
+          url
+          ext
+        }
+      }
+      meta {
+        pagination {
+          total
+          pageSize
+          pageCount
+          page
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFilesPaginationByFolderIdQuery__
+ *
+ * To run a query within a React component, call `useGetFilesPaginationByFolderIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFilesPaginationByFolderIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFilesPaginationByFolderIdQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetFilesPaginationByFolderIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetFilesPaginationByFolderIdQuery,
+    GetFilesPaginationByFolderIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFilesPaginationByFolderIdQuery,
+    GetFilesPaginationByFolderIdQueryVariables
+  >(GetFilesPaginationByFolderIdDocument, options);
+}
+export function useGetFilesPaginationByFolderIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFilesPaginationByFolderIdQuery,
+    GetFilesPaginationByFolderIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFilesPaginationByFolderIdQuery,
+    GetFilesPaginationByFolderIdQueryVariables
+  >(GetFilesPaginationByFolderIdDocument, options);
+}
+export type GetFilesPaginationByFolderIdQueryHookResult = ReturnType<
+  typeof useGetFilesPaginationByFolderIdQuery
+>;
+export type GetFilesPaginationByFolderIdLazyQueryHookResult = ReturnType<
+  typeof useGetFilesPaginationByFolderIdLazyQuery
+>;
+export type GetFilesPaginationByFolderIdQueryResult = Apollo.QueryResult<
+  GetFilesPaginationByFolderIdQuery,
+  GetFilesPaginationByFolderIdQueryVariables
+>;
+export const GetFolderAndChildrenByIdDocument = gql`
+  query getFolderAndChildrenById($filters: UploadFolderFiltersInput) {
+    uploadFolders(filters: $filters) {
+      data {
+        id
+        attributes {
+          name
+          pathId
+          path
+          files {
+            data {
+              id
+            }
+          }
+          children {
+            data {
+              id
+              attributes {
+                name
+                pathId
+                path
+                files {
+                  data {
+                    id
+                  }
+                }
+                children {
+                  data {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFolderAndChildrenByIdQuery__
+ *
+ * To run a query within a React component, call `useGetFolderAndChildrenByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFolderAndChildrenByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFolderAndChildrenByIdQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetFolderAndChildrenByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetFolderAndChildrenByIdQuery,
+    GetFolderAndChildrenByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFolderAndChildrenByIdQuery,
+    GetFolderAndChildrenByIdQueryVariables
+  >(GetFolderAndChildrenByIdDocument, options);
+}
+export function useGetFolderAndChildrenByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFolderAndChildrenByIdQuery,
+    GetFolderAndChildrenByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFolderAndChildrenByIdQuery,
+    GetFolderAndChildrenByIdQueryVariables
+  >(GetFolderAndChildrenByIdDocument, options);
+}
+export type GetFolderAndChildrenByIdQueryHookResult = ReturnType<
+  typeof useGetFolderAndChildrenByIdQuery
+>;
+export type GetFolderAndChildrenByIdLazyQueryHookResult = ReturnType<
+  typeof useGetFolderAndChildrenByIdLazyQuery
+>;
+export type GetFolderAndChildrenByIdQueryResult = Apollo.QueryResult<
+  GetFolderAndChildrenByIdQuery,
+  GetFolderAndChildrenByIdQueryVariables
+>;
+export const UpdateUploadFolderDocument = gql`
+  mutation updateUploadFolder(
+    $updateUploadFolderId: ID!
+    $data: UploadFolderInput!
+  ) {
+    updateUploadFolder(id: $updateUploadFolderId, data: $data) {
+      data {
+        attributes {
+          path
+          pathId
+          updatedAt
+          name
+        }
+      }
+    }
+  }
+`;
+export type UpdateUploadFolderMutationFn = Apollo.MutationFunction<
+  UpdateUploadFolderMutation,
+  UpdateUploadFolderMutationVariables
+>;
+
+/**
+ * __useUpdateUploadFolderMutation__
+ *
+ * To run a mutation, you first call `useUpdateUploadFolderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUploadFolderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUploadFolderMutation, { data, loading, error }] = useUpdateUploadFolderMutation({
+ *   variables: {
+ *      updateUploadFolderId: // value for 'updateUploadFolderId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateUploadFolderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUploadFolderMutation,
+    UpdateUploadFolderMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateUploadFolderMutation,
+    UpdateUploadFolderMutationVariables
+  >(UpdateUploadFolderDocument, options);
+}
+export type UpdateUploadFolderMutationHookResult = ReturnType<
+  typeof useUpdateUploadFolderMutation
+>;
+export type UpdateUploadFolderMutationResult =
+  Apollo.MutationResult<UpdateUploadFolderMutation>;
+export type UpdateUploadFolderMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUploadFolderMutation,
+  UpdateUploadFolderMutationVariables
 >;
 export const CountContentPerTagDocument = gql`
   query countContentPerTag($contractId: ID!) {
@@ -8182,15 +11266,12 @@ export type GetContentTypeDtOsQueryResult = Apollo.QueryResult<
   GetContentTypeDtOsQuery,
   GetContentTypeDtOsQueryVariables
 >;
-export const UpdateContentTypeDocument = gql`
-  mutation updateContentType(
-    $updateFreeContentSubServiceId: ID!
-    $data: FreeContentSubServiceInput!
+export const UpdateContentTypeCookiesDocument = gql`
+  mutation updateContentTypeCookies(
+    $updateSubServiceId: ID!
+    $data: CookiesSubServiceInput!
   ) {
-    updateFreeContentSubService(
-      id: $updateFreeContentSubServiceId
-      data: $data
-    ) {
+    updateCookiesSubService(id: $updateSubServiceId, data: $data) {
       data {
         id
         attributes {
@@ -8201,50 +11282,596 @@ export const UpdateContentTypeDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeMutation,
-  UpdateContentTypeMutationVariables
+export type UpdateContentTypeCookiesMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeCookiesMutation,
+  UpdateContentTypeCookiesMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeMutation__
+ * __useUpdateContentTypeCookiesMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContentTypeCookiesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeCookiesMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeMutation, { data, loading, error }] = useUpdateContentTypeMutation({
+ * const [updateContentTypeCookiesMutation, { data, loading, error }] = useUpdateContentTypeCookiesMutation({
  *   variables: {
- *      updateFreeContentSubServiceId: // value for 'updateFreeContentSubServiceId'
+ *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeMutation(
+export function useUpdateContentTypeCookiesMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeMutation,
-    UpdateContentTypeMutationVariables
+    UpdateContentTypeCookiesMutation,
+    UpdateContentTypeCookiesMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeMutation,
-    UpdateContentTypeMutationVariables
-  >(UpdateContentTypeDocument, options);
+    UpdateContentTypeCookiesMutation,
+    UpdateContentTypeCookiesMutationVariables
+  >(UpdateContentTypeCookiesDocument, options);
 }
-export type UpdateContentTypeMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeMutation
+export type UpdateContentTypeCookiesMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeCookiesMutation
 >;
-export type UpdateContentTypeMutationResult =
-  Apollo.MutationResult<UpdateContentTypeMutation>;
-export type UpdateContentTypeMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContentTypeMutation,
-  UpdateContentTypeMutationVariables
+export type UpdateContentTypeCookiesMutationResult =
+  Apollo.MutationResult<UpdateContentTypeCookiesMutation>;
+export type UpdateContentTypeCookiesMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeCookiesMutation,
+    UpdateContentTypeCookiesMutationVariables
+  >;
+export const UpdateContentTypeAccessibilityDocument = gql`
+  mutation updateContentTypeAccessibility(
+    $updateSubServiceId: ID!
+    $data: AccessibilitySubServiceInput!
+  ) {
+    updateAccessibilitySubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeAccessibilityMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeAccessibilityMutation,
+  UpdateContentTypeAccessibilityMutationVariables
 >;
+
+/**
+ * __useUpdateContentTypeAccessibilityMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeAccessibilityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeAccessibilityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeAccessibilityMutation, { data, loading, error }] = useUpdateContentTypeAccessibilityMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeAccessibilityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeAccessibilityMutation,
+    UpdateContentTypeAccessibilityMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeAccessibilityMutation,
+    UpdateContentTypeAccessibilityMutationVariables
+  >(UpdateContentTypeAccessibilityDocument, options);
+}
+export type UpdateContentTypeAccessibilityMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeAccessibilityMutation
+>;
+export type UpdateContentTypeAccessibilityMutationResult =
+  Apollo.MutationResult<UpdateContentTypeAccessibilityMutation>;
+export type UpdateContentTypeAccessibilityMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeAccessibilityMutation,
+    UpdateContentTypeAccessibilityMutationVariables
+  >;
+export const UpdateContentTypeContactUsDocument = gql`
+  mutation updateContentTypeContactUs(
+    $updateSubServiceId: ID!
+    $data: ContactUsSubServiceInput!
+  ) {
+    updateContactUsSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeContactUsMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeContactUsMutation,
+  UpdateContentTypeContactUsMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeContactUsMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeContactUsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeContactUsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeContactUsMutation, { data, loading, error }] = useUpdateContentTypeContactUsMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeContactUsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeContactUsMutation,
+    UpdateContentTypeContactUsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeContactUsMutation,
+    UpdateContentTypeContactUsMutationVariables
+  >(UpdateContentTypeContactUsDocument, options);
+}
+export type UpdateContentTypeContactUsMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeContactUsMutation
+>;
+export type UpdateContentTypeContactUsMutationResult =
+  Apollo.MutationResult<UpdateContentTypeContactUsMutation>;
+export type UpdateContentTypeContactUsMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeContactUsMutation,
+    UpdateContentTypeContactUsMutationVariables
+  >;
+export const UpdateContentTypeCguDocument = gql`
+  mutation updateContentTypeCGU(
+    $updateSubServiceId: ID!
+    $data: CguSubServiceInput!
+  ) {
+    updateCguSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeCguMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeCguMutation,
+  UpdateContentTypeCguMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeCguMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeCguMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeCguMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeCguMutation, { data, loading, error }] = useUpdateContentTypeCguMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeCguMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeCguMutation,
+    UpdateContentTypeCguMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeCguMutation,
+    UpdateContentTypeCguMutationVariables
+  >(UpdateContentTypeCguDocument, options);
+}
+export type UpdateContentTypeCguMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeCguMutation
+>;
+export type UpdateContentTypeCguMutationResult =
+  Apollo.MutationResult<UpdateContentTypeCguMutation>;
+export type UpdateContentTypeCguMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeCguMutation,
+  UpdateContentTypeCguMutationVariables
+>;
+export const UpdateContentTypeConfidentialityDocument = gql`
+  mutation updateContentTypeConfidentiality(
+    $updateSubServiceId: ID!
+    $data: ConfidentialitySubServiceInput!
+  ) {
+    updateConfidentialitySubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeConfidentialityMutationFn =
+  Apollo.MutationFunction<
+    UpdateContentTypeConfidentialityMutation,
+    UpdateContentTypeConfidentialityMutationVariables
+  >;
+
+/**
+ * __useUpdateContentTypeConfidentialityMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeConfidentialityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeConfidentialityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeConfidentialityMutation, { data, loading, error }] = useUpdateContentTypeConfidentialityMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeConfidentialityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeConfidentialityMutation,
+    UpdateContentTypeConfidentialityMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeConfidentialityMutation,
+    UpdateContentTypeConfidentialityMutationVariables
+  >(UpdateContentTypeConfidentialityDocument, options);
+}
+export type UpdateContentTypeConfidentialityMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeConfidentialityMutation
+>;
+export type UpdateContentTypeConfidentialityMutationResult =
+  Apollo.MutationResult<UpdateContentTypeConfidentialityMutation>;
+export type UpdateContentTypeConfidentialityMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeConfidentialityMutation,
+    UpdateContentTypeConfidentialityMutationVariables
+  >;
+export const UpdateContentTypeNewsDocument = gql`
+  mutation updateContentTypeNews(
+    $updateSubServiceId: ID!
+    $data: NewsSubServiceInput!
+  ) {
+    updateNewsSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeNewsMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeNewsMutation,
+  UpdateContentTypeNewsMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeNewsMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeNewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeNewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeNewsMutation, { data, loading, error }] = useUpdateContentTypeNewsMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeNewsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeNewsMutation,
+    UpdateContentTypeNewsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeNewsMutation,
+    UpdateContentTypeNewsMutationVariables
+  >(UpdateContentTypeNewsDocument, options);
+}
+export type UpdateContentTypeNewsMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeNewsMutation
+>;
+export type UpdateContentTypeNewsMutationResult =
+  Apollo.MutationResult<UpdateContentTypeNewsMutation>;
+export type UpdateContentTypeNewsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeNewsMutation,
+  UpdateContentTypeNewsMutationVariables
+>;
+export const UpdateContentTypeTipDocument = gql`
+  mutation updateContentTypeTip(
+    $updateSubServiceId: ID!
+    $data: TipSubServiceInput!
+  ) {
+    updateTipSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeTipMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeTipMutation,
+  UpdateContentTypeTipMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeTipMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeTipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeTipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeTipMutation, { data, loading, error }] = useUpdateContentTypeTipMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeTipMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeTipMutation,
+    UpdateContentTypeTipMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeTipMutation,
+    UpdateContentTypeTipMutationVariables
+  >(UpdateContentTypeTipDocument, options);
+}
+export type UpdateContentTypeTipMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeTipMutation
+>;
+export type UpdateContentTypeTipMutationResult =
+  Apollo.MutationResult<UpdateContentTypeTipMutation>;
+export type UpdateContentTypeTipMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeTipMutation,
+  UpdateContentTypeTipMutationVariables
+>;
+export const UpdateContentTypeQuizDocument = gql`
+  mutation updateContentTypeQuiz(
+    $updateSubServiceId: ID!
+    $data: QuizSubServiceInput!
+  ) {
+    updateQuizSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeQuizMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeQuizMutation,
+  UpdateContentTypeQuizMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeQuizMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeQuizMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeQuizMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeQuizMutation, { data, loading, error }] = useUpdateContentTypeQuizMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeQuizMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeQuizMutation,
+    UpdateContentTypeQuizMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeQuizMutation,
+    UpdateContentTypeQuizMutationVariables
+  >(UpdateContentTypeQuizDocument, options);
+}
+export type UpdateContentTypeQuizMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeQuizMutation
+>;
+export type UpdateContentTypeQuizMutationResult =
+  Apollo.MutationResult<UpdateContentTypeQuizMutation>;
+export type UpdateContentTypeQuizMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeQuizMutation,
+  UpdateContentTypeQuizMutationVariables
+>;
+export const UpdateContentTypeEventDocument = gql`
+  mutation updateContentTypeEvent(
+    $updateSubServiceId: ID!
+    $data: EventSubServiceInput!
+  ) {
+    updateEventSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeEventMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeEventMutation,
+  UpdateContentTypeEventMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeEventMutation, { data, loading, error }] = useUpdateContentTypeEventMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeEventMutation,
+    UpdateContentTypeEventMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeEventMutation,
+    UpdateContentTypeEventMutationVariables
+  >(UpdateContentTypeEventDocument, options);
+}
+export type UpdateContentTypeEventMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeEventMutation
+>;
+export type UpdateContentTypeEventMutationResult =
+  Apollo.MutationResult<UpdateContentTypeEventMutation>;
+export type UpdateContentTypeEventMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContentTypeEventMutation,
+  UpdateContentTypeEventMutationVariables
+>;
+export const UpdateContentTypeFreeContentDocument = gql`
+  mutation updateContentTypeFreeContent(
+    $updateSubServiceId: ID!
+    $data: FreeContentSubServiceInput!
+  ) {
+    updateFreeContentSubService(id: $updateSubServiceId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+export type UpdateContentTypeFreeContentMutationFn = Apollo.MutationFunction<
+  UpdateContentTypeFreeContentMutation,
+  UpdateContentTypeFreeContentMutationVariables
+>;
+
+/**
+ * __useUpdateContentTypeFreeContentMutation__
+ *
+ * To run a mutation, you first call `useUpdateContentTypeFreeContentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContentTypeFreeContentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContentTypeFreeContentMutation, { data, loading, error }] = useUpdateContentTypeFreeContentMutation({
+ *   variables: {
+ *      updateSubServiceId: // value for 'updateSubServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContentTypeFreeContentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContentTypeFreeContentMutation,
+    UpdateContentTypeFreeContentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContentTypeFreeContentMutation,
+    UpdateContentTypeFreeContentMutationVariables
+  >(UpdateContentTypeFreeContentDocument, options);
+}
+export type UpdateContentTypeFreeContentMutationHookResult = ReturnType<
+  typeof useUpdateContentTypeFreeContentMutation
+>;
+export type UpdateContentTypeFreeContentMutationResult =
+  Apollo.MutationResult<UpdateContentTypeFreeContentMutation>;
+export type UpdateContentTypeFreeContentMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContentTypeFreeContentMutation,
+    UpdateContentTypeFreeContentMutationVariables
+  >;
 export const GetFooterPageDocument = gql`
   query getFooterPage($contractId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
@@ -8630,206 +12257,6 @@ export type GetServicesActiveQueryResult = Apollo.QueryResult<
   GetServicesActiveQuery,
   GetServicesActiveQueryVariables
 >;
-export const GetServicesBlockTabDocument = gql`
-  query getServicesBlockTab($contractId: ID!) {
-    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        id
-        attributes {
-          homepage {
-            data {
-              attributes {
-                servicesBlock {
-                  data {
-                    id
-                    attributes {
-                      titleContent
-                      serviceLinks {
-                        ... on ComponentLinksMap {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksCalendar {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksRecycling {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksRequest {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksContactUs {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksNews {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksEvents {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksQuizzes {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksTips {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksFrees {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksExternal {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                          externalLink
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetServicesBlockTabQuery__
- *
- * To run a query within a React component, call `useGetServicesBlockTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetServicesBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetServicesBlockTabQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetServicesBlockTabQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetServicesBlockTabQuery,
-    GetServicesBlockTabQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetServicesBlockTabQuery,
-    GetServicesBlockTabQueryVariables
-  >(GetServicesBlockTabDocument, options);
-}
-export function useGetServicesBlockTabLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetServicesBlockTabQuery,
-    GetServicesBlockTabQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetServicesBlockTabQuery,
-    GetServicesBlockTabQueryVariables
-  >(GetServicesBlockTabDocument, options);
-}
-export type GetServicesBlockTabQueryHookResult = ReturnType<
-  typeof useGetServicesBlockTabQuery
->;
-export type GetServicesBlockTabLazyQueryHookResult = ReturnType<
-  typeof useGetServicesBlockTabLazyQuery
->;
-export type GetServicesBlockTabQueryResult = Apollo.QueryResult<
-  GetServicesBlockTabQuery,
-  GetServicesBlockTabQueryVariables
->;
 export const GetMenuPageDocument = gql`
   query getMenuPage($contractId: ID!) {
     contract(id: $contractId) {
@@ -8841,6 +12268,7 @@ export const GetMenuPageDocument = gql`
               attributes {
                 serviceLinks {
                   ... on ComponentLinksMap {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8852,6 +12280,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksCalendar {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8863,6 +12292,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksRecycling {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8874,6 +12304,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksRequest {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8885,6 +12316,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksContactUs {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8896,6 +12328,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksNews {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8907,6 +12340,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksEvents {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8918,6 +12352,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksQuizzes {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8929,6 +12364,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksTips {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8940,6 +12376,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksFrees {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -8951,6 +12388,7 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksExternal {
+                    id
                     name
                     isDisplayed
                     picto {
@@ -9027,6 +12465,7 @@ export const UpdateMenuPageDocument = gql`
         attributes {
           serviceLinks {
             ... on ComponentLinksMap {
+              id
               name
               isDisplayed
               picto {
@@ -9038,6 +12477,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksCalendar {
+              id
               name
               isDisplayed
               picto {
@@ -9049,6 +12489,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksRecycling {
+              id
               name
               isDisplayed
               picto {
@@ -9060,6 +12501,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksRequest {
+              id
               name
               isDisplayed
               picto {
@@ -9071,6 +12513,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksContactUs {
+              id
               name
               isDisplayed
               picto {
@@ -9082,6 +12525,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksNews {
+              id
               name
               isDisplayed
               picto {
@@ -9093,6 +12537,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksEvents {
+              id
               name
               isDisplayed
               picto {
@@ -9104,6 +12549,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksQuizzes {
+              id
               name
               isDisplayed
               picto {
@@ -9115,6 +12561,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksTips {
+              id
               name
               isDisplayed
               picto {
@@ -9126,6 +12573,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksFrees {
+              id
               name
               isDisplayed
               picto {
@@ -9137,6 +12585,7 @@ export const UpdateMenuPageDocument = gql`
               }
             }
             ... on ComponentLinksExternal {
+              id
               name
               isDisplayed
               picto {
@@ -9197,200 +12646,4 @@ export type UpdateMenuPageMutationResult =
 export type UpdateMenuPageMutationOptions = Apollo.BaseMutationOptions<
   UpdateMenuPageMutation,
   UpdateMenuPageMutationVariables
->;
-export const UpdateServicesBlockTabDocument = gql`
-  mutation updateServicesBlockTab(
-    $updateServicesBlockId: ID!
-    $data: ServicesBlockInput!
-  ) {
-    updateServicesBlock(id: $updateServicesBlockId, data: $data) {
-      data {
-        id
-        attributes {
-          homepage {
-            data {
-              attributes {
-                servicesBlock {
-                  data {
-                    id
-                    attributes {
-                      titleContent
-                      serviceLinks {
-                        ... on ComponentLinksMap {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksCalendar {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksRecycling {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksRequest {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksContactUs {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksNews {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksEvents {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksQuizzes {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksTips {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksFrees {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                        }
-                        ... on ComponentLinksExternal {
-                          name
-                          isDisplayed
-                          picto {
-                            data {
-                              attributes {
-                                url
-                              }
-                            }
-                          }
-                          externalLink
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-export type UpdateServicesBlockTabMutationFn = Apollo.MutationFunction<
-  UpdateServicesBlockTabMutation,
-  UpdateServicesBlockTabMutationVariables
->;
-
-/**
- * __useUpdateServicesBlockTabMutation__
- *
- * To run a mutation, you first call `useUpdateServicesBlockTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateServicesBlockTabMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateServicesBlockTabMutation, { data, loading, error }] = useUpdateServicesBlockTabMutation({
- *   variables: {
- *      updateServicesBlockId: // value for 'updateServicesBlockId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateServicesBlockTabMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateServicesBlockTabMutation,
-    UpdateServicesBlockTabMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateServicesBlockTabMutation,
-    UpdateServicesBlockTabMutationVariables
-  >(UpdateServicesBlockTabDocument, options);
-}
-export type UpdateServicesBlockTabMutationHookResult = ReturnType<
-  typeof useUpdateServicesBlockTabMutation
->;
-export type UpdateServicesBlockTabMutationResult =
-  Apollo.MutationResult<UpdateServicesBlockTabMutation>;
-export type UpdateServicesBlockTabMutationOptions = Apollo.BaseMutationOptions<
-  UpdateServicesBlockTabMutation,
-  UpdateServicesBlockTabMutationVariables
 >;

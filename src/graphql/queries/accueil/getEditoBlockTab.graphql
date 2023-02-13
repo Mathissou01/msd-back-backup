@@ -1,5 +1,5 @@
-query getEditoBlockTab($contractId: ID!) {
-  getEditoBlockDTO(contractId: $contractId) {
+query getEditoBlockTab($contractId: ID!, $status: ENUM_EDITOCONTENTDTO_STATUS) {
+  getEditoBlockDTO(contractId: $contractId, status: $status) {
     id
     displayBlock
     titleContent
@@ -9,17 +9,19 @@ query getEditoBlockTab($contractId: ID!) {
       typeName
       attributes {
         title
-        publishedAt
+        status
+        publishedDate
       }
     }
   }
-  getEditoContentDTOs(contractId: $contractId) {
+  getEditoContentDTOs(contractId: $contractId, status: $status) {
     id
     contentType
     typeName
     attributes {
       title
-      publishedAt
+      status
+      publishedDate
     }
   }
 }

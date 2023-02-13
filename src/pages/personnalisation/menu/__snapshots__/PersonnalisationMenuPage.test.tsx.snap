@@ -71,17 +71,19 @@ exports[`PersonnalisationMenuPage renders loading and loaded state 2`] = `
         <div
           class="c-FormServiceLinks"
         >
-          <label
+          <div
             class="c-FormLabel"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Ordre d’affichage du menu
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
       </div>
       <div

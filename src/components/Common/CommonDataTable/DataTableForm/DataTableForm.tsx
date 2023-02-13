@@ -1,20 +1,18 @@
+import classNames from "classnames";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React from "react";
+import { ICommonDataTableValidation } from "../CommonDataTable";
 import CommonButton from "../../CommonButton/CommonButton";
 import "./data-table-form.scss";
 
-export interface ICommonDataTableValidation {
-  isValid: boolean;
-  errorMessage: string;
-}
-
-interface ICommonDataTableProps {
+interface ICommonDataFormProps {
   children: React.ReactNode;
   title?: string;
   submitButtonLabel?: string;
   validationFunction?: (data: FieldValues) => ICommonDataTableValidation;
   onFormSubmit?: (data: FieldValues) => void;
+  invalidStyle?: "rowInput";
 }
 
 export default function DataTableForm({
@@ -23,7 +21,8 @@ export default function DataTableForm({
   submitButtonLabel = "Ajouter",
   validationFunction,
   onFormSubmit,
-}: ICommonDataTableProps) {
+  invalidStyle = "rowInput",
+}: ICommonDataFormProps) {
   /* Static Data */
   async function onSubmit(submitData: FieldValues) {
     const validation = validationFunction?.(submitData);
@@ -41,25 +40,33 @@ export default function DataTableForm({
     mode: "onChange",
   });
   const { handleSubmit, formState, watch } = form;
-  const { isDirty, isSubmitting } = formState;
+  const { isDirty, isSubmitting, errors } = formState;
   const values = watch();
+
+  const formClasses = classNames("c-DataTableForm", {
+    "c-DataTableForm_invalid":
+      invalidStyle === "rowInput" && Object.keys(errors).length > 0,
+  });
 
   return (
     <FormProvider {...form}>
-      <form className="c-DataTableForm" onSubmit={handleSubmit(onSubmit)}>
+      <form className={formClasses} onSubmit={handleSubmit(onSubmit)}>
         {title && <div className="c-DataTableForm__Title">{title}</div>}
         <div className="c-DataTableForm__Content">
           <div className="c-DataTableForm__Inputs">{children}</div>
-          <CommonButton
-            type="submit"
-            label={submitButtonLabel}
-            style="primary"
-            isDisabled={
-              isSubmitting ||
-              !isDirty ||
-              !Object.values(values)?.every((value) => value?.length > 0)
-            }
-          />
+          <div className="c-DataTableForm__Button">
+            <CommonButton
+              type="submit"
+              label={submitButtonLabel}
+              style="primary"
+              isDisabled={
+                isSubmitting ||
+                !isDirty ||
+                Object.keys(errors).length > 0 ||
+                !Object.values(values)?.some((value) => value?.length > 0)
+              }
+            />
+          </div>
         </div>
       </form>
     </FormProvider>

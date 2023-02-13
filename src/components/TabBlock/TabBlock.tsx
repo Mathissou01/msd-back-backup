@@ -12,9 +12,14 @@ export interface Tab {
 interface ITabBlockProps {
   tabs: Array<Tab>;
   initialTabName: string;
+  isAlignLeftMediaLibrary?: boolean;
 }
 
-export default function TabBlock({ tabs, initialTabName }: ITabBlockProps) {
+export default function TabBlock({
+  tabs,
+  initialTabName,
+  isAlignLeftMediaLibrary = false,
+}: ITabBlockProps) {
   function clickTab(tabIndex: number) {
     setActiveTab(tabIndex);
   }
@@ -39,7 +44,12 @@ export default function TabBlock({ tabs, initialTabName }: ITabBlockProps) {
 
   return (
     <div className="c-TabBlock">
-      <TabHeader tabs={tabs} selectedTab={activeTab} onClick={clickTab} />
+      <TabHeader
+        tabs={tabs}
+        selectedTab={activeTab}
+        onClick={clickTab}
+        isAlignStart={isAlignLeftMediaLibrary}
+      />
       <div className="c-TabBlock__Content">
         <CurrentTabComponent />
       </div>

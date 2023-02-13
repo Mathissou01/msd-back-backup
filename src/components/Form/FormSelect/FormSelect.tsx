@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import React, { useEffect, useState } from "react";
+import { IOptionWrapper } from "../FormMultiselect/FormMultiselect";
 import FormLabel from "../FormLabel/FormLabel";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import "./form-select.scss";
@@ -14,7 +15,7 @@ interface IFormSelectProps<T> {
   displayTransform: (...args: Array<T>) => string;
   isRequired?: boolean;
   isDisabled?: boolean;
-  options: Array<T | null>;
+  options: Array<IOptionWrapper<T>>;
   optionKey: keyof T & string;
   defaultValue?: T;
   noneSelectedLabel?: string;
@@ -51,18 +52,59 @@ export default function FormSelect<T>({
   useEffect(() => {
     if (watchValue !== undefined) {
       const matchIndex = options.findIndex(
-        (option) => option && option[optionKey] === watchValue?.[optionKey],
+        (wrapper) =>
+          wrapper && wrapper.option?.[optionKey] === watchValue?.[optionKey],
       );
       setValue(name, matchIndex);
       setSelectedIndex(matchIndex);
     } else if (defaultValue) {
       const matchIndex = options.findIndex(
-        (option) => option && option[optionKey] === defaultValue[optionKey],
+        (wrapper) =>
+          wrapper && wrapper.option?.[optionKey] === defaultValue[optionKey],
       );
       setValue(name, matchIndex);
       setSelectedIndex(matchIndex);
     }
   }, [defaultValue, name, optionKey, options, setValue, watchValue]);
+
+  function renderGroups() {
+    return [...new Map(options.map((item) => [item["group"], item]))].map(
+      (group, index) => {
+        const groupOptions = options.filter(
+          (option) => option.group === group[0],
+        );
+        return (
+          groupOptions.length > 0 && (
+            <optgroup
+              className="o-SelectWrapper__OptGroup"
+              key={`${name}_${index}_${group[0]}`}
+              label={group[0]}
+            >
+              {renderOptions(groupOptions)}
+            </optgroup>
+          )
+        );
+      },
+    );
+  }
+
+  function renderOptions(options: Array<IOptionWrapper<T>>) {
+    return options.map((wrapper, index) => {
+      return (
+        wrapper.option && (
+          <option
+            className="o-SelectWrapper__Option"
+            key={`${name}_${index}`}
+            value={index}
+          >
+            {wrapper.option && !wrapper.label
+              ? displayTransform(wrapper.option)
+              : wrapper.label}
+          </option>
+        )
+      );
+    });
+  }
 
   return (
     <div className="c-FormSelect">
@@ -80,7 +122,7 @@ export default function FormSelect<T>({
           })}
           {...register(name, {
             setValueAs: (v) => {
-              return options[v] ?? null;
+              return options[v]?.option ?? null;
             },
             required: { value: isRequired, message: errorMessages.required },
             min: { value: 0, message: errorMessages.required },
@@ -91,6 +133,7 @@ export default function FormSelect<T>({
             setSelectedIndex(Number.parseInt(event.target.value));
             setValue(name, Number.parseInt(event.target.value), {
               shouldValidate: true,
+              shouldDirty: true,
             });
           }}
           disabled={isSubmitting || isDisabled}
@@ -101,18 +144,9 @@ export default function FormSelect<T>({
           <option disabled={isRequired} hidden={isRequired} value={-1}>
             {noneSelectedLabel}
           </option>
-          {options?.map(
-            (option, index) =>
-              option && (
-                <option
-                  className="o-SelectWrapper__Option"
-                  key={name + index}
-                  value={index}
-                >
-                  {displayTransform(option)}
-                </option>
-              ),
-          )}
+          {options.every((wrapper) => wrapper.group)
+            ? renderGroups()
+            : renderOptions(options)}
         </select>
       </div>
       <ErrorMessage

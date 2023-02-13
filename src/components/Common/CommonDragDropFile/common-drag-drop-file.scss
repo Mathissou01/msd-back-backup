@@ -1,0 +1,31 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.buttons" as buttons;
+@use "src/styles/02-tools/tools.typography" as typo;
+
+.c-CommonDragDropFile {
+  position: relative;
+  width: 100%;
+
+  &__LabelDragDrop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 15px 0;
+    border: 2px dashed #cbd5e1;
+    border-radius: 1rem;
+  }
+
+  &__Drag {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+  }
+
+  &__LabelInfo {
+    color: colors.$expert-blue;
+    font-weight: 500;
+    font-size: 20px;
+  }
+}

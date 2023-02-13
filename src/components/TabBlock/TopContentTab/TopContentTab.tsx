@@ -3,6 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
 import {
+  Enum_Topcontentdto_Status,
   GetTopContentTabDocument,
   TopContentDto,
   useGetTopContentTabQuery,
@@ -18,6 +19,10 @@ import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormModalButtonInput from "../../Form/FormModalButtonInput/FormModalButtonInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
+import {
+  IOptionWrapper,
+  mapOptionsInWrappers,
+} from "../../Form/FormMultiselect/FormMultiselect";
 import "./top-content-tab.scss";
 
 interface ITopContentBlock {
@@ -54,7 +59,7 @@ export default function TopContentTab() {
     return (
       <p>
         {`${topContent?.attributes?.title} - ${format(
-          parseJSON(topContent?.attributes?.publishedAt),
+          parseJSON(topContent?.attributes?.publishedDate),
           "dd/MM/yyyy",
         )}` ?? ""}
       </p>
@@ -66,7 +71,7 @@ export default function TopContentTab() {
   ): string {
     return (
       `${topContent?.attributes?.title} - ${format(
-        parseJSON(topContent?.attributes?.publishedAt),
+        parseJSON(topContent?.attributes?.publishedDate),
         "dd/MM/yyyy",
       )}` ?? ""
     );
@@ -81,9 +86,11 @@ export default function TopContentTab() {
 
   function onTopContentModalRadioChange(changeData: unknown) {
     setCurrentTopContents(
-      allTopContents?.filter(
-        (topContent) => topContent?.contentType === changeData,
-      ) ?? [],
+      mapOptionsInWrappers(
+        allTopContents?.filter(
+          (topContent) => topContent?.contentType === changeData,
+        ) ?? [],
+      ),
     );
   }
 
@@ -104,7 +111,10 @@ export default function TopContentTab() {
         refetchQueries: [
           {
             query: GetTopContentTabDocument,
-            variables: { contractId },
+            variables: {
+              contractId,
+              status: Enum_Topcontentdto_Status.Published,
+            },
           },
           "getTopContentTab",
         ],
@@ -119,7 +129,7 @@ export default function TopContentTab() {
   /* External Data */
   const { contractId } = useContract();
   const { loading, error, data } = useGetTopContentTabQuery({
-    variables: { contractId },
+    variables: { contractId, status: Enum_Topcontentdto_Status.Published },
   });
   const [
     updateTopContentBlock,
@@ -132,7 +142,7 @@ export default function TopContentTab() {
     [],
   );
   const [currentTopContents, setCurrentTopContents] = useState<
-    Array<TopContentDto>
+    Array<IOptionWrapper<TopContentDto>>
   >([]);
   const formValidationMode = "onChange";
   const form = useForm({
@@ -161,17 +171,9 @@ export default function TopContentTab() {
           (e): e is Exclude<typeof e, null> => e !== null,
         ),
       );
-      const filteredTopContents =
-        topContents?.filter(
-          (topContent) =>
-            topContent?.contentType ===
-            topContentBlock?.topContent?.contentType,
-        ) ?? [];
-      setCurrentTopContents(
-        filteredTopContents?.filter(
-          (e): e is Exclude<typeof e, null> => e !== null,
-        ),
-      );
+      if (topContents && topContents.length > 0) {
+        setCurrentTopContents(mapOptionsInWrappers(topContents));
+      }
     }
   }, [form, data]);
 

@@ -3,24 +3,55 @@
 @use "src/styles/02-tools/tools.focus" as focus;
 
 .c-CommonDataTable {
-  @include shadows.shadow(1);
-  @include focus.focus-ring(true);
+  > div {
+    overflow: visible;
+  }
 
-  border-radius: 8px 8px 0 0 !important;
+  &_loading {
+    pointer-events: none;
+  }
+
+  &__Pagination {
+    margin-top: 19px;
+  }
 
   // stylelint-disable selector-class-pattern
+  .rdt_Table {
+    @include shadows.shadow(1);
+    @include focus.focus-ring;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-radius: 8px 8px 0 0 !important;
+  }
+
   .rdt_TableHead,
   .rdt_TableRow {
     color: colors.$expert-blue;
-    font-weight: 500;
     font-size: 16px;
+  }
+
+  .rdt_TableHead {
+    font-weight: 500;
     font-family: DINPro-Medium, sans-serif;
-    line-height: 24px;
+    line-height: 20px;
   }
 
   .rdt_TableHeadRow {
     padding: 24px 0 15px;
     background-color: colors.$blue-light;
+  }
+
+  .rdt_TableRow {
+    min-height: 60px;
+    padding: 12px 0;
+    font-weight: 400;
+    font-family: DINPro-Regular, sans-serif;
+    line-height: 24px;
+
+    &:not(:last-of-type) {
+      border-bottom-color: colors.$blue-4;
+    }
   }
 
   .rdt_TableCol,
@@ -37,20 +68,9 @@
     }
   }
 
-  .rdt_TableRow {
-    min-height: 60px;
-    padding: 12px 0;
-    line-height: 24px;
-
-    &:not(:last-of-type) {
-      border-bottom-color: colors.$blue-4;
-    }
-  }
-
   // stylelint-enable selector-class-pattern
 
-  &_disabled {
-    opacity: 0.5;
-    pointer-events: none;
+  &__NoRecords {
+    padding: 24px;
   }
 }

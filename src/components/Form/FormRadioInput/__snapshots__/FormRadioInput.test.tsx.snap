@@ -6,26 +6,28 @@ exports[`FormRadioInput renders 1`] = `
     class="c-FormRadioInput"
   >
     <fieldset>
-      <legend
+      <div
         class="c-FormLabel"
       >
-        <div
-          class="c-FormLabel__Label"
+        <legend
+          class="c-FormLabel__LabelWrapper"
         >
-          <span>
+          <span
+            class="c-FormLabel__Label"
+          >
             form radio input
           </span>
-        </div>
-        <div
-          class="c-FormLabel__Label"
+        </legend>
+        <legend
+          class="c-FormLabel__LabelWrapper"
         >
           <span
             class="c-FormLabel__Secondary"
           >
             secondary display name
           </span>
-        </div>
-      </legend>
+        </legend>
+      </div>
       <div
         class="c-FormRadioInput__Options"
       >
@@ -40,18 +42,20 @@ exports[`FormRadioInput renders 1`] = `
             type="radio"
             value="0"
           />
-          <label
+          <div
             class="c-FormLabel"
-            for="form-radio-input0"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="form-radio-input0"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 first
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
         <div
           class="c-FormRadioInput__Option"
@@ -64,18 +68,20 @@ exports[`FormRadioInput renders 1`] = `
             type="radio"
             value="1"
           />
-          <label
+          <div
             class="c-FormLabel"
-            for="form-radio-input1"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="form-radio-input1"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 second
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
       </div>
     </fieldset>

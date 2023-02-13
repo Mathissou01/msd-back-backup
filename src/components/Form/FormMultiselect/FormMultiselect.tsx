@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { isString, removeNulls } from "../../../lib/utilities";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import FormLabel from "../FormLabel/FormLabel";
 import "./form-multiselect.scss";
@@ -9,6 +10,25 @@ export interface IOptionWrapper<T> {
   group?: string;
   label?: string;
   option: T | null;
+}
+
+export function mapOptionsInWrappers<T extends { [index: string]: unknown }>(
+  options: Array<T | null>,
+  fieldToGroup?: string,
+): Array<IOptionWrapper<T>> {
+  const mappedOptions: Array<IOptionWrapper<T> | null> = options.map(
+    (option) => {
+      // ? { group: editoContent.typeName, option: editoContent }
+      const group = option && fieldToGroup ? option[fieldToGroup] : null;
+      return option
+        ? {
+            option: option,
+            group: isString(group) ? group : undefined,
+          }
+        : null;
+    },
+  );
+  return mappedOptions.filter(removeNulls);
 }
 
 interface IFormMultiselectProps<T> {
@@ -184,6 +204,7 @@ export default function FormMultiselect<T>({
                 setSelectedIndexes(updatedArray);
                 setValue(`${name}_${i}`, Number.parseInt(event.target.value), {
                   shouldValidate: true,
+                  shouldDirty: true,
                 });
               }}
               disabled={isSubmitting || isDisabled}

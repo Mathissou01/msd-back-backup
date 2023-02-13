@@ -50,17 +50,19 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
           <div
             class="c-FormInput"
           >
-            <label
+            <div
               class="c-FormLabel"
-              for="titleContent"
             >
-              <div
-                class="c-FormLabel__Label"
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="titleContent"
               >
-                <span>
+                <span
+                  class="c-FormLabel__Label"
+                >
                   Titre du bloc *
                 </span>
-              </div>
+              </label>
               <div
                 class="c-FormLabel__Content"
               >
@@ -75,7 +77,7 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
                   value="Les services de ma ville"
                 />
               </div>
-            </label>
+            </div>
           </div>
         </div>
       </div>
@@ -85,26 +87,28 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
         <div
           class="c-FormServiceLinks"
         >
-          <label
+          <div
             class="c-FormLabel"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Ordre d’affichage des services sur la page d’accueil (accès rapide)
               </span>
-            </div>
-            <div
-              class="c-FormLabel__Label"
+            </label>
+            <label
+              class="c-FormLabel__LabelWrapper"
             >
               <span
                 class="c-FormLabel__Secondary"
               >
-                Vous pouvez choisir d’afficher jusqu’à 6 blocs maximum
+                Vous pouvez choisir d’afficher jusqu’à 6 blocs maximum, à choisir en fonction du menu défini préalablement
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
         <div
           class="c-ServicesTabAddButton"
@@ -114,7 +118,7 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
             type="button"
           >
             <div
-              class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+              class="c-CommonButton__Picto c-CommonButton__Picto_plus"
             />
             Ajouter un service personnalisé
           </button>

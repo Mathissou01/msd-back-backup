@@ -1,6 +1,6 @@
+import classNames from "classnames";
 import React from "react";
 import "./form-label.scss";
-import classNames from "classnames";
 
 export type LabelStyle = "default" | "table";
 
@@ -38,15 +38,17 @@ export default function FormLabel({
   });
 
   return (
-    <Tag className={labelClassNames} htmlFor={forId}>
-      <div className="c-FormLabel__Label">
-        <span>{`${label}${isRequired ? " *" : ""}`}</span>
+    <div className={labelClassNames}>
+      <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
+        <span className="c-FormLabel__Label">{`${label}${
+          isRequired ? " *" : ""
+        }`}</span>
         {validationStyle === "inline" &&
           flexStyle === "column" &&
           validationLabel && (
             <span className="c-FormLabel__Validation">{validationLabel}</span>
           )}
-      </div>
+      </Tag>
       {validationStyle === "multiline" &&
         flexStyle === "column" &&
         validationLabel && (
@@ -55,18 +57,18 @@ export default function FormLabel({
           </span>
         )}
       {secondaryLabel && (
-        <div className="c-FormLabel__Label">
+        <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
           <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
-        </div>
+        </Tag>
       )}
       {children && <div className="c-FormLabel__Content">{children}</div>}
       {flexStyle === "row" && (
-        <div className="c-FormLabel__Label">
+        <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
           {validationLabel && (
             <span className="c-FormLabel__Validation">{validationLabel}</span>
           )}
-        </div>
+        </Tag>
       )}
-    </Tag>
+    </div>
   );
 }

@@ -3,12 +3,12 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { createRef, useEffect, useRef, useState } from "react";
 import {
   GetContentTypeDtOsDocument,
-  useCreateContentTypeMutation,
   useGetContentTypeDtOsQuery,
-  useUpdateContentTypeMutation,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
+import { useContentTypeMutations } from "../../../hooks/useContentTypeMutations";
+import { IDataTableAction } from "../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../../components/Common/CommonDataTable/CommonDataTable";
@@ -24,7 +24,18 @@ interface IContentTypeTableRow {
   editState: boolean;
   name: string;
   description: string;
-  type: string;
+  type:
+    | "cookiesSubService"
+    | "accessibilitySubService"
+    | "contactUsSubService"
+    | "cguSubService"
+    | "confidentialitySubService"
+    | "newsSubService"
+    | "tipSubService"
+    | "quizSubService"
+    | "eventSubService"
+    | "freeContentSubService"
+    | string;
 }
 
 export default function EditoTypeContenuPage() {
@@ -61,46 +72,181 @@ export default function EditoTypeContenuPage() {
     return textAreaRefs.current[i];
   }
 
+  function onEditState(
+    row: IContentTypeTableRow,
+    i: number,
+    setValue?: boolean,
+  ) {
+    let copiedStates = confirmStatesRef.current;
+    let copiedData = tableDataRef.current;
+    if (
+      copiedStates.filter(Boolean).length > 0 &&
+      (!copiedStates[i] || setValue === true)
+    ) {
+      copiedStates = new Array(tableData?.length).fill(false);
+      copiedData = tableData.map((row) => {
+        return { ...row, editState: false };
+      });
+    }
+    setTableData(
+      copiedData.map((data) => {
+        if (data.id === row.id) {
+          return { ...data, editState: setValue ?? !data.editState };
+        } else {
+          return { ...data };
+        }
+      }),
+    );
+    setConfirmStates([
+      ...copiedStates.slice(0, i),
+      setValue ?? !copiedStates[i],
+      ...copiedStates.slice(i + 1),
+    ]);
+  }
+
   async function onConfirm(row: IContentTypeTableRow, i: number) {
-    console.log(row, inputRefs.current[i].current, i);
-    console.log(inputRefs.current[i].current?.value);
-    console.log(textAreaRefs.current[i].current?.value);
+    setIsUpdatingData(true);
     const variables = {
-      updateFreeContentSubServiceId: row.subServiceId,
+      updateSubServiceId: row.subServiceId,
       data: {
         name: inputRefs.current[i].current?.value,
         description: textAreaRefs.current[i].current?.value,
       },
     };
-    return updateContentTypeMutation({
-      variables,
-      refetchQueries: [
-        {
-          query: GetContentTypeDtOsDocument,
-          variables: { contractId },
-        },
-        "getContentTypeDTOs",
-      ],
-    });
+    switch (row.type) {
+      case "cookiesSubService":
+        return updateCookies({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "accessibilitySubService":
+        return updateAccessibility({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "contactUsSubService":
+        return updateContactUs({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "cguSubService":
+        return updateCgu({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "confidentialitySubService":
+        return updateConfidentiality({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "newsSubService":
+        return updateNews({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "tipSubService":
+        return updateTip({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "quizSubService":
+        return updateQuiz({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "eventSubService":
+        return updateEvent({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+      case "freeContentSubService":
+        return updateFreeContent({
+          variables,
+          refetchQueries: [
+            {
+              query: GetContentTypeDtOsDocument,
+              variables: { contractId },
+            },
+            "getContentTypeDTOs",
+          ],
+        });
+    }
   }
 
-  // async function onDelete(row: IContentTypeTableRow) {
-  //   const variables = {
-  //     deleteTagId: row.subServiceId,
-  //   };
-  //   return deleteContentTypeMutation({
-  //     variables,
-  //     refetchQueries: [
-  //       {
-  //         query: GetContentTypeDtOsDocument,
-  //         variables: { contractId },
-  //       },
-  //       "getContentTypeDTOs",
-  //     ],
-  //   });
-  // }
+  async function onDelete(row: IContentTypeTableRow) {
+    // TODO: delete feature
+    console.log("delete ?", row);
+    // const variables = {
+    //   deleteTagId: row.subServiceId,
+    // };
+    // return deleteContentTypeMutation({
+    //   variables,
+    //   refetchQueries: [
+    //     {
+    //       query: GetContentTypeDtOsDocument,
+    //       variables: { contractId },
+    //     },
+    //     "getContentTypeDTOs",
+    //   ],
+    // });
+  }
 
   async function onAddRow(data: FieldValues) {
+    setIsUpdatingData(true);
     const variables = {
       contractId,
       name: data["name"],
@@ -127,25 +273,36 @@ export default function EditoTypeContenuPage() {
   } = useGetContentTypeDtOsQuery({
     variables: { contractId },
   });
-  const [
-    updateContentTypeMutation,
-    {
-      loading: updateContentTypeMutationLoading,
-      error: updateContentTypeMutationError,
-    },
-  ] = useUpdateContentTypeMutation();
-  const [
+  const {
+    mutations,
+    loading: loadingMutation,
+    errors: mutationErrors,
+  } = useContentTypeMutations();
+  const {
+    updateCookies,
+    updateAccessibility,
+    updateContactUs,
+    updateCgu,
+    updateConfidentiality,
+    updateNews,
+    updateTip,
+    updateQuiz,
+    updateEvent,
+    updateFreeContent,
     createContentTypeMutation,
-    {
-      loading: createContentTypeMutationLoading,
-      error: createContentTypeMutationError,
-    },
-  ] = useCreateContentTypeMutation();
+  } = mutations;
 
   /* Local Data */
   const inputRefs = useRef<Array<React.RefObject<HTMLInputElement>>>([]);
   const textAreaRefs = useRef<Array<React.RefObject<HTMLTextAreaElement>>>([]);
   const [tableData, setTableData] = useState<Array<IContentTypeTableRow>>([]);
+  const tableDataRef = useRef<Array<IContentTypeTableRow>>(tableData);
+  const [confirmStates, setConfirmStates] = useState<Array<boolean>>([]);
+  const confirmStatesRef = useRef<Array<boolean>>([]);
+  const [isUpdatingData, setIsUpdatingData] = useState(false);
+  const isLoadingMutation = isUpdatingData || loadingMutation;
+  const isLoading = dataLoading || isLoadingMutation;
+  const errors = [...mutationErrors, error];
 
   const tableColumns: Array<TableColumn<IContentTypeTableRow>> = [
     {
@@ -182,6 +339,29 @@ export default function EditoTypeContenuPage() {
       sortable: true,
     },
   ];
+  const actionColumn = (
+    row: IContentTypeTableRow,
+    rowIndex: number,
+  ): Array<IDataTableAction> => [
+    {
+      id: "edit",
+      picto: "/images/pictos/edit.svg",
+      onClick: () => onEditState(row, rowIndex),
+      confirmStateOptions: {
+        onConfirm: () => onConfirm(row, rowIndex),
+        onCancel: () => onEditState(row, rowIndex, false),
+      },
+    },
+    {
+      id: "delete",
+      picto: "/images/pictos/delete.svg",
+      isDisabled: true,
+      confirmStateOptions: {
+        onConfirm: () => onDelete(row),
+        confirmStyle: "warning",
+      },
+    },
+  ];
 
   useEffect(() => {
     setTableData(
@@ -191,6 +371,7 @@ export default function EditoTypeContenuPage() {
             return {
               id: `${contentType.type}_${contentType.subServiceId}`,
               ...contentType,
+              description: contentType.description ?? "",
               editState: false,
             };
           }
@@ -199,6 +380,18 @@ export default function EditoTypeContenuPage() {
     );
   }, [data]);
 
+  useEffect(() => {
+    if (confirmStates.length !== tableData.length) {
+      setConfirmStates(new Array(tableData?.length).fill(false));
+    }
+    tableDataRef.current = tableData;
+    confirmStatesRef.current = confirmStates;
+  }, [confirmStates, tableData]);
+
+  useEffect(() => {
+    setIsUpdatingData(false);
+  }, [tableData]);
+
   return (
     <>
       <div className="c-EditoTypeContenuPage">
@@ -206,38 +399,17 @@ export default function EditoTypeContenuPage() {
         <h2 className="c-EditoTypeContenuPage__Title">{tableLabels.title}</h2>
         <div className="c-EditoTypeContenuPage__Table">
           <CommonLoader
-            isLoading={
-              dataLoading ||
-              updateContentTypeMutationLoading ||
-              createContentTypeMutationLoading
-            }
-            isShowingContent={
-              updateContentTypeMutationLoading ||
-              createContentTypeMutationLoading
-            }
-            hasDelay={
-              updateContentTypeMutationLoading ||
-              createContentTypeMutationLoading
-            }
-            errors={[
-              error,
-              updateContentTypeMutationError,
-              createContentTypeMutationError,
-            ]}
+            isLoading={isLoading}
+            isShowingContent={isLoadingMutation}
+            hasDelay={isLoadingMutation}
+            errors={errors}
           >
             <CommonDataTable
               columns={tableColumns}
+              actionColumn={actionColumn}
               data={tableData}
               defaultSortFieldId={"name"}
-              isLoading={
-                updateContentTypeMutationLoading ||
-                createContentTypeMutationLoading
-              }
-              hasEditAction={true}
-              hasDeleteAction={true}
-              deleteVisibleCondition={() => false}
-              onConfirm={(row, rowIndex) => onConfirm(row, rowIndex)}
-              // onDelete={(row) => onDelete(row)}
+              isLoading={isLoading}
             />
             <DataTableForm
               title={tableLabels.addRow.title}
@@ -250,7 +422,8 @@ export default function EditoTypeContenuPage() {
                 maxLengthValidation={tableValidation.maxLengthName}
                 minLengthValidation={1}
                 validationLabel={`${tableValidation.maxLengthName} ${tableLabels.addRow.maxCharactersLabel}`}
-                isDisabled={createContentTypeMutationLoading}
+                isRequired={true}
+                isDisabled={isLoadingMutation}
                 labelStyle="table"
                 validationStyle="multiline"
               />
@@ -261,7 +434,7 @@ export default function EditoTypeContenuPage() {
                 maxLengthValidation={tableValidation.maxLengthDescription}
                 minLengthValidation={1}
                 validationLabel={`${tableValidation.maxLengthDescription} ${tableLabels.addRow.maxCharactersLabel}`}
-                isDisabled={createContentTypeMutationLoading}
+                isDisabled={isLoadingMutation}
                 labelStyle="table"
                 validationStyle="multiline"
               />

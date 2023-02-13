@@ -54,33 +54,37 @@ exports[`EditoTab renders loading and loaded state 2`] = `
             name="displayBlock"
             type="checkbox"
           />
-          <label
+          <div
             class="c-FormLabel"
-            for="displayBlock"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="displayBlock"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Afficher ce bloc
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
         <div
           class="c-FormInput"
         >
-          <label
+          <div
             class="c-FormLabel"
-            for="titleContent"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="titleContent"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Titre du bloc *
               </span>
-            </div>
+            </label>
             <div
               class="c-FormLabel__Content"
             >
@@ -95,7 +99,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
                 value="Titre modifié"
               />
             </div>
-          </label>
+          </div>
         </div>
       </div>
       <div
@@ -105,18 +109,20 @@ exports[`EditoTab renders loading and loaded state 2`] = `
           class="c-FormModalButtonInput"
           data-testid="form-modal-input"
         >
-          <label
+          <div
             class="c-FormLabel"
-            for="editoContents_button"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="editoContents_button"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Contenus à afficher *
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
           <input
             disabled=""
             name="editoContents"

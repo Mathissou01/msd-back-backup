@@ -54,33 +54,37 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             name="displayBlock"
             type="checkbox"
           />
-          <label
+          <div
             class="c-FormLabel"
-            for="displayBlock"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="displayBlock"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Afficher ce bloc
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
         <div
           class="c-FormInput"
         >
-          <label
+          <div
             class="c-FormLabel"
-            for="titleContent"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="titleContent"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Titre du bloc *
               </span>
-            </div>
+            </label>
             <div
               class="c-FormLabel__Content"
             >
@@ -95,7 +99,7 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
                 value="Titre modifié"
               />
             </div>
-          </label>
+          </div>
         </div>
       </div>
       <div
@@ -111,35 +115,39 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             name="displayQuiz"
             type="checkbox"
           />
-          <label
+          <div
             class="c-FormLabel"
-            for="displayQuiz"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="displayQuiz"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Afficher un quiz
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
         <div
           class="c-FormModalButtonInput"
           data-testid="form-modal-input"
         >
-          <label
+          <div
             class="c-FormLabel"
-            for="quiz_button"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="quiz_button"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Quiz à afficher
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
           <input
             disabled=""
             name="quiz"
@@ -180,35 +188,39 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             name="displayTips"
             type="checkbox"
           />
-          <label
+          <div
             class="c-FormLabel"
-            for="displayTips"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="displayTips"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Afficher des astuces
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
         </div>
         <div
           class="c-FormModalButtonInput"
           data-testid="form-modal-input"
         >
-          <label
+          <div
             class="c-FormLabel"
-            for="tips_button"
           >
-            <div
-              class="c-FormLabel__Label"
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="tips_button"
             >
-              <span>
+              <span
+                class="c-FormLabel__Label"
+              >
                 Astuces à afficher
               </span>
-            </div>
-          </label>
+            </label>
+          </div>
           <input
             disabled=""
             name="tips"

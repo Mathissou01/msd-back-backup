@@ -16,6 +16,7 @@ mutation updateServicesBlockTab(
                     titleContent
                     serviceLinks {
                       ... on ComponentLinksMap {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -27,6 +28,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksCalendar {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -38,6 +40,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksRecycling {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -49,6 +52,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksRequest {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -60,6 +64,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksContactUs {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -71,6 +76,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksNews {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -82,6 +88,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksEvents {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -93,6 +100,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksQuizzes {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -104,6 +112,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksTips {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -115,6 +124,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksFrees {
+                        id
                         name
                         isDisplayed
                         picto {
@@ -126,6 +136,7 @@ mutation updateServicesBlockTab(
                         }
                       }
                       ... on ComponentLinksExternal {
+                        id
                         name
                         isDisplayed
                         picto {

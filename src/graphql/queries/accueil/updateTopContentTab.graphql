@@ -20,7 +20,6 @@ mutation updateTopContentTab(
                           event {
                             data {
                               attributes {
-                                publishedAt
                                 title
                               }
                             }
@@ -29,7 +28,6 @@ mutation updateTopContentTab(
                             data {
                               attributes {
                                 title
-                                publishedAt
                               }
                             }
                           }

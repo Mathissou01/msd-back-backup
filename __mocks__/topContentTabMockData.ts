@@ -31,7 +31,8 @@ export const defaultMockData = [
                                     data: {
                                       id: "1",
                                       attributes: {
-                                        publishedAt: "2022-12-05T15:58:52.482Z",
+                                        publishedDate:
+                                          "2022-12-05T15:58:52.482Z",
                                         title: "event test",
                                       },
                                     },
@@ -73,7 +74,8 @@ export const defaultMockData = [
                                     {
                                       id: "1",
                                       attributes: {
-                                        publishedAt: "2022-12-05T15:59:19.503Z",
+                                        publishedDate:
+                                          "2022-12-05T15:59:19.503Z",
                                         title: "news test",
                                       },
                                     },
@@ -95,7 +97,8 @@ export const defaultMockData = [
                                     {
                                       id: "1",
                                       attributes: {
-                                        publishedAt: "2022-12-05T15:58:52.482Z",
+                                        publishedDate:
+                                          "2022-12-05T15:58:52.482Z",
                                         title: "event test",
                                       },
                                     },

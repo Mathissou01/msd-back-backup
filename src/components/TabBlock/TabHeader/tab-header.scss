@@ -35,4 +35,8 @@
       border-color: colors.$expert-blue;
     }
   }
+
+  &_alignLeft {
+    justify-content: start;
+  }
 }

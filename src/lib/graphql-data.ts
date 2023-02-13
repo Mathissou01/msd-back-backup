@@ -12,6 +12,7 @@ import {
   RecyclingGuideBlockEntity,
   SearchEngineBlockEntity,
   TipEntity,
+  GetAllFoldersHierarchyQuery,
 } from "../graphql/codegen/generated-types";
 import { IServiceLink, remapServiceLinksDynamicZone } from "./service-links";
 
@@ -76,6 +77,13 @@ export function extractEditoBlock(data: GetEditoBlockTabQuery) {
   const editoContents = data.getEditoContentDTOs ?? null;
 
   return { editoBlock, editoContents };
+}
+
+/* Edito */
+export function extractFoldersHierarchy(data: GetAllFoldersHierarchyQuery) {
+  const folderHierarchy = data.getAllFoldersHierarchy ?? null;
+  // const pathFolder = data.getAllFoldersHierarchy[0]?.path ?? null;
+  return folderHierarchy;
 }
 
 /* Footer */

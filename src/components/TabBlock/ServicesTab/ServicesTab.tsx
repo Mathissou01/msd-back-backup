@@ -8,14 +8,14 @@ import {
   useUpdateServicesBlockTabMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
-import CommonButton from "../../Common/CommonButton/CommonButton";
 import { IServiceLink } from "../../../lib/service-links";
+import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
+import { extractServicesBlock } from "../../../lib/graphql-data";
+import CommonButton from "../../Common/CommonButton/CommonButton";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import FormServiceLinks from "../../Form/FormServiceLinks/FormServiceLinks";
 import ServicesTabAddButton from "./ServicesTabAddButton/ServicesTabAddButton";
 import "./services-tab.scss";
-import CommonLoader from "../../Common/CommonLoader/CommonLoader";
-import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
-import { extractServicesBlock } from "../../../lib/graphql-data";
 
 interface IServicesBlock {
   id: string;
@@ -31,10 +31,12 @@ export default function ServicesTab() {
     titleContent: "Titre du bloc",
     blockDisplayedLabel:
       "Ordre d’affichage des services sur la page d’accueil (accès rapide)",
-    secondaryLabel: `Vous pouvez choisir d’afficher jusqu’à ${maxLimitDisplay} blocs maximum`,
+    secondaryLabel: `Vous pouvez choisir d’afficher jusqu’à ${maxLimitDisplay} blocs maximum, à choisir en fonction du menu défini préalablement`,
     blockNotDisplayedLabel: "Bloc non affichés",
     blockNotDisplayedSecondaryLabel:
       "Nombre maximum de blocs atteints. Pour afficher un autre bloc, vous devez masquer un bloc ci-dessus.",
+    editModalTitle: "Encart service",
+    editModalNameLabel: "Texte du bouton",
     submitButtonLabel: "Enregistrer les modifications",
     cancelButtonLabel: "Annuler les modifications",
   };
@@ -45,7 +47,6 @@ export default function ServicesTab() {
     if (modalData && servicesBlockData?.serviceLinks) {
       const newLink: IServiceLink = {
         type: "ComponentLinksExternal",
-        localId: servicesBlockData.serviceLinks.length,
         isDisplayed: false,
         name: modalData["name"],
         externalLink: modalData["externalLink"],
@@ -172,11 +173,14 @@ export default function ServicesTab() {
                 name="serviceLinks"
                 label={formLabels.blockDisplayedLabel}
                 secondaryLabel={formLabels.secondaryLabel}
+                editModalTitle={formLabels.editModalTitle}
+                editModalNameLabel={formLabels.editModalNameLabel}
+                isDisabled={mutationLoading}
+                isSortByIsDisplayed={true}
+                isSplitDisplay={true}
                 splitLabel={formLabels.blockNotDisplayedLabel}
                 splitSecondaryLabel={formLabels.blockNotDisplayedSecondaryLabel}
                 maxLimitIsDisplayed={maxLimitDisplay}
-                isDisabled={mutationLoading}
-                isSplitDisplay={true}
               />
               <ServicesTabAddButton onSubmit={onModalSubmit} />
             </div>

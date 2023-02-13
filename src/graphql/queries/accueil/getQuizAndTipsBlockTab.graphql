@@ -17,7 +17,8 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
                         id
                         attributes {
                           title
-                          publishedAt
+                          status
+                          publishedDate
                         }
                       }
                     }
@@ -27,7 +28,8 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
                         id
                         attributes {
                           title
-                          publishedAt
+                          status
+                          publishedDate
                           image {
                             data {
                               attributes {
@@ -63,7 +65,8 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
             id
             attributes {
               title
-              publishedAt
+              status
+              publishedDate
             }
           }
         }
@@ -80,7 +83,8 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
             id
             attributes {
               title
-              publishedAt
+              status
+              publishedDate
               image {
                 data {
                   attributes {

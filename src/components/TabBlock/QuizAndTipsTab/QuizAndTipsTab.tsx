@@ -80,7 +80,7 @@ export default function QuizAndTipsTab() {
         return (
           <p key={tip.id + index}>
             {`${tip.attributes?.title} - ${format(
-              parseJSON(tip.attributes?.publishedAt),
+              parseJSON(tip.attributes?.publishedDate),
               "dd/mm/yyyy",
             )}` ?? ""}
           </p>
@@ -92,7 +92,7 @@ export default function QuizAndTipsTab() {
   function tipSelectDisplayTransformFunction(tip: TipEntity): string {
     return (
       `${tip.attributes?.title} - ${format(
-        parseJSON(tip.attributes?.publishedAt),
+        parseJSON(tip.attributes?.publishedDate),
         "dd/mm/yyyy",
       )}` ?? ""
     );
@@ -149,7 +149,9 @@ export default function QuizAndTipsTab() {
 
   /* Local Data */
   const [quizAndTipsData, setQuizAndTipsData] = useState<IQuizAndTipsBlock>();
-  const [quizzesData, setQuizzesData] = useState<Array<QuizEntity>>([]);
+  const [quizzesData, setQuizzesData] = useState<
+    Array<IOptionWrapper<QuizEntity>>
+  >([]);
   const [tipsData, setTipsData] = useState<Array<IOptionWrapper<TipEntity>>>(
     [],
   );
@@ -182,7 +184,11 @@ export default function QuizAndTipsTab() {
         form.reset(mappedData);
       }
       if (quizzes && quizzes?.length > 0) {
-        setQuizzesData(quizzes);
+        const mappedOptions: Array<IOptionWrapper<QuizEntity> | null> =
+          quizzes.map((quiz) => {
+            return quiz ? { option: quiz } : null;
+          });
+        setQuizzesData(mappedOptions?.filter(removeNulls));
       }
       if (tips && tips?.length > 0) {
         const mappedOptions: Array<IOptionWrapper<TipEntity> | null> = tips.map(
@@ -190,11 +196,7 @@ export default function QuizAndTipsTab() {
             return tip ? { option: tip } : null;
           },
         );
-        setTipsData(
-          mappedOptions?.filter(
-            (e): e is Exclude<typeof e, null> => e !== null,
-          ),
-        );
+        setTipsData(mappedOptions?.filter(removeNulls));
       }
     }
   }, [form, data]);

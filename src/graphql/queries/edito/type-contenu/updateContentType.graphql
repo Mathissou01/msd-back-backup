@@ -1,8 +1,143 @@
-mutation updateContentType(
-  $updateFreeContentSubServiceId: ID!
+mutation updateContentTypeCookies(
+  $updateSubServiceId: ID!
+  $data: CookiesSubServiceInput!
+) {
+  updateCookiesSubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeAccessibility(
+  $updateSubServiceId: ID!
+  $data: AccessibilitySubServiceInput!
+) {
+  updateAccessibilitySubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeContactUs(
+  $updateSubServiceId: ID!
+  $data: ContactUsSubServiceInput!
+) {
+  updateContactUsSubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeCGU(
+  $updateSubServiceId: ID!
+  $data: CguSubServiceInput!
+) {
+  updateCguSubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeConfidentiality(
+  $updateSubServiceId: ID!
+  $data: ConfidentialitySubServiceInput!
+) {
+  updateConfidentialitySubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeNews(
+  $updateSubServiceId: ID!
+  $data: NewsSubServiceInput!
+) {
+  updateNewsSubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeTip(
+  $updateSubServiceId: ID!
+  $data: TipSubServiceInput!
+) {
+  updateTipSubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeQuiz(
+  $updateSubServiceId: ID!
+  $data: QuizSubServiceInput!
+) {
+  updateQuizSubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeEvent(
+  $updateSubServiceId: ID!
+  $data: EventSubServiceInput!
+) {
+  updateEventSubService(id: $updateSubServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+      }
+    }
+  }
+}
+
+mutation updateContentTypeFreeContent(
+  $updateSubServiceId: ID!
   $data: FreeContentSubServiceInput!
 ) {
-  updateFreeContentSubService(id: $updateFreeContentSubServiceId, data: $data) {
+  updateFreeContentSubService(id: $updateSubServiceId, data: $data) {
     data {
       id
       attributes {

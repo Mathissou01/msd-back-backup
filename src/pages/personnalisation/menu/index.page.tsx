@@ -6,8 +6,10 @@ import {
   useGetMenuPageQuery,
   useUpdateMenuPageMutation,
 } from "../../../graphql/codegen/generated-types";
-import { removeNulls } from "../../../lib/utilities";
-import { IServiceLink, isServiceLink } from "../../../lib/service-links";
+import {
+  IServiceLink,
+  remapServiceLinksDynamicZone,
+} from "../../../lib/service-links";
 import { extractMenu } from "../../../lib/graphql-data";
 import { useContract } from "../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
@@ -25,6 +27,8 @@ export default function PersonnalisationMenuPage() {
   const formLabels = {
     title: "Menu",
     description: "Ordre d’affichage du menu",
+    editModalTitle: "Menu",
+    editModalNameLabel: "Texte du lien",
     submitButtonLabel: "Enregistrer les modifications",
     cancelButtonLabel: "Annuler les modifications",
   };
@@ -91,22 +95,9 @@ export default function PersonnalisationMenuPage() {
       ) {
         const mappedData = {
           id: contractMenu.id,
-          serviceLinks: contractMenu.attributes.serviceLinks
-            .map((link, index) => {
-              if (link) {
-                const type = link.__typename;
-                if (type && isServiceLink(link)) {
-                  return {
-                    type,
-                    localId: index,
-                    name: link?.name,
-                    isDisplayed: link?.isDisplayed,
-                    picto: link?.picto,
-                  };
-                }
-              }
-            })
-            .filter(removeNulls),
+          serviceLinks: remapServiceLinksDynamicZone(
+            contractMenu.attributes.serviceLinks,
+          ),
         };
         form.reset(mappedData);
       }
@@ -136,6 +127,8 @@ export default function PersonnalisationMenuPage() {
                 <FormServiceLinks
                   name="serviceLinks"
                   label={formLabels.description}
+                  editModalTitle={formLabels.editModalTitle}
+                  editModalNameLabel={formLabels.editModalNameLabel}
                   isDisabled={mutationLoading}
                 />
               </div>

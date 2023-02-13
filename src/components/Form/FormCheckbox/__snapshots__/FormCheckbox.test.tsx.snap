@@ -12,27 +12,30 @@ exports[`FormCheckbox renders 1`] = `
       name="form-checkbox"
       type="checkbox"
     />
-    <label
+    <div
       class="c-FormLabel"
-      for="form-checkbox"
     >
-      <div
-        class="c-FormLabel__Label"
+      <label
+        class="c-FormLabel__LabelWrapper"
+        for="form-checkbox"
       >
-        <span>
+        <span
+          class="c-FormLabel__Label"
+        >
           form checkbox
         </span>
-      </div>
-      <div
-        class="c-FormLabel__Label"
+      </label>
+      <label
+        class="c-FormLabel__LabelWrapper"
+        for="form-checkbox"
       >
         <span
           class="c-FormLabel__Secondary"
         >
           secondary label
         </span>
-      </div>
-    </label>
+      </label>
+    </div>
   </div>
   ,
 </div>

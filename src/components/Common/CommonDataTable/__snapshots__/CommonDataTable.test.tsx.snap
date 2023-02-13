@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonDataTable renders 1`] = `
+<div>
+  <div
+    class="c-CommonDataTable"
+  >
+    <div
+      class="sc-dmctIk WQNxq"
+    >
+      <div
+        class="sc-fLcnxK dApqnJ"
+      >
+        <div
+          class="sc-bcXHqe kVrXuC rdt_Table"
+          role="table"
+        >
+          <div
+            class="sc-gswNZR beUiVL rdt_TableHead"
+            role="rowgroup"
+          >
+            <div
+              class="sc-dkrFOg iSAVrt rdt_TableHeadRow"
+              role="row"
+            >
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-ipEyDJ glyQNg bQdYbR dlSNBX rdt_TableCol"
+                data-column-id="name"
+              >
+                <div
+                  class="sc-csuSiG FeitL rdt_TableCol_Sortable"
+                  data-column-id="name"
+                  data-sort-id="name"
+                  disabled=""
+                  role="columnheader"
+                  tabindex="0"
+                >
+                  <div
+                    class="sc-eDWCr hbotQl"
+                    data-column-id="name"
+                  >
+                    name
+                  </div>
+                </div>
+              </div>
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-ipEyDJ glyQNg bQdYbR dlSNBX rdt_TableCol"
+                data-column-id="3"
+              />
+            </div>
+          </div>
+          <div
+            class="sc-hHTYSt dOIzqm rdt_TableBody"
+            role="rowgroup"
+          >
+            <div
+              class="sc-jrcTuL dwPlXY rdt_TableRow"
+              id="row-1"
+              role="row"
+            >
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="name"
+                data-tag="allowRowEvents"
+                id="cell-name-1"
+                role="cell"
+              >
+                <div
+                  data-tag="allowRowEvents"
+                >
+                  first name
+                </div>
+              </div>
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="3"
+                data-tag="allowRowEvents"
+                id="cell-3-1"
+                role="cell"
+              >
+                <div
+                  data-tag="allowRowEvents"
+                />
+              </div>
+            </div>
+            <div
+              class="sc-jrcTuL dwPlXY rdt_TableRow"
+              id="row-2"
+              role="row"
+            >
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="name"
+                data-tag="allowRowEvents"
+                id="cell-name-2"
+                role="cell"
+              >
+                <div
+                  data-tag="allowRowEvents"
+                >
+                  second name
+                </div>
+              </div>
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="3"
+                data-tag="allowRowEvents"
+                id="cell-3-2"
+                role="cell"
+              >
+                <div
+                  data-tag="allowRowEvents"
+                />
+              </div>
+            </div>
+            <div
+              class="sc-jrcTuL dwPlXY rdt_TableRow"
+              id="row-5"
+              role="row"
+            >
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="name"
+                data-tag="allowRowEvents"
+                id="cell-name-5"
+                role="cell"
+              >
+                <div
+                  data-tag="allowRowEvents"
+                >
+                  fifth name
+                </div>
+              </div>
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="3"
+                data-tag="allowRowEvents"
+                id="cell-3-5"
+                role="cell"
+              >
+                <div
+                  data-tag="allowRowEvents"
+                />
+              </div>
+            </div>
+            <div
+              class="sc-jrcTuL dwPlXY rdt_TableRow"
+              id="row-10"
+              role="row"
+            >
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="name"
+                data-tag="allowRowEvents"
+                id="cell-name-10"
+                role="cell"
+              >
+                <div
+                  data-tag="allowRowEvents"
+                >
+                  tenth name
+                </div>
+              </div>
+              <div
+                class="sc-hLBbgP sc-eDvSVe sc-jSUZER eVPPvF bQdYbR dtqzBx rdt_TableCell"
+                data-column-id="3"
+                data-tag="allowRowEvents"
+                id="cell-3-10"
+                role="cell"
+              >
+                <div
+                  data-tag="allowRowEvents"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

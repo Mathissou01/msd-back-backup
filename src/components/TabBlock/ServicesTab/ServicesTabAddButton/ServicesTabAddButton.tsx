@@ -66,7 +66,7 @@ export default function ServicesTabAddButton({
     <div className="c-ServicesTabAddButton">
       <CommonButton
         label={modalLabels.buttonLabel}
-        picto="cross"
+        picto="plus"
         onClick={onAddButtonClick}
       />
       <FormModal<IServiceLink>
@@ -95,7 +95,7 @@ export default function ServicesTabAddButton({
           isStyleRow={true}
           displayTransform={modalPictoDisplayTransformFunction}
           isRequired={true}
-          /// TODO: remove or give real default value
+          // TODO: remove or give real default value
           defaultValue={{}}
           modalTitle={"WIP MEDIA SERVER"}
           onModalSubmit={(data) => onPictoModalSubmit(data)}

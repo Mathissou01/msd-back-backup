@@ -17,7 +17,7 @@ describe("ServicesTab", () => {
     expect(await screen.findByText("Titre du bloc *")).toBeInTheDocument();
     expect(
       await screen.findByText(
-        "Vous pouvez choisir d’afficher jusqu’à 6 blocs maximum",
+        "Vous pouvez choisir d’afficher jusqu’à 6 blocs maximum, à choisir en fonction du menu défini préalablement",
       ),
     ).toBeInTheDocument();
     expect(
