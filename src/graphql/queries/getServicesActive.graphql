@@ -44,34 +44,6 @@ query getServicesActive($contractId: ID!) {
             }
           }
         }
-        cguSubService {
-          data {
-            attributes {
-              isActivated
-            }
-          }
-        }
-        accessibilitySubService {
-          data {
-            attributes {
-              isActivated
-            }
-          }
-        }
-        confidentialitySubService {
-          data {
-            attributes {
-              isActivated
-            }
-          }
-        }
-        cookiesSubService {
-          data {
-            attributes {
-              isActivated
-            }
-          }
-        }
       }
     }
   }

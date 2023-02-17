@@ -12,7 +12,7 @@ query getServicesBlockTab($contractId: ID!) {
                   attributes {
                     titleContent
                     serviceLinks {
-                      ... on ComponentLinksMap {
+                      ... on ComponentLinksDropOffMap {
                         id
                         name
                         isDisplayed
@@ -24,7 +24,7 @@ query getServicesBlockTab($contractId: ID!) {
                           }
                         }
                       }
-                      ... on ComponentLinksCalendar {
+                      ... on ComponentLinksPickUpDay {
                         id
                         name
                         isDisplayed
@@ -36,7 +36,7 @@ query getServicesBlockTab($contractId: ID!) {
                           }
                         }
                       }
-                      ... on ComponentLinksRecycling {
+                      ... on ComponentLinksRecyclingGuide {
                         id
                         name
                         isDisplayed

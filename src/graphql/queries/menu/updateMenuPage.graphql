@@ -3,7 +3,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
     data {
       attributes {
         serviceLinks {
-          ... on ComponentLinksMap {
+          ... on ComponentLinksDropOffMap {
             id
             name
             isDisplayed
@@ -15,7 +15,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
               }
             }
           }
-          ... on ComponentLinksCalendar {
+          ... on ComponentLinksPickUpDay {
             id
             name
             isDisplayed
@@ -27,7 +27,7 @@ mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
               }
             }
           }
-          ... on ComponentLinksRecycling {
+          ... on ComponentLinksRecyclingGuide {
             id
             name
             isDisplayed

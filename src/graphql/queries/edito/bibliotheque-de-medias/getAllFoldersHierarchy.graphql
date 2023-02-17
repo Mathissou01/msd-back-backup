@@ -1,5 +1,5 @@
-query getAllFoldersHierarchy($path: String!, $pathId: String!) {
-  getAllFoldersHierarchy(path: $path, pathId: $pathId) {
+query getAllFoldersHierarchy($path: String!) {
+  getAllFoldersHierarchy(path: $path) {
     id
     name
     path

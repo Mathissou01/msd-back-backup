@@ -37,11 +37,13 @@ export default function EditoBibliothequeDeMedia() {
     MediaSectionTitle: "Médias",
     FolderSectionTitle: "Dossiers",
   };
+
   /* Method */
   function setUpdatePath(pathId: number, path: string) {
     setActivePathId(pathId);
     setActivePath(path);
   }
+
   /* Local Data */
   const { contractPathId } = useContract();
   const defaultPath = `/1/${contractPathId}`;
@@ -59,7 +61,7 @@ export default function EditoBibliothequeDeMedia() {
     loading: hierarchyLoading,
     error: hierarchyError,
   } = useGetAllFoldersHierarchyQuery({
-    variables: { path: activePath, pathId: `${activePathId}` },
+    variables: { path: activePath },
   });
   const defaultRowsPerPage = 10;
   const defaultPage = 1;

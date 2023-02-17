@@ -15,7 +15,7 @@ mutation updateServicesBlockTab(
                   attributes {
                     titleContent
                     serviceLinks {
-                      ... on ComponentLinksMap {
+                      ... on ComponentLinksDropOffMap {
                         id
                         name
                         isDisplayed
@@ -27,7 +27,7 @@ mutation updateServicesBlockTab(
                           }
                         }
                       }
-                      ... on ComponentLinksCalendar {
+                      ... on ComponentLinksPickUpDay {
                         id
                         name
                         isDisplayed
@@ -39,7 +39,7 @@ mutation updateServicesBlockTab(
                           }
                         }
                       }
-                      ... on ComponentLinksRecycling {
+                      ... on ComponentLinksRecyclingGuide {
                         id
                         name
                         isDisplayed

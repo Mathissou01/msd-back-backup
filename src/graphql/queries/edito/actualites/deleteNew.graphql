@@ -53,10 +53,6 @@ mutation deleteNew($deleteNewId: ID!) {
               }
             }
           }
-          ... on Error {
-            code
-            message
-          }
         }
       }
     }

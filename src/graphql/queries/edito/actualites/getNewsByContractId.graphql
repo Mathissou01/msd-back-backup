@@ -131,10 +131,6 @@ query getNewsByContractId(
               }
             }
           }
-          ... on Error {
-            code
-            message
-          }
         }
       }
     }
