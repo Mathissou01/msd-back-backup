@@ -4,6 +4,7 @@ import {
   useGetFolderAndChildrenByIdQuery,
   useGetFilesPaginationByFolderIdLazyQuery,
   GetFilesPaginationByFolderIdQueryVariables,
+  useGetFolderBreadcrumbQuery,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
@@ -13,6 +14,9 @@ import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 import MediaCreateFolderButton from "../../../components/Media/MediaCreateFolderButton/MediaCreateFolderButton";
 import MediaFolderCard from "../../../components/Media/MediaFolderCard/MediaFolderCard";
 import MediaImportButton from "../../../components/Media/MediaImportButton/MediaImportButton";
+import MediaBreadcrumb, {
+  IMediaBreadcrumb,
+} from "../../../components/Media/MediaBreadcrumb/MediaBreadcrumb";
 import "./edito-bibliotheque-de-medias.scss";
 
 export interface IFolder {
@@ -33,12 +37,16 @@ export default function EditoBibliothequeDeMedia() {
     MediaSectionTitle: "Médias",
     FolderSectionTitle: "Dossiers",
   };
-
-  /* External Data */
+  /* Method */
+  function setUpdatePath(pathId: number, path: string) {
+    setActivePathId(pathId);
+    setActivePath(path);
+  }
+  /* Local Data */
   const { contractPathId } = useContract();
   const defaultPath = `/1/${contractPathId}`;
   const [activePathId, setActivePathId] = useState<number>(contractPathId);
-  const [activePath] = useState<string>(defaultPath);
+  const [activePath, setActivePath] = useState<string>(defaultPath);
   const {
     data: foldersData,
     loading: foldersLoading,
@@ -72,16 +80,32 @@ export default function EditoBibliothequeDeMedia() {
   ] = useGetFilesPaginationByFolderIdLazyQuery({
     variables: defaultQueryVariables,
   });
+  const {
+    data: foldersBreadcrumb,
+    loading: breadcrumbLoading,
+    error: breadcrumbError,
+  } = useGetFolderBreadcrumbQuery({
+    variables: { path: activePath },
+  });
 
-  /* Local Data */
   const isInitialized = useRef(false);
   const [folders, setFolders] = useState<Array<IFolder>>([]);
   const [currentPagination, setCurrentPagination] = useState({
     page: defaultPage,
     rowsPerPage: defaultRowsPerPage,
   });
-  const loading = foldersLoading || hierarchyLoading || paginationLoading;
-  const errors = [foldersError, hierarchyError, paginationError];
+  const [breadcrumbs, setBreadcrumbs] = useState<Array<IMediaBreadcrumb>>([]);
+  const loading =
+    foldersLoading ||
+    hierarchyLoading ||
+    paginationLoading ||
+    breadcrumbLoading;
+  const errors = [
+    foldersError,
+    hierarchyError,
+    paginationError,
+    breadcrumbError,
+  ];
 
   useEffect(() => {
     if (foldersData) {
@@ -116,6 +140,25 @@ export default function EditoBibliothequeDeMedia() {
     }
   }, [getFilesPaginationByFolderId, isInitialized]);
 
+  useEffect(() => {
+    if (foldersBreadcrumb) {
+      const mappedBreadcrumb: Array<IMediaBreadcrumb> =
+        foldersBreadcrumb?.libraryBreadcrumbTrail
+          ?.map((breadcrumb) => {
+            if (breadcrumb?.name && breadcrumb.pathId && breadcrumb.path) {
+              const pathId = Number.parseInt(breadcrumb.pathId);
+              const path = breadcrumb.path;
+              return {
+                label: breadcrumb.name,
+                onClick: () => setUpdatePath(pathId, path),
+              };
+            }
+          })
+          .filter(removeNulls) ?? [];
+      setBreadcrumbs(mappedBreadcrumb);
+    }
+  }, [foldersBreadcrumb, activePath, contractPathId]);
+
   return (
     <>
       <PageTitle
@@ -143,6 +186,7 @@ export default function EditoBibliothequeDeMedia() {
             </div>
           </div>
           <div className="c-EditoBibliothequeDeMedia__Filters"></div>
+          <MediaBreadcrumb foldersBreadcrumb={breadcrumbs} />
         </div>
         <div className="c-EditoBibliothequeDeMedia__Folders">
           <h2>{formLabels.FolderSectionTitle}</h2>
@@ -163,7 +207,7 @@ export default function EditoBibliothequeDeMedia() {
                     ) ?? []
                   }
                   localFolderPathId={`${activePathId}`}
-                  onClick={() => setActivePathId(folder.pathId)}
+                  onClick={() => setUpdatePath(folder.pathId, folder.path)}
                 />
               ))}
           </div>

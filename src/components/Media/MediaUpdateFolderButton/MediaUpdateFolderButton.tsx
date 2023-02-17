@@ -33,7 +33,7 @@ export default function MediaUpdateFolderButton({
     titleFolderContent: "Nom du dossier",
     locationFolder: "Emplacement",
   };
-  // const imagesPicto = "/images/pictos/edit.svg";
+
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
     if (submitData["folderLocation"]?.["pathId"]) {
@@ -77,6 +77,10 @@ export default function MediaUpdateFolderButton({
     return mapOptionsInWrappers(sortedFolderHierarchy);
   }
 
+  function openToggleModal(e: { stopPropagation: () => void }) {
+    e.stopPropagation();
+    modalRef.current?.toggleModal(true);
+  }
   /* External Data */
   const [updateUploadFolder, { loading: mutationLoading }] =
     useUpdateUploadFolderMutation();
@@ -90,7 +94,7 @@ export default function MediaUpdateFolderButton({
         <button
           type="button"
           className="c-MediaUpdateFolderButton__Button"
-          onClick={() => modalRef.current?.toggleModal(true)}
+          onClick={openToggleModal}
         />
         <FormModal
           modalRef={modalRef}

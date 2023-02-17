@@ -4,21 +4,20 @@
 @use "src/styles/02-tools/tools.shadows" as shadows;
 
 .c-MediaFolderCard {
+  $self: &;
   @include shadows.shadow(1);
 
   position: relative;
   width: 270px;
-  padding: 16px;
   border: 1px solid colors.$blue-4;
   border-radius: 4px;
 
   &__Button {
-    $self: &;
-
     display: flex;
     gap: 12px;
     align-items: center;
-    padding: 0;
+    width: 100%;
+    padding: 16px;
   }
 
   &__Informations {
@@ -43,7 +42,8 @@
     display: none;
   }
 
-  &:hover &__Edit {
+  &:hover &__Edit,
+  &:focus-within &__Edit {
     display: block;
   }
 

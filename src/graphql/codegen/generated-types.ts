@@ -7956,6 +7956,21 @@ export type GetFolderAndChildrenByIdQuery = {
   } | null;
 };
 
+export type GetFolderBreadcrumbQueryVariables = Exact<{
+  path: Scalars["String"];
+}>;
+
+export type GetFolderBreadcrumbQuery = {
+  __typename?: "Query";
+  libraryBreadcrumbTrail?: Array<{
+    __typename?: "Folders";
+    id?: string | null;
+    name?: string | null;
+    path?: string | null;
+    pathId?: string | null;
+  } | null> | null;
+};
+
 export type UpdateUploadFolderMutationVariables = Exact<{
   updateUploadFolderId: Scalars["ID"];
   data: UploadFolderInput;
@@ -10859,6 +10874,67 @@ export type GetFolderAndChildrenByIdLazyQueryHookResult = ReturnType<
 export type GetFolderAndChildrenByIdQueryResult = Apollo.QueryResult<
   GetFolderAndChildrenByIdQuery,
   GetFolderAndChildrenByIdQueryVariables
+>;
+export const GetFolderBreadcrumbDocument = gql`
+  query getFolderBreadcrumb($path: String!) {
+    libraryBreadcrumbTrail(path: $path) {
+      id
+      name
+      path
+      pathId
+    }
+  }
+`;
+
+/**
+ * __useGetFolderBreadcrumbQuery__
+ *
+ * To run a query within a React component, call `useGetFolderBreadcrumbQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFolderBreadcrumbQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFolderBreadcrumbQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *   },
+ * });
+ */
+export function useGetFolderBreadcrumbQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFolderBreadcrumbQuery,
+    GetFolderBreadcrumbQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFolderBreadcrumbQuery,
+    GetFolderBreadcrumbQueryVariables
+  >(GetFolderBreadcrumbDocument, options);
+}
+export function useGetFolderBreadcrumbLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFolderBreadcrumbQuery,
+    GetFolderBreadcrumbQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFolderBreadcrumbQuery,
+    GetFolderBreadcrumbQueryVariables
+  >(GetFolderBreadcrumbDocument, options);
+}
+export type GetFolderBreadcrumbQueryHookResult = ReturnType<
+  typeof useGetFolderBreadcrumbQuery
+>;
+export type GetFolderBreadcrumbLazyQueryHookResult = ReturnType<
+  typeof useGetFolderBreadcrumbLazyQuery
+>;
+export type GetFolderBreadcrumbQueryResult = Apollo.QueryResult<
+  GetFolderBreadcrumbQuery,
+  GetFolderBreadcrumbQueryVariables
 >;
 export const UpdateUploadFolderDocument = gql`
   mutation updateUploadFolder(
