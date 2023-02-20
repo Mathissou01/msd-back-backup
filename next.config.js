@@ -5,6 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
+  transpilePackages: ["@suezenv/react-theme-components", "react-date-picker"],
   reactStrictMode: true,
   swcMinify: false,
   images: {

@@ -105,7 +105,12 @@
     "skipLibCheck": true,
     /* Skip type checking all .d.ts files. */
     "incremental": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -113,7 +118,8 @@
     "graphql.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "./jest.setup.js"
+    "./jest.setup.js",
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

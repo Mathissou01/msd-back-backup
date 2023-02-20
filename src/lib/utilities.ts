@@ -33,6 +33,10 @@ export function isString(value: unknown): value is string {
   return typeof value === "string";
 }
 
+export function isStringOfNumber(value: unknown): value is `${number}` {
+  return typeof value === "string" && !isNaN(Number.parseInt(value));
+}
+
 export function comparePropertyValueByPriority(
   key: string,
   priorityList: { [key: string]: number },
@@ -67,4 +71,18 @@ export function comparePropertyValueByPriority(
     else if (first > second) result = 1;
     return order === "desc" ? ~result : result;
   };
+}
+
+export function compareArraysOfObjects(
+  a: Array<unknown>,
+  b: Array<unknown>,
+): boolean {
+  return (
+    Array.isArray(a) &&
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, i) =>
+      Object.keys(val).every((prop) => b[i][prop] && b[i][prop] === val[prop]),
+    )
+  );
 }

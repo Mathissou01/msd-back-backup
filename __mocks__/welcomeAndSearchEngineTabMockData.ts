@@ -5,7 +5,7 @@ export const defaultMockData = [
     request: {
       query: GetSearchEngineTabDocument,
       variables: {
-        contractId: "1",
+        contractId: "0",
       },
     },
     result: {

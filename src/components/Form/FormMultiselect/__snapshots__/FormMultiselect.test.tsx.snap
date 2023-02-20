@@ -29,7 +29,6 @@ exports[`FormMultiselect renders 1`] = `
           class="o-SelectWrapper__Select o-SelectWrapper__Select_placeholder "
           data-testid="form-multiselect_0"
           id="form-multiselect_0"
-          name="form-multiselect_0"
         >
           <option
             value="-1"
@@ -75,7 +74,6 @@ exports[`FormMultiselect renders 1`] = `
           class="o-SelectWrapper__Select o-SelectWrapper__Select_placeholder "
           data-testid="form-multiselect_1"
           id="form-multiselect_1"
-          name="form-multiselect_1"
         >
           <option
             value="-1"

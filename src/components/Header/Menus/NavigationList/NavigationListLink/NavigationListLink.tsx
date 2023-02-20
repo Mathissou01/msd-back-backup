@@ -1,28 +1,33 @@
 import classNames from "classnames";
 import Link from "next/link";
+import {
+  ENavigationPages,
+  useNavigation,
+} from "../../../../../hooks/useNavigation";
 import "./navigation-list-link.scss";
-import { ENavigationPages } from "../../../../../hooks/useNavigation";
 
 interface INavigationListButtonProps {
-  href: keyof typeof ENavigationPages;
-  label: string;
-  isActive: boolean;
-  onClick?: () => void;
+  path: keyof typeof ENavigationPages;
+  label?: string;
 }
 
 export default function NavigationListLink({
-  href,
+  path,
   label,
-  isActive,
-  onClick,
 }: INavigationListButtonProps) {
+  const { currentRoot, currentPage, setCurrentPage } = useNavigation();
   const menuClassNames = classNames("c-NavigationListLink", {
-    "c-NavigationListLink_active": isActive,
+    "c-NavigationListLink_active": currentPage === path,
   });
-
   return (
-    <Link className={menuClassNames} href={href ?? "/"} onClick={onClick}>
-      <span className="c-NavigationListLink__Label">{label}</span>
+    <Link
+      className={menuClassNames}
+      href={`${currentRoot}${path}`}
+      onClick={() => setCurrentPage(path)}
+    >
+      <span className="c-NavigationListLink__Label">
+        {label ?? ENavigationPages[path]}
+      </span>
     </Link>
   );
 }

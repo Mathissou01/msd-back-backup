@@ -27,7 +27,7 @@ exports[`CommonDragDropFile renders component 1`] = `
           decoding="async"
           height="50"
           loading="lazy"
-          src="/images/pictos/add_photo.svg"
+          src="/images/pictos/add-photo.svg"
           style="color: transparent;"
           width="50"
         />

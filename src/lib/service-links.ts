@@ -17,14 +17,15 @@ export interface IServiceLink {
   picto?: IPicto | null;
 }
 
-// eslint-disable-next-line
-export function isServiceLink(link: any): link is IServiceLink {
-  return "name" in link && "isDisplayed" in link;
-}
-
 export interface IPartialServiceLink {
   __typename: string;
   name?: string | null;
+}
+
+export function isServiceLink(
+  link: Partial<IPartialServiceLink>,
+): link is IServiceLink {
+  return "name" in link && "isDisplayed" in link;
 }
 
 export function remapServiceLinksDynamicZone(

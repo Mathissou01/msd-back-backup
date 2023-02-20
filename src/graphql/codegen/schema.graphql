@@ -523,6 +523,13 @@ type ClientContact {
   updatedAt: DateTime
 }
 
+type ClientContactCreateInput {
+  email: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+}
+
 type ClientContactEntity {
   attributes: ClientContact
   id: ID
@@ -616,13 +623,9 @@ type ComponentBlocksSubHeading {
   subHeadingText: String
 }
 
-type ComponentBlocksTranscript {
-  id: ID!
-  transcriptText: String
-}
-
 type ComponentBlocksVideo {
   id: ID!
+  transcriptText: String
   videoLink: String
 }
 
@@ -925,7 +928,6 @@ union ContactUsBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
@@ -1059,17 +1061,18 @@ type ContentTypeDTO {
 
 type Contract {
   alertNotificationService: AlertNotificationServiceEntityResponse
-  ccap: Int
-  clear: Int
+  ccap: Long
+  clear: Long
   clientContact: ClientContactEntityResponse
   clientName: String!
   contractCustomization: ContractCustomizationEntityResponse
   contractMenu: ContractMenuEntityResponse
+  contractStatus: ENUM_CONTRACT_CONTRACTSTATUS!
   createdAt: DateTime
   dropOffMapService: DropOffMapServiceEntityResponse
   editorialService: EditorialServiceEntityResponse
-  folderPathId: Long
-  id: ID!
+  folderId: Long
+  isRVFrance: Boolean!
   keyMetricsService: KeyMetricsServiceEntityResponse
   pickUpDayService: PickUpDayServiceEntityResponse
   recyclingGuideService: RecyclingGuideServiceEntityResponse
@@ -1089,7 +1092,15 @@ type Contract {
   ): UsersPermissionsUserRelationResponseCollection
 }
 
-union ContractAndClientContact = ClientContact | Contract
+union ContractAndClientContact = ClientContactCreateInput | ContractCreateInput
+
+type ContractCreateInput {
+  ccap: Long
+  clear: Long
+  clientName: String!
+  isRVFrance: Boolean!
+  siret: Long
+}
 
 type ContractCustomization {
   contract: ContractEntityResponse
@@ -1148,17 +1159,19 @@ type ContractEntityResponseCollection {
 input ContractFiltersInput {
   alertNotificationService: AlertNotificationServiceFiltersInput
   and: [ContractFiltersInput]
-  ccap: IntFilterInput
-  clear: IntFilterInput
+  ccap: LongFilterInput
+  clear: LongFilterInput
   clientContact: ClientContactFiltersInput
   clientName: StringFilterInput
   contractCustomization: ContractCustomizationFiltersInput
   contractMenu: ContractMenuFiltersInput
+  contractStatus: StringFilterInput
   createdAt: DateTimeFilterInput
   dropOffMapService: DropOffMapServiceFiltersInput
   editorialService: EditorialServiceFiltersInput
-  folderPathId: LongFilterInput
+  folderId: LongFilterInput
   id: IDFilterInput
+  isRVFrance: BooleanFilterInput
   keyMetricsService: KeyMetricsServiceFiltersInput
   not: ContractFiltersInput
   or: [ContractFiltersInput]
@@ -1174,15 +1187,17 @@ input ContractFiltersInput {
 
 input ContractInput {
   alertNotificationService: ID
-  ccap: Int
-  clear: Int
+  ccap: Long
+  clear: Long
   clientContact: ID
   clientName: String
   contractCustomization: ID
   contractMenu: ID
+  contractStatus: ENUM_CONTRACT_CONTRACTSTATUS
   dropOffMapService: ID
   editorialService: ID
-  folderPathId: Long
+  folderId: Long
+  isRVFrance: Boolean
   keyMetricsService: ID
   pickUpDayService: ID
   recyclingGuideService: ID
@@ -1666,6 +1681,12 @@ enum ENUM_CONTACTUS_STATUS {
   published
 }
 
+enum ENUM_CONTRACT_CONTRACTSTATUS {
+  Actif
+  En_cours
+  Initialisation
+}
+
 enum ENUM_COOKIE_STATUS {
   archived
   draft
@@ -2024,7 +2045,6 @@ union EventBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
@@ -2293,7 +2313,6 @@ union FreeContentBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
@@ -2441,7 +2460,6 @@ union GenericMorph =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
@@ -2920,11 +2938,14 @@ type Mutation {
     data: EditorialServiceInput!
   ): EditorialServiceEntityResponse
   createEmptyContract(
+    ccap: Long
+    clear: Long
     clientName: String!
     contactEmail: String!
     contactFirstName: String!
     contactLastName: String!
     contactPhoneNumber: String!
+    isRVFrance: Boolean!
     siretNumber: Long
   ): [ContractAndClientContact]
   createEpci(data: EpciInput!): EpciEntityResponse
@@ -3335,7 +3356,6 @@ union NewBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
@@ -3817,7 +3837,7 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): FreeContentEntityResponseCollection
-  getAllFoldersHierarchy(path: String!): [RequestFolders]
+  getAllFoldersHierarchy(contractFolderId: ID!, path: String!): [RequestFolders]
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
   getEditoBlockDTO(
     contractId: ID!
@@ -4786,7 +4806,6 @@ union TipBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error

@@ -87,7 +87,7 @@ exports[`Header renders 1`] = `
         >
           <a
             class="c-NavigationListMenu__Button"
-            href="/"
+            href="null/"
           >
             <div
               class="c-NavigationListMenu__Picto"
@@ -145,67 +145,7 @@ exports[`Header renders 1`] = `
           >
             <a
               class="c-NavigationListLink"
-              href="/edito/actualites"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Actualités
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/evenements"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Événements
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/astuces"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Astuces
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                CONTENU LIBRE
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/quiz"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Quiz
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/chiffres-cles"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Chiffres clés
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/bibliotheque-de-medias"
+              href="null/edito/bibliotheque-de-medias"
             >
               <span
                 class="c-NavigationListLink__Label"
@@ -215,7 +155,7 @@ exports[`Header renders 1`] = `
             </a>
             <a
               class="c-NavigationListLink"
-              href="/edito/thematiques"
+              href="null/edito/thematiques"
             >
               <span
                 class="c-NavigationListLink__Label"
@@ -225,157 +165,12 @@ exports[`Header renders 1`] = `
             </a>
             <a
               class="c-NavigationListLink"
-              href="/edito/type-contenu"
+              href="null/edito/type-contenu"
             >
               <span
                 class="c-NavigationListLink__Label"
               >
                 Type de contenu
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/accessibilite"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Accessibilité
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/conditions-generales"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Conditions générales
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/politique-cookies"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Politique de cookies
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/confidentialite"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Confidentialité
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/edito/contact"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Contact
-              </span>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li
-        class="c-NavigationList__Item"
-      >
-        <div
-          class="c-NavigationListMenu c-NavigationListMenu_menu"
-        >
-          <button
-            class="c-NavigationListMenu__Button"
-          >
-            <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/services.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
-            <span
-              class="c-NavigationListMenu__Label"
-            >
-              Services
-            </span>
-          </button>
-          <div
-            class="c-NavigationListMenu__List"
-          >
-            <a
-              class="c-NavigationListLink"
-              href="/services/points-collecte"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Points de collecte
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/services/guide-tri"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Guide du tri
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/services/jour-collecte"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Jour de collecte
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/services/demandes"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Demandes
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/services/yeswescan"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                YesWeScan
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/services/alertes"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Alertes
               </span>
             </a>
           </div>
@@ -415,17 +210,7 @@ exports[`Header renders 1`] = `
           >
             <a
               class="c-NavigationListLink"
-              href="/personnalisation/couleurs"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Couleurs, logo, lien
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/personnalisation/menu"
+              href="null/personnalisation/menu"
             >
               <span
                 class="c-NavigationListLink__Label"
@@ -435,7 +220,7 @@ exports[`Header renders 1`] = `
             </a>
             <a
               class="c-NavigationListLink"
-              href="/personnalisation/accueil"
+              href="null/personnalisation/accueil"
             >
               <span
                 class="c-NavigationListLink__Label"
@@ -445,7 +230,7 @@ exports[`Header renders 1`] = `
             </a>
             <a
               class="c-NavigationListLink"
-              href="/personnalisation/footer"
+              href="null/personnalisation/footer"
             >
               <span
                 class="c-NavigationListLink__Label"
@@ -453,159 +238,7 @@ exports[`Header renders 1`] = `
                 Footer
               </span>
             </a>
-            <a
-              class="c-NavigationListLink"
-              href="/personnalisation/types-conteneurs"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Types de conteneurs
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="/personnalisation/types-apport"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Types de lieux d'apport
-              </span>
-            </a>
           </div>
-        </div>
-      </li>
-      <li
-        class="c-NavigationList__Item"
-      >
-        <div
-          class="c-NavigationListMenu c-NavigationListMenu_menu"
-        >
-          <button
-            class="c-NavigationListMenu__Button"
-          >
-            <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/sectorsAndUsers.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
-            <span
-              class="c-NavigationListMenu__Label"
-            >
-              Secteurs et Usagers
-            </span>
-          </button>
-          <div
-            class="c-NavigationListMenu__List"
-          >
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-          </div>
-        </div>
-      </li>
-      <li
-        class="c-NavigationList__Item"
-      >
-        <div
-          class="c-NavigationListMenu c-NavigationListMenu_menu"
-        >
-          <button
-            class="c-NavigationListMenu__Button"
-          >
-            <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/administration.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
-            <span
-              class="c-NavigationListMenu__Label"
-            >
-              Gestion
-            </span>
-          </button>
-          <div
-            class="c-NavigationListMenu__List"
-          >
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-            <p>
-              link
-            </p>
-          </div>
-        </div>
-      </li>
-      <li
-        class="c-NavigationList__Item"
-      >
-        <div
-          class="c-NavigationListMenu"
-        >
-          <a
-            class="c-NavigationListMenu__Button"
-            href="/corbeille"
-          >
-            <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/bin.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
-            <span
-              class="c-NavigationListMenu__Label"
-            >
-              Corbeille
-            </span>
-          </a>
         </div>
       </li>
     </ul>

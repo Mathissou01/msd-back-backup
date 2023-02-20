@@ -23,6 +23,7 @@ interface IFormInputProps {
   flexStyle?: "column" | "row";
   labelStyle?: LabelStyle;
   validationStyle?: ValidationStyle;
+  tagType?: "input" | "textarea";
 }
 
 export default function FormInput({
@@ -40,7 +41,8 @@ export default function FormInput({
   placeholder,
   flexStyle = "column",
   labelStyle,
-  validationStyle,
+  validationStyle = "inline",
+  tagType = "input",
 }: IFormInputProps) {
   /* Static Data */
   const errorMessages = {
@@ -48,6 +50,7 @@ export default function FormInput({
     minLength: `${minLengthValidation} caractères minimum`,
     maxLength: `${maxLengthValidation} caractères maximum`,
   };
+  const Tag = tagType;
 
   /* Local Data */
   const {
@@ -70,7 +73,7 @@ export default function FormInput({
         labelStyle={labelStyle}
         validationStyle={validationStyle}
       >
-        <input
+        <Tag
           className={classNames("c-FormInput__Input", {
             "c-FormInput__Input_invalid": _.get(errors, name),
           })}

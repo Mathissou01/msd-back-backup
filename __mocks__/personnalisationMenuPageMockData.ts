@@ -5,7 +5,7 @@ export const defaultMockData = [
     request: {
       query: GetMenuPageDocument,
       variables: {
-        contractId: "1",
+        contractId: "0",
       },
     },
     result: {

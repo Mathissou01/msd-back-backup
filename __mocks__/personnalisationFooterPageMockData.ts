@@ -5,7 +5,7 @@ export const defaultMockData = [
     request: {
       query: GetFooterPageDocument,
       variables: {
-        contractId: "1",
+        contractId: "0",
       },
     },
     result: {

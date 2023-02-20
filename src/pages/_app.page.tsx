@@ -1,37 +1,36 @@
 import { ApolloProvider } from "@apollo/client";
-import { useState } from "react";
 import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
 import client from "../graphql/client";
-import { ContractContext } from "../hooks/useContract";
+import { useState } from "react";
+import { ContractEntity } from "../graphql/codegen/generated-types";
 import { ENavigationPages, NavigationContext } from "../hooks/useNavigation";
+import { ContractContext } from "../hooks/useContract";
 import CommonSvgDefs from "../components/Common/CommonSvgDefs/CommonSvgDefs";
-import Header from "../components/Header/Header";
 import "../styles/main.scss";
 
 function MsdBackApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  // TODO: get value from .env, and fetch values from contract
-  const [contractId, setContractId] = useState<`${number}`>("1");
-  const [currentPage, setCurrentPage] = useState<keyof typeof ENavigationPages>(
-    router.route as keyof typeof ENavigationPages,
-  );
+  const [currentContract, setCurrentContract] = useState<ContractEntity>({});
+  const [currentContractId, setCurrentContractId] = useState<`${number}`>("0");
+  const [currentRoot, setCurrentRoot] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] =
+    useState<keyof typeof ENavigationPages>("/");
 
   return (
     <ApolloProvider client={client}>
       <ContractContext.Provider
-        value={{ contractId, setContractId, contractPathId: 2 }}
+        value={{
+          contract: currentContract,
+          setContract: setCurrentContract,
+          contractId: currentContractId,
+          setContractId: setCurrentContractId,
+        }}
       >
-        <NavigationContext.Provider value={{ currentPage, setCurrentPage }}>
+        <NavigationContext.Provider
+          value={{ currentRoot, setCurrentRoot, currentPage, setCurrentPage }}
+        >
           <div id={"app"}>
             <CommonSvgDefs />
-            <Header />
-            <div className="o-Page__Container">
-              <main role="main" className="o-Page__Main">
-                <Component {...pageProps} />
-              </main>
-              {/*<Footer />*/}
-            </div>
+            <Component {...pageProps} />
             <div id="modal-portal" />
           </div>
         </NavigationContext.Provider>

@@ -1,0 +1,19 @@
+.c-EditoActualitesPage {
+  width: 100%;
+  padding-bottom: 37px;
+
+  &__Table {
+    position: relative;
+  }
+
+  &__Title {
+    margin-top: 38px;
+    margin-bottom: 18px;
+  }
+
+  &__Link {
+    font-weight: 500;
+    font-family: DINPro-Medium, sans-serif;
+    text-decoration: underline;
+  }
+}

@@ -22,7 +22,7 @@ const mock = {
       isDisplayed: true,
     },
     {
-      type: "ComponentLinksRecycling",
+      type: "ComponentLinksRecyclingGuide",
       id: 2,
       name: "Guide du tri",
       isDisplayed: true,

@@ -8,6 +8,10 @@
   margin-top: 53px;
   padding: 20px 182px 40px;
 
+  &__Title {
+    color: colors.$expert-blue;
+  }
+
   &__Description {
     color: colors.$gray-600;
     font-weight: 400;

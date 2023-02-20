@@ -1,0 +1,49 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-EditoSideBar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  > * {
+    @include shadows.shadow(1);
+
+    padding: 16px 20px;
+    background-color: colors.$white;
+    border-radius: 8px;
+  }
+
+  &__Status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    font-weight: 500;
+    font-family: DINPro-Medium, sans-serif;
+
+    &_draft {
+      background-color: colors.$warning-light;
+    }
+
+    &_published {
+      background-color: colors.$success-light;
+    }
+  }
+
+  &__UnpublishedDate {
+    height: 206px;
+  }
+
+  &__Users {
+    height: 156px;
+  }
+
+  &__Channels {
+    height: 152px;
+  }
+
+  &__Alert {
+    height: 180px;
+  }
+}

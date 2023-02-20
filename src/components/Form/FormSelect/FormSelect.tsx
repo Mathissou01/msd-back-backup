@@ -12,11 +12,11 @@ interface IFormSelectProps<T> {
   name: string;
   label: string;
   secondaryLabel?: string;
-  displayTransform: (...args: Array<T>) => string;
+  displayTransform?: (...args: Array<T>) => string;
   isRequired?: boolean;
   isDisabled?: boolean;
   options: Array<IOptionWrapper<T>>;
-  optionKey: keyof T & string;
+  optionKey?: keyof T & string;
   defaultValue?: T;
   noneSelectedLabel?: string;
 }
@@ -48,24 +48,23 @@ export default function FormSelect<T>({
     formState: { isSubmitting, errors },
   } = useFormContext();
   const watchValue = watch(name);
+  register(name, {
+    required: { value: isRequired, message: errorMessages.required },
+    value: defaultValue ?? null,
+  });
 
   useEffect(() => {
-    if (watchValue !== undefined) {
-      const matchIndex = options.findIndex(
-        (wrapper) =>
-          wrapper && wrapper.option?.[optionKey] === watchValue?.[optionKey],
-      );
-      setValue(name, matchIndex);
-      setSelectedIndex(matchIndex);
-    } else if (defaultValue) {
-      const matchIndex = options.findIndex(
-        (wrapper) =>
-          wrapper && wrapper.option?.[optionKey] === defaultValue[optionKey],
-      );
-      setValue(name, matchIndex);
+    const matchIndex = options.findIndex(
+      (wrapper) =>
+        wrapper &&
+        (optionKey
+          ? wrapper.option?.[optionKey] === watchValue?.[optionKey]
+          : wrapper.option === watchValue),
+    );
+    if (matchIndex !== selectedIndex) {
       setSelectedIndex(matchIndex);
     }
-  }, [defaultValue, name, optionKey, options, setValue, watchValue]);
+  }, [watchValue, options, optionKey, selectedIndex, setSelectedIndex]);
 
   function renderGroups() {
     return [...new Map(options.map((item) => [item["group"], item]))].map(
@@ -98,7 +97,11 @@ export default function FormSelect<T>({
             value={index}
           >
             {wrapper.option && !wrapper.label
-              ? displayTransform(wrapper.option)
+              ? displayTransform
+                ? displayTransform(wrapper.option)
+                : optionKey
+                ? wrapper.option[optionKey]?.toString()
+                : wrapper.option.toString()
               : wrapper.label}
           </option>
         )
@@ -120,18 +123,11 @@ export default function FormSelect<T>({
             "o-SelectWrapper__Select_placeholder": selectedIndex < 0,
             "o-SelectWrapper__Select_invalid": _.get(errors, name),
           })}
-          {...register(name, {
-            setValueAs: (v) => {
-              return options[v]?.option ?? null;
-            },
-            required: { value: isRequired, message: errorMessages.required },
-            min: { value: 0, message: errorMessages.required },
-          })}
           id={name}
           value={selectedIndex}
           onChange={(event) => {
-            setSelectedIndex(Number.parseInt(event.target.value));
-            setValue(name, Number.parseInt(event.target.value), {
+            const index = Number.parseInt(event.target.value);
+            setValue(name, options[index]?.option ?? null, {
               shouldValidate: true,
               shouldDirty: true,
             });

@@ -5,7 +5,7 @@ export const defaultMockData = [
     request: {
       query: GetServicesBlockTabDocument,
       variables: {
-        contractId: "1",
+        contractId: "0",
       },
     },
     result: {

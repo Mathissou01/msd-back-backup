@@ -104,7 +104,7 @@ const config: PlaywrightTestConfig = {
   webServer: {
     command: "npm run start",
     port: Number.parseInt(process.env.NEXT_PUBLIC_BASE_PORT ?? "3001"),
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
   },
 };
 

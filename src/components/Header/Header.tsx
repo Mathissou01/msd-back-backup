@@ -2,7 +2,11 @@ import Head from "next/head";
 import HeaderTopBar from "./HeaderTopBar/HeaderTopBar";
 import HeaderSideBar from "./HeaderSideBar/HeaderSideBar";
 
-export default function Header() {
+interface IHeaderProps {
+  isRoot?: boolean;
+}
+
+export default function Header({ isRoot = false }: IHeaderProps) {
   return (
     <>
       <Head>
@@ -10,8 +14,8 @@ export default function Header() {
         <meta name="description" content="wip" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <HeaderTopBar />
-      <HeaderSideBar />
+      <HeaderTopBar isRoot={isRoot} />
+      {!isRoot && <HeaderSideBar />}
     </>
   );
 }

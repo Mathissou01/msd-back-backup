@@ -50,7 +50,7 @@ export default function CommonDragDropFile({
     labelInfosDragDrop: "Glissez-déposez une image dans cette zone ou",
     uploadFile: "Parcourir les fichiers",
   };
-  const mediaImage = "/images/pictos/add_photo.svg";
+  const mediaImage = "/images/pictos/add-photo.svg";
 
   /* Local Data */
   const inputRef = useRef<HTMLInputElement>(null);

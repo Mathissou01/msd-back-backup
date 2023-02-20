@@ -617,6 +617,14 @@ export type ClientContact = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
+export type ClientContactCreateInput = {
+  __typename?: "ClientContactCreateInput";
+  email?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
+  phoneNumber?: Maybe<Scalars["String"]>;
+};
+
 export type ClientContactEntity = {
   __typename?: "ClientContactEntity";
   attributes?: Maybe<ClientContact>;
@@ -721,15 +729,10 @@ export type ComponentBlocksSubHeading = {
   subHeadingText?: Maybe<Scalars["String"]>;
 };
 
-export type ComponentBlocksTranscript = {
-  __typename?: "ComponentBlocksTranscript";
-  id: Scalars["ID"];
-  transcriptText?: Maybe<Scalars["String"]>;
-};
-
 export type ComponentBlocksVideo = {
   __typename?: "ComponentBlocksVideo";
   id: Scalars["ID"];
+  transcriptText?: Maybe<Scalars["String"]>;
   videoLink?: Maybe<Scalars["String"]>;
 };
 
@@ -1082,7 +1085,6 @@ export type ContactUsBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
@@ -1229,17 +1231,18 @@ export type ContentTypeDto = {
 export type Contract = {
   __typename?: "Contract";
   alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
-  ccap?: Maybe<Scalars["Int"]>;
-  clear?: Maybe<Scalars["Int"]>;
+  ccap?: Maybe<Scalars["Long"]>;
+  clear?: Maybe<Scalars["Long"]>;
   clientContact?: Maybe<ClientContactEntityResponse>;
   clientName: Scalars["String"];
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractMenu?: Maybe<ContractMenuEntityResponse>;
+  contractStatus: Enum_Contract_Contractstatus;
   createdAt?: Maybe<Scalars["DateTime"]>;
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
-  folderPathId?: Maybe<Scalars["Long"]>;
-  id: Scalars["ID"];
+  folderId?: Maybe<Scalars["Long"]>;
+  isRVFrance: Scalars["Boolean"];
   keyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
@@ -1263,7 +1266,18 @@ export type ContractUsersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type ContractAndClientContact = ClientContact | Contract;
+export type ContractAndClientContact =
+  | ClientContactCreateInput
+  | ContractCreateInput;
+
+export type ContractCreateInput = {
+  __typename?: "ContractCreateInput";
+  ccap?: Maybe<Scalars["Long"]>;
+  clear?: Maybe<Scalars["Long"]>;
+  clientName: Scalars["String"];
+  isRVFrance: Scalars["Boolean"];
+  siret?: Maybe<Scalars["Long"]>;
+};
 
 export type ContractCustomization = {
   __typename?: "ContractCustomization";
@@ -1329,17 +1343,19 @@ export type ContractEntityResponseCollection = {
 export type ContractFiltersInput = {
   alertNotificationService?: InputMaybe<AlertNotificationServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
-  ccap?: InputMaybe<IntFilterInput>;
-  clear?: InputMaybe<IntFilterInput>;
+  ccap?: InputMaybe<LongFilterInput>;
+  clear?: InputMaybe<LongFilterInput>;
   clientContact?: InputMaybe<ClientContactFiltersInput>;
   clientName?: InputMaybe<StringFilterInput>;
   contractCustomization?: InputMaybe<ContractCustomizationFiltersInput>;
   contractMenu?: InputMaybe<ContractMenuFiltersInput>;
+  contractStatus?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
-  folderPathId?: InputMaybe<LongFilterInput>;
+  folderId?: InputMaybe<LongFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isRVFrance?: InputMaybe<BooleanFilterInput>;
   keyMetricsService?: InputMaybe<KeyMetricsServiceFiltersInput>;
   not?: InputMaybe<ContractFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
@@ -1355,15 +1371,17 @@ export type ContractFiltersInput = {
 
 export type ContractInput = {
   alertNotificationService?: InputMaybe<Scalars["ID"]>;
-  ccap?: InputMaybe<Scalars["Int"]>;
-  clear?: InputMaybe<Scalars["Int"]>;
+  ccap?: InputMaybe<Scalars["Long"]>;
+  clear?: InputMaybe<Scalars["Long"]>;
   clientContact?: InputMaybe<Scalars["ID"]>;
   clientName?: InputMaybe<Scalars["String"]>;
   contractCustomization?: InputMaybe<Scalars["ID"]>;
   contractMenu?: InputMaybe<Scalars["ID"]>;
+  contractStatus?: InputMaybe<Enum_Contract_Contractstatus>;
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
-  folderPathId?: InputMaybe<Scalars["Long"]>;
+  folderId?: InputMaybe<Scalars["Long"]>;
+  isRVFrance?: InputMaybe<Scalars["Boolean"]>;
   keyMetricsService?: InputMaybe<Scalars["ID"]>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   recyclingGuideService?: InputMaybe<Scalars["ID"]>;
@@ -1880,6 +1898,12 @@ export enum Enum_Contactus_Status {
   Published = "published",
 }
 
+export enum Enum_Contract_Contractstatus {
+  Actif = "Actif",
+  EnCours = "En_cours",
+  Initialisation = "Initialisation",
+}
+
 export enum Enum_Cookie_Status {
   Archived = "archived",
   Draft = "draft",
@@ -2281,7 +2305,6 @@ export type EventBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
@@ -2573,7 +2596,6 @@ export type FreeContentBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
@@ -2734,7 +2756,6 @@ export type GenericMorph =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
@@ -3513,11 +3534,14 @@ export type MutationCreateEditorialServiceArgs = {
 };
 
 export type MutationCreateEmptyContractArgs = {
+  ccap?: InputMaybe<Scalars["Long"]>;
+  clear?: InputMaybe<Scalars["Long"]>;
   clientName: Scalars["String"];
   contactEmail: Scalars["String"];
   contactFirstName: Scalars["String"];
   contactLastName: Scalars["String"];
   contactPhoneNumber: Scalars["String"];
+  isRVFrance: Scalars["Boolean"];
   siretNumber?: InputMaybe<Scalars["Long"]>;
 };
 
@@ -4330,7 +4354,6 @@ export type NewBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
@@ -5117,6 +5140,7 @@ export type QueryFreeContentsArgs = {
 };
 
 export type QueryGetAllFoldersHierarchyArgs = {
+  contractFolderId: Scalars["ID"];
   path: Scalars["String"];
 };
 
@@ -6309,7 +6333,6 @@ export type TipBlocksDynamicZone =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
-  | ComponentBlocksTranscript
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
@@ -7943,6 +7966,86 @@ export type UpdateTopContentTabMutation = {
   } | null;
 };
 
+export type CreateNewMutationVariables = Exact<{
+  data: NewInput;
+}>;
+
+export type CreateNewMutation = {
+  __typename?: "Mutation";
+  createNew?: {
+    __typename?: "NewEntityResponse";
+    data?: {
+      __typename?: "NewEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "New";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_New_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type DeleteNewMutationVariables = Exact<{
   deleteNewId: Scalars["ID"];
 }>;
@@ -8005,14 +8108,116 @@ export type DeleteNewMutation = {
               subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
             }
           | {
-              __typename?: "ComponentBlocksTranscript";
+              __typename?: "ComponentBlocksVideo";
               id: string;
-              transcriptText?: string | null;
+              videoLink?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetNewByIdQueryVariables = Exact<{
+  newId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetNewByIdQuery = {
+  __typename?: "Query";
+  new?: {
+    __typename?: "NewEntityResponse";
+    data?: {
+      __typename?: "NewEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "New";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_New_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        image: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+            } | null;
+          } | null;
+        };
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
             }
           | {
               __typename?: "ComponentBlocksVideo";
               id: string;
               videoLink?: string | null;
+              transcriptText?: string | null;
             }
           | {
               __typename?: "ComponentBlocksWysiwyg";
@@ -8088,6 +8293,70 @@ export type GetNewsByContractIdQuery = {
         status?: Enum_New_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetNewsSubServiceQueryVariables = Exact<{
+  filters?: InputMaybe<EditorialServiceFiltersInput>;
+}>;
+
+export type GetNewsSubServiceQuery = {
+  __typename?: "Query";
+  editorialServices?: {
+    __typename?: "EditorialServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "EditorialServiceEntity";
+      attributes?: {
+        __typename?: "EditorialService";
+        newsSubService?: {
+          __typename?: "NewsSubServiceEntityResponse";
+          data?: {
+            __typename?: "NewsSubServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateNewMutationVariables = Exact<{
+  updateNewId: Scalars["ID"];
+  data: NewInput;
+}>;
+
+export type UpdateNewMutation = {
+  __typename?: "Mutation";
+  updateNew?: {
+    __typename?: "NewEntityResponse";
+    data?: {
+      __typename?: "NewEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "New";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_New_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        image: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+            } | null;
+          } | null;
+        };
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -8098,8 +8367,13 @@ export type GetNewsByContractIdQuery = {
                   __typename?: "UploadFileEntity";
                   attributes?: {
                     __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
                     name: string;
+                    provider: string;
+                    size: number;
                     url: string;
+                    alternativeText?: string | null;
                   } | null;
                 } | null;
               } | null;
@@ -8120,8 +8394,13 @@ export type GetNewsByContractIdQuery = {
                   __typename?: "UploadFileEntity";
                   attributes?: {
                     __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
                     name: string;
+                    provider: string;
+                    size: number;
                     url: string;
+                    alternativeText?: string | null;
                   } | null;
                 } | null;
               } | null;
@@ -8133,14 +8412,10 @@ export type GetNewsByContractIdQuery = {
               subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
             }
           | {
-              __typename?: "ComponentBlocksTranscript";
-              id: string;
-              transcriptText?: string | null;
-            }
-          | {
               __typename?: "ComponentBlocksVideo";
               id: string;
               videoLink?: string | null;
+              transcriptText?: string | null;
             }
           | {
               __typename?: "ComponentBlocksWysiwyg";
@@ -8151,7 +8426,7 @@ export type GetNewsByContractIdQuery = {
           | null
         > | null;
       } | null;
-    }>;
+    } | null;
   } | null;
 };
 
@@ -8174,6 +8449,7 @@ export type CreateNewFolderMutation = {
 
 export type GetAllFoldersHierarchyQueryVariables = Exact<{
   path: Scalars["String"];
+  contractFolderId: Scalars["ID"];
 }>;
 
 export type GetAllFoldersHierarchyQuery = {
@@ -8787,6 +9063,164 @@ export type UpdateFooterPageMutation = {
         link?: string | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetContractByIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetContractByIdQuery = {
+  __typename?: "Query";
+  contract?: {
+    __typename?: "ContractEntityResponse";
+    data?: {
+      __typename?: "ContractEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Contract";
+        clientName: string;
+        folderId?: any | null;
+        isRVFrance: boolean;
+        contractStatus: Enum_Contract_Contractstatus;
+        editorialService?: {
+          __typename?: "EditorialServiceEntityResponse";
+          data?: {
+            __typename?: "EditorialServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "EditorialService";
+              eventSubService?: {
+                __typename?: "EventSubServiceEntityResponse";
+                data?: {
+                  __typename?: "EventSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "EventSubService";
+                    name: string;
+                    isActivated: boolean;
+                  } | null;
+                } | null;
+              } | null;
+              freeContentSubServices?: {
+                __typename?: "FreeContentSubServiceRelationResponseCollection";
+                data: Array<{
+                  __typename?: "FreeContentSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "FreeContentSubService";
+                    name: string;
+                    isActivated: boolean;
+                  } | null;
+                }>;
+              } | null;
+              newsSubService?: {
+                __typename?: "NewsSubServiceEntityResponse";
+                data?: {
+                  __typename?: "NewsSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "NewsSubService";
+                    name: string;
+                    isActivated: boolean;
+                  } | null;
+                } | null;
+              } | null;
+              quizSubService?: {
+                __typename?: "QuizSubServiceEntityResponse";
+                data?: {
+                  __typename?: "QuizSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "QuizSubService";
+                    name: string;
+                    isActivated: boolean;
+                  } | null;
+                } | null;
+              } | null;
+              tipSubService?: {
+                __typename?: "TipSubServiceEntityResponse";
+                data?: {
+                  __typename?: "TipSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "TipSubService";
+                    name: string;
+                    isActivated: boolean;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+        recyclingGuideService?: {
+          __typename?: "RecyclingGuideServiceEntityResponse";
+          data?: {
+            __typename?: "RecyclingGuideServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "RecyclingGuideService";
+              name: string;
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        pickUpDayService?: {
+          __typename?: "PickUpDayServiceEntityResponse";
+          data?: {
+            __typename?: "PickUpDayServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "PickUpDayService";
+              name: string;
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        dropOffMapService?: {
+          __typename?: "DropOffMapServiceEntityResponse";
+          data?: {
+            __typename?: "DropOffMapServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "DropOffMapService";
+              name?: string | null;
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        requestService?: {
+          __typename?: "RequestServiceEntityResponse";
+          data?: {
+            __typename?: "RequestServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "RequestService";
+              name: string;
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetContractsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetContractsQuery = {
+  __typename?: "Query";
+  contracts?: {
+    __typename?: "ContractEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Contract";
+        clientName: string;
+        folderId?: any | null;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -10557,6 +10991,107 @@ export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateTopContentTabMutation,
   UpdateTopContentTabMutationVariables
 >;
+export const CreateNewDocument = gql`
+  mutation createNew($data: NewInput!) {
+    createNew(data: $data) {
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type CreateNewMutationFn = Apollo.MutationFunction<
+  CreateNewMutation,
+  CreateNewMutationVariables
+>;
+
+/**
+ * __useCreateNewMutation__
+ *
+ * To run a mutation, you first call `useCreateNewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewMutation, { data, loading, error }] = useCreateNewMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateNewMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateNewMutation,
+    CreateNewMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateNewMutation, CreateNewMutationVariables>(
+    CreateNewDocument,
+    options,
+  );
+}
+export type CreateNewMutationHookResult = ReturnType<
+  typeof useCreateNewMutation
+>;
+export type CreateNewMutationResult = Apollo.MutationResult<CreateNewMutation>;
+export type CreateNewMutationOptions = Apollo.BaseMutationOptions<
+  CreateNewMutation,
+  CreateNewMutationVariables
+>;
 export const DeleteNewDocument = gql`
   mutation deleteNew($deleteNewId: ID!) {
     deleteNew(id: $deleteNewId) {
@@ -10576,10 +11111,6 @@ export const DeleteNewDocument = gql`
             ... on ComponentBlocksVideo {
               id
               videoLink
-            }
-            ... on ComponentBlocksTranscript {
-              id
-              transcriptText
             }
             ... on ComponentBlocksWysiwyg {
               id
@@ -10660,6 +11191,138 @@ export type DeleteNewMutationResult = Apollo.MutationResult<DeleteNewMutation>;
 export type DeleteNewMutationOptions = Apollo.BaseMutationOptions<
   DeleteNewMutation,
   DeleteNewMutationVariables
+>;
+export const GetNewByIdDocument = gql`
+  query getNewById($newId: ID) {
+    new(id: $newId) {
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          image {
+            data {
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+              }
+            }
+          }
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetNewByIdQuery__
+ *
+ * To run a query within a React component, call `useGetNewByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewByIdQuery({
+ *   variables: {
+ *      newId: // value for 'newId'
+ *   },
+ * });
+ */
+export function useGetNewByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetNewByIdQuery,
+    GetNewByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetNewByIdQuery, GetNewByIdQueryVariables>(
+    GetNewByIdDocument,
+    options,
+  );
+}
+export function useGetNewByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetNewByIdQuery,
+    GetNewByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetNewByIdQuery, GetNewByIdQueryVariables>(
+    GetNewByIdDocument,
+    options,
+  );
+}
+export type GetNewByIdQueryHookResult = ReturnType<typeof useGetNewByIdQuery>;
+export type GetNewByIdLazyQueryHookResult = ReturnType<
+  typeof useGetNewByIdLazyQuery
+>;
+export type GetNewByIdQueryResult = Apollo.QueryResult<
+  GetNewByIdQuery,
+  GetNewByIdQueryVariables
 >;
 export const GetNewsByContractIdDocument = gql`
   query getNewsByContractId(
@@ -10749,53 +11412,6 @@ export const GetNewsByContractIdDocument = gql`
           status
           publishedDate
           unpublishedDate
-          blocks {
-            ... on ComponentBlocksSubHeading {
-              id
-              subHeadingText
-              subHeadingTag
-            }
-            ... on ComponentBlocksVideo {
-              id
-              videoLink
-            }
-            ... on ComponentBlocksTranscript {
-              id
-              transcriptText
-            }
-            ... on ComponentBlocksWysiwyg {
-              id
-              textEditor
-            }
-            ... on ComponentBlocksHorizontalRule {
-              id
-              hr
-            }
-            ... on ComponentBlocksImage {
-              id
-              picture {
-                data {
-                  attributes {
-                    name
-                    url
-                  }
-                }
-              }
-              isDecorative
-              altText
-            }
-            ... on ComponentBlocksFile {
-              id
-              document {
-                data {
-                  attributes {
-                    name
-                    url
-                  }
-                }
-              }
-            }
-          }
         }
       }
     }
@@ -10854,6 +11470,198 @@ export type GetNewsByContractIdLazyQueryHookResult = ReturnType<
 export type GetNewsByContractIdQueryResult = Apollo.QueryResult<
   GetNewsByContractIdQuery,
   GetNewsByContractIdQueryVariables
+>;
+export const GetNewsSubServiceDocument = gql`
+  query getNewsSubService($filters: EditorialServiceFiltersInput) {
+    editorialServices(filters: $filters) {
+      data {
+        attributes {
+          newsSubService {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetNewsSubServiceQuery__
+ *
+ * To run a query within a React component, call `useGetNewsSubServiceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewsSubServiceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewsSubServiceQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetNewsSubServiceQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetNewsSubServiceQuery,
+    GetNewsSubServiceQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetNewsSubServiceQuery,
+    GetNewsSubServiceQueryVariables
+  >(GetNewsSubServiceDocument, options);
+}
+export function useGetNewsSubServiceLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetNewsSubServiceQuery,
+    GetNewsSubServiceQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetNewsSubServiceQuery,
+    GetNewsSubServiceQueryVariables
+  >(GetNewsSubServiceDocument, options);
+}
+export type GetNewsSubServiceQueryHookResult = ReturnType<
+  typeof useGetNewsSubServiceQuery
+>;
+export type GetNewsSubServiceLazyQueryHookResult = ReturnType<
+  typeof useGetNewsSubServiceLazyQuery
+>;
+export type GetNewsSubServiceQueryResult = Apollo.QueryResult<
+  GetNewsSubServiceQuery,
+  GetNewsSubServiceQueryVariables
+>;
+export const UpdateNewDocument = gql`
+  mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
+    updateNew(id: $updateNewId, data: $data) {
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          image {
+            data {
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+              }
+            }
+          }
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateNewMutationFn = Apollo.MutationFunction<
+  UpdateNewMutation,
+  UpdateNewMutationVariables
+>;
+
+/**
+ * __useUpdateNewMutation__
+ *
+ * To run a mutation, you first call `useUpdateNewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateNewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateNewMutation, { data, loading, error }] = useUpdateNewMutation({
+ *   variables: {
+ *      updateNewId: // value for 'updateNewId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateNewMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateNewMutation,
+    UpdateNewMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateNewMutation, UpdateNewMutationVariables>(
+    UpdateNewDocument,
+    options,
+  );
+}
+export type UpdateNewMutationHookResult = ReturnType<
+  typeof useUpdateNewMutation
+>;
+export type UpdateNewMutationResult = Apollo.MutationResult<UpdateNewMutation>;
+export type UpdateNewMutationOptions = Apollo.BaseMutationOptions<
+  UpdateNewMutation,
+  UpdateNewMutationVariables
 >;
 export const CreateNewFolderDocument = gql`
   mutation createNewFolder(
@@ -10919,8 +11727,8 @@ export type CreateNewFolderMutationOptions = Apollo.BaseMutationOptions<
   CreateNewFolderMutationVariables
 >;
 export const GetAllFoldersHierarchyDocument = gql`
-  query getAllFoldersHierarchy($path: String!) {
-    getAllFoldersHierarchy(path: $path) {
+  query getAllFoldersHierarchy($path: String!, $contractFolderId: ID!) {
+    getAllFoldersHierarchy(path: $path, contractFolderId: $contractFolderId) {
       id
       name
       path
@@ -10942,6 +11750,7 @@ export const GetAllFoldersHierarchyDocument = gql`
  * const { data, loading, error } = useGetAllFoldersHierarchyQuery({
  *   variables: {
  *      path: // value for 'path'
+ *      contractFolderId: // value for 'contractFolderId'
  *   },
  * });
  */
@@ -12465,6 +13274,223 @@ export type UpdateFooterPageMutationResult =
 export type UpdateFooterPageMutationOptions = Apollo.BaseMutationOptions<
   UpdateFooterPageMutation,
   UpdateFooterPageMutationVariables
+>;
+export const GetContractByIdDocument = gql`
+  query getContractById($contractId: ID!) {
+    contract(id: $contractId) {
+      data {
+        id
+        attributes {
+          clientName
+          folderId
+          isRVFrance
+          contractStatus
+          editorialService {
+            data {
+              id
+              attributes {
+                eventSubService {
+                  data {
+                    id
+                    attributes {
+                      name
+                      isActivated
+                    }
+                  }
+                }
+                freeContentSubServices {
+                  data {
+                    id
+                    attributes {
+                      name
+                      isActivated
+                    }
+                  }
+                }
+                newsSubService {
+                  data {
+                    id
+                    attributes {
+                      name
+                      isActivated
+                    }
+                  }
+                }
+                quizSubService {
+                  data {
+                    id
+                    attributes {
+                      name
+                      isActivated
+                    }
+                  }
+                }
+                tipSubService {
+                  data {
+                    id
+                    attributes {
+                      name
+                      isActivated
+                    }
+                  }
+                }
+              }
+            }
+          }
+          recyclingGuideService {
+            data {
+              id
+              attributes {
+                name
+                isActivated
+              }
+            }
+          }
+          pickUpDayService {
+            data {
+              id
+              attributes {
+                name
+                isActivated
+              }
+            }
+          }
+          dropOffMapService {
+            data {
+              id
+              attributes {
+                name
+                isActivated
+              }
+            }
+          }
+          requestService {
+            data {
+              id
+              attributes {
+                name
+                isActivated
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetContractByIdQuery__
+ *
+ * To run a query within a React component, call `useGetContractByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContractByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContractByIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetContractByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetContractByIdQuery,
+    GetContractByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetContractByIdQuery, GetContractByIdQueryVariables>(
+    GetContractByIdDocument,
+    options,
+  );
+}
+export function useGetContractByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetContractByIdQuery,
+    GetContractByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetContractByIdQuery,
+    GetContractByIdQueryVariables
+  >(GetContractByIdDocument, options);
+}
+export type GetContractByIdQueryHookResult = ReturnType<
+  typeof useGetContractByIdQuery
+>;
+export type GetContractByIdLazyQueryHookResult = ReturnType<
+  typeof useGetContractByIdLazyQuery
+>;
+export type GetContractByIdQueryResult = Apollo.QueryResult<
+  GetContractByIdQuery,
+  GetContractByIdQueryVariables
+>;
+export const GetContractsDocument = gql`
+  query getContracts {
+    contracts {
+      data {
+        id
+        attributes {
+          clientName
+          folderId
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetContractsQuery__
+ *
+ * To run a query within a React component, call `useGetContractsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContractsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContractsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetContractsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetContractsQuery,
+    GetContractsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetContractsQuery, GetContractsQueryVariables>(
+    GetContractsDocument,
+    options,
+  );
+}
+export function useGetContractsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetContractsQuery,
+    GetContractsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetContractsQuery, GetContractsQueryVariables>(
+    GetContractsDocument,
+    options,
+  );
+}
+export type GetContractsQueryHookResult = ReturnType<
+  typeof useGetContractsQuery
+>;
+export type GetContractsLazyQueryHookResult = ReturnType<
+  typeof useGetContractsLazyQuery
+>;
+export type GetContractsQueryResult = Apollo.QueryResult<
+  GetContractsQuery,
+  GetContractsQueryVariables
 >;
 export const GetServicesActiveDocument = gql`
   query getServicesActive($contractId: ID!) {

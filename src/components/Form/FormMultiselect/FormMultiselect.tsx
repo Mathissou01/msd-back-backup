@@ -18,7 +18,6 @@ export function mapOptionsInWrappers<T extends { [index: string]: unknown }>(
 ): Array<IOptionWrapper<T>> {
   const mappedOptions: Array<IOptionWrapper<T> | null> = options.map(
     (option) => {
-      // ? { group: editoContent.typeName, option: editoContent }
       const group = option && fieldToGroup ? option[fieldToGroup] : null;
       return option
         ? {
@@ -75,6 +74,15 @@ export default function FormMultiselect<T>({
     setValue,
     formState: { isSubmitting, errors },
   } = useFormContext();
+  for (let i = 0; i < selectAmount; i++) {
+    register(`${name}_${i}`, {
+      required: {
+        value: isRequired,
+        message: errorMessages.required,
+      },
+      value: defaultValues?.[i] ?? null,
+    });
+  }
   const watchValues: Array<Record<string, unknown>> = useMemo(() => {
     const values = [];
     for (let i = 0; i < selectAmount; i++) {
@@ -90,34 +98,14 @@ export default function FormMultiselect<T>({
   useEffect(() => {
     const updatedArray = [...indexesRef.current];
     for (let i = 0; i < selectAmount; i++) {
-      if (watchValues[i] !== undefined) {
-        const matchIndex = options.findIndex(
-          (wrapper) =>
-            wrapper?.option &&
-            wrapper.option?.[optionKey] === watchValues[i]?.[optionKey],
-        );
-        updatedArray[i] = matchIndex;
-        setValue(`${name}_${i}`, matchIndex);
-      } else if (defaultValues && defaultValues[i]) {
-        const matchIndex = options.findIndex(
-          (wrapper) =>
-            wrapper?.option &&
-            wrapper.option[optionKey] === defaultValues[i][optionKey],
-        );
-        updatedArray[i] = matchIndex;
-        setValue(`${name}_${i}`, matchIndex);
-      }
+      updatedArray[i] = options.findIndex(
+        (wrapper) =>
+          wrapper?.option &&
+          wrapper.option?.[optionKey] === watchValues[i]?.[optionKey],
+      );
     }
     setSelectedIndexes(updatedArray);
-  }, [
-    defaultValues,
-    name,
-    optionKey,
-    options,
-    selectAmount,
-    setValue,
-    watchValues,
-  ]);
+  }, [selectAmount, options, optionKey, watchValues]);
 
   const renderGroups = (i: number) => {
     let persistentIndex = 0;
@@ -187,22 +175,14 @@ export default function FormMultiselect<T>({
               } ${
                 errors[`${name}_${i}`] ? "o-SelectWrapper__Select_invalid" : ""
               }`}
-              {...register(`${name}_${i}`, {
-                setValueAs: (v) => {
-                  return options[v]?.option ?? null;
-                },
-                required: {
-                  value: isRequired,
-                  message: errorMessages.required,
-                },
-              })}
               id={`${name}_${i}`}
               value={selectedIndexes[i]}
               onChange={(event) => {
+                const index = Number.parseInt(event.target.value);
                 const updatedArray = [...selectedIndexes];
-                updatedArray[i] = Number.parseInt(event.target.value);
+                updatedArray[i] = index;
                 setSelectedIndexes(updatedArray);
-                setValue(`${name}_${i}`, Number.parseInt(event.target.value), {
+                setValue(`${name}_${i}`, options[index]?.option ?? null, {
                   shouldValidate: true,
                   shouldDirty: true,
                 });

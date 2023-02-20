@@ -17,10 +17,6 @@ mutation deleteNew($deleteNewId: ID!) {
             id
             videoLink
           }
-          ... on ComponentBlocksTranscript {
-            id
-            transcriptText
-          }
           ... on ComponentBlocksWysiwyg {
             id
             textEditor

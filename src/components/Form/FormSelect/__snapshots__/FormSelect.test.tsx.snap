@@ -35,10 +35,9 @@ exports[`FormSelect renders 1`] = `
       <select
         aria-errormessage="form-select_error"
         aria-invalid="false"
-        class="o-SelectWrapper__Select"
+        class="o-SelectWrapper__Select o-SelectWrapper__Select_placeholder"
         data-testid="form-select"
         id="form-select"
-        name="form-select"
       >
         <option
           value="-1"

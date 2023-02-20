@@ -5,7 +5,7 @@ export const defaultMockData = [
     request: {
       query: GetRecyclingBlockTabDocument,
       variables: {
-        contractId: "1",
+        contractId: "0",
       },
     },
     result: {

@@ -5,7 +5,7 @@ export const defaultMockData = [
     request: {
       query: GetTopContentTabDocument,
       variables: {
-        contractId: "1",
+        contractId: "0",
         status: "published",
       },
     },

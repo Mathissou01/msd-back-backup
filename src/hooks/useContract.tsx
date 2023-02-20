@@ -1,15 +1,18 @@
 import React, { useContext } from "react";
+import { ContractEntity } from "../graphql/codegen/generated-types";
 
 export interface IContractContext {
+  contract: ContractEntity;
+  setContract: (contract: Partial<ContractEntity>) => void;
   contractId: `${number}`;
   setContractId: (id: `${number}`) => void;
-  contractPathId: number;
 }
 
 export const ContractContext = React.createContext<IContractContext>({
-  contractId: "1",
+  contract: {},
+  setContract: () => null,
+  contractId: "0",
   setContractId: () => null,
-  contractPathId: 2,
 });
 
 export const useContract = () => useContext(ContractContext);

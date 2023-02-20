@@ -6,6 +6,7 @@ exports[`PageTitle renders 1`] = `
     class="c-PageTitle"
   >
     <h1
+      class="c-PageTitle__Title"
       data-testid="title"
     >
       page title

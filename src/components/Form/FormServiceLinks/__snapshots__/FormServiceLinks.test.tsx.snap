@@ -208,7 +208,7 @@ exports[`FormServiceLinks renders 1`] = `
         <li
           class="c-FormServiceLinksList__Row"
           data-flip-config="{"translate":true,"scale":true,"opacity":true}"
-          data-flip-id="ComponentLinksRecycling_Guide du tri"
+          data-flip-id="ComponentLinksRecyclingGuide_Guide du tri"
           data-portal-key="portal"
         >
           <div

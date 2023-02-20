@@ -8,7 +8,6 @@ import docIcon from "./../../../../public/images/pictos/doc.svg";
 export default function MediaCard(file: { file: File }) {
   /* Local Data */
   const media = file.file;
-  console.log(media);
   const fileUrl = URL.createObjectURL(media);
   const fileMediaName = media.name.split(".")[0].split(".")[0];
   const imgWidth = "100";

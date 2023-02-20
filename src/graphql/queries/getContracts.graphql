@@ -1,0 +1,11 @@
+query getContracts {
+  contracts {
+    data {
+      id
+      attributes {
+        clientName
+        folderId
+      }
+    }
+  }
+}

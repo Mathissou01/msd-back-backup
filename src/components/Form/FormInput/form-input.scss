@@ -9,6 +9,10 @@
     flex-direction: row;
   }
 
+  textarea {
+    min-height: 112px;
+  }
+
   &__Label {
     margin-bottom: 2px;
     color: colors.$blue-2;
