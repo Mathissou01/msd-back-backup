@@ -9,10 +9,12 @@ parameters:
 
 jobs:
   - deployment: msd_bo_site_release_${{ parameters.env }}
-    pool:
-      name: "MSD Self hosted agents"
-      demands:
-        - environment -equals ${{ parameters.env }}
+    # FIXME: Docker is not installed on hosted agents
+    #        Pool reclamation will be re-enabled when issue is fixed by IT
+    #   pool:
+    #     name: "MSD Self hosted agents"
+    #     demands:
+    #       - environment -equals ${{ parameters.env }}
     displayName: "[${{ upper(parameters.env) }}] Publish BO (${{ parameters.instance }})"
     environment: msd-${{ parameters.env }}
     strategy:
@@ -35,7 +37,7 @@ jobs:
                 skip_app_build: true
                 verbose: true
                 is_static_export: true
-                ${{ if eq(parameters.instance, 'production') }}:
+                ${{ if not(eq(parameters.instance, 'production')) }}:
                   deployment_environment: ${{ parameters.instance }}
               env:
                 azure_static_web_apps_api_token: $(az-stapps-deployment-token)
