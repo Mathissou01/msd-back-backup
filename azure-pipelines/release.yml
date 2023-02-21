@@ -31,6 +31,7 @@ jobs:
                 skip_app_build: true
                 verbose: true
                 is_static_export: true
-                deployment_environment: ${{ parameters.instance }}
+                ${{ if eq(parameters.instance, 'production') }}:
+                  deployment_environment: ${{ parameters.instance }}
               env:
                 azure_static_web_apps_api_token: $(az-stapps-deployment-token)
