@@ -21,7 +21,7 @@ parameters:
     default: smile
     values:
       - smile
-      - production
+      - Production
 
 pool:
   vmImage: ubuntu-latest
@@ -55,4 +55,4 @@ stages:
           ${{ if eq(variables.releaseRec, 'true') }}:
             instance: ${{ parameters.az_env }}
           ${{ else }}:
-            instance: "production"
+            instance: "Production"
