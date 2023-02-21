@@ -43,10 +43,13 @@ stages:
           - group: bo_site_variables_dev
           - name: env
             value: dev
-      - ${{ if eq(variables.releaseRec, 'true') }}:
+      - ${{ elseif eq(variables.releaseRec, 'true') }}:
           - group: bo_site_variables_rec
           - name: env
             value: rec
+      - ${{ else }}:
+          - name: env
+            value: dev
 
     jobs:
       - template: azure-pipelines/release.yml

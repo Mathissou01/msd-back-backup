@@ -6,6 +6,10 @@ parameters:
 
 jobs:
   - job: msd_bo_site_build_install
+    pool:
+      name: "MSD Self hosted agents"
+      demands:
+        - environment -equals ${{ parameters.env }}
     displayName: Install node modules
     steps:
       - template: build/node.yml
@@ -13,6 +17,12 @@ jobs:
       - template: build/install.yml
 
   - job: msd_bo_site_build_test
+    # FIXME: libgles2 system package is missing from hosted agent
+    #        temporarily disable self-hosted agent usage until support fixes
+    #   pool:
+    #     name: "MSD Self hosted agents"
+    #     demands:
+    #       - environment -equals ${{ parameters.env }}
     displayName: Run tests
     dependsOn: msd_bo_site_build_install
     steps:
@@ -23,6 +33,10 @@ jobs:
       - template: build/e2e-tests.yml
 
   - job: msd_bo_site_build_package
+    pool:
+      name: "MSD Self hosted agents"
+      demands:
+        - environment -equals ${{ parameters.env }}
     dependsOn: msd_bo_site_build_install
     displayName: Build package
     steps:
