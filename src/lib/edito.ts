@@ -99,6 +99,8 @@ export interface IBlocksSubHeading extends IPartialBlock {
 
 export interface IBlocksVideo extends IPartialBlock {
   __typename: "ComponentBlocksVideo";
+  videoLink?: string;
+  transcriptText?: string;
 }
 
 export interface IBlocksWysiwyg extends IPartialBlock {
@@ -151,6 +153,14 @@ export function createEmptyBlock(
         id,
         subHeadingText: undefined,
         subHeadingTag: undefined,
+      };
+    }
+    case "ComponentBlocksVideo": {
+      return {
+        __typename,
+        id,
+        videoLink: undefined,
+        transcriptText: undefined,
       };
     }
     default: {

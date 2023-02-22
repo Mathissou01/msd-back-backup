@@ -187,6 +187,7 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
       <CommonPagination
         currentPage={currentPage}
         rowCount={rowCount}
+        noRowsPerPage={true}
         onChangePage={(page, totalRows) => onChangePage(page, totalRows)}
         onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
           onChangeRowsPerPage(currentRowsPerPage, currentPage)

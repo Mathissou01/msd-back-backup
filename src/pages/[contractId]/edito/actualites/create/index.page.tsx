@@ -59,6 +59,7 @@ export function EditoActualitesCreatePage() {
   const dynamicFieldOptions: Array<TDynamicFieldOption> = [
     "ComponentBlocksSubHeading",
     "ComponentBlocksHorizontalRule",
+    "ComponentBlocksVideo",
   ];
 
   return (

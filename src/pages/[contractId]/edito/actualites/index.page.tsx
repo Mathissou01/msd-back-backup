@@ -93,7 +93,7 @@ export function EditoActualitesPage() {
   /* External Data */
   const { currentRoot, currentPage } = useNavigation();
   const { contractId } = useContract();
-  const defaultRowsPerPage = 10;
+  const defaultRowsPerPage = 30;
   const defaultPage = 1;
   const defaultQueryVariables: GetNewsByContractIdQueryVariables = {
     contractId,

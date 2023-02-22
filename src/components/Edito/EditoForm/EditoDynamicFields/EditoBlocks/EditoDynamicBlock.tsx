@@ -2,6 +2,7 @@ import React from "react";
 import { TDynamicFieldOption } from "../../../../../lib/edito";
 import SubHeadingBlock from "../EditoBlocks/SubHeadingBlock/SubHeadingBlock";
 import HorizontalRuleBlock from "./HorizontalRuleBlock/HorizontalRuleBlock";
+import VideoBlock from "./VideoBlock/VideoBlock";
 
 interface IDynamicFieldsBlockWrapper {
   type: TDynamicFieldOption;
@@ -19,6 +20,9 @@ export default function EditoDynamicBlock({
       }
       case "ComponentBlocksSubHeading": {
         return <SubHeadingBlock blockName={name} />;
+      }
+      case "ComponentBlocksVideo": {
+        return <VideoBlock blockName={name} />;
       }
       default: {
         return null;

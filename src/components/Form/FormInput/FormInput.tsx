@@ -1,6 +1,7 @@
 import _ from "lodash";
 import classNames from "classnames";
 import { ErrorMessage } from "@hookform/error-message";
+import { ValidationRule } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import React from "react";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
@@ -8,7 +9,7 @@ import FormLabel, { LabelStyle, ValidationStyle } from "../FormLabel/FormLabel";
 import "./form-input.scss";
 
 interface IFormInputProps {
-  type: "number" | "text" | "email" | "password";
+  type?: "number" | "text" | "email" | "password";
   name: string;
   label: string;
   secondaryLabel?: string;
@@ -17,6 +18,7 @@ interface IFormInputProps {
   isDisabled?: boolean;
   minLengthValidation?: number;
   maxLengthValidation?: number;
+  patternValidation?: ValidationRule<RegExp>;
   lengthHardValidation?: boolean;
   defaultValue?: string;
   placeholder?: string;
@@ -36,6 +38,7 @@ export default function FormInput({
   isDisabled = false,
   minLengthValidation,
   maxLengthValidation,
+  patternValidation,
   lengthHardValidation = true,
   defaultValue,
   placeholder,
@@ -49,6 +52,7 @@ export default function FormInput({
     required: "Ce champ est obligatoire",
     minLength: `${minLengthValidation} caractères minimum`,
     maxLength: `${maxLengthValidation} caractères maximum`,
+    pattern: "cette url n'est pas pris en charge",
   };
   const Tag = tagType;
 
@@ -93,6 +97,7 @@ export default function FormInput({
                     message: errorMessages.maxLength,
                   }
                 : undefined,
+            pattern: patternValidation ? patternValidation : undefined,
           })}
           type={type}
           id={name}
