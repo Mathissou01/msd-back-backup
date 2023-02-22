@@ -11,12 +11,13 @@ type TAcceptedTypes =
   | "image/tiff"
   | "image/ico"
   | "image/dvu"
-  | ".doc"
-  | ".docx"
+  | "image/dvu"
   | ".pdf"
-  | ".txt"
-  | "application/msword"
-  | "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  | ".csv"
+  | ".zip"
+  | ".xls"
+  | ".xlsx"
+  | ".json";
 
 interface ICommonDragDropFileProps {
   handleDragOver: (event: { preventDefault: () => void }) => void;
@@ -37,12 +38,12 @@ export default function CommonDragDropFile({
     "image/tiff",
     "image/ico",
     "image/dvu",
-    ".doc",
-    ".docx",
     ".pdf",
-    ".txt",
-    "application/msword",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".csv",
+    ".zip",
+    ".xls",
+    ".xlsx",
+    ".json",
   ],
 }: ICommonDragDropFileProps) {
   /* Static Data */
@@ -68,7 +69,7 @@ export default function CommonDragDropFile({
           hidden
           id="input-file-upload"
           data-testid="common-drag-drop-file-input"
-          accept={acceptedTypes.join(" ")}
+          accept={acceptedTypes.join(",")}
           multiple={true}
           ref={inputRef}
           onChange={handleFileChange}

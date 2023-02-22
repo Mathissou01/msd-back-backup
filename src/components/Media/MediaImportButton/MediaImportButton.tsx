@@ -16,7 +16,7 @@ export default function MediaImportButton() {
   const [isFileSelected, setIsFileSelected] = useState(false);
 
   const labels = {
-    modalTitle: "Ajouter des médias",
+    modalTitle: "Bibliothèque de media",
     buttonLabel: "Importer des médias",
     cancelButtonLabel: "Annuler",
     addedMediaBtn: `Ajouter ${selectedFiles.length} ${

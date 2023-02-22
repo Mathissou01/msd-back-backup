@@ -12,7 +12,7 @@ export default function MediaCard(file: { file: File }) {
   const fileMediaName = media.name.split(".")[0].split(".")[0];
   const imgWidth = "100";
   const imgHeight = "100";
-  const fileMimeType = media.type.split("/")[0];
+  const fileMimeType = media.type.split("/")[0] === "image" ? "image" : "doc";
   const fileExtention = media.name.split(".")[1];
 
   return (
