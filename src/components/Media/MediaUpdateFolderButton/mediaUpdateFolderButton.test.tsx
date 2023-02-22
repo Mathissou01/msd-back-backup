@@ -32,7 +32,6 @@ describe("MediaUpdateFolderButton", () => {
           localFolderPathId={"6" as `${number}`}
           id={mockData.folder.id}
           name={mockData.folder.name}
-          path={mockData.folder.path}
         />
       </MockedProvider>,
     );

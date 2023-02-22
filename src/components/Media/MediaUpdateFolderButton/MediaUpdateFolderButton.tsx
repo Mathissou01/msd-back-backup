@@ -15,7 +15,6 @@ import "./media-update-folder-button.scss";
 interface IMediaUpdateFolderButtonProps {
   id: string;
   name: string;
-  path: string;
   folderHierarchy: Array<RequestFolders>;
   localFolderPathId: `${number}`;
 }
@@ -23,7 +22,6 @@ interface IMediaUpdateFolderButtonProps {
 export default function MediaUpdateFolderButton({
   id,
   name,
-  path,
   folderHierarchy,
   localFolderPathId,
 }: IMediaUpdateFolderButtonProps) {
@@ -42,7 +40,7 @@ export default function MediaUpdateFolderButton({
         data: {
           name: submitData["folderTitle"],
           parent: submitData["folderLocation"]["pathId"],
-          path: path,
+          path: `${submitData["folderLocation"]["path"]}/${id}`,
         },
       };
       return updateUploadFolder({

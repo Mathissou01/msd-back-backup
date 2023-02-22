@@ -7,7 +7,6 @@ import "./media-folder-card.scss";
 interface IMediaFolderCardProps {
   id: string;
   name: string;
-  path: string;
   picto: "folder";
   childrenAmount?: number;
   filesAmount?: number;
@@ -21,7 +20,6 @@ export default function MediaFolderCard({
   //localActivePathId
   id,
   name,
-  path,
   picto,
   childrenAmount,
   filesAmount,
@@ -55,7 +53,6 @@ export default function MediaFolderCard({
         <MediaUpdateFolderButton
           id={id}
           name={name}
-          path={path}
           folderHierarchy={folderHierarchy}
           localFolderPathId={localFolderPathId}
         />
