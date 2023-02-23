@@ -19,6 +19,7 @@ import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLo
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
 import "./edito-actualites-edit-page.scss";
+import { ICommonSelectOption } from "../../../../../components/Common/CommonSelect/CommonSelect";
 
 interface IEditoActualitesEditPageProps {
   newId: string;
@@ -37,6 +38,9 @@ export function EditoActualitesEditPage({
         blocks: newsInputData.blocks?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ({ id, ...rest }: IEditoBlock) => rest,
+        ),
+        tags: newsInputData.tags.map(
+          (option: ICommonSelectOption) => option.value,
         ),
       },
     };
@@ -59,7 +63,6 @@ export function EditoActualitesEditPage({
     updateNews,
     { loading: updateMutationLoading, error: updateMutationError },
   ] = useUpdateNewMutation();
-
   /* Local data */
   const router = useRouter();
   const { currentRoot } = useNavigation();
@@ -82,7 +85,13 @@ export function EditoActualitesEditPage({
           title: newData.attributes.title,
           shortDescription: newData.attributes.shortDescription,
           blocks: remapEditoBlocksDynamicZone(newData.attributes.blocks),
+          tags:
+            newData.attributes.tags?.data.map((tag) => ({
+              value: tag.id ?? "",
+              label: tag.attributes?.name ?? "",
+            })) ?? [],
         };
+
         setMappedData(mappedData);
       }
     } else if (data?.new && data.new.data === null) {

@@ -1,0 +1,18 @@
+query getTag($contractId: ID) {
+  contract(id: $contractId) {
+    data {
+      id
+      attributes {
+        clientName
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,14 @@ query getNewById($newId: ID) {
         status
         publishedDate
         unpublishedDate
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         image {
           data {
             attributes {

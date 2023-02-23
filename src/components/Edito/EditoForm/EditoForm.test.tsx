@@ -1,3 +1,4 @@
+import { MockedProvider } from "@apollo/client/testing";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { IEditoFields, TDynamicFieldOption } from "../../../lib/edito";
@@ -37,11 +38,13 @@ describe("EditoForm", () => {
   it("renders", async () => {
     const onSubmit = jest.fn();
     const { container } = render(
-      <EditoForm
-        data={mocks.data}
-        dynamicFieldsOptions={mocks.dynamicFieldOptions}
-        onSubmitValid={onSubmit}
-      />,
+      <MockedProvider mocks={[]}>
+        <EditoForm
+          data={mocks.data}
+          dynamicFieldsOptions={mocks.dynamicFieldOptions}
+          onSubmitValid={onSubmit}
+        />
+      </MockedProvider>,
     );
 
     expect(screen.getByDisplayValue("mock title")).toBeInTheDocument();

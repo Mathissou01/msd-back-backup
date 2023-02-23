@@ -1074,6 +1074,7 @@ type Contract {
   folderId: Long
   isRVFrance: Boolean!
   keyMetricsService: KeyMetricsServiceEntityResponse
+  logicalDelete: Boolean
   pickUpDayService: PickUpDayServiceEntityResponse
   recyclingGuideService: RecyclingGuideServiceEntityResponse
   requestService: RequestServiceEntityResponse
@@ -1173,6 +1174,7 @@ input ContractFiltersInput {
   id: IDFilterInput
   isRVFrance: BooleanFilterInput
   keyMetricsService: KeyMetricsServiceFiltersInput
+  logicalDelete: BooleanFilterInput
   not: ContractFiltersInput
   or: [ContractFiltersInput]
   pickUpDayService: PickUpDayServiceFiltersInput
@@ -1199,6 +1201,7 @@ input ContractInput {
   folderId: Long
   isRVFrance: Boolean
   keyMetricsService: ID
+  logicalDelete: Boolean
   pickUpDayService: ID
   recyclingGuideService: ID
   requestService: ID
@@ -3104,6 +3107,7 @@ type Mutation {
   Request a reset password token
   """
   forgotPassword(email: String!): UsersPermissionsPasswordPayload
+  logicalDeleteContract(clientName: String!): Boolean
   login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
   multipleUpload(
     field: String

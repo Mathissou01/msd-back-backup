@@ -1,3 +1,9 @@
+import { useEffect, useState } from "react";
+import { useGetTagQuery } from "../../../../graphql/codegen/generated-types";
+import { useContract } from "../../../../hooks/useContract";
+import CommonSelect, {
+  ICommonSelectOption,
+} from "../../../Common/CommonSelect/CommonSelect";
 import FormInput from "../../../Form/FormInput/FormInput";
 import "./edito-static-fields.scss";
 
@@ -12,6 +18,26 @@ export default function EditoStaticFields() {
   };
   const editoStaticFieldsMaxCharacters = 80;
 
+  /* External Data */
+  const { contractId } = useContract();
+  const { data: tagsData } = useGetTagQuery({ variables: { contractId } });
+
+  const [tagOptions, setTagOptions] = useState<Array<ICommonSelectOption>>([]);
+
+  useEffect(() => {
+    if (tagsData) {
+      const mappedTags: Array<ICommonSelectOption> =
+        tagsData.contract?.data?.attributes?.tags?.data.map((tag) => {
+          return {
+            value: tag.id ?? "",
+            label: tag.attributes?.name ?? "",
+          };
+        }) ?? [];
+
+      setTagOptions(mappedTags);
+    }
+  }, [tagsData]);
+
   return (
     <div className="c-EditoStaticFields">
       <span className="c-EditoStaticFields__RequiredLabel">
@@ -23,8 +49,15 @@ export default function EditoStaticFields() {
         label={formLabels.titlePageContent}
         isRequired={true}
       />
-      <div className="c-EditoStaticFields__Temporary">
-        {"TODO : Thématique et vignette"}
+      <div className="c-EditoStaticFields__Thematique">
+        <CommonSelect
+          label="Thématique"
+          name="tags"
+          placeholder="Thematique"
+          options={tagOptions}
+          isMulti
+          maxMultiSelection={5}
+        />
       </div>
       <div className="c-EditoStaticFields__DescriptionInput">
         <FormInput

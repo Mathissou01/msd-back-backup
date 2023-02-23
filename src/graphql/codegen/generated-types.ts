@@ -1244,6 +1244,7 @@ export type Contract = {
   folderId?: Maybe<Scalars["Long"]>;
   isRVFrance: Scalars["Boolean"];
   keyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
+  logicalDelete?: Maybe<Scalars["Boolean"]>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
@@ -1357,6 +1358,7 @@ export type ContractFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   isRVFrance?: InputMaybe<BooleanFilterInput>;
   keyMetricsService?: InputMaybe<KeyMetricsServiceFiltersInput>;
+  logicalDelete?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<ContractFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
@@ -1383,6 +1385,7 @@ export type ContractInput = {
   folderId?: InputMaybe<Scalars["Long"]>;
   isRVFrance?: InputMaybe<Scalars["Boolean"]>;
   keyMetricsService?: InputMaybe<Scalars["ID"]>;
+  logicalDelete?: InputMaybe<Scalars["Boolean"]>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   recyclingGuideService?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
@@ -3316,6 +3319,7 @@ export type Mutation = {
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
   /** Request a reset password token */
   forgotPassword?: Maybe<UsersPermissionsPasswordPayload>;
+  logicalDeleteContract?: Maybe<Scalars["Boolean"]>;
   login: UsersPermissionsLoginPayload;
   multipleUpload: Array<Maybe<UploadFileEntityResponse>>;
   /** Register a user */
@@ -3952,6 +3956,10 @@ export type MutationEmailConfirmationArgs = {
 
 export type MutationForgotPasswordArgs = {
   email: Scalars["String"];
+};
+
+export type MutationLogicalDeleteContractArgs = {
+  clientName: Scalars["String"];
 };
 
 export type MutationLoginArgs = {
@@ -8143,6 +8151,14 @@ export type GetNewByIdQuery = {
         status?: Enum_New_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
         image: {
           __typename?: "UploadFileEntityResponse";
           data?: {
@@ -8636,6 +8652,33 @@ export type DeleteTagMutation = {
         __typename?: "Tag";
         name: string;
         createdAt?: any | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetTagQueryVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetTagQuery = {
+  __typename?: "Query";
+  contract?: {
+    __typename?: "ContractEntityResponse";
+    data?: {
+      __typename?: "ContractEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Contract";
+        clientName: string;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -11203,6 +11246,14 @@ export const GetNewByIdDocument = gql`
           status
           publishedDate
           unpublishedDate
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
           image {
             data {
               attributes {
@@ -12251,6 +12302,67 @@ export type DeleteTagMutationResult = Apollo.MutationResult<DeleteTagMutation>;
 export type DeleteTagMutationOptions = Apollo.BaseMutationOptions<
   DeleteTagMutation,
   DeleteTagMutationVariables
+>;
+export const GetTagDocument = gql`
+  query getTag($contractId: ID) {
+    contract(id: $contractId) {
+      data {
+        id
+        attributes {
+          clientName
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTagQuery__
+ *
+ * To run a query within a React component, call `useGetTagQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTagQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetTagQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetTagQuery, GetTagQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTagQuery, GetTagQueryVariables>(
+    GetTagDocument,
+    options,
+  );
+}
+export function useGetTagLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetTagQuery, GetTagQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetTagQuery, GetTagQueryVariables>(
+    GetTagDocument,
+    options,
+  );
+}
+export type GetTagQueryHookResult = ReturnType<typeof useGetTagQuery>;
+export type GetTagLazyQueryHookResult = ReturnType<typeof useGetTagLazyQuery>;
+export type GetTagQueryResult = Apollo.QueryResult<
+  GetTagQuery,
+  GetTagQueryVariables
 >;
 export const UpdateTagDocument = gql`
   mutation updateTag($updateTagId: ID!, $data: TagInput!) {
