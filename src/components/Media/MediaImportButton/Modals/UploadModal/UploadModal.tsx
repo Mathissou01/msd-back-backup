@@ -1,4 +1,5 @@
 import {
+  GetFilesPaginationByFolderIdDocument,
   UploadFileInput,
   useCreateNewFileMutation,
 } from "../../../../../graphql/codegen/generated-types";
@@ -99,7 +100,16 @@ export default function UploadModal({
         provider_metadata: null,
       };
 
-      createNewFile({ variables: { createUploadFileData2: variables } });
+      createNewFile({
+        variables: { createUploadFileData2: variables },
+        refetchQueries: [
+          {
+            query: GetFilesPaginationByFolderIdDocument,
+            variables: { contractFolderId },
+          },
+          "getFilesPaginationByFolderId",
+        ],
+      });
     }
     handleReInitModals();
   }

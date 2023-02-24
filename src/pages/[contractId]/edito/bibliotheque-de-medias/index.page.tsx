@@ -80,7 +80,7 @@ export function EditoBibliothequeDeMedias() {
         },
       },
     },
-    sort: "createdAt:desc",
+    sort: "mime:desc",
     pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
   };
   const [
@@ -150,9 +150,8 @@ export function EditoBibliothequeDeMedias() {
           .map((file) => {
             if (
               file?.attributes?.name &&
-              file?.attributes?.alternativeText &&
-              file?.attributes?.width &&
-              file?.attributes?.height &&
+              file?.attributes?.width !== null &&
+              file?.attributes?.height !== null &&
               file?.attributes?.ext &&
               file?.attributes?.mime &&
               file?.attributes?.size &&
@@ -160,9 +159,9 @@ export function EditoBibliothequeDeMedias() {
             ) {
               return {
                 name: file?.attributes?.name,
-                alternativeText: file?.attributes?.alternativeText,
-                width: file?.attributes?.width,
-                height: file?.attributes?.height,
+                alternativeText: file?.attributes?.alternativeText ?? "",
+                width: file?.attributes?.width ?? 0,
+                height: file?.attributes?.height ?? 0,
                 ext: file?.attributes?.ext,
                 mime: file?.attributes?.mime,
                 size: file?.attributes?.size.toString(),

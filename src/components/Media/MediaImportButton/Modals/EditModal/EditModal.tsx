@@ -58,6 +58,8 @@ export default function EditModal({
     return mapOptionsInWrappers(sortedFolderHierarchy);
   };
 
+  const isImageToUpload = () => fileToEdit?.mime.split("/")[0] === "image";
+
   return (
     <>
       <div className="c-MediaImportButton__Body">
@@ -71,17 +73,19 @@ export default function EditModal({
               defaultValue={fileToEdit?.name}
             />
           </div>
-          <div className="c-MediaImportButton__FormControl">
-            <FormInput
-              type="text"
-              name={handleRaplceSpecialChars(labels.formDescLabel)}
-              label={labels.formDescLabel}
-              secondaryLabel={labels.formDescHint}
-              isRequired={true}
-              defaultValue={fileToEdit?.alternativeText ?? fileToEdit?.name}
-              maxLengthValidation={80}
-            />
-          </div>
+          {isImageToUpload() && (
+            <div className="c-MediaImportButton__FormControl">
+              <FormInput
+                type="text"
+                name={handleRaplceSpecialChars(labels.formDescLabel)}
+                label={labels.formDescLabel}
+                secondaryLabel={labels.formDescHint}
+                isRequired={true}
+                defaultValue={fileToEdit?.alternativeText ?? fileToEdit?.name}
+                maxLengthValidation={80}
+              />
+            </div>
+          )}
           <div className="c-MediaImportButton__FormControl">
             <FormSelect<RequestFolders>
               name={handleRaplceSpecialChars(labels.formSelectLabel)}
@@ -104,10 +108,12 @@ export default function EditModal({
                   <th>Taille</th>
                   <td>{fileToEdit?.size}</td>
                 </tr>
-                <tr>
-                  <th>Dimensions</th>
-                  <td>{`${fileToEdit?.width}x${fileToEdit?.height}`}</td>
-                </tr>
+                {isImageToUpload() && (
+                  <tr>
+                    <th>Dimensions</th>
+                    <td>{`${fileToEdit?.width}x${fileToEdit?.height}`}</td>
+                  </tr>
+                )}
                 <tr>
                   <th>Date</th>
                   <td>{fileToEdit?.date}</td>
@@ -120,30 +126,32 @@ export default function EditModal({
             </table>
           </div>
         </div>
-        <div className="c-MediaImportButton__Block">
-          <div className="c-MediaImportButton__EditImg">
-            <div className="c-MediaImportButton__ToolsIcon">
-              <button
-                type="button"
-                className="c-MediaImportButton_crop"
-                onClick={() => console.log("clicked")}
-              />
-              <button
-                type="button"
-                className="c-MediaImportButton_trash"
-                onClick={() => console.log("clicked")}
-              />
+        {isImageToUpload() && (
+          <div className="c-MediaImportButton__Block">
+            <div className="c-MediaImportButton__EditImg">
+              <div className="c-MediaImportButton__ToolsIcon">
+                <button
+                  type="button"
+                  className="c-MediaImportButton_crop"
+                  onClick={() => console.log("clicked")}
+                />
+                <button
+                  type="button"
+                  className="c-MediaImportButton_trash"
+                  onClick={() => console.log("clicked")}
+                />
+              </div>
+              {fileToEdit?.url && (
+                <Image
+                  src={fileToEdit?.url}
+                  width={245}
+                  height={158}
+                  alt={fileToEdit?.name}
+                />
+              )}
             </div>
-            {fileToEdit?.url && (
-              <Image
-                src={fileToEdit?.url}
-                width={245}
-                height={158}
-                alt={fileToEdit?.name}
-              />
-            )}
           </div>
-        </div>
+        )}
       </div>
     </>
   );

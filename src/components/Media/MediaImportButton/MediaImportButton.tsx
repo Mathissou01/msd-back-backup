@@ -97,7 +97,7 @@ export default function MediaImportButton({
   const handleRaplceSpecialChars = (arg: string) =>
     arg.replace(/['"]/g, "") ?? arg;
 
-  async function handleSaveNewImageInfo(submitData: FieldValues) {
+  async function handleSaveNewFileInfo(submitData: FieldValues) {
     const selectedFilesInstance: IFileToEdit[] = [...selectedFiles];
     const file: IFileToEdit[] = selectedFilesInstance.filter(
       (file) => file.name === fileToEdit?.name,
@@ -287,7 +287,7 @@ export default function MediaImportButton({
               modalRef={EditModalRef}
               modalTitle={labels.detailsModalTitle}
               hasRequiredChildren="all"
-              onSubmit={handleSaveNewImageInfo}
+              onSubmit={handleSaveNewFileInfo}
               formValidationMode="onChange"
               onClose={() => handleCloseEditModal()}
             >
