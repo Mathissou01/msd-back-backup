@@ -8,16 +8,30 @@ exports[`EditoForm renders 1`] = `
     <div
       class="c-EditoForm__Buttons"
     >
-      <button
-        class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
-        disabled=""
-        type="submit"
+      <div
+        class="c-EditoButtons"
       >
-        <div
-          class="c-CommonButton__Picto c-CommonButton__Picto_check"
-        />
-        Enregistrer en tant que brouillon
-      </button>
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_windowUpload"
+          />
+          Publier
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
+          Enregistrer en tant que brouillon
+        </button>
+      </div>
     </div>
     <div
       class="c-EditoForm__Form"

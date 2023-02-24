@@ -5,6 +5,7 @@ import {
   useGetNewByIdQuery,
   useUpdateNewMutation,
   GetNewByIdDocument,
+  Enum_New_Status,
 } from "../../../../../graphql/codegen/generated-types";
 import {
   IEditoBlock,
@@ -34,6 +35,7 @@ export function EditoActualitesEditPage({
       updateNewId: newId,
       data: {
         title: newsInputData.title,
+        status: Enum_New_Status.Published,
         shortDescription: newsInputData.shortDescription,
         blocks: newsInputData.blocks?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars

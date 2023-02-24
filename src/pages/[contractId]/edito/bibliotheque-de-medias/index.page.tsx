@@ -53,7 +53,7 @@ export function EditoBibliothequeDeMedias() {
   /* Local Data */
   const { contract } = useContract();
   const contractFolderId = contract.attributes?.folderId;
-  const defaultPath = `/1/${contractFolderId}/`;
+  const defaultPath = `/1/${contractFolderId}`;
   const [activePathId, setActivePathId] = useState<number>(contractFolderId);
   const [activePath, setActivePath] = useState<string>(defaultPath);
   const {
@@ -245,14 +245,10 @@ export function EditoBibliothequeDeMedias() {
                   key={index}
                   id={folder.id}
                   name={folder.name}
+                  path={folder.path}
                   childrenAmount={folder.childrenAmount}
                   filesAmount={folder.filesAmount}
                   picto="folder"
-                  folderHierarchy={
-                    folderHierarchy?.getAllFoldersHierarchy?.filter(
-                      removeNulls,
-                    ) ?? []
-                  }
                   localFolderPathId={`${activePathId}`}
                   onClick={() => setUpdatePath(folder.pathId, folder.path)}
                 />

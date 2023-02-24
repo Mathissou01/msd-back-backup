@@ -1,7 +1,10 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { useCreateNewMutation } from "../../../../../graphql/codegen/generated-types";
+import {
+  Enum_New_Status,
+  useCreateNewMutation,
+} from "../../../../../graphql/codegen/generated-types";
 import { IEditoBlock, TDynamicFieldOption } from "../../../../../lib/edito";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useContract } from "../../../../../hooks/useContract";
@@ -23,6 +26,7 @@ export function EditoActualitesCreatePage() {
         newsSubService:
           contract.attributes?.editorialService?.data?.attributes
             ?.newsSubService?.data?.id,
+        status: Enum_New_Status.Published,
         title: newsInputData.title,
         shortDescription: newsInputData.shortDescription,
         blocks: newsInputData.blocks?.map(

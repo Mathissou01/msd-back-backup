@@ -1,17 +1,16 @@
 import classNames from "classnames";
 import React from "react";
-import { RequestFolders } from "../../../graphql/codegen/generated-types";
 import MediaUpdateFolderButton from "../MediaUpdateFolderButton/MediaUpdateFolderButton";
 import "./media-folder-card.scss";
 
 interface IMediaFolderCardProps {
   id: string;
   name: string;
+  path: string;
   picto: "folder";
   childrenAmount?: number;
   filesAmount?: number;
   onClick: () => void;
-  folderHierarchy: Array<RequestFolders>;
   localFolderPathId: `${number}`;
   //localActivePathId: number;
 }
@@ -20,10 +19,10 @@ export default function MediaFolderCard({
   //localActivePathId
   id,
   name,
+  path,
   picto,
   childrenAmount,
   filesAmount,
-  folderHierarchy,
   localFolderPathId,
   onClick,
 }: IMediaFolderCardProps) {
@@ -53,7 +52,7 @@ export default function MediaFolderCard({
         <MediaUpdateFolderButton
           id={id}
           name={name}
-          folderHierarchy={folderHierarchy}
+          path={path}
           localFolderPathId={localFolderPathId}
         />
       </div>

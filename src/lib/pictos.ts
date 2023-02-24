@@ -13,4 +13,5 @@ export type TPictoStyles =
   | "picture"
   | "video"
   | "attachment"
-  | "dashboard";
+  | "dashboard"
+  | "windowUpload";

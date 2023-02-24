@@ -3,6 +3,7 @@ import { useRef } from "react";
 import {
   GetFolderAndChildrenByIdDocument,
   RequestFolders,
+  useGetAllFoldersHierarchyQuery,
   useUpdateUploadFolderMutation,
 } from "../../../graphql/codegen/generated-types";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -11,18 +12,20 @@ import FormModal from "../../Form/FormModal/FormModal";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../Form/FormMultiselect/FormMultiselect";
 import "./media-update-folder-button.scss";
+import { useContract } from "../../../hooks/useContract";
+import { removeNulls } from "../../../lib/utilities";
 
 interface IMediaUpdateFolderButtonProps {
   id: string;
   name: string;
-  folderHierarchy: Array<RequestFolders>;
+  path: string;
   localFolderPathId: `${number}`;
 }
 
 export default function MediaUpdateFolderButton({
   id,
   name,
-  folderHierarchy,
+  path,
   localFolderPathId,
 }: IMediaUpdateFolderButtonProps) {
   /* Static Data */
@@ -80,11 +83,18 @@ export default function MediaUpdateFolderButton({
     modalRef.current?.toggleModal(true);
   }
   /* External Data */
+  const { contract } = useContract();
+  const contractFolderId = contract.attributes?.folderId;
+  const { data: folderHierarchy } = useGetAllFoldersHierarchyQuery({
+    variables: { path: path, contractFolderId },
+  });
   const [updateUploadFolder, { loading: mutationLoading }] =
     useUpdateUploadFolderMutation();
 
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);
+  const pathFolderHierchy =
+    folderHierarchy?.getAllFoldersHierarchy?.filter(removeNulls) ?? [];
 
   return (
     <>
@@ -117,11 +127,11 @@ export default function MediaUpdateFolderButton({
                 name="folderLocation"
                 label={formLabels.locationFolder}
                 displayTransform={folderHierarchyDisplayTransformFunction}
-                options={sortFolderHierarchy(folderHierarchy)}
+                options={sortFolderHierarchy(pathFolderHierchy)}
                 optionKey={"id"}
                 isRequired={true}
                 defaultValue={
-                  folderHierarchy.find(
+                  pathFolderHierchy.find(
                     (folder) => folder?.pathId === localFolderPathId,
                   ) ?? undefined
                 }
