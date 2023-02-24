@@ -1,4 +1,4 @@
-import { format, parseJSON } from "date-fns";
+import { parseJSON } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
@@ -24,6 +24,7 @@ import {
   mapOptionsInWrappers,
 } from "../../Form/FormMultiselect/FormMultiselect";
 import "./top-content-tab.scss";
+import { formatDate } from "../../../lib/utilities";
 
 interface ITopContentBlock {
   id: string;
@@ -58,10 +59,9 @@ export default function TopContentTab() {
   ): ReactNode {
     return (
       <p>
-        {`${topContent?.attributes?.title} - ${format(
+        {`${topContent?.attributes?.title} - ${formatDate(
           parseJSON(topContent?.attributes?.publishedDate),
-          "dd/MM/yyyy",
-        )}` ?? ""}
+        )}`}
       </p>
     );
   }
@@ -69,12 +69,9 @@ export default function TopContentTab() {
   function topContentSelectDisplayTransformFunction(
     topContent: TopContentDto,
   ): string {
-    return (
-      `${topContent?.attributes?.title} - ${format(
-        parseJSON(topContent?.attributes?.publishedDate),
-        "dd/MM/yyyy",
-      )}` ?? ""
-    );
+    return `${topContent?.attributes?.title} - ${formatDate(
+      parseJSON(topContent?.attributes?.publishedDate),
+    )}`;
   }
 
   function onTopContentModalSubmit(submitData: {

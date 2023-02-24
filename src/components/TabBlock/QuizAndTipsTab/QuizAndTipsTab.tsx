@@ -1,4 +1,4 @@
-import { format, parseJSON } from "date-fns";
+import { parseJSON } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import {
   useGetQuizAndTipsBlockTabQuery,
   useUpdateQuizAndTipsBlockTabMutation,
 } from "../../../graphql/codegen/generated-types";
-import { removeNulls } from "../../../lib/utilities";
+import { formatDate, removeNulls } from "../../../lib/utilities";
 import { extractQuizAndTipsBlock } from "../../../lib/graphql-data";
 import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 import { useContract } from "../../../hooks/useContract";
@@ -79,10 +79,10 @@ export default function QuizAndTipsTab() {
       if (tip && tip.id) {
         return (
           <p key={tip.id + index}>
-            {`${tip.attributes?.title} - ${format(
+            {`${tip.attributes?.title} - ${formatDate(
               parseJSON(tip.attributes?.publishedDate),
               "dd/mm/yyyy",
-            )}` ?? ""}
+            )}`}
           </p>
         );
       }
@@ -90,12 +90,10 @@ export default function QuizAndTipsTab() {
   }
 
   function tipSelectDisplayTransformFunction(tip: TipEntity): string {
-    return (
-      `${tip.attributes?.title} - ${format(
-        parseJSON(tip.attributes?.publishedDate),
-        "dd/mm/yyyy",
-      )}` ?? ""
-    );
+    return `${tip.attributes?.title} - ${formatDate(
+      parseJSON(tip.attributes?.publishedDate),
+      "dd/mm/yyyy",
+    )}`;
   }
 
   function onTipsModalSubmit(submitData: {

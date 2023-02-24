@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const removeNulls = <S>(
   value: S | undefined,
 ): value is Exclude<S, null> => value != null;
@@ -85,4 +87,18 @@ export function compareArraysOfObjects(
       Object.keys(val).every((prop) => b[i][prop] && b[i][prop] === val[prop]),
     )
   );
+}
+
+export function formatDate(
+  date: Date | number | null,
+  dateFormat = "dd/MM/yyyy",
+): string {
+  if (
+    (date instanceof Date && !isNaN(Number(date))) ||
+    typeof date === "number"
+  ) {
+    return format(date, dateFormat);
+  }
+
+  return "";
 }

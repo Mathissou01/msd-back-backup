@@ -2,10 +2,11 @@ type Accessibility {
   blocks: [AccessibilityBlocksDynamicZone]
   createdAt: DateTime
   customId: String
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_ACCESSIBILITY_STATUS
   title: String!
-  unpublishedDate: DateTime
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -37,13 +38,14 @@ input AccessibilityFiltersInput {
   and: [AccessibilityFiltersInput]
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
+  draftCreationId: StringFilterInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: AccessibilityFiltersInput
   or: [AccessibilityFiltersInput]
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
@@ -51,10 +53,11 @@ input AccessibilityFiltersInput {
 input AccessibilityInput {
   blocks: [AccessibilityBlocksDynamicZoneInput!]
   customId: String
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_ACCESSIBILITY_STATUS
   title: String
-  unpublishedDate: DateTime
   versionNumber: Int
 }
 
@@ -309,10 +312,11 @@ type Cgu {
   blocks: [CguBlocksDynamicZone]
   cguSubService: CguSubServiceEntityResponse
   createdAt: DateTime
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_CGU_STATUS
   title: String!
-  unpublishedDate: DateTime
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -345,13 +349,14 @@ input CguFiltersInput {
   and: [CguFiltersInput]
   cguSubService: CguSubServiceFiltersInput
   createdAt: DateTimeFilterInput
+  draftCreationId: StringFilterInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: CguFiltersInput
   or: [CguFiltersInput]
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
@@ -360,10 +365,11 @@ input CguInput {
   CustomId: String
   blocks: [CguBlocksDynamicZoneInput!]
   cguSubService: ID
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_CGU_STATUS
   title: String
-  unpublishedDate: DateTime
   versionNumber: Int
 }
 
@@ -432,7 +438,6 @@ type ChannelType {
   createdAt: DateTime
   hasWebApp: Boolean
   hasWebSite: Boolean
-  hasYesWeScan: Boolean
   updatedAt: DateTime
 }
 
@@ -455,7 +460,6 @@ input ChannelTypeFiltersInput {
   createdAt: DateTimeFilterInput
   hasWebApp: BooleanFilterInput
   hasWebSite: BooleanFilterInput
-  hasYesWeScan: BooleanFilterInput
   id: IDFilterInput
   not: ChannelTypeFiltersInput
   or: [ChannelTypeFiltersInput]
@@ -465,7 +469,6 @@ input ChannelTypeFiltersInput {
 input ChannelTypeInput {
   hasWebApp: Boolean
   hasWebSite: Boolean
-  hasYesWeScan: Boolean
 }
 
 type ChannelTypeRelationResponseCollection {
@@ -474,6 +477,7 @@ type ChannelTypeRelationResponseCollection {
 
 type City {
   createdAt: DateTime
+  epci: EpciEntityResponse
   label: String!
   postalCode: String!
   updatedAt: DateTime
@@ -496,6 +500,7 @@ type CityEntityResponseCollection {
 input CityFiltersInput {
   and: [CityFiltersInput]
   createdAt: DateTimeFilterInput
+  epci: EpciFiltersInput
   id: IDFilterInput
   label: StringFilterInput
   not: CityFiltersInput
@@ -505,6 +510,7 @@ input CityFiltersInput {
 }
 
 input CityInput {
+  epci: ID
   label: String
   postalCode: String
 }
@@ -564,40 +570,6 @@ input ClientContactInput {
   firstName: String
   lastName: String
   phoneNumber: String
-}
-
-type ClientType {
-  createdAt: DateTime
-  type: String
-  updatedAt: DateTime
-}
-
-type ClientTypeEntity {
-  attributes: ClientType
-  id: ID
-}
-
-type ClientTypeEntityResponse {
-  data: ClientTypeEntity
-}
-
-type ClientTypeEntityResponseCollection {
-  data: [ClientTypeEntity!]!
-  meta: ResponseCollectionMeta!
-}
-
-input ClientTypeFiltersInput {
-  and: [ClientTypeFiltersInput]
-  createdAt: DateTimeFilterInput
-  id: IDFilterInput
-  not: ClientTypeFiltersInput
-  or: [ClientTypeFiltersInput]
-  type: StringFilterInput
-  updatedAt: DateTimeFilterInput
-}
-
-input ClientTypeInput {
-  type: String
 }
 
 type ComponentBlocksFile {
@@ -787,10 +759,11 @@ type Confidentiality {
   confidentialitySubService: ConfidentialitySubServiceEntityResponse
   createdAt: DateTime
   customId: String
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_CONFIDENTIALITY_STATUS
   title: String!
-  unpublishedDate: DateTime
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -823,13 +796,14 @@ input ConfidentialityFiltersInput {
   confidentialitySubService: ConfidentialitySubServiceFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
+  draftCreationId: StringFilterInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: ConfidentialityFiltersInput
   or: [ConfidentialityFiltersInput]
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
@@ -838,10 +812,11 @@ input ConfidentialityInput {
   blocks: [ConfidentialityBlocksDynamicZoneInput!]
   confidentialitySubService: ID
   customId: String
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_CONFIDENTIALITY_STATUS
   title: String
-  unpublishedDate: DateTime
   versionNumber: Int
 }
 
@@ -910,6 +885,8 @@ type ContactUs {
   blocks: [ContactUsBlocksDynamicZone]
   createdAt: DateTime
   customId: String
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_CONTACTUS_STATUS
   tags(
@@ -952,6 +929,8 @@ input ContactUsFiltersInput {
   and: [ContactUsFiltersInput]
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
+  draftCreationId: StringFilterInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: ContactUsFiltersInput
   or: [ContactUsFiltersInput]
@@ -967,6 +946,8 @@ input ContactUsFiltersInput {
 input ContactUsInput {
   blocks: [ContactUsBlocksDynamicZoneInput!]
   customId: String
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_CONTACTUS_STATUS
   tags: [ID]
@@ -1065,13 +1046,20 @@ type Contract {
   clear: Long
   clientContact: ClientContactEntityResponse
   clientName: String!
+  clientType: ENUM_CONTRACT_CLIENTTYPE!
   contractCustomization: ContractCustomizationEntityResponse
   contractMenu: ContractMenuEntityResponse
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS!
+  contracts(
+    filters: ContractFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): ContractRelationResponseCollection
   createdAt: DateTime
   dropOffMapService: DropOffMapServiceEntityResponse
   editorialService: EditorialServiceEntityResponse
   folderId: Long
+  isNonExclusive: Boolean!
   isRVFrance: Boolean!
   keyMetricsService: KeyMetricsServiceEntityResponse
   logicalDelete: Boolean
@@ -1099,6 +1087,7 @@ type ContractCreateInput {
   ccap: Long
   clear: Long
   clientName: String!
+  clientType: String
   isRVFrance: Boolean!
   siret: Long
 }
@@ -1164,14 +1153,17 @@ input ContractFiltersInput {
   clear: LongFilterInput
   clientContact: ClientContactFiltersInput
   clientName: StringFilterInput
+  clientType: StringFilterInput
   contractCustomization: ContractCustomizationFiltersInput
   contractMenu: ContractMenuFiltersInput
   contractStatus: StringFilterInput
+  contracts: ContractFiltersInput
   createdAt: DateTimeFilterInput
   dropOffMapService: DropOffMapServiceFiltersInput
   editorialService: EditorialServiceFiltersInput
   folderId: LongFilterInput
   id: IDFilterInput
+  isNonExclusive: BooleanFilterInput
   isRVFrance: BooleanFilterInput
   keyMetricsService: KeyMetricsServiceFiltersInput
   logicalDelete: BooleanFilterInput
@@ -1193,12 +1185,15 @@ input ContractInput {
   clear: Long
   clientContact: ID
   clientName: String
+  clientType: ENUM_CONTRACT_CLIENTTYPE
   contractCustomization: ID
   contractMenu: ID
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS
+  contracts: [ID]
   dropOffMapService: ID
   editorialService: ID
   folderId: Long
+  isNonExclusive: Boolean
   isRVFrance: Boolean
   keyMetricsService: ID
   logicalDelete: Boolean
@@ -1265,14 +1260,19 @@ union ContractMenuServiceLinksDynamicZone =
 
 scalar ContractMenuServiceLinksDynamicZoneInput
 
+type ContractRelationResponseCollection {
+  data: [ContractEntity!]!
+}
+
 type Cookie {
   blocks: [CookieBlocksDynamicZone]
   createdAt: DateTime
   customId: String
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_COOKIE_STATUS
   title: String!
-  unpublishedDate: DateTime
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -1304,13 +1304,14 @@ input CookieFiltersInput {
   and: [CookieFiltersInput]
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
+  draftCreationId: StringFilterInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: CookieFiltersInput
   or: [CookieFiltersInput]
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
@@ -1318,10 +1319,11 @@ input CookieFiltersInput {
 input CookieInput {
   blocks: [CookieBlocksDynamicZoneInput!]
   customId: String
+  draftCreationId: String
+  hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_COOKIE_STATUS
   title: String
-  unpublishedDate: DateTime
   versionNumber: Int
 }
 
@@ -1684,6 +1686,12 @@ enum ENUM_CONTACTUS_STATUS {
   published
 }
 
+enum ENUM_CONTRACT_CLIENTTYPE {
+  city
+  epci
+  union
+}
+
 enum ENUM_CONTRACT_CONTRACTSTATUS {
   Actif
   En_cours
@@ -2021,6 +2029,7 @@ type Event {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): DocumentRelationResponseCollection
+  draftCreationId: String
   editoContent: EditoContentEntityResponse
   eventSubService: EventSubServiceEntityResponse
   events(
@@ -2028,6 +2037,7 @@ type Event {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): EventRelationResponseCollection
+  hasDraft: Boolean
   image: UploadFileEntityResponse!
   publishedDate: DateTime
   shortDescription: String
@@ -2072,9 +2082,11 @@ input EventFiltersInput {
   and: [EventFiltersInput]
   createdAt: DateTimeFilterInput
   documents: DocumentFiltersInput
+  draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
   eventSubService: EventSubServiceFiltersInput
   events: EventFiltersInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: EventFiltersInput
   or: [EventFiltersInput]
@@ -2091,9 +2103,11 @@ input EventFiltersInput {
 input EventInput {
   blocks: [EventBlocksDynamicZoneInput!]
   documents: [ID]
+  draftCreationId: String
   editoContent: ID
   eventSubService: ID
   events: [ID]
+  hasDraft: Boolean
   image: ID
   publishedDate: DateTime
   shortDescription: String
@@ -2295,8 +2309,10 @@ input FooterInput {
 type FreeContent {
   blocks: [FreeContentBlocksDynamicZone]
   createdAt: DateTime
+  draftCreationId: String
   editoContent: EditoContentEntityResponse
   freeContentSubService: FreeContentSubServiceEntityResponse
+  hasDraft: Boolean
   image: UploadFileEntityResponse!
   publishedDate: DateTime
   shortDescription: String
@@ -2339,8 +2355,10 @@ type FreeContentEntityResponseCollection {
 input FreeContentFiltersInput {
   and: [FreeContentFiltersInput]
   createdAt: DateTimeFilterInput
+  draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
   freeContentSubService: FreeContentSubServiceFiltersInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: FreeContentFiltersInput
   or: [FreeContentFiltersInput]
@@ -2355,8 +2373,10 @@ input FreeContentFiltersInput {
 
 input FreeContentInput {
   blocks: [FreeContentBlocksDynamicZoneInput!]
+  draftCreationId: String
   editoContent: ID
   freeContentSubService: ID
+  hasDraft: Boolean
   image: ID
   publishedDate: DateTime
   shortDescription: String
@@ -2458,7 +2478,6 @@ union GenericMorph =
   | ChannelType
   | City
   | ClientContact
-  | ClientType
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
@@ -2902,7 +2921,6 @@ type Mutation {
   createChannelType(data: ChannelTypeInput!): ChannelTypeEntityResponse
   createCity(data: CityInput!): CityEntityResponse
   createClientContact(data: ClientContactInput!): ClientContactEntityResponse
-  createClientType(data: ClientTypeInput!): ClientTypeEntityResponse
   createConfidentiality(
     data: ConfidentialityInput!
   ): ConfidentialityEntityResponse
@@ -2944,6 +2962,7 @@ type Mutation {
     ccap: Long
     clear: Long
     clientName: String!
+    clientType: String!
     contactEmail: String!
     contactFirstName: String!
     contactLastName: String!
@@ -3033,7 +3052,6 @@ type Mutation {
   deleteChannelType(id: ID!): ChannelTypeEntityResponse
   deleteCity(id: ID!): CityEntityResponse
   deleteClientContact(id: ID!): ClientContactEntityResponse
-  deleteClientType(id: ID!): ClientTypeEntityResponse
   deleteConfidentiality(id: ID!): ConfidentialityEntityResponse
   deleteConfidentialitySubService(
     id: ID!
@@ -3169,7 +3187,6 @@ type Mutation {
     data: ClientContactInput!
     id: ID!
   ): ClientContactEntityResponse
-  updateClientType(data: ClientTypeInput!, id: ID!): ClientTypeEntityResponse
   updateConfidentiality(
     data: ConfidentialityInput!
     id: ID!
@@ -3229,6 +3246,11 @@ type Mutation {
     data: FreeContentSubServiceInput!
     id: ID!
   ): FreeContentSubServiceEntityResponse
+  updateFullContract(
+    clientData: ClientContactInput!
+    contractData: ContractInput!
+    contractId: ID!
+  ): Boolean
   updateGlobal(data: GlobalInput!): GlobalEntityResponse
   updateHomepage(data: HomepageInput!, id: ID!): HomepageEntityResponse
   updateKeyMetric(data: KeyMetricInput!, id: ID!): KeyMetricEntityResponse
@@ -3337,8 +3359,10 @@ type New {
   ): ChannelTypeRelationResponseCollection
   createdAt: DateTime
   customId: String
+  draftCreationId: String
   editoContent: EditoContentEntityResponse
-  image: UploadFileEntityResponse!
+  hasDraft: Boolean
+  image: UploadFileEntityResponse
   newsSubService: NewsSubServiceEntityResponse
   publishedDate: DateTime
   shortDescription: String
@@ -3386,7 +3410,9 @@ input NewFiltersInput {
   channels: ChannelTypeFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
+  draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   newsSubService: NewsSubServiceFiltersInput
   not: NewFiltersInput
@@ -3407,7 +3433,9 @@ input NewInput {
   blocks: [NewBlocksDynamicZoneInput!]
   channels: [ID]
   customId: String
+  draftCreationId: String
   editoContent: ID
+  hasDraft: Boolean
   image: ID
   newsSubService: ID
   publishedDate: DateTime
@@ -3701,12 +3729,6 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): ClientContactEntityResponseCollection
-  clientType(id: ID): ClientTypeEntityResponse
-  clientTypes(
-    filters: ClientTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): ClientTypeEntityResponseCollection
   confidentialities(
     filters: ConfidentialityFiltersInput
     pagination: PaginationArg = {}
@@ -3957,6 +3979,7 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): RequestEntityResponseCollection
+  searchClientsByName(name: String!): [clientName]
   searchEngineBlock(id: ID): SearchEngineBlockEntityResponse
   searchEngineBlocks(
     filters: SearchEngineBlockFiltersInput
@@ -4046,7 +4069,9 @@ type Query {
 
 type Quiz {
   createdAt: DateTime
+  draftCreationId: String
   editoContent: EditoContentEntityResponse
+  hasDraft: Boolean
   publishedDate: DateTime
   quizSubService: QuizSubServiceEntityResponse
   shortDescription: String
@@ -4134,7 +4159,9 @@ type QuizEntityResponseCollection {
 input QuizFiltersInput {
   and: [QuizFiltersInput]
   createdAt: DateTimeFilterInput
+  draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: QuizFiltersInput
   or: [QuizFiltersInput]
@@ -4149,7 +4176,9 @@ input QuizFiltersInput {
 }
 
 input QuizInput {
+  draftCreationId: String
   editoContent: ID
+  hasDraft: Boolean
   publishedDate: DateTime
   quizSubService: ID
   shortDescription: String
@@ -4787,7 +4816,9 @@ input TerritoryTypeInput {
 type Tip {
   blocks: [TipBlocksDynamicZone]
   createdAt: DateTime
+  draftCreationId: String
   editoContent: EditoContentEntityResponse
+  hasDraft: Boolean
   image: UploadFileEntityResponse!
   link: String
   publishedDate: DateTime
@@ -4833,7 +4864,9 @@ type TipEntityResponseCollection {
 input TipFiltersInput {
   and: [TipFiltersInput]
   createdAt: DateTimeFilterInput
+  draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   isSystem: BooleanFilterInput
   link: StringFilterInput
@@ -4852,7 +4885,9 @@ input TipFiltersInput {
 
 input TipInput {
   blocks: [TipBlocksDynamicZoneInput!]
+  draftCreationId: String
   editoContent: ID
+  hasDraft: Boolean
   image: ID
   isSystem: Boolean
   link: String
@@ -5447,6 +5482,10 @@ input WasteFormInput {
 
 type WasteFormRelationResponseCollection {
   data: [WasteFormEntity!]!
+}
+
+type clientName {
+  clientName: String
 }
 
 type totalCountPerTag {

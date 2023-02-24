@@ -1,4 +1,4 @@
-import { format, parseJSON } from "date-fns";
+import { parseJSON } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import {
   comparePropertyValueByPriority,
+  formatDate,
   removeNulls,
 } from "../../../lib/utilities";
 import { extractEditoBlock } from "../../../lib/graphql-data";
@@ -56,10 +57,9 @@ export default function EditoTab() {
       if (editoContent && editoContent.id) {
         return (
           <p key={editoContent.id + index}>
-            {`${editoContent.attributes?.title} - ${format(
+            {`${editoContent.attributes?.title} - ${formatDate(
               parseJSON(editoContent.attributes?.publishedDate),
-              "dd/MM/yyyy",
-            )}` ?? ""}
+            )}`}
           </p>
         );
       }
@@ -69,12 +69,9 @@ export default function EditoTab() {
   function editoContentSelectDisplayTransformFunction(
     editoContent: EditoContentDto,
   ): string {
-    return (
-      `${editoContent.attributes?.title} - ${format(
-        parseJSON(editoContent.attributes?.publishedDate),
-        "dd/MM/yyyy",
-      )}` ?? ""
-    );
+    return `${editoContent.attributes?.title} - ${formatDate(
+      parseJSON(editoContent.attributes?.publishedDate),
+    )}`;
   }
 
   function onContentModalSubmit(submitData: {

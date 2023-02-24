@@ -95,6 +95,8 @@ query getContractById($contractId: ID!) {
             }
           }
         }
+        clientType
+        isNonExclusive
       }
     }
   }

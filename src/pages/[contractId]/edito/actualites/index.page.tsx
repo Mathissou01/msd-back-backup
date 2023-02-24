@@ -1,5 +1,5 @@
 import { TableColumn } from "react-data-table-component";
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,7 +10,7 @@ import {
   useDeleteNewMutation,
   useGetNewsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
-import { removeNulls } from "../../../../lib/utilities";
+import { formatDate, removeNulls } from "../../../../lib/utilities";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import ContractLayout from "../../contract-layout";
@@ -198,16 +198,10 @@ export function EditoActualitesPage() {
                   ? EStatusLabel[news.attributes.status]
                   : EStatusLabel.draft,
                 publishedDate: news.attributes.publishedDate
-                  ? format(
-                      parseISO(news.attributes.publishedDate),
-                      "dd/MM/yyyy",
-                    )
+                  ? formatDate(parseISO(news.attributes.publishedDate))
                   : "-",
                 unpublishedDate: news.attributes.unpublishedDate
-                  ? format(
-                      parseISO(news.attributes.unpublishedDate),
-                      "dd/MM/yyyy",
-                    )
+                  ? formatDate(parseISO(news.attributes.unpublishedDate))
                   : "-",
               };
             }
