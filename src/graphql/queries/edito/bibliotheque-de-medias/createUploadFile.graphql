@@ -1,0 +1,23 @@
+mutation createNewFile($createUploadFileData2: UploadFileInput!) {
+  createUploadFile(data: $createUploadFileData2) {
+    data {
+      attributes {
+        name
+        alternativeText
+        ext
+        height
+        width
+        size
+        url
+        formats
+        related {
+          ... on UploadFolder {
+            name
+            path
+            pathId
+          }
+        }
+      }
+    }
+  }
+}

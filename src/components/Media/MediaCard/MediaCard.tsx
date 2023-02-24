@@ -1,27 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import "./media-card.scss";
-
+import classNames from "classnames";
+import { IFileToEdit } from "../MediaImportButton/MediaImportButton";
 import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
 import docIcon from "./../../../../public/images/pictos/doc.svg";
+import "./media-card.scss";
 
-export default function MediaCard(file: { file: File }) {
+export enum MediaCardParentOptions {
+  HOME = "HOME",
+  MODAL = "MODAL",
+}
+
+interface IMediaCard {
+  file: { file: IFileToEdit };
+  loading?: boolean;
+  parent?: MediaCardParentOptions;
+  handleEditFile: (file: IFileToEdit, width: number, height: number) => void;
+  handleRemoveFile: () => void;
+}
+
+export default function MediaCard({
+  file,
+  loading,
+  parent,
+  handleEditFile,
+  handleRemoveFile,
+}: IMediaCard) {
   /* Local Data */
   const media = file.file;
-  const fileUrl = URL.createObjectURL(media);
-  const fileMediaName = media.name.split(".")[0].split(".")[0];
-  const imgWidth = "100";
-  const imgHeight = "100";
-  const fileMimeType = media.type.split("/")[0] === "image" ? "image" : "doc";
-  const fileExtention = media.name.split(".")[1];
+  const [imgWidth, setImgWidth] = useState<number>(0);
+  const [imgHeight, setImgHeight] = useState<number>(0);
+  const ImgType = media.mime.split("/")[0];
+
+  /** Methods */
+  const getImgDimensions = (
+    file: IFileToEdit,
+    callback: (width: number, height: number) => void,
+  ) => {
+    const img = new window.Image();
+
+    img.src = file.url;
+    img.onload = () => {
+      callback(img.width, img.height);
+    };
+  };
+
+  getImgDimensions(media, (width: number, height: number) => {
+    media.width = width;
+    media.height = height;
+    setImgWidth(width);
+    setImgHeight(height);
+  });
+
+  const wrapperClassnames = classNames("c-MediaCard", {
+    "c-MediaCard__Loading": loading,
+  });
 
   return (
-    <div className="c-MediaCard">
-      {fileUrl && fileMimeType === "image" ? (
+    <div className={wrapperClassnames}>
+      {media.url && ImgType === "image" ? (
         <div className="c-MediaCard__Image">
-          <Image src={fileUrl} width={245} height={158} alt={fileMediaName} />
+          <Image
+            src={media.url}
+            width={245}
+            height={158}
+            alt={media.alternativeText}
+          />
         </div>
-      ) : fileExtention === "pdf" ? (
+      ) : media.ext === "pdf" ? (
         <div className="c-MediaCard__Doc">
           <Image src={pdfIcon} width={48} height={58} alt="" />
         </div>
@@ -31,16 +77,32 @@ export default function MediaCard(file: { file: File }) {
         </div>
       )}
       <div className="c-MediaCard__Description">
-        <span className="c-MediaCard__Title">{fileMediaName}</span>
+        <span className="c-MediaCard__Title">{media.name}</span>
         <div className="c-MediaCard__Infos">
           <span className="c-MediaCard__TypeFile">
-            {`${fileExtention} - ${imgWidth}x${imgHeight}`}
+            {ImgType === "image"
+              ? `${media.ext} - ${imgWidth || media.width}x${
+                  imgHeight || media.height
+                }`
+              : `${media.ext}`}
           </span>
-          <button type="button" className="c-MediaCard__Action_trash" />
+          {parent === MediaCardParentOptions.MODAL && (
+            <button
+              type="button"
+              className="c-MediaCard__Action_trash"
+              onClick={handleRemoveFile}
+            />
+          )}
         </div>
         <div className="c-MediaCard__Infos">
-          <span className="c-MediaCard__Tag">{fileMimeType}</span>
-          <button type="button" className="c-MediaCard__Action_edit" />
+          <span className="c-MediaCard__Tag">
+            {ImgType === "image" ? "image" : "doc"}
+          </span>
+          <button
+            type="button"
+            className="c-MediaCard__Action_edit"
+            onClick={() => handleEditFile(media, imgWidth, imgHeight)}
+          />
         </div>
       </div>
       <input type="checkbox" className="c-MediaCard__Checkbox" />

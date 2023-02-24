@@ -8463,6 +8463,122 @@ export type CreateNewFolderMutation = {
   } | null;
 };
 
+export type CreateNewFileMutationVariables = Exact<{
+  createUploadFileData2: UploadFileInput;
+}>;
+
+export type CreateNewFileMutation = {
+  __typename?: "Mutation";
+  createUploadFile?: {
+    __typename?: "UploadFileEntityResponse";
+    data?: {
+      __typename?: "UploadFileEntity";
+      attributes?: {
+        __typename?: "UploadFile";
+        name: string;
+        alternativeText?: string | null;
+        ext?: string | null;
+        height?: number | null;
+        width?: number | null;
+        size: number;
+        url: string;
+        formats?: any | null;
+        related?: Array<
+          | { __typename?: "Accessibility" }
+          | { __typename?: "AccessibilitySubService" }
+          | { __typename?: "AlertNotification" }
+          | { __typename?: "AlertNotificationService" }
+          | { __typename?: "AudienceType" }
+          | { __typename?: "Cgu" }
+          | { __typename?: "CguSubService" }
+          | { __typename?: "ChannelType" }
+          | { __typename?: "City" }
+          | { __typename?: "ClientContact" }
+          | { __typename?: "ClientType" }
+          | { __typename?: "ComponentBlocksFile" }
+          | { __typename?: "ComponentBlocksHorizontalRule" }
+          | { __typename?: "ComponentBlocksImage" }
+          | { __typename?: "ComponentBlocksSubHeading" }
+          | { __typename?: "ComponentBlocksVideo" }
+          | { __typename?: "ComponentBlocksWysiwyg" }
+          | { __typename?: "ComponentLinksAlertNotification" }
+          | { __typename?: "ComponentLinksContactUs" }
+          | { __typename?: "ComponentLinksDropOffMap" }
+          | { __typename?: "ComponentLinksEvents" }
+          | { __typename?: "ComponentLinksExternal" }
+          | { __typename?: "ComponentLinksFrees" }
+          | { __typename?: "ComponentLinksKeyMetrics" }
+          | { __typename?: "ComponentLinksNews" }
+          | { __typename?: "ComponentLinksPickUpDay" }
+          | { __typename?: "ComponentLinksQuizzes" }
+          | { __typename?: "ComponentLinksRecyclingGuide" }
+          | { __typename?: "ComponentLinksRequest" }
+          | { __typename?: "ComponentLinksTips" }
+          | { __typename?: "Confidentiality" }
+          | { __typename?: "ConfidentialitySubService" }
+          | { __typename?: "ContactUs" }
+          | { __typename?: "ContactUsSubService" }
+          | { __typename?: "Contract" }
+          | { __typename?: "ContractCustomization" }
+          | { __typename?: "ContractMenu" }
+          | { __typename?: "Cookie" }
+          | { __typename?: "CookiesSubService" }
+          | { __typename?: "DescriptionService" }
+          | { __typename?: "Document" }
+          | { __typename?: "DropOffMap" }
+          | { __typename?: "DropOffMapService" }
+          | { __typename?: "EditoBlock" }
+          | { __typename?: "EditoContent" }
+          | { __typename?: "EditorialService" }
+          | { __typename?: "Epci" }
+          | { __typename?: "Event" }
+          | { __typename?: "EventSubService" }
+          | { __typename?: "Footer" }
+          | { __typename?: "FreeContent" }
+          | { __typename?: "FreeContentSubService" }
+          | { __typename?: "Global" }
+          | { __typename?: "Homepage" }
+          | { __typename?: "I18NLocale" }
+          | { __typename?: "KeyMetric" }
+          | { __typename?: "KeyMetricsService" }
+          | { __typename?: "New" }
+          | { __typename?: "NewsSubService" }
+          | { __typename?: "PickUpDay" }
+          | { __typename?: "PickUpDayService" }
+          | { __typename?: "Quiz" }
+          | { __typename?: "QuizAndTipsBlock" }
+          | { __typename?: "QuizSubService" }
+          | { __typename?: "RecyclingGuideBlock" }
+          | { __typename?: "RecyclingGuideService" }
+          | { __typename?: "Request" }
+          | { __typename?: "RequestService" }
+          | { __typename?: "SearchEngineBlock" }
+          | { __typename?: "ServicesBlock" }
+          | { __typename?: "Tag" }
+          | { __typename?: "Territory" }
+          | { __typename?: "TerritoryType" }
+          | { __typename?: "Tip" }
+          | { __typename?: "TipSubService" }
+          | { __typename?: "TopContent" }
+          | { __typename?: "TopContentBlock" }
+          | { __typename?: "UploadFile" }
+          | {
+              __typename?: "UploadFolder";
+              name: string;
+              path: string;
+              pathId: number;
+            }
+          | { __typename?: "UsersPermissionsPermission" }
+          | { __typename?: "UsersPermissionsRole" }
+          | { __typename?: "UsersPermissionsUser" }
+          | { __typename?: "WasteForm" }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetAllFoldersHierarchyQueryVariables = Exact<{
   path: Scalars["String"];
   contractFolderId: Scalars["ID"];
@@ -8504,6 +8620,7 @@ export type GetFilesPaginationByFolderIdQuery = {
         createdAt?: any | null;
         url: string;
         ext?: string | null;
+        alternativeText?: string | null;
       } | null;
     }>;
     meta: {
@@ -11777,6 +11894,74 @@ export type CreateNewFolderMutationOptions = Apollo.BaseMutationOptions<
   CreateNewFolderMutation,
   CreateNewFolderMutationVariables
 >;
+export const CreateNewFileDocument = gql`
+  mutation createNewFile($createUploadFileData2: UploadFileInput!) {
+    createUploadFile(data: $createUploadFileData2) {
+      data {
+        attributes {
+          name
+          alternativeText
+          ext
+          height
+          width
+          size
+          url
+          formats
+          related {
+            ... on UploadFolder {
+              name
+              path
+              pathId
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type CreateNewFileMutationFn = Apollo.MutationFunction<
+  CreateNewFileMutation,
+  CreateNewFileMutationVariables
+>;
+
+/**
+ * __useCreateNewFileMutation__
+ *
+ * To run a mutation, you first call `useCreateNewFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewFileMutation, { data, loading, error }] = useCreateNewFileMutation({
+ *   variables: {
+ *      createUploadFileData2: // value for 'createUploadFileData2'
+ *   },
+ * });
+ */
+export function useCreateNewFileMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateNewFileMutation,
+    CreateNewFileMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateNewFileMutation,
+    CreateNewFileMutationVariables
+  >(CreateNewFileDocument, options);
+}
+export type CreateNewFileMutationHookResult = ReturnType<
+  typeof useCreateNewFileMutation
+>;
+export type CreateNewFileMutationResult =
+  Apollo.MutationResult<CreateNewFileMutation>;
+export type CreateNewFileMutationOptions = Apollo.BaseMutationOptions<
+  CreateNewFileMutation,
+  CreateNewFileMutationVariables
+>;
 export const GetAllFoldersHierarchyDocument = gql`
   query getAllFoldersHierarchy($path: String!, $contractFolderId: ID!) {
     getAllFoldersHierarchy(path: $path, contractFolderId: $contractFolderId) {
@@ -11857,6 +12042,7 @@ export const GetFilesPaginationByFolderIdDocument = gql`
           createdAt
           url
           ext
+          alternativeText
         }
       }
       meta {

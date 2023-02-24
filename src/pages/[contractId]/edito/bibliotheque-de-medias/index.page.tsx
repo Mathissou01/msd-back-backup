@@ -14,11 +14,16 @@ import CommonPagination from "../../../../components/Common/CommonPagination/Com
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import MediaCreateFolderButton from "../../../../components/Media/MediaCreateFolderButton/MediaCreateFolderButton";
 import MediaFolderCard from "../../../../components/Media/MediaFolderCard/MediaFolderCard";
-import MediaImportButton from "../../../../components/Media/MediaImportButton/MediaImportButton";
+import MediaImportButton, {
+  IFileToEdit,
+} from "../../../../components/Media/MediaImportButton/MediaImportButton";
 import MediaBreadcrumb, {
   IMediaBreadcrumb,
 } from "../../../../components/Media/MediaBreadcrumb/MediaBreadcrumb";
 import "./edito-bibliotheque-de-medias.scss";
+import MediaCard, {
+  MediaCardParentOptions,
+} from "../../../../components/Media/MediaCard/MediaCard";
 
 export interface IFolder {
   id: string;
@@ -94,6 +99,7 @@ export function EditoBibliothequeDeMedias() {
 
   const isInitialized = useRef(false);
   const [folders, setFolders] = useState<Array<IFolder>>([]);
+  const [files, setFiles] = useState<Array<IFileToEdit>>([]);
   const [currentPagination, setCurrentPagination] = useState({
     page: defaultPage,
     rowsPerPage: defaultRowsPerPage,
@@ -113,29 +119,61 @@ export function EditoBibliothequeDeMedias() {
 
   useEffect(() => {
     if (foldersData) {
-      const mappedFolders: Array<IFolder> =
-        foldersData.uploadFolders?.data[0]?.attributes?.children?.data
-          ?.map((folder) => {
+      if (foldersData) {
+        const mappedFolders: Array<IFolder> =
+          foldersData.uploadFolders?.data[0]?.attributes?.children?.data
+            ?.map((folder) => {
+              if (
+                folder.id &&
+                folder.attributes?.name &&
+                folder.attributes?.path &&
+                folder.attributes?.pathId
+              ) {
+                return {
+                  id: folder.id,
+                  name: folder.attributes.name,
+                  path: folder.attributes.path,
+                  pathId: folder.attributes?.pathId,
+                  childrenAmount: folder.attributes.children?.data.length,
+                  filesAmount: folder.attributes.files?.data.length,
+                };
+              }
+            })
+            .filter(removeNulls) ?? [];
+        setFolders(mappedFolders);
+      }
+    }
+
+    if (filesData) {
+      const mappedFiles: Array<IFileToEdit> =
+        filesData.uploadFiles?.data
+          .map((file) => {
             if (
-              folder.id &&
-              folder.attributes?.name &&
-              folder.attributes?.path &&
-              folder.attributes?.pathId
+              file?.attributes?.name &&
+              file?.attributes?.alternativeText &&
+              file?.attributes?.width &&
+              file?.attributes?.height &&
+              file?.attributes?.ext &&
+              file?.attributes?.mime &&
+              file?.attributes?.size &&
+              file?.attributes?.url
             ) {
               return {
-                id: folder.id,
-                name: folder.attributes.name,
-                path: folder.attributes.path,
-                pathId: folder.attributes?.pathId,
-                childrenAmount: folder.attributes.children?.data.length,
-                filesAmount: folder.attributes.files?.data.length,
+                name: file?.attributes?.name,
+                alternativeText: file?.attributes?.alternativeText,
+                width: file?.attributes?.width,
+                height: file?.attributes?.height,
+                ext: file?.attributes?.ext,
+                mime: file?.attributes?.mime,
+                size: file?.attributes?.size.toString(),
+                url: file?.attributes?.url,
               };
             }
           })
           .filter(removeNulls) ?? [];
-      setFolders(mappedFolders);
+      setFiles(mappedFiles);
     }
-  }, [foldersData, activePathId, contractFolderId]);
+  }, [foldersData, filesData, activePathId, contractFolderId]);
 
   useEffect(() => {
     if (!isInitialized.current) {
@@ -186,7 +224,14 @@ export function EditoBibliothequeDeMedias() {
                 }
                 localFolderPathId={`${activePathId}`}
               />
-              <MediaImportButton />
+              <MediaImportButton
+                folderHierarchy={
+                  folderHierarchy?.getAllFoldersHierarchy?.filter(
+                    removeNulls,
+                  ) ?? []
+                }
+                localFolderPathId={`${activePathId}`}
+              />
             </div>
           </div>
           <div className="c-EditoBibliothequeDeMedia__Filters"></div>
@@ -218,12 +263,15 @@ export function EditoBibliothequeDeMedias() {
         <div className="c-EditoBibliothequeDeMedia__MediaList">
           <h2>{formLabels.MediaSectionTitle}</h2>
           <div className="c-EditoBibliothequeDeMedia__MediaCards">
-            <span>TODO</span>
             <br />
-            {filesData?.uploadFiles?.data.map((media, index) => (
-              <span key={index}>{media.attributes?.name}</span>
-              // TODO: media list
-              // <MediaCard key={index} file={media} />
+            {files.map((file, index) => (
+              <MediaCard
+                key={index}
+                file={{ file }}
+                parent={MediaCardParentOptions.HOME}
+                handleEditFile={() => console.log("handleEditItem")}
+                handleRemoveFile={() => console.log("handleRemoveItem")}
+              />
             ))}
           </div>
         </div>

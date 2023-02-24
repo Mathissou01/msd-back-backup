@@ -2,80 +2,219 @@ import React, { useEffect, useRef, useState } from "react";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../Common/CommonModalWrapper/CommonModalWrapper";
-import TabBlock, { Tab } from "../../TabBlock/TabBlock";
+import { Tab } from "../../TabBlock/TabBlock";
 import CommonDragDropFile from "../../Common/CommonDragDropFile/CommonDragDropFile";
 import CommonButton from "../../Common/CommonButton/CommonButton";
-import MediaCard from "../MediaCard/MediaCard";
+import MainModal from "./Modals/MainModal/MainModal";
+import UploadModal from "./Modals/UploadModal/UploadModal";
+import EditModal from "./Modals/EditModal/EditModal";
 import "./media-import-button.scss";
+import { RequestFolders } from "../../../graphql/codegen/generated-types";
+import FormModal from "../../Form/FormModal/FormModal";
+import { FieldValues } from "react-hook-form";
 
-export default function MediaImportButton() {
-  /* Local Data */
-  const childRef = useRef<CommonModalWrapperRef>(null);
-  const [tabs, setTabs] = useState<Array<Tab>>([]);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [isFileSelected, setIsFileSelected] = useState(false);
+export enum ModalStatus {
+  MAIN_MODAL = "MAIN_MODAL",
+  UPLOAD_MODAL = "UPLOAD_MODAL",
+  EDIT_IMG_MODAL = "EDIT_IMG_MODAL",
+}
 
+export interface IFileToEdit {
+  name: string;
+  alternativeText: string;
+  width: number;
+  height: number;
+  ext: string;
+  mime: string;
+  size: string;
+  url: string;
+  date?: string;
+  file?: File;
+  path?: string;
+  pathId?: string;
+}
+
+interface IMediaImportButton {
+  folderHierarchy: Array<RequestFolders>;
+  localFolderPathId: `${number}`;
+}
+
+export default function MediaImportButton({
+  folderHierarchy,
+  localFolderPathId,
+}: IMediaImportButton) {
+  /** Static Data */
   const labels = {
-    modalTitle: "Bibliothèque de media",
-    buttonLabel: "Importer des médias",
-    cancelButtonLabel: "Annuler",
-    addedMediaBtn: `Ajouter ${selectedFiles.length} ${
-      selectedFiles.length > 1 ? "médias" : "média"
-    } dans la librairie`,
-    headerAmount: `${selectedFiles.length} ${
-      selectedFiles.length > 1 ? "médias" : "média"
-    } prêt à être
-    importé.`,
-    headerText:
-      "Editez ses attributs avant de l'ajouter à la bibliothèque de médias.",
+    importBtn: "Importer des médias",
+    detailsModalTitle: "Détails",
+    formNameLabel: "Nom Du fichier",
+    formDescLabel: "Description de l'image",
+    formSelectLabel: "Emplacement",
   };
 
+  /* Local Data */
+  const modalRef = useRef<CommonModalWrapperRef>(null);
+  const EditModalRef = useRef<CommonModalWrapperRef>(null);
+  const [selectedFiles, setSelectedFiles] = useState<IFileToEdit[]>([]);
+  const [activeModal, setActiveModal] = useState<ModalStatus>(
+    ModalStatus.MAIN_MODAL,
+  );
+  const [fileToEdit, setFileToEdit] = useState<IFileToEdit>();
+  const [tabs, setTabs] = useState<Array<Tab>>([]);
+
   /* Methods */
+  const handleCloseModal = () => {
+    switch (activeModal) {
+      case ModalStatus.MAIN_MODAL:
+        setActiveModal(ModalStatus.MAIN_MODAL);
+        break;
+      case ModalStatus.UPLOAD_MODAL:
+        setActiveModal(ModalStatus.UPLOAD_MODAL);
+        break;
+      case ModalStatus.EDIT_IMG_MODAL:
+        fileToEdit
+          ? setActiveModal(ModalStatus.UPLOAD_MODAL)
+          : setActiveModal(ModalStatus.MAIN_MODAL);
+        break;
+      default:
+        setActiveModal(ModalStatus.MAIN_MODAL);
+    }
+  };
+
   const handleDragOver = (event: { preventDefault: () => void }) => {
     event.preventDefault();
   };
 
-  function handleClose() {
-    isFileSelected ? setIsFileSelected(true) : setIsFileSelected(false);
+  const handleCalculateFileSize = (size: number): string => {
+    const i = Math.floor(Math.log(size) / Math.log(1024));
+    return (
+      (size / Math.pow(1024, i)).toFixed(2) +
+      " " +
+      ["B", "KB", "MB", "GB", "TB"][i]
+    );
+  };
+
+  const handleRaplceSpecialChars = (arg: string) =>
+    arg.replace(/['"]/g, "") ?? arg;
+
+  async function handleSaveNewImageInfo(submitData: FieldValues) {
+    const selectedFilesInstance: IFileToEdit[] = [...selectedFiles];
+    const file: IFileToEdit[] = selectedFilesInstance.filter(
+      (file) => file.name === fileToEdit?.name,
+    );
+
+    if (
+      (file &&
+        fileToEdit &&
+        fileToEdit?.name !== submitData[labels.formNameLabel]) ||
+      fileToEdit?.alternativeText !== ""
+    ) {
+      const newFile = new File(
+        [file[0].name],
+        submitData[labels.formNameLabel],
+        {
+          type: file[0].mime,
+          lastModified: new Date().getTime(),
+        },
+      );
+      const index = selectedFilesInstance.indexOf(file[0]);
+      selectedFilesInstance[index] = {
+        name: submitData[handleRaplceSpecialChars(labels.formNameLabel)],
+        alternativeText:
+          submitData[handleRaplceSpecialChars(labels.formDescLabel)],
+        width: fileToEdit?.width ?? 0,
+        height: fileToEdit?.height ?? 0,
+        ext: fileToEdit?.ext ?? "",
+        mime: fileToEdit?.mime ?? "",
+        size: fileToEdit?.size ?? "",
+        url: fileToEdit?.url ?? "",
+        date: fileToEdit?.date ?? "",
+        file: newFile,
+        path: submitData["Emplacement"]["path"],
+        pathId: submitData["Emplacement"]["pathId"],
+      };
+
+      setSelectedFiles(selectedFilesInstance);
+      setActiveModal(ModalStatus.UPLOAD_MODAL);
+    }
   }
+
+  const handleCloseEditModal = () => {
+    setActiveModal(ModalStatus.UPLOAD_MODAL);
+    modalRef.current?.toggleModal(true);
+  };
+
+  const handleStartModal = () => {
+    setActiveModal(ModalStatus.MAIN_MODAL);
+
+    if (selectedFiles.length > 0) setActiveModal(ModalStatus.UPLOAD_MODAL);
+
+    modalRef.current?.toggleModal(true);
+  };
 
   useEffect(() => {
     const handleDrop = (event: React.DragEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const draggedFilesInstance: File[] = [...selectedFiles];
+      const draggedFilesInstance: IFileToEdit[] = [...selectedFiles];
       const dataTransfer: DataTransfer | null = event.dataTransfer;
       const length = dataTransfer?.files.length ?? 0;
 
       if (dataTransfer !== null) {
         for (let i = 0; i < length; i++) {
-          const isThereFileSelected: File[] = draggedFilesInstance.filter(
-            (file) => file.name === dataTransfer.files[i].name,
-          );
+          const isThereFileSelected: IFileToEdit[] =
+            draggedFilesInstance.filter(
+              (file) => file.name === dataTransfer.files[i].name,
+            );
 
+          const file = dataTransfer.files[i];
           if (isThereFileSelected.length === 0) {
-            draggedFilesInstance.push(dataTransfer.files[i]);
+            draggedFilesInstance.push({
+              name: file.name,
+              alternativeText: file.name,
+              width: 0,
+              height: 0,
+              ext: file.name.split(".")[1],
+              mime: file.type.split("/")[0],
+              size: handleCalculateFileSize(file.size),
+              url: URL.createObjectURL(file),
+              date: new Date(file.lastModified).toLocaleDateString(),
+              file: file,
+            });
             setSelectedFiles(draggedFilesInstance);
-            setIsFileSelected(true);
+            setActiveModal(ModalStatus.UPLOAD_MODAL);
           }
         }
       }
     };
 
     const handleFileChange = (event: { target: HTMLInputElement }) => {
-      const selectedFilesInstance: File[] = [...selectedFiles];
+      const selectedFilesInstance: IFileToEdit[] = [...selectedFiles];
       const target: HTMLInputElement | null = event.target;
       const length = target.files?.length ?? 0;
 
       if (target.files !== null) {
         for (let i = 0; i < length; i++) {
-          const isThereFileSelected: File[] = selectedFilesInstance.filter(
-            (file) => file.name === target.files?.[i].name,
-          );
+          const isThereFileSelected: IFileToEdit[] =
+            selectedFilesInstance.filter(
+              (file) => file.name === target.files?.[i].name,
+            );
 
+          const file = target.files[i];
           if (isThereFileSelected.length === 0) {
-            selectedFilesInstance.push(target.files[i]);
+            selectedFilesInstance.push({
+              name: file.name,
+              alternativeText: file.name,
+              width: 0,
+              height: 0,
+              ext: file.name.split(".")[1],
+              mime: file.type,
+              size: handleCalculateFileSize(file.size),
+              url: URL.createObjectURL(file),
+              date: new Date(file.lastModified).toLocaleDateString(),
+              file: file,
+            });
             setSelectedFiles(selectedFilesInstance);
-            setIsFileSelected(true);
+            setActiveModal(ModalStatus.UPLOAD_MODAL);
           }
         }
       }
@@ -103,73 +242,64 @@ export default function MediaImportButton() {
       // },
     ];
     setTabs(tabs);
-  }, [selectedFiles]);
+
+    switch (activeModal) {
+      case ModalStatus.EDIT_IMG_MODAL:
+        EditModalRef.current?.toggleModal(true);
+        break;
+    }
+  }, [selectedFiles, activeModal]);
 
   return (
-    <div className="c-ImportMediaAddButton">
-      <CommonButton
-        label={labels.buttonLabel}
-        style="primary"
-        picto="import"
-        onClick={() => childRef.current?.toggleModal(true)}
-      />
-      <CommonModalWrapper ref={childRef} onClose={handleClose}>
-        <hgroup>
-          <div className="c-ImportMediaAddButton__Title">
-            {labels.modalTitle}
-          </div>
-        </hgroup>
-        {!isFileSelected ? (
-          <>
-            <TabBlock
-              tabs={tabs}
-              initialTabName={"FromComputer"}
-              isAlignLeftMediaLibrary={true}
-            />
-            <div className="c-ImportMediaAddButton__Button">
-              <CommonButton
-                type="button"
-                label={labels.cancelButtonLabel}
-                onClick={() => childRef.current?.toggleModal(false)}
+    <div className="c-MediaImportButton">
+      <>
+        <CommonButton
+          label={labels.importBtn}
+          style="primary"
+          picto="import"
+          onClick={() => handleStartModal()}
+        />
+        <CommonModalWrapper ref={modalRef} onClose={handleCloseModal}>
+          {activeModal === ModalStatus.MAIN_MODAL && (
+            <MainModal modalRef={modalRef} tabs={tabs} />
+          )}
+          {activeModal === ModalStatus.UPLOAD_MODAL &&
+            selectedFiles.length > 0 && (
+              <UploadModal
+                modalRef={modalRef}
+                selectedFiles={selectedFiles}
+                setActiveModal={setActiveModal}
+                setSelectedFiles={setSelectedFiles}
+                setFileToEdit={setFileToEdit}
+                path={
+                  folderHierarchy.find(
+                    (folder) => folder?.pathId === localFolderPathId.toString(),
+                  )?.path ?? "/1"
+                }
+                contractFolderId={localFolderPathId}
+                handleCalculateFileSize={handleCalculateFileSize}
               />
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="c-ImportMediaAddButton__Header">
-              <strong>
-                {labels.headerAmount}
-                <br />
-                {labels.headerText}
-              </strong>
-              <CommonButton
-                label={labels.buttonLabel}
-                style="primary"
-                onClick={() => setIsFileSelected(false)}
+            )}
+        </CommonModalWrapper>
+        {activeModal === ModalStatus.EDIT_IMG_MODAL &&
+          fileToEdit !== undefined && (
+            <FormModal
+              modalRef={EditModalRef}
+              modalTitle={labels.detailsModalTitle}
+              hasRequiredChildren="all"
+              onSubmit={handleSaveNewImageInfo}
+              formValidationMode="onChange"
+              onClose={() => handleCloseEditModal()}
+            >
+              <EditModal
+                folderHierarchy={folderHierarchy}
+                localFolderPathId={localFolderPathId}
+                fileToEdit={fileToEdit}
+                handleRaplceSpecialChars={handleRaplceSpecialChars}
               />
-            </div>
-            <div className="c-ImportMediaAddButton__Body">
-              {selectedFiles &&
-                selectedFiles.map((file, index) => (
-                  <MediaCard key={index} file={file} />
-                ))}
-            </div>
-            <div className="c-ImportMediaAddButton__Footer">
-              <CommonButton
-                type="button"
-                label={labels.addedMediaBtn}
-                style="primary"
-                // TODO: upload
-              />
-              <CommonButton
-                type="button"
-                label={labels.cancelButtonLabel}
-                onClick={() => childRef.current?.toggleModal(false)}
-              />
-            </div>
-          </>
-        )}
-      </CommonModalWrapper>
+            </FormModal>
+          )}
+      </>
     </div>
   );
 }
