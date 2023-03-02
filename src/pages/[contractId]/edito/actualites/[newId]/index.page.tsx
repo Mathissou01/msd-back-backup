@@ -20,7 +20,7 @@ import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLo
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
 import "./edito-actualites-edit-page.scss";
-import { ICommonSelectOption } from "../../../../../components/Common/CommonSelect/CommonSelect";
+import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 interface IEditoActualitesEditPageProps {
   newId: string;

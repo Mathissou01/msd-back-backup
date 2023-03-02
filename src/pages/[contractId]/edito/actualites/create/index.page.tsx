@@ -13,7 +13,7 @@ import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import "../[newId]/edito-actualites-edit-page.scss";
-import { ICommonSelectOption } from "../../../../../components/Common/CommonSelect/CommonSelect";
+import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 export function EditoActualitesCreatePage() {
   /* Static Data */

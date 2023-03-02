@@ -1,0 +1,19 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-CommonSelect {
+  width: 100%;
+
+  // stylelint-disable selector-class-pattern
+  .css-13cymwt-control {
+    height: 48px;
+    border: 1px solid colors.$blue-2;
+  }
+
+  .form-single-multiselect__control:hover,
+  .form-single-multiselect__control--menu-is-open,
+  .form-single-multiselect__control--is-focused {
+    height: 48px;
+    border: 1px solid colors.$blue-2;
+    box-shadow: none;
+  }
+}

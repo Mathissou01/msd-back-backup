@@ -91,7 +91,7 @@ exports[`EditoForm renders 1`] = `
                 <span
                   class="c-FormLabel__Label"
                 >
-                  Thématique
+                  Thématique (tags)
                 </span>
               </label>
               <div
@@ -101,57 +101,64 @@ exports[`EditoForm renders 1`] = `
                   class="c-CommonSelect"
                 >
                   <div
-                    class="sz-select css-2b097c-container"
+                    class=" css-b62m3t-container"
                   >
+                    <span
+                      class="css-1f43avz-a11yText-A11yText"
+                      id="react-select-2-live-region"
+                    />
+                    <span
+                      aria-atomic="false"
+                      aria-live="polite"
+                      aria-relevant="additions text"
+                      class="css-1f43avz-a11yText-A11yText"
+                    />
                     <div
-                      class="sz-select__control css-4vulad-control"
+                      class="form-single-multiselect__control css-13cymwt-control"
                     >
                       <div
-                        class="sz-select__value-container sz-select__value-container--is-multi css-1hwfws3"
+                        class="form-single-multiselect__value-container form-single-multiselect__value-container--is-multi css-1fdsijx-ValueContainer"
                       >
                         <div
-                          class="sz-select__placeholder css-1wa3eu0-placeholder"
-                        >
-                          Thematique
-                        </div>
+                          class="form-single-multiselect__placeholder css-1jqq78o-placeholder"
+                          id="react-select-2-placeholder"
+                        />
                         <div
-                          class="css-b8ldur-Input"
+                          class="form-single-multiselect__input-container css-qbdosj-Input"
+                          data-value=""
                         >
-                          <div
-                            class="sz-select__input"
-                            style="display: inline-block;"
-                          >
-                            <input
-                              aria-autocomplete="list"
-                              autocapitalize="none"
-                              autocomplete="off"
-                              autocorrect="off"
-                              id="react-select-2-input"
-                              spellcheck="false"
-                              style="box-sizing: content-box; width: 2px; border: 0px; opacity: 1; outline: 0; padding: 0px;"
-                              tabindex="0"
-                              type="text"
-                              value=""
-                            />
-                            <div
-                              style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                            />
-                          </div>
+                          <input
+                            aria-autocomplete="list"
+                            aria-describedby="react-select-2-placeholder"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            autocorrect="off"
+                            class="form-single-multiselect__input"
+                            id="react-select-2-input"
+                            role="combobox"
+                            spellcheck="false"
+                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                            tabindex="0"
+                            type="text"
+                            value=""
+                          />
                         </div>
                       </div>
                       <div
-                        class="sz-select__indicators css-1hb7zxy-IndicatorsContainer"
+                        class="form-single-multiselect__indicators css-1hb7zxy-IndicatorsContainer"
                       >
                         <span
-                          class="sz-select__indicator-separator css-shgobz-indicatorSeparator"
+                          class="form-single-multiselect__indicator-separator css-1u9des2-indicatorSeparator"
                         />
                         <div
                           aria-hidden="true"
-                          class="sz-select__indicator sz-select__dropdown-indicator css-193anet-indicatorContainer"
+                          class="form-single-multiselect__indicator form-single-multiselect__dropdown-indicator css-1xc3v61-indicatorContainer"
                         >
                           <svg
                             aria-hidden="true"
-                            class="css-6q0nyr-Svg"
+                            class="css-tj5bde-Svg"
                             focusable="false"
                             height="20"
                             viewBox="0 0 20 20"
@@ -164,10 +171,18 @@ exports[`EditoForm renders 1`] = `
                         </div>
                       </div>
                     </div>
+                    <div>
+                      <input
+                        name="tags"
+                        type="hidden"
+                        value=""
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+             
           </div>
           <div
             class="c-EditoStaticFields__DescriptionInput"

@@ -2,7 +2,7 @@ import { Maybe } from "../graphql/codegen/generated-types";
 import { TPictoStyles } from "./pictos";
 import { removeNulls } from "./utilities";
 import { EStatus } from "./status";
-import { ICommonSelectOption } from "../components/Common/CommonSelect/CommonSelect";
+import { ICommonSelectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 export interface IEditoStaticFields {
   id: string;

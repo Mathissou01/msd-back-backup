@@ -1,7 +1,7 @@
 import React from "react";
-import { SzSelect } from "@suezenv/react-theme-components";
-import FormLabel from "../../Form/FormLabel/FormLabel";
-import "./common-select.scss";
+import Select from "react-select";
+import FormLabel from "../FormLabel/FormLabel";
+import "./form-single-multiselect.scss";
 import { Controller, useFormContext } from "react-hook-form";
 
 export type ICommonSelectOption = {
@@ -16,12 +16,13 @@ interface ICommonSelectProps {
   options: Array<ICommonSelectOption>;
   isMulti: boolean;
   maxMultiSelection?: number;
+  isRequired?: boolean;
+  isDisabled?: boolean;
 }
 
-export default function CommonSelect({
+export default function FormMultiselect({
   label,
   name,
-  placeholder,
   options,
   isMulti,
   maxMultiSelection,
@@ -32,7 +33,7 @@ export default function CommonSelect({
     <Controller
       control={control}
       name={name}
-      render={({ field: { onChange, value, ref } }) => {
+      render={({ field: { onChange, value } }) => {
         const isMaxOptionsSelected =
           isMulti && maxMultiSelection && value?.length > maxMultiSelection - 1
             ? true
@@ -41,21 +42,21 @@ export default function CommonSelect({
         return (
           <FormLabel label={label}>
             <div className="c-CommonSelect">
-              <SzSelect
-                ref={ref}
-                placeholder={placeholder}
+              <Select
                 options={options}
                 value={value}
-                defaultValue={value}
+                placeholder=""
+                name="tags"
+                isMulti
                 onChange={onChange}
-                isSearchable={true}
-                isMulti={isMulti}
+                defaultValue={value}
                 filterOption={() => (isMaxOptionsSelected ? false : true)}
                 noOptionsMessage={() =>
                   isMaxOptionsSelected
-                    ? "You can select a maximum of 5 options"
-                    : "No options"
+                    ? `${maxMultiSelection} options maximum`
+                    : "Pas d'options"
                 }
+                classNamePrefix="form-single-multiselect"
               />
             </div>
           </FormLabel>

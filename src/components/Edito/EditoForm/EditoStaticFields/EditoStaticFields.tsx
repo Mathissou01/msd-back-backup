@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useGetTagQuery } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
-import CommonSelect, {
-  ICommonSelectOption,
-} from "../../../Common/CommonSelect/CommonSelect";
+import { ICommonSelectOption } from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import FormInput from "../../../Form/FormInput/FormInput";
 import "./edito-static-fields.scss";
+import FormSingleMultiselect from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
 
 export default function EditoStaticFields() {
   /* Static Data */
@@ -50,14 +49,15 @@ export default function EditoStaticFields() {
         isRequired={true}
       />
       <div className="c-EditoStaticFields__Thematique">
-        <CommonSelect
-          label="Thématique"
+        <FormSingleMultiselect
+          label="Thématique (tags)"
           name="tags"
           placeholder="Thematique"
           options={tagOptions}
           isMulti
           maxMultiSelection={5}
-        />
+          isRequired={false}
+        />{" "}
       </div>
       <div className="c-EditoStaticFields__DescriptionInput">
         <FormInput
