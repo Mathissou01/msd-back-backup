@@ -15,12 +15,12 @@ import {
 } from "../../../../../lib/edito";
 import { valueToEStatus } from "../../../../../lib/status";
 import { useNavigation } from "../../../../../hooks/useNavigation";
+import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import ContractLayout from "../../../contract-layout";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
 import "./edito-actualites-edit-page.scss";
-import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 interface IEditoActualitesEditPageProps {
   newId: string;
@@ -29,24 +29,50 @@ interface IEditoActualitesEditPageProps {
 export function EditoActualitesEditPage({
   newId,
 }: IEditoActualitesEditPageProps) {
+  /* Static Data */
+  const formLabels = {
+    staticTitle: "Titre de l'actualité",
+    staticTags: "Thématique (tags)",
+    staticShortDescription: "Description courte",
+    staticShortDescriptionMaxCharacters:
+      "caractères maximum, affichés dans l'aperçu de l'actualité",
+  };
+
   /* Methods */
   async function onSubmit(newsInputData: FieldValues) {
     const variables = {
       updateNewId: newId,
       data: {
         title: newsInputData.title,
-        status: Enum_New_Status.Published,
+        tags: newsInputData.tags.map(
+          (option: ICommonSelectOption) => option.value,
+        ),
         shortDescription: newsInputData.shortDescription,
         blocks: newsInputData.blocks?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ({ id, ...rest }: IEditoBlock) => rest,
         ),
-        tags: newsInputData.tags.map(
-          (option: ICommonSelectOption) => option.value,
-        ),
       },
     };
-    return updateNews({
+    return updateNew({
+      variables,
+      refetchQueries: [
+        {
+          query: GetNewByIdDocument,
+          variables: { newId },
+        },
+      ],
+    });
+  }
+
+  async function onPublish() {
+    const variables = {
+      updateNewId: newId,
+      data: {
+        status: Enum_New_Status.Published,
+      },
+    };
+    return updateNew({
       variables,
       refetchQueries: [
         {
@@ -62,7 +88,7 @@ export function EditoActualitesEditPage({
     variables: { newId },
   });
   const [
-    updateNews,
+    updateNew,
     { loading: updateMutationLoading, error: updateMutationError },
   ] = useUpdateNewMutation();
   /* Local data */
@@ -85,13 +111,13 @@ export function EditoActualitesEditPage({
           id: newData.id,
           status: valueToEStatus(newData.attributes.status),
           title: newData.attributes.title,
-          shortDescription: newData.attributes.shortDescription,
-          blocks: remapEditoBlocksDynamicZone(newData.attributes.blocks),
           tags:
             newData.attributes.tags?.data.map((tag) => ({
               value: tag.id ?? "",
               label: tag.attributes?.name ?? "",
             })) ?? [],
+          shortDescription: newData.attributes.shortDescription,
+          blocks: remapEditoBlocksDynamicZone(newData.attributes.blocks),
         };
 
         setMappedData(mappedData);
@@ -111,6 +137,8 @@ export function EditoActualitesEditPage({
               data={mappedData}
               dynamicFieldsOptions={dynamicFieldOptions}
               onSubmitValid={onSubmit}
+              onPublish={onPublish}
+              labels={formLabels}
             />
           </CommonLoader>
         </>

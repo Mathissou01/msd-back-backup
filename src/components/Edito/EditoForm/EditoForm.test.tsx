@@ -8,6 +8,12 @@ import EditoForm from "./EditoForm";
 const mocks: {
   dynamicFieldOptions: Array<TDynamicFieldOption>;
   data: IEditoFields;
+  formLabels: {
+    staticTitle: string;
+    staticTags: string;
+    staticShortDescription: string;
+    staticShortDescriptionMaxCharacters: string;
+  };
 } = {
   dynamicFieldOptions: [
     "ComponentBlocksSubHeading",
@@ -32,6 +38,13 @@ const mocks: {
       },
     ],
   },
+  formLabels: {
+    staticTitle: "Titre de l'actualité",
+    staticTags: "Thématique",
+    staticShortDescription: "Description courte",
+    staticShortDescriptionMaxCharacters:
+      "caractères maximum, affichés dans l'aperçu de l'actualité",
+  },
 };
 
 describe("EditoForm", () => {
@@ -43,6 +56,7 @@ describe("EditoForm", () => {
           data={mocks.data}
           dynamicFieldsOptions={mocks.dynamicFieldOptions}
           onSubmitValid={onSubmit}
+          labels={mocks.formLabels}
         />
       </MockedProvider>,
     );

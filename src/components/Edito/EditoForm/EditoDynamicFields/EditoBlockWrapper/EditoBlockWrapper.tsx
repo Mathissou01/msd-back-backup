@@ -10,6 +10,7 @@ interface IDynamicFieldsBlockWrapper {
   onReorder: (shift: number) => void;
   isUpDisabled?: boolean;
   isDownDisabled?: boolean;
+  onDuplicate: () => void;
   onDelete: () => void;
   isOpen: boolean;
   onOpenToggle: () => void;
@@ -23,6 +24,7 @@ export default function EditoBlockWrapper({
   onReorder,
   isUpDisabled,
   isDownDisabled,
+  onDuplicate,
   onDelete,
   isOpen,
   onOpenToggle,
@@ -87,6 +89,11 @@ export default function EditoBlockWrapper({
             type="button"
             disabled={isDownDisabled}
             onClick={() => onReorder(1)}
+          />
+          <button
+            className="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_duplicate"
+            type="button"
+            onClick={onDuplicate}
           />
           <button
             className="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_delete"

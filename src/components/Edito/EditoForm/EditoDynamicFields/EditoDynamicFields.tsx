@@ -87,6 +87,13 @@ export default function EditoDynamicFields({
     syncUpdatedValuesToForm(updatedValues);
   }
 
+  function onDuplicate(i: number) {
+    const updatedValues = [...getFormValues()];
+    updatedValues.splice(i + 1, 0, updatedValues[i]);
+    setBlockList(updatedValues);
+    syncUpdatedValuesToForm(updatedValues);
+  }
+
   function onDelete(i: number) {
     const updatedValues = [...getFormValues()];
     updatedValues.splice(i, 1);
@@ -149,6 +156,7 @@ export default function EditoDynamicFields({
                   onReorder={(shift) => onReorder(index, shift)}
                   isUpDisabled={index <= 0}
                   isDownDisabled={index + 1 >= blockList.length}
+                  onDuplicate={() => onDuplicate(index)}
                   onDelete={() => onDelete(index)}
                   isOpen={wrapper.isOpen}
                   onOpenToggle={() => onOpenToggle(index)}

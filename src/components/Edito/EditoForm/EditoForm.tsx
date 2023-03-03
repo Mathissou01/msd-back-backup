@@ -14,15 +14,23 @@ interface IEditoFormProps {
   data?: IEditoFields;
   dynamicFieldsOptions: Array<TDynamicFieldOption>;
   onSubmitValid: (data: FieldValues) => void;
+  onPublish?: () => void;
+  // onDepublish: () => void;
+  labels: {
+    staticTitle: string;
+    staticTags: string;
+    staticShortDescription: string;
+    staticShortDescriptionMaxCharacters: string;
+  };
 }
 
 export default function EditoForm({
   data,
   dynamicFieldsOptions,
   onSubmitValid,
+  onPublish,
+  labels,
 }: IEditoFormProps) {
-  /* Static data */
-
   /* Local Data */
   const form = useForm({
     mode: "onChange",
@@ -78,6 +86,8 @@ export default function EditoForm({
       };
       setFormData(mappedData);
       form.reset(mappedData);
+    } else {
+      form.reset();
     }
   }, [data, form]);
 
@@ -89,11 +99,16 @@ export default function EditoForm({
           onSubmit={handleSubmit(onSubmitValid, onError)}
         >
           <div className="c-EditoForm__Buttons">
-            <EditoButtons />
+            <EditoButtons onPublish={onPublish} />
           </div>
           <div className="c-EditoForm__Form">
             <div className="c-EditoForm__Content">
-              <EditoStaticFields />
+              <EditoStaticFields
+                titleLabel={labels.staticTitle}
+                tagsLabel={labels.staticTags}
+                shortDescriptionLabel={labels.staticShortDescription}
+                maxCharactersLabel={labels.staticShortDescriptionMaxCharacters}
+              />
               <EditoDynamicFields
                 blockOptions={dynamicFieldsOptions}
                 defaultValues={data?.blocks}

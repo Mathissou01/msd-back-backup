@@ -5,11 +5,25 @@ mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
       attributes {
         title
         shortDescription
+        newsSubService {
+          data {
+            id
+          }
+        }
         status
         publishedDate
         unpublishedDate
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         image {
           data {
+            id
             attributes {
               hash
               mime

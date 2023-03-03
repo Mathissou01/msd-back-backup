@@ -16,7 +16,6 @@ Replace the example values with real values for your environment.
 |    NEXT_PUBLIC_BASE_HOST     |        PORT of this app, msd-back        |                         3001                          |
 |     NEXT_PUBLIC_API_URL      | URL of the GraphQL endpoint, msd-fn-back |               http://localhost:7071/api               |
 | NEXT_PUBLIC_AZURE_SEARCH_URL |     URL of the Azure Search service      | https://[your-azure-search-domain].search.windows.net |
-|         NODE_OPTIONS         |    increases the NodeJS memory limit     |               --max_old_space_size=4096               |
 
 ## Installation
 

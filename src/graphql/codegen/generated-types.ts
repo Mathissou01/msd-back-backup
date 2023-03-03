@@ -29,12 +29,16 @@ export type Scalars = {
   Date: any;
   DateTime: any;
   EventBlocksDynamicZoneInput: any;
+  EventLinkToServicesDynamicZoneInput: any;
   FreeContentBlocksDynamicZoneInput: any;
+  FreeContentLinkToServicesDynamicZoneInput: any;
   JSON: any;
   Long: any;
   NewBlocksDynamicZoneInput: any;
+  NewLinkToServicesDynamicZoneInput: any;
   ServicesBlockServiceLinksDynamicZoneInput: any;
   TipBlocksDynamicZoneInput: any;
+  TipLinkToServicesDynamicZoneInput: any;
   Upload: any;
 };
 
@@ -741,12 +745,22 @@ export type ComponentLinksDropOffMap = {
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
+  pointToDisplayOnTheMap?: Maybe<Enum_Componentlinksdropoffmap_Pointtodisplayonthemap>;
 };
 
 export type ComponentLinksDropOffMapDropMapArgs = {
   filters?: InputMaybe<DropOffMapServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ComponentLinksEditorial = {
+  __typename?: "ComponentLinksEditorial";
+  event_sub_service?: Maybe<EventSubServiceEntityResponse>;
+  id: Scalars["ID"];
+  isDisplayed?: Maybe<Scalars["Boolean"]>;
+  name?: Maybe<Scalars["String"]>;
+  picto?: Maybe<UploadFileEntityResponse>;
 };
 
 export type ComponentLinksEvents = {
@@ -865,6 +879,7 @@ export type ComponentLinksRecyclingGuideRecyclingsArgs = {
 
 export type ComponentLinksRequest = {
   __typename?: "ComponentLinksRequest";
+  demand?: Maybe<Enum_Componentlinksrequest_Demand>;
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
@@ -1890,6 +1905,22 @@ export enum Enum_Componentblockssubheading_Subheadingtag {
   H6 = "h6",
 }
 
+export enum Enum_Componentlinksdropoffmap_Pointtodisplayonthemap {
+  A = "A",
+  B = "B",
+  C = "C",
+  D = "D",
+  E = "E",
+}
+
+export enum Enum_Componentlinksrequest_Demand {
+  A = "A",
+  B = "B",
+  C = "C",
+  D = "D",
+  E = "E",
+}
+
 export enum Enum_Confidentiality_Status {
   Archived = "archived",
   Draft = "draft",
@@ -2284,6 +2315,7 @@ export type Event = {
   events?: Maybe<EventRelationResponseCollection>;
   hasDraft?: Maybe<Scalars["Boolean"]>;
   image: UploadFileEntityResponse;
+  linkToServices?: Maybe<Array<Maybe<EventLinkToServicesDynamicZone>>>;
   publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
   status?: Maybe<Enum_Event_Status>;
@@ -2369,6 +2401,9 @@ export type EventInput = {
   events?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   hasDraft?: InputMaybe<Scalars["Boolean"]>;
   image?: InputMaybe<Scalars["ID"]>;
+  linkToServices?: InputMaybe<
+    Array<Scalars["EventLinkToServicesDynamicZoneInput"]>
+  >;
   publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
   status?: InputMaybe<Enum_Event_Status>;
@@ -2377,6 +2412,15 @@ export type EventInput = {
   topContent?: InputMaybe<Scalars["ID"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
+
+export type EventLinkToServicesDynamicZone =
+  | ComponentLinksAlertNotification
+  | ComponentLinksDropOffMap
+  | ComponentLinksEditorial
+  | ComponentLinksPickUpDay
+  | ComponentLinksRecyclingGuide
+  | ComponentLinksRequest
+  | Error;
 
 export type EventOrNews = {
   __typename?: "EventOrNews";
@@ -2594,6 +2638,7 @@ export type FreeContent = {
   freeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
   hasDraft?: Maybe<Scalars["Boolean"]>;
   image: UploadFileEntityResponse;
+  linkToServices?: Maybe<Array<Maybe<FreeContentLinkToServicesDynamicZone>>>;
   publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
   status?: Maybe<Enum_Freecontent_Status>;
@@ -2661,6 +2706,9 @@ export type FreeContentInput = {
   freeContentSubService?: InputMaybe<Scalars["ID"]>;
   hasDraft?: InputMaybe<Scalars["Boolean"]>;
   image?: InputMaybe<Scalars["ID"]>;
+  linkToServices?: InputMaybe<
+    Array<Scalars["FreeContentLinkToServicesDynamicZoneInput"]>
+  >;
   publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
   status?: InputMaybe<Enum_Freecontent_Status>;
@@ -2668,6 +2716,15 @@ export type FreeContentInput = {
   title?: InputMaybe<Scalars["String"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
+
+export type FreeContentLinkToServicesDynamicZone =
+  | ComponentLinksAlertNotification
+  | ComponentLinksDropOffMap
+  | ComponentLinksEditorial
+  | ComponentLinksPickUpDay
+  | ComponentLinksRecyclingGuide
+  | ComponentLinksRequest
+  | Error;
 
 export type FreeContentRelationResponseCollection = {
   __typename?: "FreeContentRelationResponseCollection";
@@ -2782,6 +2839,7 @@ export type GenericMorph =
   | ComponentLinksAlertNotification
   | ComponentLinksContactUs
   | ComponentLinksDropOffMap
+  | ComponentLinksEditorial
   | ComponentLinksEvents
   | ComponentLinksExternal
   | ComponentLinksFrees
@@ -4339,6 +4397,7 @@ export type New = {
   editoContent?: Maybe<EditoContentEntityResponse>;
   hasDraft?: Maybe<Scalars["Boolean"]>;
   image?: Maybe<UploadFileEntityResponse>;
+  linkToServices?: Maybe<Array<Maybe<NewLinkToServicesDynamicZone>>>;
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
   publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
@@ -4428,6 +4487,9 @@ export type NewInput = {
   editoContent?: InputMaybe<Scalars["ID"]>;
   hasDraft?: InputMaybe<Scalars["Boolean"]>;
   image?: InputMaybe<Scalars["ID"]>;
+  linkToServices?: InputMaybe<
+    Array<Scalars["NewLinkToServicesDynamicZoneInput"]>
+  >;
   newsSubService?: InputMaybe<Scalars["ID"]>;
   publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
@@ -4438,6 +4500,15 @@ export type NewInput = {
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
 };
+
+export type NewLinkToServicesDynamicZone =
+  | ComponentLinksAlertNotification
+  | ComponentLinksDropOffMap
+  | ComponentLinksEditorial
+  | ComponentLinksPickUpDay
+  | ComponentLinksRecyclingGuide
+  | ComponentLinksRequest
+  | Error;
 
 export type NewRelationResponseCollection = {
   __typename?: "NewRelationResponseCollection";
@@ -6336,6 +6407,7 @@ export type Tip = {
   hasDraft?: Maybe<Scalars["Boolean"]>;
   image: UploadFileEntityResponse;
   link?: Maybe<Scalars["String"]>;
+  linkToServices?: Maybe<Array<Maybe<TipLinkToServicesDynamicZone>>>;
   publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
   status?: Maybe<Enum_Tip_Status>;
@@ -6409,6 +6481,9 @@ export type TipInput = {
   image?: InputMaybe<Scalars["ID"]>;
   isSystem?: InputMaybe<Scalars["Boolean"]>;
   link?: InputMaybe<Scalars["String"]>;
+  linkToServices?: InputMaybe<
+    Array<Scalars["TipLinkToServicesDynamicZoneInput"]>
+  >;
   publishedDate?: InputMaybe<Scalars["DateTime"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
   status?: InputMaybe<Enum_Tip_Status>;
@@ -6418,6 +6493,15 @@ export type TipInput = {
   titleLabel?: InputMaybe<Scalars["String"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
 };
+
+export type TipLinkToServicesDynamicZone =
+  | ComponentLinksAlertNotification
+  | ComponentLinksDropOffMap
+  | ComponentLinksEditorial
+  | ComponentLinksPickUpDay
+  | ComponentLinksRecyclingGuide
+  | ComponentLinksRequest
+  | Error;
 
 export type TipRelationResponseCollection = {
   __typename?: "TipRelationResponseCollection";
@@ -8177,6 +8261,13 @@ export type GetNewByIdQuery = {
         status?: Enum_New_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
+        newsSubService?: {
+          __typename?: "NewsSubServiceEntityResponse";
+          data?: {
+            __typename?: "NewsSubServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
         tags?: {
           __typename?: "TagRelationResponseCollection";
           data: Array<{
@@ -8189,6 +8280,7 @@ export type GetNewByIdQuery = {
           __typename?: "UploadFileEntityResponse";
           data?: {
             __typename?: "UploadFileEntity";
+            id?: string | null;
             attributes?: {
               __typename?: "UploadFile";
               hash: string;
@@ -8383,10 +8475,26 @@ export type UpdateNewMutation = {
         status?: Enum_New_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
+        newsSubService?: {
+          __typename?: "NewsSubServiceEntityResponse";
+          data?: {
+            __typename?: "NewsSubServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
         image?: {
           __typename?: "UploadFileEntityResponse";
           data?: {
             __typename?: "UploadFileEntity";
+            id?: string | null;
             attributes?: {
               __typename?: "UploadFile";
               hash: string;
@@ -8529,6 +8637,7 @@ export type CreateNewFileMutation = {
           | { __typename?: "ComponentLinksAlertNotification" }
           | { __typename?: "ComponentLinksContactUs" }
           | { __typename?: "ComponentLinksDropOffMap" }
+          | { __typename?: "ComponentLinksEditorial" }
           | { __typename?: "ComponentLinksEvents" }
           | { __typename?: "ComponentLinksExternal" }
           | { __typename?: "ComponentLinksFrees" }
@@ -8750,6 +8859,22 @@ export type UpdateUploadFolderMutation = {
   } | null;
 };
 
+export type GetTagsByContractIdQueryVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetTagsByContractIdQuery = {
+  __typename?: "Query";
+  tags?: {
+    __typename?: "TagEntityResponseCollection";
+    data: Array<{
+      __typename?: "TagEntity";
+      id?: string | null;
+      attributes?: { __typename?: "Tag"; name: string } | null;
+    }>;
+  } | null;
+};
+
 export type CountContentPerTagQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -8794,33 +8919,6 @@ export type DeleteTagMutation = {
         __typename?: "Tag";
         name: string;
         createdAt?: any | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type GetTagQueryVariables = Exact<{
-  contractId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetTagQuery = {
-  __typename?: "Query";
-  contract?: {
-    __typename?: "ContractEntityResponse";
-    data?: {
-      __typename?: "ContractEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Contract";
-        clientName: string;
-        tags?: {
-          __typename?: "TagRelationResponseCollection";
-          data: Array<{
-            __typename?: "TagEntity";
-            id?: string | null;
-            attributes?: { __typename?: "Tag"; name: string } | null;
-          }>;
-        } | null;
       } | null;
     } | null;
   } | null;
@@ -11387,6 +11485,11 @@ export const GetNewByIdDocument = gql`
         attributes {
           title
           shortDescription
+          newsSubService {
+            data {
+              id
+            }
+          }
           status
           publishedDate
           unpublishedDate
@@ -11400,6 +11503,7 @@ export const GetNewByIdDocument = gql`
           }
           image {
             data {
+              id
               attributes {
                 hash
                 mime
@@ -11740,11 +11844,25 @@ export const UpdateNewDocument = gql`
         attributes {
           title
           shortDescription
+          newsSubService {
+            data {
+              id
+            }
+          }
           status
           publishedDate
           unpublishedDate
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
           image {
             data {
+              id
               attributes {
                 hash
                 mime
@@ -12348,6 +12466,69 @@ export type UpdateUploadFolderMutationOptions = Apollo.BaseMutationOptions<
   UpdateUploadFolderMutation,
   UpdateUploadFolderMutationVariables
 >;
+export const GetTagsByContractIdDocument = gql`
+  query getTagsByContractId($contractId: ID) {
+    tags(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTagsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetTagsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTagsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTagsByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetTagsByContractIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetTagsByContractIdQuery,
+    GetTagsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetTagsByContractIdQuery,
+    GetTagsByContractIdQueryVariables
+  >(GetTagsByContractIdDocument, options);
+}
+export function useGetTagsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTagsByContractIdQuery,
+    GetTagsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetTagsByContractIdQuery,
+    GetTagsByContractIdQueryVariables
+  >(GetTagsByContractIdDocument, options);
+}
+export type GetTagsByContractIdQueryHookResult = ReturnType<
+  typeof useGetTagsByContractIdQuery
+>;
+export type GetTagsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetTagsByContractIdLazyQuery
+>;
+export type GetTagsByContractIdQueryResult = Apollo.QueryResult<
+  GetTagsByContractIdQuery,
+  GetTagsByContractIdQueryVariables
+>;
 export const CountContentPerTagDocument = gql`
   query countContentPerTag($contractId: ID!) {
     countContentPerTag(contractId: $contractId) {
@@ -12515,67 +12696,6 @@ export type DeleteTagMutationResult = Apollo.MutationResult<DeleteTagMutation>;
 export type DeleteTagMutationOptions = Apollo.BaseMutationOptions<
   DeleteTagMutation,
   DeleteTagMutationVariables
->;
-export const GetTagDocument = gql`
-  query getTag($contractId: ID) {
-    contract(id: $contractId) {
-      data {
-        id
-        attributes {
-          clientName
-          tags {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetTagQuery__
- *
- * To run a query within a React component, call `useGetTagQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTagQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetTagQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetTagQuery, GetTagQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTagQuery, GetTagQueryVariables>(
-    GetTagDocument,
-    options,
-  );
-}
-export function useGetTagLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetTagQuery, GetTagQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTagQuery, GetTagQueryVariables>(
-    GetTagDocument,
-    options,
-  );
-}
-export type GetTagQueryHookResult = ReturnType<typeof useGetTagQuery>;
-export type GetTagLazyQueryHookResult = ReturnType<typeof useGetTagLazyQuery>;
-export type GetTagQueryResult = Apollo.QueryResult<
-  GetTagQuery,
-  GetTagQueryVariables
 >;
 export const UpdateTagDocument = gql`
   mutation updateTag($updateTagId: ID!, $data: TagInput!) {

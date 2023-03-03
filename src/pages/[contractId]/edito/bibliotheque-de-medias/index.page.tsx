@@ -236,62 +236,68 @@ export function EditoBibliothequeDeMedias() {
           <div className="c-EditoBibliothequeDeMedia__Filters"></div>
           <MediaBreadcrumb foldersBreadcrumb={breadcrumbs} />
         </div>
-        <div className="c-EditoBibliothequeDeMedia__Folders">
-          <h2>{formLabels.FolderSectionTitle}</h2>
-          <div className="c-EditoBibliothequeDeMedia__FolderCards">
-            {folders &&
-              folders.map((folder, index) => (
-                <MediaFolderCard
-                  key={index}
-                  id={folder.id}
-                  name={folder.name}
-                  path={folder.path}
-                  childrenAmount={folder.childrenAmount}
-                  filesAmount={folder.filesAmount}
-                  picto="folder"
-                  localFolderPathId={`${activePathId}`}
-                  onClick={() => setUpdatePath(folder.pathId, folder.path)}
-                />
-              ))}
+        {folders && folders.length > 0 && (
+          <div className="c-EditoBibliothequeDeMedia__Folders">
+            <h2>{formLabels.FolderSectionTitle}</h2>
+            <div className="c-EditoBibliothequeDeMedia__FolderCards">
+              {folders &&
+                folders.map((folder, index) => (
+                  <MediaFolderCard
+                    key={index}
+                    id={folder.id}
+                    name={folder.name}
+                    path={folder.path}
+                    childrenAmount={folder.childrenAmount}
+                    filesAmount={folder.filesAmount}
+                    picto="folder"
+                    localFolderPathId={`${activePathId}`}
+                    onClick={() => setUpdatePath(folder.pathId, folder.path)}
+                  />
+                ))}
+            </div>
           </div>
-        </div>
-        <div className="c-EditoBibliothequeDeMedia__MediaList">
-          <h2>{formLabels.MediaSectionTitle}</h2>
-          <div className="c-EditoBibliothequeDeMedia__MediaCards">
-            <br />
-            {files.map((file, index) => (
-              <MediaCard
-                key={index}
-                file={{ file }}
-                parent={MediaCardParentOptions.HOME}
-                handleEditFile={() => console.log("handleEditItem")}
-                handleRemoveFile={() => console.log("handleRemoveItem")}
-              />
-            ))}
-          </div>
-        </div>
-        {/* TODO: setup lazy loading once media cards are displayed, see CommonDataTable implementation */}
-        <CommonPagination
-          currentPage={currentPagination.page}
-          rowCount={0}
-          onChangePage={(currentPage) => {
-            if (currentPage !== currentPagination.page) {
-              setCurrentPagination({
-                ...currentPagination,
-                page: currentPage,
-              });
-            }
-          }}
-          onChangeRowsPerPage={(currentRowsPerPage) => {
-            if (currentRowsPerPage !== currentPagination.rowsPerPage) {
-              setCurrentPagination({
-                ...currentPagination,
-                rowsPerPage: currentRowsPerPage,
-              });
-            }
-          }}
-          rowsPerPage={10}
-        />
+        )}
+        {files && files.length > 0 && (
+          <>
+            <div className="c-EditoBibliothequeDeMedia__MediaList">
+              <h2>{formLabels.MediaSectionTitle}</h2>
+              <div className="c-EditoBibliothequeDeMedia__MediaCards">
+                <br />
+                {files.map((file, index) => (
+                  <MediaCard
+                    key={index}
+                    file={{ file }}
+                    parent={MediaCardParentOptions.HOME}
+                    handleEditFile={() => console.log("handleEditItem")}
+                    handleRemoveFile={() => console.log("handleRemoveItem")}
+                  />
+                ))}
+              </div>
+            </div>
+            {/* TODO: setup lazy loading once media cards are displayed, see CommonDataTable implementation */}
+            <CommonPagination
+              currentPage={currentPagination.page}
+              rowCount={0}
+              onChangePage={(currentPage) => {
+                if (currentPage !== currentPagination.page) {
+                  setCurrentPagination({
+                    ...currentPagination,
+                    page: currentPage,
+                  });
+                }
+              }}
+              onChangeRowsPerPage={(currentRowsPerPage) => {
+                if (currentRowsPerPage !== currentPagination.rowsPerPage) {
+                  setCurrentPagination({
+                    ...currentPagination,
+                    rowsPerPage: currentRowsPerPage,
+                  });
+                }
+              }}
+              rowsPerPage={10}
+            />
+          </>
+        )}
       </CommonLoader>
     </>
   );

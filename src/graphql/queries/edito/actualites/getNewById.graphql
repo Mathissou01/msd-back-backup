@@ -5,6 +5,11 @@ query getNewById($newId: ID) {
       attributes {
         title
         shortDescription
+        newsSubService {
+          data {
+            id
+          }
+        }
         status
         publishedDate
         unpublishedDate
@@ -18,6 +23,7 @@ query getNewById($newId: ID) {
         }
         image {
           data {
+            id
             attributes {
               hash
               mime

@@ -22,6 +22,7 @@ export default function MediaCreateFolderButton({
   localFolderPathId,
 }: IMediaCreateFolderButtonProps) {
   /* Static Data */
+  const rootFolderName = "Bibliothèque de média";
   const formLabels = {
     addFolderLabel: "Ajouter un dossier",
     modalTitle: "Créer un nouveau dossier",
@@ -64,6 +65,11 @@ export default function MediaCreateFolderButton({
         return firstFolderPath.localeCompare(secondFolderPath);
       },
     );
+    // Replace root folder name with generic name
+    sortedFolderHierarchy[0] = {
+      ...sortedFolderHierarchy[0],
+      name: rootFolderName,
+    };
     return mapOptionsInWrappers(sortedFolderHierarchy);
   }
 
@@ -105,7 +111,9 @@ export default function MediaCreateFolderButton({
                 defaultValue={
                   folderHierarchy.find(
                     (folder) => folder?.pathId === localFolderPathId,
-                  ) ?? undefined
+                  ) ??
+                  folderHierarchy[0] ??
+                  undefined
                 }
               />
             </div>

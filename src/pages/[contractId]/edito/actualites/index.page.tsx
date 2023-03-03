@@ -7,7 +7,9 @@ import {
   Enum_New_Status,
   GetNewsByContractIdDocument,
   GetNewsByContractIdQueryVariables,
+  useCreateNewMutation,
   useDeleteNewMutation,
+  useGetNewByIdLazyQuery,
   useGetNewsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../lib/utilities";
@@ -69,8 +71,29 @@ export function EditoActualitesPage() {
   }
 
   function onDuplicate(row: INewsTableRow) {
-    // TODO: duplicate feature, requires custom resolver (too difficult otherwise since query result doesn't match variables for create mutation)
-    console.log(row);
+    getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
+      const originalNew = data.data?.new?.data?.attributes;
+      if (originalNew) {
+        createNewMutation({
+          variables: {
+            data: {
+              title: `${originalNew.title} Ajout`,
+              shortDescription: originalNew.shortDescription,
+              newsSubService: originalNew.newsSubService?.data?.id,
+              image: originalNew.image?.data?.id,
+              blocks: originalNew.blocks,
+            },
+          },
+          refetchQueries: [
+            {
+              query: GetNewsByContractIdDocument,
+              variables: { contractId },
+            },
+            "getNewsByContractId",
+          ],
+        });
+      }
+    });
   }
 
   async function onDelete(row: INewsTableRow) {
@@ -103,7 +126,16 @@ export function EditoActualitesPage() {
   const [getNewsQuery, { data, loading, error }] =
     useGetNewsByContractIdLazyQuery({
       variables: defaultQueryVariables,
+      fetchPolicy: "cache-and-network",
     });
+  const [
+    getNewByIdQuery,
+    { loading: prepareDuplicateLoading, error: prepareDuplicateError },
+  ] = useGetNewByIdLazyQuery();
+  const [
+    createNewMutation,
+    { loading: createNewMutationLoading, error: createNewMutationError },
+  ] = useCreateNewMutation();
   const [
     deleteNewMutation,
     { loading: deleteNewMutationLoading, error: deleteNewMutationError },
@@ -117,9 +149,18 @@ export function EditoActualitesPage() {
     Array<IDataTableFilter<INewsTableRow>>
   >([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
-  const isLoadingMutation = isUpdatingData || deleteNewMutationLoading;
+  const isLoadingMutation =
+    isUpdatingData ||
+    prepareDuplicateLoading ||
+    createNewMutationLoading ||
+    deleteNewMutationLoading;
   const isLoading = loading || isLoadingMutation;
-  const errors = [error, deleteNewMutationError];
+  const errors = [
+    error,
+    prepareDuplicateError,
+    createNewMutationError,
+    deleteNewMutationError,
+  ];
 
   const tableColumns: Array<TableColumn<INewsTableRow>> = [
     {
@@ -164,6 +205,7 @@ export function EditoActualitesPage() {
     },
   ];
   const actionColumn = (row: INewsTableRow): Array<IDataTableAction> => [
+    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
       picto: "/images/pictos/edit.svg",

@@ -12,16 +12,6 @@ exports[`EditoForm renders 1`] = `
         class="c-EditoButtons"
       >
         <button
-          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
-          disabled=""
-          type="submit"
-        >
-          <div
-            class="c-CommonButton__Picto c-CommonButton__Picto_windowUpload"
-          />
-          Publier
-        </button>
-        <button
           class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
           disabled=""
           type="submit"
@@ -60,7 +50,7 @@ exports[`EditoForm renders 1`] = `
                 <span
                   class="c-FormLabel__Label"
                 >
-                  Titre de la page *
+                  Titre de l'actualité *
                 </span>
               </label>
               <div
@@ -91,7 +81,7 @@ exports[`EditoForm renders 1`] = `
                 <span
                   class="c-FormLabel__Label"
                 >
-                  Thématique (tags)
+                  Thématique
                 </span>
               </label>
               <div
@@ -182,7 +172,6 @@ exports[`EditoForm renders 1`] = `
                 </div>
               </div>
             </div>
-             
           </div>
           <div
             class="c-EditoStaticFields__DescriptionInput"
@@ -271,6 +260,10 @@ exports[`EditoForm renders 1`] = `
                   />
                   <button
                     class="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_arrowDown"
+                    type="button"
+                  />
+                  <button
+                    class="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_duplicate"
                     type="button"
                   />
                   <button
@@ -432,6 +425,10 @@ exports[`EditoForm renders 1`] = `
                   <button
                     class="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_arrowDown c-EditoBlockWrapper__Action_disabled"
                     disabled=""
+                    type="button"
+                  />
+                  <button
+                    class="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_duplicate"
                     type="button"
                   />
                   <button

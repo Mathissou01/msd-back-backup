@@ -1,23 +1,27 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import {
-  Enum_New_Status,
-  useCreateNewMutation,
-} from "../../../../../graphql/codegen/generated-types";
+import { useCreateNewMutation } from "../../../../../graphql/codegen/generated-types";
 import { IEditoBlock, TDynamicFieldOption } from "../../../../../lib/edito";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useContract } from "../../../../../hooks/useContract";
+import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import ContractLayout from "../../../contract-layout";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import "../[newId]/edito-actualites-edit-page.scss";
-import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 export function EditoActualitesCreatePage() {
   /* Static Data */
   const title = "Créer une actualité";
+  const formLabels = {
+    staticTitle: "Titre de l'actualité",
+    staticTags: "Thématique (tags)",
+    staticShortDescription: "Description courte",
+    staticShortDescriptionMaxCharacters:
+      "caractères maximum, affichés dans l'aperçu de l'actualité",
+  };
 
   /* Methods */
   async function onSubmit(newsInputData: FieldValues) {
@@ -26,15 +30,14 @@ export function EditoActualitesCreatePage() {
         newsSubService:
           contract.attributes?.editorialService?.data?.attributes
             ?.newsSubService?.data?.id,
-        status: Enum_New_Status.Published,
         title: newsInputData.title,
+        tags: newsInputData.tags?.map(
+          (option: ICommonSelectOption) => option.value,
+        ),
         shortDescription: newsInputData.shortDescription,
         blocks: newsInputData.blocks?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ({ id, ...rest }: IEditoBlock) => rest,
-        ),
-        tags: newsInputData.tags.map(
-          (option: ICommonSelectOption) => option.value,
         ),
       },
     };
@@ -78,6 +81,7 @@ export function EditoActualitesCreatePage() {
           <EditoForm
             dynamicFieldsOptions={dynamicFieldOptions}
             onSubmitValid={onSubmit}
+            labels={formLabels}
           />
         </CommonLoader>
       </>
