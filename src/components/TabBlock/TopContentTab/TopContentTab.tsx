@@ -113,7 +113,6 @@ export default function TopContentTab() {
               status: Enum_Topcontentdto_Status.Published,
             },
           },
-          "getTopContentTab",
         ],
       });
     }

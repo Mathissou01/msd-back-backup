@@ -1,7 +1,8 @@
 import {
-  GetFilesPaginationByFolderIdDocument,
+  GetFilesPaginationByPathIdDocument,
   UploadFileInput,
   useCreateNewFileMutation,
+  useGetFolderByPathIdLazyQuery,
 } from "../../../../../graphql/codegen/generated-types";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -13,7 +14,7 @@ import { IFileToEdit, ModalStatus } from "../../MediaImportButton";
 interface IUploadModal {
   modalRef: React.RefObject<CommonModalWrapperRef>;
   path: string;
-  contractFolderId: string | null;
+  activePathId: number;
   selectedFiles: IFileToEdit[];
   setSelectedFiles: React.Dispatch<React.SetStateAction<IFileToEdit[]>>;
   setActiveModal: React.Dispatch<React.SetStateAction<ModalStatus>>;
@@ -23,8 +24,7 @@ interface IUploadModal {
 
 export default function UploadModal({
   modalRef,
-  path,
-  contractFolderId,
+  activePathId,
   selectedFiles,
   setActiveModal,
   setSelectedFiles,
@@ -81,37 +81,46 @@ export default function UploadModal({
     const selectedFilesInstance: IFileToEdit[] = [...selectedFiles];
     const length = selectedFilesInstance.length;
 
-    for (let i = 0; i < length; i++) {
-      const variables: UploadFileInput = {
-        name: selectedFilesInstance[i].name,
-        ext: selectedFilesInstance[i].ext,
-        mime: selectedFilesInstance[i].file?.type,
-        size: Number(selectedFilesInstance[i].size.split(" ")[0]),
-        url: selectedFilesInstance[i].url,
-        folderPath: selectedFilesInstance[i].path ?? path,
-        folder: selectedFilesInstance[i].pathId ?? contractFolderId,
-        width: selectedFilesInstance[i].width,
-        height: selectedFilesInstance[i].height,
-        alternativeText: selectedFilesInstance[i].alternativeText,
-        formats: null,
-        hash: "",
-        previewUrl: null,
-        provider: "",
-        provider_metadata: null,
-      };
+    // TODO: change to axios then mutation, folderId should no longer be necessary (only pathId/path)
+    await getFolderByPathId({
+      onCompleted: (folderData) => {
+        for (let i = 0; i < length; i++) {
+          const variables: UploadFileInput = {
+            name: selectedFilesInstance[i].name,
+            ext: selectedFilesInstance[i].ext,
+            mime: selectedFilesInstance[i].file?.type,
+            size: Number(selectedFilesInstance[i].size.split(" ")[0]),
+            url: selectedFilesInstance[i].url,
+            folderPath:
+              selectedFilesInstance[i].path ??
+              folderData?.uploadFolders?.data[0].attributes?.path,
+            folder:
+              selectedFilesInstance[i].pathId ??
+              folderData?.uploadFolders?.data[0].id,
+            width: selectedFilesInstance[i].width,
+            height: selectedFilesInstance[i].height,
+            alternativeText: selectedFilesInstance[i].alternativeText,
+            formats: null,
+            hash: "",
+            previewUrl: null,
+            provider: "",
+            provider_metadata: null,
+          };
 
-      createNewFile({
-        variables: { createUploadFileData2: variables },
-        refetchQueries: [
-          {
-            query: GetFilesPaginationByFolderIdDocument,
-            variables: { contractFolderId },
-          },
-          "getFilesPaginationByFolderId",
-        ],
-      });
-    }
-    handleReInitModals();
+          createNewFile({
+            variables: { createUploadFileData2: variables },
+            refetchQueries: [
+              {
+                query: GetFilesPaginationByPathIdDocument,
+                variables: { activePathId: activePathId },
+              },
+              "getFilesPaginationByPathId",
+            ],
+          });
+        }
+        handleReInitModals();
+      },
+    });
   }
 
   const handleReInitModals = () => {
@@ -127,6 +136,9 @@ export default function UploadModal({
     createNewFile,
     { loading: createNewFileLoading, error: createNewFileError },
   ] = useCreateNewFileMutation();
+  const [getFolderByPathId] = useGetFolderByPathIdLazyQuery({
+    variables: { pathId: activePathId },
+  });
 
   return (
     <>

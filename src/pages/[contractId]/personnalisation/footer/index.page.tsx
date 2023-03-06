@@ -95,7 +95,6 @@ export function PersonnalisationFooterPage() {
             query: GetFooterPageDocument,
             variables: { contractId },
           },
-          "getFooterPage",
         ],
       });
     }

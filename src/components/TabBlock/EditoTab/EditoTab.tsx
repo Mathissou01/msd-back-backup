@@ -104,7 +104,6 @@ export default function EditoTab() {
               status: Enum_Editocontentdto_Status.Published,
             },
           },
-          "getEditoBlockTab",
         ],
       });
     }

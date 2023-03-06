@@ -125,7 +125,6 @@ export default function QuizAndTipsTab() {
             query: GetQuizAndTipsBlockTabDocument,
             variables: { contractId },
           },
-          "getQuizAndTipsBlockTab",
         ],
       });
     }

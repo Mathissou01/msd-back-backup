@@ -8,15 +8,15 @@ import { IFileToEdit } from "../../MediaImportButton";
 interface IEditModal {
   fileToEdit: IFileToEdit | undefined;
   folderHierarchy: Array<RequestFolders>;
-  localFolderPathId: `${number}`;
-  handleRaplceSpecialChars: (arg: string) => string;
+  activePathId: number;
+  handleReplaceSpecialChars: (arg: string) => string;
 }
 
 export default function EditModal({
   fileToEdit,
   folderHierarchy,
-  localFolderPathId,
-  handleRaplceSpecialChars,
+  activePathId,
+  handleReplaceSpecialChars,
 }: IEditModal) {
   /* Static Data */
   const labels = {
@@ -58,6 +58,7 @@ export default function EditModal({
     return mapOptionsInWrappers(sortedFolderHierarchy);
   };
 
+  /* Local Data */
   const isImageToUpload = () => fileToEdit?.mime.split("/")[0] === "image";
 
   return (
@@ -67,7 +68,7 @@ export default function EditModal({
           <div className="c-MediaImportButton__FormControl">
             <FormInput
               type="text"
-              name={handleRaplceSpecialChars(labels.formNameLabel)}
+              name={handleReplaceSpecialChars(labels.formNameLabel)}
               label={labels.formNameLabel}
               isRequired={true}
               defaultValue={fileToEdit?.name}
@@ -77,7 +78,7 @@ export default function EditModal({
             <div className="c-MediaImportButton__FormControl">
               <FormInput
                 type="text"
-                name={handleRaplceSpecialChars(labels.formDescLabel)}
+                name={handleReplaceSpecialChars(labels.formDescLabel)}
                 label={labels.formDescLabel}
                 secondaryLabel={labels.formDescHint}
                 isRequired={true}
@@ -88,7 +89,7 @@ export default function EditModal({
           )}
           <div className="c-MediaImportButton__FormControl">
             <FormSelect<RequestFolders>
-              name={handleRaplceSpecialChars(labels.formSelectLabel)}
+              name={handleReplaceSpecialChars(labels.formSelectLabel)}
               label={labels.formSelectLabel}
               displayTransform={folderHierarchyDisplayTransformFunction}
               options={sortFolderHierarchy(folderHierarchy)}
@@ -96,7 +97,7 @@ export default function EditModal({
               isRequired={true}
               defaultValue={
                 folderHierarchy.find(
-                  (folder) => folder?.pathId === localFolderPathId.toString(),
+                  (folder) => folder?.pathId === activePathId.toString(),
                 ) ?? undefined
               }
             />

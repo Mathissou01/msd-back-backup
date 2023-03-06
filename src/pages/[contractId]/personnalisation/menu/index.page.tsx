@@ -60,7 +60,6 @@ export function PersonnalisationMenuPage() {
             query: GetMenuPageDocument,
             variables: { contractId },
           },
-          "getMenuPage",
         ],
       });
     }

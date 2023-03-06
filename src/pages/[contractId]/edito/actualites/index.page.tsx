@@ -81,7 +81,12 @@ export function EditoActualitesPage() {
               shortDescription: originalNew.shortDescription,
               newsSubService: originalNew.newsSubService?.data?.id,
               image: originalNew.image?.data?.id,
-              blocks: originalNew.blocks,
+              blocks: originalNew.blocks?.map((block) => {
+                return {
+                  ...block,
+                  id: undefined,
+                };
+              }),
             },
           },
           refetchQueries: [
@@ -89,7 +94,6 @@ export function EditoActualitesPage() {
               query: GetNewsByContractIdDocument,
               variables: { contractId },
             },
-            "getNewsByContractId",
           ],
         });
       }
@@ -108,7 +112,6 @@ export function EditoActualitesPage() {
           query: GetNewsByContractIdDocument,
           variables: { contractId },
         },
-        "getNewsByContractId",
       ],
     });
   }
@@ -316,6 +319,7 @@ export function EditoActualitesPage() {
             defaultSortFieldId={"title"}
             paginationOptions={{
               hasPagination: true,
+              hasRowsPerPageOptions: false,
               defaultRowsPerPage,
               defaultPage,
             }}

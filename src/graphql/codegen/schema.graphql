@@ -1068,11 +1068,11 @@ type Contract {
   createdAt: DateTime
   dropOffMapService: DropOffMapServiceEntityResponse
   editorialService: EditorialServiceEntityResponse
-  folderId: Long
   isNonExclusive: Boolean!
   isRVFrance: Boolean!
   keyMetricsService: KeyMetricsServiceEntityResponse
   logicalDelete: Boolean
+  pathId: Long
   pickUpDayService: PickUpDayServiceEntityResponse
   recyclingGuideService: RecyclingGuideServiceEntityResponse
   requestService: RequestServiceEntityResponse
@@ -1171,7 +1171,6 @@ input ContractFiltersInput {
   createdAt: DateTimeFilterInput
   dropOffMapService: DropOffMapServiceFiltersInput
   editorialService: EditorialServiceFiltersInput
-  folderId: LongFilterInput
   id: IDFilterInput
   isNonExclusive: BooleanFilterInput
   isRVFrance: BooleanFilterInput
@@ -1179,6 +1178,7 @@ input ContractFiltersInput {
   logicalDelete: BooleanFilterInput
   not: ContractFiltersInput
   or: [ContractFiltersInput]
+  pathId: LongFilterInput
   pickUpDayService: PickUpDayServiceFiltersInput
   recyclingGuideService: RecyclingGuideServiceFiltersInput
   requestService: RequestServiceFiltersInput
@@ -1202,11 +1202,11 @@ input ContractInput {
   contracts: [ID]
   dropOffMapService: ID
   editorialService: ID
-  folderId: Long
   isNonExclusive: Boolean
   isRVFrance: Boolean
   keyMetricsService: ID
   logicalDelete: Boolean
+  pathId: Long
   pickUpDayService: ID
   recyclingGuideService: ID
   requestService: ID
@@ -3396,6 +3396,7 @@ type Mutation {
     ref: String
     refId: ID
   ): UploadFileEntityResponse!
+  urlUploader(imageName: String!, url: String!): Boolean
 }
 
 type New {
@@ -3929,7 +3930,7 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): FreeContentEntityResponseCollection
-  getAllFoldersHierarchy(contractFolderId: ID!, path: String!): [RequestFolders]
+  getAllFoldersHierarchy(path: String!): [RequestFolders]
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
   getEditoBlockDTO(
     contractId: ID!
@@ -3939,6 +3940,7 @@ type Query {
     contractId: ID!
     status: ENUM_EDITOCONTENTDTO_STATUS
   ): [EditoContentDTO]
+  getFolderHierarchy(path: String!): [RequestFolders]
   getNewestTopContents(contractId: ID!): [EventOrNews]
   getTopContentBlockDTO(
     contractId: ID!

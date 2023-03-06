@@ -36,12 +36,12 @@ export interface IFileToEdit {
 
 interface IMediaImportButton {
   folderHierarchy: Array<RequestFolders>;
-  localFolderPathId: `${number}`;
+  activePathId: number;
 }
 
 export default function MediaImportButton({
   folderHierarchy,
-  localFolderPathId,
+  activePathId,
 }: IMediaImportButton) {
   /** Static Data */
   const labels = {
@@ -94,7 +94,7 @@ export default function MediaImportButton({
     );
   };
 
-  const handleRaplceSpecialChars = (arg: string) =>
+  const handleReplaceSpecialChars = (arg: string) =>
     arg.replace(/['"]/g, "") ?? arg;
 
   async function handleSaveNewFileInfo(submitData: FieldValues) {
@@ -119,9 +119,9 @@ export default function MediaImportButton({
       );
       const index = selectedFilesInstance.indexOf(file[0]);
       selectedFilesInstance[index] = {
-        name: submitData[handleRaplceSpecialChars(labels.formNameLabel)],
+        name: submitData[handleReplaceSpecialChars(labels.formNameLabel)],
         alternativeText:
-          submitData[handleRaplceSpecialChars(labels.formDescLabel)],
+          submitData[handleReplaceSpecialChars(labels.formDescLabel)],
         width: fileToEdit?.width ?? 0,
         height: fileToEdit?.height ?? 0,
         ext: fileToEdit?.ext ?? "",
@@ -267,16 +267,16 @@ export default function MediaImportButton({
             selectedFiles.length > 0 && (
               <UploadModal
                 modalRef={modalRef}
+                path={
+                  folderHierarchy.find(
+                    (folder) => folder?.pathId === activePathId.toString(),
+                  )?.path ?? "/1"
+                }
+                activePathId={activePathId}
                 selectedFiles={selectedFiles}
                 setActiveModal={setActiveModal}
                 setSelectedFiles={setSelectedFiles}
                 setFileToEdit={setFileToEdit}
-                path={
-                  folderHierarchy.find(
-                    (folder) => folder?.pathId === localFolderPathId.toString(),
-                  )?.path ?? "/1"
-                }
-                contractFolderId={localFolderPathId}
                 handleCalculateFileSize={handleCalculateFileSize}
               />
             )}
@@ -293,9 +293,9 @@ export default function MediaImportButton({
             >
               <EditModal
                 folderHierarchy={folderHierarchy}
-                localFolderPathId={localFolderPathId}
+                activePathId={activePathId}
                 fileToEdit={fileToEdit}
-                handleRaplceSpecialChars={handleRaplceSpecialChars}
+                handleReplaceSpecialChars={handleReplaceSpecialChars}
               />
             </FormModal>
           )}

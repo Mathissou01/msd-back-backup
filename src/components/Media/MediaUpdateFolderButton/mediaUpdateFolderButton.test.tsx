@@ -5,12 +5,14 @@ import { defaultMockData } from "../../../../__mocks__/mediaCreateFolderButtonMo
 import MediaUpdateFolderButton from "./MediaUpdateFolderButton";
 
 const mockData = {
-  localFolderPathId: "6" as `${number}`,
   folder: {
-    id: "4",
+    id: "2",
     name: "Guinea",
-    path: "1/2/4",
+    path: "/1/2",
+    pathId: 2,
   },
+  activePath: "/1/2",
+  activePathId: 2,
 };
 
 describe("MediaUpdateFolderButton", () => {
@@ -18,10 +20,9 @@ describe("MediaUpdateFolderButton", () => {
     const { container } = render(
       <MockedProvider mocks={defaultMockData}>
         <MediaUpdateFolderButton
-          id={mockData.folder.id}
-          name={mockData.folder.name}
-          path={mockData.folder.path}
-          localFolderPathId={"6" as `${number}`}
+          folder={mockData.folder}
+          activePath={mockData.activePath}
+          activePathId={mockData.activePathId}
         />
       </MockedProvider>,
     );

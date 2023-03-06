@@ -19,6 +19,7 @@ interface IFormInputProps {
   minLengthValidation?: number;
   maxLengthValidation?: number;
   patternValidation?: ValidationRule<RegExp>;
+  patternValidationErrorMessage?: string;
   lengthHardValidation?: boolean;
   defaultValue?: string;
   placeholder?: string;
@@ -39,6 +40,7 @@ export default function FormInput({
   minLengthValidation,
   maxLengthValidation,
   patternValidation,
+  patternValidationErrorMessage = "Format incorrect",
   lengthHardValidation = true,
   defaultValue,
   placeholder,
@@ -52,7 +54,7 @@ export default function FormInput({
     required: "Ce champ est obligatoire",
     minLength: `${minLengthValidation} caractères minimum`,
     maxLength: `${maxLengthValidation} caractères maximum`,
-    pattern: "cette url n'est pas pris en charge",
+    pattern: patternValidationErrorMessage,
   };
   const Tag = tagType;
 

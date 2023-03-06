@@ -4,7 +4,7 @@ query getContracts {
       id
       attributes {
         clientName
-        folderId
+        pathId
       }
     }
   }

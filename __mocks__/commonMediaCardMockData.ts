@@ -1,9 +1,9 @@
-import { GetFilesPaginationByFolderIdDocument } from "../src/graphql/codegen/generated-types";
+import { GetFilesPaginationByPathIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetFilesPaginationByFolderIdDocument,
+      query: GetFilesPaginationByPathIdDocument,
       filters: {
         folder: {
           id: {

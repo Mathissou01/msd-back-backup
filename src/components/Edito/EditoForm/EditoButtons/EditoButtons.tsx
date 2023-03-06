@@ -23,7 +23,7 @@ export default function EditoButtons({ onPublish }: IEditoButtonsProps) {
         <CommonButton
           label={buttonLabels.buttonPublish}
           picto="windowUpload"
-          isDisabled={formState.isDirty || !formState.isValid}
+          isDisabled={formState.isDirty}
           onClick={onPublish}
         />
       )}

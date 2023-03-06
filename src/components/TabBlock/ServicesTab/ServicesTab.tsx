@@ -89,7 +89,6 @@ export default function ServicesTab() {
             query: GetServicesBlockTabDocument,
             variables: { contractId },
           },
-          "getServicesBlockTab",
         ],
       });
     }

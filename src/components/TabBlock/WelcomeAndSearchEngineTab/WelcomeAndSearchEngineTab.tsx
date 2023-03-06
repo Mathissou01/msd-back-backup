@@ -50,7 +50,6 @@ export default function WelcomeAndSearchEngineTab() {
             query: GetSearchEngineTabDocument,
             variables: { contractId },
           },
-          "getSearchEngineTab",
         ],
       });
     }

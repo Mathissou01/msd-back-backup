@@ -10,10 +10,10 @@ import DataTableFilters, {
 } from "./DataTableFilters/DataTableFilters";
 import CommonPagination from "../CommonPagination/CommonPagination";
 import CommonSpinner from "../CommonSpinner/CommonSpinner";
-import "./common-data-table.scss";
 import DataTableActions, {
   IDataTableAction,
 } from "./DataTableActions/DataTableActions";
+import "./common-data-table.scss";
 
 export interface ICommonDataTableValidation {
   isValid: boolean;
@@ -32,6 +32,7 @@ interface ILazyLoadingOptions {
 
 interface IPaginationOptions {
   hasPagination: boolean;
+  hasRowsPerPageOptions?: boolean;
   defaultRowsPerPage: number;
   rowsPerPageOptions?: Array<number>;
   defaultPage?: number;
@@ -187,13 +188,13 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
       <CommonPagination
         currentPage={currentPage}
         rowCount={rowCount}
-        noRowsPerPage={true}
         onChangePage={(page, totalRows) => onChangePage(page, totalRows)}
         onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
           onChangeRowsPerPage(currentRowsPerPage, currentPage)
         }
         rowsPerPage={rowsPerPage}
-        {...(paginationOptions?.rowsPerPageOptions && {
+        {...(!!paginationOptions && {
+          noRowsPerPage: !(paginationOptions.hasRowsPerPageOptions ?? true),
           rowsPerPageOptions: paginationOptions.rowsPerPageOptions,
         })}
       />

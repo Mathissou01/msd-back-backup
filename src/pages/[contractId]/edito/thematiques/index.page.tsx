@@ -108,7 +108,6 @@ export function EditoThematiquesPage() {
           query: CountContentPerTagDocument,
           variables: { contractId },
         },
-        "countContentPerTag",
       ],
     });
   }
@@ -125,7 +124,6 @@ export function EditoThematiquesPage() {
           query: CountContentPerTagDocument,
           variables: { contractId: contract.id },
         },
-        "countContentPerTag",
       ],
     });
   }
@@ -148,7 +146,6 @@ export function EditoThematiquesPage() {
           query: CountContentPerTagDocument,
           variables: { contractId },
         },
-        "countContentPerTag",
       ],
     });
   }

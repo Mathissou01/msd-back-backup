@@ -25,6 +25,7 @@ export default function VideoBlock({ blockName }: IVideoBlockProps) {
     subLabelTranscriptText:
       "Accessibilité : version écrite de la totalité de ce qui est exprimé oralement dans la vidéo, ainsi que  toutes les informations descriptives nécessaires à une bonne compréhension.",
     // errorMessage: "Youtube, Viméo ou Dailymotion sont pris en charge.",
+    // validationErrorMessage: "cette url n'est pas pris en charge",
   };
 
   const fieldNames: { [name: string]: keyof IBlocksVideo } = {
@@ -44,6 +45,7 @@ export default function VideoBlock({ blockName }: IVideoBlockProps) {
           //   value: validationPatterns,
           //   message: formLabels.errorMessage,
           // }}
+          // patternValidationErrorMessage={formLabels.validationErrorMessage}
         />
         <FormInput
           tagType="textarea"

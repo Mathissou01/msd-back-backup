@@ -1,32 +1,33 @@
 import { FieldValues } from "react-hook-form";
 import { useRef } from "react";
 import {
+  GetAllFoldersHierarchyDocument,
   GetFolderAndChildrenByIdDocument,
+  GetFolderBreadcrumbDocument,
   RequestFolders,
+  UploadFolderEntity,
   useGetAllFoldersHierarchyQuery,
   useUpdateUploadFolderMutation,
 } from "../../../graphql/codegen/generated-types";
+import { removeNulls } from "../../../lib/utilities";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormModal from "../../Form/FormModal/FormModal";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../Form/FormMultiselect/FormMultiselect";
 import "./media-update-folder-button.scss";
-import { useContract } from "../../../hooks/useContract";
-import { removeNulls } from "../../../lib/utilities";
+import { IFolder } from "../../../pages/[contractId]/edito/bibliotheque-de-medias/index.page";
 
 interface IMediaUpdateFolderButtonProps {
-  id: string;
-  name: string;
-  path: string;
-  localFolderPathId: `${number}`;
+  folder: IFolder;
+  activePath: string;
+  activePathId: number;
 }
 
 export default function MediaUpdateFolderButton({
-  id,
-  name,
-  path,
-  localFolderPathId,
+  folder,
+  activePath,
+  activePathId,
 }: IMediaUpdateFolderButtonProps) {
   /* Static Data */
   const formLabels = {
@@ -39,24 +40,93 @@ export default function MediaUpdateFolderButton({
   async function onSubmitValid(submitData: FieldValues) {
     if (submitData["folderLocation"]?.["pathId"]) {
       const variables = {
-        updateUploadFolderId: id,
+        updateUploadFolderId: folder.id,
         data: {
           name: submitData["folderTitle"],
-          parent: submitData["folderLocation"]["pathId"],
-          path: `${submitData["folderLocation"]["path"]}/${id}`,
+          parent: submitData["folderLocation"]["id"],
+          path: `${submitData["folderLocation"]["path"]}/${folder.pathId}`,
         },
       };
       return updateUploadFolder({
         variables,
-        refetchQueries: [
-          {
-            query: GetFolderAndChildrenByIdDocument,
-            variables: { localFolderPathId },
-          },
-          "getFolderAndChildrenById",
-        ],
+        refetchQueries: !(folder.childrenAmount && folder.childrenAmount > 0)
+          ? [
+              {
+                query: GetFolderAndChildrenByIdDocument,
+                variables: { activePathId: activePathId },
+              },
+              {
+                query: GetAllFoldersHierarchyDocument,
+                variables: { path: folder.path },
+              },
+              {
+                query: GetFolderBreadcrumbDocument,
+                variables: { path: activePath },
+              },
+            ]
+          : [],
+        onCompleted: (data) => {
+          const children =
+            data.updateUploadFolder?.data?.attributes?.children?.data;
+          const parentPath = data.updateUploadFolder?.data?.attributes?.path;
+          if (children && children.length > 0 && parentPath) {
+            recursivelyUpdateChildrenPath(
+              children.filter(removeNulls),
+              parentPath,
+            );
+          }
+        },
       });
     }
+  }
+
+  function recursivelyUpdateChildrenPath(
+    children: Array<UploadFolderEntity>,
+    parentPath: string,
+  ) {
+    children.map((child) => {
+      if (child.id && child.attributes?.pathId) {
+        const variables = {
+          updateUploadFolderId: child.id,
+          data: {
+            path: `${parentPath}/${child.attributes.pathId}`,
+          },
+        };
+        void updateUploadFolder({
+          variables,
+          refetchQueries: !(
+            child.attributes.children?.data &&
+            child.attributes.children?.data.length > 0
+          )
+            ? [
+                {
+                  query: GetFolderAndChildrenByIdDocument,
+                  variables: { activePathId: activePathId },
+                },
+                {
+                  query: GetAllFoldersHierarchyDocument,
+                  variables: { path: folder.path },
+                },
+                {
+                  query: GetFolderBreadcrumbDocument,
+                  variables: { path: activePath },
+                },
+              ]
+            : [],
+          onCompleted: (data) => {
+            const children =
+              data.updateUploadFolder?.data?.attributes?.children?.data;
+            const parentPath = data.updateUploadFolder?.data?.attributes?.path;
+            if (children && children.length > 0 && parentPath) {
+              recursivelyUpdateChildrenPath(
+                children.filter(removeNulls),
+                parentPath,
+              );
+            }
+          },
+        });
+      }
+    });
   }
 
   function folderHierarchyDisplayTransformFunction(
@@ -82,19 +152,28 @@ export default function MediaUpdateFolderButton({
     e.stopPropagation();
     modalRef.current?.toggleModal(true);
   }
+
   /* External Data */
-  const { contract } = useContract();
-  const contractFolderId = contract.attributes?.folderId;
+  // TODO: optimize component, data should only be fetched when modal is opened not on page load
   const { data: folderHierarchy } = useGetAllFoldersHierarchyQuery({
-    variables: { path: path, contractFolderId },
+    variables: { path: folder.path },
   });
   const [updateUploadFolder, { loading: mutationLoading }] =
     useUpdateUploadFolderMutation();
 
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);
-  const pathFolderHierchy =
-    folderHierarchy?.getAllFoldersHierarchy?.filter(removeNulls) ?? [];
+  const pathFolderHierarchy =
+    folderHierarchy?.getAllFoldersHierarchy
+      ?.map((hierarchyFolder) => {
+        if (
+          hierarchyFolder?.path !== `${folder?.path}` &&
+          hierarchyFolder?.path?.indexOf(`${folder.path}/`) === -1
+        ) {
+          return hierarchyFolder;
+        }
+      })
+      .filter(removeNulls) ?? [];
 
   return (
     <>
@@ -119,7 +198,7 @@ export default function MediaUpdateFolderButton({
                 label={formLabels.titleFolderContent}
                 isRequired={true}
                 isDisabled={mutationLoading}
-                defaultValue={name}
+                defaultValue={folder.name}
               />
             </div>
             <div className="c-MediaUpdateFolderButton__Select">
@@ -127,12 +206,12 @@ export default function MediaUpdateFolderButton({
                 name="folderLocation"
                 label={formLabels.locationFolder}
                 displayTransform={folderHierarchyDisplayTransformFunction}
-                options={sortFolderHierarchy(pathFolderHierchy)}
+                options={sortFolderHierarchy(pathFolderHierarchy)}
                 optionKey={"id"}
                 isRequired={true}
                 defaultValue={
-                  pathFolderHierchy.find(
-                    (folder) => folder?.pathId === localFolderPathId,
+                  pathFolderHierarchy.find(
+                    (folder) => folder?.pathId === `${activePathId}`,
                   ) ?? undefined
                 }
               />

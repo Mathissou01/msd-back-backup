@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   useGetAllFoldersHierarchyQuery,
   useGetFolderAndChildrenByIdQuery,
-  useGetFilesPaginationByFolderIdLazyQuery,
-  GetFilesPaginationByFolderIdQueryVariables,
   useGetFolderBreadcrumbQuery,
+  useGetFilesPaginationByPathIdLazyQuery,
+  GetFilesPaginationByPathIdQueryVariables,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
 import { removeNulls } from "../../../../lib/utilities";
@@ -30,6 +30,7 @@ export interface IFolder {
   name: string;
   path: string;
   pathId: number;
+  children?: Array<string>;
   childrenAmount?: number;
   filesAmount?: number;
 }
@@ -52,9 +53,9 @@ export function EditoBibliothequeDeMedias() {
 
   /* Local Data */
   const { contract } = useContract();
-  const contractFolderId = contract.attributes?.folderId;
-  const defaultPath = `/1/${contractFolderId}`;
-  const [activePathId, setActivePathId] = useState<number>(contractFolderId);
+  const contractPathId = contract.attributes?.pathId;
+  const [activePathId, setActivePathId] = useState<number>(contractPathId);
+  const defaultPath = `/1/${contractPathId}`;
   const [activePath, setActivePath] = useState<string>(defaultPath);
   const {
     data: foldersData,
@@ -68,15 +69,15 @@ export function EditoBibliothequeDeMedias() {
     loading: hierarchyLoading,
     error: hierarchyError,
   } = useGetAllFoldersHierarchyQuery({
-    variables: { path: activePath, contractFolderId },
+    variables: { path: activePath },
   });
   const defaultRowsPerPage = 10;
   const defaultPage = 1;
-  const defaultQueryVariables: GetFilesPaginationByFolderIdQueryVariables = {
+  const defaultQueryVariables: GetFilesPaginationByPathIdQueryVariables = {
     filters: {
       folder: {
-        id: {
-          eq: `${activePathId}`,
+        pathId: {
+          eq: activePathId,
         },
       },
     },
@@ -84,9 +85,9 @@ export function EditoBibliothequeDeMedias() {
     pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
   };
   const [
-    getFilesPaginationByFolderId,
+    getFilesPaginationByPathId,
     { data: filesData, loading: paginationLoading, error: paginationError },
-  ] = useGetFilesPaginationByFolderIdLazyQuery({
+  ] = useGetFilesPaginationByPathIdLazyQuery({
     variables: defaultQueryVariables,
   });
   const {
@@ -134,6 +135,9 @@ export function EditoBibliothequeDeMedias() {
                   name: folder.attributes.name,
                   path: folder.attributes.path,
                   pathId: folder.attributes?.pathId,
+                  children: folder.attributes.children?.data
+                    .map((child) => child.id)
+                    .filter(removeNulls),
                   childrenAmount: folder.attributes.children?.data.length,
                   filesAmount: folder.attributes.files?.data.length,
                 };
@@ -172,14 +176,14 @@ export function EditoBibliothequeDeMedias() {
           .filter(removeNulls) ?? [];
       setFiles(mappedFiles);
     }
-  }, [foldersData, filesData, activePathId, contractFolderId]);
+  }, [foldersData, filesData, activePathId]);
 
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      getFilesPaginationByFolderId();
+      getFilesPaginationByPathId();
     }
-  }, [getFilesPaginationByFolderId, isInitialized]);
+  }, [getFilesPaginationByPathId, isInitialized]);
 
   useEffect(() => {
     if (foldersBreadcrumb) {
@@ -198,7 +202,7 @@ export function EditoBibliothequeDeMedias() {
           .filter(removeNulls) ?? [];
       setBreadcrumbs(mappedBreadcrumb);
     }
-  }, [foldersBreadcrumb, activePath, contractFolderId]);
+  }, [foldersBreadcrumb, activePath]);
 
   return (
     <>
@@ -221,7 +225,7 @@ export function EditoBibliothequeDeMedias() {
                     removeNulls,
                   ) ?? []
                 }
-                localFolderPathId={`${activePathId}`}
+                activePathId={activePathId}
               />
               <MediaImportButton
                 folderHierarchy={
@@ -229,7 +233,7 @@ export function EditoBibliothequeDeMedias() {
                     removeNulls,
                   ) ?? []
                 }
-                localFolderPathId={`${activePathId}`}
+                activePathId={activePathId}
               />
             </div>
           </div>
@@ -244,13 +248,10 @@ export function EditoBibliothequeDeMedias() {
                 folders.map((folder, index) => (
                   <MediaFolderCard
                     key={index}
-                    id={folder.id}
-                    name={folder.name}
-                    path={folder.path}
-                    childrenAmount={folder.childrenAmount}
-                    filesAmount={folder.filesAmount}
+                    folder={folder}
                     picto="folder"
-                    localFolderPathId={`${activePathId}`}
+                    activePath={activePath}
+                    activePathId={activePathId}
                     onClick={() => setUpdatePath(folder.pathId, folder.path)}
                   />
                 ))}
@@ -268,6 +269,7 @@ export function EditoBibliothequeDeMedias() {
                     key={index}
                     file={{ file }}
                     parent={MediaCardParentOptions.HOME}
+                    // TODO: implement file edit and delete
                     handleEditFile={() => console.log("handleEditItem")}
                     handleRemoveFile={() => console.log("handleRemoveItem")}
                   />

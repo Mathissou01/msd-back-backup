@@ -1,4 +1,4 @@
-query getFilesPaginationByFolderId(
+query getFilesPaginationByPathId(
   $filters: UploadFileFiltersInput
   $pagination: PaginationArg
   $sort: [String]

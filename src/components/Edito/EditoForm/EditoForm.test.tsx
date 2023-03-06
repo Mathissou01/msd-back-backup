@@ -4,6 +4,7 @@ import React from "react";
 import { IEditoFields, TDynamicFieldOption } from "../../../lib/edito";
 import { valueToEStatus } from "../../../lib/status";
 import EditoForm from "./EditoForm";
+import { defaultMockData } from "../../../../__mocks__/editoFormMockData";
 
 const mocks: {
   dynamicFieldOptions: Array<TDynamicFieldOption>;
@@ -51,7 +52,7 @@ describe("EditoForm", () => {
   it("renders", async () => {
     const onSubmit = jest.fn();
     const { container } = render(
-      <MockedProvider mocks={[]}>
+      <MockedProvider mocks={defaultMockData}>
         <EditoForm
           data={mocks.data}
           dynamicFieldsOptions={mocks.dynamicFieldOptions}

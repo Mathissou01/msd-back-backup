@@ -9,13 +9,13 @@ const mockData = {
   folderHierarchy: [
     {
       __typename: "RequestFolders",
-      id: 1,
+      id: 2,
       name: "name1",
-      path: "/1/6",
-      pathId: 6,
+      path: "/1/2",
+      pathId: 2,
     } as unknown as RequestFolders,
   ],
-  localFolderPathId: "6" as `${number}`,
+  activePathId: 2,
 };
 
 describe("MediaCreateFolderButton", () => {
@@ -24,7 +24,7 @@ describe("MediaCreateFolderButton", () => {
       <MockedProvider mocks={defaultMockData}>
         <MediaCreateFolderButton
           folderHierarchy={mockData.folderHierarchy}
-          localFolderPathId={"6" as `${number}`}
+          activePathId={mockData.activePathId}
         />
       </MockedProvider>,
     );

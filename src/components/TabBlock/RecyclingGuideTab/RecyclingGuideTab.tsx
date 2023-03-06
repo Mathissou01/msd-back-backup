@@ -55,7 +55,6 @@ export default function RecyclingGuideTab() {
             query: GetRecyclingBlockTabDocument,
             variables: { contractId },
           },
-          "getRecyclingBlockTab",
         ],
       });
     }

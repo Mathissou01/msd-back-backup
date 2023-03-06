@@ -1235,11 +1235,11 @@ export type Contract = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
-  folderId?: Maybe<Scalars["Long"]>;
   isNonExclusive: Scalars["Boolean"];
   isRVFrance: Scalars["Boolean"];
   keyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   logicalDelete?: Maybe<Scalars["Boolean"]>;
+  pathId?: Maybe<Scalars["Long"]>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
@@ -1358,7 +1358,6 @@ export type ContractFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
-  folderId?: InputMaybe<LongFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isNonExclusive?: InputMaybe<BooleanFilterInput>;
   isRVFrance?: InputMaybe<BooleanFilterInput>;
@@ -1366,6 +1365,7 @@ export type ContractFiltersInput = {
   logicalDelete?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<ContractFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
+  pathId?: InputMaybe<LongFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   recyclingGuideService?: InputMaybe<RecyclingGuideServiceFiltersInput>;
   requestService?: InputMaybe<RequestServiceFiltersInput>;
@@ -1389,11 +1389,11 @@ export type ContractInput = {
   contracts?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
-  folderId?: InputMaybe<Scalars["Long"]>;
   isNonExclusive?: InputMaybe<Scalars["Boolean"]>;
   isRVFrance?: InputMaybe<Scalars["Boolean"]>;
   keyMetricsService?: InputMaybe<Scalars["ID"]>;
   logicalDelete?: InputMaybe<Scalars["Boolean"]>;
+  pathId?: InputMaybe<Scalars["Long"]>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   recyclingGuideService?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
@@ -3468,6 +3468,7 @@ export type Mutation = {
   updateUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
   upload: UploadFileEntityResponse;
+  urlUploader?: Maybe<Scalars["Boolean"]>;
 };
 
 export type MutationBulkDeleteMediasArgs = {
@@ -4386,6 +4387,11 @@ export type MutationUploadArgs = {
   refId?: InputMaybe<Scalars["ID"]>;
 };
 
+export type MutationUrlUploaderArgs = {
+  imageName: Scalars["String"];
+  url: Scalars["String"];
+};
+
 export type New = {
   __typename?: "New";
   audiences?: Maybe<AudienceTypeRelationResponseCollection>;
@@ -4829,6 +4835,7 @@ export type Query = {
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
   getEditoBlockDTO?: Maybe<EditoBlockDto>;
   getEditoContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
+  getFolderHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
   getTopContentDTOs?: Maybe<Array<Maybe<TopContentDto>>>;
@@ -5224,7 +5231,6 @@ export type QueryFreeContentsArgs = {
 };
 
 export type QueryGetAllFoldersHierarchyArgs = {
-  contractFolderId: Scalars["ID"];
   path: Scalars["String"];
 };
 
@@ -5240,6 +5246,10 @@ export type QueryGetEditoBlockDtoArgs = {
 export type QueryGetEditoContentDtOsArgs = {
   contractId: Scalars["ID"];
   status?: InputMaybe<Enum_Editocontentdto_Status>;
+};
+
+export type QueryGetFolderHierarchyArgs = {
+  path: Scalars["String"];
 };
 
 export type QueryGetNewestTopContentsArgs = {
@@ -8715,7 +8725,6 @@ export type CreateNewFileMutation = {
 
 export type GetAllFoldersHierarchyQueryVariables = Exact<{
   path: Scalars["String"];
-  contractFolderId: Scalars["ID"];
 }>;
 
 export type GetAllFoldersHierarchyQuery = {
@@ -8729,7 +8738,7 @@ export type GetAllFoldersHierarchyQuery = {
   } | null> | null;
 };
 
-export type GetFilesPaginationByFolderIdQueryVariables = Exact<{
+export type GetFilesPaginationByPathIdQueryVariables = Exact<{
   filters?: InputMaybe<UploadFileFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<
@@ -8737,7 +8746,7 @@ export type GetFilesPaginationByFolderIdQueryVariables = Exact<{
   >;
 }>;
 
-export type GetFilesPaginationByFolderIdQuery = {
+export type GetFilesPaginationByPathIdQuery = {
   __typename?: "Query";
   uploadFiles?: {
     __typename?: "UploadFileEntityResponseCollection";
@@ -8837,6 +8846,27 @@ export type GetFolderBreadcrumbQuery = {
   } | null> | null;
 };
 
+export type GetFolderByPathIdQueryVariables = Exact<{
+  pathId: Scalars["Int"];
+}>;
+
+export type GetFolderByPathIdQuery = {
+  __typename?: "Query";
+  uploadFolders?: {
+    __typename?: "UploadFolderEntityResponseCollection";
+    data: Array<{
+      __typename?: "UploadFolderEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "UploadFolder";
+        name: string;
+        pathId: number;
+        path: string;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type UpdateUploadFolderMutationVariables = Exact<{
   updateUploadFolderId: Scalars["ID"];
   data: UploadFolderInput;
@@ -8854,6 +8884,26 @@ export type UpdateUploadFolderMutation = {
         pathId: number;
         updatedAt?: any | null;
         name: string;
+        children?: {
+          __typename?: "UploadFolderRelationResponseCollection";
+          data: Array<{
+            __typename?: "UploadFolderEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFolder";
+              name: string;
+              path: string;
+              pathId: number;
+              children?: {
+                __typename?: "UploadFolderRelationResponseCollection";
+                data: Array<{
+                  __typename?: "UploadFolderEntity";
+                  id?: string | null;
+                }>;
+              } | null;
+            } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -9363,7 +9413,7 @@ export type GetContractByIdQuery = {
       attributes?: {
         __typename?: "Contract";
         clientName: string;
-        folderId?: any | null;
+        pathId?: any | null;
         isRVFrance: boolean;
         contractStatus: Enum_Contract_Contractstatus;
         clientType: Enum_Contract_Clienttype;
@@ -9503,7 +9553,7 @@ export type GetContractsQuery = {
       attributes?: {
         __typename?: "Contract";
         clientName: string;
-        folderId?: any | null;
+        pathId?: any | null;
       } | null;
     }>;
   } | null;
@@ -12108,8 +12158,8 @@ export type CreateNewFileMutationOptions = Apollo.BaseMutationOptions<
   CreateNewFileMutationVariables
 >;
 export const GetAllFoldersHierarchyDocument = gql`
-  query getAllFoldersHierarchy($path: String!, $contractFolderId: ID!) {
-    getAllFoldersHierarchy(path: $path, contractFolderId: $contractFolderId) {
+  query getAllFoldersHierarchy($path: String!) {
+    getAllFoldersHierarchy(path: $path) {
       id
       name
       path
@@ -12131,7 +12181,6 @@ export const GetAllFoldersHierarchyDocument = gql`
  * const { data, loading, error } = useGetAllFoldersHierarchyQuery({
  *   variables: {
  *      path: // value for 'path'
- *      contractFolderId: // value for 'contractFolderId'
  *   },
  * });
  */
@@ -12169,8 +12218,8 @@ export type GetAllFoldersHierarchyQueryResult = Apollo.QueryResult<
   GetAllFoldersHierarchyQuery,
   GetAllFoldersHierarchyQueryVariables
 >;
-export const GetFilesPaginationByFolderIdDocument = gql`
-  query getFilesPaginationByFolderId(
+export const GetFilesPaginationByPathIdDocument = gql`
+  query getFilesPaginationByPathId(
     $filters: UploadFileFiltersInput
     $pagination: PaginationArg
     $sort: [String]
@@ -12203,16 +12252,16 @@ export const GetFilesPaginationByFolderIdDocument = gql`
 `;
 
 /**
- * __useGetFilesPaginationByFolderIdQuery__
+ * __useGetFilesPaginationByPathIdQuery__
  *
- * To run a query within a React component, call `useGetFilesPaginationByFolderIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFilesPaginationByFolderIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetFilesPaginationByPathIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFilesPaginationByPathIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFilesPaginationByFolderIdQuery({
+ * const { data, loading, error } = useGetFilesPaginationByPathIdQuery({
  *   variables: {
  *      filters: // value for 'filters'
  *      pagination: // value for 'pagination'
@@ -12220,39 +12269,39 @@ export const GetFilesPaginationByFolderIdDocument = gql`
  *   },
  * });
  */
-export function useGetFilesPaginationByFolderIdQuery(
+export function useGetFilesPaginationByPathIdQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetFilesPaginationByFolderIdQuery,
-    GetFilesPaginationByFolderIdQueryVariables
+    GetFilesPaginationByPathIdQuery,
+    GetFilesPaginationByPathIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetFilesPaginationByFolderIdQuery,
-    GetFilesPaginationByFolderIdQueryVariables
-  >(GetFilesPaginationByFolderIdDocument, options);
+    GetFilesPaginationByPathIdQuery,
+    GetFilesPaginationByPathIdQueryVariables
+  >(GetFilesPaginationByPathIdDocument, options);
 }
-export function useGetFilesPaginationByFolderIdLazyQuery(
+export function useGetFilesPaginationByPathIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFilesPaginationByFolderIdQuery,
-    GetFilesPaginationByFolderIdQueryVariables
+    GetFilesPaginationByPathIdQuery,
+    GetFilesPaginationByPathIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetFilesPaginationByFolderIdQuery,
-    GetFilesPaginationByFolderIdQueryVariables
-  >(GetFilesPaginationByFolderIdDocument, options);
+    GetFilesPaginationByPathIdQuery,
+    GetFilesPaginationByPathIdQueryVariables
+  >(GetFilesPaginationByPathIdDocument, options);
 }
-export type GetFilesPaginationByFolderIdQueryHookResult = ReturnType<
-  typeof useGetFilesPaginationByFolderIdQuery
+export type GetFilesPaginationByPathIdQueryHookResult = ReturnType<
+  typeof useGetFilesPaginationByPathIdQuery
 >;
-export type GetFilesPaginationByFolderIdLazyQueryHookResult = ReturnType<
-  typeof useGetFilesPaginationByFolderIdLazyQuery
+export type GetFilesPaginationByPathIdLazyQueryHookResult = ReturnType<
+  typeof useGetFilesPaginationByPathIdLazyQuery
 >;
-export type GetFilesPaginationByFolderIdQueryResult = Apollo.QueryResult<
-  GetFilesPaginationByFolderIdQuery,
-  GetFilesPaginationByFolderIdQueryVariables
+export type GetFilesPaginationByPathIdQueryResult = Apollo.QueryResult<
+  GetFilesPaginationByPathIdQuery,
+  GetFilesPaginationByPathIdQueryVariables
 >;
 export const GetFolderAndChildrenByIdDocument = gql`
   query getFolderAndChildrenById($filters: UploadFolderFiltersInput) {
@@ -12405,6 +12454,71 @@ export type GetFolderBreadcrumbQueryResult = Apollo.QueryResult<
   GetFolderBreadcrumbQuery,
   GetFolderBreadcrumbQueryVariables
 >;
+export const GetFolderByPathIdDocument = gql`
+  query getFolderByPathId($pathId: Int!) {
+    uploadFolders(filters: { pathId: { eq: $pathId } }) {
+      data {
+        id
+        attributes {
+          name
+          pathId
+          path
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFolderByPathIdQuery__
+ *
+ * To run a query within a React component, call `useGetFolderByPathIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFolderByPathIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFolderByPathIdQuery({
+ *   variables: {
+ *      pathId: // value for 'pathId'
+ *   },
+ * });
+ */
+export function useGetFolderByPathIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFolderByPathIdQuery,
+    GetFolderByPathIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFolderByPathIdQuery,
+    GetFolderByPathIdQueryVariables
+  >(GetFolderByPathIdDocument, options);
+}
+export function useGetFolderByPathIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFolderByPathIdQuery,
+    GetFolderByPathIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFolderByPathIdQuery,
+    GetFolderByPathIdQueryVariables
+  >(GetFolderByPathIdDocument, options);
+}
+export type GetFolderByPathIdQueryHookResult = ReturnType<
+  typeof useGetFolderByPathIdQuery
+>;
+export type GetFolderByPathIdLazyQueryHookResult = ReturnType<
+  typeof useGetFolderByPathIdLazyQuery
+>;
+export type GetFolderByPathIdQueryResult = Apollo.QueryResult<
+  GetFolderByPathIdQuery,
+  GetFolderByPathIdQueryVariables
+>;
 export const UpdateUploadFolderDocument = gql`
   mutation updateUploadFolder(
     $updateUploadFolderId: ID!
@@ -12417,6 +12531,21 @@ export const UpdateUploadFolderDocument = gql`
           pathId
           updatedAt
           name
+          children {
+            data {
+              id
+              attributes {
+                name
+                path
+                pathId
+                children {
+                  data {
+                    id
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -13727,7 +13856,7 @@ export const GetContractByIdDocument = gql`
         id
         attributes {
           clientName
-          folderId
+          pathId
           isRVFrance
           contractStatus
           editorialService {
@@ -13883,7 +14012,7 @@ export const GetContractsDocument = gql`
         id
         attributes {
           clientName
-          folderId
+          pathId
         }
       }
     }

@@ -9,6 +9,21 @@ mutation updateUploadFolder(
         pathId
         updatedAt
         name
+        children {
+          data {
+            id
+            attributes {
+              name
+              path
+              pathId
+              children {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

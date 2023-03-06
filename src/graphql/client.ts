@@ -17,6 +17,9 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
         New: {
           merge: true,
         },
+        UploadFolder: {
+          merge: true,
+        },
       },
     }),
   });

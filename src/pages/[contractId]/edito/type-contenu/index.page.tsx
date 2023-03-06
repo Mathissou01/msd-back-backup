@@ -123,7 +123,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "accessibilitySubService":
@@ -134,7 +133,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "contactUsSubService":
@@ -145,7 +143,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "cguSubService":
@@ -156,7 +153,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "confidentialitySubService":
@@ -167,7 +163,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "newsSubService":
@@ -178,7 +173,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "tipSubService":
@@ -189,7 +183,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "quizSubService":
@@ -200,7 +193,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "eventSubService":
@@ -211,7 +203,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
       case "freeContentSubService":
@@ -222,7 +213,6 @@ export function EditoTypeContenuPage() {
               query: GetContentTypeDtOsDocument,
               variables: { contractId },
             },
-            "getContentTypeDTOs",
           ],
         });
     }
@@ -241,7 +231,6 @@ export function EditoTypeContenuPage() {
     //       query: GetContentTypeDtOsDocument,
     //       variables: { contractId },
     //     },
-    //     "getContentTypeDTOs",
     //   ],
     // });
   }
@@ -260,7 +249,6 @@ export function EditoTypeContenuPage() {
           query: GetContentTypeDtOsDocument,
           variables: { contractId },
         },
-        "getContentTypeDTOs",
       ],
     });
   }

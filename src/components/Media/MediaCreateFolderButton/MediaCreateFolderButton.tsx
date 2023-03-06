@@ -14,12 +14,12 @@ import { mapOptionsInWrappers } from "../../Form/FormMultiselect/FormMultiselect
 
 interface IMediaCreateFolderButtonProps {
   folderHierarchy: Array<RequestFolders>;
-  localFolderPathId: `${number}`;
+  activePathId: number;
 }
 
 export default function MediaCreateFolderButton({
   folderHierarchy,
-  localFolderPathId,
+  activePathId,
 }: IMediaCreateFolderButtonProps) {
   /* Static Data */
   const rootFolderName = "Bibliothèque de média";
@@ -42,9 +42,8 @@ export default function MediaCreateFolderButton({
       refetchQueries: [
         {
           query: GetFolderAndChildrenByIdDocument,
-          variables: { localFolderPathId },
+          variables: { activePathId: activePathId },
         },
-        "getFolderAndChildrenById",
       ],
     });
   }
@@ -110,10 +109,8 @@ export default function MediaCreateFolderButton({
                 isRequired={true}
                 defaultValue={
                   folderHierarchy.find(
-                    (folder) => folder?.pathId === localFolderPathId,
-                  ) ??
-                  folderHierarchy[0] ??
-                  undefined
+                    (folder) => folder?.pathId === `${activePathId}`,
+                  ) ?? undefined
                 }
               />
             </div>
