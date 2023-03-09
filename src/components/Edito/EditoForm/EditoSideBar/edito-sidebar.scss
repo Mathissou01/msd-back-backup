@@ -32,7 +32,40 @@
   }
 
   &__UnpublishedDate {
-    height: 206px;
+    padding-left: 20px;
+
+    &_datePicker {
+      width: 100%;
+      margin-top: 6px;
+      padding-left: 14px;
+      // stylelint-disable selector-class-pattern
+      .sz-datepicker__single::before {
+        content: none;
+      }
+
+      .react-date-picker {
+        width: 90%;
+      }
+
+      .react-date-picker__wrapper {
+        padding-left: 0;
+        background-color: colors.$gray-0;
+        border: 1px solid colors.$blue-4;
+        border-radius: 4px;
+      }
+
+      .react-date-picker__inputGroup {
+        padding-left: 10px;
+      }
+
+      .react-date-picker__button {
+        padding-left: 0;
+      }
+    }
+
+    &_text {
+      margin-top: 16px;
+    }
   }
 
   &__Users {

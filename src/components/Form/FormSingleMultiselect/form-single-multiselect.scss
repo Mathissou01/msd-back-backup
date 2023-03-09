@@ -16,4 +16,8 @@
     border: 1px solid colors.$blue-2;
     box-shadow: none;
   }
+
+  .form-single-multiselect__indicator-separator {
+    display: none;
+  }
 }

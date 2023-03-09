@@ -10,6 +10,8 @@ export interface IEditoStaticFields {
   title: string;
   tags?: Array<ICommonSelectOption>;
   shortDescription?: Maybe<string>;
+  publishedDate?: Date;
+  unpublishedDate?: Date;
 }
 
 export interface IEditoFields extends IEditoStaticFields {

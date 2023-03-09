@@ -39,6 +39,7 @@ export function EditoActualitesCreatePage() {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ({ id, ...rest }: IEditoBlock) => rest,
         ),
+        unpublishedDate: newsInputData.unpublishedDate,
       },
     };
     setIsReloading(true);

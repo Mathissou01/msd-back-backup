@@ -477,9 +477,13 @@ type ChannelTypeRelationResponseCollection {
 
 type City {
   createdAt: DateTime
+  department: String
   epci: EpciEntityResponse
-  label: String!
-  postalCode: String!
+  insee: Long
+  name: String
+  postalCode: Long
+  region: String
+  siren: Long
   updatedAt: DateTime
 }
 
@@ -500,19 +504,27 @@ type CityEntityResponseCollection {
 input CityFiltersInput {
   and: [CityFiltersInput]
   createdAt: DateTimeFilterInput
+  department: StringFilterInput
   epci: EpciFiltersInput
   id: IDFilterInput
-  label: StringFilterInput
+  insee: LongFilterInput
+  name: StringFilterInput
   not: CityFiltersInput
   or: [CityFiltersInput]
-  postalCode: StringFilterInput
+  postalCode: LongFilterInput
+  region: StringFilterInput
+  siren: LongFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input CityInput {
+  department: String
   epci: ID
-  label: String
-  postalCode: String
+  insee: Long
+  name: String
+  postalCode: Long
+  region: String
+  siren: Long
 }
 
 type CityRelationResponseCollection {
@@ -1072,6 +1084,7 @@ type Contract {
   isRVFrance: Boolean!
   keyMetricsService: KeyMetricsServiceEntityResponse
   logicalDelete: Boolean
+  numberOfInhabitants: Long
   pathId: Long
   pickUpDayService: PickUpDayServiceEntityResponse
   recyclingGuideService: RecyclingGuideServiceEntityResponse
@@ -1177,6 +1190,7 @@ input ContractFiltersInput {
   keyMetricsService: KeyMetricsServiceFiltersInput
   logicalDelete: BooleanFilterInput
   not: ContractFiltersInput
+  numberOfInhabitants: LongFilterInput
   or: [ContractFiltersInput]
   pathId: LongFilterInput
   pickUpDayService: PickUpDayServiceFiltersInput
@@ -1206,6 +1220,7 @@ input ContractInput {
   isRVFrance: Boolean
   keyMetricsService: ID
   logicalDelete: Boolean
+  numberOfInhabitants: Long
   pathId: Long
   pickUpDayService: ID
   recyclingGuideService: ID
@@ -1742,6 +1757,12 @@ enum ENUM_EVENT_STATUS {
   published
 }
 
+enum ENUM_EXPORTENTITY_STATUS {
+  Finished
+  In_progress
+  New
+}
+
 enum ENUM_FOOTER_ACCESSIBILITYLEVEL {
   conform
   not_conform
@@ -1991,11 +2012,7 @@ input EditorialServiceInput {
 }
 
 type Epci {
-  cities(
-    filters: CityFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): CityRelationResponseCollection
+  city: CityEntityResponse
   createdAt: DateTime
   name: String
   territories(
@@ -2022,7 +2039,7 @@ type EpciEntityResponseCollection {
 
 input EpciFiltersInput {
   and: [EpciFiltersInput]
-  cities: CityFiltersInput
+  city: CityFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
   name: StringFilterInput
@@ -2033,7 +2050,7 @@ input EpciFiltersInput {
 }
 
 input EpciInput {
-  cities: [ID]
+  city: ID
   name: String
   territories: [ID]
 }
@@ -2245,6 +2262,49 @@ input EventSubServiceInput {
 
 type EventSubServiceRelationResponseCollection {
   data: [EventSubServiceEntity!]!
+}
+
+type ExportEntity {
+  createdAt: DateTime
+  displayName: String
+  filePath: String
+  name: String
+  status: ENUM_EXPORTENTITY_STATUS
+  updatedAt: DateTime
+}
+
+type ExportEntityEntity {
+  attributes: ExportEntity
+  id: ID
+}
+
+type ExportEntityEntityResponse {
+  data: ExportEntityEntity
+}
+
+type ExportEntityEntityResponseCollection {
+  data: [ExportEntityEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ExportEntityFiltersInput {
+  and: [ExportEntityFiltersInput]
+  createdAt: DateTimeFilterInput
+  displayName: StringFilterInput
+  filePath: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: ExportEntityFiltersInput
+  or: [ExportEntityFiltersInput]
+  status: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ExportEntityInput {
+  displayName: String
+  filePath: String
+  name: String
+  status: ENUM_EXPORTENTITY_STATUS
 }
 
 input FileInfoInput {
@@ -2569,6 +2629,7 @@ union GenericMorph =
   | Epci
   | Event
   | EventSubService
+  | ExportEntity
   | Footer
   | FreeContent
   | FreeContentSubService
@@ -3028,6 +3089,7 @@ type Mutation {
   createEventSubService(
     data: EventSubServiceInput!
   ): EventSubServiceEntityResponse
+  createExportEntity(data: ExportEntityInput!): ExportEntityEntityResponse
   createFooter(data: FooterInput!): FooterEntityResponse
   createFreeContent(data: FreeContentInput!): FreeContentEntityResponse
   createFreeContentSubService(
@@ -3127,6 +3189,7 @@ type Mutation {
   deleteEpci(id: ID!): EpciEntityResponse
   deleteEvent(id: ID!): EventEntityResponse
   deleteEventSubService(id: ID!): EventSubServiceEntityResponse
+  deleteExportEntity(id: ID!): ExportEntityEntityResponse
   deleteFooter(id: ID!): FooterEntityResponse
   deleteFreeContent(id: ID!): FreeContentEntityResponse
   deleteFreeContentSubService(id: ID!): FreeContentSubServiceEntityResponse
@@ -3173,6 +3236,7 @@ type Mutation {
   Confirm an email users email address
   """
   emailConfirmation(confirmation: String!): UsersPermissionsLoginPayload
+  exportMunicipalities: ID
 
   """
   Request a reset password token
@@ -3262,6 +3326,10 @@ type Mutation {
     data: ContractMenuInput!
     id: ID!
   ): ContractMenuEntityResponse
+  updateContractNumberOfInhabitants(
+    contractId: ID!
+    numberOfInhabitants: Int!
+  ): Boolean
   updateCookie(data: CookieInput!, id: ID!): CookieEntityResponse
   updateCookiesSubService(
     data: CookiesSubServiceInput!
@@ -3292,6 +3360,10 @@ type Mutation {
     data: EventSubServiceInput!
     id: ID!
   ): EventSubServiceEntityResponse
+  updateExportEntity(
+    data: ExportEntityInput!
+    id: ID!
+  ): ExportEntityEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
   updateFooter(data: FooterInput!, id: ID!): FooterEntityResponse
   updateFreeContent(data: FreeContentInput!, id: ID!): FreeContentEntityResponse
@@ -3912,6 +3984,12 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): EventEntityResponseCollection
+  exportEntities(
+    filters: ExportEntityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): ExportEntityEntityResponseCollection
+  exportEntity(id: ID): ExportEntityEntityResponse
   footer(id: ID): FooterEntityResponse
   footers(
     filters: FooterFiltersInput
@@ -3940,8 +4018,10 @@ type Query {
     contractId: ID!
     status: ENUM_EDITOCONTENTDTO_STATUS
   ): [EditoContentDTO]
+  getFilePath(id: ID!): String
   getFolderHierarchy(path: String!): [RequestFolders]
   getNewestTopContents(contractId: ID!): [EventOrNews]
+  getStatusExport(id: ID!): String
   getTopContentBlockDTO(
     contractId: ID!
     status: ENUM_TOPCONTENTDTO_STATUS
@@ -3963,6 +4043,7 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): I18NLocaleEntityResponseCollection
+  importMunicipalities(file: String!): String
   keyMetric(id: ID): KeyMetricEntityResponse
   keyMetrics(
     filters: KeyMetricFiltersInput

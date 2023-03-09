@@ -52,6 +52,7 @@ export function EditoActualitesEditPage({
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ({ id, ...rest }: IEditoBlock) => rest,
         ),
+        unpublishedDate: newsInputData.unpublishedDate,
       },
     };
     return updateNew({
@@ -83,6 +84,23 @@ export function EditoActualitesEditPage({
     });
   }
 
+  async function onDepublish() {
+    const variables = {
+      updateNewId: newId,
+      data: {
+        status: Enum_New_Status.Archived,
+      },
+    };
+    return updateNew({
+      variables,
+      refetchQueries: [
+        {
+          query: GetNewByIdDocument,
+          variables: { newId },
+        },
+      ],
+    });
+  }
   /* External Data */
   const { data, loading, error } = useGetNewByIdQuery({
     variables: { newId },
@@ -118,6 +136,7 @@ export function EditoActualitesEditPage({
             })) ?? [],
           shortDescription: newData.attributes.shortDescription,
           blocks: remapEditoBlocksDynamicZone(newData.attributes.blocks),
+          unpublishedDate: newData.attributes.unpublishedDate,
         };
 
         setMappedData(mappedData);
@@ -138,6 +157,7 @@ export function EditoActualitesEditPage({
               dynamicFieldsOptions={dynamicFieldOptions}
               onSubmitValid={onSubmit}
               onPublish={onPublish}
+              onDepublish={onDepublish}
               labels={formLabels}
             />
           </CommonLoader>

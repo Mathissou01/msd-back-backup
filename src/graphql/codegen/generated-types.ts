@@ -570,9 +570,13 @@ export type ChannelTypeRelationResponseCollection = {
 export type City = {
   __typename?: "City";
   createdAt?: Maybe<Scalars["DateTime"]>;
+  department?: Maybe<Scalars["String"]>;
   epci?: Maybe<EpciEntityResponse>;
-  label: Scalars["String"];
-  postalCode: Scalars["String"];
+  insee?: Maybe<Scalars["Long"]>;
+  name?: Maybe<Scalars["String"]>;
+  postalCode?: Maybe<Scalars["Long"]>;
+  region?: Maybe<Scalars["String"]>;
+  siren?: Maybe<Scalars["Long"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -596,19 +600,27 @@ export type CityEntityResponseCollection = {
 export type CityFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  department?: InputMaybe<StringFilterInput>;
   epci?: InputMaybe<EpciFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
-  label?: InputMaybe<StringFilterInput>;
+  insee?: InputMaybe<LongFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<CityFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
-  postalCode?: InputMaybe<StringFilterInput>;
+  postalCode?: InputMaybe<LongFilterInput>;
+  region?: InputMaybe<StringFilterInput>;
+  siren?: InputMaybe<LongFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type CityInput = {
+  department?: InputMaybe<Scalars["String"]>;
   epci?: InputMaybe<Scalars["ID"]>;
-  label?: InputMaybe<Scalars["String"]>;
-  postalCode?: InputMaybe<Scalars["String"]>;
+  insee?: InputMaybe<Scalars["Long"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  postalCode?: InputMaybe<Scalars["Long"]>;
+  region?: InputMaybe<Scalars["String"]>;
+  siren?: InputMaybe<Scalars["Long"]>;
 };
 
 export type CityRelationResponseCollection = {
@@ -1239,6 +1251,7 @@ export type Contract = {
   isRVFrance: Scalars["Boolean"];
   keyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   logicalDelete?: Maybe<Scalars["Boolean"]>;
+  numberOfInhabitants?: Maybe<Scalars["Long"]>;
   pathId?: Maybe<Scalars["Long"]>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
@@ -1364,6 +1377,7 @@ export type ContractFiltersInput = {
   keyMetricsService?: InputMaybe<KeyMetricsServiceFiltersInput>;
   logicalDelete?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<ContractFiltersInput>;
+  numberOfInhabitants?: InputMaybe<LongFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
   pathId?: InputMaybe<LongFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
@@ -1393,6 +1407,7 @@ export type ContractInput = {
   isRVFrance?: InputMaybe<Scalars["Boolean"]>;
   keyMetricsService?: InputMaybe<Scalars["ID"]>;
   logicalDelete?: InputMaybe<Scalars["Boolean"]>;
+  numberOfInhabitants?: InputMaybe<Scalars["Long"]>;
   pathId?: InputMaybe<Scalars["Long"]>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   recyclingGuideService?: InputMaybe<Scalars["ID"]>;
@@ -1963,6 +1978,12 @@ export enum Enum_Event_Status {
   Published = "published",
 }
 
+export enum Enum_Exportentity_Status {
+  Finished = "Finished",
+  InProgress = "In_progress",
+  New = "New",
+}
+
 export enum Enum_Footer_Accessibilitylevel {
   Conform = "conform",
   NotConform = "not_conform",
@@ -2239,17 +2260,11 @@ export type EditorialServiceInput = {
 
 export type Epci = {
   __typename?: "Epci";
-  cities?: Maybe<CityRelationResponseCollection>;
+  city?: Maybe<CityEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   name?: Maybe<Scalars["String"]>;
   territories?: Maybe<TerritoryRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type EpciCitiesArgs = {
-  filters?: InputMaybe<CityFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type EpciTerritoriesArgs = {
@@ -2277,7 +2292,7 @@ export type EpciEntityResponseCollection = {
 
 export type EpciFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<EpciFiltersInput>>>;
-  cities?: InputMaybe<CityFiltersInput>;
+  city?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
@@ -2288,7 +2303,7 @@ export type EpciFiltersInput = {
 };
 
 export type EpciInput = {
-  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  city?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
   territories?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
@@ -2523,6 +2538,53 @@ export type EventSubServiceInput = {
 export type EventSubServiceRelationResponseCollection = {
   __typename?: "EventSubServiceRelationResponseCollection";
   data: Array<EventSubServiceEntity>;
+};
+
+export type ExportEntity = {
+  __typename?: "ExportEntity";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  displayName?: Maybe<Scalars["String"]>;
+  filePath?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  status?: Maybe<Enum_Exportentity_Status>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type ExportEntityEntity = {
+  __typename?: "ExportEntityEntity";
+  attributes?: Maybe<ExportEntity>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type ExportEntityEntityResponse = {
+  __typename?: "ExportEntityEntityResponse";
+  data?: Maybe<ExportEntityEntity>;
+};
+
+export type ExportEntityEntityResponseCollection = {
+  __typename?: "ExportEntityEntityResponseCollection";
+  data: Array<ExportEntityEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ExportEntityFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ExportEntityFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  displayName?: InputMaybe<StringFilterInput>;
+  filePath?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ExportEntityFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ExportEntityFiltersInput>>>;
+  status?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type ExportEntityInput = {
+  displayName?: InputMaybe<Scalars["String"]>;
+  filePath?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Enum_Exportentity_Status>;
 };
 
 export type FileInfoInput = {
@@ -2869,6 +2931,7 @@ export type GenericMorph =
   | Epci
   | Event
   | EventSubService
+  | ExportEntity
   | Footer
   | FreeContent
   | FreeContentSubService
@@ -3289,6 +3352,7 @@ export type Mutation = {
   createEpci?: Maybe<EpciEntityResponse>;
   createEvent?: Maybe<EventEntityResponse>;
   createEventSubService?: Maybe<EventSubServiceEntityResponse>;
+  createExportEntity?: Maybe<ExportEntityEntityResponse>;
   createFooter?: Maybe<FooterEntityResponse>;
   createFreeContent?: Maybe<FreeContentEntityResponse>;
   createFreeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
@@ -3354,6 +3418,7 @@ export type Mutation = {
   deleteEpci?: Maybe<EpciEntityResponse>;
   deleteEvent?: Maybe<EventEntityResponse>;
   deleteEventSubService?: Maybe<EventSubServiceEntityResponse>;
+  deleteExportEntity?: Maybe<ExportEntityEntityResponse>;
   deleteFooter?: Maybe<FooterEntityResponse>;
   deleteFreeContent?: Maybe<FreeContentEntityResponse>;
   deleteFreeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
@@ -3391,6 +3456,7 @@ export type Mutation = {
   duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
+  exportMunicipalities?: Maybe<Scalars["ID"]>;
   /** Request a reset password token */
   forgotPassword?: Maybe<UsersPermissionsPasswordPayload>;
   logicalDeleteContract?: Maybe<Scalars["Boolean"]>;
@@ -3419,6 +3485,7 @@ export type Mutation = {
   updateContract?: Maybe<ContractEntityResponse>;
   updateContractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   updateContractMenu?: Maybe<ContractMenuEntityResponse>;
+  updateContractNumberOfInhabitants?: Maybe<Scalars["Boolean"]>;
   updateCookie?: Maybe<CookieEntityResponse>;
   updateCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   updateDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
@@ -3431,6 +3498,7 @@ export type Mutation = {
   updateEpci?: Maybe<EpciEntityResponse>;
   updateEvent?: Maybe<EventEntityResponse>;
   updateEventSubService?: Maybe<EventSubServiceEntityResponse>;
+  updateExportEntity?: Maybe<ExportEntityEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
   updateFooter?: Maybe<FooterEntityResponse>;
   updateFreeContent?: Maybe<FreeContentEntityResponse>;
@@ -3631,6 +3699,10 @@ export type MutationCreateEventArgs = {
 
 export type MutationCreateEventSubServiceArgs = {
   data: EventSubServiceInput;
+};
+
+export type MutationCreateExportEntityArgs = {
+  data: ExportEntityInput;
 };
 
 export type MutationCreateFooterArgs = {
@@ -3886,6 +3958,10 @@ export type MutationDeleteEventArgs = {
 };
 
 export type MutationDeleteEventSubServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteExportEntityArgs = {
   id: Scalars["ID"];
 };
 
@@ -4149,6 +4225,11 @@ export type MutationUpdateContractMenuArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateContractNumberOfInhabitantsArgs = {
+  contractId: Scalars["ID"];
+  numberOfInhabitants: Scalars["Int"];
+};
+
 export type MutationUpdateCookieArgs = {
   data: CookieInput;
   id: Scalars["ID"];
@@ -4206,6 +4287,11 @@ export type MutationUpdateEventArgs = {
 
 export type MutationUpdateEventSubServiceArgs = {
   data: EventSubServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateExportEntityArgs = {
+  data: ExportEntityInput;
   id: Scalars["ID"];
 };
 
@@ -4825,6 +4911,8 @@ export type Query = {
   eventSubService?: Maybe<EventSubServiceEntityResponse>;
   eventSubServices?: Maybe<EventSubServiceEntityResponseCollection>;
   events?: Maybe<EventEntityResponseCollection>;
+  exportEntities?: Maybe<ExportEntityEntityResponseCollection>;
+  exportEntity?: Maybe<ExportEntityEntityResponse>;
   footer?: Maybe<FooterEntityResponse>;
   footers?: Maybe<FooterEntityResponseCollection>;
   freeContent?: Maybe<FreeContentEntityResponse>;
@@ -4835,8 +4923,10 @@ export type Query = {
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
   getEditoBlockDTO?: Maybe<EditoBlockDto>;
   getEditoContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
+  getFilePath?: Maybe<Scalars["String"]>;
   getFolderHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
+  getStatusExport?: Maybe<Scalars["String"]>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
   getTopContentDTOs?: Maybe<Array<Maybe<TopContentDto>>>;
   global?: Maybe<GlobalEntityResponse>;
@@ -4844,6 +4934,7 @@ export type Query = {
   homepages?: Maybe<HomepageEntityResponseCollection>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
+  importMunicipalities?: Maybe<Scalars["String"]>;
   keyMetric?: Maybe<KeyMetricEntityResponse>;
   keyMetrics?: Maybe<KeyMetricEntityResponseCollection>;
   keyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
@@ -5200,6 +5291,16 @@ export type QueryEventsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryExportEntitiesArgs = {
+  filters?: InputMaybe<ExportEntityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryExportEntityArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type QueryFooterArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -5248,12 +5349,20 @@ export type QueryGetEditoContentDtOsArgs = {
   status?: InputMaybe<Enum_Editocontentdto_Status>;
 };
 
+export type QueryGetFilePathArgs = {
+  id: Scalars["ID"];
+};
+
 export type QueryGetFolderHierarchyArgs = {
   path: Scalars["String"];
 };
 
 export type QueryGetNewestTopContentsArgs = {
   contractId: Scalars["ID"];
+};
+
+export type QueryGetStatusExportArgs = {
+  id: Scalars["ID"];
 };
 
 export type QueryGetTopContentBlockDtoArgs = {
@@ -5284,6 +5393,10 @@ export type QueryI18NLocalesArgs = {
   filters?: InputMaybe<I18NLocaleFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryImportMunicipalitiesArgs = {
+  file: Scalars["String"];
 };
 
 export type QueryKeyMetricArgs = {
@@ -8677,6 +8790,7 @@ export type CreateNewFileMutation = {
           | { __typename?: "Epci" }
           | { __typename?: "Event" }
           | { __typename?: "EventSubService" }
+          | { __typename?: "ExportEntity" }
           | { __typename?: "Footer" }
           | { __typename?: "FreeContent" }
           | { __typename?: "FreeContentSubService" }
@@ -9413,7 +9527,6 @@ export type GetContractByIdQuery = {
       attributes?: {
         __typename?: "Contract";
         clientName: string;
-        pathId?: any | null;
         isRVFrance: boolean;
         contractStatus: Enum_Contract_Contractstatus;
         clientType: Enum_Contract_Clienttype;
@@ -9550,11 +9663,7 @@ export type GetContractsQuery = {
     data: Array<{
       __typename?: "ContractEntity";
       id?: string | null;
-      attributes?: {
-        __typename?: "Contract";
-        clientName: string;
-        pathId?: any | null;
-      } | null;
+      attributes?: { __typename?: "Contract"; clientName: string } | null;
     }>;
   } | null;
 };
@@ -13856,7 +13965,6 @@ export const GetContractByIdDocument = gql`
         id
         attributes {
           clientName
-          pathId
           isRVFrance
           contractStatus
           editorialService {
@@ -14012,7 +14120,6 @@ export const GetContractsDocument = gql`
         id
         attributes {
           clientName
-          pathId
         }
       }
     }

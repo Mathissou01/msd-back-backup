@@ -4,7 +4,6 @@ query getContractById($contractId: ID!) {
       id
       attributes {
         clientName
-        pathId
         isRVFrance
         contractStatus
         editorialService {

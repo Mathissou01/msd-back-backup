@@ -14,4 +14,6 @@ export type TPictoStyles =
   | "video"
   | "attachment"
   | "dashboard"
-  | "windowUpload";
+  | "windowUpload"
+  | "windowCancel"
+  | "fileDouble";

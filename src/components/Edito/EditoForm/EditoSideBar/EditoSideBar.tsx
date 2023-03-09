@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { EStatus, statusLabels } from "../../../../lib/status";
+import CommonDatePicker from "../../../Common/CommonDatePIcker/CommonDatePicker";
 import "./edito-sidebar.scss";
 
 interface IEditoSideBarProps {
@@ -9,12 +10,13 @@ interface IEditoSideBarProps {
 export default function EditoSideBar({ status }: IEditoSideBarProps) {
   /* Static Values */
   // TODO: structure is done (commented), finish other sidebar features later
-  // const labels = {
-  //   unpublishedDate: "Date de dépublication",
-  //   users: "Usagers",
-  //   channels: "Diffusion",
-  //   alert: "Alerte",
-  // };
+  const labels = {
+    unpublishedDateLabel: "Date de dépublication",
+    users: "Usagers",
+    channels: "Diffusion",
+    alert: "Alerte",
+    text: "A la date de dépublication, l’actualité est masquée sur le site mais conservée dans le back-office à l’état archivé.",
+  };
 
   return (
     <div className="c-EditoSideBar">
@@ -26,8 +28,25 @@ export default function EditoSideBar({ status }: IEditoSideBarProps) {
       >
         {status ? statusLabels[status] : statusLabels.draft}
       </div>
-      {/*<div className="c-EditoSideBar__UnpublishedDate">*/}
-      {/*  {labels.unpublishedDate}*/}
+      {status !== "archived" ? (
+        <div className="c-EditoSideBar__UnpublishedDate">
+          {labels.unpublishedDateLabel}
+
+          <div className="c-EditoSideBar__UnpublishedDate_datePicker">
+            <CommonDatePicker
+              name="unpublishedDate"
+              startMinDate={new Date()}
+              maxDate={new Date("2099-12-31")}
+            />
+          </div>
+          <div className="c-EditoSideBar__UnpublishedDate_text">
+            {labels.text}
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
       {/*</div>*/}
       {/*<div className="c-EditoSideBar__Users">{labels.users}</div>*/}
       {/*<div className="c-EditoSideBar__Channels">{labels.channels}</div>*/}

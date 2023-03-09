@@ -15,7 +15,7 @@ interface IEditoFormProps {
   dynamicFieldsOptions: Array<TDynamicFieldOption>;
   onSubmitValid: (data: FieldValues) => void;
   onPublish?: () => void;
-  // onDepublish: () => void;
+  onDepublish?: () => void;
   labels: {
     staticTitle: string;
     staticTags: string;
@@ -29,6 +29,7 @@ export default function EditoForm({
   dynamicFieldsOptions,
   onSubmitValid,
   onPublish,
+  onDepublish,
   labels,
 }: IEditoFormProps) {
   /* Local Data */
@@ -99,7 +100,11 @@ export default function EditoForm({
           onSubmit={handleSubmit(onSubmitValid, onError)}
         >
           <div className="c-EditoForm__Buttons">
-            <EditoButtons onPublish={onPublish} />
+            <EditoButtons
+              status={formData?.status}
+              onPublish={onPublish}
+              onDepublish={onDepublish}
+            />
           </div>
           <div className="c-EditoForm__Form">
             <div className="c-EditoForm__Content">
@@ -114,6 +119,7 @@ export default function EditoForm({
                 defaultValues={data?.blocks}
               />
             </div>
+
             <div className="c-EditoForm__SideBar">
               <EditoSideBar status={formData?.status} />
             </div>
