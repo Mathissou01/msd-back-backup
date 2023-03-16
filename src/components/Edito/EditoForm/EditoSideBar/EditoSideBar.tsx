@@ -1,13 +1,20 @@
 import classNames from "classnames";
 import { EStatus, statusLabels } from "../../../../lib/status";
 import CommonDatePicker from "../../../Common/CommonDatePIcker/CommonDatePicker";
+import DateBlock from "./DraftInformationBlock/DateBlock";
 import "./edito-sidebar.scss";
 
 interface IEditoSideBarProps {
   status?: EStatus;
+  creationDate: string;
+  updateDate: string;
 }
 
-export default function EditoSideBar({ status }: IEditoSideBarProps) {
+export default function EditoSideBar({
+  status,
+  creationDate,
+  updateDate,
+}: IEditoSideBarProps) {
   /* Static Values */
   // TODO: structure is done (commented), finish other sidebar features later
   const labels = {
@@ -17,7 +24,6 @@ export default function EditoSideBar({ status }: IEditoSideBarProps) {
     alert: "Alerte",
     text: "A la date de dépublication, l’actualité est masquée sur le site mais conservée dans le back-office à l’état archivé.",
   };
-
   return (
     <div className="c-EditoSideBar">
       <div
@@ -51,6 +57,7 @@ export default function EditoSideBar({ status }: IEditoSideBarProps) {
       {/*<div className="c-EditoSideBar__Users">{labels.users}</div>*/}
       {/*<div className="c-EditoSideBar__Channels">{labels.channels}</div>*/}
       {/*<div className="c-EditoSideBar__Alert">{labels.alert}</div>*/}
+      <DateBlock creationDate={creationDate} updateDate={updateDate} />
     </div>
   );
 }

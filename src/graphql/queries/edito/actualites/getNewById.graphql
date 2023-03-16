@@ -13,6 +13,8 @@ query getNewById($newId: ID) {
         status
         publishedDate
         unpublishedDate
+        createdAt
+        updatedAt
         tags {
           data {
             id

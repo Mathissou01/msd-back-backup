@@ -523,7 +523,7 @@ exports[`EditoForm renders 1`] = `
                       <input
                         hidden=""
                         max="2099-12-31"
-                        min="2023-03-09"
+                        min="2023-03-15"
                         name="date"
                         style="visibility: hidden; position: absolute; z-index: -999;"
                         type="date"
@@ -596,6 +596,36 @@ exports[`EditoForm renders 1`] = `
               class="c-EditoSideBar__UnpublishedDate_text"
             >
               A la date de dépublication, l’actualité est masquée sur le site mais conservée dans le back-office à l’état archivé.
+            </div>
+          </div>
+          <div
+            class="c-DateBlock"
+          >
+            <div
+              class="c-DateBlock__CreationDate"
+            >
+              <div
+                class="c-DateBlock__CreationDateLabel"
+              >
+                Création
+              </div>
+              <div
+                class="c-DateBlock__CreationDateDateAndTime"
+              >
+                <div />
+              </div>
+            </div>
+            <div
+              class="c-DateBlock__UpdateDate"
+            >
+              <div
+                class="c-DateBlock__UpdateDateLabel"
+              >
+                Dernière modification
+              </div>
+              <div
+                class="c-DateBlock__UpdateDateDateAndTime"
+              />
             </div>
           </div>
         </div>

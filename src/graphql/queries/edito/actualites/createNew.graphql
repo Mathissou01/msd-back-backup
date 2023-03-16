@@ -8,6 +8,8 @@ mutation createNew($data: NewInput!) {
         status
         publishedDate
         unpublishedDate
+        createdAt
+        updatedAt
         blocks {
           ... on ComponentBlocksSubHeading {
             id

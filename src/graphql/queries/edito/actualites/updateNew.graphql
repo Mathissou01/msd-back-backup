@@ -13,6 +13,8 @@ mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
         status
         publishedDate
         unpublishedDate
+        createdAt
+        updatedAt
         tags {
           data {
             id

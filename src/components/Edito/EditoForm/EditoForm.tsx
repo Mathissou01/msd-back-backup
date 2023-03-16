@@ -39,6 +39,7 @@ export default function EditoForm({
     shouldFocusError: false,
   });
   const [formData, setFormData] = useState<IEditoFields>();
+
   const [canFocus, setCanFocus] = useState(false);
   const { handleSubmit } = form;
 
@@ -121,7 +122,11 @@ export default function EditoForm({
             </div>
 
             <div className="c-EditoForm__SideBar">
-              <EditoSideBar status={formData?.status} />
+              <EditoSideBar
+                status={formData?.status}
+                creationDate={formData?.createdAt ? formData.createdAt : ""}
+                updateDate={formData?.updatedAt ? formData.updatedAt : ""}
+              />
             </div>
           </div>
         </form>

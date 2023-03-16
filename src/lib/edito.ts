@@ -12,6 +12,8 @@ export interface IEditoStaticFields {
   shortDescription?: Maybe<string>;
   publishedDate?: Date;
   unpublishedDate?: Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IEditoFields extends IEditoStaticFields {

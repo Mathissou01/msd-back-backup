@@ -8225,6 +8225,8 @@ export type CreateNewMutation = {
         status?: Enum_New_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -8384,6 +8386,8 @@ export type GetNewByIdQuery = {
         status?: Enum_New_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
         newsSubService?: {
           __typename?: "NewsSubServiceEntityResponse";
           data?: {
@@ -8598,6 +8602,8 @@ export type UpdateNewMutation = {
         status?: Enum_New_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
         newsSubService?: {
           __typename?: "NewsSubServiceEntityResponse";
           data?: {
@@ -11446,6 +11452,8 @@ export const CreateNewDocument = gql`
           status
           publishedDate
           unpublishedDate
+          createdAt
+          updatedAt
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -11652,6 +11660,8 @@ export const GetNewByIdDocument = gql`
           status
           publishedDate
           unpublishedDate
+          createdAt
+          updatedAt
           tags {
             data {
               id
@@ -12011,6 +12021,8 @@ export const UpdateNewDocument = gql`
           status
           publishedDate
           unpublishedDate
+          createdAt
+          updatedAt
           tags {
             data {
               id

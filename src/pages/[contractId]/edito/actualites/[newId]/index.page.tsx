@@ -21,6 +21,8 @@ import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLo
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
 import "./edito-actualites-edit-page.scss";
+import { formatDate } from "../../../../../lib/utilities";
+import { parseJSON } from "date-fns";
 
 interface IEditoActualitesEditPageProps {
   newId: string;
@@ -137,8 +139,16 @@ export function EditoActualitesEditPage({
           shortDescription: newData.attributes.shortDescription,
           blocks: remapEditoBlocksDynamicZone(newData.attributes.blocks),
           unpublishedDate: newData.attributes.unpublishedDate,
-        };
 
+          createdAt: formatDate(
+            parseJSON(newData.attributes.createdAt),
+            "dd/MM/yyyy HH:mm",
+          ),
+          updatedAt: formatDate(
+            parseJSON(newData.attributes.updatedAt),
+            "dd/MM/yyyy HH:mm",
+          ),
+        };
         setMappedData(mappedData);
       }
     } else if (data?.new && data.new.data === null) {

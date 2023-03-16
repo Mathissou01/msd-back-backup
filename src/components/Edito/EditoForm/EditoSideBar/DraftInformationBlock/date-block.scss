@@ -1,0 +1,29 @@
+.c-DateBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+
+  &__CreationDate {
+    flex-direction: column;
+  }
+
+  &__CreationDateLabel {
+    font-family: DINPro-Medium, sans-serif;
+  }
+
+  &__CreationDateateAndTime {
+    margin-top: 10px;
+  }
+
+  &__UpdateDate {
+    flex-direction: column;
+  }
+
+  &__UpdateDateLabel {
+    font-family: DINPro-Medium, sans-serif;
+  }
+
+  &__UpdateDateDateAndTime {
+    margin-top: 10px;
+  }
+}
