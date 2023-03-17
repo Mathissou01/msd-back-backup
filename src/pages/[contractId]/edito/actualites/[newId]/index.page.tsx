@@ -91,6 +91,7 @@ export function EditoActualitesEditPage({
       updateNewId: newId,
       data: {
         status: Enum_New_Status.Archived,
+        unpublishedDate: new Date(),
       },
     };
     return updateNew({
