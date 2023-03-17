@@ -5,10 +5,10 @@ mutation updateUploadFolder(
   updateUploadFolder(id: $updateUploadFolderId, data: $data) {
     data {
       attributes {
-        path
         pathId
         updatedAt
         name
+        path
         children {
           data {
             id

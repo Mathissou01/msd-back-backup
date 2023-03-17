@@ -9008,10 +9008,10 @@ export type UpdateUploadFolderMutation = {
       __typename?: "UploadFolderEntity";
       attributes?: {
         __typename?: "UploadFolder";
-        path: string;
         pathId: number;
         updatedAt?: any | null;
         name: string;
+        path: string;
         children?: {
           __typename?: "UploadFolderRelationResponseCollection";
           data: Array<{
@@ -9545,6 +9545,7 @@ export type GetContractByIdQuery = {
         contractStatus: Enum_Contract_Contractstatus;
         clientType: Enum_Contract_Clienttype;
         isNonExclusive: boolean;
+        pathId?: any | null;
         editorialService?: {
           __typename?: "EditorialServiceEntityResponse";
           data?: {
@@ -12651,10 +12652,10 @@ export const UpdateUploadFolderDocument = gql`
     updateUploadFolder(id: $updateUploadFolderId, data: $data) {
       data {
         attributes {
-          path
           pathId
           updatedAt
           name
+          path
           children {
             data {
               id
@@ -13982,6 +13983,9 @@ export const GetContractByIdDocument = gql`
           clientName
           isRVFrance
           contractStatus
+          clientType
+          isNonExclusive
+          pathId
           editorialService {
             data {
               id
@@ -14070,8 +14074,6 @@ export const GetContractByIdDocument = gql`
               }
             }
           }
-          clientType
-          isNonExclusive
         }
       }
     }

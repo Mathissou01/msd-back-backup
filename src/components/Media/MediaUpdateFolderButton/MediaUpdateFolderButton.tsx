@@ -35,10 +35,10 @@ export default function MediaUpdateFolderButton({
     titleFolderContent: "Nom du dossier",
     locationFolder: "Emplacement",
   };
-
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
-    if (submitData["folderLocation"]?.["pathId"]) {
+    const folderLocation = submitData["folderLocation"];
+    if (folderLocation["path"] && folderLocation["path"] !== folder.path) {
       const variables = {
         updateUploadFolderId: folder.id,
         data: {

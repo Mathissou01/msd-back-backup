@@ -6,6 +6,9 @@ query getContractById($contractId: ID!) {
         clientName
         isRVFrance
         contractStatus
+        clientType
+        isNonExclusive
+        pathId
         editorialService {
           data {
             id
@@ -94,8 +97,6 @@ query getContractById($contractId: ID!) {
             }
           }
         }
-        clientType
-        isNonExclusive
       }
     }
   }
