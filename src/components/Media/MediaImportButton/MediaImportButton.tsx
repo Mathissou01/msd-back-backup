@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FieldValues } from "react-hook-form";
+import { RequestFolders } from "../../../graphql/codegen/generated-types";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../Common/CommonModalWrapper/CommonModalWrapper";
-import { Tab } from "../../TabBlock/TabBlock";
 import CommonDragDropFile from "../../Common/CommonDragDropFile/CommonDragDropFile";
 import CommonButton from "../../Common/CommonButton/CommonButton";
+import { Tab } from "../../TabBlock/TabBlock";
+import FormModal from "../../Form/FormModal/FormModal";
 import MainModal from "./Modals/MainModal/MainModal";
 import UploadModal from "./Modals/UploadModal/UploadModal";
 import EditModal from "./Modals/EditModal/EditModal";
 import "./media-import-button.scss";
-import { RequestFolders } from "../../../graphql/codegen/generated-types";
-import FormModal from "../../Form/FormModal/FormModal";
-import { FieldValues } from "react-hook-form";
 
 export enum ModalStatus {
   MAIN_MODAL = "MAIN_MODAL",
@@ -22,19 +22,18 @@ export enum ModalStatus {
 export interface IFileToEdit {
   name: string;
   alternativeText: string;
-  width: number;
-  height: number;
   ext: string;
   mime: string;
-  size: string;
+  size: number;
   url: string;
-  date?: string;
   file?: File;
-  path?: string;
-  pathId?: string;
+  width?: number;
+  height?: number;
+  date?: string;
+  folder?: string;
 }
 
-interface IMediaImportButton {
+interface IMediaImportButtonProps {
   folderHierarchy: Array<RequestFolders>;
   activePathId: number;
 }
@@ -42,7 +41,7 @@ interface IMediaImportButton {
 export default function MediaImportButton({
   folderHierarchy,
   activePathId,
-}: IMediaImportButton) {
+}: IMediaImportButtonProps) {
   /** Static Data */
   const labels = {
     importBtn: "Importer des médias",
@@ -85,15 +84,6 @@ export default function MediaImportButton({
     event.preventDefault();
   };
 
-  const handleCalculateFileSize = (size: number): string => {
-    const i = Math.floor(Math.log(size) / Math.log(1024));
-    return (
-      (size / Math.pow(1024, i)).toFixed(2) +
-      " " +
-      ["B", "KB", "MB", "GB", "TB"][i]
-    );
-  };
-
   const handleReplaceSpecialChars = (arg: string) =>
     arg.replace(/['"]/g, "") ?? arg;
 
@@ -109,29 +99,20 @@ export default function MediaImportButton({
         fileToEdit?.name !== submitData[labels.formNameLabel]) ||
       fileToEdit?.alternativeText !== ""
     ) {
-      const newFile = new File(
-        [file[0].name],
-        submitData[labels.formNameLabel],
-        {
-          type: file[0].mime,
-          lastModified: new Date().getTime(),
-        },
-      );
       const index = selectedFilesInstance.indexOf(file[0]);
       selectedFilesInstance[index] = {
         name: submitData[handleReplaceSpecialChars(labels.formNameLabel)],
         alternativeText:
           submitData[handleReplaceSpecialChars(labels.formDescLabel)],
-        width: fileToEdit?.width ?? 0,
-        height: fileToEdit?.height ?? 0,
-        ext: fileToEdit?.ext ?? "",
-        mime: fileToEdit?.mime ?? "",
-        size: fileToEdit?.size ?? "",
-        url: fileToEdit?.url ?? "",
-        date: fileToEdit?.date ?? "",
-        file: newFile,
-        path: submitData["Emplacement"]["path"],
-        pathId: submitData["Emplacement"]["pathId"],
+        width: selectedFilesInstance[index].width,
+        height: selectedFilesInstance[index].height,
+        ext: selectedFilesInstance[index].ext,
+        mime: selectedFilesInstance[index].mime,
+        size: fileToEdit?.size ?? 0,
+        url: selectedFilesInstance[index].url,
+        date: selectedFilesInstance[index].date,
+        file: selectedFilesInstance[index].file,
+        folder: submitData["Emplacement"]["id"],
       };
 
       setSelectedFiles(selectedFilesInstance);
@@ -167,22 +148,8 @@ export default function MediaImportButton({
             );
 
           const file = dataTransfer.files[i];
-          if (isThereFileSelected.length === 0) {
-            draggedFilesInstance.push({
-              name: file.name,
-              alternativeText: file.name,
-              width: 0,
-              height: 0,
-              ext: file.name.split(".")[1],
-              mime: file.type.split("/")[0],
-              size: handleCalculateFileSize(file.size),
-              url: URL.createObjectURL(file),
-              date: new Date(file.lastModified).toLocaleDateString(),
-              file: file,
-            });
-            setSelectedFiles(draggedFilesInstance);
-            setActiveModal(ModalStatus.UPLOAD_MODAL);
-          }
+
+          savingFiletoState(draggedFilesInstance, isThereFileSelected, file);
         }
       }
     };
@@ -200,22 +167,60 @@ export default function MediaImportButton({
             );
 
           const file = target.files[i];
-          if (isThereFileSelected.length === 0) {
-            selectedFilesInstance.push({
-              name: file.name,
-              alternativeText: file.name,
-              width: 0,
-              height: 0,
-              ext: file.name.split(".")[1],
-              mime: file.type,
-              size: handleCalculateFileSize(file.size),
-              url: URL.createObjectURL(file),
-              date: new Date(file.lastModified).toLocaleDateString(),
-              file: file,
-            });
-            setSelectedFiles(selectedFilesInstance);
-            setActiveModal(ModalStatus.UPLOAD_MODAL);
-          }
+
+          savingFiletoState(selectedFilesInstance, isThereFileSelected, file);
+        }
+      }
+    };
+
+    const savingFiletoState = (
+      selectedFilesInstance: IFileToEdit[],
+      isThereFileSelected: IFileToEdit[],
+      file: File,
+    ) => {
+      if (file.type.split("/")[0] === "image") {
+        const fr = new FileReader();
+
+        fr.onload = function () {
+          const img = new Image();
+
+          img.onload = function () {
+            if (isThereFileSelected.length === 0 && img.width && img.height) {
+              selectedFilesInstance.push({
+                name: file.name,
+                alternativeText: file.name,
+                width: img.width,
+                height: img.height,
+                ext: `.${file.name.split(".")[1]}`,
+                mime: file.type,
+                size: file.size,
+                url: URL.createObjectURL(file),
+                date: new Date(file.lastModified).toLocaleDateString(),
+                file: file,
+              });
+              setSelectedFiles(selectedFilesInstance);
+              setActiveModal(ModalStatus.UPLOAD_MODAL);
+            }
+          };
+
+          img.src = fr.result?.toString() ?? "";
+        };
+
+        fr.readAsDataURL(file);
+      } else {
+        if (isThereFileSelected.length === 0) {
+          selectedFilesInstance.push({
+            name: file.name,
+            alternativeText: file.name,
+            ext: `.${file.name.split(".")[1]}`,
+            mime: file.type,
+            size: file.size,
+            url: URL.createObjectURL(file),
+            date: new Date(file.lastModified).toLocaleDateString(),
+            file: file,
+          });
+          setSelectedFiles(selectedFilesInstance);
+          setActiveModal(ModalStatus.UPLOAD_MODAL);
         }
       }
     };
@@ -267,17 +272,11 @@ export default function MediaImportButton({
             selectedFiles.length > 0 && (
               <UploadModal
                 modalRef={modalRef}
-                path={
-                  folderHierarchy.find(
-                    (folder) => folder?.pathId === activePathId.toString(),
-                  )?.path ?? "/1"
-                }
                 activePathId={activePathId}
                 selectedFiles={selectedFiles}
                 setActiveModal={setActiveModal}
                 setSelectedFiles={setSelectedFiles}
                 setFileToEdit={setFileToEdit}
-                handleCalculateFileSize={handleCalculateFileSize}
               />
             )}
         </CommonModalWrapper>

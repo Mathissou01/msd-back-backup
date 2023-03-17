@@ -1,0 +1,17 @@
+.c-CommonMediaCardThumbnail {
+  &__Doc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 245px;
+    height: 158px;
+  }
+
+  &__Image {
+    height: 158px;
+
+    img {
+      border-radius: 8px 8px 0 0;
+    }
+  }
+}

@@ -1085,6 +1085,7 @@ type Contract {
   keyMetricsService: KeyMetricsServiceEntityResponse
   logicalDelete: Boolean
   numberOfInhabitants: Long
+  oldClientName: String
   pathId: Long
   pickUpDayService: PickUpDayServiceEntityResponse
   recyclingGuideService: RecyclingGuideServiceEntityResponse
@@ -1191,6 +1192,7 @@ input ContractFiltersInput {
   logicalDelete: BooleanFilterInput
   not: ContractFiltersInput
   numberOfInhabitants: LongFilterInput
+  oldClientName: StringFilterInput
   or: [ContractFiltersInput]
   pathId: LongFilterInput
   pickUpDayService: PickUpDayServiceFiltersInput
@@ -1221,6 +1223,7 @@ input ContractInput {
   keyMetricsService: ID
   logicalDelete: Boolean
   numberOfInhabitants: Long
+  oldClientName: String
   pathId: Long
   pickUpDayService: ID
   recyclingGuideService: ID
@@ -3905,6 +3908,7 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): ContractMenuEntityResponseCollection
+  contractPublication(contractId: ID!): contractStatus
   contracts(
     filters: ContractFiltersInput
     pagination: PaginationArg = {}
@@ -5648,6 +5652,10 @@ type WasteFormRelationResponseCollection {
 
 type clientName {
   clientName: String
+}
+
+type contractStatus {
+  contractId: ID
 }
 
 type totalCountPerTag {

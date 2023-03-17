@@ -20,10 +20,10 @@ import MediaImportButton, {
 import MediaBreadcrumb, {
   IMediaBreadcrumb,
 } from "../../../../components/Media/MediaBreadcrumb/MediaBreadcrumb";
-import "./edito-bibliotheque-de-medias.scss";
 import MediaCard, {
   MediaCardParentOptions,
 } from "../../../../components/Media/MediaCard/MediaCard";
+import "./edito-bibliotheque-de-medias.scss";
 
 export interface IFolder {
   id: string;
@@ -154,8 +154,6 @@ export function EditoBibliothequeDeMedias() {
           .map((file) => {
             if (
               file?.attributes?.name &&
-              file?.attributes?.width !== null &&
-              file?.attributes?.height !== null &&
               file?.attributes?.ext &&
               file?.attributes?.mime &&
               file?.attributes?.size &&
@@ -168,7 +166,7 @@ export function EditoBibliothequeDeMedias() {
                 height: file?.attributes?.height ?? 0,
                 ext: file?.attributes?.ext,
                 mime: file?.attributes?.mime,
-                size: file?.attributes?.size.toString(),
+                size: file?.attributes?.size,
                 url: file?.attributes?.url,
               };
             }

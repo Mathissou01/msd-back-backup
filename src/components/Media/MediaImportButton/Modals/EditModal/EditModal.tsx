@@ -5,7 +5,7 @@ import FormSelect from "../../../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../../../Form/FormMultiselect/FormMultiselect";
 import { IFileToEdit } from "../../MediaImportButton";
 
-interface IEditModal {
+interface IEditModalProps {
   fileToEdit: IFileToEdit | undefined;
   folderHierarchy: Array<RequestFolders>;
   activePathId: number;
@@ -17,7 +17,7 @@ export default function EditModal({
   folderHierarchy,
   activePathId,
   handleReplaceSpecialChars,
-}: IEditModal) {
+}: IEditModalProps) {
   /* Static Data */
   const labels = {
     detailsModalTitle: "Détails",
@@ -56,6 +56,15 @@ export default function EditModal({
     );
 
     return mapOptionsInWrappers(sortedFolderHierarchy);
+  };
+
+  const handleCalculateFileSize = (size: number): string => {
+    const i = Math.floor(Math.log(size) / Math.log(1024));
+    return (
+      (size / Math.pow(1024, i)).toFixed(2) +
+      " " +
+      ["B", "KB", "MB", "GB", "TB"][i]
+    );
   };
 
   /* Local Data */
@@ -107,7 +116,10 @@ export default function EditModal({
               <tbody>
                 <tr>
                   <th>Taille</th>
-                  <td>{fileToEdit?.size}</td>
+                  <td>
+                    {fileToEdit?.size &&
+                      handleCalculateFileSize(fileToEdit?.size)}
+                  </td>
                 </tr>
                 {isImageToUpload() && (
                   <tr>
@@ -121,7 +133,7 @@ export default function EditModal({
                 </tr>
                 <tr>
                   <th>Extension</th>
-                  <td>{fileToEdit?.ext}</td>
+                  <td>{fileToEdit?.ext.slice(1)}</td>
                 </tr>
               </tbody>
             </table>

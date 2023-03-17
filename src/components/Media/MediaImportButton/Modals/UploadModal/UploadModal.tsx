@@ -1,9 +1,5 @@
-import {
-  GetFilesPaginationByPathIdDocument,
-  UploadFileInput,
-  useCreateNewFileMutation,
-  useGetFolderByPathIdLazyQuery,
-} from "../../../../../graphql/codegen/generated-types";
+import { useState } from "react";
+import { uploadFile } from "../../../../../lib/uploadFile";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import MediaCard, {
@@ -11,15 +7,13 @@ import MediaCard, {
 } from "../../../MediaCard/MediaCard";
 import { IFileToEdit, ModalStatus } from "../../MediaImportButton";
 
-interface IUploadModal {
+interface IUploadModalProps {
   modalRef: React.RefObject<CommonModalWrapperRef>;
-  path: string;
   activePathId: number;
   selectedFiles: IFileToEdit[];
   setSelectedFiles: React.Dispatch<React.SetStateAction<IFileToEdit[]>>;
   setActiveModal: React.Dispatch<React.SetStateAction<ModalStatus>>;
   setFileToEdit: React.Dispatch<React.SetStateAction<IFileToEdit | undefined>>;
-  handleCalculateFileSize: (arg: number) => string;
 }
 
 export default function UploadModal({
@@ -29,8 +23,7 @@ export default function UploadModal({
   setActiveModal,
   setSelectedFiles,
   setFileToEdit,
-  handleCalculateFileSize,
-}: IUploadModal) {
+}: IUploadModalProps) {
   /* Static Data */
   const labels = {
     homeModalTitle: "Ajouter des médias",
@@ -48,19 +41,22 @@ export default function UploadModal({
     cancelBtn: "Annuler",
   };
 
+  /**Local Data */
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
+
   /** Methods */
-  const handleEditFile = (file: IFileToEdit, width: number, height: number) => {
+  const handleEditFile = (file: IFileToEdit) => {
     modalRef.current?.toggleModal(false);
     setActiveModal(ModalStatus.EDIT_IMG_MODAL);
 
     setFileToEdit({
       name: file.name,
       alternativeText: file.alternativeText ?? file.name,
-      width: width,
-      height: height,
+      width: file.width,
+      height: file.height,
       ext: file.ext,
       mime: file.mime,
-      size: handleCalculateFileSize(Number(file.size.split(" ")[0])),
+      size: file.size,
       url: file.url,
       date: new Date(file.file?.lastModified ?? 0).toLocaleDateString(),
       file: file.file,
@@ -77,68 +73,23 @@ export default function UploadModal({
     filteredFiles.length === 0 && setActiveModal(ModalStatus.MAIN_MODAL);
   };
 
-  async function handleUploadFile() {
-    const selectedFilesInstance: IFileToEdit[] = [...selectedFiles];
-    const length = selectedFilesInstance.length;
-
-    // TODO: change to axios then mutation, folderId should no longer be necessary (only pathId/path)
-    await getFolderByPathId({
-      onCompleted: (folderData) => {
-        for (let i = 0; i < length; i++) {
-          const variables: UploadFileInput = {
-            name: selectedFilesInstance[i].name,
-            ext: selectedFilesInstance[i].ext,
-            mime: selectedFilesInstance[i].file?.type,
-            size: Number(selectedFilesInstance[i].size.split(" ")[0]),
-            url: selectedFilesInstance[i].url,
-            folderPath:
-              selectedFilesInstance[i].path ??
-              folderData?.uploadFolders?.data[0].attributes?.path,
-            folder:
-              selectedFilesInstance[i].pathId ??
-              folderData?.uploadFolders?.data[0].id,
-            width: selectedFilesInstance[i].width,
-            height: selectedFilesInstance[i].height,
-            alternativeText: selectedFilesInstance[i].alternativeText,
-            formats: null,
-            hash: "",
-            previewUrl: null,
-            provider: "",
-            provider_metadata: null,
-          };
-
-          createNewFile({
-            variables: { createUploadFileData2: variables },
-            refetchQueries: [
-              {
-                query: GetFilesPaginationByPathIdDocument,
-                variables: { activePathId: activePathId },
-              },
-              "getFilesPaginationByPathId",
-            ],
-          });
-        }
-        handleReInitModals();
-      },
-    });
+  async function handleUploadFile(
+    activePathId: number,
+    selectedFiles: IFileToEdit[],
+  ) {
+    setUploadLoading(true);
+    const result = await uploadFile(activePathId, selectedFiles);
+    if (result !== undefined || result !== null) {
+      setUploadLoading(false);
+      handleReInitModals();
+    }
   }
 
   const handleReInitModals = () => {
     const init: IFileToEdit[] = [];
     setSelectedFiles(init);
-    !createNewFileLoading &&
-      !createNewFileError &&
-      modalRef.current?.toggleModal(false);
+    modalRef.current?.toggleModal(false);
   };
-
-  /** External Data */
-  const [
-    createNewFile,
-    { loading: createNewFileLoading, error: createNewFileError },
-  ] = useCreateNewFileMutation();
-  const [getFolderByPathId] = useGetFolderByPathIdLazyQuery({
-    variables: { pathId: activePathId },
-  });
 
   return (
     <>
@@ -165,9 +116,9 @@ export default function UploadModal({
             <MediaCard
               key={index}
               file={{ file }}
-              loading={createNewFileLoading}
+              loading={uploadLoading}
               parent={MediaCardParentOptions.MODAL}
-              handleEditFile={(x, y, z) => handleEditFile(x, y, z)}
+              handleEditFile={(file) => handleEditFile(file)}
               handleRemoveFile={() => handleRemoveFile(file)}
             />
           ))}
@@ -178,7 +129,7 @@ export default function UploadModal({
           type="submit"
           label={labels.addMediaBtn}
           style="primary"
-          onClick={() => handleUploadFile()}
+          onClick={() => handleUploadFile(activePathId, selectedFiles)}
         />
         <CommonButton
           type="button"

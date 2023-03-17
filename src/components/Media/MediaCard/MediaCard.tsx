@@ -1,90 +1,50 @@
-import React, { useState } from "react";
-import Image from "next/image";
-import classNames from "classnames";
+import React from "react";
 import { IFileToEdit } from "../MediaImportButton/MediaImportButton";
-import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
-import docIcon from "./../../../../public/images/pictos/doc.svg";
 import "./media-card.scss";
+import { ApolloError } from "@apollo/client";
+import CommonMediaCardThumbnail from "../../Common/CommonMediaCardThumbnail/CommonMediaCardThumbnail";
 
 export enum MediaCardParentOptions {
   HOME = "HOME",
   MODAL = "MODAL",
 }
 
-interface IMediaCard {
+interface IMediaCardProps {
   file: { file: IFileToEdit };
-  loading?: boolean;
+  loading?: boolean | undefined;
+  errors?: (ApolloError | undefined)[];
   parent?: MediaCardParentOptions;
-  handleEditFile: (file: IFileToEdit, width: number, height: number) => void;
+  handleEditFile: (file: IFileToEdit) => void;
   handleRemoveFile: () => void;
 }
 
 export default function MediaCard({
   file,
   loading,
+  errors,
   parent,
   handleEditFile,
   handleRemoveFile,
-}: IMediaCard) {
+}: IMediaCardProps) {
   /* Local Data */
   const media = file.file;
-  const [imgWidth, setImgWidth] = useState<number>(0);
-  const [imgHeight, setImgHeight] = useState<number>(0);
-  const ImgType = media.mime.split("/")[0];
-
-  /** Methods */
-  const getImgDimensions = (
-    file: IFileToEdit,
-    callback: (width: number, height: number) => void,
-  ) => {
-    const img = new window.Image();
-
-    img.src = file.url;
-    img.onload = () => {
-      callback(img.width, img.height);
-    };
-  };
-
-  getImgDimensions(media, (width: number, height: number) => {
-    media.width = width;
-    media.height = height;
-    setImgWidth(width);
-    setImgHeight(height);
-  });
-
-  const wrapperClassnames = classNames("c-MediaCard", {
-    "c-MediaCard__Loading": loading,
-  });
+  const imageType = media.mime.split("/")[0];
 
   return (
-    <div className={wrapperClassnames}>
-      {media.url && ImgType === "image" ? (
-        <div className="c-MediaCard__Image">
-          <Image
-            src={media.url}
-            width={245}
-            height={158}
-            alt={media.alternativeText}
-          />
-        </div>
-      ) : media.ext === "pdf" ? (
-        <div className="c-MediaCard__Doc">
-          <Image src={pdfIcon} width={48} height={58} alt="" />
-        </div>
-      ) : (
-        <div className="c-MediaCard__Doc">
-          <Image src={docIcon} width={48} height={58} alt="" />
-        </div>
-      )}
+    <div className="c-MediaCard">
+      <CommonMediaCardThumbnail
+        media={media}
+        imageType={imageType}
+        loading={loading}
+        errors={errors}
+      />
       <div className="c-MediaCard__Description">
         <span className="c-MediaCard__Title">{media.name}</span>
         <div className="c-MediaCard__Infos">
           <span className="c-MediaCard__TypeFile">
-            {ImgType === "image"
-              ? `${media.ext} - ${imgWidth || media.width}x${
-                  imgHeight || media.height
-                }`
-              : `${media.ext}`}
+            {imageType === "image"
+              ? `${media.ext.slice(1)} - ${media.width}x${media.height}`
+              : `${media.ext.slice(1)}`}
           </span>
           {parent === MediaCardParentOptions.MODAL && (
             <button
@@ -96,12 +56,12 @@ export default function MediaCard({
         </div>
         <div className="c-MediaCard__Infos">
           <span className="c-MediaCard__Tag">
-            {ImgType === "image" ? "image" : "doc"}
+            {imageType === "image" ? "image" : "doc"}
           </span>
           <button
             type="button"
             className="c-MediaCard__Action_edit"
-            onClick={() => handleEditFile(media, imgWidth, imgHeight)}
+            onClick={() => handleEditFile(media)}
           />
         </div>
       </div>
