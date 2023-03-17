@@ -551,32 +551,32 @@ exports[`EditoForm renders 1`] = `
             </div>
           </div>
           <div
-            class="c-DateBlock"
+            class="c-InformationsCard"
           >
             <div
-              class="c-DateBlock__CreationDate"
+              class="c-InformationsCard__CreationDate"
             >
               <div
-                class="c-DateBlock__CreationDateLabel"
+                class="c-InformationsCard__CreationDateLabel"
               >
                 Création
               </div>
               <div
-                class="c-DateBlock__CreationDateDateAndTime"
+                class="c-InformationsCard__CreationDateAndTime"
               >
                 <div />
               </div>
             </div>
             <div
-              class="c-DateBlock__UpdateDate"
+              class="c-InformationsCard__UpdateDate"
             >
               <div
-                class="c-DateBlock__UpdateDateLabel"
+                class="c-InformationsCard__UpdateDateLabel"
               >
                 Dernière modification
               </div>
               <div
-                class="c-DateBlock__UpdateDateDateAndTime"
+                class="c-InformationsCard__UpdateDateDateAndTime"
               />
             </div>
           </div>

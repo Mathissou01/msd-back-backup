@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { EStatus, statusLabels } from "../../../../lib/status";
 import FormDatePicker from "../../../Form/FormDatePicker/FormDatePicker";
-import DateBlock from "./DraftInformationBlock/DateBlock";
 import "./edito-sidebar.scss";
+import InformationsCard from "./InformationsCard/InformationsCard";
 
 interface IEditoSideBarProps {
   status?: EStatus;
@@ -55,7 +55,7 @@ export default function EditoSideBar({
       {/*<div className="c-EditoSideBar__Users">{labels.users}</div>*/}
       {/*<div className="c-EditoSideBar__Channels">{labels.channels}</div>*/}
       {/*<div className="c-EditoSideBar__Alert">{labels.alert}</div>*/}
-      <DateBlock creationDate={creationDate} updateDate={updateDate} />
+      <InformationsCard creationDate={creationDate} updateDate={updateDate} />
     </div>
   );
 }
