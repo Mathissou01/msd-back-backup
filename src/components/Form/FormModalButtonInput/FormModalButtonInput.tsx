@@ -119,7 +119,7 @@ export default function FormModalButtonInput<T extends FieldValues>({
         <ErrorMessage
           errors={errors}
           name={name}
-          render={({ message }) => (
+          render={({ message }: { message: string }) => (
             <CommonErrorText message={message} errorId={`${name}_error`} />
           )}
         />

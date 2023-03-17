@@ -31,41 +31,39 @@
     }
   }
 
-  &__UnpublishedDate {
-    padding-left: 20px;
-
-    &_datePicker {
-      width: 100%;
-      margin-top: 6px;
-      padding-left: 14px;
-      // stylelint-disable selector-class-pattern
-      .sz-datepicker__single::before {
-        content: none;
-      }
-
-      .react-date-picker {
-        width: 90%;
-      }
-
-      .react-date-picker__wrapper {
-        padding-left: 0;
-        background-color: colors.$gray-0;
-        border: 1px solid colors.$blue-4;
-        border-radius: 4px;
-      }
-
-      .react-date-picker__inputGroup {
-        padding-left: 10px;
-      }
-
-      .react-date-picker__button {
-        padding-left: 0;
-      }
+  &__UnpublishedDateDatePicker {
+    // stylelint-disable selector-class-pattern
+    .sz-datepicker__single::before {
+      content: none;
     }
 
-    &_text {
-      margin-top: 16px;
+    .react-date-picker {
+      width: 90%;
     }
+
+    .react-date-picker__wrapper {
+      padding-left: 0;
+      background-color: colors.$gray-0;
+      border: 1px solid colors.$blue-4;
+      border-radius: 4px;
+    }
+
+    .react-date-picker__inputGroup {
+      padding-left: 10px;
+    }
+
+    .react-date-picker__button {
+      padding-left: 0;
+    }
+  }
+
+  &__UnpublishedDateText {
+    margin-top: 16px;
+    color: colors.$blue-1;
+    font-weight: 400;
+    font-size: 14px;
+    font-family: DINPro-Regular, sans-serif;
+    line-height: 21px;
   }
 
   &__Users {

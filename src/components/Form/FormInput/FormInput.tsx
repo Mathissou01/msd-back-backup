@@ -116,7 +116,7 @@ export default function FormInput({
       <ErrorMessage
         errors={errors}
         name={name}
-        render={({ message }) => (
+        render={({ message }: { message: string }) => (
           <CommonErrorText message={message} errorId={`${name}_error`} />
         )}
       />

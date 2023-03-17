@@ -203,7 +203,7 @@ export default function FormMultiselect<T>({
           <ErrorMessage
             errors={errors}
             name={`${name}_${i}`}
-            render={({ message }) => (
+            render={({ message }: { message: string }) => (
               <CommonErrorText
                 message={message}
                 errorId={`${name}_${i}_error`}

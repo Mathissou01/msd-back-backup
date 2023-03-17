@@ -502,98 +502,50 @@ exports[`EditoForm renders 1`] = `
             Brouillon
           </div>
           <div
-            class="c-EditoSideBar__UnpublishedDate"
+            class="c-EditoSideBar__UnpublishedDateDatePicker"
           >
-            Date de dépublication
             <div
-              class="c-EditoSideBar__UnpublishedDate_datePicker"
+              class="c-FormLabel"
             >
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="unpublishedDate"
+              >
+                <span
+                  class="c-FormLabel__Label"
+                >
+                  Date de dépublication
+                </span>
+              </label>
               <div
-                class="sz-datepicker row"
+                class="c-FormLabel__Content"
               >
                 <div
-                  class="react-date-picker react-date-picker--closed react-date-picker--enabled sz-datepicker__single"
+                  class="c-CommonDatePicker c-CommonDatePicker react-datepicker__input-container"
                 >
                   <div
-                    class="react-date-picker__wrapper"
+                    class="react-datepicker-wrapper"
                   >
                     <div
-                      class="react-date-picker__inputGroup"
+                      class="react-datepicker__input-container"
                     >
-                      <input
-                        hidden=""
-                        max="2099-12-31"
-                        min="2023-03-15"
-                        name="date"
-                        style="visibility: hidden; position: absolute; z-index: -999;"
-                        type="date"
-                        value=""
-                      />
-                      <input
-                        autocomplete="off"
-                        class="react-date-picker__inputGroup__input react-date-picker__inputGroup__day"
-                        data-input="true"
-                        inputmode="numeric"
-                        max="31"
-                        min="1"
-                        name="day"
-                        placeholder="--"
-                        type="number"
-                        value=""
-                      />
                       <span
-                        class="react-date-picker__inputGroup__divider"
-                      >
-                        /
-                      </span>
-                      <input
-                        autocomplete="off"
-                        class="react-date-picker__inputGroup__input react-date-picker__inputGroup__month"
-                        data-input="true"
-                        inputmode="numeric"
-                        max="12"
-                        min="1"
-                        name="month"
-                        placeholder="--"
-                        type="number"
-                        value=""
+                        aria-live="polite"
+                        class="react-datepicker__aria-live"
+                        role="alert"
                       />
-                      <span
-                        class="react-date-picker__inputGroup__divider"
-                      >
-                        /
-                      </span>
                       <input
-                        autocomplete="off"
-                        class="react-date-picker__inputGroup__input react-date-picker__inputGroup__year"
-                        data-input="true"
-                        inputmode="numeric"
-                        max="2099"
-                        min="2023"
-                        name="year"
-                        placeholder="----"
-                        step="1"
-                        type="number"
+                        class=""
+                        type="text"
                         value=""
                       />
                     </div>
-                    <button
-                      class="react-date-picker__calendar-button react-date-picker__button"
-                      type="button"
-                    >
-                      <i
-                        class="sz-icon-line calendar-3 mr-2"
-                      />
-                      <i
-                        class="sz-icon-bold arrow-down-1 small pt-2"
-                      />
-                    </button>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="c-EditoSideBar__UnpublishedDate_text"
+              class="c-EditoSideBar__UnpublishedDateText"
             >
               A la date de dépublication, l’actualité est masquée sur le site mais conservée dans le back-office à l’état archivé.
             </div>

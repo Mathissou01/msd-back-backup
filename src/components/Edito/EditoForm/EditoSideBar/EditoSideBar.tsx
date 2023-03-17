@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { EStatus, statusLabels } from "../../../../lib/status";
-import CommonDatePicker from "../../../Common/CommonDatePIcker/CommonDatePicker";
+import FormDatePicker from "../../../Form/FormDatePicker/FormDatePicker";
 import DateBlock from "./DraftInformationBlock/DateBlock";
 import "./edito-sidebar.scss";
 
@@ -35,17 +35,15 @@ export default function EditoSideBar({
         {status ? statusLabels[status] : statusLabels.draft}
       </div>
       {status !== "archived" ? (
-        <div className="c-EditoSideBar__UnpublishedDate">
-          {labels.unpublishedDateLabel}
+        <div className="c-EditoSideBar__UnpublishedDateDatePicker">
+          <FormDatePicker
+            name="unpublishedDate"
+            minDate={new Date()}
+            maxDate={new Date("2099-12-31")}
+            label={labels.unpublishedDateLabel}
+          />
 
-          <div className="c-EditoSideBar__UnpublishedDate_datePicker">
-            <CommonDatePicker
-              name="unpublishedDate"
-              startMinDate={new Date()}
-              maxDate={new Date("2099-12-31")}
-            />
-          </div>
-          <div className="c-EditoSideBar__UnpublishedDate_text">
+          <div className="c-EditoSideBar__UnpublishedDateText">
             {labels.text}
           </div>
         </div>

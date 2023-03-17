@@ -96,7 +96,9 @@ export default function FormRadioInput({
       <ErrorMessage
         errors={errors}
         name={name}
-        render={({ message }) => <p>{message ?? "Error"}</p>}
+        render={({ message }: { message: string }) => (
+          <p>{message ?? "Error"}</p>
+        )}
       />
     </div>
   );
