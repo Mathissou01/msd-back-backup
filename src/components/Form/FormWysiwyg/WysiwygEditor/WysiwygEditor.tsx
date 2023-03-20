@@ -2,10 +2,68 @@ import { Editor as TinyMceEditor } from "tinymce";
 import { Editor } from "@tinymce/tinymce-react";
 import React, { MutableRefObject } from "react";
 
+export interface IWysiwygEditorOptions {
+  height: number;
+  plugins: string;
+  menubar: string | false;
+  toolbar: Array<{ name: string; items: Array<string> }> | false;
+  formats?: {
+    [key: string]: { inline: string; classes: string };
+  };
+  blockFormats?: string;
+}
+
+const defaultWysiwygEditorOptions: IWysiwygEditorOptions = {
+  height: 400,
+  plugins:
+    "lists table link " +
+    "charmap insertdatetime searchreplace quickbars autolink autosave wordcount visualchars visualblocks help",
+  menubar: "file edit view insert table help",
+  toolbar: [
+    { name: "history", items: ["undo", "redo"] },
+    {
+      name: "formatting",
+      items: ["blocks", "bold", "italic", "strikethrough", "removeformat"],
+    },
+    { name: "lists", items: ["bullist", "numlist"] },
+    { name: "tables", items: ["table"] },
+    { name: "indents", items: ["outdent", "indent"] },
+    { name: "links", items: ["link", "unlink"] },
+  ],
+  formats: {
+    h1: { inline: "", classes: "" },
+    h5: { inline: "", classes: "" },
+    h6: { inline: "", classes: "" },
+    address: { inline: "", classes: "" },
+    div: { inline: "", classes: "" },
+  },
+  blockFormats: "Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4",
+};
+
+export const minimalWysiwygEditorOptions: IWysiwygEditorOptions = {
+  height: 300,
+  plugins: "autosave wordcount",
+  menubar: false,
+  toolbar: false,
+  formats: {
+    h1: { inline: "", classes: "" },
+    h2: { inline: "", classes: "" },
+    h3: { inline: "", classes: "" },
+    h4: { inline: "", classes: "" },
+    h5: { inline: "", classes: "" },
+    h6: { inline: "", classes: "" },
+    address: { inline: "", classes: "" },
+    div: { inline: "", classes: "" },
+    bold: { inline: "", classes: "" },
+    italic: { inline: "", classes: "" },
+  },
+};
+
 interface IWysiwygEditorProps {
   id: string;
   forwardedRef: MutableRefObject<TinyMceEditor | null>;
   onEditorChange: (a: string, editor: TinyMceEditor) => void;
+  editorOptions?: IWysiwygEditorOptions;
   initialValue?: string;
   value?: string;
   isDisabled?: boolean;
@@ -15,6 +73,7 @@ export default function WysiwygEditor({
   id,
   forwardedRef,
   onEditorChange,
+  editorOptions = defaultWysiwygEditorOptions,
   initialValue,
   value,
   isDisabled,
@@ -31,20 +90,18 @@ export default function WysiwygEditor({
         forwardedRef.current = editor;
       }}
       init={{
-        height: 400,
-        min_height: 400,
+        height: editorOptions.height,
+        min_height: editorOptions.height,
         // setup: (editor) => {
         //   editor.ui.registry.addButton("myCustomToolbarButton", {
         //     text: "My Custom Button",
         //     onAction: () => alert("button clicked!"),
         //   });
         // },
-        plugins:
-          "lists table link " +
-          "charmap insertdatetime searchreplace quickbars autolink autosave wordcount visualchars visualblocks help",
+        plugins: editorOptions?.plugins,
         language: "fr_FR",
         /* MENUBAR */
-        menubar: "file edit view insert table help",
+        menubar: editorOptions.menubar,
         menu: {
           file: {
             title: "File",
@@ -77,24 +134,9 @@ export default function WysiwygEditor({
         toolbar_mode: "wrap",
         // toolbar_sticky: true,
         // toolbar_sticky_offset: isSmallScreen ? 102 : 108,
-        toolbar: [
-          { name: "history", items: ["undo", "redo"] },
-          {
-            name: "formatting",
-            items: [
-              "blocks",
-              "bold",
-              "italic",
-              "strikethrough",
-              "removeformat",
-            ],
-          },
-          { name: "lists", items: ["bullist", "numlist"] },
-          { name: "tables", items: ["table"] },
-          { name: "indents", items: ["outdent", "indent"] },
-          { name: "links", items: ["link", "unlink"] },
-        ],
-        block_formats: "Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4",
+        toolbar: editorOptions?.toolbar,
+        formats: editorOptions?.formats,
+        block_formats: editorOptions?.blockFormats,
         /* QUICKBARS */
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: false,

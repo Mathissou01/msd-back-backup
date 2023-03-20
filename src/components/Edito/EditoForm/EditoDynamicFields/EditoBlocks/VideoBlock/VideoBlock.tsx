@@ -2,6 +2,8 @@ import React from "react";
 import { IBlocksVideo } from "../../../../../../lib/edito";
 import FormInput from "../../../../../Form/FormInput/FormInput";
 import "./video-block.scss";
+import FormWysiwyg from "../../../../../Form/FormWysiwyg/FormWysiwyg";
+import { minimalWysiwygEditorOptions } from "../../../../../Form/FormWysiwyg/WysiwygEditor/WysiwygEditor";
 
 // TODO Add or remove string pattern check ?
 // const youtubeUrlPattern =
@@ -14,9 +16,10 @@ import "./video-block.scss";
 // );
 interface IVideoBlockProps {
   blockName: string;
+  isVisible: boolean;
 }
 
-export default function VideoBlock({ blockName }: IVideoBlockProps) {
+export default function VideoBlock({ blockName, isVisible }: IVideoBlockProps) {
   /* Static Data */
   const formLabels = {
     videoLink: "Lien de la vidéo Youtube, Dailymotion ou Vimeo",
@@ -47,11 +50,13 @@ export default function VideoBlock({ blockName }: IVideoBlockProps) {
           // }}
           // patternValidationErrorMessage={formLabels.validationErrorMessage}
         />
-        <FormInput
-          tagType="textarea"
+        <FormWysiwyg
           name={`${blockName}.${fieldNames.text}`}
           label={formLabels.transcriptText}
           validationLabel={formLabels.subLabelTranscriptText}
+          editorOptions={minimalWysiwygEditorOptions}
+          isVisible={isVisible}
+          isRequired
         />
       </div>
     </div>

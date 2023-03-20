@@ -6,7 +6,9 @@ import { Editor as TinyMceEditor } from "tinymce";
 import React, { useRef } from "react";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import FormLabel from "../FormLabel/FormLabel";
-import WysiwygEditor from "./WysiwygEditor/WysiwygEditor";
+import WysiwygEditor, {
+  IWysiwygEditorOptions,
+} from "./WysiwygEditor/WysiwygEditor";
 import "./form-wysiwyg.scss";
 
 interface IFormInputProps {
@@ -14,6 +16,7 @@ interface IFormInputProps {
   label: string;
   isVisible: boolean;
   validationLabel?: string;
+  editorOptions?: IWysiwygEditorOptions;
   isRequired?: boolean;
   isDisabled?: boolean;
   defaultValue?: string;
@@ -24,6 +27,7 @@ export default function FormWysiwyg({
   label,
   isVisible,
   validationLabel,
+  editorOptions,
   isRequired = false,
   isDisabled = false,
   defaultValue,
@@ -70,6 +74,7 @@ export default function FormWysiwyg({
                     id={name}
                     forwardedRef={editorRef}
                     onEditorChange={onChange}
+                    editorOptions={editorOptions}
                     value={value}
                     isDisabled={isSubmitting || isDisabled}
                   />

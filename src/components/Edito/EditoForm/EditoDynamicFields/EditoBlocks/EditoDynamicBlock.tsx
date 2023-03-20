@@ -28,7 +28,7 @@ export default function EditoDynamicBlock({
         return <SubHeadingBlock blockName={name} />;
       }
       case "ComponentBlocksVideo": {
-        return <VideoBlock blockName={name} />;
+        return <VideoBlock blockName={name} isVisible={isVisible} />;
       }
       default: {
         return null;
