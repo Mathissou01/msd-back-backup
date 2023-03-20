@@ -9,6 +9,7 @@ export type ValidationStyle = "inline" | "multiline";
 interface IFormLabelProps {
   children?: React.ReactNode;
   label: string;
+  labelDescription?: string;
   secondaryLabel?: string;
   validationLabel?: string;
   forId?: string;
@@ -22,6 +23,7 @@ interface IFormLabelProps {
 export default function FormLabel({
   children,
   label,
+  labelDescription,
   secondaryLabel,
   validationLabel,
   forId,
@@ -40,9 +42,14 @@ export default function FormLabel({
   return (
     <div className={labelClassNames}>
       <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
-        <span className="c-FormLabel__Label">{`${label}${
-          isRequired ? " *" : ""
-        }`}</span>
+        <span className="c-FormLabel__Label">
+          {`${label}${isRequired ? " *" : ""}`}
+          {labelDescription && (
+            <span className="c-FormLabel__LabelDescription">
+              {labelDescription}
+            </span>
+          )}
+        </span>
         {validationStyle === "inline" &&
           flexStyle === "column" &&
           validationLabel && (

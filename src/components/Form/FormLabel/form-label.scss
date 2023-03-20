@@ -27,6 +27,7 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
+    gap: 10px;
     align-items: center;
     justify-content: space-between;
 
@@ -39,9 +40,14 @@
     margin-right: auto;
   }
 
+  &__LabelDescription {
+    margin-left: 8px;
+    font-weight: 350;
+  }
+
   &__Secondary,
   &__Validation {
-    color: colors.$gray-600;
+    color: colors.$blue-1;
     font-weight: 400;
     font-family: DINPro-Regular, serif;
 
@@ -56,8 +62,9 @@
   }
 
   &__Validation {
-    max-width: 45%;
-    font-size: 12px;
+    max-width: 75%;
+    font-size: 14px;
+    line-height: 21px;
     text-align: right;
 
     #{$self}_styleTable & {

@@ -26,15 +26,15 @@ export default function EditoSideBar({
   };
   return (
     <div className="c-EditoSideBar">
-      <div
+      <span
         className={classNames("c-EditoSideBar__Status", {
           "c-EditoSideBar__Status_draft": status === "draft",
           "c-EditoSideBar__Status_published": status === "published",
         })}
       >
         {status ? statusLabels[status] : statusLabels.draft}
-      </div>
-      {status !== "archived" ? (
+      </span>
+      {status !== "archived" && (
         <div className="c-EditoSideBar__UnpublishedDateDatePicker">
           <FormDatePicker
             name="unpublishedDate"
@@ -42,16 +42,9 @@ export default function EditoSideBar({
             maxDate={new Date("2099-12-31")}
             label={labels.unpublishedDateLabel}
           />
-
-          <div className="c-EditoSideBar__UnpublishedDateText">
-            {labels.text}
-          </div>
+          <p className="c-EditoSideBar__UnpublishedDateText">{labels.text}</p>
         </div>
-      ) : (
-        ""
       )}
-
-      {/*</div>*/}
       {/*<div className="c-EditoSideBar__Users">{labels.users}</div>*/}
       {/*<div className="c-EditoSideBar__Channels">{labels.channels}</div>*/}
       {/*<div className="c-EditoSideBar__Alert">{labels.alert}</div>*/}

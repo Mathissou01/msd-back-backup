@@ -18,7 +18,8 @@ interface IEditoFormProps {
   onDepublish?: () => void;
   labels: {
     staticTitle: string;
-    staticTags: string;
+    staticTagsLabel: string;
+    staticTagsLabelDescription: string;
     staticShortDescription: string;
     staticShortDescriptionMaxCharacters: string;
   };
@@ -111,7 +112,8 @@ export default function EditoForm({
             <div className="c-EditoForm__Content">
               <EditoStaticFields
                 titleLabel={labels.staticTitle}
-                tagsLabel={labels.staticTags}
+                tagsLabel={labels.staticTagsLabel}
+                tagsLabelDescription={labels.staticTagsLabelDescription}
                 shortDescriptionLabel={labels.staticShortDescription}
                 maxCharactersLabel={labels.staticShortDescriptionMaxCharacters}
               />

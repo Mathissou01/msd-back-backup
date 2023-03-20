@@ -9,6 +9,7 @@ import "./edito-static-fields.scss";
 interface IEditoStaticFieldsProps {
   titleLabel: string;
   tagsLabel: string;
+  tagsLabelDescription: string;
   shortDescriptionLabel: string;
   maxCharactersLabel: string;
   maxCharacters?: number;
@@ -17,6 +18,7 @@ interface IEditoStaticFieldsProps {
 export default function EditoStaticFields({
   titleLabel,
   tagsLabel,
+  tagsLabelDescription,
   shortDescriptionLabel,
   maxCharactersLabel,
   maxCharacters = 80,
@@ -56,18 +58,17 @@ export default function EditoStaticFields({
         label={titleLabel}
         isRequired={true}
       />
-      <div className="c-EditoStaticFields__Thematique">
+      <div className="c-EditoStaticFields__Tags">
         <FormSingleMultiselect
           label={tagsLabel}
+          labelDescription={tagsLabelDescription}
           name="tags"
-          placeholder="Thematique"
           options={tagOptions}
           isMulti
           maxMultiSelection={5}
-          isRequired={false}
         />
       </div>
-      <div className="c-EditoStaticFields__DescriptionInput">
+      <div className="c-EditoStaticFields__ShortDescription">
         <FormInput
           type="text"
           name="shortDescription"

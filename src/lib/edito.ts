@@ -61,7 +61,7 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
   },
   ComponentBlocksWysiwyg: {
     label: "Texte",
-    picto: "text",
+    picto: "textCase",
   },
 };
 
@@ -111,6 +111,7 @@ export interface IBlocksVideo extends IPartialBlock {
 
 export interface IBlocksWysiwyg extends IPartialBlock {
   __typename: "ComponentBlocksWysiwyg";
+  textEditor: string;
 }
 
 /* Methods */

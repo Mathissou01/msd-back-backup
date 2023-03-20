@@ -1,45 +1,48 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.inputs" as inputs;
 
-.c-FormSingleMultiselect {
+.c-FormWysiwyg {
+  display: flex;
+  flex-direction: column;
+
   &__Input {
-    $self: &;
-
+    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    min-height: 400px;
 
-    // stylelint-disable selector-class-pattern
-    .css-13cymwt-control,
-    .form-single-multiselect__control {
-      height: 48px;
-      border: 1px solid colors.$blue-2;
-      box-shadow: none;
-    }
-
-    .form-single-multiselect__control--is-focused {
-      outline: 2px auto colors.$blue-clear !important;
+    &:empty {
+      background: colors.$gray-100;
+      border: 2px solid rgb(238 238 238);
+      border-radius: 10px;
     }
 
     &_invalid {
-      .css-13cymwt-control,
-      .form-single-multiselect__control,
-      .form-single-multiselect__control:hover {
+      border-radius: 10px;
+      outline: 1px solid colors.$error;
+
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: 44px;
+        width: 20px;
+        height: 20px;
         background-image: url("data:image/svg+xml,%3Csvg width='36' height='36' viewBox='9 9 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23a)' stroke='%23EB4A65' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M18 22.5a.25.25 0 0 0-.049.495.25.25 0 0 0 .299-.245.25.25 0 0 0-.25-.25Z' stroke-linejoin='round'/%3E%3Cpath d='M18 20.5v-5'/%3E%3Cpath d='M19.08 11.173a1.204 1.204 0 0 0-2.16 0L10.603 24.04a1.013 1.013 0 0 0 .91 1.461h12.971a1.014 1.014 0 0 0 .911-1.461L19.08 11.174Z' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='a'%3E%3Cpath fill='%23fff' d='M9 9h18v18H9z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
         background-repeat: no-repeat;
-        background-position: calc(100% - 46px) center;
+        background-position: center;
         background-size: 20px;
-        border-color: colors.$error;
-        transition: background 0s;
+        content: "";
+        pointer-events: none;
       }
 
-      .form-single-multiselect__control--is-focused {
-        outline: 1px solid colors.$error !important;
+      &:focus-visible {
+        outline-color: colors.$error;
       }
     }
 
-    .form-single-multiselect__indicator-separator {
+    textarea {
       display: none;
     }
-
-    // stylelint-enable selector-class-pattern
   }
 }

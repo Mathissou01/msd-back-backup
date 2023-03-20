@@ -17,7 +17,8 @@ export function EditoActualitesCreatePage() {
   const title = "Créer une actualité";
   const formLabels = {
     staticTitle: "Titre de l'actualité",
-    staticTags: "Thématique (tags)",
+    staticTagsLabel: "Thématique",
+    staticTagsLabelDescription: "(Tags)",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'actualité",
@@ -69,6 +70,7 @@ export function EditoActualitesCreatePage() {
   const isLoading = createMutationLoading;
   const errors = [createMutationError];
   const dynamicFieldOptions: Array<TDynamicFieldOption> = [
+    "ComponentBlocksWysiwyg",
     "ComponentBlocksSubHeading",
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",

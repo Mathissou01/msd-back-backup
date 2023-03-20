@@ -166,6 +166,7 @@ export default function EditoDynamicFields({
                     key={`${index}_${wrapper.block.__typename}_${wrapper.block.id}`}
                     type={wrapper.block.__typename}
                     name={`blocks.${index}`}
+                    isVisible={wrapper.isOpen}
                   />
                 </EditoBlockWrapper>
               </div>

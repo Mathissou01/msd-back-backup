@@ -34,7 +34,8 @@ export function EditoActualitesEditPage({
   /* Static Data */
   const formLabels = {
     staticTitle: "Titre de l'actualité",
-    staticTags: "Thématique (tags)",
+    staticTagsLabel: "Thématique",
+    staticTagsLabelDescription: "(Tags)",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'actualité",
@@ -104,6 +105,7 @@ export function EditoActualitesEditPage({
       ],
     });
   }
+
   /* External Data */
   const { data, loading, error } = useGetNewByIdQuery({
     variables: { newId },
@@ -119,6 +121,7 @@ export function EditoActualitesEditPage({
   const errors = [error, updateMutationError];
   const [mappedData, setMappedData] = useState<IEditoFields>();
   const dynamicFieldOptions: Array<TDynamicFieldOption> = [
+    "ComponentBlocksWysiwyg",
     "ComponentBlocksSubHeading",
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",

@@ -239,7 +239,6 @@ export type AlertNotificationService = {
   __typename?: "AlertNotificationService";
   alertNotifications?: Maybe<AlertNotificationRelationResponseCollection>;
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -290,7 +289,6 @@ export type AlertNotificationServiceFiltersInput = {
   alertNotifications?: InputMaybe<AlertNotificationFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -307,7 +305,6 @@ export type AlertNotificationServiceFiltersInput = {
 export type AlertNotificationServiceInput = {
   alertNotifications?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -1236,6 +1233,7 @@ export type Contract = {
   __typename?: "Contract";
   alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   ccap?: Maybe<Scalars["Long"]>;
+  channelType?: Maybe<ChannelTypeEntityResponse>;
   clear?: Maybe<Scalars["Long"]>;
   clientContact?: Maybe<ClientContactEntityResponse>;
   clientName: Scalars["String"];
@@ -1292,6 +1290,7 @@ export type ContractCreateInput = {
   clear?: Maybe<Scalars["Long"]>;
   clientName: Scalars["String"];
   clientType?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
   isRVFrance: Scalars["Boolean"];
   siret?: Maybe<Scalars["Long"]>;
 };
@@ -1361,6 +1360,7 @@ export type ContractFiltersInput = {
   alertNotificationService?: InputMaybe<AlertNotificationServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
   ccap?: InputMaybe<LongFilterInput>;
+  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   clear?: InputMaybe<LongFilterInput>;
   clientContact?: InputMaybe<ClientContactFiltersInput>;
   clientName?: InputMaybe<StringFilterInput>;
@@ -1395,6 +1395,7 @@ export type ContractFiltersInput = {
 export type ContractInput = {
   alertNotificationService?: InputMaybe<Scalars["ID"]>;
   ccap?: InputMaybe<Scalars["Long"]>;
+  channelType?: InputMaybe<Scalars["ID"]>;
   clear?: InputMaybe<Scalars["Long"]>;
   clientContact?: InputMaybe<Scalars["ID"]>;
   clientName?: InputMaybe<Scalars["String"]>;
@@ -1667,6 +1668,13 @@ export type DateTimeFilterInput = {
   startsWith?: InputMaybe<Scalars["DateTime"]>;
 };
 
+export type Deactivation = {
+  __typename?: "Deactivation";
+  contractId?: Maybe<Scalars["ID"]>;
+  hasOtherActivationTypes?: Maybe<Scalars["Boolean"]>;
+  typeDeactivation?: Maybe<Scalars["String"]>;
+};
+
 export type DeletedMessage = {
   __typename?: "DeletedMessage";
   id?: Maybe<Scalars["ID"]>;
@@ -1820,7 +1828,6 @@ export type DropOffMapRelationResponseCollection = {
 export type DropOffMapService = {
   __typename?: "DropOffMapService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -1871,7 +1878,6 @@ export type DropOffMapServiceEntityResponseCollection = {
 export type DropOffMapServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<DropOffMapServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -1888,7 +1894,6 @@ export type DropOffMapServiceFiltersInput = {
 
 export type DropOffMapServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -2458,7 +2463,6 @@ export type EventRelationResponseCollection = {
 export type EventSubService = {
   __typename?: "EventSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -2509,7 +2513,6 @@ export type EventSubServiceEntityResponseCollection = {
 export type EventSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<EventSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -2527,7 +2530,6 @@ export type EventSubServiceFiltersInput = {
 
 export type EventSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -2799,7 +2801,6 @@ export type FreeContentRelationResponseCollection = {
 export type FreeContentSubService = {
   __typename?: "FreeContentSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -2850,7 +2851,6 @@ export type FreeContentSubServiceEntityResponseCollection = {
 export type FreeContentSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<FreeContentSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -2868,7 +2868,6 @@ export type FreeContentSubServiceFiltersInput = {
 
 export type FreeContentSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -3209,7 +3208,6 @@ export type KeyMetricRelationResponseCollection = {
 export type KeyMetricsService = {
   __typename?: "KeyMetricsService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -3260,7 +3258,6 @@ export type KeyMetricsServiceEntityResponseCollection = {
 export type KeyMetricsServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<KeyMetricsServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -3277,7 +3274,6 @@ export type KeyMetricsServiceFiltersInput = {
 
 export type KeyMetricsServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -3323,6 +3319,7 @@ export type Mutation = {
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
   channelsActivation?: Maybe<Array<Maybe<ActivationAndService>>>;
+  channelsDeactivation?: Maybe<Deactivation>;
   checkUnpublishedDate?: Maybe<Scalars["Boolean"]>;
   createAccessibility?: Maybe<AccessibilityEntityResponse>;
   createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
@@ -3459,6 +3456,7 @@ export type Mutation = {
   duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
+  endDateServices?: Maybe<Scalars["Boolean"]>;
   exportMunicipalities?: Maybe<Scalars["ID"]>;
   /** Request a reset password token */
   forgotPassword?: Maybe<UsersPermissionsPasswordPayload>;
@@ -3563,6 +3561,11 @@ export type MutationChangePasswordArgs = {
 export type MutationChannelsActivationArgs = {
   contractId: Scalars["ID"];
   typeActivation: Scalars["String"];
+};
+
+export type MutationChannelsDeactivationArgs = {
+  contractId: Scalars["ID"];
+  typeDeactivation: Scalars["String"];
 };
 
 export type MutationCheckUnpublishedDateArgs = {
@@ -4613,7 +4616,6 @@ export type NewRelationResponseCollection = {
 export type NewsSubService = {
   __typename?: "NewsSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -4664,7 +4666,6 @@ export type NewsSubServiceEntityResponseCollection = {
 export type NewsSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<NewsSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -4682,7 +4683,6 @@ export type NewsSubServiceFiltersInput = {
 
 export type NewsSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -4765,7 +4765,6 @@ export type PickUpDayRelationResponseCollection = {
 export type PickUpDayService = {
   __typename?: "PickUpDayService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -4816,7 +4815,6 @@ export type PickUpDayServiceEntityResponseCollection = {
 export type PickUpDayServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<PickUpDayServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -4833,7 +4831,6 @@ export type PickUpDayServiceFiltersInput = {
 
 export type PickUpDayServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -5835,7 +5832,6 @@ export type QuizRelationResponseCollection = {
 export type QuizSubService = {
   __typename?: "QuizSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -5886,7 +5882,6 @@ export type QuizSubServiceEntityResponseCollection = {
 export type QuizSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<QuizSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -5904,7 +5899,6 @@ export type QuizSubServiceFiltersInput = {
 
 export type QuizSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -5979,7 +5973,6 @@ export type RecyclingGuideBlockInput = {
 export type RecyclingGuideService = {
   __typename?: "RecyclingGuideService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -6030,7 +6023,6 @@ export type RecyclingGuideServiceEntityResponseCollection = {
 export type RecyclingGuideServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<RecyclingGuideServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -6047,7 +6039,6 @@ export type RecyclingGuideServiceFiltersInput = {
 
 export type RecyclingGuideServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -6140,7 +6131,6 @@ export type RequestRelationResponseCollection = {
 export type RequestService = {
   __typename?: "RequestService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -6191,7 +6181,6 @@ export type RequestServiceEntityResponseCollection = {
 export type RequestServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<RequestServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -6208,7 +6197,6 @@ export type RequestServiceFiltersInput = {
 
 export type RequestServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -6642,7 +6630,6 @@ export type TipRelationResponseCollection = {
 export type TipSubService = {
   __typename?: "TipSubService";
   audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
-  channelType?: Maybe<ChannelTypeEntityResponse>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -6693,7 +6680,6 @@ export type TipSubServiceEntityResponseCollection = {
 export type TipSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<TipSubServiceFiltersInput>>>;
   audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
-  channelType?: InputMaybe<ChannelTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -6711,7 +6697,6 @@ export type TipSubServiceFiltersInput = {
 
 export type TipSubServiceInput = {
   audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  channelType?: InputMaybe<Scalars["ID"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;

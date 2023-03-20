@@ -11,7 +11,8 @@ const mocks: {
   data: IEditoFields;
   formLabels: {
     staticTitle: string;
-    staticTags: string;
+    staticTagsLabel: string;
+    staticTagsLabelDescription: string;
     staticShortDescription: string;
     staticShortDescriptionMaxCharacters: string;
   };
@@ -41,7 +42,8 @@ const mocks: {
   },
   formLabels: {
     staticTitle: "Titre de l'actualité",
-    staticTags: "Thématique",
+    staticTagsLabel: "Thématique",
+    staticTagsLabelDescription: "(Tags)",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'actualité",

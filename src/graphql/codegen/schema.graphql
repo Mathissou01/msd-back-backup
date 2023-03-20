@@ -186,7 +186,6 @@ type AlertNotificationService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -219,7 +218,6 @@ input AlertNotificationServiceFiltersInput {
   alertNotifications: AlertNotificationFiltersInput
   and: [AlertNotificationServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -236,7 +234,6 @@ input AlertNotificationServiceFiltersInput {
 input AlertNotificationServiceInput {
   alertNotifications: [ID]
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   contract: ID
   endDate: Date
@@ -1065,6 +1062,7 @@ type ContentTypeDTO {
 type Contract {
   alertNotificationService: AlertNotificationServiceEntityResponse
   ccap: Long
+  channelType: ChannelTypeEntityResponse
   clear: Long
   clientContact: ClientContactEntityResponse
   clientName: String!
@@ -1112,6 +1110,7 @@ type ContractCreateInput {
   clear: Long
   clientName: String!
   clientType: String
+  id: ID!
   isRVFrance: Boolean!
   siret: Long
 }
@@ -1174,6 +1173,7 @@ input ContractFiltersInput {
   alertNotificationService: AlertNotificationServiceFiltersInput
   and: [ContractFiltersInput]
   ccap: LongFilterInput
+  channelType: ChannelTypeFiltersInput
   clear: LongFilterInput
   clientContact: ClientContactFiltersInput
   clientName: StringFilterInput
@@ -1208,6 +1208,7 @@ input ContractFiltersInput {
 input ContractInput {
   alertNotificationService: ID
   ccap: Long
+  channelType: ID
   clear: Long
   clientContact: ID
   clientName: String
@@ -1474,6 +1475,12 @@ input DateTimeFilterInput {
   startsWith: DateTime
 }
 
+type Deactivation {
+  contractId: ID
+  hasOtherActivationTypes: Boolean
+  typeDeactivation: String
+}
+
 type DeletedMessage {
   id: ID
   message: String
@@ -1613,7 +1620,6 @@ type DropOffMapService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -1651,7 +1657,6 @@ type DropOffMapServiceEntityResponseCollection {
 input DropOffMapServiceFiltersInput {
   and: [DropOffMapServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -1668,7 +1673,6 @@ input DropOffMapServiceFiltersInput {
 
 input DropOffMapServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   contract: ID
   dropOffMaps: [ID]
@@ -2196,7 +2200,6 @@ type EventSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -2234,7 +2237,6 @@ type EventSubServiceEntityResponseCollection {
 input EventSubServiceFiltersInput {
   and: [EventSubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -2252,7 +2254,6 @@ input EventSubServiceFiltersInput {
 
 input EventSubServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   description: String
   editorialService: ID
@@ -2511,7 +2512,6 @@ type FreeContentSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -2549,7 +2549,6 @@ type FreeContentSubServiceEntityResponseCollection {
 input FreeContentSubServiceFiltersInput {
   and: [FreeContentSubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -2567,7 +2566,6 @@ input FreeContentSubServiceFiltersInput {
 
 input FreeContentSubServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   description: String
   editorialService: ID
@@ -2899,7 +2897,6 @@ type KeyMetricsService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -2937,7 +2934,6 @@ type KeyMetricsServiceEntityResponseCollection {
 input KeyMetricsServiceFiltersInput {
   and: [KeyMetricsServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -2954,7 +2950,6 @@ input KeyMetricsServiceFiltersInput {
 
 input KeyMetricsServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   contract: ID
   endDate: Date
@@ -3021,6 +3016,7 @@ type Mutation {
     contractId: ID!
     typeActivation: String!
   ): [ActivationAndService]
+  channelsDeactivation(contractId: ID!, typeDeactivation: String!): Deactivation
   checkUnpublishedDate(date: String): Boolean
   createAccessibility(data: AccessibilityInput!): AccessibilityEntityResponse
   createAccessibilitySubService(
@@ -3239,6 +3235,7 @@ type Mutation {
   Confirm an email users email address
   """
   emailConfirmation(confirmation: String!): UsersPermissionsLoginPayload
+  endDateServices: Boolean
   exportMunicipalities: ID
 
   """
@@ -3600,7 +3597,6 @@ type NewsSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -3638,7 +3634,6 @@ type NewsSubServiceEntityResponseCollection {
 input NewsSubServiceFiltersInput {
   and: [NewsSubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -3656,7 +3651,6 @@ input NewsSubServiceFiltersInput {
 
 input NewsSubServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   description: String
   editorialService: ID
@@ -3735,7 +3729,6 @@ type PickUpDayService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -3773,7 +3766,6 @@ type PickUpDayServiceEntityResponseCollection {
 input PickUpDayServiceFiltersInput {
   and: [PickUpDayServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -3790,7 +3782,6 @@ input PickUpDayServiceFiltersInput {
 
 input PickUpDayServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   contract: ID
   endDate: Date
@@ -4351,7 +4342,6 @@ type QuizSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4389,7 +4379,6 @@ type QuizSubServiceEntityResponseCollection {
 input QuizSubServiceFiltersInput {
   and: [QuizSubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -4407,7 +4396,6 @@ input QuizSubServiceFiltersInput {
 
 input QuizSubServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   description: String
   editorialService: ID
@@ -4478,7 +4466,6 @@ type RecyclingGuideService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4516,7 +4503,6 @@ type RecyclingGuideServiceEntityResponseCollection {
 input RecyclingGuideServiceFiltersInput {
   and: [RecyclingGuideServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -4533,7 +4519,6 @@ input RecyclingGuideServiceFiltersInput {
 
 input RecyclingGuideServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   contract: ID
   endDate: Date
@@ -4621,7 +4606,6 @@ type RequestService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4659,7 +4643,6 @@ type RequestServiceEntityResponseCollection {
 input RequestServiceFiltersInput {
   and: [RequestServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -4676,7 +4659,6 @@ input RequestServiceFiltersInput {
 
 input RequestServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   contract: ID
   endDate: Date
@@ -5077,7 +5059,6 @@ type TipSubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AudienceTypeRelationResponseCollection
-  channelType: ChannelTypeEntityResponse
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -5115,7 +5096,6 @@ type TipSubServiceEntityResponseCollection {
 input TipSubServiceFiltersInput {
   and: [TipSubServiceFiltersInput]
   audienceTypes: AudienceTypeFiltersInput
-  channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -5133,7 +5113,6 @@ input TipSubServiceFiltersInput {
 
 input TipSubServiceInput {
   audienceTypes: [ID]
-  channelType: ID
   cities: [ID]
   description: String
   editorialService: ID

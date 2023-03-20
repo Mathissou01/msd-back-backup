@@ -1,8 +1,12 @@
+import _ from "lodash";
+import classNames from "classnames";
 import React from "react";
 import Select from "react-select";
-import FormLabel from "../FormLabel/FormLabel";
-import "./form-single-multiselect.scss";
 import { Controller, useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import FormLabel from "../FormLabel/FormLabel";
+import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import "./form-single-multiselect.scss";
 
 export type ICommonSelectOption = {
   value: string; // Suez component library only supports a value which is a string
@@ -11,8 +15,8 @@ export type ICommonSelectOption = {
 
 interface ICommonSelectProps {
   label: string;
+  labelDescription?: string;
   name: string;
-  placeholder: string;
   options: Array<ICommonSelectOption>;
   isMulti: boolean;
   maxMultiSelection?: number;
@@ -22,27 +26,49 @@ interface ICommonSelectProps {
 
 export default function FormMultiselect({
   label,
+  labelDescription,
   name,
   options,
   isMulti,
   maxMultiSelection,
+  isRequired = false,
+  isDisabled = false,
 }: ICommonSelectProps) {
-  const { control } = useFormContext();
+  /* Static Data */
+  const errorMessages = {
+    required: "Ce champ est obligatoire",
+  };
+
+  /* Local Data */
+  const {
+    control,
+    formState: { isSubmitting, errors },
+  } = useFormContext();
 
   return (
-    <Controller
-      control={control}
-      name={name}
-      render={({ field: { onChange, value } }) => {
-        const isMaxOptionsSelected =
-          isMulti && maxMultiSelection && value?.length > maxMultiSelection - 1
-            ? true
-            : false;
-
-        return (
-          <FormLabel label={label}>
-            <div className="c-CommonSelect">
+    <>
+      <FormLabel
+        label={label}
+        labelDescription={labelDescription}
+        isRequired={isRequired}
+      >
+        <Controller
+          control={control}
+          name={name}
+          rules={{
+            required: { value: isRequired, message: errorMessages.required },
+          }}
+          render={({ field: { onChange, value } }) => {
+            const isMaxOptionsSelected = !!(
+              isMulti &&
+              maxMultiSelection &&
+              value?.length > maxMultiSelection - 1
+            );
+            return (
               <Select
+                className={classNames("c-FormSingleMultiselect__Input", {
+                  "c-FormSingleMultiselect__Input_invalid": _.get(errors, name),
+                })}
                 options={options}
                 value={value}
                 placeholder=""
@@ -50,18 +76,28 @@ export default function FormMultiselect({
                 isMulti
                 onChange={onChange}
                 defaultValue={value}
-                filterOption={() => (isMaxOptionsSelected ? false : true)}
+                filterOption={() => !isMaxOptionsSelected}
                 noOptionsMessage={() =>
                   isMaxOptionsSelected
                     ? `${maxMultiSelection} options maximum`
                     : "Pas d'options"
                 }
                 classNamePrefix="form-single-multiselect"
+                isDisabled={isSubmitting || isDisabled}
+                aria-invalid={!!_.get(errors, name)}
+                aria-errormessage={`${name}_error`}
               />
-            </div>
-          </FormLabel>
-        );
-      }}
-    />
+            );
+          }}
+        />
+      </FormLabel>
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => (
+          <CommonErrorText message={message} errorId={`${name}_error`} />
+        )}
+      />
+    </>
   );
 }
