@@ -7,12 +7,25 @@ trigger:
     include:
       - develop
       - release/*
+      - main
 
 variables:
-  - name: releaseDev
+  - name: releaseDEV
     value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}
-  - name: releaseRec
+
+  - name: releaseREC
     value: ${{ startsWith(variables['Build.SourceBranch'], 'refs/heads/release') }}
+
+  - name: releaseHML
+    value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
+
+  - name: env
+    ${{ if eq(variables.releaseREC, 'true') }}:
+      value: rec
+    ${{ elseif eq(variables.releaseHML, 'true') }}:
+      value: hml
+    ${{ else }}:
+      value: dev
 
 parameters:
   - name: az_env
@@ -31,31 +44,20 @@ stages:
     displayName: CI tasks
     jobs:
       - template: azure-pipelines/build.yml
-        ${{ if eq(variables.releaseRec, 'true') }}:
-          parameters:
-            env: rec
+        parameters:
+          env: ${{ variables.env }}
 
   - stage: Release
     displayName: Service update on Azure Cloud
-    condition: and(succeeded(),or(eq(variables.releaseDev, 'true'),eq(variables.releaseRec, 'true')))
+    condition: and(eq(variables.release${{ upper(variables.env) }}, 'true'), succeeded())
     variables:
-      - ${{ if eq(variables.releaseDev, 'true') }}:
-          - group: bo_site_variables_dev
-          - name: env
-            value: dev
-      - ${{ elseif eq(variables.releaseRec, 'true') }}:
-          - group: bo_site_variables_rec
-          - name: env
-            value: rec
-      - ${{ else }}:
-          - name: env
-            value: dev
+      - group: bo_site_variables_${{ variables.env }}
 
     jobs:
       - template: azure-pipelines/release.yml
         parameters:
           env: ${{ variables.env }}
-          ${{ if eq(variables.releaseRec, 'true') }}:
+          ${{ if eq(variables.releaseREC, 'true') }}:
             instance: ${{ parameters.az_env }}
           ${{ else }}:
             instance: "production"

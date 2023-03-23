@@ -2,10 +2,9 @@
 parameters:
   - name: env
     type: string
-    default: dev
+
   - name: instance
     type: string
-    default: smile
 
 jobs:
   - deployment: msd_bo_site_release_${{ parameters.env }}
@@ -40,4 +39,4 @@ jobs:
                 ${{ if not(eq(parameters.instance, 'production')) }}:
                   deployment_environment: ${{ parameters.instance }}
               env:
-                azure_static_web_apps_api_token: $(az-stapps-deployment-token)
+                azure_static_web_apps_api_token: $(bo-deployment-token)
