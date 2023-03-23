@@ -1,0 +1,12 @@
+.c-SubHeadingRow {
+  display: flex;
+  gap: 16px;
+
+  &__Description {
+    width: 70%;
+  }
+
+  &__Select {
+    width: 30%;
+  }
+}

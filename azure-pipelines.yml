@@ -1,0 +1,63 @@
+# Main Azure pipeline configuration file for MSD BO Static WebSite
+name: MSD_BO_Site_$(Rev:rrr)
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - develop
+      - release/*
+      - main
+
+variables:
+  - name: releaseDEV
+    value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}
+
+  - name: releaseREC
+    value: ${{ startsWith(variables['Build.SourceBranch'], 'refs/heads/release') }}
+
+  - name: releaseHML
+    value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
+
+  - name: env
+    ${{ if eq(variables.releaseREC, 'true') }}:
+      value: rec
+    ${{ elseif eq(variables.releaseHML, 'true') }}:
+      value: hml
+    ${{ else }}:
+      value: dev
+
+parameters:
+  - name: az_env
+    displayName: Instance à livrer
+    type: string
+    default: smile
+    values:
+      - smile
+      - production
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: Build
+    displayName: CI tasks
+    jobs:
+      - template: azure-pipelines/build.yml
+        parameters:
+          env: ${{ variables.env }}
+
+  - stage: Release
+    displayName: Service update on Azure Cloud
+    condition: and(eq(variables.release${{ upper(variables.env) }}, 'true'), succeeded())
+    variables:
+      - group: bo_site_variables_${{ variables.env }}
+
+    jobs:
+      - template: azure-pipelines/release.yml
+        parameters:
+          env: ${{ variables.env }}
+          ${{ if eq(variables.releaseREC, 'true') }}:
+            instance: ${{ parameters.az_env }}
+          ${{ else }}:
+            instance: "production"

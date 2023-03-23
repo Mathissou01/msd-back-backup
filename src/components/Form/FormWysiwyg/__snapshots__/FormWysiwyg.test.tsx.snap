@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormWysiwyg renders 1`] = `
+<div>
+  <div
+    class="c-FormWysiwyg"
+  >
+    <div
+      class="c-FormLabel"
+    >
+      <label
+        class="c-FormLabel__LabelWrapper"
+        for="form-wysiwyg"
+      >
+        <span
+          class="c-FormLabel__Label"
+        >
+          form wysiwyg *
+        </span>
+        <span
+          class="c-FormLabel__Validation"
+        >
+          validation label
+        </span>
+      </label>
+      <div
+        class="c-FormLabel__Content"
+      >
+        <div
+          class="c-FormWysiwyg__Input"
+          data-testid="form-wysiwyg"
+          id="form-wysiwyg"
+        >
+          <textarea
+            id="wysiwyg-editor-form-wysiwyg"
+            style="visibility: hidden;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

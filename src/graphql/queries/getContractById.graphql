@@ -1,0 +1,103 @@
+query getContractById($contractId: ID!) {
+  contract(id: $contractId) {
+    data {
+      id
+      attributes {
+        clientName
+        isRVFrance
+        contractStatus
+        clientType
+        isNonExclusive
+        pathId
+        editorialService {
+          data {
+            id
+            attributes {
+              eventSubService {
+                data {
+                  id
+                  attributes {
+                    name
+                    isActivated
+                  }
+                }
+              }
+              freeContentSubServices {
+                data {
+                  id
+                  attributes {
+                    name
+                    isActivated
+                  }
+                }
+              }
+              newsSubService {
+                data {
+                  id
+                  attributes {
+                    name
+                    isActivated
+                  }
+                }
+              }
+              quizSubService {
+                data {
+                  id
+                  attributes {
+                    name
+                    isActivated
+                  }
+                }
+              }
+              tipSubService {
+                data {
+                  id
+                  attributes {
+                    name
+                    isActivated
+                  }
+                }
+              }
+            }
+          }
+        }
+        recyclingGuideService {
+          data {
+            id
+            attributes {
+              name
+              isActivated
+            }
+          }
+        }
+        pickUpDayService {
+          data {
+            id
+            attributes {
+              name
+              isActivated
+            }
+          }
+        }
+        dropOffMapService {
+          data {
+            id
+            attributes {
+              name
+              isActivated
+            }
+          }
+        }
+        requestService {
+          data {
+            id
+            attributes {
+              name
+              isActivated
+            }
+          }
+        }
+      }
+    }
+  }
+}

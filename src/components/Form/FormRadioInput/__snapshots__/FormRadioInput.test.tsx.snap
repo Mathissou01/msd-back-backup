@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormRadioInput renders 1`] = `
+<div>
+  <div
+    class="c-FormRadioInput"
+  >
+    <fieldset>
+      <div
+        class="c-FormLabel"
+      >
+        <legend
+          class="c-FormLabel__LabelWrapper"
+        >
+          <span
+            class="c-FormLabel__Label"
+          >
+            form radio input
+          </span>
+        </legend>
+        <legend
+          class="c-FormLabel__LabelWrapper"
+        >
+          <span
+            class="c-FormLabel__Secondary"
+          >
+            secondary display name
+          </span>
+        </legend>
+      </div>
+      <div
+        class="c-FormRadioInput__Options"
+      >
+        <div
+          class="c-FormRadioInput__Option"
+        >
+          <input
+            class="c-FormRadioInput__Input "
+            data-testid="form-radio-input_0"
+            id="form-radio-input0"
+            name="form-radio-input"
+            type="radio"
+            value="0"
+          />
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="form-radio-input0"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                first
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="c-FormRadioInput__Option"
+        >
+          <input
+            class="c-FormRadioInput__Input c-FormRadioInput__Input_checked"
+            data-testid="form-radio-input_1"
+            id="form-radio-input1"
+            name="form-radio-input"
+            type="radio"
+            value="1"
+          />
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="form-radio-input1"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                second
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+`;

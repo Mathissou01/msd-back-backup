@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaBreadcrumb renders 1`] = `
+<button
+  class="c-MediaBreadcrumb__Link c-MediaBreadcrumb__Link_active"
+>
+  lorem
+</button>
+`;
+
+exports[`MediaBreadcrumb renders 2`] = `
+<div>
+  <nav
+    class="c-MediaBreadcrumb"
+  >
+    <ol
+      class="c-MediaBreadcrumb__Navbar"
+    >
+      <li
+        class="c-MediaBreadcrumb__NavbarItem"
+      >
+        <button
+          class="c-MediaBreadcrumb__Link c-MediaBreadcrumb__Link_active"
+        >
+          lorem
+        </button>
+        <span
+          class="c-MediaBreadcrumb__Separator"
+        />
+      </li>
+      <li
+        class="c-MediaBreadcrumb__NavbarItem"
+      >
+        <button
+          class="c-MediaBreadcrumb__Link c-MediaBreadcrumb__Link_active"
+        >
+          Etiam
+        </button>
+        <span
+          class="c-MediaBreadcrumb__Separator"
+        />
+      </li>
+      <li
+        class="c-MediaBreadcrumb__NavbarItem"
+      >
+        <span
+          class="c-MediaBreadcrumb__Link"
+        >
+          Vestibulum
+        </span>
+      </li>
+    </ol>
+  </nav>
+</div>
+`;

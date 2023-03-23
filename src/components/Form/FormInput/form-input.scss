@@ -1,0 +1,30 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.inputs" as inputs;
+
+.c-FormInput {
+  display: flex;
+  flex-direction: column;
+
+  &_row {
+    flex-direction: row;
+  }
+
+  textarea {
+    min-height: 112px;
+  }
+
+  &__Label {
+    margin-bottom: 2px;
+    color: colors.$blue-2;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  &__Input {
+    @include inputs.input;
+
+    &_invalid {
+      @include inputs.input("invalid");
+    }
+  }
+}

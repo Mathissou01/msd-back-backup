@@ -1,0 +1,10 @@
+query getTagsByContractId($contractId: ID) {
+  tags(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

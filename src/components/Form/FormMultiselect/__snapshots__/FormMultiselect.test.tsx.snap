@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormMultiselect renders 1`] = `
+<div>
+  <div
+    class="c-FormMultiselect"
+  >
+    <div>
+      <div
+        class="c-FormLabel"
+      >
+        <label
+          class="c-FormLabel__LabelWrapper"
+          for="form-multiselect_0"
+        >
+          <span
+            class="c-FormLabel__Label"
+          >
+            form multiselect n°1
+          </span>
+        </label>
+      </div>
+      <div
+        class="o-SelectWrapper"
+      >
+        <select
+          aria-errormessage="form-multiselect_0_error"
+          aria-invalid="false"
+          class="o-SelectWrapper__Select o-SelectWrapper__Select_placeholder "
+          data-testid="form-multiselect_0"
+          id="form-multiselect_0"
+        >
+          <option
+            value="-1"
+          >
+            - Sélectionnez un élément -
+          </option>
+          <option
+            class="o-SelectWrapper__Option"
+            value="0"
+          >
+            -content 1
+          </option>
+          <option
+            class="o-SelectWrapper__Option"
+            value="1"
+          >
+            -content 2
+          </option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <div
+        class="c-FormLabel"
+      >
+        <label
+          class="c-FormLabel__LabelWrapper"
+          for="form-multiselect_1"
+        >
+          <span
+            class="c-FormLabel__Label"
+          >
+            form multiselect n°2
+          </span>
+        </label>
+      </div>
+      <div
+        class="o-SelectWrapper"
+      >
+        <select
+          aria-errormessage="form-multiselect_1_error"
+          aria-invalid="false"
+          class="o-SelectWrapper__Select o-SelectWrapper__Select_placeholder "
+          data-testid="form-multiselect_1"
+          id="form-multiselect_1"
+        >
+          <option
+            value="-1"
+          >
+            - Sélectionnez un élément -
+          </option>
+          <option
+            class="o-SelectWrapper__Option"
+            value="0"
+          >
+            -content 1
+          </option>
+          <option
+            class="o-SelectWrapper__Option"
+            value="1"
+          >
+            -content 2
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+`;

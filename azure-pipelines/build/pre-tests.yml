@@ -1,0 +1,36 @@
+# Steps template for pre-build tests
+steps:
+  - task: Npm@1
+    displayName: "Launch linter"
+    inputs:
+      command: "custom"
+      customCommand: "run lint"
+
+  - task: Npm@1
+    displayName: "Launch preparation for Jest unit tests"
+    inputs:
+      command: "custom"
+      customCommand: "run pretest"
+    continueOnError: true
+
+  - task: Npm@1
+    displayName: "Launch Jest unit tests"
+    inputs:
+      command: "custom"
+      customCommand: "run test:jest:ci"
+    continueOnError: true
+
+  - task: PublishTestResults@2
+    displayName: "Publish unit tests results"
+    inputs:
+      testResultsFiles: coverage/junit-ut.xml
+      mergeTestResults: true
+      testRunTitle: "Jest Unit Tests"
+      failTaskOnFailedTests: true
+
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish code coverage report"
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
+      failIfCoverageEmpty: true

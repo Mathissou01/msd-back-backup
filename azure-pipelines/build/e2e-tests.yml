@@ -1,0 +1,25 @@
+# Steps template for end-to-end tests
+steps:
+  - task: Npm@1
+    displayName: "Build application with mocked GraphQL mesh"
+    inputs:
+      command: "custom"
+      customCommand: "run build:mock"
+
+  - task: Npm@1
+    displayName: "Launch end-to-end tests"
+    inputs:
+      command: "custom"
+      customCommand: "run test:e2e:ci"
+    continueOnError: true
+    env:
+      NEXT_PUBLIC_BASE_HOST: http://localhost
+      NEXT_PUBLIC_BASE_PORT: 3001
+
+  - task: PublishTestResults@2
+    displayName: "Publish e2e tests results"
+    inputs:
+      testResultsFiles: coverage/junit-e2e.xml
+      mergeTestResults: true
+      testRunTitle: "End-to-end tests"
+      failTaskOnFailedTests: true

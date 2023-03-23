@@ -1,0 +1,19 @@
+#Steps template for Static WebApps export
+parameters:
+  - name: env
+    type: string
+
+steps:
+  - task: Npm@1
+    displayName: "Build BO Static WebSite"
+    inputs:
+      command: "custom"
+      customCommand: "run build"
+    env:
+      NEXT_PUBLIC_API_URL: https://func-msd-${{ parameters.env }}-boapi.azurewebsites.net/api
+
+  - task: Npm@1
+    displayName: "Export BO Static Website assets"
+    inputs:
+      command: "custom"
+      customCommand: "run export"

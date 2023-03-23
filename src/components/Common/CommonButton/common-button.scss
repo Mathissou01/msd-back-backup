@@ -1,0 +1,48 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.buttons" as buttons;
+@use "src/styles/02-tools/tools.typography" as typo;
+@use "src/styles/02-tools/tools.functions" as func;
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-CommonButton {
+  $self: &;
+
+  &_disabled {
+    cursor: not-allowed;
+  }
+
+  &_fontSmall {
+    @include typo.text("buttonSmall");
+  }
+
+  &_fontLarge {
+    @include typo.text("buttonLarge");
+  }
+
+  &_primary {
+    @include buttons.button("primary");
+  }
+
+  &_secondary {
+    @include buttons.button("secondary");
+  }
+
+  &_paddingSmall {
+    padding: 8px 16px;
+  }
+
+  &_paddingLarge {
+    padding: 16px;
+  }
+
+  &__Picto {
+    @include p.pictos;
+
+    width: 24px;
+    height: 24px;
+
+    #{$self}_disabled & {
+      opacity: 0.5;
+    }
+  }
+}

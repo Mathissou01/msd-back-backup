@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopContentTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    aria-labelledby="tab-topContent"
+    class="c-TopContentTab"
+    id="panel-topContent"
+    role="tabpanel"
+  >
+    <div
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
+    >
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TopContentTab renders loading and loaded state 2`] = `
+<div>
+  <div
+    aria-labelledby="tab-topContent"
+    class="c-TopContentTab"
+    id="panel-topContent"
+    role="tabpanel"
+  >
+    <div
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
+    >
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+`;

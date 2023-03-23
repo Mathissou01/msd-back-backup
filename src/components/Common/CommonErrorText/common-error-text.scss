@@ -1,0 +1,6 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-CommonErrorMessage {
+  padding: 2px 0;
+  color: colors.$error;
+}

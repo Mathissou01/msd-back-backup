@@ -1,0 +1,88 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FormLabel {
+  $self: &;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 2px;
+  color: colors.$blue-2;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+
+  &_row {
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+  }
+
+  &_styleTable {
+    color: colors.$white;
+    line-height: 20px;
+  }
+
+  &__LabelWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+
+    #{$self}_row & {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__Label {
+    margin-right: auto;
+  }
+
+  &__LabelDescription {
+    margin-left: 8px;
+    font-weight: 350;
+  }
+
+  &__Secondary,
+  &__Validation {
+    color: colors.$blue-1;
+    font-weight: 400;
+    font-family: DINPro-Regular, serif;
+
+    #{$self}_styleTable & {
+      color: colors.$blue-4;
+      font-weight: 500;
+    }
+  }
+
+  &__Secondary {
+    color: colors.$gray-800;
+  }
+
+  &__Validation {
+    max-width: 75%;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: right;
+
+    #{$self}_styleTable & {
+      font-size: 14px;
+    }
+
+    &_left {
+      margin-bottom: 4px;
+      text-align: left;
+    }
+  }
+
+  &__Content {
+    display: flex;
+    flex-direction: row;
+
+    #{$self}_row & {
+      flex-grow: 7;
+    }
+  }
+}

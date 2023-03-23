@@ -1,0 +1,29 @@
+@use "src/styles/01-settings/settings.layout" as layout;
+@use "src/styles/02-tools/tools.z-index" as index;
+
+.o-Page {
+  &__RootContainer {
+    position: relative;
+    top: layout.$header-height;
+    z-index: index.z("site-content");
+    height: calc(100vh - #{layout.$header-height});
+    overflow: hidden auto;
+  }
+
+  &__Container {
+    position: relative;
+    top: layout.$header-height;
+    left: layout.$sidebar-width;
+    z-index: index.z("site-content");
+    width: calc(100vw - #{layout.$sidebar-width});
+    height: calc(100vh - #{layout.$header-height});
+    overflow: hidden auto;
+  }
+
+  &__Main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - #{layout.$header-height});
+    padding: 0 78px;
+  }
+}

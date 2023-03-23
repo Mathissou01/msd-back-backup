@@ -1,0 +1,186 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditoTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    aria-labelledby="tab-edito"
+    class="c-EditoTab"
+    id="panel-edito"
+    role="tabpanel"
+  >
+    <div
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
+    >
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditoTab renders loading and loaded state 2`] = `
+<div>
+  <div
+    aria-labelledby="tab-edito"
+    class="c-EditoTab"
+    id="panel-edito"
+    role="tabpanel"
+  >
+    <h2
+      class="c-EditoTab__Title"
+    >
+      Bloc Édito
+    </h2>
+    <form
+      class="c-EditoTab__Form"
+    >
+      <div
+        class="c-EditoTab__Group c-EditoTab__Group_short"
+      >
+        <div
+          class="c-FormCheckbox"
+        >
+          <input
+            class="c-FormCheckbox__Input c-FormCheckbox__Input_checked"
+            data-testid="form-checkbox"
+            id="displayBlock"
+            name="displayBlock"
+            type="checkbox"
+          />
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="displayBlock"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Afficher ce bloc
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="c-FormInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="titleContent"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Titre du bloc *
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-errormessage="titleContent_error"
+                aria-invalid="false"
+                class="c-FormInput__Input"
+                data-testid="form-input"
+                id="titleContent"
+                name="titleContent"
+                type="text"
+                value="Titre modifié"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-EditoTab__Group"
+      >
+        <div
+          class="c-FormModalButtonInput"
+          data-testid="form-modal-input"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="editoContents_button"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Contenus à afficher *
+              </span>
+            </label>
+          </div>
+          <input
+            disabled=""
+            name="editoContents"
+            type="hidden"
+            value="[object Object],[object Object],[object Object]"
+          />
+          <div
+            class="c-FormModalButtonInput__Container"
+          >
+            <p>
+              Remplacez vos sacs en plastique par des sacs réutilisables, un caddie ou des paniers. - 18/11/2022
+            </p>
+            <p>
+              freecontent test - 05/12/2022
+            </p>
+            <p>
+              Nom du quiz - 20/11/2022
+            </p>
+            <div
+              aria-errormessage="editoContents_error"
+              aria-invalid="false"
+            >
+              <button
+                class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+                id="editoContents_button"
+                type="button"
+              >
+                Sélectionner les articles à afficher
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-EditoTab__Buttons"
+      >
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
+          Enregistrer les modifications
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+          disabled=""
+          type="button"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
+          Annuler les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

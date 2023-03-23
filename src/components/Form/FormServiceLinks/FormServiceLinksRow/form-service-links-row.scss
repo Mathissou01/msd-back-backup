@@ -1,0 +1,41 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.inputs" as inputs;
+@use "src/styles/02-tools/tools.focus" as focus;
+
+.c-FormServiceLinksRow {
+  &__Info {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+  }
+
+  &__Actions {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__Picto,
+  &__Action {
+    transition: opacity ease 0.1s;
+
+    img {
+      filter: url("#recolor-expert-blue");
+    }
+
+    &_darkened {
+      opacity: 0.5;
+    }
+
+    &_disabled {
+      opacity: 0.2;
+    }
+  }
+
+  &__Action {
+    @include focus.focus-ring;
+
+    display: flex;
+    padding: 10px;
+  }
+}

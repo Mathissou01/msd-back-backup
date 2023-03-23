@@ -1,0 +1,65 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-CommonDatePicker {
+  position: relative;
+  width: 100%;
+
+  // stylelint-disable selector-class-pattern
+  // stylelint-disable max-nesting-depth
+
+  .react-datepicker__input-container {
+    &::before {
+      position: absolute;
+      top: calc(50% - 10px);
+      right: 20px;
+      height: 20px;
+      transition: transform 0.2s;
+      content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23a)'%3E%3Cpath d='M15.5 11.126 8.353 3.98a.5.5 0 0 0-.706 0L.5 11.126' stroke='%233D466C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='a'%3E%3Cpath fill='%23fff' d='M0 16h16V0H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+      pointer-events: none;
+      rotate: 180deg;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    top: 12px;
+    left: 9px;
+    content: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23a)' stroke='%23767C97' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21.75 3.75H2.25a1.5 1.5 0 0 0-1.5 1.5v16.5a1.5 1.5 0 0 0 1.5 1.5h19.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5Zm-21 6h22.5M6.75 6V.75M17.25 6V.75'/%3E%3Cpath d='M5.625 13.5a.375.375 0 1 0 0 .75.375.375 0 0 0 0-.75Zm0 5.25a.375.375 0 1 0 0 .75.375.375 0 0 0 0-.75ZM12 13.5a.375.375 0 1 0 0 .75.375.375 0 0 0 0-.75Zm0 5.25a.375.375 0 1 0 0 .75.375.375 0 0 0 0-.75Zm6.375-5.25a.375.375 0 1 0 0 .75.375.375 0 0 0 0-.75Zm0 5.25a.375.375 0 1 0 0 .75.375.375 0 0 0 0-.75Z'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='a'%3E%3Cpath fill='%767C97' d='M0 0h24v24H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+  }
+
+  input {
+    width: 100%;
+    min-height: 48px;
+    margin: 0;
+    padding: 0;
+    padding-left: 48px;
+    color: colors.$blue-1;
+    font-family: DINPro-Regular, sans-serif;
+    background-color: colors.$gray-0;
+    border: 1px solid colors.$blue-4;
+    border-radius: 4px;
+  }
+}
+
+.react-datepicker__input-container_isOpen {
+  .react-datepicker-wrapper {
+    .react-datepicker__input-container {
+      &::before {
+        transform: rotate(180deg);
+        pointer-events: none;
+      }
+    }
+  }
+
+  .react-datepicker-popper {
+    min-width: 100%;
+  }
+
+  .react-datepicker {
+    width: 100%;
+  }
+
+  .react-datepicker__month-container {
+    width: 100%;
+  }
+}

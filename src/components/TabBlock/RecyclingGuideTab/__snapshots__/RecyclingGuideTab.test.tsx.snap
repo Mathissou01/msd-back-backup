@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RecyclingGuideTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    aria-labelledby="tab-recyclingGuide"
+    class="c-RecyclingGuideTab"
+    id="panel-recyclingGuide"
+    role="tabpanel"
+  >
+    <div
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
+    >
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`RecyclingGuideTab renders loading and loaded state 2`] = `
+<div>
+  <div
+    aria-labelledby="tab-recyclingGuide"
+    class="c-RecyclingGuideTab"
+    id="panel-recyclingGuide"
+    role="tabpanel"
+  >
+    <h2
+      class="c-RecyclingGuideTab__Title"
+    >
+      Guide du Tri
+    </h2>
+    <form
+      class="c-RecyclingGuideTab__Form"
+    >
+      <div
+        class="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="titleContent"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Titre *
+              </span>
+              <span
+                class="c-FormLabel__Validation"
+              >
+                60 caractères maximum
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-errormessage="titleContent_error"
+                aria-invalid="false"
+                class="c-FormInput__Input"
+                data-testid="form-input"
+                id="titleContent"
+                maxlength="60"
+                name="titleContent"
+                type="text"
+                value="Titre modifié"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="subtitleContent"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Sous titre *
+              </span>
+              <span
+                class="c-FormLabel__Validation"
+              >
+                60 caractères maximum
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-errormessage="subtitleContent_error"
+                aria-invalid="false"
+                class="c-FormInput__Input"
+                data-testid="form-input"
+                id="subtitleContent"
+                maxlength="60"
+                name="subtitleContent"
+                type="text"
+                value="Trouver les consignes de tri dans ma ville"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-RecyclingGuideTab__Group c-RecyclingGuideTab__Group_short"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="recyclingGuideDisplayContent"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Texte affiché dans le moteur de recherche du guide du tri *
+              </span>
+              <span
+                class="c-FormLabel__Validation"
+              >
+                30 caractères maximum
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-errormessage="recyclingGuideDisplayContent_error"
+                aria-invalid="false"
+                class="c-FormInput__Input"
+                data-testid="form-input"
+                id="recyclingGuideDisplayContent"
+                maxlength="30"
+                name="recyclingGuideDisplayContent"
+                type="text"
+                value="Lampe, écran, épluchure"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-RecyclingGuideTab__Buttons"
+      >
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
+          Enregistrer les modifications
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+          disabled=""
+          type="button"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
+          Annuler les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

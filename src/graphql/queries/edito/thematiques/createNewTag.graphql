@@ -1,0 +1,7 @@
+mutation createNewTag($contractId: ID!, $tagName: String!) {
+  createNewTag(contractId: $contractId, tagName: $tagName) {
+    contractId
+    id
+    name
+  }
+}

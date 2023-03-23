@@ -1,0 +1,44 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-CommonModalWrapper {
+  &:not(:empty) {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0 0 0 / 50%);
+  }
+
+  &__Modal {
+    @include shadows.shadow(2);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 58%;
+    padding: 36px;
+    background-color: colors.$white;
+    border-radius: 10px;
+  }
+
+  &__Close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m.75 23.249 22.5-22.5m0 22.5L.75.749' stroke='%23030F40' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 23px;
+  }
+
+  hgroup {
+    margin-bottom: 30px;
+  }
+}

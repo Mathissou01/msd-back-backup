@@ -1,0 +1,31 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/01-settings/settings.layout" as layout;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+@use "src/styles/02-tools/tools.z-index" as index;
+
+.c-HeaderSideBar {
+  @include shadows.shadow(1);
+
+  position: fixed;
+  top: layout.$header-height;
+  z-index: index.z(site-sidebar);
+  display: flex;
+  flex-direction: column;
+  width: layout.$sidebar-width;
+  height: calc(100vh - #{layout.$header-height});
+  padding: 0;
+  color: colors.$expert-blue;
+  font-size: 16px;
+  background-color: colors.$white;
+  clip-path: inset(0 -5px 0 0);
+
+  &__Logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    max-height: 62px;
+    padding: 20px 0;
+  }
+}

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonSpinner renders 1`] = `
+<div>
+  <div
+    class="c-CommonSpinner"
+    data-testid="common-spinner"
+  >
+    <div />
+    <div />
+    <div />
+    <div />
+  </div>
+</div>
+`;

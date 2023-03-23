@@ -1,0 +1,7 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FormSelect {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

@@ -1,0 +1,103 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-MediaImportButton {
+  &__Title {
+    color: colors.$expert-blue;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 35px;
+  }
+
+  &__Button {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  &__Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  &__Body {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+
+  &__Footer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  &__Wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  &__Block {
+    flex: 1;
+    padding: 0 10px;
+  }
+
+  &__FormControl {
+    margin-bottom: 20px;
+  }
+
+  &__Table {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: colors.$gray-200;
+    border: 1px solid colors.$gray-600;
+
+    th,
+    td {
+      width: 75%;
+    }
+  }
+
+  &__EditImg {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 0;
+    background: colors.$gray-200;
+    border: 1px solid colors.$gray-600;
+  }
+
+  &__ToolsIcon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 15px;
+
+    button:first-child {
+      margin-bottom: 10px;
+    }
+  }
+
+  &_trash {
+    width: 24px;
+    height: 24px;
+    background: center center no-repeat
+      url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2.235 5.835a1 1 0 0 1 1-1h18a1 1 0 0 1 0 2h-18a1 1 0 0 1-1-1Z' fill='%23000'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.235 2.835a1 1 0 0 0-1 1v1h6v-1a1 1 0 0 0-1-1h-4Zm7 2v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3v1h-2a1 1 0 0 0-1 1v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-14a1 1 0 0 0-1-1h-2Zm-11 2v13a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-13h-12Z' fill='%23000'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.235 9.835a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0v-6a1 1 0 0 1 1-1Zm4 0a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0v-6a1 1 0 0 1 1-1Z' fill='%23000'/%3E%3C/svg%3E");
+  }
+
+  &_crop {
+    width: 24px;
+    height: 24px;
+    background: center center no-repeat
+      url("data:image/svg+xml,%3Csvg width='20' height='22' viewBox='0 0 20 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M20 15V17H16V19H18L15 22L12 19H14V17H6C4.9 17 4 16.1 4 15V7H0V5H4V3H2L5 0L8 3H6V15H20ZM14 7H8V5H14C15.1 5 16 5.9 16 7V13H14V7Z' fill='black' fill-opacity='1'/%3E%3C/svg%3E%0A");
+  }
+}

@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServicesTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    aria-labelledby="tab-services"
+    class="c-ServicesTab"
+    id="panel-services"
+    role="tabpanel"
+  >
+    <div
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
+    >
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ServicesTab renders loading and loaded state 2`] = `
+<div>
+  <div
+    aria-labelledby="tab-services"
+    class="c-ServicesTab"
+    id="panel-services"
+    role="tabpanel"
+  >
+    <h2
+      class="c-ServicesTab__Title"
+    >
+      Services
+    </h2>
+    <form
+      class="c-ServicesTab__Form"
+    >
+      <div
+        class="c-ServicesTab__Block"
+      >
+        <div
+          class="c-ServicesTab__Group"
+        >
+          <div
+            class="c-FormInput"
+          >
+            <div
+              class="c-FormLabel"
+            >
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="titleContent"
+              >
+                <span
+                  class="c-FormLabel__Label"
+                >
+                  Titre du bloc *
+                </span>
+              </label>
+              <div
+                class="c-FormLabel__Content"
+              >
+                <input
+                  aria-errormessage="titleContent_error"
+                  aria-invalid="false"
+                  class="c-FormInput__Input"
+                  data-testid="form-input"
+                  id="titleContent"
+                  name="titleContent"
+                  type="text"
+                  value="Les services de ma ville"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-ServicesTab__ServiceLinks"
+      >
+        <div
+          class="c-FormServiceLinks"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Ordre d’affichage des services sur la page d’accueil (accès rapide)
+              </span>
+            </label>
+            <label
+              class="c-FormLabel__LabelWrapper"
+            >
+              <span
+                class="c-FormLabel__Secondary"
+              >
+                Vous pouvez choisir d’afficher jusqu’à 6 blocs maximum, à choisir en fonction du menu défini préalablement
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="c-ServicesTabAddButton"
+        >
+          <button
+            class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+            type="button"
+          >
+            <div
+              class="c-CommonButton__Picto c-CommonButton__Picto_plus"
+            />
+            Ajouter un service personnalisé
+          </button>
+        </div>
+      </div>
+      <div
+        class="c-ServicesTab__Buttons"
+      >
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
+          Enregistrer les modifications
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+          disabled=""
+          type="button"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
+          Annuler les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

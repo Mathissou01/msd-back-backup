@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormLabel renders 1`] = `
+<div>
+  <div
+    class="c-FormLabel"
+  >
+    <label
+      class="c-FormLabel__LabelWrapper"
+      for="form-label"
+    >
+      <span
+        class="c-FormLabel__Label"
+      >
+        form label
+      </span>
+      <span
+        class="c-FormLabel__Validation"
+      >
+        validation label
+      </span>
+    </label>
+    <label
+      class="c-FormLabel__LabelWrapper"
+      for="form-label"
+    >
+      <span
+        class="c-FormLabel__Secondary"
+      >
+        secondary label
+      </span>
+    </label>
+  </div>
+</div>
+`;

@@ -1,0 +1,32 @@
+@use "sass:math";
+@use "sass:string";
+
+/* Takes an SVG code and returns it as as a url("data:image/svg+xml,...") string to use as url in CSS */
+@function svg-url($svg) {
+  // Add missing namespace
+  @if not str-index($svg, xmlns) {
+    $svg: str-replace($svg, "'");
+  }
+
+  // Chunk up string in order to avoid
+  // "stack level too deep" error
+  $encoded: "";
+  $slice: 2000;
+  $index: 0;
+  $loops: math.ceil(string.length($svg) / $slice);
+  @for $i from 1 through $loops {
+    $chunk: string.slice($svg, $index, $index + $slice - 1);
+
+    // Encode
+    $chunk: str-replace($chunk, '"', "'");
+    $chunk: str-replace($chunk, "%", "%25");
+    $chunk: str-replace($chunk, "#", "%23");
+    $chunk: str-replace($chunk, "{", "%7B");
+    $chunk: str-replace($chunk, "}", "%7D");
+    $chunk: str-replace($chunk, "<", "%3C");
+    $chunk: str-replace($chunk, ">", "%3E");
+    $encoded: #{$encoded}#{$chunk};
+    $index: $index + $slice;
+  }
+  @return url("data:image/svg+xml,#{$encoded}");
+}

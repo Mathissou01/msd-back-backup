@@ -1,0 +1,13 @@
+---
+# NodeJS installation job template
+steps:
+  - task: NodeTool@0
+    displayName: "Install Node.js"
+    inputs:
+      versionSpec: "16.x"
+
+  - task: Cache@2
+    displayName: "Cache Node modules"
+    inputs:
+      key: package-lock.json
+      path: node_modules

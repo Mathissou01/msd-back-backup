@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonModalWrapper renders content when opened 1`] = `
+<div>
+  <main>
+    <input
+      data-testid="outside-content"
+    />
+    <button />
+  </main>
+  <div
+    id="modal-portal"
+  >
+    <div
+      class="c-CommonModalWrapper"
+      data-testid="common-modal-wrapper"
+      id=":r1:"
+    >
+      <div
+        class="c-CommonModalWrapper__Modal"
+        data-testid="common-modal"
+      >
+        <input
+          data-testid="modal-content-1"
+        />
+        <input
+          data-testid="modal-content-2"
+        />
+        <input
+          data-testid="modal-content-3"
+        />
+        <button
+          class="c-CommonModalWrapper__Close"
+          data-testid="common-modal-close"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CommonModalWrapper renders nothing when not opened 1`] = `
+<div>
+  <main>
+    <input
+      data-testid="outside-content"
+    />
+    <button />
+  </main>
+  <div
+    id="modal-portal"
+  />
+</div>
+`;

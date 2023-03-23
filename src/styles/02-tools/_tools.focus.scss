@@ -1,0 +1,22 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+@mixin focus-ring($isOnlyKeyboard: true, $offset: -1px) {
+  @if $isOnlyKeyboard == true {
+    :focus,
+    &:focus {
+      outline: none;
+    }
+  } @else {
+    :focus,
+    &:focus {
+      outline: 2px auto colors.$blue-clear;
+      outline-offset: $offset;
+    }
+  }
+
+  :focus-visible,
+  &:focus-visible {
+    outline: 2px auto colors.$blue-clear;
+    outline-offset: $offset;
+  }
+}

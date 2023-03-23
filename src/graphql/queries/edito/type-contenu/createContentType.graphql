@@ -1,0 +1,13 @@
+mutation createContentType(
+  $contractId: ID
+  $name: String
+  $description: String
+) {
+  createContentTypeForContractId(
+    contractId: $contractId
+    name: $name
+    description: $description
+  ) {
+    id
+  }
+}

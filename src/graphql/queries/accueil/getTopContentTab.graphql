@@ -1,0 +1,29 @@
+query getTopContentTab($contractId: ID!, $status: ENUM_TOPCONTENTDTO_STATUS) {
+  getTopContentBlockDTO(contractId: $contractId, status: $status) {
+    id
+    displayBlock
+    displayLastThreeContents
+    hasTopContent
+    titleContent
+    topContent {
+      id
+      contentType
+      typeName
+      attributes {
+        title
+        status
+        publishedDate
+      }
+    }
+  }
+  getTopContentDTOs(contractId: $contractId, status: $status) {
+    id
+    contentType
+    typeName
+    attributes {
+      title
+      status
+      publishedDate
+    }
+  }
+}

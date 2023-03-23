@@ -1,0 +1,13 @@
+query getNewsSubService($filters: EditorialServiceFiltersInput) {
+  editorialServices(filters: $filters) {
+    data {
+      attributes {
+        newsSubService {
+          data {
+            id
+          }
+        }
+      }
+    }
+  }
+}

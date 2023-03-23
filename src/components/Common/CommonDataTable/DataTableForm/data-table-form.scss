@@ -1,0 +1,40 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-DataTableForm {
+  $self: &;
+
+  padding: 13px 20px;
+  background-color: colors.$expert-blue;
+  border-top: 1px solid colors.$blue-4;
+
+  &__Title {
+    margin-bottom: 20px;
+    color: colors.$white;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  &__Content {
+    display: flex;
+    flex-direction: row;
+    gap: 46px;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  &__Inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    width: 100%;
+
+    > * {
+      flex: 1;
+    }
+  }
+
+  #{$self}_invalid &__Button {
+    margin-bottom: 28px;
+  }
+}

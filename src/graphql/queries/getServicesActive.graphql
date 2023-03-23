@@ -1,0 +1,64 @@
+query getServicesActive($contractId: ID!) {
+  editorialServices(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        eventSubService {
+          data {
+            attributes {
+              isActivated
+            }
+          }
+        }
+        newsSubService {
+          data {
+            attributes {
+              isActivated
+            }
+          }
+        }
+        quizSubService {
+          data {
+            attributes {
+              isActivated
+            }
+          }
+        }
+        tipSubService {
+          data {
+            attributes {
+              isActivated
+            }
+          }
+        }
+        freeContentSubServices {
+          data {
+            attributes {
+              isActivated
+            }
+          }
+        }
+        contactUsSubService {
+          data {
+            attributes {
+              isActivated
+            }
+          }
+        }
+      }
+    }
+  }
+  recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        isActivated
+      }
+    }
+  }
+  requestServices(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        isActivated
+      }
+    }
+  }
+}

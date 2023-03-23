@@ -1,0 +1,9 @@
+.cache
+.tmp
+.next
+dist
+build
+out
+package-lock.json
+public
+coverage

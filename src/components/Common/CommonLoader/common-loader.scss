@@ -1,0 +1,58 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.z-index" as index;
+@use "src/styles/02-tools/tools.skeleton" as skeleton;
+@use "src/styles/02-tools/tools.typography" as typo;
+
+.c-CommonLoader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  &_absolute {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &_grow {
+    flex-grow: 1;
+  }
+
+  &_skeleton {
+    &::after {
+      @include skeleton.loading;
+
+      position: absolute;
+      z-index: index.z("background");
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      content: "";
+    }
+  }
+
+  &_cover {
+    &::before {
+      position: absolute;
+      z-index: index.z("content-cover");
+      width: 100%;
+      height: 100%;
+      content: "";
+      pointer-events: none;
+    }
+  }
+
+  &__Errors {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recommended",
+    "stylelint-config-standard-scss",
+    "stylelint-config-sass-guidelines",
+    "stylelint-config-rational-order",
+    "stylelint-config-prettier-scss"
+  ],
+  "plugins": ["stylelint-prettier"],
+  "rules": {
+    "prettier/prettier": true,
+    "max-nesting-depth": 3,
+    "selector-max-id": 1,
+    "selector-max-compound-selectors": 4,
+    "selector-class-pattern": [
+      "^(?:(?:s|t|g|e|o|c|u|is|has)-)?[A-Z]+(?:[a-zA-Z0-9]+)*(?:__[A-Z]+[a-zA-Z0-9]+)?(?:_[a-z]+(?:[a-zA-Z0-9]+)*)*$",
+      {
+        "resolveNestedSelectors": true
+      }
+    ],
+    "order/properties-alphabetical-order": null,
+    "selector-no-qualifying-type": [
+      true,
+      {
+        "ignore": ["attribute"]
+      }
+    ]
+  }
+}

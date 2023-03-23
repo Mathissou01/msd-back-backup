@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonErrorText renders 1`] = `
+<div>
+  <em
+    class="c-CommonErrorMessage"
+    id="error-1"
+    role="alert"
+  >
+    error message
+  </em>
+</div>
+`;

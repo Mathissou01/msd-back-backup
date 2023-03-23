@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCreateFolderButton renders the button 1`] = `
+<div>
+  <div
+    data-testid="media-create-folder-button"
+  >
+    <button
+      class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+      type="button"
+    >
+      <div
+        class="c-CommonButton__Picto c-CommonButton__Picto_add"
+      />
+      Ajouter un dossier
+    </button>
+  </div>
+</div>
+`;

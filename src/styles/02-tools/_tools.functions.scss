@@ -1,0 +1,40 @@
+@use "sass:string";
+
+/** STRING **/
+
+/* Helper function to replace characters in a string */
+@function str-replace($string, $search, $replace: "") {
+  $index: string.index($string, $search);
+  @return if(
+    $index,
+    str-slice($string, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($string, $index + str-length($search)),
+        $search,
+        $replace
+      ),
+    $string
+  );
+}
+
+@function hex-to-url-string($hex) {
+  $string: str-replace(#{$hex}, "#", "%23");
+  @return $string;
+}
+
+/** MATH **/
+
+/* Returns half the value */
+@function h($num) {
+  @return $num / 2;
+}
+
+/* Returns negative value */
+@function n($num) {
+  @return 0 - $num;
+}
+
+/* Returns half the negative value */
+@function hn($num) {
+  @return n(h($num));
+}

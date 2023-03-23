@@ -1,0 +1,56 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.focus" as focus;
+
+.c-DataTableActions {
+  $self: &;
+
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  min-width: 72px;
+  overflow: hidden;
+
+  &_warning {
+    // TODO: show warning visual ?
+  }
+
+  &__Actions {
+    display: flex;
+    flex-flow: row nowrap;
+    visibility: visible;
+
+    #{$self}_confirm & {
+      visibility: hidden;
+    }
+  }
+
+  &__EditActions {
+    position: absolute;
+    display: flex;
+    flex-flow: row nowrap;
+    visibility: hidden;
+
+    #{$self}_confirm & {
+      visibility: visible;
+    }
+  }
+
+  &__Button {
+    @include focus.focus-ring;
+
+    display: flex;
+    padding: 10px;
+    transition: opacity ease 0.1s;
+    user-select: none;
+
+    img {
+      filter: url("#recolor-expert-blue");
+    }
+
+    &_disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+  }
+}

@@ -1,0 +1,161 @@
+mutation updateServicesBlockTab(
+  $updateServicesBlockId: ID!
+  $data: ServicesBlockInput!
+) {
+  updateServicesBlock(id: $updateServicesBlockId, data: $data) {
+    data {
+      id
+      attributes {
+        homepage {
+          data {
+            attributes {
+              servicesBlock {
+                data {
+                  id
+                  attributes {
+                    titleContent
+                    serviceLinks {
+                      ... on ComponentLinksDropOffMap {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksPickUpDay {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksRecyclingGuide {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksRequest {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksContactUs {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksNews {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksEvents {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksQuizzes {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksTips {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksFrees {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksExternal {
+                        id
+                        name
+                        isDisplayed
+                        picto {
+                          data {
+                            attributes {
+                              url
+                            }
+                          }
+                        }
+                        externalLink
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
