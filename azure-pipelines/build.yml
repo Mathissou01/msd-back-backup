@@ -2,7 +2,6 @@
 parameters:
   - name: env
     type: string
-    default: dev
 
 jobs:
   - job: msd_bo_site_build_install
@@ -17,12 +16,10 @@ jobs:
       - template: build/install.yml
 
   - job: msd_bo_site_build_test
-    # FIXME: libgles2 system package is missing from hosted agent
-    #        temporarily disable self-hosted agent usage until support fixes
-    #   pool:
-    #     name: "MSD Self hosted agents"
-    #     demands:
-    #       - environment -equals ${{ parameters.env }}
+    pool:
+      name: "MSD Self hosted agents"
+      demands:
+        - environment -equals ${{ parameters.env }}
     displayName: Run tests
     dependsOn: msd_bo_site_build_install
     steps:
