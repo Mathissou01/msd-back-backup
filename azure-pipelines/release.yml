@@ -39,4 +39,4 @@ jobs:
                 ${{ if not(eq(parameters.instance, 'production')) }}:
                   deployment_environment: ${{ parameters.instance }}
               env:
-                azure_static_web_apps_api_token: $(az-stapps-deployment-token)
+                azure_static_web_apps_api_token: $(bo-deployment-token)
