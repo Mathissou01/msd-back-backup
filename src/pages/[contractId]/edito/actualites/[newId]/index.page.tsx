@@ -13,6 +13,7 @@ import {
   remapEditoBlocksDynamicZone,
   TDynamicFieldOption,
 } from "../../../../../lib/edito";
+
 import { valueToEStatus } from "../../../../../lib/status";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
@@ -23,7 +24,6 @@ import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
 import "./edito-actualites-edit-page.scss";
 import { formatDate } from "../../../../../lib/utilities";
 import { parseJSON } from "date-fns";
-
 interface IEditoActualitesEditPageProps {
   newId: string;
 }
@@ -67,6 +67,18 @@ export function EditoActualitesEditPage({
         },
       ],
     });
+  }
+
+  async function onPreview() {
+    if (typeof window !== "undefined") {
+      window.open(
+        `${currentRoot}/edito/actualites/preview?id=${newId}`,
+        "_blank",
+        "noreferrer",
+      );
+    } else {
+      router.push("/404");
+    }
   }
 
   async function onPublish() {
@@ -172,6 +184,7 @@ export function EditoActualitesEditPage({
               onSubmitValid={onSubmit}
               onPublish={onPublish}
               onDepublish={onDepublish}
+              onPreview={onPreview}
               labels={formLabels}
             />
           </CommonLoader>

@@ -16,6 +16,15 @@ exports[`EditoForm renders 1`] = `
           type="button"
         >
           <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_eye"
+          />
+          Prévisualiser
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+          type="button"
+        >
+          <div
             class="c-CommonButton__Picto c-CommonButton__Picto_windowUpload"
           />
           Publier

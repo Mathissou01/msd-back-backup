@@ -53,6 +53,7 @@ export default function ContractLayout(props: IContractLayoutProps) {
     if (data !== undefined) {
       const contract = data.contract?.data;
       if (contract && contract.id && isStringOfNumber(contract.id)) {
+        console.log(contract);
         setContract(contract);
         setContractId(contract.id);
       } else {

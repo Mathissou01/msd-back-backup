@@ -16,6 +16,7 @@ interface IEditoFormProps {
   onSubmitValid: (data: FieldValues) => void;
   onPublish?: () => void;
   onDepublish?: () => void;
+  onPreview?: () => void;
   labels: {
     staticTitle: string;
     staticTagsLabel: string;
@@ -31,6 +32,7 @@ export default function EditoForm({
   onSubmitValid,
   onPublish,
   onDepublish,
+  onPreview,
   labels,
 }: IEditoFormProps) {
   /* Local Data */
@@ -106,6 +108,7 @@ export default function EditoForm({
               status={formData?.status}
               onPublish={onPublish}
               onDepublish={onDepublish}
+              onPreview={onPreview}
             />
           </div>
           <div className="c-EditoForm__Form">

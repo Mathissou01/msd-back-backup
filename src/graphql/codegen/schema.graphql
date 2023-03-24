@@ -432,6 +432,7 @@ input CguSubServiceInput {
 }
 
 type ChannelType {
+  contract: ContractEntityResponse
   createdAt: DateTime
   hasWebApp: Boolean
   hasWebSite: Boolean
@@ -454,6 +455,7 @@ type ChannelTypeEntityResponseCollection {
 
 input ChannelTypeFiltersInput {
   and: [ChannelTypeFiltersInput]
+  contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   hasWebApp: BooleanFilterInput
   hasWebSite: BooleanFilterInput
@@ -464,6 +466,7 @@ input ChannelTypeFiltersInput {
 }
 
 input ChannelTypeInput {
+  contract: ID
   hasWebApp: Boolean
   hasWebSite: Boolean
 }
@@ -473,6 +476,7 @@ type ChannelTypeRelationResponseCollection {
 }
 
 type City {
+  contract: ContractEntityResponse
   createdAt: DateTime
   department: String
   epci: EpciEntityResponse
@@ -500,6 +504,7 @@ type CityEntityResponseCollection {
 
 input CityFiltersInput {
   and: [CityFiltersInput]
+  contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   department: StringFilterInput
   epci: EpciFiltersInput
@@ -515,6 +520,7 @@ input CityFiltersInput {
 }
 
 input CityInput {
+  contract: ID
   department: String
   epci: ID
   insee: Long
@@ -526,6 +532,10 @@ input CityInput {
 
 type CityRelationResponseCollection {
   data: [CityEntity!]!
+}
+
+type CitySectorization {
+  GeoJson: String
 }
 
 type ClientContact {
@@ -579,6 +589,10 @@ input ClientContactInput {
   firstName: String
   lastName: String
   phoneNumber: String
+}
+
+input CommuneInput {
+  insee: Int!
 }
 
 type ComponentBlocksFile {
@@ -1063,6 +1077,11 @@ type Contract {
   alertNotificationService: AlertNotificationServiceEntityResponse
   ccap: Long
   channelType: ChannelTypeEntityResponse
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
   clear: Long
   clientContact: ClientContactEntityResponse
   clientName: String!
@@ -1070,11 +1089,6 @@ type Contract {
   contractCustomization: ContractCustomizationEntityResponse
   contractMenu: ContractMenuEntityResponse
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS!
-  contracts(
-    filters: ContractFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): ContractRelationResponseCollection
   createdAt: DateTime
   dropOffMapService: DropOffMapServiceEntityResponse
   editorialService: EditorialServiceEntityResponse
@@ -1088,6 +1102,11 @@ type Contract {
   pickUpDayService: PickUpDayServiceEntityResponse
   recyclingGuideService: RecyclingGuideServiceEntityResponse
   requestService: RequestServiceEntityResponse
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationRelationResponseCollection
   siret: Long
   tags(
     filters: TagFiltersInput
@@ -1174,6 +1193,7 @@ input ContractFiltersInput {
   and: [ContractFiltersInput]
   ccap: LongFilterInput
   channelType: ChannelTypeFiltersInput
+  cities: CityFiltersInput
   clear: LongFilterInput
   clientContact: ClientContactFiltersInput
   clientName: StringFilterInput
@@ -1181,7 +1201,6 @@ input ContractFiltersInput {
   contractCustomization: ContractCustomizationFiltersInput
   contractMenu: ContractMenuFiltersInput
   contractStatus: StringFilterInput
-  contracts: ContractFiltersInput
   createdAt: DateTimeFilterInput
   dropOffMapService: DropOffMapServiceFiltersInput
   editorialService: EditorialServiceFiltersInput
@@ -1198,6 +1217,7 @@ input ContractFiltersInput {
   pickUpDayService: PickUpDayServiceFiltersInput
   recyclingGuideService: RecyclingGuideServiceFiltersInput
   requestService: RequestServiceFiltersInput
+  sectorizations: SectorizationFiltersInput
   siret: LongFilterInput
   tags: TagFiltersInput
   territory: TerritoryFiltersInput
@@ -1209,6 +1229,7 @@ input ContractInput {
   alertNotificationService: ID
   ccap: Long
   channelType: ID
+  cities: [ID]
   clear: Long
   clientContact: ID
   clientName: String
@@ -1216,7 +1237,6 @@ input ContractInput {
   contractCustomization: ID
   contractMenu: ID
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS
-  contracts: [ID]
   dropOffMapService: ID
   editorialService: ID
   isNonExclusive: Boolean
@@ -1229,6 +1249,7 @@ input ContractInput {
   pickUpDayService: ID
   recyclingGuideService: ID
   requestService: ID
+  sectorizations: [ID]
   siret: Long
   tags: [ID]
   territory: ID
@@ -1288,10 +1309,6 @@ union ContractMenuServiceLinksDynamicZone =
   | Error
 
 scalar ContractMenuServiceLinksDynamicZoneInput
-
-type ContractRelationResponseCollection {
-  data: [ContractEntity!]!
-}
 
 type Cookie {
   blocks: [CookieBlocksDynamicZone]
@@ -1814,7 +1831,9 @@ type EditoBlock {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): EditoContentRelationResponseCollection
+  event: EventEntityResponse
   homepage: HomepageEntityResponse
+  news: NewEntityResponse
   titleContent: String!
   updatedAt: DateTime
 }
@@ -1845,8 +1864,10 @@ input EditoBlockFiltersInput {
   createdAt: DateTimeFilterInput
   displayBlock: BooleanFilterInput
   editoContents: EditoContentFiltersInput
+  event: EventFiltersInput
   homepage: HomepageFiltersInput
   id: IDFilterInput
+  news: NewFiltersInput
   not: EditoBlockFiltersInput
   or: [EditoBlockFiltersInput]
   titleContent: StringFilterInput
@@ -1856,7 +1877,9 @@ input EditoBlockFiltersInput {
 input EditoBlockInput {
   displayBlock: Boolean
   editoContents: [ID]
+  event: ID
   homepage: ID
+  news: ID
   titleContent: String
 }
 
@@ -2081,6 +2104,7 @@ type Event {
   ): DocumentRelationResponseCollection
   draftCreationId: String
   editoContent: EditoContentEntityResponse
+  edito_block: EditoBlockEntityResponse
   eventSubService: EventSubServiceEntityResponse
   events(
     filters: EventFiltersInput
@@ -2135,6 +2159,7 @@ input EventFiltersInput {
   documents: DocumentFiltersInput
   draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
+  edito_block: EditoBlockFiltersInput
   eventSubService: EventSubServiceFiltersInput
   events: EventFiltersInput
   hasDraft: BooleanFilterInput
@@ -2156,6 +2181,7 @@ input EventInput {
   documents: [ID]
   draftCreationId: String
   editoContent: ID
+  edito_block: ID
   eventSubService: ID
   events: [ID]
   hasDraft: Boolean
@@ -2651,6 +2677,7 @@ union GenericMorph =
   | Request
   | RequestService
   | SearchEngineBlock
+  | Sectorization
   | ServicesBlock
   | Tag
   | Territory
@@ -2993,6 +3020,7 @@ input LongFilterInput {
 }
 
 type Mutation {
+  addCommuneToContract(ContractId: ID!, commune: CommuneInput!): ContractEntity
   bulkDeleteMedias(
     fileRequests: [RequestFile]!
     folderRequests: [RequestFolder]!
@@ -3127,6 +3155,7 @@ type Mutation {
   createSearchEngineBlock(
     data: SearchEngineBlockInput!
   ): SearchEngineBlockEntityResponse
+  createSectorization(data: SectorizationInput!): SectorizationEntityResponse
   createServicesBlock(data: ServicesBlockInput!): ServicesBlockEntityResponse
   createTag(data: TagInput!): TagEntityResponse
   createTerritory(data: TerritoryInput!): TerritoryEntityResponse
@@ -3208,6 +3237,7 @@ type Mutation {
   deleteRequest(id: ID!): RequestEntityResponse
   deleteRequestService(id: ID!): RequestServiceEntityResponse
   deleteSearchEngineBlock(id: ID!): SearchEngineBlockEntityResponse
+  deleteSectorization(id: ID!): SectorizationEntityResponse
   deleteServicesBlock(id: ID!): ServicesBlockEntityResponse
   deleteTag(id: ID!): TagEntityResponse
   deleteTerritory(id: ID!): TerritoryEntityResponse
@@ -3242,7 +3272,7 @@ type Mutation {
   Request a reset password token
   """
   forgotPassword(email: String!): UsersPermissionsPasswordPayload
-  logicalDeleteContract(clientName: String!): Boolean
+  logicalDeleteContract(contractId: ID!): Boolean
   login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
   multipleUpload(
     field: String
@@ -3265,6 +3295,7 @@ type Mutation {
     password: String!
     passwordConfirmation: String!
   ): UsersPermissionsLoginPayload
+  sectorizationByCity(postalCode: Int!): CitySectorization
   servicesActivation(
     ServiceName: String!
     contractId: ID!
@@ -3419,6 +3450,10 @@ type Mutation {
     data: SearchEngineBlockInput!
     id: ID!
   ): SearchEngineBlockEntityResponse
+  updateSectorization(
+    data: SectorizationInput!
+    id: ID!
+  ): SectorizationEntityResponse
   updateServicesBlock(
     data: ServicesBlockInput!
     id: ID!
@@ -3487,6 +3522,7 @@ type New {
   customId: String
   draftCreationId: String
   editoContent: EditoContentEntityResponse
+  edito_block: EditoBlockEntityResponse
   hasDraft: Boolean
   image: UploadFileEntityResponse
   linkToServices: [NewLinkToServicesDynamicZone]
@@ -3539,6 +3575,7 @@ input NewFiltersInput {
   customId: StringFilterInput
   draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
+  edito_block: EditoBlockFiltersInput
   hasDraft: BooleanFilterInput
   id: IDFilterInput
   newsSubService: NewsSubServiceFiltersInput
@@ -3562,6 +3599,7 @@ input NewInput {
   customId: String
   draftCreationId: String
   editoContent: ID
+  edito_block: ID
   hasDraft: Boolean
   image: ID
   linkToServices: [NewLinkToServicesDynamicZoneInput!]
@@ -4130,6 +4168,12 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): SearchEngineBlockEntityResponseCollection
+  sectorization(id: ID): SectorizationEntityResponse
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationEntityResponseCollection
   servicesBlock(id: ID): ServicesBlockEntityResponse
   servicesBlocks(
     filters: ServicesBlockFiltersInput
@@ -4717,6 +4761,53 @@ input SearchEngineBlockFiltersInput {
 input SearchEngineBlockInput {
   homepage: ID
   titleContent: String
+}
+
+type Sectorization {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  description: String!
+  name: String!
+  polygonCoordinates: JSON
+  updatedAt: DateTime
+}
+
+type SectorizationEntity {
+  attributes: Sectorization
+  id: ID
+}
+
+type SectorizationEntityResponse {
+  data: SectorizationEntity
+}
+
+type SectorizationEntityResponseCollection {
+  data: [SectorizationEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input SectorizationFiltersInput {
+  and: [SectorizationFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: SectorizationFiltersInput
+  or: [SectorizationFiltersInput]
+  polygonCoordinates: JSONFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input SectorizationInput {
+  contract: ID
+  description: String
+  name: String
+  polygonCoordinates: JSON
+}
+
+type SectorizationRelationResponseCollection {
+  data: [SectorizationEntity!]!
 }
 
 type Service {

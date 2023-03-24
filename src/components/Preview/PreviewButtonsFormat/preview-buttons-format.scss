@@ -1,0 +1,27 @@
+@use "src/styles/02-tools/tools.focus" as focus;
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-PreviewButtonsFormat {
+  @include focus.focus-ring;
+
+  &__Button {
+    border: 1px solid colors.$expert-blue;
+    border-right: unset;
+    border-left: unset;
+  }
+
+  &__Button:first-child {
+    border: 1px solid colors.$expert-blue;
+    border-radius: 4px 0 0 4px;
+  }
+
+  &__Button:last-child {
+    border: 1px solid colors.$expert-blue;
+    border-radius: 0 4px 4px 0;
+  }
+
+  &__Button:focus > svg {
+    background-color: colors.$expert-blue;
+    filter: brightness(0) invert(1);
+  }
+}

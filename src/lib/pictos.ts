@@ -16,4 +16,6 @@ export type TPictoStyles =
   | "dashboard"
   | "windowUpload"
   | "windowCancel"
-  | "fileDouble";
+  | "fileDouble"
+  | "eye"
+  | "printer";

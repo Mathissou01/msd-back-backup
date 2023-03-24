@@ -8,14 +8,17 @@ interface IEditoButtonsProps {
   status?: EStatus;
   onPublish?: () => void;
   onDepublish?: () => void;
+  onPreview?: () => void;
 }
 
 export default function EditoButtons({
   onPublish,
   onDepublish,
+  onPreview,
 }: IEditoButtonsProps) {
   /* Static Data */
   const buttonLabels = {
+    buttonPreview: "Prévisualiser",
     buttonSaveDraft: "Enregistrer en tant que brouillon",
     buttonPublish: "Publier",
     buttonDePublish: "Dépublier",
@@ -26,6 +29,12 @@ export default function EditoButtons({
 
   return (
     <div className="c-EditoButtons">
+      <CommonButton
+        label={buttonLabels.buttonPreview}
+        picto="eye"
+        onClick={onPreview}
+      />
+
       {formState.defaultValues?.status === Enum_New_Status.Draft ||
       formState.defaultValues?.status === Enum_New_Status.Archived ? (
         <CommonButton

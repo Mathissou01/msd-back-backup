@@ -1,0 +1,13 @@
+@use "src/styles/02-tools/tools.focus" as focus;
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-PreviewBanner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  padding: 0 24px;
+  background-color: colors.$blue-sky-light;
+}
