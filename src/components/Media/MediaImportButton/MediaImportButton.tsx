@@ -31,6 +31,7 @@ export interface IFileToEdit {
   height?: number;
   date?: string;
   folder?: string;
+  id?: string;
 }
 
 interface IMediaImportButtonProps {

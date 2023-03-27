@@ -4,6 +4,7 @@ import FormInput from "../../../../Form/FormInput/FormInput";
 import FormSelect from "../../../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../../../Form/FormMultiselect/FormMultiselect";
 import { IFileToEdit } from "../../MediaImportButton";
+import { formatFileSize } from "../../../../../lib/formatFileSize";
 
 interface IEditModalProps {
   fileToEdit: IFileToEdit | undefined;
@@ -58,15 +59,6 @@ export default function EditModal({
     return mapOptionsInWrappers(sortedFolderHierarchy);
   };
 
-  const handleCalculateFileSize = (size: number): string => {
-    const i = Math.floor(Math.log(size) / Math.log(1024));
-    return (
-      (size / Math.pow(1024, i)).toFixed(2) +
-      " " +
-      ["B", "KB", "MB", "GB", "TB"][i]
-    );
-  };
-
   /* Local Data */
   const isImageToUpload = () => fileToEdit?.mime.split("/")[0] === "image";
 
@@ -117,8 +109,7 @@ export default function EditModal({
                 <tr>
                   <th>Taille</th>
                   <td>
-                    {fileToEdit?.size &&
-                      handleCalculateFileSize(fileToEdit?.size)}
+                    {fileToEdit?.size && formatFileSize(fileToEdit?.size)}
                   </td>
                 </tr>
                 {isImageToUpload() && (

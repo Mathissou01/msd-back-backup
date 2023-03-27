@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FieldValues } from "react-hook-form";
 import {
   useGetAllFoldersHierarchyQuery,
   useGetFolderAndChildrenByIdQuery,
   useGetFolderBreadcrumbQuery,
   useGetFilesPaginationByPathIdLazyQuery,
   GetFilesPaginationByPathIdQueryVariables,
+  useUpdateUploadFileMutation,
+  GetFilesPaginationByPathIdDocument,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
 import { removeNulls } from "../../../../lib/utilities";
@@ -23,6 +26,9 @@ import MediaBreadcrumb, {
 import MediaCard, {
   MediaCardParentOptions,
 } from "../../../../components/Media/MediaCard/MediaCard";
+import { CommonModalWrapperRef } from "../../../../components/Common/CommonModalWrapper/CommonModalWrapper";
+import FormModal from "../../../../components/Form/FormModal/FormModal";
+import EditModal from "../../../../components/Media/MediaImportButton/Modals/EditModal/EditModal";
 import "./edito-bibliotheque-de-medias.scss";
 
 export interface IFolder {
@@ -44,6 +50,11 @@ export function EditoBibliothequeDeMedias() {
     MediaSectionTitle: "Médias",
     FolderSectionTitle: "Dossiers",
   };
+  const labels = {
+    detailsModalTitle: "Détails",
+    formNameLabel: "Nom Du fichier",
+    formDescLabel: "Description de l'image",
+  };
 
   /* Method */
   function setUpdatePath(pathId: number, path: string) {
@@ -52,11 +63,13 @@ export function EditoBibliothequeDeMedias() {
   }
 
   /* Local Data */
+  const modalRef = useRef<CommonModalWrapperRef>(null);
   const { contract } = useContract();
   const contractPathId = contract.attributes?.pathId;
   const [activePathId, setActivePathId] = useState<number>(contractPathId);
   const defaultPath = `/1/${contractPathId}`;
   const [activePath, setActivePath] = useState<string>(defaultPath);
+  const [fileToEdit, setFileToEdit] = useState<IFileToEdit>();
   const {
     data: foldersData,
     loading: foldersLoading,
@@ -97,6 +110,7 @@ export function EditoBibliothequeDeMedias() {
   } = useGetFolderBreadcrumbQuery({
     variables: { path: activePath },
   });
+  const [UpdateUploadFileDocument] = useUpdateUploadFileMutation();
 
   const isInitialized = useRef(false);
   const [folders, setFolders] = useState<Array<IFolder>>([]);
@@ -117,6 +131,40 @@ export function EditoBibliothequeDeMedias() {
     paginationError,
     breadcrumbError,
   ];
+
+  /** Method */
+  const handleEditFile = (file: IFileToEdit) => {
+    modalRef.current?.toggleModal(true);
+    setFileToEdit(file);
+  };
+
+  async function handleSaveNewFileInfo(submitData: FieldValues) {
+    const file: IFileToEdit | undefined = fileToEdit;
+
+    if (file?.id !== undefined) {
+      UpdateUploadFileDocument({
+        variables: {
+          updateUploadFileId: file?.id,
+          data: {
+            name: submitData[handleReplaceSpecialChars(labels.formNameLabel)],
+            folder: submitData["Emplacement"]["id"],
+            alternativeText:
+              submitData[handleReplaceSpecialChars(labels.formDescLabel)] ??
+              submitData[handleReplaceSpecialChars(labels.formNameLabel)],
+          },
+        },
+        refetchQueries: [
+          {
+            query: GetFilesPaginationByPathIdDocument,
+            variables: defaultQueryVariables,
+          },
+        ],
+      });
+    }
+  }
+
+  const handleReplaceSpecialChars = (arg: string) =>
+    arg.replace(/['"]/g, "") ?? arg;
 
   useEffect(() => {
     if (foldersData) {
@@ -153,6 +201,7 @@ export function EditoBibliothequeDeMedias() {
         filesData.uploadFiles?.data
           .map((file) => {
             if (
+              file.id &&
               file?.attributes?.name &&
               file?.attributes?.ext &&
               file?.attributes?.mime &&
@@ -160,6 +209,7 @@ export function EditoBibliothequeDeMedias() {
               file?.attributes?.url
             ) {
               return {
+                id: file.id,
                 name: file?.attributes?.name,
                 alternativeText: file?.attributes?.alternativeText ?? "",
                 width: file?.attributes?.width ?? 0,
@@ -168,6 +218,7 @@ export function EditoBibliothequeDeMedias() {
                 mime: file?.attributes?.mime,
                 size: file?.attributes?.size,
                 url: file?.attributes?.url,
+                date: file.attributes.createdAt,
               };
             }
           })
@@ -267,8 +318,8 @@ export function EditoBibliothequeDeMedias() {
                     key={index}
                     file={{ file }}
                     parent={MediaCardParentOptions.HOME}
-                    // TODO: implement file edit and delete
-                    handleEditFile={() => console.log("handleEditItem")}
+                    handleEditFile={() => handleEditFile(file)}
+                    // TODO: implement delete file
                     handleRemoveFile={() => console.log("handleRemoveItem")}
                   />
                 ))}
@@ -298,6 +349,22 @@ export function EditoBibliothequeDeMedias() {
             />
           </>
         )}
+        <FormModal
+          modalRef={modalRef}
+          modalTitle={labels.detailsModalTitle}
+          hasRequiredChildren="all"
+          onSubmit={handleSaveNewFileInfo}
+          formValidationMode="onChange"
+        >
+          <EditModal
+            folderHierarchy={
+              folderHierarchy?.getAllFoldersHierarchy?.filter(removeNulls) ?? []
+            }
+            activePathId={activePathId}
+            fileToEdit={fileToEdit}
+            handleReplaceSpecialChars={handleReplaceSpecialChars}
+          />
+        </FormModal>
       </CommonLoader>
     </>
   );
