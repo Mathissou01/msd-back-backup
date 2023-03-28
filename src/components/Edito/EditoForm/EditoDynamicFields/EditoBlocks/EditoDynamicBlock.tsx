@@ -1,6 +1,7 @@
 import React from "react";
 import { TDynamicFieldOption } from "../../../../../lib/edito";
 import SubHeadingBlock from "../EditoBlocks/SubHeadingBlock/SubHeadingBlock";
+import FileBlock from "./FileBlock/FileBlock";
 import HorizontalRuleBlock from "./HorizontalRuleBlock/HorizontalRuleBlock";
 import VideoBlock from "./VideoBlock/VideoBlock";
 import WysiwygBlock from "./WysiwygBlock/WysiwygBlock";
@@ -29,6 +30,9 @@ export default function EditoDynamicBlock({
       }
       case "ComponentBlocksVideo": {
         return <VideoBlock blockName={name} isVisible={isVisible} />;
+      }
+      case "ComponentBlocksFile": {
+        return <FileBlock blockName={name} />;
       }
       default: {
         return null;

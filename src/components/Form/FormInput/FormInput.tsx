@@ -9,7 +9,7 @@ import FormLabel, { LabelStyle, ValidationStyle } from "../FormLabel/FormLabel";
 import "./form-input.scss";
 
 interface IFormInputProps {
-  type?: "number" | "text" | "email" | "password";
+  type?: "number" | "text" | "email" | "password" | "hidden";
   name: string;
   label: string;
   secondaryLabel?: string;

@@ -137,6 +137,7 @@ export function EditoActualitesEditPage({
     "ComponentBlocksSubHeading",
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
+    "ComponentBlocksFile",
   ];
 
   useEffect(() => {

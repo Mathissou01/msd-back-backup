@@ -1,0 +1,74 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-MediaBlock {
+  &__Title {
+    color: colors.$expert-blue;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 35px;
+  }
+
+  &__Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  &__Body {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+
+  &__Footer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  &__Options {
+    margin-top: 30px;
+  }
+
+  &__ActionButtons {
+    display: flex;
+    justify-content: flex-end;
+
+    div {
+      margin-left: 10px;
+    }
+  }
+
+  &__FolderCards {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  &__Folders {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__MediaList {
+    margin: 20px 0;
+    padding-top: 20px;
+  }
+
+  &__MediaCards {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  &__Button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

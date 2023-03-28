@@ -1,6 +1,5 @@
 import axios from "axios";
 import client from "../graphql/client";
-import { IFileToEdit } from "../components/Media/MediaImportButton/MediaImportButton";
 import {
   GetFilesPaginationByPathIdDocument,
   GetFolderByPathIdDocument,
@@ -8,6 +7,24 @@ import {
   UpdateUploadFileDocument,
   UpdateUploadFileMutation,
 } from "../graphql/codegen/generated-types";
+import { IFileToEdit } from "../components/Media/MediaImportButton/MediaImportButton";
+
+export interface IFolder {
+  id: string;
+  name: string;
+  path: string;
+  pathId: number;
+  children?: Array<string>;
+  childrenAmount?: number;
+  filesAmount?: number;
+}
+
+export interface IcheckedFile {
+  id: string;
+  index: number;
+  status: boolean;
+  url: string;
+}
 
 export async function uploadFile(
   activePathId: number,
@@ -67,10 +84,17 @@ export async function uploadFile(
                   "getFilesPaginationByPathId",
                 ],
               });
-            return UpdateUploadFileMutationData;
+            return {
+              data: UpdateUploadFileMutationData,
+              result: result.data[0],
+            };
           }
-        } catch (error) {
-          console.log("ERROR", error);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            return {
+              message: error,
+            };
+          }
         }
       }
     }

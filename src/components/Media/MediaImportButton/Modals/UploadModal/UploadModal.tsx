@@ -2,9 +2,7 @@ import { useState } from "react";
 import { uploadFile } from "../../../../../lib/uploadFile";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
-import MediaCard, {
-  MediaCardParentOptions,
-} from "../../../MediaCard/MediaCard";
+import MediaCard from "../../../MediaCard/MediaCard";
 import { IFileToEdit, ModalStatus } from "../../MediaImportButton";
 
 interface IUploadModalProps {
@@ -117,7 +115,6 @@ export default function UploadModal({
               key={index}
               file={{ file }}
               loading={uploadLoading}
-              parent={MediaCardParentOptions.MODAL}
               handleEditFile={(file) => handleEditFile(file)}
               handleRemoveFile={() => handleRemoveFile(file)}
             />

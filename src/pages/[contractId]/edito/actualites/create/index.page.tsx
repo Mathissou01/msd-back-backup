@@ -73,6 +73,7 @@ export function EditoActualitesCreatePage() {
     "ComponentBlocksSubHeading",
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
+    "ComponentBlocksFile",
   ];
 
   return (

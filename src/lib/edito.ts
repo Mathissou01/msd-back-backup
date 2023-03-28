@@ -1,3 +1,4 @@
+import { UploadFileEntityResponse } from "./../graphql/codegen/generated-types";
 import { Maybe } from "../graphql/codegen/generated-types";
 import { TPictoStyles } from "./pictos";
 import { removeNulls } from "./utilities";
@@ -86,6 +87,8 @@ export type IEditoBlock =
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
+  id: string;
+  document: UploadFileEntityResponse;
 }
 
 export interface IBlocksHorizontalRule extends IPartialBlock {
@@ -168,6 +171,13 @@ export function createEmptyBlock(
         id,
         videoLink: undefined,
         transcriptText: undefined,
+      };
+    }
+    case "ComponentBlocksFile": {
+      return {
+        __typename,
+        id,
+        document: undefined,
       };
     }
     default: {

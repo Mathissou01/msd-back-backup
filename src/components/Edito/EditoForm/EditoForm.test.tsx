@@ -6,6 +6,8 @@ import { valueToEStatus } from "../../../lib/status";
 import EditoForm from "./EditoForm";
 import { defaultMockData } from "../../../../__mocks__/editoFormMockData";
 
+jest.mock("../../../graphql/client", () => null);
+
 const mocks: {
   dynamicFieldOptions: Array<TDynamicFieldOption>;
   data: IEditoFields;

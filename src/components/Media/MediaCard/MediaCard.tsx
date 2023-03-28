@@ -1,30 +1,28 @@
 import React from "react";
+import { ApolloError } from "@apollo/client";
+import { IcheckedFile } from "../../../lib/uploadFile";
+import CommonMediaCardThumbnail from "../../Common/CommonMediaCardThumbnail/CommonMediaCardThumbnail";
 import { IFileToEdit } from "../MediaImportButton/MediaImportButton";
 import "./media-card.scss";
-import { ApolloError } from "@apollo/client";
-import CommonMediaCardThumbnail from "../../Common/CommonMediaCardThumbnail/CommonMediaCardThumbnail";
-
-export enum MediaCardParentOptions {
-  HOME = "HOME",
-  MODAL = "MODAL",
-}
 
 interface IMediaCardProps {
   file: { file: IFileToEdit };
   loading?: boolean | undefined;
   errors?: (ApolloError | undefined)[];
-  parent?: MediaCardParentOptions;
-  handleEditFile: (file: IFileToEdit) => void;
-  handleRemoveFile: () => void;
+  handleEditFile?: (file: IFileToEdit) => void;
+  handleRemoveFile?: () => void;
+  handleSelectedFile?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  checked?: IcheckedFile | undefined;
 }
 
 export default function MediaCard({
   file,
   loading,
   errors,
-  parent,
   handleEditFile,
   handleRemoveFile,
+  handleSelectedFile,
+  checked,
 }: IMediaCardProps) {
   /* Local Data */
   const media = file.file;
@@ -46,7 +44,7 @@ export default function MediaCard({
               ? `${media.ext.slice(1)} - ${media.width}x${media.height}`
               : `${media.ext.slice(1)}`}
           </span>
-          {parent === MediaCardParentOptions.MODAL && (
+          {handleRemoveFile && (
             <button
               type="button"
               className="c-MediaCard__Action_trash"
@@ -58,14 +56,21 @@ export default function MediaCard({
           <span className="c-MediaCard__Tag">
             {imageType === "image" ? "image" : "doc"}
           </span>
-          <button
-            type="button"
-            className="c-MediaCard__Action_edit"
-            onClick={() => handleEditFile(media)}
-          />
+          {handleEditFile && (
+            <button
+              type="button"
+              className="c-MediaCard__Action_edit"
+              onClick={() => handleEditFile(media)}
+            />
+          )}
         </div>
       </div>
-      <input type="checkbox" className="c-MediaCard__Checkbox" />
+      <input
+        type="checkbox"
+        className="c-MediaCard__Checkbox"
+        onChange={handleSelectedFile}
+        checked={checked?.status}
+      />
     </div>
   );
 }
