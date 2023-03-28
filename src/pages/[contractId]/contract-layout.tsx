@@ -32,28 +32,40 @@ export default function ContractLayout(props: IContractLayoutProps) {
       getContractById({ variables: { contractId: localContractId } });
       setCurrentRoot(`/${localContractId}`);
 
-      const slashCount =
-        router.route.length - router.route.replaceAll("/", "").length;
+      const slashes = [...router.route.matchAll(new RegExp("/", "gi"))].map(
+        (a) => a.index,
+      );
       const localSlug =
-        slashCount >= 2
+        slashes.length >= 2
           ? router.route.slice(router.route.indexOf("/", 1))
           : "/";
+      const localRealSlug =
+        slashes.length >= 2
+          ? router.asPath.slice(router.asPath.indexOf("/", 1))
+          : "/";
       if (containsNavigationPath(localSlug)) {
-        const pathMatch = matchLongestNavigationPath(localSlug);
-        if (pathMatch && isNavigationPath(pathMatch)) {
-          setCurrentPage(pathMatch);
+        const { routerPath, realPath } = matchLongestNavigationPath(
+          localSlug,
+          localRealSlug,
+        );
+        if (
+          routerPath &&
+          isNavigationPath(routerPath) &&
+          realPath &&
+          realPath !== currentPage
+        ) {
+          setCurrentPage(realPath);
         }
       }
     } else if (localContractId === false) {
       router.push("/404");
     }
-  }, [router, getContractById, setCurrentRoot, setCurrentPage]);
+  }, [router, getContractById, setCurrentRoot, currentPage, setCurrentPage]);
 
   useEffect(() => {
     if (data !== undefined) {
       const contract = data.contract?.data;
       if (contract && contract.id && isStringOfNumber(contract.id)) {
-        console.log(contract);
         setContract(contract);
         setContractId(contract.id);
       } else {

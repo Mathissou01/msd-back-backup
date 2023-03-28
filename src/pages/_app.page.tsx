@@ -12,8 +12,9 @@ function MsdBackApp({ Component, pageProps }: AppProps) {
   const [currentContract, setCurrentContract] = useState<ContractEntity>({});
   const [currentContractId, setCurrentContractId] = useState<`${number}`>("0");
   const [currentRoot, setCurrentRoot] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] =
-    useState<keyof typeof ENavigationPages>("/");
+  const [currentPage, setCurrentPage] = useState<
+    keyof typeof ENavigationPages | string
+  >("/");
 
   return (
     <ApolloProvider client={client}>

@@ -4,6 +4,12 @@ export enum EStatus {
   Published = "published",
 }
 
+export enum EStatusLabel {
+  draft = "Brouillon",
+  published = "Publié",
+  archived = "Archivé",
+}
+
 const statusMap = new Map<string, EStatus>(
   Object.values(EStatus).map((v) => [v, v]),
 );

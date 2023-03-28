@@ -2,12 +2,13 @@ import classNames from "classnames";
 import Link from "next/link";
 import {
   ENavigationPages,
+  isNavigationPath,
   useNavigation,
 } from "../../../../../hooks/useNavigation";
 import "./navigation-list-link.scss";
 
 interface INavigationListButtonProps {
-  path: keyof typeof ENavigationPages;
+  path: keyof typeof ENavigationPages | string;
   label?: string;
 }
 
@@ -26,7 +27,7 @@ export default function NavigationListLink({
       onClick={() => setCurrentPage(path)}
     >
       <span className="c-NavigationListLink__Label">
-        {label ?? ENavigationPages[path]}
+        {label ?? (isNavigationPath(path) ? ENavigationPages[path] : "")}
       </span>
     </Link>
   );

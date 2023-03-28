@@ -1259,11 +1259,14 @@ export type Contract = {
   contractStatus: Enum_Contract_Contractstatus;
   createdAt?: Maybe<Scalars["DateTime"]>;
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
+  dueDate?: Maybe<Scalars["DateTime"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
+  hasYesWeScan?: Maybe<Scalars["Boolean"]>;
   isNonExclusive: Scalars["Boolean"];
   isRVFrance: Scalars["Boolean"];
   keyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   logicalDelete?: Maybe<Scalars["Boolean"]>;
+  logo?: Maybe<UploadFileEntityResponse>;
   numberOfInhabitants?: Maybe<Scalars["Long"]>;
   oldClientName?: Maybe<Scalars["String"]>;
   pathId?: Maybe<Scalars["Long"]>;
@@ -1276,6 +1279,7 @@ export type Contract = {
   territory?: Maybe<TerritoryEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
+  yes_we_scan_service?: Maybe<YesWeScanServiceRelationResponseCollection>;
 };
 
 export type ContractCitiesArgs = {
@@ -1298,6 +1302,12 @@ export type ContractTagsArgs = {
 
 export type ContractUsersArgs = {
   filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ContractYes_We_Scan_ServiceArgs = {
+  filters?: InputMaybe<YesWeScanServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -1393,7 +1403,9 @@ export type ContractFiltersInput = {
   contractStatus?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
+  dueDate?: InputMaybe<DateTimeFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
+  hasYesWeScan?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isNonExclusive?: InputMaybe<BooleanFilterInput>;
   isRVFrance?: InputMaybe<BooleanFilterInput>;
@@ -1413,6 +1425,7 @@ export type ContractFiltersInput = {
   territory?: InputMaybe<TerritoryFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   users?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  yes_we_scan_service?: InputMaybe<YesWeScanServiceFiltersInput>;
 };
 
 export type ContractInput = {
@@ -1428,11 +1441,14 @@ export type ContractInput = {
   contractMenu?: InputMaybe<Scalars["ID"]>;
   contractStatus?: InputMaybe<Enum_Contract_Contractstatus>;
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
+  dueDate?: InputMaybe<Scalars["DateTime"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
+  hasYesWeScan?: InputMaybe<Scalars["Boolean"]>;
   isNonExclusive?: InputMaybe<Scalars["Boolean"]>;
   isRVFrance?: InputMaybe<Scalars["Boolean"]>;
   keyMetricsService?: InputMaybe<Scalars["ID"]>;
   logicalDelete?: InputMaybe<Scalars["Boolean"]>;
+  logo?: InputMaybe<Scalars["ID"]>;
   numberOfInhabitants?: InputMaybe<Scalars["Long"]>;
   oldClientName?: InputMaybe<Scalars["String"]>;
   pathId?: InputMaybe<Scalars["Long"]>;
@@ -1444,6 +1460,7 @@ export type ContractInput = {
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   territory?: InputMaybe<Scalars["ID"]>;
   users?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  yes_we_scan_service?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type ContractMenu = {
@@ -2996,7 +3013,8 @@ export type GenericMorph =
   | UsersPermissionsPermission
   | UsersPermissionsRole
   | UsersPermissionsUser
-  | WasteForm;
+  | WasteForm
+  | YesWeScanService;
 
 export type Global = {
   __typename?: "Global";
@@ -3419,6 +3437,8 @@ export type Mutation = {
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   createWasteForm?: Maybe<WasteFormEntityResponse>;
+  createYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
+  createYwsService?: Maybe<Scalars["Boolean"]>;
   deleteAccessibility?: Maybe<AccessibilityEntityResponse>;
   deleteAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   deleteAlertNotification?: Maybe<AlertNotificationEntityResponse>;
@@ -3485,6 +3505,8 @@ export type Mutation = {
   /** Delete an existing user */
   deleteUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   deleteWasteForm?: Maybe<WasteFormEntityResponse>;
+  deleteYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
+  deleteYwsService?: Maybe<Scalars["Boolean"]>;
   duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
@@ -3570,8 +3592,11 @@ export type Mutation = {
   /** Update an existing user */
   updateUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
+  updateYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   upload: UploadFileEntityResponse;
   urlUploader?: Maybe<Scalars["Boolean"]>;
+  ywsActivation?: Maybe<Scalars["Boolean"]>;
+  ywsDeactivation?: Maybe<Scalars["Boolean"]>;
 };
 
 export type MutationAddCommuneToContractArgs = {
@@ -3889,6 +3914,15 @@ export type MutationCreateWasteFormArgs = {
   data: WasteFormInput;
 };
 
+export type MutationCreateYesWeScanServiceArgs = {
+  data: YesWeScanServiceInput;
+};
+
+export type MutationCreateYwsServiceArgs = {
+  contractId: Scalars["ID"];
+  service: ServiceInput;
+};
+
 export type MutationDeleteAccessibilityArgs = {
   id: Scalars["ID"];
 };
@@ -4139,6 +4173,14 @@ export type MutationDeleteUsersPermissionsUserArgs = {
 };
 
 export type MutationDeleteWasteFormArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteYesWeScanServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteYwsServiceArgs = {
   id: Scalars["ID"];
 };
 
@@ -4527,6 +4569,11 @@ export type MutationUpdateWasteFormArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateYesWeScanServiceArgs = {
+  data: YesWeScanServiceInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUploadArgs = {
   field?: InputMaybe<Scalars["String"]>;
   file: Scalars["Upload"];
@@ -4538,6 +4585,14 @@ export type MutationUploadArgs = {
 export type MutationUrlUploaderArgs = {
   imageName: Scalars["String"];
   url: Scalars["String"];
+};
+
+export type MutationYwsActivationArgs = {
+  contractId: Scalars["ID"];
+};
+
+export type MutationYwsDeactivationArgs = {
+  contractId: Scalars["ID"];
 };
 
 export type New = {
@@ -5055,6 +5110,8 @@ export type Query = {
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
   wasteForm?: Maybe<WasteFormEntityResponse>;
   wasteForms?: Maybe<WasteFormEntityResponseCollection>;
+  yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
+  yesWeScanServices?: Maybe<YesWeScanServiceEntityResponseCollection>;
 };
 
 export type QueryAccessibilitiesArgs = {
@@ -5762,6 +5819,16 @@ export type QueryWasteFormsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryYesWeScanServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryYesWeScanServicesArgs = {
+  filters?: InputMaybe<YesWeScanServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type Quiz = {
   __typename?: "Quiz";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -6402,6 +6469,12 @@ export type ServiceActivated = {
   serviceId: Scalars["ID"];
   serviceName: Scalars["String"];
   startDate?: Maybe<Scalars["Date"]>;
+};
+
+export type ServiceInput = {
+  endDate: Scalars["String"];
+  name: Scalars["String"];
+  startDate: Scalars["String"];
 };
 
 export type ServicesBlock = {
@@ -7384,6 +7457,58 @@ export type WasteFormInput = {
 export type WasteFormRelationResponseCollection = {
   __typename?: "WasteFormRelationResponseCollection";
   data: Array<WasteFormEntity>;
+};
+
+export type YesWeScanService = {
+  __typename?: "YesWeScanService";
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  serviceName?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type YesWeScanServiceEntity = {
+  __typename?: "YesWeScanServiceEntity";
+  attributes?: Maybe<YesWeScanService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type YesWeScanServiceEntityResponse = {
+  __typename?: "YesWeScanServiceEntityResponse";
+  data?: Maybe<YesWeScanServiceEntity>;
+};
+
+export type YesWeScanServiceEntityResponseCollection = {
+  __typename?: "YesWeScanServiceEntityResponseCollection";
+  data: Array<YesWeScanServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type YesWeScanServiceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<YesWeScanServiceFiltersInput>>>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  endDate?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<YesWeScanServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<YesWeScanServiceFiltersInput>>>;
+  serviceName?: InputMaybe<StringFilterInput>;
+  startDate?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type YesWeScanServiceInput = {
+  contract?: InputMaybe<Scalars["ID"]>;
+  endDate?: InputMaybe<Scalars["DateTime"]>;
+  serviceName?: InputMaybe<Scalars["String"]>;
+  startDate?: InputMaybe<Scalars["DateTime"]>;
+};
+
+export type YesWeScanServiceRelationResponseCollection = {
+  __typename?: "YesWeScanServiceRelationResponseCollection";
+  data: Array<YesWeScanServiceEntity>;
 };
 
 export type ClientName = {
@@ -9097,6 +9222,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "UsersPermissionsRole" }
           | { __typename?: "UsersPermissionsUser" }
           | { __typename?: "WasteForm" }
+          | { __typename?: "YesWeScanService" }
           | null
         > | null;
       } | null;
@@ -9141,6 +9267,504 @@ export type UpdateUploadFolderMutation = {
             } | null;
           }>;
         } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type CreateFreeContentByFreeContentSubServiceIdMutationVariables =
+  Exact<{
+    data: FreeContentInput;
+  }>;
+
+export type CreateFreeContentByFreeContentSubServiceIdMutation = {
+  __typename?: "Mutation";
+  createFreeContent?: {
+    __typename?: "FreeContentEntityResponse";
+    data?: {
+      __typename?: "FreeContentEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "FreeContent";
+        title: string;
+        image: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            attributes?: {
+              __typename?: "UploadFile";
+              name: string;
+              url: string;
+            } | null;
+          } | null;
+        };
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type DeleteFreeContentMutationVariables = Exact<{
+  deleteFreeContentId: Scalars["ID"];
+}>;
+
+export type DeleteFreeContentMutation = {
+  __typename?: "Mutation";
+  deleteFreeContent?: {
+    __typename?: "FreeContentEntityResponse";
+    data?: {
+      __typename?: "FreeContentEntity";
+      attributes?: {
+        __typename?: "FreeContent";
+        title: string;
+        shortDescription?: string | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetFreeContentByIdQueryVariables = Exact<{
+  freeContentId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetFreeContentByIdQuery = {
+  __typename?: "Query";
+  freeContent?: {
+    __typename?: "FreeContentEntityResponse";
+    data?: {
+      __typename?: "FreeContentEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "FreeContent";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_Freecontent_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        freeContentSubService?: {
+          __typename?: "FreeContentSubServiceEntityResponse";
+          data?: {
+            __typename?: "FreeContentSubServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
+        image: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+            } | null;
+          } | null;
+        };
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    ext?: string | null;
+                    height?: number | null;
+                    width?: number | null;
+                    mime: string;
+                    url: string;
+                    size: number;
+                    formats?: any | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetFreeContentSubServiceByIdQueryVariables = Exact<{
+  freeContentSubServiceId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetFreeContentSubServiceByIdQuery = {
+  __typename?: "Query";
+  freeContentSubService?: {
+    __typename?: "FreeContentSubServiceEntityResponse";
+    data?: {
+      __typename?: "FreeContentSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "FreeContentSubService";
+        name: string;
+        isActivated: boolean;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetFreeContentsBySubServiceIdQueryVariables = Exact<{
+  freeContentSubServiceId: Scalars["ID"];
+  statusFilter?: InputMaybe<StringFilterInput>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetFreeContentsBySubServiceIdQuery = {
+  __typename?: "Query";
+  freeContentsCount?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  freeContentsCountDraft?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  freeContentsCountPublished?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  freeContentsCountArchived?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  freeContents?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "FreeContentEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "FreeContent";
+        title: string;
+        status?: Enum_Freecontent_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateFreeContentMutationVariables = Exact<{
+  updateFreeContentId: Scalars["ID"];
+  data: FreeContentInput;
+}>;
+
+export type UpdateFreeContentMutation = {
+  __typename?: "Mutation";
+  updateFreeContent?: {
+    __typename?: "FreeContentEntityResponse";
+    data?: {
+      __typename?: "FreeContentEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "FreeContent";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_Freecontent_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        freeContentSubService?: {
+          __typename?: "FreeContentSubServiceEntityResponse";
+          data?: {
+            __typename?: "FreeContentSubServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
+        image: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+            } | null;
+          } | null;
+        };
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
       } | null;
     } | null;
   } | null;
@@ -12828,6 +13452,719 @@ export type UpdateUploadFolderMutationResult =
 export type UpdateUploadFolderMutationOptions = Apollo.BaseMutationOptions<
   UpdateUploadFolderMutation,
   UpdateUploadFolderMutationVariables
+>;
+export const CreateFreeContentByFreeContentSubServiceIdDocument = gql`
+  mutation createFreeContentByFreeContentSubServiceId(
+    $data: FreeContentInput!
+  ) {
+    createFreeContent(data: $data) {
+      data {
+        id
+        attributes {
+          title
+          image {
+            data {
+              attributes {
+                name
+                url
+              }
+            }
+          }
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type CreateFreeContentByFreeContentSubServiceIdMutationFn =
+  Apollo.MutationFunction<
+    CreateFreeContentByFreeContentSubServiceIdMutation,
+    CreateFreeContentByFreeContentSubServiceIdMutationVariables
+  >;
+
+/**
+ * __useCreateFreeContentByFreeContentSubServiceIdMutation__
+ *
+ * To run a mutation, you first call `useCreateFreeContentByFreeContentSubServiceIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFreeContentByFreeContentSubServiceIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createFreeContentByFreeContentSubServiceIdMutation, { data, loading, error }] = useCreateFreeContentByFreeContentSubServiceIdMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateFreeContentByFreeContentSubServiceIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateFreeContentByFreeContentSubServiceIdMutation,
+    CreateFreeContentByFreeContentSubServiceIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateFreeContentByFreeContentSubServiceIdMutation,
+    CreateFreeContentByFreeContentSubServiceIdMutationVariables
+  >(CreateFreeContentByFreeContentSubServiceIdDocument, options);
+}
+export type CreateFreeContentByFreeContentSubServiceIdMutationHookResult =
+  ReturnType<typeof useCreateFreeContentByFreeContentSubServiceIdMutation>;
+export type CreateFreeContentByFreeContentSubServiceIdMutationResult =
+  Apollo.MutationResult<CreateFreeContentByFreeContentSubServiceIdMutation>;
+export type CreateFreeContentByFreeContentSubServiceIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateFreeContentByFreeContentSubServiceIdMutation,
+    CreateFreeContentByFreeContentSubServiceIdMutationVariables
+  >;
+export const DeleteFreeContentDocument = gql`
+  mutation deleteFreeContent($deleteFreeContentId: ID!) {
+    deleteFreeContent(id: $deleteFreeContentId) {
+      data {
+        attributes {
+          title
+          shortDescription
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type DeleteFreeContentMutationFn = Apollo.MutationFunction<
+  DeleteFreeContentMutation,
+  DeleteFreeContentMutationVariables
+>;
+
+/**
+ * __useDeleteFreeContentMutation__
+ *
+ * To run a mutation, you first call `useDeleteFreeContentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteFreeContentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteFreeContentMutation, { data, loading, error }] = useDeleteFreeContentMutation({
+ *   variables: {
+ *      deleteFreeContentId: // value for 'deleteFreeContentId'
+ *   },
+ * });
+ */
+export function useDeleteFreeContentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteFreeContentMutation,
+    DeleteFreeContentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteFreeContentMutation,
+    DeleteFreeContentMutationVariables
+  >(DeleteFreeContentDocument, options);
+}
+export type DeleteFreeContentMutationHookResult = ReturnType<
+  typeof useDeleteFreeContentMutation
+>;
+export type DeleteFreeContentMutationResult =
+  Apollo.MutationResult<DeleteFreeContentMutation>;
+export type DeleteFreeContentMutationOptions = Apollo.BaseMutationOptions<
+  DeleteFreeContentMutation,
+  DeleteFreeContentMutationVariables
+>;
+export const GetFreeContentByIdDocument = gql`
+  query getFreeContentById($freeContentId: ID) {
+    freeContent(id: $freeContentId) {
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          freeContentSubService {
+            data {
+              id
+            }
+          }
+          status
+          publishedDate
+          unpublishedDate
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          image {
+            data {
+              id
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+              }
+            }
+          }
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  id
+                  attributes {
+                    name
+                    ext
+                    height
+                    width
+                    mime
+                    url
+                    size
+                    formats
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFreeContentByIdQuery__
+ *
+ * To run a query within a React component, call `useGetFreeContentByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFreeContentByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFreeContentByIdQuery({
+ *   variables: {
+ *      freeContentId: // value for 'freeContentId'
+ *   },
+ * });
+ */
+export function useGetFreeContentByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetFreeContentByIdQuery,
+    GetFreeContentByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFreeContentByIdQuery,
+    GetFreeContentByIdQueryVariables
+  >(GetFreeContentByIdDocument, options);
+}
+export function useGetFreeContentByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFreeContentByIdQuery,
+    GetFreeContentByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFreeContentByIdQuery,
+    GetFreeContentByIdQueryVariables
+  >(GetFreeContentByIdDocument, options);
+}
+export type GetFreeContentByIdQueryHookResult = ReturnType<
+  typeof useGetFreeContentByIdQuery
+>;
+export type GetFreeContentByIdLazyQueryHookResult = ReturnType<
+  typeof useGetFreeContentByIdLazyQuery
+>;
+export type GetFreeContentByIdQueryResult = Apollo.QueryResult<
+  GetFreeContentByIdQuery,
+  GetFreeContentByIdQueryVariables
+>;
+export const GetFreeContentSubServiceByIdDocument = gql`
+  query getFreeContentSubServiceById($freeContentSubServiceId: ID) {
+    freeContentSubService(id: $freeContentSubServiceId) {
+      data {
+        id
+        attributes {
+          name
+          isActivated
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFreeContentSubServiceByIdQuery__
+ *
+ * To run a query within a React component, call `useGetFreeContentSubServiceByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFreeContentSubServiceByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFreeContentSubServiceByIdQuery({
+ *   variables: {
+ *      freeContentSubServiceId: // value for 'freeContentSubServiceId'
+ *   },
+ * });
+ */
+export function useGetFreeContentSubServiceByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetFreeContentSubServiceByIdQuery,
+    GetFreeContentSubServiceByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFreeContentSubServiceByIdQuery,
+    GetFreeContentSubServiceByIdQueryVariables
+  >(GetFreeContentSubServiceByIdDocument, options);
+}
+export function useGetFreeContentSubServiceByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFreeContentSubServiceByIdQuery,
+    GetFreeContentSubServiceByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFreeContentSubServiceByIdQuery,
+    GetFreeContentSubServiceByIdQueryVariables
+  >(GetFreeContentSubServiceByIdDocument, options);
+}
+export type GetFreeContentSubServiceByIdQueryHookResult = ReturnType<
+  typeof useGetFreeContentSubServiceByIdQuery
+>;
+export type GetFreeContentSubServiceByIdLazyQueryHookResult = ReturnType<
+  typeof useGetFreeContentSubServiceByIdLazyQuery
+>;
+export type GetFreeContentSubServiceByIdQueryResult = Apollo.QueryResult<
+  GetFreeContentSubServiceByIdQuery,
+  GetFreeContentSubServiceByIdQueryVariables
+>;
+export const GetFreeContentsBySubServiceIdDocument = gql`
+  query getFreeContentsBySubServiceId(
+    $freeContentSubServiceId: ID!
+    $statusFilter: StringFilterInput
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    freeContentsCount: freeContents(
+      filters: {
+        freeContentSubService: { id: { eq: $freeContentSubServiceId } }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    freeContentsCountDraft: freeContents(
+      filters: {
+        freeContentSubService: { id: { eq: $freeContentSubServiceId } }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    freeContentsCountPublished: freeContents(
+      filters: {
+        freeContentSubService: { id: { eq: $freeContentSubServiceId } }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    freeContentsCountArchived: freeContents(
+      filters: {
+        freeContentSubService: { id: { eq: $freeContentSubServiceId } }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    freeContents(
+      filters: {
+        freeContentSubService: { id: { eq: $freeContentSubServiceId } }
+        status: $statusFilter
+      }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          title
+          status
+          publishedDate
+          unpublishedDate
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFreeContentsBySubServiceIdQuery__
+ *
+ * To run a query within a React component, call `useGetFreeContentsBySubServiceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFreeContentsBySubServiceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFreeContentsBySubServiceIdQuery({
+ *   variables: {
+ *      freeContentSubServiceId: // value for 'freeContentSubServiceId'
+ *      statusFilter: // value for 'statusFilter'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetFreeContentsBySubServiceIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFreeContentsBySubServiceIdQuery,
+    GetFreeContentsBySubServiceIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFreeContentsBySubServiceIdQuery,
+    GetFreeContentsBySubServiceIdQueryVariables
+  >(GetFreeContentsBySubServiceIdDocument, options);
+}
+export function useGetFreeContentsBySubServiceIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFreeContentsBySubServiceIdQuery,
+    GetFreeContentsBySubServiceIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFreeContentsBySubServiceIdQuery,
+    GetFreeContentsBySubServiceIdQueryVariables
+  >(GetFreeContentsBySubServiceIdDocument, options);
+}
+export type GetFreeContentsBySubServiceIdQueryHookResult = ReturnType<
+  typeof useGetFreeContentsBySubServiceIdQuery
+>;
+export type GetFreeContentsBySubServiceIdLazyQueryHookResult = ReturnType<
+  typeof useGetFreeContentsBySubServiceIdLazyQuery
+>;
+export type GetFreeContentsBySubServiceIdQueryResult = Apollo.QueryResult<
+  GetFreeContentsBySubServiceIdQuery,
+  GetFreeContentsBySubServiceIdQueryVariables
+>;
+export const UpdateFreeContentDocument = gql`
+  mutation updateFreeContent(
+    $updateFreeContentId: ID!
+    $data: FreeContentInput!
+  ) {
+    updateFreeContent(id: $updateFreeContentId, data: $data) {
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          freeContentSubService {
+            data {
+              id
+            }
+          }
+          status
+          publishedDate
+          unpublishedDate
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          image {
+            data {
+              id
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+              }
+            }
+          }
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateFreeContentMutationFn = Apollo.MutationFunction<
+  UpdateFreeContentMutation,
+  UpdateFreeContentMutationVariables
+>;
+
+/**
+ * __useUpdateFreeContentMutation__
+ *
+ * To run a mutation, you first call `useUpdateFreeContentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFreeContentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFreeContentMutation, { data, loading, error }] = useUpdateFreeContentMutation({
+ *   variables: {
+ *      updateFreeContentId: // value for 'updateFreeContentId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateFreeContentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateFreeContentMutation,
+    UpdateFreeContentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateFreeContentMutation,
+    UpdateFreeContentMutationVariables
+  >(UpdateFreeContentDocument, options);
+}
+export type UpdateFreeContentMutationHookResult = ReturnType<
+  typeof useUpdateFreeContentMutation
+>;
+export type UpdateFreeContentMutationResult =
+  Apollo.MutationResult<UpdateFreeContentMutation>;
+export type UpdateFreeContentMutationOptions = Apollo.BaseMutationOptions<
+  UpdateFreeContentMutation,
+  UpdateFreeContentMutationVariables
 >;
 export const GetTagsByContractIdDocument = gql`
   query getTagsByContractId($contractId: ID) {

@@ -1,3 +1,4 @@
+import { parseJSON } from "date-fns";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -13,17 +14,15 @@ import {
   remapEditoBlocksDynamicZone,
   TDynamicFieldOption,
 } from "../../../../../lib/edito";
-
 import { valueToEStatus } from "../../../../../lib/status";
+import { formatDate } from "../../../../../lib/utilities";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import ContractLayout from "../../../contract-layout";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
-import "./edito-actualites-edit-page.scss";
-import { formatDate } from "../../../../../lib/utilities";
-import { parseJSON } from "date-fns";
+
 interface IEditoActualitesEditPageProps {
   newId: string;
 }
@@ -58,6 +57,7 @@ export function EditoActualitesEditPage({
         unpublishedDate: newsInputData.unpublishedDate,
       },
     };
+
     return updateNew({
       variables,
       refetchQueries: [
@@ -173,7 +173,7 @@ export function EditoActualitesEditPage({
   }, [data, router, currentRoot]);
 
   return (
-    <div className="c-EditoActualitesEditPage">
+    <div className="o-EditoEditPage">
       {mappedData && (
         <>
           <PageTitle title={mappedData.title} />

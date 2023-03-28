@@ -1091,11 +1091,14 @@ type Contract {
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS!
   createdAt: DateTime
   dropOffMapService: DropOffMapServiceEntityResponse
+  dueDate: DateTime
   editorialService: EditorialServiceEntityResponse
+  hasYesWeScan: Boolean
   isNonExclusive: Boolean!
   isRVFrance: Boolean!
   keyMetricsService: KeyMetricsServiceEntityResponse
   logicalDelete: Boolean
+  logo: UploadFileEntityResponse
   numberOfInhabitants: Long
   oldClientName: String
   pathId: Long
@@ -1120,6 +1123,11 @@ type Contract {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserRelationResponseCollection
+  yes_we_scan_service(
+    filters: YesWeScanServiceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): YesWeScanServiceRelationResponseCollection
 }
 
 union ContractAndClientContact = ClientContactCreateInput | ContractCreateInput
@@ -1203,7 +1211,9 @@ input ContractFiltersInput {
   contractStatus: StringFilterInput
   createdAt: DateTimeFilterInput
   dropOffMapService: DropOffMapServiceFiltersInput
+  dueDate: DateTimeFilterInput
   editorialService: EditorialServiceFiltersInput
+  hasYesWeScan: BooleanFilterInput
   id: IDFilterInput
   isNonExclusive: BooleanFilterInput
   isRVFrance: BooleanFilterInput
@@ -1223,6 +1233,7 @@ input ContractFiltersInput {
   territory: TerritoryFiltersInput
   updatedAt: DateTimeFilterInput
   users: UsersPermissionsUserFiltersInput
+  yes_we_scan_service: YesWeScanServiceFiltersInput
 }
 
 input ContractInput {
@@ -1238,11 +1249,14 @@ input ContractInput {
   contractMenu: ID
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS
   dropOffMapService: ID
+  dueDate: DateTime
   editorialService: ID
+  hasYesWeScan: Boolean
   isNonExclusive: Boolean
   isRVFrance: Boolean
   keyMetricsService: ID
   logicalDelete: Boolean
+  logo: ID
   numberOfInhabitants: Long
   oldClientName: String
   pathId: Long
@@ -1254,6 +1268,7 @@ input ContractInput {
   tags: [ID]
   territory: ID
   users: [ID]
+  yes_we_scan_service: [ID]
 }
 
 type ContractMenu {
@@ -2692,6 +2707,7 @@ union GenericMorph =
   | UsersPermissionsRole
   | UsersPermissionsUser
   | WasteForm
+  | YesWeScanService
 
 type Global {
   createdAt: DateTime
@@ -3183,6 +3199,10 @@ type Mutation {
     data: UsersPermissionsUserInput!
   ): UsersPermissionsUserEntityResponse!
   createWasteForm(data: WasteFormInput!): WasteFormEntityResponse
+  createYesWeScanService(
+    data: YesWeScanServiceInput!
+  ): YesWeScanServiceEntityResponse
+  createYwsService(contractId: ID!, service: ServiceInput!): Boolean
   deleteAccessibility(id: ID!): AccessibilityEntityResponse
   deleteAccessibilitySubService(id: ID!): AccessibilitySubServiceEntityResponse
   deleteAlertNotification(id: ID!): AlertNotificationEntityResponse
@@ -3259,6 +3279,8 @@ type Mutation {
   """
   deleteUsersPermissionsUser(id: ID!): UsersPermissionsUserEntityResponse!
   deleteWasteForm(id: ID!): WasteFormEntityResponse
+  deleteYesWeScanService(id: ID!): YesWeScanServiceEntityResponse
+  deleteYwsService(id: ID!): Boolean
   duplicateContent(id: ID!, type: String): Boolean
 
   """
@@ -3496,6 +3518,10 @@ type Mutation {
     id: ID!
   ): UsersPermissionsUserEntityResponse!
   updateWasteForm(data: WasteFormInput!, id: ID!): WasteFormEntityResponse
+  updateYesWeScanService(
+    data: YesWeScanServiceInput!
+    id: ID!
+  ): YesWeScanServiceEntityResponse
   upload(
     field: String
     file: Upload!
@@ -3504,6 +3530,8 @@ type Mutation {
     refId: ID
   ): UploadFileEntityResponse!
   urlUploader(imageName: String!, url: String!): Boolean
+  ywsActivation(contractId: ID!): Boolean
+  ywsDeactivation(contractId: ID!): Boolean
 }
 
 type New {
@@ -4253,6 +4281,12 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): WasteFormEntityResponseCollection
+  yesWeScanService(id: ID): YesWeScanServiceEntityResponse
+  yesWeScanServices(
+    filters: YesWeScanServiceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): YesWeScanServiceEntityResponseCollection
 }
 
 type Quiz {
@@ -4823,6 +4857,12 @@ type ServiceActivated {
   serviceId: ID!
   serviceName: String!
   startDate: Date
+}
+
+input ServiceInput {
+  endDate: String!
+  name: String!
+  startDate: String!
 }
 
 type ServicesBlock {
@@ -5718,6 +5758,53 @@ input WasteFormInput {
 
 type WasteFormRelationResponseCollection {
   data: [WasteFormEntity!]!
+}
+
+type YesWeScanService {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  endDate: DateTime
+  serviceName: String
+  startDate: DateTime
+  updatedAt: DateTime
+}
+
+type YesWeScanServiceEntity {
+  attributes: YesWeScanService
+  id: ID
+}
+
+type YesWeScanServiceEntityResponse {
+  data: YesWeScanServiceEntity
+}
+
+type YesWeScanServiceEntityResponseCollection {
+  data: [YesWeScanServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input YesWeScanServiceFiltersInput {
+  and: [YesWeScanServiceFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  endDate: DateTimeFilterInput
+  id: IDFilterInput
+  not: YesWeScanServiceFiltersInput
+  or: [YesWeScanServiceFiltersInput]
+  serviceName: StringFilterInput
+  startDate: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input YesWeScanServiceInput {
+  contract: ID
+  endDate: DateTime
+  serviceName: String
+  startDate: DateTime
+}
+
+type YesWeScanServiceRelationResponseCollection {
+  data: [YesWeScanServiceEntity!]!
 }
 
 type clientName {

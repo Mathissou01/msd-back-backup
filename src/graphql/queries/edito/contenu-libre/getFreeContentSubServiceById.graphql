@@ -1,0 +1,11 @@
+query getFreeContentSubServiceById($freeContentSubServiceId: ID) {
+  freeContentSubService(id: $freeContentSubServiceId) {
+    data {
+      id
+      attributes {
+        name
+        isActivated
+      }
+    }
+  }
+}

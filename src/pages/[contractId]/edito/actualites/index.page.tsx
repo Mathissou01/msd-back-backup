@@ -13,6 +13,7 @@ import {
   useGetNewsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../lib/utilities";
+import { EStatusLabel } from "../../../../lib/status";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import ContractLayout from "../../contract-layout";
@@ -25,13 +26,6 @@ import { IDataTableAction } from "../../../../components/Common/CommonDataTable/
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
-import "./edito-actualites-page.scss";
-
-enum EStatusLabel {
-  draft = "Brouillon",
-  published = "Publié",
-  archived = "Archivé",
-}
 
 interface INewsTableRow extends IDefaultTableRow {
   title: string;
@@ -117,7 +111,7 @@ export function EditoActualitesPage() {
   }
 
   /* External Data */
-  const { currentRoot, currentPage } = useNavigation();
+  const { currentRoot } = useNavigation();
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
@@ -177,8 +171,8 @@ export function EditoActualitesPage() {
       selector: (row) => row.title,
       cell: (row) => (
         <Link
-          href={`${currentRoot}${currentPage}/${row.id}`}
-          className="c-EditoActualitesPage__Link"
+          href={`${currentRoot}/edito/actualites/${row.id}`}
+          className="o-EditoPage__Link"
         >
           {row.title}
         </Link>
@@ -212,7 +206,7 @@ export function EditoActualitesPage() {
     {
       id: "edit",
       picto: "/images/pictos/edit.svg",
-      href: `${currentRoot}${currentPage}/${row.id}`,
+      href: `${currentRoot}/edito/actualites/${row.id}`,
     },
     {
       id: "duplicate",
@@ -295,7 +289,7 @@ export function EditoActualitesPage() {
   }, [getNewsQuery, isInitialized]);
 
   return (
-    <div className="c-EditoActualitesPage">
+    <div className="o-EditoPage">
       <PageTitle title={title} />
       <CommonButton
         label={addButton}
@@ -303,8 +297,8 @@ export function EditoActualitesPage() {
         picto="add"
         onClick={() => router.push(`${currentRoot}/edito/actualites/create`)}
       />
-      <h2 className="c-EditoActualitesPage__Title">{tableLabels.title}</h2>
-      <div className="c-EditoActualitesPage__Table">
+      <h2 className="o-EditoPage__Title">{tableLabels.title}</h2>
+      <div className="o-EditoPage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={errors}>
           <CommonDataTable<INewsTableRow>
             columns={tableColumns}

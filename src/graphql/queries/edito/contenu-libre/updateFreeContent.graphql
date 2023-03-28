@@ -1,0 +1,92 @@
+mutation updateFreeContent(
+  $updateFreeContentId: ID!
+  $data: FreeContentInput!
+) {
+  updateFreeContent(id: $updateFreeContentId, data: $data) {
+    data {
+      id
+      attributes {
+        title
+        shortDescription
+        freeContentSubService {
+          data {
+            id
+          }
+        }
+        status
+        publishedDate
+        unpublishedDate
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        image {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+            }
+          }
+        }
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksVideo {
+            id
+            videoLink
+            transcriptText
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksHorizontalRule {
+            id
+            hr
+          }
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+            isDecorative
+            altText
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+          }
+          ... on Error {
+            code
+            message
+          }
+        }
+      }
+    }
+  }
+}

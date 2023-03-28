@@ -41,6 +41,9 @@ export default function NavigationList() {
         contract.attributes?.editorialService?.data?.attributes?.newsSubService
           ?.data?.attributes?.isActivated,
     },
+    freeContentSubServices:
+      contract.attributes?.editorialService?.data?.attributes
+        ?.freeContentSubServices?.data ?? [],
   };
 
   return (
@@ -67,10 +70,20 @@ export default function NavigationList() {
           )}
           {/*<NavigationListLink path={"/edito/evenements"} />*/}
           {/*<NavigationListLink path={"/edito/astuces"} />*/}
-          {/*TODO: add dynamic free content routes*/}
-          {/*<NavigationListLink */}
-          {/*  path={"/edito"}*/}
-          {/*/>*/}
+          {services.freeContentSubServices &&
+            services.freeContentSubServices.map(
+              (freeContentSubService, index) => {
+                if (freeContentSubService.attributes?.isActivated) {
+                  return (
+                    <NavigationListLink
+                      key={index}
+                      path={`/edito/contenu-libre/${freeContentSubService.id}`}
+                      label={freeContentSubService.attributes.name}
+                    />
+                  );
+                }
+              },
+            )}
           {/*<NavigationListLink path={"/edito/quiz"} />*/}
           {/*<NavigationListLink path={"/edito/chiffres-cles"} />*/}
           <NavigationListLink path={"/edito/bibliotheque-de-medias"} />

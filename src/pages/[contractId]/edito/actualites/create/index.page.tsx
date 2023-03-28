@@ -10,7 +10,6 @@ import ContractLayout from "../../../contract-layout";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
-import "../[newId]/edito-actualites-edit-page.scss";
 
 export function EditoActualitesCreatePage() {
   /* Static Data */
@@ -77,7 +76,7 @@ export function EditoActualitesCreatePage() {
   ];
 
   return (
-    <div className="c-EditoActualitesEditPage">
+    <div className="o-EditoEditPage">
       <>
         <PageTitle title={title} />
         <CommonLoader isLoading={isLoading || isReloading} errors={errors}>

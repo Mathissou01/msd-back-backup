@@ -7,7 +7,7 @@ export enum ENavigationPages {
   "/edito/actualites" = "Actualités",
   "/edito/evenements" = "Événements",
   "/edito/astuces" = "Astuces",
-  "/edito" = "CONTENU LIBRE",
+  "/edito/contenu-libre/[freeContentSubServiceId]" = "",
   "/edito/quiz" = "Quiz",
   "/edito/chiffres-cles" = "Chiffres clés",
   "/edito/bibliotheque-de-medias" = "Bibliothèque de médias",
@@ -51,8 +51,8 @@ export enum ENavigationPages {
 export interface INavigationContext {
   currentRoot: string | null;
   setCurrentRoot: (root: string) => void;
-  currentPage: keyof typeof ENavigationPages;
-  setCurrentPage: (pageName: keyof typeof ENavigationPages) => void;
+  currentPage: keyof typeof ENavigationPages | string;
+  setCurrentPage: (page: keyof typeof ENavigationPages | string) => void;
 }
 
 export const NavigationContext = React.createContext<INavigationContext>({
@@ -74,9 +74,12 @@ export function containsNavigationPath(path: string) {
   return Object.keys(ENavigationPages).filter((page) => path.includes(page));
 }
 
-export function matchLongestNavigationPath(path: string) {
+export function matchLongestNavigationPath(
+  routerPath: string,
+  realPath: string,
+) {
   const matches = Object.keys(ENavigationPages).filter((page) => {
-    return path.includes(page);
+    return routerPath.includes(page);
   });
   let longestLength = 0;
   let longestValue = null;
@@ -87,5 +90,18 @@ export function matchLongestNavigationPath(path: string) {
       longestValue = value;
     }
   }
-  return longestValue;
+
+  let realPathValue = longestValue;
+  if (longestValue && longestValue !== realPath) {
+    // count how many slashes are in the route, truncate the real path to the same number of slashes
+    const slashes = [...longestValue.matchAll(new RegExp("/", "gi"))].map(
+      (a) => a.index,
+    );
+    const realSlashes = [...`${realPath}/`.matchAll(new RegExp("/", "gi"))].map(
+      (a) => a.index,
+    );
+    realPathValue = realPath.slice(0, realSlashes[slashes.length]);
+  }
+
+  return { routerPath: longestValue, realPath: realPathValue };
 }
