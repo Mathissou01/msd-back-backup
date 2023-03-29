@@ -124,9 +124,11 @@ export function EditoFreeContentEditPage({
   const errors = [error, updateMutationError];
   const [mappedData, setMappedData] = useState<IEditoFields>();
   const dynamicFieldOptions: Array<TDynamicFieldOption> = [
+    "ComponentBlocksWysiwyg",
     "ComponentBlocksSubHeading",
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
+    "ComponentBlocksFile",
   ];
 
   useEffect(() => {

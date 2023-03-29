@@ -71,9 +71,11 @@ export function EditoFreeContentCreatePage({
   const isLoading = createMutationLoading;
   const errors = [createMutationError];
   const dynamicFieldOptions: Array<TDynamicFieldOption> = [
+    "ComponentBlocksWysiwyg",
     "ComponentBlocksSubHeading",
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
+    "ComponentBlocksFile",
   ];
 
   return (
