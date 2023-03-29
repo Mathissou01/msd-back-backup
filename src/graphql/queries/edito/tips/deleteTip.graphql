@@ -1,0 +1,58 @@
+mutation deleteTip($deleteTipId: ID!) {
+  deleteTip(id: $deleteTipId) {
+    data {
+      attributes {
+        title
+        shortDescription
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksVideo {
+            id
+            videoLink
+            transcriptText
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksHorizontalRule {
+            id
+            hr
+          }
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+            isDecorative
+            altText
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+          }
+          ... on Error {
+            code
+            message
+          }
+        }
+      }
+    }
+  }
+}

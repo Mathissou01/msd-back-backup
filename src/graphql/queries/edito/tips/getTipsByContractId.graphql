@@ -1,0 +1,114 @@
+query getTipsByContractId(
+  # $filters: TipFiltersInput
+  $contractId: ID!
+  $statusFilter: StringFilterInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  tipsCount: tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  tipsCountDraft: tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      status: { eq: "draft" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  tipsCountPublished: tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      status: { eq: "published" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  tipsCountArchived: tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      status: { eq: "archived" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      status: $statusFilter
+    }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        title
+        shortDescription
+        status
+        publishedDate
+        unpublishedDate
+        image {
+          data {
+            id
+            attributes {
+              name
+              url
+              size
+              mime
+              hash
+              provider
+              alternativeText
+            }
+          }
+        }
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

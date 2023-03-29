@@ -9856,6 +9856,488 @@ export type UpdateTagMutation = {
   } | null;
 };
 
+export type CreateTipByTipSubServiceIdMutationVariables = Exact<{
+  data: TipInput;
+}>;
+
+export type CreateTipByTipSubServiceIdMutation = {
+  __typename?: "Mutation";
+  createTip?: {
+    __typename?: "TipEntityResponse";
+    data?: {
+      __typename?: "TipEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Tip";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_Tip_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type DeleteTipMutationVariables = Exact<{
+  deleteTipId: Scalars["ID"];
+}>;
+
+export type DeleteTipMutation = {
+  __typename?: "Mutation";
+  deleteTip?: {
+    __typename?: "TipEntityResponse";
+    data?: {
+      __typename?: "TipEntity";
+      attributes?: {
+        __typename?: "Tip";
+        title: string;
+        shortDescription?: string | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetTipByIdQueryVariables = Exact<{
+  tipId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetTipByIdQuery = {
+  __typename?: "Query";
+  tip?: {
+    __typename?: "TipEntityResponse";
+    data?: {
+      __typename?: "TipEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Tip";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_Tip_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        tipSubService?: {
+          __typename?: "TipSubServiceEntityResponse";
+          data?: {
+            __typename?: "TipSubServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
+        image: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+            } | null;
+          } | null;
+        };
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetTipsByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  statusFilter?: InputMaybe<StringFilterInput>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetTipsByContractIdQuery = {
+  __typename?: "Query";
+  tipsCount?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  tipsCountDraft?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  tipsCountPublished?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  tipsCountArchived?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  tips?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "TipEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Tip";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_Tip_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        image: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              name: string;
+              url: string;
+              size: number;
+              mime: string;
+              hash: string;
+              provider: string;
+              alternativeText?: string | null;
+            } | null;
+          } | null;
+        };
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateTipMutationVariables = Exact<{
+  updateTipId: Scalars["ID"];
+  data: TipInput;
+}>;
+
+export type UpdateTipMutation = {
+  __typename?: "Mutation";
+  updateTip?: {
+    __typename?: "TipEntityResponse";
+    data?: {
+      __typename?: "TipEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Tip";
+        title: string;
+        shortDescription?: string | null;
+        status?: Enum_Tip_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        tipSubService?: {
+          __typename?: "TipSubServiceEntityResponse";
+          data?: {
+            __typename?: "TipSubServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
+        image: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+            } | null;
+          } | null;
+        };
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type CreateContentTypeMutationVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
@@ -14452,6 +14934,661 @@ export type UpdateTagMutationResult = Apollo.MutationResult<UpdateTagMutation>;
 export type UpdateTagMutationOptions = Apollo.BaseMutationOptions<
   UpdateTagMutation,
   UpdateTagMutationVariables
+>;
+export const CreateTipByTipSubServiceIdDocument = gql`
+  mutation createTipByTipSubServiceId($data: TipInput!) {
+    createTip(data: $data) {
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          createdAt
+          updatedAt
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type CreateTipByTipSubServiceIdMutationFn = Apollo.MutationFunction<
+  CreateTipByTipSubServiceIdMutation,
+  CreateTipByTipSubServiceIdMutationVariables
+>;
+
+/**
+ * __useCreateTipByTipSubServiceIdMutation__
+ *
+ * To run a mutation, you first call `useCreateTipByTipSubServiceIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTipByTipSubServiceIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTipByTipSubServiceIdMutation, { data, loading, error }] = useCreateTipByTipSubServiceIdMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateTipByTipSubServiceIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateTipByTipSubServiceIdMutation,
+    CreateTipByTipSubServiceIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateTipByTipSubServiceIdMutation,
+    CreateTipByTipSubServiceIdMutationVariables
+  >(CreateTipByTipSubServiceIdDocument, options);
+}
+export type CreateTipByTipSubServiceIdMutationHookResult = ReturnType<
+  typeof useCreateTipByTipSubServiceIdMutation
+>;
+export type CreateTipByTipSubServiceIdMutationResult =
+  Apollo.MutationResult<CreateTipByTipSubServiceIdMutation>;
+export type CreateTipByTipSubServiceIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateTipByTipSubServiceIdMutation,
+    CreateTipByTipSubServiceIdMutationVariables
+  >;
+export const DeleteTipDocument = gql`
+  mutation deleteTip($deleteTipId: ID!) {
+    deleteTip(id: $deleteTipId) {
+      data {
+        attributes {
+          title
+          shortDescription
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type DeleteTipMutationFn = Apollo.MutationFunction<
+  DeleteTipMutation,
+  DeleteTipMutationVariables
+>;
+
+/**
+ * __useDeleteTipMutation__
+ *
+ * To run a mutation, you first call `useDeleteTipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTipMutation, { data, loading, error }] = useDeleteTipMutation({
+ *   variables: {
+ *      deleteTipId: // value for 'deleteTipId'
+ *   },
+ * });
+ */
+export function useDeleteTipMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteTipMutation,
+    DeleteTipMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteTipMutation, DeleteTipMutationVariables>(
+    DeleteTipDocument,
+    options,
+  );
+}
+export type DeleteTipMutationHookResult = ReturnType<
+  typeof useDeleteTipMutation
+>;
+export type DeleteTipMutationResult = Apollo.MutationResult<DeleteTipMutation>;
+export type DeleteTipMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTipMutation,
+  DeleteTipMutationVariables
+>;
+export const GetTipByIdDocument = gql`
+  query getTipById($tipId: ID) {
+    tip(id: $tipId) {
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          tipSubService {
+            data {
+              id
+            }
+          }
+          status
+          publishedDate
+          unpublishedDate
+          createdAt
+          updatedAt
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          image {
+            data {
+              id
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+              }
+            }
+          }
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTipByIdQuery__
+ *
+ * To run a query within a React component, call `useGetTipByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTipByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTipByIdQuery({
+ *   variables: {
+ *      tipId: // value for 'tipId'
+ *   },
+ * });
+ */
+export function useGetTipByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetTipByIdQuery,
+    GetTipByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTipByIdQuery, GetTipByIdQueryVariables>(
+    GetTipByIdDocument,
+    options,
+  );
+}
+export function useGetTipByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTipByIdQuery,
+    GetTipByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetTipByIdQuery, GetTipByIdQueryVariables>(
+    GetTipByIdDocument,
+    options,
+  );
+}
+export type GetTipByIdQueryHookResult = ReturnType<typeof useGetTipByIdQuery>;
+export type GetTipByIdLazyQueryHookResult = ReturnType<
+  typeof useGetTipByIdLazyQuery
+>;
+export type GetTipByIdQueryResult = Apollo.QueryResult<
+  GetTipByIdQuery,
+  GetTipByIdQueryVariables
+>;
+export const GetTipsByContractIdDocument = gql`
+  query getTipsByContractId(
+    $contractId: ID!
+    $statusFilter: StringFilterInput
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    tipsCount: tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    tipsCountDraft: tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    tipsCountPublished: tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    tipsCountArchived: tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        status: $statusFilter
+      }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          status
+          publishedDate
+          unpublishedDate
+          image {
+            data {
+              id
+              attributes {
+                name
+                url
+                size
+                mime
+                hash
+                provider
+                alternativeText
+              }
+            }
+          }
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTipsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetTipsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTipsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTipsByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      statusFilter: // value for 'statusFilter'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetTipsByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTipsByContractIdQuery,
+    GetTipsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetTipsByContractIdQuery,
+    GetTipsByContractIdQueryVariables
+  >(GetTipsByContractIdDocument, options);
+}
+export function useGetTipsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTipsByContractIdQuery,
+    GetTipsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetTipsByContractIdQuery,
+    GetTipsByContractIdQueryVariables
+  >(GetTipsByContractIdDocument, options);
+}
+export type GetTipsByContractIdQueryHookResult = ReturnType<
+  typeof useGetTipsByContractIdQuery
+>;
+export type GetTipsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetTipsByContractIdLazyQuery
+>;
+export type GetTipsByContractIdQueryResult = Apollo.QueryResult<
+  GetTipsByContractIdQuery,
+  GetTipsByContractIdQueryVariables
+>;
+export const UpdateTipDocument = gql`
+  mutation updateTip($updateTipId: ID!, $data: TipInput!) {
+    updateTip(id: $updateTipId, data: $data) {
+      data {
+        id
+        attributes {
+          title
+          shortDescription
+          tipSubService {
+            data {
+              id
+            }
+          }
+          status
+          publishedDate
+          unpublishedDate
+          createdAt
+          updatedAt
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          image {
+            data {
+              id
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+              }
+            }
+          }
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    name
+                    url
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateTipMutationFn = Apollo.MutationFunction<
+  UpdateTipMutation,
+  UpdateTipMutationVariables
+>;
+
+/**
+ * __useUpdateTipMutation__
+ *
+ * To run a mutation, you first call `useUpdateTipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTipMutation, { data, loading, error }] = useUpdateTipMutation({
+ *   variables: {
+ *      updateTipId: // value for 'updateTipId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateTipMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTipMutation,
+    UpdateTipMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateTipMutation, UpdateTipMutationVariables>(
+    UpdateTipDocument,
+    options,
+  );
+}
+export type UpdateTipMutationHookResult = ReturnType<
+  typeof useUpdateTipMutation
+>;
+export type UpdateTipMutationResult = Apollo.MutationResult<UpdateTipMutation>;
+export type UpdateTipMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTipMutation,
+  UpdateTipMutationVariables
 >;
 export const CreateContentTypeDocument = gql`
   mutation createContentType(

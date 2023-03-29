@@ -44,6 +44,9 @@ export default function NavigationList() {
     freeContentSubServices:
       contract.attributes?.editorialService?.data?.attributes
         ?.freeContentSubServices?.data ?? [],
+    tipSubService:
+      contract.attributes?.editorialService?.data?.attributes?.tipSubService
+        ?.data?.attributes?.name,
   };
 
   return (
@@ -66,6 +69,12 @@ export default function NavigationList() {
             <NavigationListLink
               path={"/edito/actualites"}
               label={services.news.name}
+            />
+          )}
+          {services.tipSubService && (
+            <NavigationListLink
+              path={"/edito/astuces"}
+              label={services.tipSubService}
             />
           )}
           {/*<NavigationListLink path={"/edito/evenements"} />*/}

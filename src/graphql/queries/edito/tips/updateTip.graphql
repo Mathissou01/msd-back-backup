@@ -1,0 +1,91 @@
+mutation updateTip($updateTipId: ID!, $data: TipInput!) {
+  updateTip(id: $updateTipId, data: $data) {
+    data {
+      id
+      attributes {
+        title
+        shortDescription
+        tipSubService {
+          data {
+            id
+          }
+        }
+        status
+        publishedDate
+        unpublishedDate
+        createdAt
+        updatedAt
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        image {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+            }
+          }
+        }
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksVideo {
+            id
+            videoLink
+            transcriptText
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksHorizontalRule {
+            id
+            hr
+          }
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+            isDecorative
+            altText
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+          }
+          ... on Error {
+            code
+            message
+          }
+        }
+      }
+    }
+  }
+}

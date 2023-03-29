@@ -1,0 +1,64 @@
+mutation createTipByTipSubServiceId($data: TipInput!) {
+  createTip(data: $data) {
+    data {
+      id
+      attributes {
+        title
+        shortDescription
+        status
+        publishedDate
+        unpublishedDate
+        createdAt
+        updatedAt
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksVideo {
+            id
+            videoLink
+            transcriptText
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksHorizontalRule {
+            id
+            hr
+          }
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+            isDecorative
+            altText
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                attributes {
+                  name
+                  url
+                }
+              }
+            }
+          }
+          # ... on Error {
+          #   code
+          #   message
+          # }
+        }
+      }
+    }
+  }
+}
