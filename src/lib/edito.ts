@@ -1,9 +1,18 @@
-import { UploadFileEntityResponse } from "./../graphql/codegen/generated-types";
-import { Maybe } from "../graphql/codegen/generated-types";
+import {
+  Maybe,
+  UploadFileEntityResponse,
+} from "../graphql/codegen/generated-types";
 import { TPictoStyles } from "./pictos";
 import { removeNulls } from "./utilities";
 import { EStatus } from "./status";
 import { ICommonSelectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
+
+export type TEditoContentTypes =
+  | "quiz"
+  | "tip"
+  | "event"
+  | "news"
+  | "freeContent";
 
 export interface IEditoStaticFields {
   id: string;

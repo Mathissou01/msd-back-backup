@@ -11,8 +11,10 @@ import ServiceTab from "../../../../components/TabBlock/ServicesTab/ServicesTab"
 import TopContentTab from "../../../../components/TabBlock/TopContentTab/TopContentTab";
 import QuizAndTipsTab from "../../../../components/TabBlock/QuizAndTipsTab/QuizAndTipsTab";
 import EditoTab from "../../../../components/TabBlock/EditoTab/EditoTab";
+import { removeNulls } from "../../../../lib/utilities";
+import { TEditoContentTypes } from "../../../../lib/edito";
 
-interface IServiceParameters {
+export interface IServiceParameters {
   isServiceRecyclingGuideActivated: boolean;
   isQuizActivated: boolean;
   isTipsActivated: boolean;
@@ -65,60 +67,82 @@ export function PersonnalisationAccueilPage() {
   }, [data]);
 
   useEffect(() => {
-    const tabs = [
-      {
-        name: "welcomeAndSearchEngine",
-        title: "Message et moteur de recherche",
-        content: <WelcomeAndSearchEngineTab />,
-        isEnabled: true,
-      },
-      {
-        name: "recyclingGuide",
-        title: "Guide du Tri",
-        content: <RecyclingGuideTab />,
-        isEnabled: !!serviceParameters?.isServiceRecyclingGuideActivated,
-      },
-      {
-        name: "services",
-        title: "Services",
-        content: <ServiceTab />,
-        isEnabled: true,
-      },
-      {
-        name: "keyMetrics",
-        title: "Chiffres clés",
-        content: <div />,
-        isEnabled: true,
-      },
-      {
-        name: "topContent",
-        title: "À la une",
-        content: <TopContentTab />,
-        isEnabled:
-          !!serviceParameters?.isEventsActivated &&
-          !!serviceParameters?.isNewsActivated,
-      },
-      {
-        name: "quizAndTips",
-        title: "Quiz & Astuces",
-        content: <QuizAndTipsTab />,
-        isEnabled:
-          !!serviceParameters?.isQuizActivated &&
-          !!serviceParameters?.isTipsActivated,
-      },
-      {
-        name: "edito",
-        title: "Bloc Édito",
-        content: <EditoTab />,
-        isEnabled:
-          !!serviceParameters?.isQuizActivated &&
-          !!serviceParameters?.isTipsActivated &&
-          !!serviceParameters?.isEventsActivated &&
-          !!serviceParameters?.isNewsActivated &&
-          !!serviceParameters?.hasFreeContentsActivated,
-      },
-    ];
-    setTabs(tabs);
+    if (serviceParameters) {
+      const tabs = [
+        {
+          name: "welcomeAndSearchEngine",
+          title: "Message et moteur de recherche",
+          content: <WelcomeAndSearchEngineTab />,
+          isEnabled: true,
+        },
+        {
+          name: "recyclingGuide",
+          title: "Guide du Tri",
+          content: <RecyclingGuideTab />,
+          isEnabled: serviceParameters.isServiceRecyclingGuideActivated,
+        },
+        {
+          name: "services",
+          title: "Services",
+          content: <ServiceTab />,
+          isEnabled: true,
+        },
+        {
+          name: "keyMetrics",
+          title: "Chiffres clés",
+          content: <div />,
+          isEnabled: true,
+        },
+        {
+          name: "topContent",
+          title: "À la une",
+          content: <TopContentTab />,
+          isEnabled:
+            serviceParameters.isEventsActivated &&
+            serviceParameters.isNewsActivated,
+        },
+        {
+          name: "quizAndTips",
+          title: "Quiz & Astuces",
+          content: <QuizAndTipsTab />,
+          isEnabled:
+            serviceParameters.isQuizActivated &&
+            serviceParameters.isTipsActivated,
+        },
+        {
+          name: "edito",
+          title: "Bloc Édito",
+          content: (
+            <EditoTab
+              activatedTypes={[
+                serviceParameters.isQuizActivated
+                  ? ("quiz" as TEditoContentTypes)
+                  : null,
+                serviceParameters.isQuizActivated
+                  ? ("tip" as TEditoContentTypes)
+                  : null,
+                serviceParameters.isQuizActivated
+                  ? ("event" as TEditoContentTypes)
+                  : null,
+                serviceParameters.isQuizActivated
+                  ? ("news" as TEditoContentTypes)
+                  : null,
+                serviceParameters.isQuizActivated
+                  ? ("freeContent" as TEditoContentTypes)
+                  : null,
+              ].filter(removeNulls)}
+            />
+          ),
+          isEnabled:
+            serviceParameters.isQuizActivated ||
+            serviceParameters.isTipsActivated ||
+            serviceParameters.isEventsActivated ||
+            serviceParameters.isNewsActivated ||
+            serviceParameters.hasFreeContentsActivated,
+        },
+      ];
+      setTabs(tabs);
+    }
   }, [serviceParameters]);
 
   return (

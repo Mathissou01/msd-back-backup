@@ -8,7 +8,9 @@ describe("EditoTab", () => {
   it("renders loading and loaded state", async () => {
     const { container } = render(
       <MockedProvider mocks={defaultMockData} addTypename={false}>
-        <EditoTab />
+        <EditoTab
+          activatedTypes={["tip", "quiz", "event", "news", "freeContent"]}
+        />
       </MockedProvider>,
     );
 

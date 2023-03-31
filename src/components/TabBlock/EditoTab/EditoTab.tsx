@@ -15,6 +15,7 @@ import {
   removeNulls,
 } from "../../../lib/utilities";
 import { extractEditoBlock } from "../../../lib/graphql-data";
+import { TEditoContentTypes } from "../../../lib/edito";
 import { useContract } from "../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
@@ -35,7 +36,11 @@ interface IEditoBlock {
   editoContents?: Array<EditoContentDto | null> | null;
 }
 
-export default function EditoTab() {
+interface IEditoTabProps {
+  activatedTypes: Array<TEditoContentTypes>;
+}
+
+export default function EditoTab({ activatedTypes }: IEditoTabProps) {
   /* Static Data */
   const formLabels = {
     title: "Bloc Édito",
@@ -150,8 +155,18 @@ export default function EditoTab() {
         form.reset(mappedData);
       }
 
-      const sortedEditoContents = [...(editoContents ?? [])];
-      sortedEditoContents?.sort(
+      const filteredEditoContents = [...(editoContents ?? [])].filter(
+        (content) => {
+          if (
+            content?.contentType &&
+            // typeof TEditoContentTypes &&
+            activatedTypes?.includes(content.contentType as TEditoContentTypes)
+          ) {
+            return content;
+          }
+        },
+      );
+      filteredEditoContents?.sort(
         comparePropertyValueByPriority("contentType", {
           news: 0,
           event: 1,
@@ -160,9 +175,9 @@ export default function EditoTab() {
           freeContent: 4,
         }),
       );
-      setEditoContents(mapOptionsInWrappers(sortedEditoContents, "typeName"));
+      setEditoContents(mapOptionsInWrappers(filteredEditoContents, "typeName"));
     }
-  }, [form, data]);
+  }, [form, data, activatedTypes]);
 
   return (
     <div
