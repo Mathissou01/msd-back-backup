@@ -1,0 +1,51 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-GestionInformationsPage {
+  &__Table {
+    width: 100%;
+    margin-top: 18px;
+    margin-bottom: 50px;
+    background-color: colors.$white;
+    border-radius: 8px;
+    box-shadow: 0 0 1px rgb(17 95 251 / 5%), 0 1px 3px rgb(17 95 251 / 10%);
+
+    th,
+    td {
+      width: 50%;
+      height: 50px;
+      padding: 25px 20px;
+    }
+
+    th {
+      position: relative;
+      left: 20px;
+      font-weight: 400;
+    }
+
+    td {
+      font-weight: 700;
+    }
+  }
+
+  &__TableRow {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      right: 0;
+      left: 0;
+      display: block;
+      width: calc(100% - 40px);
+      height: 1px;
+      margin: auto;
+      background-color: #d5d6de;
+      content: "";
+    }
+
+    &:first-child {
+      &::after {
+        content: none;
+      }
+    }
+  }
+}

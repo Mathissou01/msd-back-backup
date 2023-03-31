@@ -1,0 +1,32 @@
+@use "src/styles/02-tools/tools.inputs" as input;
+
+.c-RootHomePage {
+  &__Content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 37px;
+  }
+
+  &__SearchContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 38px;
+    padding: 0;
+    border-radius: 2px;
+  }
+
+  &__Search {
+    @include input.input;
+
+    width: 404px;
+    color: #3d466c;
+    border: 1px solid #d5d6de;
+
+    &::placeholder {
+      color: #3d466c;
+    }
+  }
+}

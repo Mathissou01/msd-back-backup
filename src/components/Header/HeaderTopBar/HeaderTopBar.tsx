@@ -1,16 +1,40 @@
 import Link from "next/link";
 import "./header-top-bar.scss";
+import Image from "next/image";
+import { useContract } from "../../../hooks/useContract";
 
 interface IHeaderTopBarProps {
   isRoot?: boolean;
 }
 
 export default function HeaderTopBar({ isRoot = false }: IHeaderTopBarProps) {
+  const { contract } = useContract();
+
   return (
     <>
       <header role="banner" className="c-HeaderTopBar" data-testid="top-bar">
         <div className="c-HeaderTopBar__Item c-HeaderTopBar__Logo">
-          <Link href={"/"}>[Logo Collectivité]</Link>
+          {!isRoot && contract.attributes?.logo?.data?.attributes ? (
+            <Link href={"/"}>
+              <Image
+                src={contract.attributes.logo.data.attributes.url}
+                alt={`logo ${contract.attributes?.clientName}`}
+                width={160}
+                height={56}
+                priority={true}
+              />
+            </Link>
+          ) : (
+            <Link href={"/"}>
+              <Image
+                src={"/images/suez-logo.svg"}
+                alt={"logo suez"}
+                width={160}
+                height={56}
+                priority={true}
+              />
+            </Link>
+          )}
         </div>
         <ul className="c-HeaderTopBar__List">
           <>

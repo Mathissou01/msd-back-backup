@@ -149,20 +149,17 @@ export default function NavigationList() {
       {/*    <p>link</p>*/}
       {/*    <p>link</p>*/}
       {/*  </NavigationListMenu>*/}
-      {/*</li>*/}
-      {/*<li className="c-NavigationList__Item">*/}
-      {/*  <NavigationListMenu*/}
-      {/*    path={"/administration/"}*/}
-      {/*    activeMenu={activeMenu}*/}
-      {/*    pictoUrl="/images/pictos-temp/administration.svg"*/}
-      {/*    onClick={handleClickMenu}*/}
-      {/*  >*/}
-      {/*    <p>link</p>*/}
-      {/*    <p>link</p>*/}
-      {/*    <p>link</p>*/}
-      {/*    <p>link</p>*/}
-      {/*  </NavigationListMenu>*/}
-      {/*</li>*/}
+      {/* </li> */}
+      <li className="c-NavigationList__Item">
+        <NavigationListMenu
+          path={"/gestion/"}
+          activeMenu={activeMenu}
+          pictoUrl="/images/pictos-temp/administration.svg"
+          onClick={handleClickMenu}
+        >
+          <NavigationListLink path={"/gestion/informations"} />
+        </NavigationListMenu>
+      </li>
       {/*<li className="c-NavigationList__Item">*/}
       {/*  <NavigationListMenu*/}
       {/*    activeMenu={activeMenu}*/}

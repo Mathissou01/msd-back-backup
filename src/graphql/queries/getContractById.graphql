@@ -4,11 +4,48 @@ query getContractById($contractId: ID!) {
       id
       attributes {
         clientName
-        isRVFrance
-        contractStatus
         clientType
+        contractStatus
+        siret
+        clear
+        ccap
         isNonExclusive
+        isRVFrance
         pathId
+        logo {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+            }
+          }
+        }
+        channelType {
+          data {
+            id
+            attributes {
+              hasWebApp
+              hasWebSite
+            }
+          }
+        }
+        clientContact {
+          data {
+            id
+            attributes {
+              firstName
+              lastName
+              email
+              phoneNumber
+            }
+          }
+        }
         editorialService {
           data {
             id

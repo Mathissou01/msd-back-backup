@@ -403,7 +403,7 @@ export function EditoTypeContenuPage() {
             />
             <DataTableForm
               title={tableLabels.addRow.title}
-              onFormSubmit={(data) => onAddRow(data)}
+              onFormSubmit={onAddRow}
             >
               <FormInput
                 type="text"

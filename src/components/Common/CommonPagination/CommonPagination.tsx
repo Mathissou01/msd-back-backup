@@ -39,70 +39,76 @@ export default function CommonPagination({
   });
 
   return (
-    <div className={paginationClassNames}>
-      {!noRowsPerPage && (
-        <div className="c-CommonPagination__RowsPerPage">
-          <select
-            className="c-CommonPagination__Select"
-            name="rowsPerPage"
-            id="rowsPerPage"
-            defaultValue={rowsPerPage}
-            onChange={(t) =>
-              onChangeRowsPerPage(parseInt(t.target.value), currentPage)
-            }
-          >
-            {rowsPerPageOptions?.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <span className="c-CommonPagination__Label">{rowsPerPageText}</span>
+    <>
+      {pageCount > 1 && (
+        <div className={paginationClassNames}>
+          {!noRowsPerPage && (
+            <div className="c-CommonPagination__RowsPerPage">
+              <select
+                className="c-CommonPagination__Select"
+                name="rowsPerPage"
+                id="rowsPerPage"
+                defaultValue={rowsPerPage}
+                onChange={(t) =>
+                  onChangeRowsPerPage(parseInt(t.target.value), currentPage)
+                }
+              >
+                {rowsPerPageOptions?.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <span className="c-CommonPagination__Label">
+                {rowsPerPageText}
+              </span>
+            </div>
+          )}
+          <nav className="c-CommonPagination__Navigation">
+            <div className={previousClassNames}>
+              <button
+                type="button"
+                className="c-CommonPagination__Button c-CommonPagination__Button_arrowTo c-CommonPagination__Button_reverse"
+                disabled={currentPage <= 1}
+                onClick={() => onChangePage(1, rowCount)}
+              />
+              <button
+                type="button"
+                className="c-CommonPagination__Button c-CommonPagination__Button_arrow c-CommonPagination__Button_reverse"
+                disabled={currentPage <= 1}
+                onClick={() => onChangePage(currentPage - 1, rowCount)}
+              />
+            </div>
+            <div className="c-CommonPagination__Pages">
+              {[...Array(pageCount)].map((e, i) => (
+                <button
+                  key={i + 1}
+                  className={classNames("c-CommonPagination__Page", {
+                    "c-CommonPagination__Page_active": i + 1 === currentPage,
+                  })}
+                  onClick={() => onChangePage(i + 1, rowCount)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+            <div className={nextClassNames}>
+              <button
+                type="button"
+                className="c-CommonPagination__Button c-CommonPagination__Button_arrow"
+                disabled={currentPage >= pageCount}
+                onClick={() => onChangePage(currentPage + 1, rowCount)}
+              />
+              <button
+                type="button"
+                className="c-CommonPagination__Button c-CommonPagination__Button_arrowTo"
+                disabled={currentPage >= pageCount}
+                onClick={() => onChangePage(pageCount, rowCount)}
+              />
+            </div>
+          </nav>
         </div>
       )}
-      <nav className="c-CommonPagination__Navigation">
-        <div className={previousClassNames}>
-          <button
-            type="button"
-            className="c-CommonPagination__Button c-CommonPagination__Button_arrowTo c-CommonPagination__Button_reverse"
-            disabled={currentPage <= 1}
-            onClick={() => onChangePage(1, rowCount)}
-          />
-          <button
-            type="button"
-            className="c-CommonPagination__Button c-CommonPagination__Button_arrow c-CommonPagination__Button_reverse"
-            disabled={currentPage <= 1}
-            onClick={() => onChangePage(currentPage - 1, rowCount)}
-          />
-        </div>
-        <div className="c-CommonPagination__Pages">
-          {[...Array(pageCount)].map((e, i) => (
-            <button
-              key={i + 1}
-              className={classNames("c-CommonPagination__Page", {
-                "c-CommonPagination__Page_active": i + 1 === currentPage,
-              })}
-              onClick={() => onChangePage(i + 1, rowCount)}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
-        <div className={nextClassNames}>
-          <button
-            type="button"
-            className="c-CommonPagination__Button c-CommonPagination__Button_arrow"
-            disabled={currentPage >= pageCount}
-            onClick={() => onChangePage(currentPage + 1, rowCount)}
-          />
-          <button
-            type="button"
-            className="c-CommonPagination__Button c-CommonPagination__Button_arrowTo"
-            disabled={currentPage >= pageCount}
-            onClick={() => onChangePage(pageCount, rowCount)}
-          />
-        </div>
-      </nav>
-    </div>
+    </>
   );
 }

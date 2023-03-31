@@ -223,10 +223,6 @@ exports[`CommonDataTable renders 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                class="c5 c6 rdt_TableCol"
-                data-column-id="3"
-              />
             </div>
           </div>
           <div
@@ -251,17 +247,6 @@ exports[`CommonDataTable renders 1`] = `
                   first name
                 </div>
               </div>
-              <div
-                class="c11 c6 c12 rdt_TableCell"
-                data-column-id="3"
-                data-tag="allowRowEvents"
-                id="cell-3-1"
-                role="cell"
-              >
-                <div
-                  data-tag="allowRowEvents"
-                />
-              </div>
             </div>
             <div
               class="c10 rdt_TableRow"
@@ -280,17 +265,6 @@ exports[`CommonDataTable renders 1`] = `
                 >
                   second name
                 </div>
-              </div>
-              <div
-                class="c11 c6 c12 rdt_TableCell"
-                data-column-id="3"
-                data-tag="allowRowEvents"
-                id="cell-3-2"
-                role="cell"
-              >
-                <div
-                  data-tag="allowRowEvents"
-                />
               </div>
             </div>
             <div
@@ -311,17 +285,6 @@ exports[`CommonDataTable renders 1`] = `
                   fifth name
                 </div>
               </div>
-              <div
-                class="c11 c6 c12 rdt_TableCell"
-                data-column-id="3"
-                data-tag="allowRowEvents"
-                id="cell-3-5"
-                role="cell"
-              >
-                <div
-                  data-tag="allowRowEvents"
-                />
-              </div>
             </div>
             <div
               class="c10 rdt_TableRow"
@@ -340,17 +303,6 @@ exports[`CommonDataTable renders 1`] = `
                 >
                   tenth name
                 </div>
-              </div>
-              <div
-                class="c11 c6 c12 rdt_TableCell"
-                data-column-id="3"
-                data-tag="allowRowEvents"
-                id="cell-3-10"
-                role="cell"
-              >
-                <div
-                  data-tag="allowRowEvents"
-                />
               </div>
             </div>
           </div>

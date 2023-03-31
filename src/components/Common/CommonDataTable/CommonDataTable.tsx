@@ -5,6 +5,7 @@ import DataTable, {
   TableColumn,
 } from "react-data-table-component";
 import React, { useEffect, useRef, useState } from "react";
+import { removeNulls } from "../../../lib/utilities";
 import DataTableFilters, {
   IDataTableFilter,
 } from "./DataTableFilters/DataTableFilters";
@@ -139,7 +140,7 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
           }
         : {},
     ],
-  ];
+  ].filter(removeNulls);
 
   // Parent data change
   useEffect(() => {

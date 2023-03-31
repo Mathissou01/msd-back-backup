@@ -13,7 +13,7 @@ interface ICommonButtonProps {
   buttonRef?: React.RefObject<HTMLButtonElement>;
   style?: "primary" | "secondary" | null;
   fontStyle?: "fontSmall" | "fontLarge";
-  paddingStyle?: "paddingSmall" | "paddingLarge";
+  paddingStyle?: "paddingSmall" | "paddingLarge" | "paddingMedium";
 }
 
 export default function CommonButton({

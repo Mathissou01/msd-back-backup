@@ -1,5 +1,6 @@
 /* Styles used with SCSS Mixin "pictos" at _tools.pictos.scss */
 export type TPictoStyles =
+  | "search"
   | "check"
   | "cross"
   | "plus"

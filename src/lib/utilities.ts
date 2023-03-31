@@ -1,8 +1,9 @@
 import { format } from "date-fns";
 
 export const removeNulls = <S>(
-  value: S | undefined,
-): value is Exclude<S, null> => value != null;
+  value: S | undefined | Record<string, never>,
+): value is Exclude<S, null> =>
+  value != null && Object.keys(value).length !== 0;
 
 export function isAbsoluteOrRelativeUrl(url: string) {
   const regex = new RegExp(

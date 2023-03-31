@@ -38,12 +38,12 @@ export enum ENavigationPages {
   "/secteurs-usagers/" = "Secteurs et Usagers",
   "/secteurs-usagers/secteurs" = "Secteurs",
   "/secteurs-usagers/usagers" = "Usagers",
-  /* Administration */
-  "/administration/" = "Gestion",
-  "/administration/informations" = "Informations",
-  "/administration/territoire" = "Territoire",
-  "/administration/activation-services" = "Activation des services",
-  "/administration/utilisateurs" = "Utilisateurs",
+  /* gestion */
+  "/gestion/" = "Gestion",
+  "/gestion/informations" = "Informations",
+  "/gestion/territoire" = "Territoire",
+  "/gestion/activation-services" = "Activation des services",
+  "/gestion/utilisateurs" = "Utilisateurs",
   /* Bin */
   "/corbeille/" = "Corbeille",
 }

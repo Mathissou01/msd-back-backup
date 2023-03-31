@@ -13,7 +13,15 @@ exports[`Header renders 1`] = `
       <a
         href="/"
       >
-        [Logo Collectivité]
+        <img
+          alt="logo suez"
+          data-nimg="1"
+          decoding="async"
+          height="56"
+          src="/images/suez-logo.svg"
+          style="color: transparent;"
+          width="160"
+        />
       </a>
     </div>
     <ul
@@ -236,6 +244,51 @@ exports[`Header renders 1`] = `
                 class="c-NavigationListLink__Label"
               >
                 Footer
+              </span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto"
+            >
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
+                src="/images/pictos-temp/administration.svg"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Gestion
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <a
+              class="c-NavigationListLink"
+              href="null/gestion/informations"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Informations
               </span>
             </a>
           </div>
