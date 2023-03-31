@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
 import { useRouter } from "next/router";
 import { useGetContractByIdLazyQuery } from "../../graphql/codegen/generated-types";
@@ -19,7 +19,21 @@ export default function ContractLayout(props: IContractLayoutProps) {
   const router = useRouter();
   const { contract, contractId, setContract, setContractId } = useContract();
   const [getContractById, { data }] = useGetContractByIdLazyQuery();
-  const { setCurrentRoot, currentPage, setCurrentPage } = useNavigation();
+  const { currentRoot, setCurrentRoot, currentPage, setCurrentPage } =
+    useNavigation();
+  const currentRootRef = useRef(currentRoot);
+  const currentPageRef = useRef(currentPage);
+
+  useEffect(() => {
+    if (currentRoot) {
+      currentRootRef.current = currentRoot;
+    }
+  }, [currentRoot]);
+  useEffect(() => {
+    if (currentPage) {
+      currentPageRef.current = currentPage;
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     const localContractId = router.query.contractId?.toString()
@@ -30,37 +44,28 @@ export default function ContractLayout(props: IContractLayoutProps) {
 
     if (localContractId) {
       getContractById({ variables: { contractId: localContractId } });
-      setCurrentRoot(`/${localContractId}`);
 
-      const slashes = [...router.route.matchAll(new RegExp("/", "gi"))].map(
-        (a) => a.index,
-      );
-      const localSlug =
-        slashes.length >= 2
-          ? router.route.slice(router.route.indexOf("/", 1))
-          : "/";
-      const localRealSlug =
-        slashes.length >= 2
-          ? router.asPath.slice(router.asPath.indexOf("/", 1))
-          : "/";
-      if (containsNavigationPath(localSlug)) {
-        const { routerPath, realPath } = matchLongestNavigationPath(
-          localSlug,
-          localRealSlug,
-        );
+      const newCurrentRoot = `/${localContractId}`;
+      if (newCurrentRoot !== currentRoot) {
+        setCurrentRoot(newCurrentRoot);
+      }
+
+      if (containsNavigationPath(router.route)) {
+        const { virtualMatchingSlug, realMatchingSlug } =
+          matchLongestNavigationPath(router.route, router.asPath);
         if (
-          routerPath &&
-          isNavigationPath(routerPath) &&
-          realPath &&
-          realPath !== currentPage
+          virtualMatchingSlug &&
+          isNavigationPath(virtualMatchingSlug) &&
+          realMatchingSlug &&
+          realMatchingSlug !== currentPageRef.current
         ) {
-          setCurrentPage(realPath);
+          setCurrentPage(realMatchingSlug);
         }
       }
     } else if (localContractId === false) {
       router.push("/404");
     }
-  }, [router, getContractById, setCurrentRoot, currentPage, setCurrentPage]);
+  }, [router, getContractById, currentRoot, setCurrentRoot, setCurrentPage]);
 
   useEffect(() => {
     if (data !== undefined) {

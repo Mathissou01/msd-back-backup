@@ -291,12 +291,14 @@ export function EditoAstucesPage() {
   return (
     <div className="o-EditoPage">
       <PageTitle title={title} />
-      <CommonButton
-        label={addButton}
-        style="primary"
-        picto="add"
-        onClick={() => router.push(`${currentRoot}/edito/astuces/create`)}
-      />
+      <div>
+        <CommonButton
+          label={addButton}
+          style="primary"
+          picto="add"
+          onClick={() => router.push(`${currentRoot}/edito/astuces/create`)}
+        />
+      </div>
       <h2 className="o-EditoPage__Title">{tableLabels.title}</h2>
       <div className="o-EditoPage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={errors}>

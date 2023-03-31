@@ -126,7 +126,11 @@ export function EditoFreeContentSubServicePage({
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
   const { contractId } = useContract();
-  const { data: dataContractId } = useGetFreeContentSubServiceByIdQuery({
+  const {
+    data: freeContentSubService,
+    loading: freeContentSubServiceLoading,
+    error: freeContentSubServiceError,
+  } = useGetFreeContentSubServiceByIdQuery({
     variables: { freeContentSubServiceId },
   });
   const defaultQueryVariables: GetFreeContentsBySubServiceIdQueryVariables = {
@@ -174,6 +178,7 @@ export function EditoFreeContentSubServicePage({
     DeleteFreeContentMutationLoading;
   const isLoading = loading || isLoadingMutation;
   const errors = [
+    freeContentSubServiceError,
     error,
     prepareDuplicateError,
     CreateFreeContentByFreeContentSubServiceIdMutationError,
@@ -315,22 +320,27 @@ export function EditoFreeContentSubServicePage({
 
   return (
     <div className="o-EditoPage">
-      <PageTitle
-        title={`${dataContractId?.freeContentSubService?.data?.attributes?.name}`}
-      />
-      <CommonButton
-        label={addButton}
-        style="primary"
-        picto="add"
-        onClick={() =>
-          router.push(
-            `${currentRoot}/edito/contenu-libre/${freeContentSubServiceId}/create`,
-          )
-        }
-      />
-      <h2 className="o-EditoPage__Title">{tableLabels.title}</h2>
-      <div className="o-EditoPage__Table">
-        <CommonLoader isLoading={!isInitialized.current} errors={errors}>
+      <CommonLoader
+        isLoading={freeContentSubServiceLoading || !isInitialized.current}
+        errors={errors}
+      >
+        <PageTitle
+          title={`${freeContentSubService?.freeContentSubService?.data?.attributes?.name}`}
+        />
+        <div>
+          <CommonButton
+            label={addButton}
+            style="primary"
+            picto="add"
+            onClick={() =>
+              router.push(
+                `${currentRoot}/edito/contenu-libre/${freeContentSubServiceId}/create`,
+              )
+            }
+          />
+        </div>
+        <h2 className="o-EditoPage__Title">{tableLabels.title}</h2>
+        <div className="o-EditoPage__Table">
           <CommonDataTable<IFreeContentTableRow>
             columns={tableColumns}
             actionColumn={actionColumn}
@@ -350,8 +360,8 @@ export function EditoFreeContentSubServicePage({
             }}
             onLazyLoad={handleLazyLoad}
           />
-        </CommonLoader>
-      </div>
+        </div>
+      </CommonLoader>
     </div>
   );
 }

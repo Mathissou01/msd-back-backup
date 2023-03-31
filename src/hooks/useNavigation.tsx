@@ -75,33 +75,51 @@ export function containsNavigationPath(path: string) {
 }
 
 export function matchLongestNavigationPath(
-  routerPath: string,
+  virtualPath: string,
   realPath: string,
 ) {
-  const matches = Object.keys(ENavigationPages).filter((page) => {
-    return routerPath.includes(page);
-  });
-  let longestLength = 0;
-  let longestValue = null;
-  for (let i = 0; i < matches.length; i++) {
-    const value = matches[i];
-    if (value.length > longestLength) {
-      longestLength = value.length;
-      longestValue = value;
+  const numberOfVirtualPathSlashes = [
+    ...virtualPath.matchAll(new RegExp("/", "gi")),
+  ].map((a) => a.index).length;
+  const virtualSlug =
+    numberOfVirtualPathSlashes >= 2
+      ? virtualPath.slice(virtualPath.indexOf("/", 1))
+      : "/";
+  const numberOfRealPathSlashes = [
+    ...realPath.matchAll(new RegExp("/", "gi")),
+  ].map((a) => a.index).length;
+  const realSlug =
+    numberOfRealPathSlashes >= 2
+      ? realPath.slice(realPath.indexOf("/", 1))
+      : "/";
+
+  let virtualMatchingSlug = virtualSlug;
+  let realMatchingSlug = realSlug;
+
+  if (virtualSlug !== "/") {
+    const virtualMatches = Object.keys(ENavigationPages).filter((page) => {
+      return virtualSlug.includes(page);
+    });
+    let longestLength = 0;
+    for (let i = 0; i < virtualMatches.length; i++) {
+      const value = virtualMatches[i];
+      if (value.length > longestLength) {
+        longestLength = value.length;
+        virtualMatchingSlug = value;
+      }
     }
   }
 
-  let realPathValue = longestValue;
-  if (longestValue && longestValue !== realPath) {
+  if (virtualMatchingSlug !== realMatchingSlug) {
     // count how many slashes are in the route, truncate the real path to the same number of slashes
-    const slashes = [...longestValue.matchAll(new RegExp("/", "gi"))].map(
+    const slashes = [
+      ...virtualMatchingSlug.matchAll(new RegExp("/", "gi")),
+    ].map((a) => a.index);
+    const realSlashes = [...`${realSlug}/`.matchAll(new RegExp("/", "gi"))].map(
       (a) => a.index,
     );
-    const realSlashes = [...`${realPath}/`.matchAll(new RegExp("/", "gi"))].map(
-      (a) => a.index,
-    );
-    realPathValue = realPath.slice(0, realSlashes[slashes.length]);
+    realMatchingSlug = realSlug.slice(0, realSlashes[slashes.length]);
   }
 
-  return { routerPath: longestValue, realPath: realPathValue };
+  return { virtualMatchingSlug, realMatchingSlug };
 }
