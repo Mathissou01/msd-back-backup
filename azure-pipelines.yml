@@ -3,6 +3,9 @@ name: MSD_BO_Site_$(Rev:rrr)
 
 trigger:
   batch: true
+  tags:
+    include:
+      - v*
   branches:
     include:
       - develop
@@ -19,11 +22,16 @@ variables:
   - name: releaseHML
     value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
 
+  - name: releasePRD
+    value: ${{ startsWith(variables['Build.SourceBranch'], 'refs/tags/v') }}
+
   - name: env
     ${{ if eq(variables.releaseREC, 'true') }}:
       value: rec
     ${{ elseif eq(variables.releaseHML, 'true') }}:
       value: hml
+    ${{ elseif eq(variables.releasePRD, 'true') }}:
+      value: prd
     ${{ else }}:
       value: dev
 
