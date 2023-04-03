@@ -1,10 +1,11 @@
-// import CommonButton from "../../Common/CommonButton/CommonButton";
-// import PreviewButtonsFormat from "../PreviewButtonsFormat/PreviewButtonsFormat";
+import PreviewButtonsFormat from "../PreviewButtonsFormat/PreviewButtonsFormat";
 import Image from "next/image";
 import Close from "../../../../public/images/pictos/close.svg";
 import "./preview-banner.scss";
-
-export default function PreviewBanner() {
+interface IEditoPreviewProps {
+  onFormatting: (device: string) => void;
+}
+export default function PreviewBanner({ onFormatting }: IEditoPreviewProps) {
   //TODO: add label for the printer button
   // const buttonLabels = {
   //   buttonPreview: "Imprimer",
@@ -17,8 +18,7 @@ export default function PreviewBanner() {
   return (
     <div className="c-PreviewBanner">
       <h3>Prévisualiser</h3>
-      {/*TODO: add desktop/tab/mobile buttons */}
-      {/* <PreviewButtonsFormat /> */}
+      <PreviewButtonsFormat onFormatting={onFormatting} />
       {/*TODO: add printer button */}
       {/* <CommonButton label={buttonLabels.buttonPreview} picto="printer" /> */}
       <button

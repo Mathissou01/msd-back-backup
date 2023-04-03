@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PreviewBanner from "../../../../../components/Preview/PreviewBanner/PreviewBanner";
 import { useRouter } from "next/router";
 import ShadowDOMContainer from "../../../../../components/Preview/ShadowDom/ShadowDomContainer";
@@ -7,14 +7,23 @@ import "./edito-actualites-preview-page.scss";
 export default function Preview() {
   const router = useRouter();
   const { id } = router.query;
+
+  const [width, setWidth] = useState<string>("100%");
+  async function onFormatting(device: string) {
+    switch (device) {
+      case "mobile":
+        setWidth("768px");
+        break;
+    }
+  }
   return (
     <div>
-      <PreviewBanner />
+      <PreviewBanner onFormatting={onFormatting} />
       {!router.isReady ? (
         <CommonSpinner />
       ) : (
         <div className="c-PreviewPage">
-          <ShadowDOMContainer id={id} width={"100%"} height={"100%"} />
+          <ShadowDOMContainer id={id} width={width} height={"100%"} />
         </div>
       )}
     </div>

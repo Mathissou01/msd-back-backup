@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+
+import "./shadow-dom-format.scss";
 const ShadowDomContainer = ({ id, width, height }) => {
   useEffect(() => {
     window.addEventListener("DOMContentLoaded", () => {

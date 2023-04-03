@@ -4,7 +4,12 @@ import Tablet from "../../../../public/images/pictos/tablet.svg";
 import Mobile from "../../../../public/images/pictos/mobile.svg";
 import Image from "next/image";
 
-export default function PreviewButtonsFormat() {
+interface IEditoPreviewProps {
+  onFormatting: (device: string) => void;
+}
+export default function PreviewButtonsFormat({
+  onFormatting,
+}: IEditoPreviewProps) {
   return (
     <div className="c-PreviewButtonsFormat">
       <button
@@ -26,8 +31,7 @@ export default function PreviewButtonsFormat() {
       <button
         className="c-PreviewButtonsFormat__Button"
         type="button"
-        // TODO: handle the mobile button
-        // onClick={handleDeleteClick}
+        onClick={() => onFormatting("mobile")}
       >
         <Image src={Mobile} alt="" width={25} height={25} />
       </button>
