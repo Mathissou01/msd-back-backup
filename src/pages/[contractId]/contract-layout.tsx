@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import { useRouter } from "next/router";
 import { useGetContractByIdLazyQuery } from "../../graphql/codegen/generated-types";
 import { useContract } from "../../hooks/useContract";
@@ -88,7 +89,7 @@ export default function ContractLayout(props: IContractLayoutProps) {
             <main role="main" className="o-Page__Main">
               {props.children}
             </main>
-            {/*<Footer />*/}
+            <Footer />
           </div>
         </>
       )}
