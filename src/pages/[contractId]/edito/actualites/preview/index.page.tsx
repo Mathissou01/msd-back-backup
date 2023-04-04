@@ -7,15 +7,19 @@ import "./edito-actualites-preview-page.scss";
 export default function Preview() {
   const router = useRouter();
   const { id } = router.query;
-
   const [width, setWidth] = useState<string>("100%");
+
   async function onFormatting(device: string) {
     switch (device) {
+      case "tablet":
+        setWidth("1024px");
+        break;
       case "mobile":
         setWidth("768px");
         break;
     }
   }
+
   return (
     <div>
       <PreviewBanner onFormatting={onFormatting} />

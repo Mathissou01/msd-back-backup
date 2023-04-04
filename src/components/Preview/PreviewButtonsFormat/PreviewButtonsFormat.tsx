@@ -23,8 +23,7 @@ export default function PreviewButtonsFormat({
       <button
         className="c-PreviewButtonsFormat__Button"
         type="button"
-        // TODO: handle the tab button
-        // onClick={handleDeleteClick}
+        onClick={() => onFormatting("tablet")}
       >
         <Image className="test" src={Tablet} alt="" width={25} height={25} />
       </button>
