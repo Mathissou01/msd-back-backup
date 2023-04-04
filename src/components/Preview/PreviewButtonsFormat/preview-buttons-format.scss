@@ -4,15 +4,32 @@
 .c-PreviewButtonsFormat {
   @include focus.focus-ring;
 
+  text-align: center;
+
   &__Button {
     border: 1px solid colors.$expert-blue;
     border-right: unset;
     border-left: unset;
+
+    &_icon {
+      filter: brightness(0);
+      pointer-events: none;
+    }
+
+    &_active {
+      background-color: colors.$black;
+
+      img {
+        filter: brightness(0) invert(1);
+      }
+    }
   }
 
   &__Button:first-child {
+    overflow: hidden;
     border: 1px solid colors.$expert-blue;
-    border-radius: 4px 0 0 4px;
+    border-radius: 3px 0 0 3px;
+    box-shadow: 0 0 1px rgb(255 255 255 / 0%);
   }
 
   &__Button:last-child {
@@ -22,6 +39,5 @@
 
   &__Button:focus > svg {
     background-color: colors.$expert-blue;
-    filter: brightness(0) invert(1);
   }
 }

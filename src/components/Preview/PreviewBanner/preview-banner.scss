@@ -2,7 +2,6 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
 .c-PreviewBanner {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -10,4 +9,14 @@
   height: 70px;
   padding: 0 24px;
   background-color: colors.$blue-sky-light;
+
+  > * {
+    width: 33.3vw;
+  }
+
+  &__Button {
+    &_close {
+      text-align: end;
+    }
+  }
 }
