@@ -1,9 +1,14 @@
 import classNames from "classnames";
 import "./tab-header.scss";
-import { Tab } from "../TabBlock";
+
+export interface ITabHeader {
+  name: string;
+  title: string;
+  isEnabled: boolean;
+}
 
 interface ITabHeaderProps {
-  tabs: Array<Tab>;
+  tabs: Array<ITabHeader>;
   selectedTab: number;
   isAlignStart?: boolean;
   onClick: (tabIndex: number) => void;

@@ -4,7 +4,7 @@ import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../contract-layout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
-import TabBlock, { Tab } from "../../../../components/TabBlock/TabBlock";
+import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import WelcomeAndSearchEngineTab from "../../../../components/TabBlock/WelcomeAndSearchEngineTab/WelcomeAndSearchEngineTab";
 import RecyclingGuideTab from "../../../../components/TabBlock/RecyclingGuideTab/RecyclingGuideTab";
 import ServiceTab from "../../../../components/TabBlock/ServicesTab/ServicesTab";
@@ -38,7 +38,7 @@ export function PersonnalisationAccueilPage() {
   /* Local Data */
   const [serviceParameters, setServiceParameters] =
     useState<IServiceParameters>();
-  const [tabs, setTabs] = useState<Array<Tab>>([]);
+  const [tabs, setTabs] = useState<Array<ITab>>([]);
 
   useEffect(() => {
     if (data) {

@@ -1,16 +1,13 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import TabHeader from "./TabHeader/TabHeader";
+import TabHeader, { ITabHeader } from "./TabHeader/TabHeader";
 import "./tab-block.scss";
 
-export interface Tab {
-  name: string;
-  title: string;
+export interface ITab extends ITabHeader {
   content: ReactElement;
-  isEnabled: boolean;
 }
 
 interface ITabBlockProps {
-  tabs: Array<Tab>;
+  tabs: Array<ITab>;
   initialTabName: string;
   isAlignLeftMediaLibrary?: boolean;
 }

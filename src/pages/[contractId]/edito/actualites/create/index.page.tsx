@@ -16,8 +16,13 @@ export function EditoActualitesCreatePage() {
   const title = "Créer une actualité";
   const formLabels = {
     staticTitle: "Titre de l'actualité",
-    staticTagsLabel: "Thématique",
-    staticTagsLabelDescription: "(Tags)",
+    staticTags: "Thématique",
+    staticTagsDescription: "(Tags)",
+    staticImage: "Vignette",
+    staticImageValidation:
+      "Format carré, format .svg, .png ou .jpg, 200 ko maximum",
+    staticImagePlaceholder:
+      "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'actualité",
@@ -31,6 +36,7 @@ export function EditoActualitesCreatePage() {
           contract.attributes?.editorialService?.data?.attributes
             ?.newsSubService?.data?.id,
         title: newsInputData.title,
+        image: newsInputData.image.id,
         tags: newsInputData.tags?.map(
           (option: ICommonSelectOption) => option.value,
         ),

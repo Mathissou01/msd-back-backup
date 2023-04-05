@@ -195,7 +195,70 @@ exports[`EditoForm renders 1`] = `
             </div>
           </div>
           <div
-            class="c-EditoStaticFields__ShortDescription"
+            class="c-EditoDynamicFields__Image"
+          >
+            <div
+              class="c-FormFileInput"
+            >
+              <div
+                class="c-FormLabel"
+              >
+                <label
+                  class="c-FormLabel__LabelWrapper"
+                  for="image"
+                >
+                  <span
+                    class="c-FormLabel__Label"
+                  >
+                    Vignette *
+                  </span>
+                  <span
+                    class="c-FormLabel__Validation"
+                  >
+                    Format carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum
+                  </span>
+                </label>
+                <label
+                  class="c-FormLabel__LabelWrapper"
+                  for="image"
+                >
+                  <span
+                    class="c-FormLabel__Secondary"
+                  >
+                    Eco-conception: pensez à réduire la taille et le poids de vos images. Utilisez des logiciels ou des outils en ligne pour optimiser vos images (www.iloveimg.com par exemple).
+                  </span>
+                </label>
+                <div
+                  class="c-FormLabel__Content"
+                >
+                  <input
+                    aria-invalid="false"
+                    name="image"
+                    type="hidden"
+                    value="[object Object]"
+                  />
+                  <div
+                    class="c-FormFileInput__Thumbnail"
+                  >
+                    <div
+                      class="c-FormFileInput__ButtonsWrapper"
+                    >
+                      <button
+                        class="c-FormFileInput__Delete"
+                        type="button"
+                      />
+                      <button
+                        class="c-FormFileInput__Edit"
+                        type="button"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="c-EditoStaticFields__DescriptionInput"
           >
             <div
               class="c-FormInput"

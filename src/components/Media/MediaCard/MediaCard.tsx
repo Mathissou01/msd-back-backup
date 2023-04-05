@@ -1,54 +1,52 @@
 import React from "react";
 import { ApolloError } from "@apollo/client";
-import { IcheckedFile } from "../../../lib/uploadFile";
 import CommonMediaCardThumbnail from "../../Common/CommonMediaCardThumbnail/CommonMediaCardThumbnail";
-import { IFileToEdit } from "../MediaImportButton/MediaImportButton";
+import { ILocalFile } from "../../../lib/media";
 import "./media-card.scss";
 
 interface IMediaCardProps {
-  file: { file: IFileToEdit };
-  loading?: boolean | undefined;
-  errors?: (ApolloError | undefined)[];
-  handleEditFile?: (file: IFileToEdit) => void;
-  handleRemoveFile?: () => void;
-  handleSelectedFile?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  checked?: IcheckedFile | undefined;
+  file: ILocalFile;
+  loading?: boolean;
+  errors?: Array<ApolloError | undefined>;
+  onEditFile?: (file: ILocalFile) => void;
+  onRemoveFile?: () => void;
+  onSelectedFile?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isChecked?: boolean;
 }
 
 export default function MediaCard({
   file,
   loading,
   errors,
-  handleEditFile,
-  handleRemoveFile,
-  handleSelectedFile,
-  checked,
+  onEditFile,
+  onRemoveFile,
+  onSelectedFile,
+  isChecked,
 }: IMediaCardProps) {
   /* Local Data */
-  const media = file.file;
-  const imageType = media.mime.split("/")[0];
+  const imageType = file.mime.split("/")[0];
 
   return (
     <div className="c-MediaCard">
       <CommonMediaCardThumbnail
-        media={media}
+        media={file}
         imageType={imageType}
         loading={loading}
         errors={errors}
       />
       <div className="c-MediaCard__Description">
-        <span className="c-MediaCard__Title">{media.name}</span>
+        <span className="c-MediaCard__Title">{file.name}</span>
         <div className="c-MediaCard__Infos">
           <span className="c-MediaCard__TypeFile">
             {imageType === "image"
-              ? `${media.ext.slice(1)} - ${media.width}x${media.height}`
-              : `${media.ext.slice(1)}`}
+              ? `${file.ext.slice(1)} - ${file.width}x${file.height}`
+              : `${file.ext.slice(1)}`}
           </span>
-          {handleRemoveFile && (
+          {onRemoveFile && (
             <button
               type="button"
               className="c-MediaCard__Action_trash"
-              onClick={handleRemoveFile}
+              onClick={onRemoveFile}
             />
           )}
         </div>
@@ -56,21 +54,23 @@ export default function MediaCard({
           <span className="c-MediaCard__Tag">
             {imageType === "image" ? "image" : "doc"}
           </span>
-          {handleEditFile && (
+          {onEditFile && (
             <button
               type="button"
               className="c-MediaCard__Action_edit"
-              onClick={() => handleEditFile(media)}
+              onClick={() => onEditFile(file)}
             />
           )}
         </div>
       </div>
-      <input
-        type="checkbox"
-        className="c-MediaCard__Checkbox"
-        onChange={handleSelectedFile}
-        checked={checked?.status}
-      />
+      {onSelectedFile && (
+        <input
+          type="checkbox"
+          className="c-MediaCard__Checkbox"
+          onChange={(e) => onSelectedFile(e)}
+          checked={isChecked ?? false}
+        />
+      )}
     </div>
   );
 }

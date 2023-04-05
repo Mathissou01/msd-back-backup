@@ -34,6 +34,10 @@ mutation updateTip($updateTipId: ID!, $data: TipInput!) {
               size
               url
               alternativeText
+              ext
+              height
+              width
+              createdAt
             }
           }
         }

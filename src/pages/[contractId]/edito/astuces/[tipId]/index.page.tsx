@@ -31,8 +31,13 @@ export function EditoTipsEditPage({ tipId }: IEditoTipsEditPageProps) {
   /* Static Data */
   const formLabels = {
     staticTitle: "Titre de l'astuce",
-    staticTagsLabel: "Thématique",
-    staticTagsLabelDescription: "(Tags)",
+    staticTags: "Thématique",
+    staticTagsDescription: "(Tags)",
+    staticImage: "Vignette",
+    staticImageValidation:
+      "Format carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum",
+    staticImagePlaceholder:
+      "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'astuce",
@@ -47,6 +52,7 @@ export function EditoTipsEditPage({ tipId }: IEditoTipsEditPageProps) {
         tags: tipsInputData.tags.map(
           (option: ICommonSelectOption) => option.value,
         ),
+        image: tipsInputData.image.id,
         shortDescription: tipsInputData.shortDescription,
         blocks: tipsInputData.blocks?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -146,6 +152,7 @@ export function EditoTipsEditPage({ tipId }: IEditoTipsEditPageProps) {
           id: tipData.id,
           status: valueToEStatus(tipData.attributes.status),
           title: tipData.attributes.title,
+          image: tipData.attributes.image.data ?? null,
           tags:
             tipData.attributes.tags?.data.map((tag) => ({
               value: tag.id ?? "",

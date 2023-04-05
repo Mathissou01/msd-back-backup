@@ -1,4 +1,24 @@
-.c-CommonBibliotequeMedia {
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-CommonBibliothequeMedia {
+  &_modal {
+    width: 100%;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__Content {
+    height: auto;
+  }
+
   &__ActionButtons {
     display: flex;
     justify-content: flex-end;
@@ -20,10 +40,15 @@
     flex-direction: column;
   }
 
+  &__HrColor {
+    height: 1px;
+    background-color: colors.$gray-500;
+    border: initial;
+  }
+
   &__MediaList {
     margin: 20px 0;
     padding-top: 20px;
-    border-top: 1px solid #ccc;
   }
 
   &__MediaCards {

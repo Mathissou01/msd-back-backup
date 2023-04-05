@@ -725,6 +725,11 @@ export type ComponentBlocksSubHeading = {
   subHeadingText?: Maybe<Scalars["String"]>;
 };
 
+export type ComponentBlocksTest = {
+  __typename?: "ComponentBlocksTest";
+  id: Scalars["ID"];
+};
+
 export type ComponentBlocksVideo = {
   __typename?: "ComponentBlocksVideo";
   id: Scalars["ID"];
@@ -1333,6 +1338,9 @@ export type ContractCustomization = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   footer?: Maybe<FooterEntityResponse>;
   homepage?: Maybe<HomepageEntityResponse>;
+  primaryColor: Scalars["String"];
+  secondaryColor?: Maybe<Scalars["String"]>;
+  textContrast: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -1362,6 +1370,9 @@ export type ContractCustomizationFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ContractCustomizationFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContractCustomizationFiltersInput>>>;
+  primaryColor?: InputMaybe<StringFilterInput>;
+  secondaryColor?: InputMaybe<StringFilterInput>;
+  textContrast?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -1369,6 +1380,9 @@ export type ContractCustomizationInput = {
   contract?: InputMaybe<Scalars["ID"]>;
   footer?: InputMaybe<Scalars["ID"]>;
   homepage?: InputMaybe<Scalars["ID"]>;
+  primaryColor?: InputMaybe<Scalars["String"]>;
+  secondaryColor?: InputMaybe<Scalars["String"]>;
+  textContrast?: InputMaybe<Scalars["String"]>;
 };
 
 export type ContractEntity = {
@@ -2742,6 +2756,7 @@ export type FreeContent = {
   __typename?: "FreeContent";
   blocks?: Maybe<Array<Maybe<FreeContentBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
   draftCreationId?: Maybe<Scalars["String"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
   freeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
@@ -2755,6 +2770,7 @@ export type FreeContent = {
   title: Scalars["String"];
   unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type FreeContentTagsArgs = {
@@ -2792,6 +2808,7 @@ export type FreeContentEntityResponseCollection = {
 export type FreeContentFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<FreeContentFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   draftCreationId?: InputMaybe<StringFilterInput>;
   editoContent?: InputMaybe<EditoContentFiltersInput>;
   freeContentSubService?: InputMaybe<FreeContentSubServiceFiltersInput>;
@@ -2806,10 +2823,12 @@ export type FreeContentFiltersInput = {
   title?: InputMaybe<StringFilterInput>;
   unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type FreeContentInput = {
   blocks?: InputMaybe<Array<Scalars["FreeContentBlocksDynamicZoneInput"]>>;
+  customId?: InputMaybe<Scalars["String"]>;
   draftCreationId?: InputMaybe<Scalars["String"]>;
   editoContent?: InputMaybe<Scalars["ID"]>;
   freeContentSubService?: InputMaybe<Scalars["ID"]>;
@@ -2824,6 +2843,7 @@ export type FreeContentInput = {
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type FreeContentLinkToServicesDynamicZone =
@@ -2940,6 +2960,7 @@ export type GenericMorph =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksTest
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
@@ -6711,6 +6732,7 @@ export type Tip = {
   __typename?: "Tip";
   blocks?: Maybe<Array<Maybe<TipBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
   draftCreationId?: Maybe<Scalars["String"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
   hasDraft?: Maybe<Scalars["Boolean"]>;
@@ -6726,6 +6748,7 @@ export type Tip = {
   titleLabel?: Maybe<Scalars["String"]>;
   unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type TipTagsArgs = {
@@ -6763,6 +6786,7 @@ export type TipEntityResponseCollection = {
 export type TipFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<TipFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   draftCreationId?: InputMaybe<StringFilterInput>;
   editoContent?: InputMaybe<EditoContentFiltersInput>;
   hasDraft?: InputMaybe<BooleanFilterInput>;
@@ -6780,10 +6804,12 @@ export type TipFiltersInput = {
   titleLabel?: InputMaybe<StringFilterInput>;
   unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type TipInput = {
   blocks?: InputMaybe<Array<Scalars["TipBlocksDynamicZoneInput"]>>;
+  customId?: InputMaybe<Scalars["String"]>;
   draftCreationId?: InputMaybe<Scalars["String"]>;
   editoContent?: InputMaybe<Scalars["ID"]>;
   hasDraft?: InputMaybe<Scalars["Boolean"]>;
@@ -6801,6 +6827,7 @@ export type TipInput = {
   title?: InputMaybe<Scalars["String"]>;
   titleLabel?: InputMaybe<Scalars["String"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type TipLinkToServicesDynamicZone =
@@ -7732,6 +7759,10 @@ export type GetNewByIdQuery = {
               size: number;
               url: string;
               alternativeText?: string | null;
+              ext?: string | null;
+              height?: number | null;
+              width?: number | null;
+              createdAt?: any | null;
             } | null;
           } | null;
         } | null;
@@ -7743,6 +7774,7 @@ export type GetNewByIdQuery = {
                 __typename?: "UploadFileEntityResponse";
                 data?: {
                   __typename?: "UploadFileEntity";
+                  id?: string | null;
                   attributes?: {
                     __typename?: "UploadFile";
                     hash: string;
@@ -7770,6 +7802,7 @@ export type GetNewByIdQuery = {
                 __typename?: "UploadFileEntityResponse";
                 data?: {
                   __typename?: "UploadFileEntity";
+                  id?: string | null;
                   attributes?: {
                     __typename?: "UploadFile";
                     hash: string;
@@ -7948,6 +7981,10 @@ export type UpdateNewMutation = {
               size: number;
               url: string;
               alternativeText?: string | null;
+              ext?: string | null;
+              height?: number | null;
+              width?: number | null;
+              createdAt?: any | null;
             } | null;
           } | null;
         } | null;
@@ -8233,6 +8270,10 @@ export type GetTipByIdQuery = {
               size: number;
               url: string;
               alternativeText?: string | null;
+              ext?: string | null;
+              height?: number | null;
+              width?: number | null;
+              createdAt?: any | null;
             } | null;
           } | null;
         };
@@ -8367,13 +8408,17 @@ export type GetTipsByContractIdQuery = {
             id?: string | null;
             attributes?: {
               __typename?: "UploadFile";
-              name: string;
-              url: string;
-              size: number;
-              mime: string;
               hash: string;
+              mime: string;
+              name: string;
               provider: string;
+              size: number;
+              url: string;
               alternativeText?: string | null;
+              ext?: string | null;
+              height?: number | null;
+              width?: number | null;
+              createdAt?: any | null;
             } | null;
           } | null;
         };
@@ -8440,6 +8485,10 @@ export type UpdateTipMutation = {
               size: number;
               url: string;
               alternativeText?: string | null;
+              ext?: string | null;
+              height?: number | null;
+              width?: number | null;
+              createdAt?: any | null;
             } | null;
           } | null;
         };
@@ -8678,10 +8727,20 @@ export type UpdateUploadFileMutation = {
     __typename?: "UploadFileEntityResponse";
     data?: {
       __typename?: "UploadFileEntity";
+      id?: string | null;
       attributes?: {
         __typename?: "UploadFile";
-        alternativeText?: string | null;
+        createdAt?: any | null;
+        hash: string;
+        mime: string;
         name: string;
+        provider: string;
+        size: number;
+        url: string;
+        alternativeText?: string | null;
+        ext?: string | null;
+        height?: number | null;
+        width?: number | null;
         related?: Array<
           | { __typename?: "Accessibility" }
           | { __typename?: "AccessibilitySubService" }
@@ -8697,6 +8756,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksHorizontalRule" }
           | { __typename?: "ComponentBlocksImage" }
           | { __typename?: "ComponentBlocksSubHeading" }
+          | { __typename?: "ComponentBlocksTest" }
           | { __typename?: "ComponentBlocksVideo" }
           | { __typename?: "ComponentBlocksWysiwyg" }
           | { __typename?: "ComponentLinksAlertNotification" }
@@ -8792,6 +8852,7 @@ export type UpdateUploadFolderMutation = {
     __typename?: "UploadFolderEntityResponse";
     data?: {
       __typename?: "UploadFolderEntity";
+      id?: string | null;
       attributes?: {
         __typename?: "UploadFolder";
         pathId: number;
@@ -9646,46 +9707,6 @@ export type UpdateContentTypeFreeContentMutation = {
   } | null;
 };
 
-export type GetDataCustomerQueryVariables = Exact<{
-  contractId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetDataCustomerQuery = {
-  __typename?: "Query";
-  contract?: {
-    __typename?: "ContractEntityResponse";
-    data?: {
-      __typename?: "ContractEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Contract";
-        clientName: string;
-        siret?: any | null;
-        isNonExclusive: boolean;
-        clientType: Enum_Contract_Clienttype;
-        contractStatus: Enum_Contract_Contractstatus;
-        isRVFrance: boolean;
-        clear?: any | null;
-        ccap?: any | null;
-        clientContact?: {
-          __typename?: "ClientContactEntityResponse";
-          data?: {
-            __typename?: "ClientContactEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "ClientContact";
-              firstName: string;
-              lastName: string;
-              email: string;
-              phoneNumber: string;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export type GetContractByIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -9700,10 +9721,13 @@ export type GetContractByIdQuery = {
       attributes?: {
         __typename?: "Contract";
         clientName: string;
-        isRVFrance: boolean;
-        contractStatus: Enum_Contract_Contractstatus;
         clientType: Enum_Contract_Clienttype;
+        contractStatus: Enum_Contract_Contractstatus;
+        siret?: any | null;
+        clear?: any | null;
+        ccap?: any | null;
         isNonExclusive: boolean;
+        isRVFrance: boolean;
         pathId?: any | null;
         logo?: {
           __typename?: "UploadFileEntityResponse";
@@ -9731,6 +9755,20 @@ export type GetContractByIdQuery = {
               __typename?: "ChannelType";
               hasWebApp?: boolean | null;
               hasWebSite?: boolean | null;
+            } | null;
+          } | null;
+        } | null;
+        clientContact?: {
+          __typename?: "ClientContactEntityResponse";
+          data?: {
+            __typename?: "ClientContactEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "ClientContact";
+              firstName: string;
+              lastName: string;
+              email: string;
+              phoneNumber: string;
             } | null;
           } | null;
         } | null;
@@ -11747,6 +11785,10 @@ export const GetNewByIdDocument = gql`
                 size
                 url
                 alternativeText
+                ext
+                height
+                width
+                createdAt
               }
             }
           }
@@ -11773,6 +11815,7 @@ export const GetNewByIdDocument = gql`
               id
               picture {
                 data {
+                  id
                   attributes {
                     hash
                     mime
@@ -11791,6 +11834,7 @@ export const GetNewByIdDocument = gql`
               id
               document {
                 data {
+                  id
                   attributes {
                     hash
                     mime
@@ -12108,6 +12152,10 @@ export const UpdateNewDocument = gql`
                 size
                 url
                 alternativeText
+                ext
+                height
+                width
+                createdAt
               }
             }
           }
@@ -12458,6 +12506,10 @@ export const GetTipByIdDocument = gql`
                 size
                 url
                 alternativeText
+                ext
+                height
+                width
+                createdAt
               }
             }
           }
@@ -12655,13 +12707,17 @@ export const GetTipsByContractIdDocument = gql`
             data {
               id
               attributes {
-                name
-                url
-                size
-                mime
                 hash
+                mime
+                name
                 provider
+                size
+                url
                 alternativeText
+                ext
+                height
+                width
+                createdAt
               }
             }
           }
@@ -12769,6 +12825,10 @@ export const UpdateTipDocument = gql`
                 size
                 url
                 alternativeText
+                ext
+                height
+                width
+                createdAt
               }
             }
           }
@@ -13011,6 +13071,7 @@ export const GetFilesPaginationByPathIdDocument = gql`
           url
           ext
           alternativeText
+          createdAt
         }
       }
       meta {
@@ -13297,9 +13358,20 @@ export const UpdateUploadFileDocument = gql`
   mutation updateUploadFile($updateUploadFileId: ID!, $data: UploadFileInput!) {
     updateUploadFile(id: $updateUploadFileId, data: $data) {
       data {
+        id
         attributes {
-          alternativeText
+          createdAt
+          hash
+          mime
           name
+          provider
+          size
+          url
+          alternativeText
+          ext
+          height
+          width
+          createdAt
           related {
             ... on UploadFolder {
               name
@@ -13363,6 +13435,7 @@ export const UpdateUploadFolderDocument = gql`
   ) {
     updateUploadFolder(id: $updateUploadFolderId, data: $data) {
       data {
+        id
         attributes {
           pathId
           updatedAt
@@ -15159,87 +15232,6 @@ export type UpdateContentTypeFreeContentMutationOptions =
     UpdateContentTypeFreeContentMutation,
     UpdateContentTypeFreeContentMutationVariables
   >;
-export const GetDataCustomerDocument = gql`
-  query getDataCustomer($contractId: ID) {
-    contract(id: $contractId) {
-      data {
-        id
-        attributes {
-          clientName
-          siret
-          isNonExclusive
-          clientType
-          contractStatus
-          isRVFrance
-          clear
-          ccap
-          clientContact {
-            data {
-              id
-              attributes {
-                firstName
-                lastName
-                email
-                phoneNumber
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetDataCustomerQuery__
- *
- * To run a query within a React component, call `useGetDataCustomerQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDataCustomerQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetDataCustomerQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetDataCustomerQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetDataCustomerQuery,
-    GetDataCustomerQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetDataCustomerQuery, GetDataCustomerQueryVariables>(
-    GetDataCustomerDocument,
-    options,
-  );
-}
-export function useGetDataCustomerLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetDataCustomerQuery,
-    GetDataCustomerQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetDataCustomerQuery,
-    GetDataCustomerQueryVariables
-  >(GetDataCustomerDocument, options);
-}
-export type GetDataCustomerQueryHookResult = ReturnType<
-  typeof useGetDataCustomerQuery
->;
-export type GetDataCustomerLazyQueryHookResult = ReturnType<
-  typeof useGetDataCustomerLazyQuery
->;
-export type GetDataCustomerQueryResult = Apollo.QueryResult<
-  GetDataCustomerQuery,
-  GetDataCustomerQueryVariables
->;
 export const GetContractByIdDocument = gql`
   query getContractById($contractId: ID!) {
     contract(id: $contractId) {
@@ -15247,10 +15239,13 @@ export const GetContractByIdDocument = gql`
         id
         attributes {
           clientName
-          isRVFrance
-          contractStatus
           clientType
+          contractStatus
+          siret
+          clear
+          ccap
           isNonExclusive
+          isRVFrance
           pathId
           logo {
             data {
@@ -15272,6 +15267,17 @@ export const GetContractByIdDocument = gql`
               attributes {
                 hasWebApp
                 hasWebSite
+              }
+            }
+          }
+          clientContact {
+            data {
+              id
+              attributes {
+                firstName
+                lastName
+                email
+                phoneNumber
               }
             }
           }

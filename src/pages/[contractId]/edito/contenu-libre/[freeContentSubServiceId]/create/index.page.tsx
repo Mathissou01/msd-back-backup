@@ -21,8 +21,13 @@ export function EditoFreeContentCreatePage({
   const title = "Créer un article";
   const formLabels = {
     staticTitle: "Titre de l'article",
-    staticTagsLabel: "Thématique ",
-    staticTagsLabelDescription: "(Tags)",
+    staticTags: "Thématique ",
+    staticTagsDescription: "(Tags)",
+    staticImage: "Vignette",
+    staticImageValidation:
+      "Format carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum",
+    staticImagePlaceholder:
+      "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'article",
@@ -37,6 +42,7 @@ export function EditoFreeContentCreatePage({
         tags: freeContactsInputData.tags?.map(
           (option: ICommonSelectOption) => option.value,
         ),
+        image: freeContactsInputData.image.id,
         shortDescription: freeContactsInputData.shortDescription,
         blocks: freeContactsInputData.blocks?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -34,6 +34,10 @@ mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
               size
               url
               alternativeText
+              ext
+              height
+              width
+              createdAt
             }
           }
         }

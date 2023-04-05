@@ -34,6 +34,10 @@ query getNewById($newId: ID) {
               size
               url
               alternativeText
+              ext
+              height
+              width
+              createdAt
             }
           }
         }
@@ -60,6 +64,7 @@ query getNewById($newId: ID) {
             id
             picture {
               data {
+                id
                 attributes {
                   hash
                   mime
@@ -78,6 +83,7 @@ query getNewById($newId: ID) {
             id
             document {
               data {
+                id
                 attributes {
                   hash
                   mime

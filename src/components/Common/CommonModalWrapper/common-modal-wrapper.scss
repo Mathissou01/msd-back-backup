@@ -2,6 +2,9 @@
 @use "src/styles/02-tools/tools.shadows" as shadows;
 
 .c-CommonModalWrapper {
+  height: 100%;
+  overflow: hidden;
+
   &:not(:empty) {
     position: absolute;
     top: 0;

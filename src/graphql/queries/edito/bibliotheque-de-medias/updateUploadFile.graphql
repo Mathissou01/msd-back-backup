@@ -1,9 +1,20 @@
 mutation updateUploadFile($updateUploadFileId: ID!, $data: UploadFileInput!) {
   updateUploadFile(id: $updateUploadFileId, data: $data) {
     data {
+      id
       attributes {
-        alternativeText
+        createdAt
+        hash
+        mime
         name
+        provider
+        size
+        url
+        alternativeText
+        ext
+        height
+        width
+        createdAt
         related {
           ... on UploadFolder {
             name

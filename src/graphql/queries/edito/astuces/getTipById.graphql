@@ -34,6 +34,10 @@ query getTipById($tipId: ID) {
               size
               url
               alternativeText
+              ext
+              height
+              width
+              createdAt
             }
           }
         }

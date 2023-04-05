@@ -16,6 +16,7 @@ query getFilesPaginationByPathId(
         url
         ext
         alternativeText
+        createdAt
       }
     }
     meta {

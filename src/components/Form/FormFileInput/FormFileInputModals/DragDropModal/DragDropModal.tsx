@@ -1,24 +1,23 @@
 import { RefObject, useState } from "react";
-import { uploadFile } from "../../../../../lib/uploadFile";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
-import MediaCard from "../../../MediaCard/MediaCard";
-import { IFileToEdit } from "../../../MediaImportButton/MediaImportButton";
+import MediaCard from "../../../../Media/MediaCard/MediaCard";
+import { ILocalFile, uploadFile } from "../../../../../lib/media";
 
 interface IDragDropModalProps {
   modalRef: RefObject<CommonModalWrapperRef>;
   activePathId: number;
-  file: IFileToEdit;
-  setHasFileToUpload: (arg: IFileToEdit | undefined) => void;
-  selectedFile: (file: { id: string; file: IFileToEdit }) => void;
+  draggedFile: ILocalFile;
+  onSelectedFile: (file: ILocalFile) => void;
+  onResetDraggedFile: () => void;
 }
 
 export default function DragDropModal({
   modalRef,
   activePathId,
-  file,
-  selectedFile,
-  setHasFileToUpload,
+  draggedFile,
+  onSelectedFile,
+  onResetDraggedFile,
 }: IDragDropModalProps) {
   /* Static Data */
   const labels = {
@@ -34,25 +33,35 @@ export default function DragDropModal({
 
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
 
-  async function handleUploadFile(activePathId: number, file: IFileToEdit) {
+  async function handleUploadFile(activePathId: number, localFile: ILocalFile) {
     setUploadLoading(true);
-    const files: Array<IFileToEdit> = [];
-    files.push(file);
-    const result = await uploadFile(activePathId, files);
-    if (result !== undefined || result !== null) {
-      setUploadLoading(false);
-      selectedFile({ id: result?.result.id, file: file });
-      setHasFileToUpload(undefined);
-      modalRef.current?.toggleModal(false);
+    const result = await uploadFile(activePathId, localFile);
+    // TODO: typescript types
+    const file = result?.data?.updateUploadFile?.data;
+    if (file && file.id && file.attributes) {
+      const selectedFile: ILocalFile = {
+        id: file.id,
+        name: file?.attributes?.name,
+        alternativeText: file?.attributes?.alternativeText ?? "",
+        width: file?.attributes?.width ?? 0,
+        height: file?.attributes?.height ?? 0,
+        ext: file?.attributes?.ext ?? "",
+        mime: file?.attributes?.mime,
+        size: file?.attributes?.size,
+        url: file?.attributes?.url,
+      };
+      onSelectedFile(selectedFile);
     }
+    setUploadLoading(false);
+    modalRef.current?.toggleModal(false);
   }
 
   return (
     <>
       <hgroup>
-        <div className="c-MediaBlock__Title">Ajouter le média</div>
+        <div className="c-FormFileInputModals__Title">Ajouter le média</div>
       </hgroup>
-      <div className="c-MediaBlock__Header">
+      <div className="c-FormFileInputModals__Header">
         <strong>
           {labels.amountItemSelectedTitle}
           <br />
@@ -61,18 +70,18 @@ export default function DragDropModal({
         <CommonButton
           label={labels.importBtn}
           style="primary"
-          onClick={() => setHasFileToUpload(undefined)}
+          onClick={onResetDraggedFile}
         />
       </div>
-      <div className="c-MediaBlock__Body">
-        <MediaCard file={{ file }} loading={uploadLoading} />
+      <div className="c-FormFileInputModals__Body">
+        <MediaCard file={draggedFile} loading={uploadLoading} />
       </div>
-      <div className="c-MediaBlock__Footer">
+      <div className="c-FormFileInputModals__Footer">
         <CommonButton
           type="submit"
           label={labels.addMediaBtn}
           style="primary"
-          onClick={() => handleUploadFile(activePathId, file)}
+          onClick={() => handleUploadFile(activePathId, draggedFile)}
         />
         <CommonButton
           type="button"

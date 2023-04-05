@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { removeNulls } from "../../../lib/utilities";
 import { IEditoFields, TDynamicFieldOption } from "../../../lib/edito";
 import EditoButtons from "./EditoButtons/EditoButtons";
-import EditoStaticFields from "./EditoStaticFields/EditoStaticFields";
+import EditoStaticFields, {
+  IStaticFieldsLabels,
+} from "./EditoStaticFields/EditoStaticFields";
 import EditoDynamicFields from "./EditoDynamicFields/EditoDynamicFields";
 import EditoSideBar from "./EditoSideBar/EditoSideBar";
 import "./edito-form.scss";
@@ -17,13 +19,7 @@ interface IEditoFormProps {
   onPublish?: () => void;
   onDepublish?: () => void;
   onPreview?: () => void;
-  labels: {
-    staticTitle: string;
-    staticTagsLabel: string;
-    staticTagsLabelDescription: string;
-    staticShortDescription: string;
-    staticShortDescriptionMaxCharacters: string;
-  };
+  labels: IStaticFieldsLabels;
 }
 
 export default function EditoForm({
@@ -113,13 +109,7 @@ export default function EditoForm({
           </div>
           <div className="c-EditoForm__Form">
             <div className="c-EditoForm__Content">
-              <EditoStaticFields
-                titleLabel={labels.staticTitle}
-                tagsLabel={labels.staticTagsLabel}
-                tagsLabelDescription={labels.staticTagsLabelDescription}
-                shortDescriptionLabel={labels.staticShortDescription}
-                maxCharactersLabel={labels.staticShortDescriptionMaxCharacters}
-              />
+              <EditoStaticFields labels={labels} />
               <EditoDynamicFields
                 blockOptions={dynamicFieldsOptions}
                 defaultValues={data?.blocks}

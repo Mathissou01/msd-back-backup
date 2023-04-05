@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { RequestFolders } from "../../../graphql/codegen/generated-types";
+import { handleReplaceSpecialChars, ILocalFile } from "../../../lib/media";
+import { ITab } from "../../TabBlock/TabBlock";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonDragDropFile from "../../Common/CommonDragDropFile/CommonDragDropFile";
 import CommonButton from "../../Common/CommonButton/CommonButton";
-import { Tab } from "../../TabBlock/TabBlock";
 import FormModal from "../../Form/FormModal/FormModal";
 import MainModal from "./Modals/MainModal/MainModal";
 import UploadModal from "./Modals/UploadModal/UploadModal";
@@ -17,21 +18,6 @@ export enum ModalStatus {
   MAIN_MODAL = "MAIN_MODAL",
   UPLOAD_MODAL = "UPLOAD_MODAL",
   EDIT_IMG_MODAL = "EDIT_IMG_MODAL",
-}
-
-export interface IFileToEdit {
-  name: string;
-  alternativeText: string;
-  ext: string;
-  mime: string;
-  size: number;
-  url: string;
-  file?: File;
-  width?: number;
-  height?: number;
-  date?: string;
-  folder?: string;
-  id?: string;
 }
 
 interface IMediaImportButtonProps {
@@ -55,12 +41,12 @@ export default function MediaImportButton({
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const EditModalRef = useRef<CommonModalWrapperRef>(null);
-  const [selectedFiles, setSelectedFiles] = useState<IFileToEdit[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<ILocalFile[]>([]);
   const [activeModal, setActiveModal] = useState<ModalStatus>(
     ModalStatus.MAIN_MODAL,
   );
-  const [fileToEdit, setFileToEdit] = useState<IFileToEdit>();
-  const [tabs, setTabs] = useState<Array<Tab>>([]);
+  const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
+  const [tabs, setTabs] = useState<Array<ITab>>([]);
 
   /* Methods */
   const handleCloseModal = () => {
@@ -85,12 +71,9 @@ export default function MediaImportButton({
     event.preventDefault();
   };
 
-  const handleReplaceSpecialChars = (arg: string) =>
-    arg.replace(/['"]/g, "") ?? arg;
-
   async function handleSaveNewFileInfo(submitData: FieldValues) {
-    const selectedFilesInstance: IFileToEdit[] = [...selectedFiles];
-    const file: IFileToEdit[] = selectedFilesInstance.filter(
+    const selectedFilesInstance: ILocalFile[] = [...selectedFiles];
+    const file: ILocalFile[] = selectedFilesInstance.filter(
       (file) => file.name === fileToEdit?.name,
     );
 
@@ -137,46 +120,45 @@ export default function MediaImportButton({
   useEffect(() => {
     const handleDrop = (event: React.DragEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const draggedFilesInstance: IFileToEdit[] = [...selectedFiles];
+      const draggedFilesInstance: ILocalFile[] = [...selectedFiles];
       const dataTransfer: DataTransfer | null = event.dataTransfer;
       const length = dataTransfer?.files.length ?? 0;
 
       if (dataTransfer !== null) {
         for (let i = 0; i < length; i++) {
-          const isThereFileSelected: IFileToEdit[] =
-            draggedFilesInstance.filter(
-              (file) => file.name === dataTransfer.files[i].name,
-            );
+          const isThereFileSelected: ILocalFile[] = draggedFilesInstance.filter(
+            (file) => file.name === dataTransfer.files[i].name,
+          );
 
           const file = dataTransfer.files[i];
 
-          savingFiletoState(draggedFilesInstance, isThereFileSelected, file);
+          savingFileToState(draggedFilesInstance, isThereFileSelected, file);
         }
       }
     };
 
     const handleFileChange = (event: { target: HTMLInputElement }) => {
-      const selectedFilesInstance: IFileToEdit[] = [...selectedFiles];
+      const selectedFilesInstance: ILocalFile[] = [...selectedFiles];
       const target: HTMLInputElement | null = event.target;
       const length = target.files?.length ?? 0;
 
       if (target.files !== null) {
         for (let i = 0; i < length; i++) {
-          const isThereFileSelected: IFileToEdit[] =
+          const isThereFileSelected: ILocalFile[] =
             selectedFilesInstance.filter(
               (file) => file.name === target.files?.[i].name,
             );
 
           const file = target.files[i];
 
-          savingFiletoState(selectedFilesInstance, isThereFileSelected, file);
+          savingFileToState(selectedFilesInstance, isThereFileSelected, file);
         }
       }
     };
 
-    const savingFiletoState = (
-      selectedFilesInstance: IFileToEdit[],
-      isThereFileSelected: IFileToEdit[],
+    const savingFileToState = (
+      selectedFilesInstance: ILocalFile[],
+      isThereFileSelected: ILocalFile[],
       file: File,
     ) => {
       if (file.type.split("/")[0] === "image") {
@@ -295,7 +277,6 @@ export default function MediaImportButton({
                 folderHierarchy={folderHierarchy}
                 activePathId={activePathId}
                 fileToEdit={fileToEdit}
-                handleReplaceSpecialChars={handleReplaceSpecialChars}
               />
             </FormModal>
           )}

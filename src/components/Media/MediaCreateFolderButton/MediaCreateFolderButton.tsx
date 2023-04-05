@@ -1,6 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import { useRef } from "react";
 import {
+  GetAllFoldersHierarchyDocument,
   GetFolderAndChildrenByIdDocument,
   RequestFolders,
   useCreateNewFolderMutation,
@@ -15,11 +16,13 @@ import { mapOptionsInWrappers } from "../../Form/FormMultiselect/FormMultiselect
 interface IMediaCreateFolderButtonProps {
   folderHierarchy: Array<RequestFolders>;
   activePathId: number;
+  activePath: string;
 }
 
 export default function MediaCreateFolderButton({
   folderHierarchy,
   activePathId,
+  activePath,
 }: IMediaCreateFolderButtonProps) {
   /* Static Data */
   const rootFolderName = "Bibliothèque de média";
@@ -43,6 +46,10 @@ export default function MediaCreateFolderButton({
         {
           query: GetFolderAndChildrenByIdDocument,
           variables: { activePathId: activePathId },
+        },
+        {
+          query: GetAllFoldersHierarchyDocument,
+          variables: { path: activePath },
         },
       ],
     });

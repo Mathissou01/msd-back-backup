@@ -16,8 +16,13 @@ export function EditoTipsCreatePage() {
   const title = "Créer une astuce";
   const formLabels = {
     staticTitle: "Titre de l'astuce",
-    staticTagsLabel: "Thématique",
-    staticTagsLabelDescription: "(Tags)",
+    staticTags: "Thématique",
+    staticTagsDescription: "(Tags)",
+    staticImage: "Vignette",
+    staticImageValidation:
+      "Format carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum",
+    staticImagePlaceholder:
+      "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'astuce",
@@ -34,6 +39,7 @@ export function EditoTipsCreatePage() {
         tags: tipsInputData.tags?.map(
           (option: ICommonSelectOption) => option.value,
         ),
+        image: tipsInputData.image.id,
         shortDescription: tipsInputData.shortDescription,
         blocks: tipsInputData.blocks?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars

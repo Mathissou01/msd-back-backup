@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { uploadFile } from "../../../../../lib/uploadFile";
+import { ILocalFile, uploadFile } from "../../../../../lib/media";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import MediaCard from "../../../MediaCard/MediaCard";
-import { IFileToEdit, ModalStatus } from "../../MediaImportButton";
+import { ModalStatus } from "../../MediaImportButton";
 
 interface IUploadModalProps {
   modalRef: React.RefObject<CommonModalWrapperRef>;
   activePathId: number;
-  selectedFiles: IFileToEdit[];
-  setSelectedFiles: React.Dispatch<React.SetStateAction<IFileToEdit[]>>;
+  selectedFiles: ILocalFile[];
+  setSelectedFiles: React.Dispatch<React.SetStateAction<ILocalFile[]>>;
   setActiveModal: React.Dispatch<React.SetStateAction<ModalStatus>>;
-  setFileToEdit: React.Dispatch<React.SetStateAction<IFileToEdit | undefined>>;
+  setFileToEdit: React.Dispatch<React.SetStateAction<ILocalFile | undefined>>;
 }
 
 export default function UploadModal({
@@ -43,7 +43,7 @@ export default function UploadModal({
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
 
   /** Methods */
-  const handleEditFile = (file: IFileToEdit) => {
+  const handleEditFile = (file: ILocalFile) => {
     modalRef.current?.toggleModal(false);
     setActiveModal(ModalStatus.EDIT_IMG_MODAL);
 
@@ -61,8 +61,8 @@ export default function UploadModal({
     });
   };
 
-  const handleRemoveFile = (file: IFileToEdit) => {
-    const selectedFilesInstance: IFileToEdit[] = [...selectedFiles];
+  const handleRemoveFile = (file: ILocalFile) => {
+    const selectedFilesInstance: ILocalFile[] = [...selectedFiles];
     const filteredFiles = selectedFilesInstance.filter(
       (f) => f.name !== file.name,
     );
@@ -73,18 +73,18 @@ export default function UploadModal({
 
   async function handleUploadFile(
     activePathId: number,
-    selectedFiles: IFileToEdit[],
+    selectedFiles: ILocalFile[],
   ) {
     setUploadLoading(true);
-    const result = await uploadFile(activePathId, selectedFiles);
-    if (result !== undefined || result !== null) {
-      setUploadLoading(false);
-      handleReInitModals();
+    for (const file of selectedFiles) {
+      await uploadFile(activePathId, file);
     }
+    setUploadLoading(false);
+    handleReInitModals();
   }
 
   const handleReInitModals = () => {
-    const init: IFileToEdit[] = [];
+    const init: ILocalFile[] = [];
     setSelectedFiles(init);
     modalRef.current?.toggleModal(false);
   };
@@ -113,13 +113,12 @@ export default function UploadModal({
           selectedFiles.map((file, index) => (
             <MediaCard
               key={index}
-              file={{ file }}
+              file={file}
               loading={uploadLoading}
-              handleEditFile={(file) => handleEditFile(file)}
-              handleRemoveFile={() => handleRemoveFile(file)}
+              onEditFile={(file) => handleEditFile(file)}
+              onRemoveFile={() => handleRemoveFile(file)}
             />
           ))}
-        ``
       </div>
       <div className="c-MediaImportButton__Footer">
         <CommonButton

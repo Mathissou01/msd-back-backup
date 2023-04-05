@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { IFileToEdit } from "../../Media/MediaImportButton/MediaImportButton";
 import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
 import docIcon from "./../../../../public/images/pictos/doc.svg";
+import { ILocalFile } from "../../../lib/media";
 import CommonLoader from "../CommonLoader/CommonLoader";
 import { ApolloError } from "@apollo/client";
 import "./common-media-card-thumbnail.scss";
 
 interface ICommonCardThumbnailProps {
-  media: IFileToEdit;
+  media: ILocalFile;
   imageType: string;
   loading?: boolean | undefined;
   errors?: (ApolloError | undefined)[];

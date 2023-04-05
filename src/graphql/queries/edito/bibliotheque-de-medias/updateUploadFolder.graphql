@@ -4,6 +4,7 @@ mutation updateUploadFolder(
 ) {
   updateUploadFolder(id: $updateUploadFolderId, data: $data) {
     data {
+      id
       attributes {
         pathId
         updatedAt

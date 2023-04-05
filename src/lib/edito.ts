@@ -1,7 +1,4 @@
-import {
-  Maybe,
-  UploadFileEntityResponse,
-} from "../graphql/codegen/generated-types";
+import { Maybe, UploadFileEntity } from "../graphql/codegen/generated-types";
 import { TPictoStyles } from "./pictos";
 import { removeNulls } from "./utilities";
 import { EStatus } from "./status";
@@ -18,6 +15,7 @@ export interface IEditoStaticFields {
   id: string;
   status: EStatus;
   title: string;
+  image: UploadFileEntity | null;
   tags?: Array<ICommonSelectOption>;
   shortDescription?: Maybe<string>;
   publishedDate?: Date;
@@ -97,7 +95,7 @@ export type IEditoBlock =
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
   id: string;
-  document: UploadFileEntityResponse;
+  document: UploadFileEntity;
 }
 
 export interface IBlocksHorizontalRule extends IPartialBlock {

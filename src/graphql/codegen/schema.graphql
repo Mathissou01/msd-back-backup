@@ -618,6 +618,10 @@ type ComponentBlocksSubHeading {
   subHeadingText: String
 }
 
+type ComponentBlocksTest {
+  id: ID!
+}
+
 type ComponentBlocksVideo {
   id: ID!
   transcriptText: String
@@ -1147,6 +1151,9 @@ type ContractCustomization {
   createdAt: DateTime
   footer: FooterEntityResponse
   homepage: HomepageEntityResponse
+  primaryColor: String!
+  secondaryColor: String
+  textContrast: String!
   updatedAt: DateTime
 }
 
@@ -1173,6 +1180,9 @@ input ContractCustomizationFiltersInput {
   id: IDFilterInput
   not: ContractCustomizationFiltersInput
   or: [ContractCustomizationFiltersInput]
+  primaryColor: StringFilterInput
+  secondaryColor: StringFilterInput
+  textContrast: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -1180,6 +1190,9 @@ input ContractCustomizationInput {
   contract: ID
   footer: ID
   homepage: ID
+  primaryColor: String
+  secondaryColor: String
+  textContrast: String
 }
 
 type ContractEntity {
@@ -2450,6 +2463,7 @@ input FooterInput {
 type FreeContent {
   blocks: [FreeContentBlocksDynamicZone]
   createdAt: DateTime
+  customId: String
   draftCreationId: String
   editoContent: EditoContentEntityResponse
   freeContentSubService: FreeContentSubServiceEntityResponse
@@ -2467,6 +2481,7 @@ type FreeContent {
   title: String!
   unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union FreeContentBlocksDynamicZone =
@@ -2497,6 +2512,7 @@ type FreeContentEntityResponseCollection {
 input FreeContentFiltersInput {
   and: [FreeContentFiltersInput]
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
   freeContentSubService: FreeContentSubServiceFiltersInput
@@ -2511,10 +2527,12 @@ input FreeContentFiltersInput {
   title: StringFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input FreeContentInput {
   blocks: [FreeContentBlocksDynamicZoneInput!]
+  customId: String
   draftCreationId: String
   editoContent: ID
   freeContentSubService: ID
@@ -2527,6 +2545,7 @@ input FreeContentInput {
   tags: [ID]
   title: String
   unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 union FreeContentLinkToServicesDynamicZone =
@@ -2633,6 +2652,7 @@ union GenericMorph =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksTest
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
@@ -5076,6 +5096,7 @@ input TerritoryTypeInput {
 type Tip {
   blocks: [TipBlocksDynamicZone]
   createdAt: DateTime
+  customId: String
   draftCreationId: String
   editoContent: EditoContentEntityResponse
   hasDraft: Boolean
@@ -5095,6 +5116,7 @@ type Tip {
   titleLabel: String
   unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union TipBlocksDynamicZone =
@@ -5125,6 +5147,7 @@ type TipEntityResponseCollection {
 input TipFiltersInput {
   and: [TipFiltersInput]
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
   hasDraft: BooleanFilterInput
@@ -5142,10 +5165,12 @@ input TipFiltersInput {
   titleLabel: StringFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input TipInput {
   blocks: [TipBlocksDynamicZoneInput!]
+  customId: String
   draftCreationId: String
   editoContent: ID
   hasDraft: Boolean
@@ -5161,6 +5186,7 @@ input TipInput {
   title: String
   titleLabel: String
   unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 union TipLinkToServicesDynamicZone =

@@ -1,23 +1,24 @@
 import Image from "next/image";
 import { RequestFolders } from "../../../../../graphql/codegen/generated-types";
+import { formatFileSize } from "../../../../../lib/utilities";
+import {
+  handleReplaceSpecialChars,
+  ILocalFile,
+} from "../../../../../lib/media";
 import FormInput from "../../../../Form/FormInput/FormInput";
 import FormSelect from "../../../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../../../Form/FormMultiselect/FormMultiselect";
-import { IFileToEdit } from "../../MediaImportButton";
-import { formatFileSize } from "../../../../../lib/formatFileSize";
 
 interface IEditModalProps {
-  fileToEdit: IFileToEdit | undefined;
+  fileToEdit: ILocalFile | undefined;
   folderHierarchy: Array<RequestFolders>;
   activePathId: number;
-  handleReplaceSpecialChars: (arg: string) => string;
 }
 
 export default function EditModal({
   fileToEdit,
   folderHierarchy,
   activePathId,
-  handleReplaceSpecialChars,
 }: IEditModalProps) {
   /* Static Data */
   const labels = {

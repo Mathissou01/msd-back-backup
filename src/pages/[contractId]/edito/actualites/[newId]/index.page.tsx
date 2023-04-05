@@ -33,8 +33,13 @@ export function EditoActualitesEditPage({
   /* Static Data */
   const formLabels = {
     staticTitle: "Titre de l'actualité",
-    staticTagsLabel: "Thématique",
-    staticTagsLabelDescription: "(Tags)",
+    staticTags: "Thématique",
+    staticTagsDescription: "(Tags)",
+    staticImage: "Vignette",
+    staticImageValidation:
+      "Format carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum",
+    staticImagePlaceholder:
+      "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'actualité",
@@ -50,6 +55,7 @@ export function EditoActualitesEditPage({
           (option: ICommonSelectOption) => option.value,
         ),
         shortDescription: newsInputData.shortDescription,
+        image: newsInputData.image?.id,
         blocks: newsInputData.blocks?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ({ id, ...rest }: IEditoBlock) => rest,
@@ -64,6 +70,7 @@ export function EditoActualitesEditPage({
         {
           query: GetNewByIdDocument,
           variables: { newId },
+          fetchPolicy: "network-only",
         },
       ],
     });
@@ -121,6 +128,7 @@ export function EditoActualitesEditPage({
   /* External Data */
   const { data, loading, error } = useGetNewByIdQuery({
     variables: { newId },
+    fetchPolicy: "network-only",
   });
   const [
     updateNew,
@@ -148,6 +156,7 @@ export function EditoActualitesEditPage({
           id: newData.id,
           status: valueToEStatus(newData.attributes.status),
           title: newData.attributes.title,
+          image: newData.attributes.image?.data ?? null,
           tags:
             newData.attributes.tags?.data.map((tag) => ({
               value: tag.id ?? "",

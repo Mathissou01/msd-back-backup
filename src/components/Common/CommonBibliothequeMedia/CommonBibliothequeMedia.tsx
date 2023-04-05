@@ -1,45 +1,59 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
+import classNames from "classnames";
 import {
   GetFilesPaginationByPathIdDocument,
   GetFilesPaginationByPathIdQueryVariables,
   useGetAllFoldersHierarchyQuery,
-  useGetFilesPaginationByPathIdLazyQuery,
+  useGetFilesPaginationByPathIdQuery,
   useGetFolderAndChildrenByIdQuery,
   useGetFolderBreadcrumbQuery,
   useUpdateUploadFileMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
-import { IcheckedFile, IFolder } from "../../../lib/uploadFile";
+import {
+  handleReplaceSpecialChars,
+  IFolder,
+  ILocalFile,
+} from "../../../lib/media";
 import MediaBreadcrumb, {
   IMediaBreadcrumb,
 } from "../../Media/MediaBreadcrumb/MediaBreadcrumb";
 import MediaCard from "../../Media/MediaCard/MediaCard";
 import MediaFolderCard from "../../Media/MediaFolderCard/MediaFolderCard";
-import { IFileToEdit } from "../../Media/MediaImportButton/MediaImportButton";
+import MediaImportButton from "../../Media/MediaImportButton/MediaImportButton";
 import CommonPagination from "../CommonPagination/CommonPagination";
 import { CommonModalWrapperRef } from "../CommonModalWrapper/CommonModalWrapper";
+import CommonLoader from "../CommonLoader/CommonLoader";
 import EditModal from "../../Media/MediaImportButton/Modals/EditModal/EditModal";
 import FormModal from "../../Form/FormModal/FormModal";
+import MediaCreateFolderButton from "../../Media/MediaCreateFolderButton/MediaCreateFolderButton";
 import "./common-bibliotheque-media.scss";
 
 interface ICommonBibliothequeMediaProps {
-  fileTypeContain: string;
-  fileTypeNotContain: string | null;
-  checkedFile: IcheckedFile[];
-  handleSelectedFile: (
-    e: ChangeEvent<HTMLInputElement>,
-    url: string,
-    index: number,
-  ) => void;
+  mimeFilterContains?: string;
+  mimeFilterNotContains?: string;
+  name?: string;
+  canSelectMultipleFiles?: boolean;
+  onSelectedFiles?: (files?: Array<ILocalFile>) => void;
+  onPathChange?: (pathId: number, path: string) => void;
+  defaultSelectedFiles?: Array<string>;
+  defaultActivePath?: { pathId: number; path: string };
+  style?: "modal";
+  hasActionButton?: boolean;
 }
 
 export default function CommonBibliothequeMedia({
-  fileTypeContain,
-  fileTypeNotContain,
-  checkedFile,
-  handleSelectedFile,
+  mimeFilterContains,
+  mimeFilterNotContains,
+  onSelectedFiles,
+  canSelectMultipleFiles = false,
+  onPathChange,
+  defaultSelectedFiles = [],
+  defaultActivePath,
+  style,
+  hasActionButton = false,
 }: ICommonBibliothequeMediaProps) {
   /* Static Data */
   const formLabels = {
@@ -54,18 +68,33 @@ export default function CommonBibliothequeMedia({
     formDescLabel: "Description de l'image",
   };
 
-  /**Local Data */
+  /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const { contract } = useContract();
   const contractFolderId = contract.attributes?.pathId;
   const defaultPath = `/1/${contractFolderId}`;
-  const [activePathId, setActivePathId] = useState<number>(contractFolderId);
-  const [activePath, setActivePath] = useState<string>(defaultPath);
-  const [fileToEdit, setFileToEdit] = useState<IFileToEdit>();
-  const { data: foldersData } = useGetFolderAndChildrenByIdQuery({
+  const [activePathId, setActivePathId] = useState<number>(
+    defaultActivePath ? defaultActivePath.pathId : contractFolderId,
+  );
+  const [activePath, setActivePath] = useState<string>(
+    defaultActivePath ? defaultActivePath.path : defaultPath,
+  );
+  const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
+  const [folders, setFolders] = useState<Array<IFolder>>([]);
+  const [files, setFiles] = useState<Array<ILocalFile>>([]);
+  const [checkedFiles, setCheckedFiles] =
+    useState<Array<string>>(defaultSelectedFiles);
+  const [breadcrumbs, setBreadcrumbs] = useState<Array<IMediaBreadcrumb>>([]);
+  const mediaLibraryClasses = classNames("c-CommonBibliothequeMedia", {
+    [`c-CommonBibliothequeMedia_${style}`]: style,
+  });
+  const {
+    data: foldersData,
+    loading: foldersDataLoading,
+    error: foldersDataError,
+  } = useGetFolderAndChildrenByIdQuery({
     variables: { filters: { pathId: { eq: activePathId } } },
   });
-
   const defaultRowsPerPage = 10;
   const defaultPage = 1;
   const defaultQueryVariables: GetFilesPaginationByPathIdQueryVariables = {
@@ -76,48 +105,66 @@ export default function CommonBibliothequeMedia({
         },
       },
       mime: {
-        contains: fileTypeContain,
-        notContains: fileTypeNotContain,
+        // TODO: works?
+        contains: mimeFilterContains,
+        notContains: mimeFilterNotContains,
       },
     },
     sort: "mime:desc",
     pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
   };
-  const [getFilesPaginationByPathId, { data: filesData }] =
-    useGetFilesPaginationByPathIdLazyQuery({
-      variables: defaultQueryVariables,
-    });
-
-  const { data: foldersBreadcrumb } = useGetFolderBreadcrumbQuery({
+  const {
+    data: filesData,
+    loading: filesDataLoading,
+    error: filesDataError,
+  } = useGetFilesPaginationByPathIdQuery({
+    variables: defaultQueryVariables,
+  });
+  const {
+    data: foldersBreadcrumb,
+    loading: foldersBreadcrumbLoading,
+    error: foldersBreadcrumbError,
+  } = useGetFolderBreadcrumbQuery({
     variables: { path: activePath },
   });
-
-  const isInitialized = useRef(false);
-  const [folders, setFolders] = useState<Array<IFolder>>([]);
-  const [files, setFiles] = useState<Array<IFileToEdit>>([]);
   const [currentPagination, setCurrentPagination] = useState({
     page: defaultPage,
     rowsPerPage: defaultRowsPerPage,
   });
-  const [breadcrumbs, setBreadcrumbs] = useState<Array<IMediaBreadcrumb>>([]);
-  const { data: folderHierarchy } = useGetAllFoldersHierarchyQuery({
+  const {
+    data: folderHierarchy,
+    loading: folderHierarchyLoading,
+    error: folderHierarchyError,
+  } = useGetAllFoldersHierarchyQuery({
     variables: { path: activePath },
   });
   const [UpdateUploadFileDocument] = useUpdateUploadFileMutation();
+  const loading =
+    filesDataLoading ||
+    foldersDataLoading ||
+    folderHierarchyLoading ||
+    foldersBreadcrumbLoading;
+  const errors = [
+    filesDataError,
+    foldersDataError,
+    folderHierarchyError,
+    foldersBreadcrumbError,
+  ];
 
-  /** Methods */
+  /* Methods */
   function setUpdatePath(pathId: number, path: string) {
     setActivePathId(pathId);
     setActivePath(path);
+    onPathChange && onPathChange(pathId, path);
   }
 
-  const handleEditFile = (file: IFileToEdit) => {
+  function handleEditFile(file: ILocalFile) {
     modalRef.current?.toggleModal(true);
     setFileToEdit(file);
-  };
+  }
 
   async function handleSaveNewFileInfo(submitData: FieldValues) {
-    const file: IFileToEdit | undefined = fileToEdit;
+    const file: ILocalFile | undefined = fileToEdit;
 
     if (file?.id !== undefined) {
       UpdateUploadFileDocument({
@@ -141,8 +188,26 @@ export default function CommonBibliothequeMedia({
     }
   }
 
-  const handleReplaceSpecialChars = (arg: string) =>
-    arg.replace(/['"]/g, "") ?? arg;
+  function handleSelectedFile(
+    e: ChangeEvent<HTMLInputElement>,
+    file: ILocalFile,
+  ): void {
+    const filesInstance = [...files];
+    const findFile = filesInstance.find((item) => item.id === file.id);
+    if (findFile?.id) {
+      if (canSelectMultipleFiles) {
+        // TODO: if we need multiple selected files, need to add/remove specific ID from array instead of replacing it with an empty array
+      } else {
+        if (checkedFiles.includes(findFile.id)) {
+          setCheckedFiles([]);
+          onSelectedFiles && onSelectedFiles([]);
+        } else {
+          onSelectedFiles && onSelectedFiles([findFile]);
+          setCheckedFiles([findFile.id]);
+        }
+      }
+    }
+  }
 
   useEffect(() => {
     if (foldersData) {
@@ -175,7 +240,7 @@ export default function CommonBibliothequeMedia({
     }
 
     if (filesData) {
-      const mappedFiles: Array<IFileToEdit> =
+      const mappedFiles: Array<ILocalFile> =
         filesData.uploadFiles?.data
           .map((file) => {
             if (
@@ -184,7 +249,8 @@ export default function CommonBibliothequeMedia({
               file?.attributes?.ext &&
               file?.attributes?.mime &&
               file?.attributes?.size &&
-              file?.attributes?.url
+              file?.attributes?.url &&
+              file?.attributes?.createdAt
             ) {
               return {
                 id: file.id,
@@ -196,6 +262,7 @@ export default function CommonBibliothequeMedia({
                 mime: file?.attributes?.mime,
                 size: file?.attributes?.size,
                 url: file?.attributes?.url,
+                date: new Date(file.attributes.createdAt).toLocaleDateString(),
               };
             }
           })
@@ -204,12 +271,6 @@ export default function CommonBibliothequeMedia({
     }
   }, [foldersData, filesData, activePathId]);
 
-  useEffect(() => {
-    if (!isInitialized.current) {
-      isInitialized.current = true;
-      getFilesPaginationByPathId();
-    }
-  }, [getFilesPaginationByPathId, isInitialized]);
   useEffect(() => {
     if (foldersBreadcrumb) {
       const mappedBreadcrumb: Array<IMediaBreadcrumb> =
@@ -227,66 +288,109 @@ export default function CommonBibliothequeMedia({
           .filter(removeNulls) ?? [];
       setBreadcrumbs(mappedBreadcrumb);
     }
+    /*eslint-disable */
+    // TODO: optimize useEffect
   }, [foldersBreadcrumb]);
+  /*eslint-enable */
 
   return (
-    <>
-      <MediaBreadcrumb foldersBreadcrumb={breadcrumbs} />
-      <div className="c-CommonBibliotequeMedia__Folders">
-        {folders.length > 0 && <h2>{formLabels.FolderSectionTitle}</h2>}
-        <div className="c-CommonBibliotequeMedia__FolderCards">
-          {folders &&
-            folders.map((folder, index) => (
-              <MediaFolderCard
-                key={index}
-                folder={folder}
-                picto="folder"
-                activePath={activePath}
-                activePathId={activePathId}
-                onClick={() => setUpdatePath(folder.pathId, folder.path)}
-              />
-            ))}
+    <CommonLoader
+      isLoading={loading}
+      isShowingContent={loading}
+      errors={errors}
+    >
+      <div className={mediaLibraryClasses}>
+        <div className="c-CommonBibliothequeMedia__Options">
+          <div className="c-CommonBibliothequeMedia__Actions">
+            <div className="c-CommonBibliothequeMedia__Navigation"></div>
+            <div className="c-CommonBibliothequeMedia__ActionButtons">
+              {!hasActionButton && (
+                <>
+                  <MediaCreateFolderButton
+                    folderHierarchy={
+                      folderHierarchy?.getAllFoldersHierarchy?.filter(
+                        removeNulls,
+                      ) ?? []
+                    }
+                    activePathId={activePathId}
+                    activePath={activePath}
+                  />
+                  <MediaImportButton
+                    folderHierarchy={
+                      folderHierarchy?.getAllFoldersHierarchy?.filter(
+                        removeNulls,
+                      ) ?? []
+                    }
+                    activePathId={activePathId}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+          <MediaBreadcrumb foldersBreadcrumb={breadcrumbs} />
+          <div className="c-CommonBibliothequeMedia__Filters"></div>
         </div>
-      </div>
-      <div className="c-CommonBibliotequeMedia__MediaList">
-        {files.length > 0 && <h2>{formLabels.MediaSectionTitle}</h2>}
-        <div className="c-CommonBibliotequeMedia__MediaCards">
-          <br />
-          {files.map((file, index) => (
-            <MediaCard
-              key={index}
-              file={{ file }}
-              handleEditFile={() => handleEditFile(file)}
-              handleSelectedFile={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleSelectedFile(e, file.url, index)
-              }
-              checked={checkedFile[index]}
-            />
-          ))}
+        <div className="c-CommonBibliothequeMedia__Content">
+          <div className="c-CommonBibliothequeMedia__Folders">
+            {folders.length > 0 && <h2>{formLabels.FolderSectionTitle}</h2>}
+            <div className="c-CommonBibliothequeMedia__FolderCards">
+              {folders &&
+                folders.map((folder, index) => (
+                  <MediaFolderCard
+                    key={index}
+                    folder={folder}
+                    picto="folder"
+                    activePath={activePath}
+                    activePathId={activePathId}
+                    onClick={() => setUpdatePath(folder.pathId, folder.path)}
+                  />
+                ))}
+            </div>
+          </div>
+          {files.length > 0 && (
+            <hr className="c-CommonBibliothequeMedia__HrColor" />
+          )}
+          <div className="c-CommonBibliothequeMedia__MediaList">
+            {files.length > 0 && <h2>{formLabels.MediaSectionTitle}</h2>}
+            <div className="c-CommonBibliothequeMedia__MediaCards">
+              <br />
+              {files.map((file, index) => (
+                <MediaCard
+                  key={index}
+                  file={file}
+                  onEditFile={() => handleEditFile(file)}
+                  onSelectedFile={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleSelectedFile(e, file)
+                  }
+                  isChecked={!!file.id && checkedFiles.includes(file.id)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
+        {/* TODO: setup lazy loading once media cards are displayed, see CommonDataTable implementation */}
+        <CommonPagination
+          currentPage={currentPagination.page}
+          rowCount={0}
+          onChangePage={(currentPage) => {
+            if (currentPage !== currentPagination.page) {
+              setCurrentPagination({
+                ...currentPagination,
+                page: currentPage,
+              });
+            }
+          }}
+          onChangeRowsPerPage={(currentRowsPerPage) => {
+            if (currentRowsPerPage !== currentPagination.rowsPerPage) {
+              setCurrentPagination({
+                ...currentPagination,
+                rowsPerPage: currentRowsPerPage,
+              });
+            }
+          }}
+          rowsPerPage={10}
+        />
       </div>
-      {/* TODO: setup lazy loading once media cards are displayed, see CommonDataTable implementation */}
-      <CommonPagination
-        currentPage={currentPagination.page}
-        rowCount={0}
-        onChangePage={(currentPage) => {
-          if (currentPage !== currentPagination.page) {
-            setCurrentPagination({
-              ...currentPagination,
-              page: currentPage,
-            });
-          }
-        }}
-        onChangeRowsPerPage={(currentRowsPerPage) => {
-          if (currentRowsPerPage !== currentPagination.rowsPerPage) {
-            setCurrentPagination({
-              ...currentPagination,
-              rowsPerPage: currentRowsPerPage,
-            });
-          }
-        }}
-        rowsPerPage={10}
-      />
       <FormModal
         modalRef={modalRef}
         modalTitle={labels.detailsModalTitle}
@@ -300,9 +404,8 @@ export default function CommonBibliothequeMedia({
           }
           activePathId={activePathId}
           fileToEdit={fileToEdit}
-          handleReplaceSpecialChars={handleReplaceSpecialChars}
         />
       </FormModal>
-    </>
+    </CommonLoader>
   );
 }

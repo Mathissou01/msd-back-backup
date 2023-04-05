@@ -13,8 +13,11 @@ const mocks: {
   data: IEditoFields;
   formLabels: {
     staticTitle: string;
-    staticTagsLabel: string;
-    staticTagsLabelDescription: string;
+    staticTags: string;
+    staticTagsDescription: string;
+    staticImage: string;
+    staticImageValidation: string;
+    staticImagePlaceholder: string;
     staticShortDescription: string;
     staticShortDescriptionMaxCharacters: string;
   };
@@ -28,6 +31,18 @@ const mocks: {
     status: valueToEStatus("draft"),
     title: "mock title",
     shortDescription: "description",
+    image: {
+      __typename: "UploadFileEntity",
+      id: "1",
+      attributes: {
+        name: "name",
+        hash: "hash",
+        mime: "mime",
+        provider: "provider",
+        size: 123,
+        url: "url",
+      },
+    },
     blocks: [
       {
         __typename: "ComponentBlocksSubHeading",
@@ -44,8 +59,13 @@ const mocks: {
   },
   formLabels: {
     staticTitle: "Titre de l'actualité",
-    staticTagsLabel: "Thématique",
-    staticTagsLabelDescription: "(Tags)",
+    staticTags: "Thématique",
+    staticTagsDescription: "(Tags)",
+    staticImage: "Vignette",
+    staticImageValidation:
+      "Format carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum",
+    staticImagePlaceholder:
+      "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
     staticShortDescription: "Description courte",
     staticShortDescriptionMaxCharacters:
       "caractères maximum, affichés dans l'aperçu de l'actualité",

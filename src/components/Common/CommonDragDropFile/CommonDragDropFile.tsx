@@ -1,29 +1,14 @@
 import React, { useRef } from "react";
 import Image from "next/image";
+import { TAcceptedMimeTypes } from "../../../lib/media";
 import CommonButton from "../CommonButton/CommonButton";
 import "./common-drag-drop-file.scss";
-
-type TAcceptedTypes =
-  | "image/png"
-  | "image/jpeg"
-  | "image/gif"
-  | "image/svg"
-  | "image/tiff"
-  | "image/ico"
-  | "image/dvu"
-  | "image/dvu"
-  | ".pdf"
-  | ".csv"
-  | ".zip"
-  | ".xls"
-  | ".xlsx"
-  | ".json";
 
 interface ICommonDragDropFileProps {
   handleDragOver: (event: { preventDefault: () => void }) => void;
   handleDrop: (event: React.DragEvent<HTMLFormElement>) => void;
   handleFileChange: (event: { target: HTMLInputElement }) => void;
-  acceptedTypes?: Array<TAcceptedTypes>;
+  acceptedTypes?: Array<TAcceptedMimeTypes>;
 }
 
 export default function CommonDragDropFile({

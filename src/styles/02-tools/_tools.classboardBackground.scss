@@ -1,0 +1,16 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+@mixin bg() {
+  background-color: colors.$white;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUAQMAAAC3R49OAAAABlBMVEX////09PQtDxrOAAAAE0lEQVQI12P4f4CBKMxg/4EYDAAFkR1NiYvv7QAAAABJRU5ErkJggg==");
+  background-image: linear-gradient(
+      45deg,
+      colors.$gray-200 25%,
+      transparent 25%
+    ),
+    linear-gradient(-45deg, colors.$gray-200 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, colors.$gray-200 75%),
+    linear-gradient(-45deg, transparent 75%, colors.$gray-200 75%);
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  background-size: 20px 20px;
+}
