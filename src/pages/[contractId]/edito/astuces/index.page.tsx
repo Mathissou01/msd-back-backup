@@ -36,12 +36,12 @@ interface ITipsTableRow extends IDefaultTableRow {
 
 export function EditoAstucesPage() {
   /* Static Data */
-  const addButton = "Créer une astuces";
+  const addButton = "Créer une astuce";
   const title = "Astuces";
   const tableLabels = {
     title: "Liste des astuces",
     columns: {
-      title: "Titre de l'astuces",
+      title: "Titre de l'astuce",
       status: "Statut",
       publishedDate: "Publication",
       depublishedDate: "Dépublication",
