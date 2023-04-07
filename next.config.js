@@ -8,6 +8,7 @@ const nextConfig = {
   transpilePackages: ["@suezenv/react-theme-components", "react-date-picker"],
   reactStrictMode: true,
   swcMinify: false,
+  trailingSlash: true,
   images: {
     loader: "default",
     domains: ["localhost"],
