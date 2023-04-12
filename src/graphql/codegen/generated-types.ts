@@ -2651,6 +2651,7 @@ export type ExportEntityInput = {
 export type FileInfoInput = {
   alternativeText?: InputMaybe<Scalars["String"]>;
   caption?: InputMaybe<Scalars["String"]>;
+  folder?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
 };
 
@@ -3612,6 +3613,7 @@ export type Mutation = {
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
   updateYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   upload: UploadFileEntityResponse;
+  uploadGraphQL?: Maybe<Scalars["Boolean"]>;
   urlUploader?: Maybe<Scalars["Boolean"]>;
   ywsActivation?: Maybe<Scalars["Boolean"]>;
   ywsDeactivation?: Maybe<Scalars["Boolean"]>;
@@ -4593,6 +4595,14 @@ export type MutationUpdateYesWeScanServiceArgs = {
 };
 
 export type MutationUploadArgs = {
+  field?: InputMaybe<Scalars["String"]>;
+  file: Scalars["Upload"];
+  info?: InputMaybe<FileInfoInput>;
+  ref?: InputMaybe<Scalars["String"]>;
+  refId?: InputMaybe<Scalars["ID"]>;
+};
+
+export type MutationUploadGraphQlArgs = {
   field?: InputMaybe<Scalars["String"]>;
   file: Scalars["Upload"];
   info?: InputMaybe<FileInfoInput>;

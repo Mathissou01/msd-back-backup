@@ -2365,6 +2365,7 @@ input ExportEntityInput {
 input FileInfoInput {
   alternativeText: String
   caption: String
+  folder: ID
   name: String
 }
 
@@ -3546,6 +3547,13 @@ type Mutation {
     ref: String
     refId: ID
   ): UploadFileEntityResponse!
+  uploadGraphQL(
+    field: String
+    file: Upload!
+    info: FileInfoInput
+    ref: String
+    refId: ID
+  ): Boolean
   urlUploader(imageName: String!, url: String!): Boolean
   ywsActivation(contractId: ID!): Boolean
   ywsDeactivation(contractId: ID!): Boolean
