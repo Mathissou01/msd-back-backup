@@ -130,6 +130,7 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
     useUpdateEditoBlockTabMutation();
 
   /* Local Data */
+  const [isInitialized, setIsInitialized] = useState(false);
   const [editoData, setEditoData] = useState<IEditoBlock>();
   const [editoContents, setEditoContents] = useState<
     Array<IOptionWrapper<EditoContentDto>>
@@ -152,6 +153,7 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
           editoContents: editoBlock.editoContents,
         };
         setEditoData(mappedData);
+        setIsInitialized(true);
         form.reset(mappedData);
       }
 
@@ -187,7 +189,7 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
       aria-labelledby="tab-edito"
     >
       <CommonLoader
-        isLoading={loading || isSubmitting || mutationLoading}
+        isLoading={loading || isSubmitting || mutationLoading || !isInitialized}
         isShowingContent={isSubmitting || mutationLoading}
         hasDelay={isSubmitting || mutationLoading}
         errors={[error, mutationError]}

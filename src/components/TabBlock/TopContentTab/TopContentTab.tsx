@@ -133,6 +133,7 @@ export default function TopContentTab() {
   ] = useUpdateTopContentTabMutation();
 
   /* Local Data */
+  const [isInitialized, setIsInitialized] = useState(false);
   const [topContentData, setTopContentData] = useState<ITopContentBlock>();
   const [allTopContents, setAllTopContents] = useState<Array<TopContentDto>>(
     [],
@@ -160,6 +161,7 @@ export default function TopContentTab() {
           topContent: topContentBlock.topContent,
         };
         setTopContentData(mappedData);
+        setIsInitialized(true);
         form.reset(mappedData);
       }
       setAllTopContents(
@@ -181,7 +183,7 @@ export default function TopContentTab() {
       aria-labelledby="tab-topContent"
     >
       <CommonLoader
-        isLoading={loading || isSubmitting || mutationLoading}
+        isLoading={loading || isSubmitting || mutationLoading || !isInitialized}
         isShowingContent={isSubmitting || mutationLoading}
         hasDelay={isSubmitting || mutationLoading}
         errors={[error, mutationError]}
@@ -231,7 +233,7 @@ export default function TopContentTab() {
                       { label: "Actualité", value: "news" },
                       { label: "Evénement", value: "event" },
                     ]}
-                    defaultValue={watch("topContent")?.contentType}
+                    defaultValue={watch("topContent")?.contentType ?? "news"}
                     isRequired={true}
                     onChange={onTopContentModalRadioChange}
                   />
