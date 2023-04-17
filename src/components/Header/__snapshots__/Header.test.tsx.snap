@@ -267,6 +267,51 @@ exports[`Header renders 1`] = `
                 decoding="async"
                 height="18"
                 loading="lazy"
+                src="/images/pictos-temp/sectorsAndUsers.svg"
+                style="color: transparent;"
+                width="18"
+              />
+            </div>
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Secteurs et Usagers
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <a
+              class="c-NavigationListLink"
+              href="null/secteurs-usagers/secteurs"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Secteurs
+              </span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto"
+            >
+              <img
+                alt=""
+                data-nimg="1"
+                decoding="async"
+                height="18"
+                loading="lazy"
                 src="/images/pictos-temp/administration.svg"
                 style="color: transparent;"
                 width="18"

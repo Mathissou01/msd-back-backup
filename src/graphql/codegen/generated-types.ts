@@ -11555,6 +11555,43 @@ export type UpdateMenuPageMutation = {
   } | null;
 };
 
+export type GetSectorizationsByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetSectorizationsByContractIdQuery = {
+  __typename?: "Query";
+  sectorizations?: {
+    __typename?: "SectorizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "SectorizationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Sectorization";
+        createdAt?: any | null;
+        description: string;
+        name: string;
+        updatedAt?: any | null;
+        polygonCoordinates?: any | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        total: number;
+        pageSize: number;
+        page: number;
+        pageCount: number;
+      };
+    };
+  } | null;
+};
+
 export const CreateNewDocument = gql`
   mutation createNew($data: NewInput!) {
     createNew(data: $data) {
@@ -17531,4 +17568,89 @@ export type UpdateMenuPageMutationResult =
 export type UpdateMenuPageMutationOptions = Apollo.BaseMutationOptions<
   UpdateMenuPageMutation,
   UpdateMenuPageMutationVariables
+>;
+export const GetSectorizationsByContractIdDocument = gql`
+  query getSectorizationsByContractId(
+    $contractId: ID!
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    sectorizations(
+      filters: { contract: { id: { eq: $contractId } } }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      data {
+        id
+        attributes {
+          createdAt
+          description
+          name
+          updatedAt
+          polygonCoordinates
+        }
+      }
+      meta {
+        pagination {
+          total
+          pageSize
+          page
+          pageCount
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSectorizationsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetSectorizationsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSectorizationsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSectorizationsByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetSectorizationsByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetSectorizationsByContractIdQuery,
+    GetSectorizationsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetSectorizationsByContractIdQuery,
+    GetSectorizationsByContractIdQueryVariables
+  >(GetSectorizationsByContractIdDocument, options);
+}
+export function useGetSectorizationsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSectorizationsByContractIdQuery,
+    GetSectorizationsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSectorizationsByContractIdQuery,
+    GetSectorizationsByContractIdQueryVariables
+  >(GetSectorizationsByContractIdDocument, options);
+}
+export type GetSectorizationsByContractIdQueryHookResult = ReturnType<
+  typeof useGetSectorizationsByContractIdQuery
+>;
+export type GetSectorizationsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetSectorizationsByContractIdLazyQuery
+>;
+export type GetSectorizationsByContractIdQueryResult = Apollo.QueryResult<
+  GetSectorizationsByContractIdQuery,
+  GetSectorizationsByContractIdQueryVariables
 >;

@@ -135,21 +135,16 @@ export default function NavigationList() {
           {/*<NavigationListLink path={"/personnalisation/types-apport"} />*/}
         </NavigationListMenu>
       </li>
-      {/*<li className="c-NavigationList__Item">*/}
-      {/*  <NavigationListMenu*/}
-      {/*    path={"/secteurs-usagers/"}*/}
-      {/*    activeMenu={activeMenu}*/}
-      {/*    pictoUrl="/images/pictos-temp/sectorsAndUsers.svg"*/}
-      {/*    onClick={handleClickMenu}*/}
-      {/*  >*/}
-      {/*    <p>link</p>*/}
-      {/*    <p>link</p>*/}
-      {/*    <p>link</p>*/}
-      {/*    <p>link</p>*/}
-      {/*    <p>link</p>*/}
-      {/*    <p>link</p>*/}
-      {/*  </NavigationListMenu>*/}
-      {/* </li> */}
+      <li className="c-NavigationList__Item">
+        <NavigationListMenu
+          path={"/secteurs-usagers/"}
+          activeMenu={activeMenu}
+          pictoUrl="/images/pictos-temp/sectorsAndUsers.svg"
+          onClick={handleClickMenu}
+        >
+          <NavigationListLink path={"/secteurs-usagers/secteurs"} />
+        </NavigationListMenu>
+      </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
           path={"/gestion/"}
