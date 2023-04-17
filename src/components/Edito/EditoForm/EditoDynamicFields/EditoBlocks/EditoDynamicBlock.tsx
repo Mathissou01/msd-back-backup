@@ -3,6 +3,7 @@ import { TDynamicFieldOption } from "../../../../../lib/edito";
 import SubHeadingBlock from "../EditoBlocks/SubHeadingBlock/SubHeadingBlock";
 import FileBlock from "./FileBlock/FileBlock";
 import HorizontalRuleBlock from "./HorizontalRuleBlock/HorizontalRuleBlock";
+import ImageBlock from "./ImageBlock/ImageBlock";
 import VideoBlock from "./VideoBlock/VideoBlock";
 import WysiwygBlock from "./WysiwygBlock/WysiwygBlock";
 
@@ -33,6 +34,9 @@ export default function EditoDynamicBlock({
       }
       case "ComponentBlocksFile": {
         return <FileBlock blockName={name} />;
+      }
+      case "ComponentBlocksImage": {
+        return <ImageBlock blockName={name} />;
       }
       default: {
         return null;

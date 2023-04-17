@@ -121,7 +121,7 @@ export default function EditModal({
                 )}
                 <tr>
                   <th>Date</th>
-                  <td>{fileToEdit?.date}</td>
+                  <td>{fileToEdit?.createdAt}</td>
                 </tr>
                 <tr>
                   <th>Extension</th>

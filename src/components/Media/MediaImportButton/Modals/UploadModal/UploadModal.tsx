@@ -56,7 +56,7 @@ export default function UploadModal({
       mime: file.mime,
       size: file.size,
       url: file.url,
-      date: new Date(file.file?.lastModified ?? 0).toLocaleDateString(),
+      createdAt: new Date(file.file?.lastModified ?? 0).toLocaleDateString(),
       file: file.file,
     });
   };

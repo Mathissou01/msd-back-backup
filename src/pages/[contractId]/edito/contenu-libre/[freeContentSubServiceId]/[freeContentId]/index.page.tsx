@@ -151,7 +151,7 @@ export function EditoFreeContentEditPage({
               value: tag.id ?? "",
               label: tag.attributes?.name ?? "",
             })) ?? [],
-          image: freeContentData.attributes.image.data ?? null,
+          image: freeContentData.attributes.image ?? null,
           shortDescription: freeContentData.attributes.shortDescription,
           blocks: remapEditoBlocksDynamicZone(
             freeContentData.attributes.blocks,

@@ -32,15 +32,17 @@ const mocks: {
     title: "mock title",
     shortDescription: "description",
     image: {
-      __typename: "UploadFileEntity",
-      id: "1",
-      attributes: {
-        name: "name",
-        hash: "hash",
-        mime: "mime",
-        provider: "provider",
-        size: 123,
-        url: "url",
+      __typename: "UploadFileEntityResponse",
+      data: {
+        id: "1",
+        attributes: {
+          name: "name",
+          hash: "hash",
+          mime: "mime",
+          provider: "provider",
+          size: 123,
+          url: "url",
+        },
       },
     },
     blocks: [

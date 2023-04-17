@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { RequestFolders } from "../../../graphql/codegen/generated-types";
-import { handleReplaceSpecialChars, ILocalFile } from "../../../lib/media";
+import {
+  handleReplaceSpecialChars,
+  ILocalFile,
+  isMimeType,
+} from "../../../lib/media";
 import { ITab } from "../../TabBlock/TabBlock";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
@@ -94,7 +98,7 @@ export default function MediaImportButton({
         mime: selectedFilesInstance[index].mime,
         size: fileToEdit?.size ?? 0,
         url: selectedFilesInstance[index].url,
-        date: selectedFilesInstance[index].date,
+        createdAt: selectedFilesInstance[index].createdAt,
         file: selectedFilesInstance[index].file,
         folder: submitData["Emplacement"]["id"],
       };
@@ -161,49 +165,51 @@ export default function MediaImportButton({
       isThereFileSelected: ILocalFile[],
       file: File,
     ) => {
-      if (file.type.split("/")[0] === "image") {
-        const fr = new FileReader();
+      if (isMimeType(file.type)) {
+        if (file.type.split("/")[0] === "image") {
+          const fr = new FileReader();
 
-        fr.onload = function () {
-          const img = new Image();
+          fr.onload = function () {
+            const img = new Image();
 
-          img.onload = function () {
-            if (isThereFileSelected.length === 0 && img.width && img.height) {
-              selectedFilesInstance.push({
-                name: file.name,
-                alternativeText: file.name,
-                width: img.width,
-                height: img.height,
-                ext: `.${file.name.split(".")[1]}`,
-                mime: file.type,
-                size: file.size,
-                url: URL.createObjectURL(file),
-                date: new Date(file.lastModified).toLocaleDateString(),
-                file: file,
-              });
-              setSelectedFiles(selectedFilesInstance);
-              setActiveModal(ModalStatus.UPLOAD_MODAL);
-            }
+            img.onload = function () {
+              if (isThereFileSelected.length === 0 && img.width && img.height) {
+                selectedFilesInstance.push({
+                  name: file.name,
+                  alternativeText: file.name,
+                  width: img.width,
+                  height: img.height,
+                  ext: `.${file.name.split(".")[1]}`,
+                  mime: file.type,
+                  size: file.size,
+                  url: URL.createObjectURL(file),
+                  createdAt: new Date(file.lastModified).toLocaleDateString(),
+                  file: file,
+                });
+                setSelectedFiles(selectedFilesInstance);
+                setActiveModal(ModalStatus.UPLOAD_MODAL);
+              }
+            };
+
+            img.src = fr.result?.toString() ?? "";
           };
 
-          img.src = fr.result?.toString() ?? "";
-        };
-
-        fr.readAsDataURL(file);
-      } else {
-        if (isThereFileSelected.length === 0) {
-          selectedFilesInstance.push({
-            name: file.name,
-            alternativeText: file.name,
-            ext: `.${file.name.split(".")[1]}`,
-            mime: file.type,
-            size: file.size,
-            url: URL.createObjectURL(file),
-            date: new Date(file.lastModified).toLocaleDateString(),
-            file: file,
-          });
-          setSelectedFiles(selectedFilesInstance);
-          setActiveModal(ModalStatus.UPLOAD_MODAL);
+          fr.readAsDataURL(file);
+        } else {
+          if (isThereFileSelected.length === 0) {
+            selectedFilesInstance.push({
+              name: file.name,
+              alternativeText: file.name,
+              ext: `.${file.name.split(".")[1]}`,
+              mime: file.type,
+              size: file.size,
+              url: URL.createObjectURL(file),
+              createdAt: new Date(file.lastModified).toLocaleDateString(),
+              file: file,
+            });
+            setSelectedFiles(selectedFilesInstance);
+            setActiveModal(ModalStatus.UPLOAD_MODAL);
+          }
         }
       }
     };

@@ -7,7 +7,6 @@ exports[`CommonDragDropFile renders component 1`] = `
     data-testid="common-drag-drop-file-form"
   >
     <input
-      accept="image/png,image/jpeg,image/gif,image/svg,image/tiff,image/ico,image/dvu,.pdf,.csv,.zip,.xls,.xlsx,.json"
       data-testid="common-drag-drop-file-input"
       hidden=""
       id="input-file-upload"

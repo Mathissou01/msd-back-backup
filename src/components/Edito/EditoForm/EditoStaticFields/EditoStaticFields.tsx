@@ -38,7 +38,6 @@ export default function EditoStaticFields({
     "image/tiff",
     "image/ico",
     "image/dvu",
-    "image/dvu",
   ];
 
   /** Local Data */

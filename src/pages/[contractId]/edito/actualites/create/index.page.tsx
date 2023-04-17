@@ -80,6 +80,7 @@ export function EditoActualitesCreatePage() {
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
     "ComponentBlocksFile",
+    "ComponentBlocksImage",
   ];
 
   return (

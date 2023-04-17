@@ -7794,6 +7794,10 @@ export type GetNewByIdQuery = {
                     size: number;
                     url: string;
                     alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
                   } | null;
                 } | null;
               } | null;
@@ -7822,6 +7826,10 @@ export type GetNewByIdQuery = {
                     size: number;
                     url: string;
                     alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
                   } | null;
                 } | null;
               } | null;
@@ -8297,8 +8305,17 @@ export type GetTipByIdQuery = {
                   __typename?: "UploadFileEntity";
                   attributes?: {
                     __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
                     name: string;
+                    provider: string;
+                    size: number;
                     url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
                   } | null;
                 } | null;
               } | null;
@@ -8319,8 +8336,17 @@ export type GetTipByIdQuery = {
                   __typename?: "UploadFileEntity";
                   attributes?: {
                     __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
                     name: string;
+                    provider: string;
+                    size: number;
                     url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
                   } | null;
                 } | null;
               } | null;
@@ -9715,6 +9741,19 @@ export type UpdateContentTypeFreeContentMutation = {
       } | null;
     } | null;
   } | null;
+};
+
+export type UploadGraphQlMutationVariables = Exact<{
+  refId?: InputMaybe<Scalars["ID"]>;
+  ref?: InputMaybe<Scalars["String"]>;
+  field?: InputMaybe<Scalars["String"]>;
+  info?: InputMaybe<FileInfoInput>;
+  file: Scalars["Upload"];
+}>;
+
+export type UploadGraphQlMutation = {
+  __typename?: "Mutation";
+  uploadGraphQL?: boolean | null;
 };
 
 export type GetContractByIdQueryVariables = Exact<{
@@ -11871,6 +11910,10 @@ export const GetNewByIdDocument = gql`
                     size
                     url
                     alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
                   }
                 }
               }
@@ -11890,6 +11933,10 @@ export const GetNewByIdDocument = gql`
                     size
                     url
                     alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
                   }
                 }
               }
@@ -12584,8 +12631,17 @@ export const GetTipByIdDocument = gql`
               picture {
                 data {
                   attributes {
+                    hash
+                    mime
                     name
+                    provider
+                    size
                     url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
                   }
                 }
               }
@@ -12597,8 +12653,17 @@ export const GetTipByIdDocument = gql`
               document {
                 data {
                   attributes {
+                    hash
+                    mime
                     name
+                    provider
+                    size
                     url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
                   }
                 }
               }
@@ -15279,6 +15344,70 @@ export type UpdateContentTypeFreeContentMutationOptions =
     UpdateContentTypeFreeContentMutation,
     UpdateContentTypeFreeContentMutationVariables
   >;
+export const UploadGraphQlDocument = gql`
+  mutation uploadGraphQL(
+    $refId: ID
+    $ref: String
+    $field: String
+    $info: FileInfoInput
+    $file: Upload!
+  ) {
+    uploadGraphQL(
+      refId: $refId
+      ref: $ref
+      field: $field
+      info: $info
+      file: $file
+    )
+  }
+`;
+export type UploadGraphQlMutationFn = Apollo.MutationFunction<
+  UploadGraphQlMutation,
+  UploadGraphQlMutationVariables
+>;
+
+/**
+ * __useUploadGraphQlMutation__
+ *
+ * To run a mutation, you first call `useUploadGraphQlMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadGraphQlMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadGraphQlMutation, { data, loading, error }] = useUploadGraphQlMutation({
+ *   variables: {
+ *      refId: // value for 'refId'
+ *      ref: // value for 'ref'
+ *      field: // value for 'field'
+ *      info: // value for 'info'
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUploadGraphQlMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UploadGraphQlMutation,
+    UploadGraphQlMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UploadGraphQlMutation,
+    UploadGraphQlMutationVariables
+  >(UploadGraphQlDocument, options);
+}
+export type UploadGraphQlMutationHookResult = ReturnType<
+  typeof useUploadGraphQlMutation
+>;
+export type UploadGraphQlMutationResult =
+  Apollo.MutationResult<UploadGraphQlMutation>;
+export type UploadGraphQlMutationOptions = Apollo.BaseMutationOptions<
+  UploadGraphQlMutation,
+  UploadGraphQlMutationVariables
+>;
 export const GetContractByIdDocument = gql`
   query getContractById($contractId: ID!) {
     contract(id: $contractId) {

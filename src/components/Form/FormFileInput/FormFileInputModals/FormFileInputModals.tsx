@@ -10,10 +10,10 @@ import "./form-file-input-modals.scss";
 interface IMediaBlockProps {
   modalRef: React.RefObject<CommonModalWrapperRef>;
   name: string;
-  onResetDraggedFile: () => void;
   draggedFile?: ILocalFile;
   mimeFilterContains?: string;
   mimeFilterNotContains?: string;
+  onResetDraggedFile: () => void;
   onSetFile: (file: ILocalFile) => void;
   onPathChange: (pathId: number, path: string) => void;
 }

@@ -7,7 +7,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { removeNulls } from "../../../lib/utilities";
 import {
   GetFilesPaginationByPathIdDocument,
-  UploadFileEntity,
+  UploadFileEntityResponse,
   useGetAllFoldersHierarchyQuery,
   useUpdateUploadFileMutation,
 } from "../../../graphql/codegen/generated-types";
@@ -25,6 +25,8 @@ import FormLabel from "../FormLabel/FormLabel";
 import FormModal from "../FormModal/FormModal";
 import EditModal from "../../Media/MediaImportButton/Modals/EditModal/EditModal";
 import FormFileInputModals from "./FormFileInputModals/FormFileInputModals";
+import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
+import docIcon from "./../../../../public/images/pictos/doc.svg";
 import "./form-file-input.scss";
 
 interface IFormFileInputProps {
@@ -79,6 +81,7 @@ export default function FormFileInput({
   const hasDefaultValue = useRef<boolean>();
   const [selectedFile, setSelectedFile] = useState<ILocalFile>();
   const {
+    getValues,
     watch,
     setValue,
     resetField,
@@ -89,7 +92,7 @@ export default function FormFileInput({
   const inputClassNames = classNames("c-FormFileInput", {
     "c-FormFileInput_error": errors.image,
   });
-  const currentFile: UploadFileEntity = watch(name);
+  const currentFile: UploadFileEntityResponse = watch(name);
   const [UpdateUploadFileDocument] = useUpdateUploadFileMutation();
 
   /* Method */
@@ -98,7 +101,6 @@ export default function FormFileInput({
   function handleDrop(event: React.DragEvent<HTMLDivElement>) {
     event.preventDefault();
     const dataTransfer: DataTransfer | null = event.dataTransfer;
-
     if (dataTransfer !== null) {
       const file = dataTransfer.files[0];
       if (
@@ -106,29 +108,46 @@ export default function FormFileInput({
         acceptedMimeTypes &&
         isMimeType(file.type)
       ) {
-        const fr = new FileReader();
-        fr.onload = function () {
-          const img = new Image();
-          img.onload = function () {
-            if (img.width && img.height) {
-              setDraggedFile({
-                name: file.name,
-                alternativeText: file.name,
-                ext: `.${file.name.split(".")[1]}`,
-                mime: file.type,
-                size: file.size,
-                width: img.width,
-                height: img.height,
-                url: URL.createObjectURL(file),
-                date: new Date(file.lastModified).toLocaleDateString(),
-                file: file,
-              });
-            }
+        if (file.type.split("/")[0] === "image" && mimeFilterContains) {
+          const fr = new FileReader();
+          fr.onload = function () {
+            const img = new Image();
+            img.onload = function () {
+              if (img.width && img.height) {
+                setDraggedFile({
+                  name: file.name,
+                  alternativeText: file.name,
+                  ext: `.${file.name.split(".")[1]}`,
+                  mime: file.type,
+                  size: file.size,
+                  width: img.width,
+                  height: img.height,
+                  url: URL.createObjectURL(file),
+                  createdAt: new Date(file.lastModified).toLocaleDateString(),
+                  file: file,
+                });
+              }
+            };
+            img.src = fr.result?.toString() ?? "";
           };
-          img.src = fr.result?.toString() ?? "";
-        };
-        fr.readAsDataURL(file);
-        modalRef.current?.toggleModal(true);
+          fr.readAsDataURL(file);
+          modalRef.current?.toggleModal(true);
+        } else if (
+          file.type.split("/")[0] !== "image" &&
+          mimeFilterNotContains
+        ) {
+          setDraggedFile({
+            name: file.name,
+            alternativeText: file.name,
+            ext: `.${file.name.split(".")[1]}`,
+            mime: file.type,
+            size: file.size,
+            url: URL.createObjectURL(file),
+            createdAt: new Date(file.lastModified).toLocaleDateString(),
+            file: file,
+          });
+          modalRef.current?.toggleModal(true);
+        }
       }
     }
   }
@@ -208,25 +227,35 @@ export default function FormFileInput({
   }, [currentFile]);
 
   useEffect(() => {
-    if (currentFile && currentFile?.id && currentFile.attributes) {
-      const mappedData: ILocalFile = {
-        id: currentFile.id,
-        alternativeText: currentFile.attributes.alternativeText ?? "",
-        name: currentFile.attributes.name,
-        ext: currentFile.attributes.ext ?? "",
-        mime: currentFile.attributes.mime,
-        size: currentFile.attributes.size,
-        url: currentFile.attributes.url,
-        width: currentFile.attributes.width ?? 0,
-        height: currentFile.attributes.height ?? 0,
-        date: new Date(currentFile.attributes.createdAt).toLocaleDateString(),
-      };
-      if (mappedData.id !== selectedFile?.id) {
-        setSelectedFile(mappedData);
+    if (currentFile) {
+      if (currentFile?.data?.id && currentFile.data?.attributes) {
+        const file = currentFile.data?.attributes;
+        const mappedData: ILocalFile = {
+          id: currentFile.data.id,
+          alternativeText: file.alternativeText ?? "",
+          name: file.name,
+          ext: file.ext ?? file.name.split(".")[1],
+          mime: file.mime,
+          size: file.size,
+          url: file.url,
+          width: file.width ?? 0,
+          height: file.height ?? 0,
+          createdAt: new Date(file.createdAt).toLocaleDateString(),
+          hash: file.hash,
+          provider: file.provider,
+        };
+        if (mappedData.id !== selectedFile?.id) {
+          setSelectedFile(mappedData);
+          setValue(name, mappedData, { shouldDirty: true });
+        }
+      } else if (name.split(".")[0] === "blocks") {
+        const file: ILocalFile = getValues(name);
+        if (file) {
+          setSelectedFile(file);
+        }
       }
     }
-  }, [currentFile, selectedFile]);
-
+  }, [currentFile, selectedFile, getValues, setValue, name]);
   return (
     <>
       <div className={inputClassNames}>
@@ -275,18 +304,25 @@ export default function FormFileInput({
             </>
           ) : (
             <div className="c-FormFileInput__Thumbnail">
-              {selectedFile.url &&
-                selectedFile.mime.split("/")[0] === "image" && (
-                  <div className="c-FormFileInput__Image">
-                    {/** TODO: image css must be checked after solving the image preview  */}
-                    <NextImage
-                      src={selectedFile.url}
-                      width={245}
-                      height={158}
-                      alt={selectedFile.alternativeText ?? ""}
-                    />
-                  </div>
-                )}
+              {selectedFile && selectedFile.mime.split("/")[0] === "image" ? (
+                <div className="c-FormFileInput__Image">
+                  {/** TODO: image css must be checked after solving the image preview issue  */}
+                  <NextImage
+                    src={selectedFile.url}
+                    width={245}
+                    height={158}
+                    alt={selectedFile.alternativeText ?? ""}
+                  />
+                </div>
+              ) : selectedFile.mime.split("/")[1] === "pdf" ? (
+                <div className="c-FormFileInput__Doc">
+                  <NextImage src={pdfIcon} width={48} height={58} alt="" />
+                </div>
+              ) : (
+                <div className="c-FormFileInput__Doc">
+                  <NextImage src={docIcon} width={48} height={58} alt="" />
+                </div>
+              )}
               <div className="c-FormFileInput__ButtonsWrapper">
                 <button
                   type="button"

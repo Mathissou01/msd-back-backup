@@ -1,4 +1,7 @@
-import { Maybe, UploadFileEntity } from "../graphql/codegen/generated-types";
+import {
+  Maybe,
+  UploadFileEntityResponse,
+} from "../graphql/codegen/generated-types";
 import { TPictoStyles } from "./pictos";
 import { removeNulls } from "./utilities";
 import { EStatus } from "./status";
@@ -15,7 +18,7 @@ export interface IEditoStaticFields {
   id: string;
   status: EStatus;
   title: string;
-  image: UploadFileEntity | null;
+  image: UploadFileEntityResponse | null;
   tags?: Array<ICommonSelectOption>;
   shortDescription?: Maybe<string>;
   publishedDate?: Date;
@@ -95,7 +98,7 @@ export type IEditoBlock =
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
   id: string;
-  document: UploadFileEntity;
+  document: UploadFileEntityResponse;
 }
 
 export interface IBlocksHorizontalRule extends IPartialBlock {
@@ -105,6 +108,9 @@ export interface IBlocksHorizontalRule extends IPartialBlock {
 
 export interface IBlocksImage extends IPartialBlock {
   __typename: "ComponentBlocksImage";
+  altText: string;
+  isDecorative: boolean;
+  picture: UploadFileEntityResponse;
 }
 
 export interface IBlocksSubHeading extends IPartialBlock {
@@ -185,6 +191,15 @@ export function createEmptyBlock(
         __typename,
         id,
         document: undefined,
+      };
+    }
+    case "ComponentBlocksImage": {
+      return {
+        __typename,
+        id,
+        isDecorative: undefined,
+        altText: undefined,
+        picture: undefined,
       };
     }
     default: {

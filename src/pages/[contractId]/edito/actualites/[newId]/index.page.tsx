@@ -130,6 +130,7 @@ export function EditoActualitesEditPage({
     variables: { newId },
     fetchPolicy: "network-only",
   });
+
   const [
     updateNew,
     { loading: updateMutationLoading, error: updateMutationError },
@@ -146,6 +147,7 @@ export function EditoActualitesEditPage({
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
     "ComponentBlocksFile",
+    "ComponentBlocksImage",
   ];
 
   useEffect(() => {
@@ -156,7 +158,7 @@ export function EditoActualitesEditPage({
           id: newData.id,
           status: valueToEStatus(newData.attributes.status),
           title: newData.attributes.title,
-          image: newData.attributes.image?.data ?? null,
+          image: newData.attributes.image ?? null,
           tags:
             newData.attributes.tags?.data.map((tag) => ({
               value: tag.id ?? "",

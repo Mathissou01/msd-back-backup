@@ -15,21 +15,6 @@ export default function CommonDragDropFile({
   handleDragOver,
   handleDrop,
   handleFileChange,
-  acceptedTypes = [
-    "image/png",
-    "image/jpeg",
-    "image/gif",
-    "image/svg",
-    "image/tiff",
-    "image/ico",
-    "image/dvu",
-    ".pdf",
-    ".csv",
-    ".zip",
-    ".xls",
-    ".xlsx",
-    ".json",
-  ],
 }: ICommonDragDropFileProps) {
   /* Static Data */
   const labels = {
@@ -54,7 +39,6 @@ export default function CommonDragDropFile({
           hidden
           id="input-file-upload"
           data-testid="common-drag-drop-file-input"
-          accept={acceptedTypes.join(",")}
           multiple={true}
           ref={inputRef}
           onChange={handleFileChange}

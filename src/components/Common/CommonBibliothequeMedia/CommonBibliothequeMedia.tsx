@@ -262,7 +262,9 @@ export default function CommonBibliothequeMedia({
                 mime: file?.attributes?.mime,
                 size: file?.attributes?.size,
                 url: file?.attributes?.url,
-                date: new Date(file.attributes.createdAt).toLocaleDateString(),
+                createdAt: new Date(
+                  file.attributes.createdAt,
+                ).toLocaleDateString(),
               };
             }
           })

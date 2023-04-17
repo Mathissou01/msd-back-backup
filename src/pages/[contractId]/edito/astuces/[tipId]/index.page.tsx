@@ -152,7 +152,7 @@ export function EditoTipsEditPage({ tipId }: IEditoTipsEditPageProps) {
           id: tipData.id,
           status: valueToEStatus(tipData.attributes.status),
           title: tipData.attributes.title,
-          image: tipData.attributes.image.data ?? null,
+          image: tipData.attributes.image ?? null,
           tags:
             tipData.attributes.tags?.data.map((tag) => ({
               value: tag.id ?? "",

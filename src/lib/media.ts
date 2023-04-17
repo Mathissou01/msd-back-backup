@@ -16,12 +16,12 @@ export const AcceptedMimeTypes = [
   "image/tiff",
   "image/ico",
   "image/dvu",
-  ".pdf",
-  ".csv",
-  ".zip",
-  ".xls",
-  ".xlsx",
-  ".json",
+  "text/csv",
+  "application/pdf",
+  "application/zip",
+  "application/json",
+  "application/xhtml+xml",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 ];
 type AcceptedMimeTypesTuple = typeof AcceptedMimeTypes;
 export type TAcceptedMimeTypes = AcceptedMimeTypesTuple[number];
@@ -52,7 +52,9 @@ export interface ILocalFile {
   file?: File;
   width?: number;
   height?: number;
-  date?: string;
+  createdAt?: string;
+  hash?: string;
+  provider?: string;
   folder?: string;
   id?: string;
   isChecked?: boolean;

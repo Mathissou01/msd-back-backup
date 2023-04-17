@@ -241,6 +241,20 @@ exports[`EditoForm renders 1`] = `
                     class="c-FormFileInput__Thumbnail"
                   >
                     <div
+                      class="c-FormFileInput__Doc"
+                    >
+                      <img
+                        alt=""
+                        data-nimg="1"
+                        decoding="async"
+                        height="58"
+                        loading="lazy"
+                        src=""
+                        style="color: transparent;"
+                        width="48"
+                      />
+                    </div>
+                    <div
                       class="c-FormFileInput__ButtonsWrapper"
                     >
                       <button
