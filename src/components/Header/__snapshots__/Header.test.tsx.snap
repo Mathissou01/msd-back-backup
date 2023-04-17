@@ -218,6 +218,16 @@ exports[`Header renders 1`] = `
           >
             <a
               class="c-NavigationListLink"
+              href="null/personnalisation/couleurs"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Couleurs, logo, lien
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
               href="null/personnalisation/menu"
             >
               <span

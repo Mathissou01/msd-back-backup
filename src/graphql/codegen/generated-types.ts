@@ -11018,6 +11018,103 @@ export type UpdateTopContentTabMutation = {
   } | null;
 };
 
+export type GetContractCustomizationByIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetContractCustomizationByIdQuery = {
+  __typename?: "Query";
+  contract?: {
+    __typename?: "ContractEntityResponse";
+    data?: {
+      __typename?: "ContractEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Contract";
+        logo?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+            } | null;
+          } | null;
+        } | null;
+        contractCustomization?: {
+          __typename?: "ContractCustomizationEntityResponse";
+          data?: {
+            __typename?: "ContractCustomizationEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "ContractCustomization";
+              primaryColor: string;
+              secondaryColor?: string | null;
+              textContrast: string;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContractCustomizationByIdMutationVariables = Exact<{
+  updateContractId: Scalars["ID"];
+  data: ContractInput;
+}>;
+
+export type UpdateContractCustomizationByIdMutation = {
+  __typename?: "Mutation";
+  updateContract?: {
+    __typename?: "ContractEntityResponse";
+    data?: {
+      __typename?: "ContractEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Contract";
+        logo?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              name: string;
+              alternativeText?: string | null;
+              hash: string;
+              mime: string;
+              size: number;
+              url: string;
+              provider: string;
+            } | null;
+          } | null;
+        } | null;
+        contractCustomization?: {
+          __typename?: "ContractCustomizationEntityResponse";
+          data?: {
+            __typename?: "ContractCustomizationEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "ContractCustomization";
+              primaryColor: string;
+              secondaryColor?: string | null;
+              textContrast: string;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetFooterPageQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -17068,6 +17165,175 @@ export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateTopContentTabMutation,
   UpdateTopContentTabMutationVariables
 >;
+export const GetContractCustomizationByIdDocument = gql`
+  query getContractCustomizationById($contractId: ID!) {
+    contract(id: $contractId) {
+      data {
+        id
+        attributes {
+          logo {
+            data {
+              id
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+              }
+            }
+          }
+          contractCustomization {
+            data {
+              id
+              attributes {
+                primaryColor
+                secondaryColor
+                textContrast
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetContractCustomizationByIdQuery__
+ *
+ * To run a query within a React component, call `useGetContractCustomizationByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContractCustomizationByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContractCustomizationByIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetContractCustomizationByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetContractCustomizationByIdQuery,
+    GetContractCustomizationByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetContractCustomizationByIdQuery,
+    GetContractCustomizationByIdQueryVariables
+  >(GetContractCustomizationByIdDocument, options);
+}
+export function useGetContractCustomizationByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetContractCustomizationByIdQuery,
+    GetContractCustomizationByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetContractCustomizationByIdQuery,
+    GetContractCustomizationByIdQueryVariables
+  >(GetContractCustomizationByIdDocument, options);
+}
+export type GetContractCustomizationByIdQueryHookResult = ReturnType<
+  typeof useGetContractCustomizationByIdQuery
+>;
+export type GetContractCustomizationByIdLazyQueryHookResult = ReturnType<
+  typeof useGetContractCustomizationByIdLazyQuery
+>;
+export type GetContractCustomizationByIdQueryResult = Apollo.QueryResult<
+  GetContractCustomizationByIdQuery,
+  GetContractCustomizationByIdQueryVariables
+>;
+export const UpdateContractCustomizationByIdDocument = gql`
+  mutation updateContractCustomizationById(
+    $updateContractId: ID!
+    $data: ContractInput!
+  ) {
+    updateContract(id: $updateContractId, data: $data) {
+      data {
+        id
+        attributes {
+          logo {
+            data {
+              id
+              attributes {
+                name
+                alternativeText
+                hash
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+          contractCustomization {
+            data {
+              id
+              attributes {
+                primaryColor
+                secondaryColor
+                textContrast
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateContractCustomizationByIdMutationFn = Apollo.MutationFunction<
+  UpdateContractCustomizationByIdMutation,
+  UpdateContractCustomizationByIdMutationVariables
+>;
+
+/**
+ * __useUpdateContractCustomizationByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateContractCustomizationByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContractCustomizationByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContractCustomizationByIdMutation, { data, loading, error }] = useUpdateContractCustomizationByIdMutation({
+ *   variables: {
+ *      updateContractId: // value for 'updateContractId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContractCustomizationByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContractCustomizationByIdMutation,
+    UpdateContractCustomizationByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContractCustomizationByIdMutation,
+    UpdateContractCustomizationByIdMutationVariables
+  >(UpdateContractCustomizationByIdDocument, options);
+}
+export type UpdateContractCustomizationByIdMutationHookResult = ReturnType<
+  typeof useUpdateContractCustomizationByIdMutation
+>;
+export type UpdateContractCustomizationByIdMutationResult =
+  Apollo.MutationResult<UpdateContractCustomizationByIdMutation>;
+export type UpdateContractCustomizationByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContractCustomizationByIdMutation,
+    UpdateContractCustomizationByIdMutationVariables
+  >;
 export const GetFooterPageDocument = gql`
   query getFooterPage($contractId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {

@@ -127,7 +127,7 @@ export default function NavigationList() {
           pictoUrl="/images/pictos-temp/personnalisation.svg"
           onClick={handleClickMenu}
         >
-          {/*<NavigationListLink path={"/personnalisation/couleurs"} />*/}
+          <NavigationListLink path={"/personnalisation/couleurs"} />
           <NavigationListLink path={"/personnalisation/menu"} />
           <NavigationListLink path={"/personnalisation/accueil"} />
           <NavigationListLink path={"/personnalisation/footer"} />
