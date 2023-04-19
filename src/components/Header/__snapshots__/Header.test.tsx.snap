@@ -346,6 +346,16 @@ exports[`Header renders 1`] = `
                 Informations
               </span>
             </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/gestion/flux"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Activation des flux
+              </span>
+            </a>
           </div>
         </div>
       </li>

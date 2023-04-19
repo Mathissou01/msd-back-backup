@@ -43,6 +43,7 @@ export enum ENavigationPages {
   "/gestion/informations" = "Informations",
   "/gestion/territoire" = "Territoire",
   "/gestion/activation-services" = "Activation des services",
+  "/gestion/flux" = "Activation des flux",
   "/gestion/utilisateurs" = "Utilisateurs",
   /* Bin */
   "/corbeille/" = "Corbeille",
