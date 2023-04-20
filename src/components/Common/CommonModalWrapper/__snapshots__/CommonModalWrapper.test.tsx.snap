@@ -17,7 +17,7 @@ exports[`CommonModalWrapper renders content when opened 1`] = `
       id=":r1:"
     >
       <div
-        class="c-CommonModalWrapper__Modal"
+        class="c-CommonModalWrapper__Modal c-CommonModalWrapper__Modal_sizeMedium"
         data-testid="common-modal"
       >
         <input

@@ -1,0 +1,47 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-SectorModal {
+  display: flex;
+
+  &__Informations {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__InformationsTitle {
+    margin-bottom: 36px;
+    color: colors.$expert-blue;
+    font-weight: 500;
+    font-size: 30px;
+    font-family: DINPro-Regular, sans-serif;
+  }
+
+  &__InformationsSectorName {
+    margin-bottom: 26px;
+  }
+
+  &__InformationsSectorListing {
+    width: 430px;
+    height: 210px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  &__InformationsButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__InformationsSavAndCancel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__Maps {
+    width: 65%;
+    margin: 0 36px;
+    background-color: colors.$blue-4; // TODO: color to replace by map
+  }
+}

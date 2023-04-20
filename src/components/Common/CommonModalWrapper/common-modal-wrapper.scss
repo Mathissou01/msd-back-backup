@@ -24,10 +24,17 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 58%;
     padding: 36px;
     background-color: colors.$white;
     border-radius: 10px;
+
+    &_sizeMedium {
+      width: 58%;
+    }
+
+    &_sizeLarge {
+      width: 95%;
+    }
   }
 
   &__Close {

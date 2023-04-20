@@ -11691,6 +11691,29 @@ export type UpdateMenuPageMutation = {
   } | null;
 };
 
+export type CreateSectorizationMutationVariables = Exact<{
+  data: SectorizationInput;
+}>;
+
+export type CreateSectorizationMutation = {
+  __typename?: "Mutation";
+  createSectorization?: {
+    __typename?: "SectorizationEntityResponse";
+    data?: {
+      __typename?: "SectorizationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Sectorization";
+        createdAt?: any | null;
+        description: string;
+        name: string;
+        polygonCoordinates?: any | null;
+        updatedAt?: any | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetSectorizationsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   pagination?: InputMaybe<PaginationArg>;
@@ -17963,6 +17986,65 @@ export type UpdateMenuPageMutationResult =
 export type UpdateMenuPageMutationOptions = Apollo.BaseMutationOptions<
   UpdateMenuPageMutation,
   UpdateMenuPageMutationVariables
+>;
+export const CreateSectorizationDocument = gql`
+  mutation createSectorization($data: SectorizationInput!) {
+    createSectorization(data: $data) {
+      data {
+        id
+        attributes {
+          createdAt
+          description
+          name
+          polygonCoordinates
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export type CreateSectorizationMutationFn = Apollo.MutationFunction<
+  CreateSectorizationMutation,
+  CreateSectorizationMutationVariables
+>;
+
+/**
+ * __useCreateSectorizationMutation__
+ *
+ * To run a mutation, you first call `useCreateSectorizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSectorizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSectorizationMutation, { data, loading, error }] = useCreateSectorizationMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateSectorizationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateSectorizationMutation,
+    CreateSectorizationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateSectorizationMutation,
+    CreateSectorizationMutationVariables
+  >(CreateSectorizationDocument, options);
+}
+export type CreateSectorizationMutationHookResult = ReturnType<
+  typeof useCreateSectorizationMutation
+>;
+export type CreateSectorizationMutationResult =
+  Apollo.MutationResult<CreateSectorizationMutation>;
+export type CreateSectorizationMutationOptions = Apollo.BaseMutationOptions<
+  CreateSectorizationMutation,
+  CreateSectorizationMutationVariables
 >;
 export const GetSectorizationsByContractIdDocument = gql`
   query getSectorizationsByContractId(

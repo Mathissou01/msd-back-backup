@@ -1,15 +1,22 @@
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { TableColumn } from "react-data-table-component";
+import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
 import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
 } from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
+import CommonModalWrapper, {
+  CommonModalWrapperRef,
+  ICommonModalWrapperSize,
+} from "../../../../components/Common/CommonModalWrapper/CommonModalWrapper";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
+import SectorModal from "../../../../components/Sector/SectorModal/SectorModal";
 import {
   useGetSectorizationsByContractIdLazyQuery,
   GetSectorizationsByContractIdQueryVariables,
+  useCreateSectorizationMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
@@ -17,16 +24,15 @@ import { removeNulls } from "../../../../lib/utilities";
 import ContractLayout from "../../contract-layout";
 import "./secteurs.scss";
 
-interface ISectorsTableRow extends IDefaultTableRow {
+export interface ISectorsTableRow extends IDefaultTableRow {
   name: string;
   description: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export function SectorsPage() {
   /* Static Data */
   const title = "Secteurs";
+  const addButton = "Créer un secteur";
   const tableLabels = {
     title: "Liste des secteurs",
     columns: {
@@ -38,6 +44,7 @@ export function SectorsPage() {
   };
 
   /* Methods */
+
   async function handleLazyLoad(params: ICurrentPagination<ISectorsTableRow>) {
     return getSectorizationsQuery({
       variables: {
@@ -53,7 +60,34 @@ export function SectorsPage() {
     });
   }
 
+  async function onSubmit(submitData: ISectorsTableRow) {
+    onSubmitAndModalRefresh(submitData);
+    modalRef.current?.toggleModal(false);
+  }
+
+  async function onSubmitAndModalRefresh(submitData: ISectorsTableRow) {
+    const variables = {
+      data: {
+        name: submitData.name,
+        description: submitData.description,
+        contract: contractId,
+      },
+    };
+    return createSectorization({
+      variables,
+    });
+  }
+
+  const handleStartModal = () => {
+    modalRef.current?.toggleModal(true);
+  };
+
+  const handleCloseModal = () => {
+    modalRef.current?.toggleModal(false);
+  };
+
   /* External Data */
+  const [createSectorization] = useCreateSectorizationMutation();
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
@@ -64,7 +98,7 @@ export function SectorsPage() {
     pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
   };
 
-  const [getSectorizationsQuery, { data, error }] =
+  const [getSectorizationsQuery, { data, loading, error }] =
     useGetSectorizationsByContractIdLazyQuery({
       variables: defaultQueryVariables,
       fetchPolicy: "cache-and-network",
@@ -75,6 +109,10 @@ export function SectorsPage() {
   /* Local Data */
   const isInitialized = useRef(false);
   const [tableData, setTableData] = useState<Array<ISectorsTableRow>>([]);
+  const [isUpdatingData, setIsUpdatingData] = useState(false);
+  const isLoadingMutation = isUpdatingData;
+  const isLoading = loading || isLoadingMutation;
+  const modalRef = useRef<CommonModalWrapperRef>(null);
 
   const tableColumns: Array<TableColumn<ISectorsTableRow>> = [
     {
@@ -126,6 +164,10 @@ export function SectorsPage() {
   }, [data]);
 
   useEffect(() => {
+    setIsUpdatingData(false);
+  }, [tableData]);
+
+  useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
       void getSectorizationsQuery();
@@ -135,8 +177,25 @@ export function SectorsPage() {
   return (
     <div className="c-SectorsPage">
       <PageTitle title={title} />
-      <h2 className="c-SectorsPage__Title">{tableLabels.title}</h2>
-      <div className="c-SectorsPage__Table">
+      <div>
+        <CommonButton
+          label={addButton}
+          style="primary"
+          picto="add"
+          onClick={() => handleStartModal()}
+        />
+        <CommonModalWrapper size={ICommonModalWrapperSize.LARGE} ref={modalRef}>
+          <SectorModal
+            onSubmitValid={(data) => onSubmit(data as ISectorsTableRow)}
+            onSubmitAndModalRefresh={(data) =>
+              onSubmitAndModalRefresh(data as ISectorsTableRow)
+            }
+            handleCloseModal={handleCloseModal}
+          />
+        </CommonModalWrapper>
+      </div>
+      <h2 className="o-SectorsPage__Title">{tableLabels.title}</h2>
+      <div className="o-SectorsPage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={errors}>
           <CommonDataTable<ISectorsTableRow>
             columns={tableColumns}
@@ -145,6 +204,7 @@ export function SectorsPage() {
               isRemote: true,
               totalRows: data?.sectorizations?.meta.pagination.total ?? 0,
             }}
+            isLoading={isLoading}
             defaultSortFieldId={"name"}
             paginationOptions={{
               hasPagination: true,

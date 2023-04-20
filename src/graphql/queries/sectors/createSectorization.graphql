@@ -1,0 +1,14 @@
+mutation createSectorization($data: SectorizationInput!) {
+  createSectorization(data: $data) {
+    data {
+      id
+      attributes {
+        createdAt
+        description
+        name
+        polygonCoordinates
+        updatedAt
+      }
+    }
+  }
+}

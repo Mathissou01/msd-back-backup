@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, {
   forwardRef,
   ReactNode,
@@ -12,9 +13,15 @@ import { createPortal } from "react-dom";
 import { FocusFirstElement } from "../../../lib/utilities";
 import "./common-modal-wrapper.scss";
 
+export enum ICommonModalWrapperSize {
+  MEDIUM = "medium",
+  LARGE = "large",
+}
+
 interface ICommonModalWrapperProps {
   onClose?: () => void;
   children: ReactNode;
+  size?: ICommonModalWrapperSize;
 }
 
 export type CommonModalWrapperRef = {
@@ -22,7 +29,11 @@ export type CommonModalWrapperRef = {
 };
 
 export default forwardRef(function CommonModalWrapper(
-  { onClose, children }: ICommonModalWrapperProps,
+  {
+    onClose,
+    children,
+    size = ICommonModalWrapperSize.MEDIUM,
+  }: ICommonModalWrapperProps,
   parentRef,
 ) {
   const modalId = useId();
@@ -95,7 +106,12 @@ export default forwardRef(function CommonModalWrapper(
           data-testid="common-modal-wrapper"
         >
           <div
-            className="c-CommonModalWrapper__Modal"
+            className={classNames("c-CommonModalWrapper__Modal", {
+              "c-CommonModalWrapper__Modal_sizeMedium":
+                size === ICommonModalWrapperSize.MEDIUM,
+              "c-CommonModalWrapper__Modal_sizeLarge":
+                size === ICommonModalWrapperSize.LARGE,
+            })}
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => handleKeyDown(e)}
             ref={focusRef}
