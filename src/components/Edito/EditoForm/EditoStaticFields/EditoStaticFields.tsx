@@ -10,23 +10,29 @@ import "./edito-static-fields.scss";
 
 export interface IStaticFieldsLabels {
   staticTitle: string;
-  staticTags: string;
-  staticTagsDescription: string;
-  staticImage: string;
-  staticImageValidation: string;
-  staticImagePlaceholder: string;
-  staticShortDescription: string;
-  staticShortDescriptionMaxCharacters: string;
+  staticTags?: string;
+  staticTagsDescription?: string;
+  staticImage?: string;
+  staticImageValidation?: string;
+  staticImagePlaceholder?: string;
+  staticShortDescription?: string;
+  staticShortDescriptionMaxCharacters?: string;
 }
 
 interface IEditoStaticFieldsProps {
   labels: IStaticFieldsLabels;
   maxCharacters?: number;
+  hideImageField?: boolean;
+  hideShortDescriptionField?: boolean;
+  hideTagField?: boolean;
 }
 
 export default function EditoStaticFields({
   labels,
   maxCharacters = 80,
+  hideImageField = false,
+  hideShortDescriptionField = false,
+  hideTagField = false,
 }: IEditoStaticFieldsProps) {
   /* Static Data */
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
@@ -75,39 +81,45 @@ export default function EditoStaticFields({
           label={labels.staticTitle}
           isRequired={true}
         />
-        <div className="c-EditoStaticFields__Tags">
-          <FormSingleMultiselect
-            label={labels.staticTags}
-            labelDescription={labels.staticTagsDescription}
-            name="tags"
-            options={tagOptions}
-            isMulti
-            maxMultiSelection={5}
-          />
-        </div>
-        <div className="c-EditoDynamicFields__Image">
-          <FormFileInput
-            name="image"
-            label={labels.staticImage}
-            isRequired={true}
-            validationLabel={labels.staticImageValidation}
-            placeholder={labels.staticImagePlaceholder}
-            acceptedMimeTypes={acceptedTypes}
-            mimeFilterContains="image"
-            hasEcoConceptionMessage
-          />
-        </div>
-        <div className="c-EditoStaticFields__DescriptionInput">
-          <FormInput
-            type="text"
-            name="shortDescription"
-            label={labels.staticShortDescription}
-            maxLengthValidation={maxCharacters}
-            validationLabel={`${maxCharacters} ${labels.staticShortDescriptionMaxCharacters}`}
-            isRequired
-            tagType="textarea"
-          />
-        </div>
+        {!hideTagField && (
+          <div className="c-EditoStaticFields__Tags">
+            <FormSingleMultiselect
+              label={labels.staticTags}
+              labelDescription={labels.staticTagsDescription}
+              name="tags"
+              options={tagOptions}
+              isMulti
+              maxMultiSelection={5}
+            />
+          </div>
+        )}
+        {!hideImageField && (
+          <div className="c-EditoDynamicFields__Image">
+            <FormFileInput
+              name="image"
+              label={labels.staticImage}
+              isRequired={true}
+              validationLabel={labels.staticImageValidation}
+              placeholder={labels.staticImagePlaceholder}
+              acceptedMimeTypes={acceptedTypes}
+              mimeFilterContains="image"
+              hasEcoConceptionMessage
+            />
+          </div>
+        )}
+        {!hideShortDescriptionField && (
+          <div className="c-EditoStaticFields__DescriptionInput">
+            <FormInput
+              type="text"
+              name="shortDescription"
+              label={labels.staticShortDescription}
+              maxLengthValidation={maxCharacters}
+              validationLabel={`${maxCharacters} ${labels.staticShortDescriptionMaxCharacters}`}
+              isRequired
+              tagType="textarea"
+            />
+          </div>
+        )}
       </div>
     </>
   );

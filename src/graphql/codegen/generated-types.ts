@@ -8920,6 +8920,224 @@ export type UpdateUploadFolderMutation = {
   } | null;
 };
 
+export type GetContactUsByIdQueryVariables = Exact<{
+  contactUsId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetContactUsByIdQuery = {
+  __typename?: "Query";
+  contactUs?: {
+    __typename?: "ContactUsEntityResponse";
+    data?: {
+      __typename?: "ContactUsEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContactUs";
+        title: string;
+        status?: Enum_Contactus_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; message?: string | null; code: string }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetContactUsesSubServiceByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetContactUsesSubServiceByContractIdQuery = {
+  __typename?: "Query";
+  contactUsSubServices?: {
+    __typename?: "ContactUsSubServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContactUsSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContactUsSubService";
+        name: string;
+        isActivated: boolean;
+        contactUses?: {
+          __typename?: "ContactUsRelationResponseCollection";
+          data: Array<{ __typename?: "ContactUsEntity"; id?: string | null }>;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateContactUsMutationVariables = Exact<{
+  updateContactUsId: Scalars["ID"];
+  data: ContactUsInput;
+}>;
+
+export type UpdateContactUsMutation = {
+  __typename?: "Mutation";
+  updateContactUs?: {
+    __typename?: "ContactUsEntityResponse";
+    data?: {
+      __typename?: "ContactUsEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ContactUs";
+        title: string;
+        status?: Enum_Contactus_Status | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type CreateFreeContentByFreeContentSubServiceIdMutationVariables =
   Exact<{
     data: FreeContentInput;
@@ -13736,6 +13954,327 @@ export type UpdateUploadFolderMutationResult =
 export type UpdateUploadFolderMutationOptions = Apollo.BaseMutationOptions<
   UpdateUploadFolderMutation,
   UpdateUploadFolderMutationVariables
+>;
+export const GetContactUsByIdDocument = gql`
+  query getContactUsById($contactUsId: ID) {
+    contactUs(id: $contactUsId) {
+      data {
+        id
+        attributes {
+          title
+          status
+          publishedDate
+          unpublishedDate
+          createdAt
+          updatedAt
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  id
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
+                  }
+                }
+              }
+            }
+            ... on Error {
+              message
+              code
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetContactUsByIdQuery__
+ *
+ * To run a query within a React component, call `useGetContactUsByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContactUsByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContactUsByIdQuery({
+ *   variables: {
+ *      contactUsId: // value for 'contactUsId'
+ *   },
+ * });
+ */
+export function useGetContactUsByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetContactUsByIdQuery,
+    GetContactUsByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetContactUsByIdQuery, GetContactUsByIdQueryVariables>(
+    GetContactUsByIdDocument,
+    options,
+  );
+}
+export function useGetContactUsByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetContactUsByIdQuery,
+    GetContactUsByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetContactUsByIdQuery,
+    GetContactUsByIdQueryVariables
+  >(GetContactUsByIdDocument, options);
+}
+export type GetContactUsByIdQueryHookResult = ReturnType<
+  typeof useGetContactUsByIdQuery
+>;
+export type GetContactUsByIdLazyQueryHookResult = ReturnType<
+  typeof useGetContactUsByIdLazyQuery
+>;
+export type GetContactUsByIdQueryResult = Apollo.QueryResult<
+  GetContactUsByIdQuery,
+  GetContactUsByIdQueryVariables
+>;
+export const GetContactUsesSubServiceByContractIdDocument = gql`
+  query getContactUsesSubServiceByContractId($contractId: ID!) {
+    contactUsSubServices(
+      filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+    ) {
+      data {
+        id
+        attributes {
+          contactUses {
+            data {
+              id
+            }
+          }
+          name
+          isActivated
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetContactUsesSubServiceByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetContactUsesSubServiceByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContactUsesSubServiceByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContactUsesSubServiceByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetContactUsesSubServiceByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetContactUsesSubServiceByContractIdQuery,
+    GetContactUsesSubServiceByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetContactUsesSubServiceByContractIdQuery,
+    GetContactUsesSubServiceByContractIdQueryVariables
+  >(GetContactUsesSubServiceByContractIdDocument, options);
+}
+export function useGetContactUsesSubServiceByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetContactUsesSubServiceByContractIdQuery,
+    GetContactUsesSubServiceByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetContactUsesSubServiceByContractIdQuery,
+    GetContactUsesSubServiceByContractIdQueryVariables
+  >(GetContactUsesSubServiceByContractIdDocument, options);
+}
+export type GetContactUsesSubServiceByContractIdQueryHookResult = ReturnType<
+  typeof useGetContactUsesSubServiceByContractIdQuery
+>;
+export type GetContactUsesSubServiceByContractIdLazyQueryHookResult =
+  ReturnType<typeof useGetContactUsesSubServiceByContractIdLazyQuery>;
+export type GetContactUsesSubServiceByContractIdQueryResult =
+  Apollo.QueryResult<
+    GetContactUsesSubServiceByContractIdQuery,
+    GetContactUsesSubServiceByContractIdQueryVariables
+  >;
+export const UpdateContactUsDocument = gql`
+  mutation UpdateContactUs($updateContactUsId: ID!, $data: ContactUsInput!) {
+    updateContactUs(id: $updateContactUsId, data: $data) {
+      data {
+        id
+        attributes {
+          title
+          status
+          publishedDate
+          unpublishedDate
+          createdAt
+          updatedAt
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateContactUsMutationFn = Apollo.MutationFunction<
+  UpdateContactUsMutation,
+  UpdateContactUsMutationVariables
+>;
+
+/**
+ * __useUpdateContactUsMutation__
+ *
+ * To run a mutation, you first call `useUpdateContactUsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContactUsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContactUsMutation, { data, loading, error }] = useUpdateContactUsMutation({
+ *   variables: {
+ *      updateContactUsId: // value for 'updateContactUsId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContactUsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContactUsMutation,
+    UpdateContactUsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContactUsMutation,
+    UpdateContactUsMutationVariables
+  >(UpdateContactUsDocument, options);
+}
+export type UpdateContactUsMutationHookResult = ReturnType<
+  typeof useUpdateContactUsMutation
+>;
+export type UpdateContactUsMutationResult =
+  Apollo.MutationResult<UpdateContactUsMutation>;
+export type UpdateContactUsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContactUsMutation,
+  UpdateContactUsMutationVariables
 >;
 export const CreateFreeContentByFreeContentSubServiceIdDocument = gql`
   mutation createFreeContentByFreeContentSubServiceId(

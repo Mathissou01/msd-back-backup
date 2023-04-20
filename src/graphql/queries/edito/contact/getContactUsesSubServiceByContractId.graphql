@@ -1,0 +1,18 @@
+query getContactUsesSubServiceByContractId($contractId: ID!) {
+  contactUsSubServices(
+    filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+  ) {
+    data {
+      id
+      attributes {
+        contactUses {
+          data {
+            id
+          }
+        }
+        name
+        isActivated
+      }
+    }
+  }
+}

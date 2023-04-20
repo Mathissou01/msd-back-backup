@@ -11,7 +11,7 @@ import "./form-input.scss";
 interface IFormInputProps {
   type?: "number" | "text" | "email" | "password" | "hidden";
   name: string;
-  label: string;
+  label?: string;
   secondaryLabel?: string;
   validationLabel?: string;
   isRequired?: boolean;

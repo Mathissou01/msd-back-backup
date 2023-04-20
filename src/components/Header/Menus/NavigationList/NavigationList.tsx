@@ -102,7 +102,7 @@ export default function NavigationList() {
           {/*<NavigationListLink path={"/edito/conditions-generales"} />*/}
           {/*<NavigationListLink path={"/edito/politique-cookies"} />*/}
           {/*<NavigationListLink path={"/edito/confidentialite"} />*/}
-          {/*<NavigationListLink path={"/edito/contact"} />*/}
+          <NavigationListLink path={"/edito/contact"} />
         </NavigationListMenu>
       </li>
       {/*<li className="c-NavigationList__Item">*/}

@@ -181,6 +181,16 @@ exports[`Header renders 1`] = `
                 Type de contenu
               </span>
             </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/edito/contact"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Contact
+              </span>
+            </a>
           </div>
         </div>
       </li>

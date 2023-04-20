@@ -31,7 +31,7 @@ import "./form-file-input.scss";
 
 interface IFormFileInputProps {
   name: string;
-  label: string;
+  label?: string;
   validationLabel?: string;
   hasEcoConceptionMessage?: boolean;
   placeholder?: string;

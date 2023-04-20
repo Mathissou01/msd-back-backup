@@ -8,7 +8,7 @@ export type ValidationStyle = "inline" | "multiline";
 
 interface IFormLabelProps {
   children?: React.ReactNode;
-  label: string;
+  label?: string;
   labelDescription?: string;
   secondaryLabel?: string;
   validationLabel?: string;

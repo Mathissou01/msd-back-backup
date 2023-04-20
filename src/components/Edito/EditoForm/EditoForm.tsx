@@ -20,6 +20,9 @@ interface IEditoFormProps {
   onDepublish?: () => void;
   onPreview?: () => void;
   labels: IStaticFieldsLabels;
+  hideImageField?: boolean;
+  hideTagField?: boolean;
+  hideShortDescriptionField?: boolean;
 }
 
 export default function EditoForm({
@@ -30,6 +33,9 @@ export default function EditoForm({
   onDepublish,
   onPreview,
   labels,
+  hideImageField,
+  hideTagField,
+  hideShortDescriptionField,
 }: IEditoFormProps) {
   /* Local Data */
   const form = useForm({
@@ -109,7 +115,12 @@ export default function EditoForm({
           </div>
           <div className="c-EditoForm__Form">
             <div className="c-EditoForm__Content">
-              <EditoStaticFields labels={labels} />
+              <EditoStaticFields
+                labels={labels}
+                hideImageField={hideImageField}
+                hideTagField={hideTagField}
+                hideShortDescriptionField={hideShortDescriptionField}
+              />
               <EditoDynamicFields
                 blockOptions={dynamicFieldsOptions}
                 defaultValues={data?.blocks}

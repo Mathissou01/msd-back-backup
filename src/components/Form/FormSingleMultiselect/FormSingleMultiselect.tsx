@@ -14,7 +14,7 @@ export type ICommonSelectOption = {
 };
 
 interface ICommonSelectProps {
-  label: string;
+  label?: string;
   labelDescription?: string;
   name: string;
   options: Array<ICommonSelectOption>;
