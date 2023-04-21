@@ -5,7 +5,11 @@ import { ValidationRule } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import React from "react";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
-import FormLabel, { LabelStyle, ValidationStyle } from "../FormLabel/FormLabel";
+import FormLabel, {
+  LabelStyle,
+  SecondaryLabelStyle,
+  ValidationStyle,
+} from "../FormLabel/FormLabel";
 import "./form-input.scss";
 
 interface IFormInputProps {
@@ -25,6 +29,7 @@ interface IFormInputProps {
   placeholder?: string;
   flexStyle?: "column" | "row";
   labelStyle?: LabelStyle;
+  secondaryLabelStyle?: SecondaryLabelStyle;
   validationStyle?: ValidationStyle;
   tagType?: "input" | "textarea";
 }
@@ -46,6 +51,7 @@ export default function FormInput({
   placeholder,
   flexStyle = "column",
   labelStyle,
+  secondaryLabelStyle,
   validationStyle = "inline",
   tagType = "input",
 }: IFormInputProps) {
@@ -78,6 +84,7 @@ export default function FormInput({
         flexStyle={flexStyle}
         labelStyle={labelStyle}
         validationStyle={validationStyle}
+        secondaryLabelStyle={secondaryLabelStyle}
       >
         <Tag
           className={classNames("c-FormInput__Input", {

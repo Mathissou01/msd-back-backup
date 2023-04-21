@@ -1,0 +1,14 @@
+mutation UpdateContractCustomization(
+  $updateContractCustomizationId: ID!
+  $data: ContractCustomizationInput!
+) {
+  updateContractCustomization(id: $updateContractCustomizationId, data: $data) {
+    data {
+      attributes {
+        primaryColor
+        secondaryColor
+        textContrast
+      }
+    }
+  }
+}

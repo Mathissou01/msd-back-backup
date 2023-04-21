@@ -10157,6 +10157,19 @@ export type GetContractByIdQuery = {
             } | null;
           } | null;
         } | null;
+        contractCustomization?: {
+          __typename?: "ContractCustomizationEntityResponse";
+          data?: {
+            __typename?: "ContractCustomizationEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "ContractCustomization";
+              primaryColor: string;
+              secondaryColor?: string | null;
+              textContrast: string;
+            } | null;
+          } | null;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -11231,6 +11244,27 @@ export type UpdateTopContentTabMutation = {
             } | null;
           } | null;
         } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateContractCustomizationMutationVariables = Exact<{
+  updateContractCustomizationId: Scalars["ID"];
+  data: ContractCustomizationInput;
+}>;
+
+export type UpdateContractCustomizationMutation = {
+  __typename?: "Mutation";
+  updateContractCustomization?: {
+    __typename?: "ContractCustomizationEntityResponse";
+    data?: {
+      __typename?: "ContractCustomizationEntity";
+      attributes?: {
+        __typename?: "ContractCustomization";
+        primaryColor: string;
+        secondaryColor?: string | null;
+        textContrast: string;
       } | null;
     } | null;
   } | null;
@@ -16227,6 +16261,16 @@ export const GetContractByIdDocument = gql`
               }
             }
           }
+          contractCustomization {
+            data {
+              id
+              attributes {
+                primaryColor
+                secondaryColor
+                textContrast
+              }
+            }
+          }
         }
       }
     }
@@ -17750,6 +17794,70 @@ export type UpdateTopContentTabMutationOptions = Apollo.BaseMutationOptions<
   UpdateTopContentTabMutation,
   UpdateTopContentTabMutationVariables
 >;
+export const UpdateContractCustomizationDocument = gql`
+  mutation UpdateContractCustomization(
+    $updateContractCustomizationId: ID!
+    $data: ContractCustomizationInput!
+  ) {
+    updateContractCustomization(
+      id: $updateContractCustomizationId
+      data: $data
+    ) {
+      data {
+        attributes {
+          primaryColor
+          secondaryColor
+          textContrast
+        }
+      }
+    }
+  }
+`;
+export type UpdateContractCustomizationMutationFn = Apollo.MutationFunction<
+  UpdateContractCustomizationMutation,
+  UpdateContractCustomizationMutationVariables
+>;
+
+/**
+ * __useUpdateContractCustomizationMutation__
+ *
+ * To run a mutation, you first call `useUpdateContractCustomizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContractCustomizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContractCustomizationMutation, { data, loading, error }] = useUpdateContractCustomizationMutation({
+ *   variables: {
+ *      updateContractCustomizationId: // value for 'updateContractCustomizationId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContractCustomizationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContractCustomizationMutation,
+    UpdateContractCustomizationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContractCustomizationMutation,
+    UpdateContractCustomizationMutationVariables
+  >(UpdateContractCustomizationDocument, options);
+}
+export type UpdateContractCustomizationMutationHookResult = ReturnType<
+  typeof useUpdateContractCustomizationMutation
+>;
+export type UpdateContractCustomizationMutationResult =
+  Apollo.MutationResult<UpdateContractCustomizationMutation>;
+export type UpdateContractCustomizationMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContractCustomizationMutation,
+    UpdateContractCustomizationMutationVariables
+  >;
 export const GetContractCustomizationByIdDocument = gql`
   query getContractCustomizationById($contractId: ID!) {
     contract(id: $contractId) {

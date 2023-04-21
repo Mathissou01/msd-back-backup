@@ -3,6 +3,7 @@ import React from "react";
 import "./form-label.scss";
 
 export type LabelStyle = "default" | "table";
+export type SecondaryLabelStyle = "default" | "row";
 
 export type ValidationStyle = "inline" | "multiline";
 
@@ -17,6 +18,7 @@ interface IFormLabelProps {
   isRequired?: boolean;
   flexStyle?: "column" | "row";
   labelStyle?: LabelStyle;
+  secondaryLabelStyle?: SecondaryLabelStyle;
   validationStyle?: ValidationStyle;
 }
 
@@ -31,12 +33,17 @@ export default function FormLabel({
   isRequired = false,
   flexStyle = "column",
   labelStyle = "default",
+  secondaryLabelStyle = "default",
   validationStyle = "inline",
 }: IFormLabelProps) {
   const Tag = tagType;
   const labelClassNames = classNames("c-FormLabel", {
     "c-FormLabel_row": flexStyle === "row",
     "c-FormLabel_styleTable": labelStyle === "table",
+  });
+  const SecondaryLabelClassNames = classNames({
+    "c-FormLabel__Secondary": secondaryLabelStyle === "default",
+    "c-FormLabel__Secondary_row": secondaryLabelStyle === "row",
   });
 
   return (
@@ -65,7 +72,7 @@ export default function FormLabel({
         )}
       {secondaryLabel && (
         <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
-          <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
+          <span className={SecondaryLabelClassNames}>{secondaryLabel}</span>
         </Tag>
       )}
       {children && <div className="c-FormLabel__Content">{children}</div>}

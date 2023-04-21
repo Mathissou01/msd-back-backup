@@ -134,6 +134,16 @@ query getContractById($contractId: ID!) {
             }
           }
         }
+        contractCustomization {
+          data {
+            id
+            attributes {
+              primaryColor
+              secondaryColor
+              textContrast
+            }
+          }
+        }
       }
     }
   }

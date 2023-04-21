@@ -3,6 +3,7 @@
 .c-FormLabel {
   $self: &;
 
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -59,6 +60,12 @@
 
   &__Secondary {
     color: colors.$gray-800;
+
+    &_row {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 
   &__Validation {
