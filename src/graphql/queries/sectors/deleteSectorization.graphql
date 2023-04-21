@@ -1,0 +1,14 @@
+mutation deleteSectorization($deleteSectorizationId: ID!) {
+  deleteSectorization(id: $deleteSectorizationId) {
+    data {
+      id
+      attributes {
+        createdAt
+        description
+        name
+        polygonCoordinates
+        updatedAt
+      }
+    }
+  }
+}

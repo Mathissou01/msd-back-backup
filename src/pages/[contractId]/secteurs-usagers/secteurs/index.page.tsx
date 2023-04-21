@@ -6,6 +6,7 @@ import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
 } from "../../../../components/Common/CommonDataTable/CommonDataTable";
+import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
@@ -17,6 +18,8 @@ import {
   useGetSectorizationsByContractIdLazyQuery,
   GetSectorizationsByContractIdQueryVariables,
   useCreateSectorizationMutation,
+  useDeleteSectorizationMutation,
+  GetSectorizationsByContractIdDocument,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
@@ -63,6 +66,7 @@ export function SectorsPage() {
   async function onSubmit(submitData: ISectorsTableRow) {
     onSubmitAndModalRefresh(submitData);
     modalRef.current?.toggleModal(false);
+    void getSectorizationsQuery();
   }
 
   async function onSubmitAndModalRefresh(submitData: ISectorsTableRow) {
@@ -86,8 +90,23 @@ export function SectorsPage() {
     modalRef.current?.toggleModal(false);
   };
 
+  async function onDelete(row: ISectorsTableRow) {
+    const variables = {
+      deleteSectorizationId: row.id,
+    };
+    await deleteSectorizationMutation({
+      variables,
+      refetchQueries: [
+        {
+          query: GetSectorizationsByContractIdDocument,
+          variables: { contractId },
+        },
+      ],
+    });
+
+    void getSectorizationsQuery();
+  }
   /* External Data */
-  const [createSectorization] = useCreateSectorizationMutation();
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
@@ -104,14 +123,24 @@ export function SectorsPage() {
       fetchPolicy: "cache-and-network",
     });
 
-  const errors = [error];
+  const [createSectorization] = useCreateSectorizationMutation();
+
+  const [
+    deleteSectorizationMutation,
+    {
+      loading: deleteSectorizationMutationLoading,
+      error: deleteSectorizationMutationError,
+    },
+  ] = useDeleteSectorizationMutation();
 
   /* Local Data */
   const isInitialized = useRef(false);
   const [tableData, setTableData] = useState<Array<ISectorsTableRow>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
-  const isLoadingMutation = isUpdatingData;
+  const isLoadingMutation =
+    isUpdatingData || deleteSectorizationMutationLoading;
   const isLoading = loading || isLoadingMutation;
+  const errors = [error, deleteSectorizationMutationError];
   const modalRef = useRef<CommonModalWrapperRef>(null);
 
   const tableColumns: Array<TableColumn<ISectorsTableRow>> = [
@@ -142,6 +171,20 @@ export function SectorsPage() {
       sortable: true,
     },
   ];
+
+  const actionColumn = (row: ISectorsTableRow): Array<IDataTableAction> => [
+    // TODO: try to use picto scss or DS icons instead of /public/
+
+    {
+      id: "delete",
+      picto: "/images/pictos/delete.svg",
+      confirmStateOptions: {
+        onConfirm: () => onDelete(row),
+        confirmStyle: "warning",
+      },
+    },
+  ];
+
   useEffect(() => {
     if (data) {
       setTableData(
@@ -194,11 +237,16 @@ export function SectorsPage() {
           />
         </CommonModalWrapper>
       </div>
-      <h2 className="o-SectorsPage__Title">{tableLabels.title}</h2>
-      <div className="o-SectorsPage__Table">
-        <CommonLoader isLoading={!isInitialized.current} errors={errors}>
+      <h2 className="c-SectorsPage__Title">{tableLabels.title}</h2>
+      <div className="c-SectorsPage__Table">
+        <CommonLoader
+          isLoading={!isInitialized.current}
+          isShowingContent={isLoadingMutation}
+          errors={errors}
+        >
           <CommonDataTable<ISectorsTableRow>
             columns={tableColumns}
+            actionColumn={actionColumn}
             data={tableData}
             lazyLoadingOptions={{
               isRemote: true,

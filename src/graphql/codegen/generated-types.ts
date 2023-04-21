@@ -11932,6 +11932,29 @@ export type CreateSectorizationMutation = {
   } | null;
 };
 
+export type DeleteSectorizationMutationVariables = Exact<{
+  deleteSectorizationId: Scalars["ID"];
+}>;
+
+export type DeleteSectorizationMutation = {
+  __typename?: "Mutation";
+  deleteSectorization?: {
+    __typename?: "SectorizationEntityResponse";
+    data?: {
+      __typename?: "SectorizationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Sectorization";
+        createdAt?: any | null;
+        description: string;
+        name: string;
+        polygonCoordinates?: any | null;
+        updatedAt?: any | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetSectorizationsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   pagination?: InputMaybe<PaginationArg>;
@@ -18584,6 +18607,65 @@ export type CreateSectorizationMutationResult =
 export type CreateSectorizationMutationOptions = Apollo.BaseMutationOptions<
   CreateSectorizationMutation,
   CreateSectorizationMutationVariables
+>;
+export const DeleteSectorizationDocument = gql`
+  mutation deleteSectorization($deleteSectorizationId: ID!) {
+    deleteSectorization(id: $deleteSectorizationId) {
+      data {
+        id
+        attributes {
+          createdAt
+          description
+          name
+          polygonCoordinates
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export type DeleteSectorizationMutationFn = Apollo.MutationFunction<
+  DeleteSectorizationMutation,
+  DeleteSectorizationMutationVariables
+>;
+
+/**
+ * __useDeleteSectorizationMutation__
+ *
+ * To run a mutation, you first call `useDeleteSectorizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSectorizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSectorizationMutation, { data, loading, error }] = useDeleteSectorizationMutation({
+ *   variables: {
+ *      deleteSectorizationId: // value for 'deleteSectorizationId'
+ *   },
+ * });
+ */
+export function useDeleteSectorizationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteSectorizationMutation,
+    DeleteSectorizationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteSectorizationMutation,
+    DeleteSectorizationMutationVariables
+  >(DeleteSectorizationDocument, options);
+}
+export type DeleteSectorizationMutationHookResult = ReturnType<
+  typeof useDeleteSectorizationMutation
+>;
+export type DeleteSectorizationMutationResult =
+  Apollo.MutationResult<DeleteSectorizationMutation>;
+export type DeleteSectorizationMutationOptions = Apollo.BaseMutationOptions<
+  DeleteSectorizationMutation,
+  DeleteSectorizationMutationVariables
 >;
 export const GetSectorizationsByContractIdDocument = gql`
   query getSectorizationsByContractId(
