@@ -20,6 +20,7 @@ export default function CommonDragDropFile({
   const labels = {
     labelInfosDragDrop: "Glissez-déposez une image dans cette zone ou",
     uploadFile: "Parcourir les fichiers",
+    cancelBtn: "Annuler",
   };
   const mediaImage = "/images/pictos/add-photo.svg";
 

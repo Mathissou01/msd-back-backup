@@ -13,6 +13,7 @@ import CommonModalWrapper, {
 import CommonDragDropFile from "../../Common/CommonDragDropFile/CommonDragDropFile";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormModal from "../../Form/FormModal/FormModal";
+import MediaImportUrl from "../MediaImportUrl/MediaImportUrl";
 import MainModal from "./Modals/MainModal/MainModal";
 import UploadModal from "./Modals/UploadModal/UploadModal";
 import EditModal from "./Modals/EditModal/EditModal";
@@ -40,6 +41,7 @@ export default function MediaImportButton({
     formNameLabel: "Nom Du fichier",
     formDescLabel: "Description de l'image",
     formSelectLabel: "Emplacement",
+    cancelBtn: "Annuler",
   };
 
   /* Local Data */
@@ -160,11 +162,11 @@ export default function MediaImportButton({
       }
     };
 
-    const savingFileToState = (
+    function savingFileToState(
       selectedFilesInstance: ILocalFile[],
       isThereFileSelected: ILocalFile[],
       file: File,
-    ) => {
+    ) {
       if (isMimeType(file.type)) {
         if (file.type.split("/")[0] === "image") {
           const fr = new FileReader();
@@ -212,28 +214,43 @@ export default function MediaImportButton({
           }
         }
       }
-    };
+    }
 
     const tabs = [
       {
         name: "FromComputer",
         title: "Depuis l'ordinateur",
         content: (
-          <CommonDragDropFile
-            handleDragOver={handleDragOver}
-            handleDrop={handleDrop}
-            handleFileChange={handleFileChange}
+          <>
+            <CommonDragDropFile
+              handleDragOver={handleDragOver}
+              handleDrop={handleDrop}
+              handleFileChange={handleFileChange}
+            />
+            <div className="c-MediaImportButton__Button">
+              <CommonButton
+                type="button"
+                label={labels.cancelBtn}
+                onClick={() => modalRef?.current?.toggleModal(false)}
+              />
+            </div>
+          </>
+        ),
+        isEnabled: true,
+      },
+      {
+        name: "FromURL",
+        title: "Depuis une url",
+        content: (
+          <MediaImportUrl
+            modalRef={modalRef}
+            selectedFiles={selectedFiles}
+            setSelectedFiles={setSelectedFiles}
+            setActiveModal={setActiveModal}
           />
         ),
         isEnabled: true,
       },
-      /** TODO: add tab later */
-      // {
-      //   name: "FromURL",
-      //   title: "Depuis une url",
-      //   content: <div />,
-      //   isEnabled: true,
-      // },
     ];
     setTabs(tabs);
 
@@ -242,51 +259,47 @@ export default function MediaImportButton({
         EditModalRef.current?.toggleModal(true);
         break;
     }
-  }, [selectedFiles, activeModal]);
+  }, [selectedFiles, activeModal, labels.cancelBtn]);
 
   return (
     <div className="c-MediaImportButton">
-      <>
-        <CommonButton
-          label={labels.importBtn}
-          style="primary"
-          picto="import"
-          onClick={() => handleStartModal()}
-        />
-        <CommonModalWrapper ref={modalRef} onClose={handleCloseModal}>
-          {activeModal === ModalStatus.MAIN_MODAL && (
-            <MainModal modalRef={modalRef} tabs={tabs} />
+      <CommonButton
+        label={labels.importBtn}
+        style="primary"
+        picto="import"
+        onClick={() => handleStartModal()}
+      />
+      <CommonModalWrapper ref={modalRef} onClose={handleCloseModal}>
+        {activeModal === ModalStatus.MAIN_MODAL && <MainModal tabs={tabs} />}
+        {activeModal === ModalStatus.UPLOAD_MODAL &&
+          selectedFiles.length > 0 && (
+            <UploadModal
+              modalRef={modalRef}
+              activePathId={activePathId}
+              selectedFiles={selectedFiles}
+              setActiveModal={setActiveModal}
+              setSelectedFiles={setSelectedFiles}
+              setFileToEdit={setFileToEdit}
+            />
           )}
-          {activeModal === ModalStatus.UPLOAD_MODAL &&
-            selectedFiles.length > 0 && (
-              <UploadModal
-                modalRef={modalRef}
-                activePathId={activePathId}
-                selectedFiles={selectedFiles}
-                setActiveModal={setActiveModal}
-                setSelectedFiles={setSelectedFiles}
-                setFileToEdit={setFileToEdit}
-              />
-            )}
-        </CommonModalWrapper>
-        {activeModal === ModalStatus.EDIT_IMG_MODAL &&
-          fileToEdit !== undefined && (
-            <FormModal
-              modalRef={EditModalRef}
-              modalTitle={labels.detailsModalTitle}
-              hasRequiredChildren="all"
-              onSubmit={handleSaveNewFileInfo}
-              formValidationMode="onChange"
-              onClose={() => handleCloseEditModal()}
-            >
-              <EditModal
-                folderHierarchy={folderHierarchy}
-                activePathId={activePathId}
-                fileToEdit={fileToEdit}
-              />
-            </FormModal>
-          )}
-      </>
+      </CommonModalWrapper>
+      {activeModal === ModalStatus.EDIT_IMG_MODAL &&
+        fileToEdit !== undefined && (
+          <FormModal
+            modalRef={EditModalRef}
+            modalTitle={labels.detailsModalTitle}
+            hasRequiredChildren="all"
+            onSubmit={handleSaveNewFileInfo}
+            formValidationMode="onChange"
+            onClose={() => handleCloseEditModal()}
+          >
+            <EditModal
+              folderHierarchy={folderHierarchy}
+              activePathId={activePathId}
+              fileToEdit={fileToEdit}
+            />
+          </FormModal>
+        )}
     </div>
   );
 }
