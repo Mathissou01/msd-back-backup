@@ -118,18 +118,19 @@ export function PersonnalisationAccueilPage() {
                 serviceParameters.isQuizActivated
                   ? ("quiz" as TEditoContentTypes)
                   : null,
-                serviceParameters.isQuizActivated
+                serviceParameters.isTipsActivated
                   ? ("tip" as TEditoContentTypes)
                   : null,
-                serviceParameters.isQuizActivated
+                serviceParameters.isEventsActivated
                   ? ("event" as TEditoContentTypes)
                   : null,
-                serviceParameters.isQuizActivated
+                serviceParameters.isNewsActivated
                   ? ("news" as TEditoContentTypes)
                   : null,
-                serviceParameters.isQuizActivated
-                  ? ("freeContent" as TEditoContentTypes)
-                  : null,
+                // TODO
+                // serviceParameters.??
+                //   ? ("freeContent" as TEditoContentTypes)
+                //   : null,
               ].filter(removeNulls)}
             />
           ),
