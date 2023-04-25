@@ -104,6 +104,7 @@ query getContractById($contractId: ID!) {
             attributes {
               name
               isActivated
+              memoName
             }
           }
         }

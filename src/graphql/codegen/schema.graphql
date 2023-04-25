@@ -243,6 +243,7 @@ input AlertNotificationServiceInput {
 }
 
 type AudienceType {
+  MwCounter: MwCounterServiceEntityResponse
   createdAt: DateTime
   type: String
   updatedAt: DateTime
@@ -263,6 +264,7 @@ type AudienceTypeEntityResponseCollection {
 }
 
 input AudienceTypeFiltersInput {
+  MwCounter: MwCounterServiceFiltersInput
   and: [AudienceTypeFiltersInput]
   createdAt: DateTimeFilterInput
   id: IDFilterInput
@@ -273,6 +275,7 @@ input AudienceTypeFiltersInput {
 }
 
 input AudienceTypeInput {
+  MwCounter: ID
   type: String
 }
 
@@ -476,6 +479,7 @@ type ChannelTypeRelationResponseCollection {
 }
 
 type City {
+  MwCounter: MwCounterServiceEntityResponse
   contract: ContractEntityResponse
   createdAt: DateTime
   department: String
@@ -503,6 +507,7 @@ type CityEntityResponseCollection {
 }
 
 input CityFiltersInput {
+  MwCounter: MwCounterServiceFiltersInput
   and: [CityFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -520,6 +525,7 @@ input CityFiltersInput {
 }
 
 input CityInput {
+  MwCounter: ID
   contract: ID
   department: String
   epci: ID
@@ -589,6 +595,169 @@ input ClientContactInput {
   firstName: String
   lastName: String
   phoneNumber: String
+}
+
+type CollectDoorToDoor {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowRelationResponseCollection
+  grammaticalGender: ENUM_COLLECTDOORTODOOR_GRAMMATICALGENDER
+  name: String
+  picto: UploadFileEntityResponse
+  updatedAt: DateTime
+}
+
+type CollectDoorToDoorEntity {
+  attributes: CollectDoorToDoor
+  id: ID
+}
+
+type CollectDoorToDoorEntityResponse {
+  data: CollectDoorToDoorEntity
+}
+
+type CollectDoorToDoorEntityResponseCollection {
+  data: [CollectDoorToDoorEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CollectDoorToDoorFiltersInput {
+  and: [CollectDoorToDoorFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  flows: FlowFiltersInput
+  grammaticalGender: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: CollectDoorToDoorFiltersInput
+  or: [CollectDoorToDoorFiltersInput]
+  updatedAt: DateTimeFilterInput
+}
+
+input CollectDoorToDoorInput {
+  contract: ID
+  flows: [ID]
+  grammaticalGender: ENUM_COLLECTDOORTODOOR_GRAMMATICALGENDER
+  name: String
+  picto: ID
+}
+
+type CollectDoorToDoorRelationResponseCollection {
+  data: [CollectDoorToDoorEntity!]!
+}
+
+type CollectDropOff {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowRelationResponseCollection
+  grammaticalGender: ENUM_COLLECTDROPOFF_GRAMMATICALGENDER
+  name: String
+  picto(
+    filters: UploadFileFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): UploadFileRelationResponseCollection
+  updatedAt: DateTime
+}
+
+type CollectDropOffEntity {
+  attributes: CollectDropOff
+  id: ID
+}
+
+type CollectDropOffEntityResponse {
+  data: CollectDropOffEntity
+}
+
+type CollectDropOffEntityResponseCollection {
+  data: [CollectDropOffEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CollectDropOffFiltersInput {
+  and: [CollectDropOffFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  flows: FlowFiltersInput
+  grammaticalGender: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: CollectDropOffFiltersInput
+  or: [CollectDropOffFiltersInput]
+  updatedAt: DateTimeFilterInput
+}
+
+input CollectDropOffInput {
+  contract: ID
+  flows: [ID]
+  grammaticalGender: ENUM_COLLECTDROPOFF_GRAMMATICALGENDER
+  name: String
+  picto: [ID]
+}
+
+type CollectDropOffRelationResponseCollection {
+  data: [CollectDropOffEntity!]!
+}
+
+type CollectVoluntary {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowRelationResponseCollection
+  grammaticalGender: ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER
+  name: String
+  picto: UploadFileEntityResponse
+  updatedAt: DateTime
+}
+
+type CollectVoluntaryEntity {
+  attributes: CollectVoluntary
+  id: ID
+}
+
+type CollectVoluntaryEntityResponse {
+  data: CollectVoluntaryEntity
+}
+
+type CollectVoluntaryEntityResponseCollection {
+  data: [CollectVoluntaryEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CollectVoluntaryFiltersInput {
+  and: [CollectVoluntaryFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  flows: FlowFiltersInput
+  grammaticalGender: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: CollectVoluntaryFiltersInput
+  or: [CollectVoluntaryFiltersInput]
+  updatedAt: DateTimeFilterInput
+}
+
+input CollectVoluntaryInput {
+  contract: ID
+  flows: [ID]
+  grammaticalGender: ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER
+  name: String
+  picto: ID
+}
+
+type CollectVoluntaryRelationResponseCollection {
+  data: [CollectVoluntaryEntity!]!
 }
 
 input CommuneInput {
@@ -714,6 +883,18 @@ type ComponentLinksKeyMetrics {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): KeyMetricsServiceRelationResponseCollection
+  name: String
+  picto: UploadFileEntityResponse
+}
+
+type ComponentLinksMyWasteCounter {
+  MyWCounter(
+    filters: MwCounterServiceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwCounterServiceRelationResponseCollection
+  id: ID!
+  isDisplayed: Boolean!
   name: String
   picto: UploadFileEntityResponse
 }
@@ -1012,7 +1193,7 @@ type ContactUsSubService {
   description: String
   editorialService: EditorialServiceEntityResponse
   endDate: Date
-  isActivated: Boolean!
+  isActivated: Boolean
   label: String!
   link: String
   name: String!
@@ -1078,6 +1259,7 @@ type ContentTypeDTO {
 }
 
 type Contract {
+  MwCounterService: MwCounterServiceEntityResponse
   alertNotificationService: AlertNotificationServiceEntityResponse
   ccap: Long
   channelType: ChannelTypeEntityResponse
@@ -1097,6 +1279,11 @@ type Contract {
   dropOffMapService: DropOffMapServiceEntityResponse
   dueDate: DateTime
   editorialService: EditorialServiceEntityResponse
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowRelationResponseCollection
   hasYesWeScan: Boolean
   isNonExclusive: Boolean!
   isRVFrance: Boolean!
@@ -1210,6 +1397,7 @@ type ContractEntityResponseCollection {
 }
 
 input ContractFiltersInput {
+  MwCounterService: MwCounterServiceFiltersInput
   alertNotificationService: AlertNotificationServiceFiltersInput
   and: [ContractFiltersInput]
   ccap: LongFilterInput
@@ -1226,6 +1414,7 @@ input ContractFiltersInput {
   dropOffMapService: DropOffMapServiceFiltersInput
   dueDate: DateTimeFilterInput
   editorialService: EditorialServiceFiltersInput
+  flows: FlowFiltersInput
   hasYesWeScan: BooleanFilterInput
   id: IDFilterInput
   isNonExclusive: BooleanFilterInput
@@ -1250,6 +1439,7 @@ input ContractFiltersInput {
 }
 
 input ContractInput {
+  MwCounterService: ID
   alertNotificationService: ID
   ccap: Long
   channelType: ID
@@ -1264,6 +1454,7 @@ input ContractInput {
   dropOffMapService: ID
   dueDate: DateTime
   editorialService: ID
+  flows: [ID]
   hasYesWeScan: Boolean
   isNonExclusive: Boolean
   isRVFrance: Boolean
@@ -1328,6 +1519,7 @@ union ContractMenuServiceLinksDynamicZone =
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
@@ -1743,6 +1935,21 @@ enum ENUM_CGU_STATUS {
   published
 }
 
+enum ENUM_COLLECTDOORTODOOR_GRAMMATICALGENDER {
+  feminin
+  masculin
+}
+
+enum ENUM_COLLECTDROPOFF_GRAMMATICALGENDER {
+  feminin
+  masculin
+}
+
+enum ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER {
+  feminin
+  masculin
+}
+
 enum ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG {
   h2
   h3
@@ -1813,6 +2020,12 @@ enum ENUM_EXPORTENTITY_STATUS {
   Finished
   In_progress
   New
+}
+
+enum ENUM_FLOW_RECYCLINGGESTURE {
+  no_trash
+  to_sort
+  to_trash
 }
 
 enum ENUM_FOOTER_ACCESSIBILITYLEVEL {
@@ -2402,6 +2615,123 @@ input FloatFilterInput {
   startsWith: Float
 }
 
+type Flow {
+  code: String
+  collectDoorToDoors(
+    filters: CollectDoorToDoorFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDoorToDoorRelationResponseCollection
+  collectDropOffs(
+    filters: CollectDropOffFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDropOffRelationResponseCollection
+  collectVoluntaries(
+    filters: CollectVoluntaryFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectVoluntaryRelationResponseCollection
+  color: FlowColorEntityResponse
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  isActivated: Boolean
+  name: String
+  recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE!
+  updatedAt: DateTime
+}
+
+type FlowColor {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  hexaCode: String!
+  name: String!
+  shouldChangeHexaCode: Boolean!
+  updatedAt: DateTime
+}
+
+type FlowColorEntity {
+  attributes: FlowColor
+  id: ID
+}
+
+type FlowColorEntityResponse {
+  data: FlowColorEntity
+}
+
+type FlowColorEntityResponseCollection {
+  data: [FlowColorEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input FlowColorFiltersInput {
+  and: [FlowColorFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  hexaCode: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: FlowColorFiltersInput
+  or: [FlowColorFiltersInput]
+  shouldChangeHexaCode: BooleanFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input FlowColorInput {
+  contract: ID
+  hexaCode: String
+  name: String
+  shouldChangeHexaCode: Boolean
+}
+
+type FlowEntity {
+  attributes: Flow
+  id: ID
+}
+
+type FlowEntityResponse {
+  data: FlowEntity
+}
+
+type FlowEntityResponseCollection {
+  data: [FlowEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input FlowFiltersInput {
+  and: [FlowFiltersInput]
+  code: StringFilterInput
+  collectDoorToDoors: CollectDoorToDoorFiltersInput
+  collectDropOffs: CollectDropOffFiltersInput
+  collectVoluntaries: CollectVoluntaryFiltersInput
+  color: FlowColorFiltersInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  isActivated: BooleanFilterInput
+  name: StringFilterInput
+  not: FlowFiltersInput
+  or: [FlowFiltersInput]
+  recyclingGesture: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input FlowInput {
+  code: String
+  collectDoorToDoors: [ID]
+  collectDropOffs: [ID]
+  collectVoluntaries: [ID]
+  color: ID
+  contract: ID
+  isActivated: Boolean
+  name: String
+  recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE
+}
+
+type FlowRelationResponseCollection {
+  data: [FlowEntity!]!
+}
+
 type Folders {
   id: ID
   name: String
@@ -2649,6 +2979,9 @@ union GenericMorph =
   | ChannelType
   | City
   | ClientContact
+  | CollectDoorToDoor
+  | CollectDropOff
+  | CollectVoluntary
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
@@ -2664,6 +2997,7 @@ union GenericMorph =
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
@@ -2690,6 +3024,8 @@ union GenericMorph =
   | Event
   | EventSubService
   | ExportEntity
+  | Flow
+  | FlowColor
   | Footer
   | FreeContent
   | FreeContentSubService
@@ -2698,6 +3034,8 @@ union GenericMorph =
   | I18NLocale
   | KeyMetric
   | KeyMetricsService
+  | MwCounterService
+  | MyWasteCounter
   | New
   | NewsSubService
   | PickUpDay
@@ -2724,6 +3062,7 @@ union GenericMorph =
   | UsersPermissionsPermission
   | UsersPermissionsRole
   | UsersPermissionsUser
+  | WasteFamily
   | WasteForm
   | YesWeScanService
 
@@ -3096,6 +3435,13 @@ type Mutation {
   createChannelType(data: ChannelTypeInput!): ChannelTypeEntityResponse
   createCity(data: CityInput!): CityEntityResponse
   createClientContact(data: ClientContactInput!): ClientContactEntityResponse
+  createCollectDoorToDoor(
+    data: CollectDoorToDoorInput!
+  ): CollectDoorToDoorEntityResponse
+  createCollectDropOff(data: CollectDropOffInput!): CollectDropOffEntityResponse
+  createCollectVoluntary(
+    data: CollectVoluntaryInput!
+  ): CollectVoluntaryEntityResponse
   createConfidentiality(
     data: ConfidentialityInput!
   ): ConfidentialityEntityResponse
@@ -3151,6 +3497,8 @@ type Mutation {
     data: EventSubServiceInput!
   ): EventSubServiceEntityResponse
   createExportEntity(data: ExportEntityInput!): ExportEntityEntityResponse
+  createFlow(data: FlowInput!): FlowEntityResponse
+  createFlowColor(data: FlowColorInput!): FlowColorEntityResponse
   createFooter(data: FooterInput!): FooterEntityResponse
   createFreeContent(data: FreeContentInput!): FreeContentEntityResponse
   createFreeContentSubService(
@@ -3161,6 +3509,10 @@ type Mutation {
   createKeyMetricsService(
     data: KeyMetricsServiceInput!
   ): KeyMetricsServiceEntityResponse
+  createMwCounterService(
+    data: MwCounterServiceInput!
+  ): MwCounterServiceEntityResponse
+  createMyWasteCounter(data: MyWasteCounterInput!): MyWasteCounterEntityResponse
   createNew(data: NewInput!): NewEntityResponse
   createNewFolder(
     name: String!
@@ -3216,6 +3568,7 @@ type Mutation {
   createUsersPermissionsUser(
     data: UsersPermissionsUserInput!
   ): UsersPermissionsUserEntityResponse!
+  createWasteFamily(data: WasteFamilyInput!): WasteFamilyEntityResponse
   createWasteForm(data: WasteFormInput!): WasteFormEntityResponse
   createYesWeScanService(
     data: YesWeScanServiceInput!
@@ -3233,6 +3586,9 @@ type Mutation {
   deleteChannelType(id: ID!): ChannelTypeEntityResponse
   deleteCity(id: ID!): CityEntityResponse
   deleteClientContact(id: ID!): ClientContactEntityResponse
+  deleteCollectDoorToDoor(id: ID!): CollectDoorToDoorEntityResponse
+  deleteCollectDropOff(id: ID!): CollectDropOffEntityResponse
+  deleteCollectVoluntary(id: ID!): CollectVoluntaryEntityResponse
   deleteConfidentiality(id: ID!): ConfidentialityEntityResponse
   deleteConfidentialitySubService(
     id: ID!
@@ -3256,6 +3612,8 @@ type Mutation {
   deleteEvent(id: ID!): EventEntityResponse
   deleteEventSubService(id: ID!): EventSubServiceEntityResponse
   deleteExportEntity(id: ID!): ExportEntityEntityResponse
+  deleteFlow(id: ID!): FlowEntityResponse
+  deleteFlowColor(id: ID!): FlowColorEntityResponse
   deleteFooter(id: ID!): FooterEntityResponse
   deleteFreeContent(id: ID!): FreeContentEntityResponse
   deleteFreeContentSubService(id: ID!): FreeContentSubServiceEntityResponse
@@ -3263,6 +3621,8 @@ type Mutation {
   deleteHomepage(id: ID!): HomepageEntityResponse
   deleteKeyMetric(id: ID!): KeyMetricEntityResponse
   deleteKeyMetricsService(id: ID!): KeyMetricsServiceEntityResponse
+  deleteMwCounterService(id: ID!): MwCounterServiceEntityResponse
+  deleteMyWasteCounter(id: ID!): MyWasteCounterEntityResponse
   deleteNew(id: ID!): NewEntityResponse
   deleteNewsSubService(id: ID!): NewsSubServiceEntityResponse
   deletePickUpDay(id: ID!): PickUpDayEntityResponse
@@ -3296,6 +3656,7 @@ type Mutation {
   Delete an existing user
   """
   deleteUsersPermissionsUser(id: ID!): UsersPermissionsUserEntityResponse!
+  deleteWasteFamily(id: ID!): WasteFamilyEntityResponse
   deleteWasteForm(id: ID!): WasteFormEntityResponse
   deleteYesWeScanService(id: ID!): YesWeScanServiceEntityResponse
   deleteYwsService(id: ID!): Boolean
@@ -3375,6 +3736,18 @@ type Mutation {
     data: ClientContactInput!
     id: ID!
   ): ClientContactEntityResponse
+  updateCollectDoorToDoor(
+    data: CollectDoorToDoorInput!
+    id: ID!
+  ): CollectDoorToDoorEntityResponse
+  updateCollectDropOff(
+    data: CollectDropOffInput!
+    id: ID!
+  ): CollectDropOffEntityResponse
+  updateCollectVoluntary(
+    data: CollectVoluntaryInput!
+    id: ID!
+  ): CollectVoluntaryEntityResponse
   updateConfidentiality(
     data: ConfidentialityInput!
     id: ID!
@@ -3436,6 +3809,8 @@ type Mutation {
     id: ID!
   ): ExportEntityEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
+  updateFlow(data: FlowInput!, id: ID!): FlowEntityResponse
+  updateFlowColor(data: FlowColorInput!, id: ID!): FlowColorEntityResponse
   updateFooter(data: FooterInput!, id: ID!): FooterEntityResponse
   updateFreeContent(data: FreeContentInput!, id: ID!): FreeContentEntityResponse
   updateFreeContentSubService(
@@ -3454,6 +3829,14 @@ type Mutation {
     data: KeyMetricsServiceInput!
     id: ID!
   ): KeyMetricsServiceEntityResponse
+  updateMwCounterService(
+    data: MwCounterServiceInput!
+    id: ID!
+  ): MwCounterServiceEntityResponse
+  updateMyWasteCounter(
+    data: MyWasteCounterInput!
+    id: ID!
+  ): MyWasteCounterEntityResponse
   updateNew(data: NewInput!, id: ID!): NewEntityResponse
   updateNewsSubService(
     data: NewsSubServiceInput!
@@ -3535,6 +3918,7 @@ type Mutation {
     data: UsersPermissionsUserInput!
     id: ID!
   ): UsersPermissionsUserEntityResponse!
+  updateWasteFamily(data: WasteFamilyInput!, id: ID!): WasteFamilyEntityResponse
   updateWasteForm(data: WasteFormInput!, id: ID!): WasteFormEntityResponse
   updateYesWeScanService(
     data: YesWeScanServiceInput!
@@ -3557,6 +3941,124 @@ type Mutation {
   urlUploader(imageName: String!, url: String!): Boolean
   ywsActivation(contractId: ID!): Boolean
   ywsDeactivation(contractId: ID!): Boolean
+}
+
+type MwCounterService {
+  MwCounter(
+    filters: MyWasteCounterFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MyWasteCounterRelationResponseCollection
+  audience_types(
+    filters: AudienceTypeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceTypeRelationResponseCollection
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  description: String
+  endDate: Date
+  isActivated: Boolean
+  name: String
+  startDate: Date
+  updatedAt: DateTime
+}
+
+type MwCounterServiceEntity {
+  attributes: MwCounterService
+  id: ID
+}
+
+type MwCounterServiceEntityResponse {
+  data: MwCounterServiceEntity
+}
+
+type MwCounterServiceEntityResponseCollection {
+  data: [MwCounterServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input MwCounterServiceFiltersInput {
+  MwCounter: MyWasteCounterFiltersInput
+  and: [MwCounterServiceFiltersInput]
+  audience_types: AudienceTypeFiltersInput
+  cities: CityFiltersInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  endDate: DateFilterInput
+  id: IDFilterInput
+  isActivated: BooleanFilterInput
+  name: StringFilterInput
+  not: MwCounterServiceFiltersInput
+  or: [MwCounterServiceFiltersInput]
+  startDate: DateFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input MwCounterServiceInput {
+  MwCounter: [ID]
+  audience_types: [ID]
+  cities: [ID]
+  contract: ID
+  description: String
+  endDate: Date
+  isActivated: Boolean
+  name: String
+  startDate: Date
+}
+
+type MwCounterServiceRelationResponseCollection {
+  data: [MwCounterServiceEntity!]!
+}
+
+type MyWasteCounter {
+  MwCounterService: MwCounterServiceEntityResponse
+  createdAt: DateTime
+  description: String
+  name: String
+  updatedAt: DateTime
+}
+
+type MyWasteCounterEntity {
+  attributes: MyWasteCounter
+  id: ID
+}
+
+type MyWasteCounterEntityResponse {
+  data: MyWasteCounterEntity
+}
+
+type MyWasteCounterEntityResponseCollection {
+  data: [MyWasteCounterEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input MyWasteCounterFiltersInput {
+  MwCounterService: MwCounterServiceFiltersInput
+  and: [MyWasteCounterFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: MyWasteCounterFiltersInput
+  or: [MyWasteCounterFiltersInput]
+  updatedAt: DateTimeFilterInput
+}
+
+input MyWasteCounterInput {
+  MwCounterService: ID
+  description: String
+  name: String
+}
+
+type MyWasteCounterRelationResponseCollection {
+  data: [MyWasteCounterEntity!]!
 }
 
 type New {
@@ -3950,6 +4452,24 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): ClientContactEntityResponseCollection
+  collectDoorToDoor(id: ID): CollectDoorToDoorEntityResponse
+  collectDoorToDoors(
+    filters: CollectDoorToDoorFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDoorToDoorEntityResponseCollection
+  collectDropOff(id: ID): CollectDropOffEntityResponse
+  collectDropOffs(
+    filters: CollectDropOffFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDropOffEntityResponseCollection
+  collectVoluntaries(
+    filters: CollectVoluntaryFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectVoluntaryEntityResponseCollection
+  collectVoluntary(id: ID): CollectVoluntaryEntityResponse
   confidentialities(
     filters: ConfidentialityFiltersInput
     pagination: PaginationArg = {}
@@ -4073,6 +4593,18 @@ type Query {
     sort: [String] = []
   ): ExportEntityEntityResponseCollection
   exportEntity(id: ID): ExportEntityEntityResponse
+  flow(id: ID): FlowEntityResponse
+  flowColor(id: ID): FlowColorEntityResponse
+  flowColors(
+    filters: FlowColorFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowColorEntityResponseCollection
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowEntityResponseCollection
   footer(id: ID): FooterEntityResponse
   footers(
     filters: FooterFiltersInput
@@ -4143,6 +4675,18 @@ type Query {
   libraryBreadcrumbTrail(path: String!): [Folders]
   librarySearchEngine(path: String!, query: String!): [RequestFileOrFolder]
   me: UsersPermissionsMe
+  mwCounterService(id: ID): MwCounterServiceEntityResponse
+  mwCounterServices(
+    filters: MwCounterServiceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwCounterServiceEntityResponseCollection
+  myWasteCounter(id: ID): MyWasteCounterEntityResponse
+  myWasteCounters(
+    filters: MyWasteCounterFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MyWasteCounterEntityResponseCollection
   new(id: ID): NewEntityResponse
   news(
     filters: NewFiltersInput
@@ -4192,6 +4736,10 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): RecyclingGuideBlockEntityResponseCollection
+  recyclingGuideSearchEngine(
+    contractId: ID!
+    searchTerm: String!
+  ): [SearchResult]
   recyclingGuideService(id: ID): RecyclingGuideServiceEntityResponse
   recyclingGuideServices(
     filters: RecyclingGuideServiceFiltersInput
@@ -4296,11 +4844,17 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserEntityResponseCollection
+  wasteFamilies(
+    filters: WasteFamilyFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WasteFamilyEntityResponseCollection
+  wasteFamily(id: ID): WasteFamilyEntityResponse
+  wasteFamilyLength(id: ID!): Int
   wasteForm(id: ID): WasteFormEntityResponse
   wasteForms(
     filters: WasteFormFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): WasteFormEntityResponseCollection
   yesWeScanService(id: ID): YesWeScanServiceEntityResponse
@@ -4574,14 +5128,21 @@ type RecyclingGuideService {
   contract: ContractEntityResponse
   createdAt: DateTime
   endDate: Date
+  file: UploadFileEntityResponse
   isActivated: Boolean!
+  memoDesc: String
+  memoName: String!
   name: String!
   startDate: Date
   updatedAt: DateTime
+  wasteFamilies(
+    filters: WasteFamilyFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WasteFamilyRelationResponseCollection
   wasteForms(
     filters: WasteFormFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): WasteFormRelationResponseCollection
 }
@@ -4609,11 +5170,14 @@ input RecyclingGuideServiceFiltersInput {
   endDate: DateFilterInput
   id: IDFilterInput
   isActivated: BooleanFilterInput
+  memoDesc: StringFilterInput
+  memoName: StringFilterInput
   name: StringFilterInput
   not: RecyclingGuideServiceFiltersInput
   or: [RecyclingGuideServiceFiltersInput]
   startDate: DateFilterInput
   updatedAt: DateTimeFilterInput
+  wasteFamilies: WasteFamilyFiltersInput
   wasteForms: WasteFormFiltersInput
 }
 
@@ -4622,9 +5186,13 @@ input RecyclingGuideServiceInput {
   cities: [ID]
   contract: ID
   endDate: Date
+  file: ID
   isActivated: Boolean
+  memoDesc: String
+  memoName: String
   name: String
   startDate: Date
+  wasteFamilies: [ID]
   wasteForms: [ID]
 }
 
@@ -4819,6 +5387,12 @@ input SearchEngineBlockInput {
   titleContent: String
 }
 
+type SearchResult {
+  id: ID!
+  name: String!
+  typeName: String!
+}
+
 type Sectorization {
   contract: ContractEntityResponse
   createdAt: DateTime
@@ -4934,6 +5508,7 @@ union ServicesBlockServiceLinksDynamicZone =
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
@@ -5744,13 +6319,83 @@ type UsersPermissionsUserRelationResponseCollection {
   data: [UsersPermissionsUserEntity!]!
 }
 
+type WasteFamily {
+  createdAt: DateTime
+  familyName: String!
+  isSystem: Boolean!
+  recyclingGuideServices: RecyclingGuideServiceEntityResponse
+  updatedAt: DateTime
+  wasteForms(
+    filters: WasteFormFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WasteFormRelationResponseCollection
+}
+
+type WasteFamilyEntity {
+  attributes: WasteFamily
+  id: ID
+}
+
+type WasteFamilyEntityResponse {
+  data: WasteFamilyEntity
+}
+
+type WasteFamilyEntityResponseCollection {
+  data: [WasteFamilyEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input WasteFamilyFiltersInput {
+  and: [WasteFamilyFiltersInput]
+  createdAt: DateTimeFilterInput
+  familyName: StringFilterInput
+  id: IDFilterInput
+  isSystem: BooleanFilterInput
+  not: WasteFamilyFiltersInput
+  or: [WasteFamilyFiltersInput]
+  recyclingGuideServices: RecyclingGuideServiceFiltersInput
+  updatedAt: DateTimeFilterInput
+  wasteForms: WasteFormFiltersInput
+}
+
+input WasteFamilyInput {
+  familyName: String
+  isSystem: Boolean
+  recyclingGuideServices: ID
+  wasteForms: [ID]
+}
+
+type WasteFamilyRelationResponseCollection {
+  data: [WasteFamilyEntity!]!
+}
+
 type WasteForm {
+  contentBlock: [WasteFormContentBlockDynamicZone]
   createdAt: DateTime
   description: String
   name: String
-  publishedAt: DateTime
+  picto: UploadFileEntityResponse
+  recyclingGestureText: String
+  tags(
+    filters: TagFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): TagRelationResponseCollection
   updatedAt: DateTime
+  wasteFamily: WasteFamilyEntityResponse
 }
+
+union WasteFormContentBlockDynamicZone =
+    ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar WasteFormContentBlockDynamicZoneInput
 
 type WasteFormEntity {
   attributes: WasteForm
@@ -5774,14 +6419,20 @@ input WasteFormFiltersInput {
   name: StringFilterInput
   not: WasteFormFiltersInput
   or: [WasteFormFiltersInput]
-  publishedAt: DateTimeFilterInput
+  recyclingGestureText: StringFilterInput
+  tags: TagFiltersInput
   updatedAt: DateTimeFilterInput
+  wasteFamily: WasteFamilyFiltersInput
 }
 
 input WasteFormInput {
+  contentBlock: [WasteFormContentBlockDynamicZoneInput!]
   description: String
   name: String
-  publishedAt: DateTime
+  picto: ID
+  recyclingGestureText: String
+  tags: [ID]
+  wasteFamily: ID
 }
 
 type WasteFormRelationResponseCollection {

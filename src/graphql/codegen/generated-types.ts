@@ -40,6 +40,7 @@ export type Scalars = {
   TipBlocksDynamicZoneInput: any;
   TipLinkToServicesDynamicZoneInput: any;
   Upload: any;
+  WasteFormContentBlockDynamicZoneInput: any;
 };
 
 export type Accessibility = {
@@ -315,6 +316,7 @@ export type AlertNotificationServiceInput = {
 
 export type AudienceType = {
   __typename?: "AudienceType";
+  MwCounter?: Maybe<MwCounterServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   type?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -338,6 +340,7 @@ export type AudienceTypeEntityResponseCollection = {
 };
 
 export type AudienceTypeFiltersInput = {
+  MwCounter?: InputMaybe<MwCounterServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AudienceTypeFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -348,6 +351,7 @@ export type AudienceTypeFiltersInput = {
 };
 
 export type AudienceTypeInput = {
+  MwCounter?: InputMaybe<Scalars["ID"]>;
   type?: InputMaybe<Scalars["String"]>;
 };
 
@@ -569,6 +573,7 @@ export type ChannelTypeRelationResponseCollection = {
 
 export type City = {
   __typename?: "City";
+  MwCounter?: Maybe<MwCounterServiceEntityResponse>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   department?: Maybe<Scalars["String"]>;
@@ -599,6 +604,7 @@ export type CityEntityResponseCollection = {
 };
 
 export type CityFiltersInput = {
+  MwCounter?: InputMaybe<MwCounterServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -616,6 +622,7 @@ export type CityFiltersInput = {
 };
 
 export type CityInput = {
+  MwCounter?: InputMaybe<Scalars["ID"]>;
   contract?: InputMaybe<Scalars["ID"]>;
   department?: InputMaybe<Scalars["String"]>;
   epci?: InputMaybe<Scalars["ID"]>;
@@ -692,6 +699,192 @@ export type ClientContactInput = {
   firstName?: InputMaybe<Scalars["String"]>;
   lastName?: InputMaybe<Scalars["String"]>;
   phoneNumber?: InputMaybe<Scalars["String"]>;
+};
+
+export type CollectDoorToDoor = {
+  __typename?: "CollectDoorToDoor";
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  flows?: Maybe<FlowRelationResponseCollection>;
+  grammaticalGender?: Maybe<Enum_Collectdoortodoor_Grammaticalgender>;
+  name?: Maybe<Scalars["String"]>;
+  picto?: Maybe<UploadFileEntityResponse>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CollectDoorToDoorFlowsArgs = {
+  filters?: InputMaybe<FlowFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type CollectDoorToDoorEntity = {
+  __typename?: "CollectDoorToDoorEntity";
+  attributes?: Maybe<CollectDoorToDoor>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CollectDoorToDoorEntityResponse = {
+  __typename?: "CollectDoorToDoorEntityResponse";
+  data?: Maybe<CollectDoorToDoorEntity>;
+};
+
+export type CollectDoorToDoorEntityResponseCollection = {
+  __typename?: "CollectDoorToDoorEntityResponseCollection";
+  data: Array<CollectDoorToDoorEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CollectDoorToDoorFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CollectDoorToDoorFiltersInput>>>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  flows?: InputMaybe<FlowFiltersInput>;
+  grammaticalGender?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<CollectDoorToDoorFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CollectDoorToDoorFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CollectDoorToDoorInput = {
+  contract?: InputMaybe<Scalars["ID"]>;
+  flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  grammaticalGender?: InputMaybe<Enum_Collectdoortodoor_Grammaticalgender>;
+  name?: InputMaybe<Scalars["String"]>;
+  picto?: InputMaybe<Scalars["ID"]>;
+};
+
+export type CollectDoorToDoorRelationResponseCollection = {
+  __typename?: "CollectDoorToDoorRelationResponseCollection";
+  data: Array<CollectDoorToDoorEntity>;
+};
+
+export type CollectDropOff = {
+  __typename?: "CollectDropOff";
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  flows?: Maybe<FlowRelationResponseCollection>;
+  grammaticalGender?: Maybe<Enum_Collectdropoff_Grammaticalgender>;
+  name?: Maybe<Scalars["String"]>;
+  picto?: Maybe<UploadFileRelationResponseCollection>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CollectDropOffFlowsArgs = {
+  filters?: InputMaybe<FlowFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type CollectDropOffPictoArgs = {
+  filters?: InputMaybe<UploadFileFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type CollectDropOffEntity = {
+  __typename?: "CollectDropOffEntity";
+  attributes?: Maybe<CollectDropOff>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CollectDropOffEntityResponse = {
+  __typename?: "CollectDropOffEntityResponse";
+  data?: Maybe<CollectDropOffEntity>;
+};
+
+export type CollectDropOffEntityResponseCollection = {
+  __typename?: "CollectDropOffEntityResponseCollection";
+  data: Array<CollectDropOffEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CollectDropOffFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CollectDropOffFiltersInput>>>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  flows?: InputMaybe<FlowFiltersInput>;
+  grammaticalGender?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<CollectDropOffFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CollectDropOffFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CollectDropOffInput = {
+  contract?: InputMaybe<Scalars["ID"]>;
+  flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  grammaticalGender?: InputMaybe<Enum_Collectdropoff_Grammaticalgender>;
+  name?: InputMaybe<Scalars["String"]>;
+  picto?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type CollectDropOffRelationResponseCollection = {
+  __typename?: "CollectDropOffRelationResponseCollection";
+  data: Array<CollectDropOffEntity>;
+};
+
+export type CollectVoluntary = {
+  __typename?: "CollectVoluntary";
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  flows?: Maybe<FlowRelationResponseCollection>;
+  grammaticalGender?: Maybe<Enum_Collectvoluntary_Grammaticalgender>;
+  name?: Maybe<Scalars["String"]>;
+  picto?: Maybe<UploadFileEntityResponse>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CollectVoluntaryFlowsArgs = {
+  filters?: InputMaybe<FlowFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type CollectVoluntaryEntity = {
+  __typename?: "CollectVoluntaryEntity";
+  attributes?: Maybe<CollectVoluntary>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type CollectVoluntaryEntityResponse = {
+  __typename?: "CollectVoluntaryEntityResponse";
+  data?: Maybe<CollectVoluntaryEntity>;
+};
+
+export type CollectVoluntaryEntityResponseCollection = {
+  __typename?: "CollectVoluntaryEntityResponseCollection";
+  data: Array<CollectVoluntaryEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CollectVoluntaryFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CollectVoluntaryFiltersInput>>>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  flows?: InputMaybe<FlowFiltersInput>;
+  grammaticalGender?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<CollectVoluntaryFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CollectVoluntaryFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CollectVoluntaryInput = {
+  contract?: InputMaybe<Scalars["ID"]>;
+  flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  grammaticalGender?: InputMaybe<Enum_Collectvoluntary_Grammaticalgender>;
+  name?: InputMaybe<Scalars["String"]>;
+  picto?: InputMaybe<Scalars["ID"]>;
+};
+
+export type CollectVoluntaryRelationResponseCollection = {
+  __typename?: "CollectVoluntaryRelationResponseCollection";
+  data: Array<CollectVoluntaryEntity>;
 };
 
 export type CommuneInput = {
@@ -842,6 +1035,21 @@ export type ComponentLinksKeyMetrics = {
 
 export type ComponentLinksKeyMetricsKeyMetricsArgs = {
   filters?: InputMaybe<KeyMetricsServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ComponentLinksMyWasteCounter = {
+  __typename?: "ComponentLinksMyWasteCounter";
+  MyWCounter?: Maybe<MwCounterServiceRelationResponseCollection>;
+  id: Scalars["ID"];
+  isDisplayed: Scalars["Boolean"];
+  name?: Maybe<Scalars["String"]>;
+  picto?: Maybe<UploadFileEntityResponse>;
+};
+
+export type ComponentLinksMyWasteCounterMyWCounterArgs = {
+  filters?: InputMaybe<MwCounterServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -1167,7 +1375,7 @@ export type ContactUsSubService = {
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   endDate?: Maybe<Scalars["Date"]>;
-  isActivated: Scalars["Boolean"];
+  isActivated?: Maybe<Scalars["Boolean"]>;
   label: Scalars["String"];
   link?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
@@ -1251,6 +1459,7 @@ export type ContentTypeDto = {
 
 export type Contract = {
   __typename?: "Contract";
+  MwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   ccap?: Maybe<Scalars["Long"]>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
@@ -1266,6 +1475,7 @@ export type Contract = {
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   dueDate?: Maybe<Scalars["DateTime"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
+  flows?: Maybe<FlowRelationResponseCollection>;
   hasYesWeScan?: Maybe<Scalars["Boolean"]>;
   isNonExclusive: Scalars["Boolean"];
   isRVFrance: Scalars["Boolean"];
@@ -1289,6 +1499,12 @@ export type Contract = {
 
 export type ContractCitiesArgs = {
   filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ContractFlowsArgs = {
+  filters?: InputMaybe<FlowFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -1403,6 +1619,7 @@ export type ContractEntityResponseCollection = {
 };
 
 export type ContractFiltersInput = {
+  MwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
   alertNotificationService?: InputMaybe<AlertNotificationServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
   ccap?: InputMaybe<LongFilterInput>;
@@ -1419,6 +1636,7 @@ export type ContractFiltersInput = {
   dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
   dueDate?: InputMaybe<DateTimeFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
+  flows?: InputMaybe<FlowFiltersInput>;
   hasYesWeScan?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isNonExclusive?: InputMaybe<BooleanFilterInput>;
@@ -1443,6 +1661,7 @@ export type ContractFiltersInput = {
 };
 
 export type ContractInput = {
+  MwCounterService?: InputMaybe<Scalars["ID"]>;
   alertNotificationService?: InputMaybe<Scalars["ID"]>;
   ccap?: InputMaybe<Scalars["Long"]>;
   channelType?: InputMaybe<Scalars["ID"]>;
@@ -1457,6 +1676,7 @@ export type ContractInput = {
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
   dueDate?: InputMaybe<Scalars["DateTime"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
+  flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   hasYesWeScan?: InputMaybe<Scalars["Boolean"]>;
   isNonExclusive?: InputMaybe<Scalars["Boolean"]>;
   isRVFrance?: InputMaybe<Scalars["Boolean"]>;
@@ -1527,6 +1747,7 @@ export type ContractMenuServiceLinksDynamicZone =
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
@@ -1970,6 +2191,21 @@ export enum Enum_Cgu_Status {
   Published = "published",
 }
 
+export enum Enum_Collectdoortodoor_Grammaticalgender {
+  Feminin = "feminin",
+  Masculin = "masculin",
+}
+
+export enum Enum_Collectdropoff_Grammaticalgender {
+  Feminin = "feminin",
+  Masculin = "masculin",
+}
+
+export enum Enum_Collectvoluntary_Grammaticalgender {
+  Feminin = "feminin",
+  Masculin = "masculin",
+}
+
 export enum Enum_Componentblockssubheading_Subheadingtag {
   H2 = "h2",
   H3 = "h3",
@@ -2040,6 +2276,12 @@ export enum Enum_Exportentity_Status {
   Finished = "Finished",
   InProgress = "In_progress",
   New = "New",
+}
+
+export enum Enum_Flow_Recyclinggesture {
+  NoTrash = "no_trash",
+  ToSort = "to_sort",
+  ToTrash = "to_trash",
 }
 
 export enum Enum_Footer_Accessibilitylevel {
@@ -2689,6 +2931,138 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars["Float"]>;
 };
 
+export type Flow = {
+  __typename?: "Flow";
+  code?: Maybe<Scalars["String"]>;
+  collectDoorToDoors?: Maybe<CollectDoorToDoorRelationResponseCollection>;
+  collectDropOffs?: Maybe<CollectDropOffRelationResponseCollection>;
+  collectVoluntaries?: Maybe<CollectVoluntaryRelationResponseCollection>;
+  color?: Maybe<FlowColorEntityResponse>;
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  isActivated?: Maybe<Scalars["Boolean"]>;
+  name?: Maybe<Scalars["String"]>;
+  recyclingGesture: Enum_Flow_Recyclinggesture;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type FlowCollectDoorToDoorsArgs = {
+  filters?: InputMaybe<CollectDoorToDoorFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type FlowCollectDropOffsArgs = {
+  filters?: InputMaybe<CollectDropOffFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type FlowCollectVoluntariesArgs = {
+  filters?: InputMaybe<CollectVoluntaryFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type FlowColor = {
+  __typename?: "FlowColor";
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  hexaCode: Scalars["String"];
+  name: Scalars["String"];
+  shouldChangeHexaCode: Scalars["Boolean"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type FlowColorEntity = {
+  __typename?: "FlowColorEntity";
+  attributes?: Maybe<FlowColor>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type FlowColorEntityResponse = {
+  __typename?: "FlowColorEntityResponse";
+  data?: Maybe<FlowColorEntity>;
+};
+
+export type FlowColorEntityResponseCollection = {
+  __typename?: "FlowColorEntityResponseCollection";
+  data: Array<FlowColorEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type FlowColorFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<FlowColorFiltersInput>>>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  hexaCode?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<FlowColorFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<FlowColorFiltersInput>>>;
+  shouldChangeHexaCode?: InputMaybe<BooleanFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type FlowColorInput = {
+  contract?: InputMaybe<Scalars["ID"]>;
+  hexaCode?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  shouldChangeHexaCode?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type FlowEntity = {
+  __typename?: "FlowEntity";
+  attributes?: Maybe<Flow>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type FlowEntityResponse = {
+  __typename?: "FlowEntityResponse";
+  data?: Maybe<FlowEntity>;
+};
+
+export type FlowEntityResponseCollection = {
+  __typename?: "FlowEntityResponseCollection";
+  data: Array<FlowEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type FlowFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<FlowFiltersInput>>>;
+  code?: InputMaybe<StringFilterInput>;
+  collectDoorToDoors?: InputMaybe<CollectDoorToDoorFiltersInput>;
+  collectDropOffs?: InputMaybe<CollectDropOffFiltersInput>;
+  collectVoluntaries?: InputMaybe<CollectVoluntaryFiltersInput>;
+  color?: InputMaybe<FlowColorFiltersInput>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<FlowFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<FlowFiltersInput>>>;
+  recyclingGesture?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type FlowInput = {
+  code?: InputMaybe<Scalars["String"]>;
+  collectDoorToDoors?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  collectDropOffs?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  collectVoluntaries?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  color?: InputMaybe<Scalars["ID"]>;
+  contract?: InputMaybe<Scalars["ID"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  recyclingGesture?: InputMaybe<Enum_Flow_Recyclinggesture>;
+};
+
+export type FlowRelationResponseCollection = {
+  __typename?: "FlowRelationResponseCollection";
+  data: Array<FlowEntity>;
+};
+
 export type Folders = {
   __typename?: "Folders";
   id?: Maybe<Scalars["ID"]>;
@@ -2957,6 +3331,9 @@ export type GenericMorph =
   | ChannelType
   | City
   | ClientContact
+  | CollectDoorToDoor
+  | CollectDropOff
+  | CollectVoluntary
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
@@ -2972,6 +3349,7 @@ export type GenericMorph =
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
@@ -2998,6 +3376,8 @@ export type GenericMorph =
   | Event
   | EventSubService
   | ExportEntity
+  | Flow
+  | FlowColor
   | Footer
   | FreeContent
   | FreeContentSubService
@@ -3006,6 +3386,8 @@ export type GenericMorph =
   | I18NLocale
   | KeyMetric
   | KeyMetricsService
+  | MwCounterService
+  | MyWasteCounter
   | New
   | NewsSubService
   | PickUpDay
@@ -3032,6 +3414,7 @@ export type GenericMorph =
   | UsersPermissionsPermission
   | UsersPermissionsRole
   | UsersPermissionsUser
+  | WasteFamily
   | WasteForm
   | YesWeScanService;
 
@@ -3398,6 +3781,9 @@ export type Mutation = {
   createChannelType?: Maybe<ChannelTypeEntityResponse>;
   createCity?: Maybe<CityEntityResponse>;
   createClientContact?: Maybe<ClientContactEntityResponse>;
+  createCollectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
+  createCollectDropOff?: Maybe<CollectDropOffEntityResponse>;
+  createCollectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   createConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   createConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
   createContactUs?: Maybe<ContactUsEntityResponse>;
@@ -3420,12 +3806,16 @@ export type Mutation = {
   createEvent?: Maybe<EventEntityResponse>;
   createEventSubService?: Maybe<EventSubServiceEntityResponse>;
   createExportEntity?: Maybe<ExportEntityEntityResponse>;
+  createFlow?: Maybe<FlowEntityResponse>;
+  createFlowColor?: Maybe<FlowColorEntityResponse>;
   createFooter?: Maybe<FooterEntityResponse>;
   createFreeContent?: Maybe<FreeContentEntityResponse>;
   createFreeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
   createHomepage?: Maybe<HomepageEntityResponse>;
   createKeyMetric?: Maybe<KeyMetricEntityResponse>;
   createKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
+  createMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
+  createMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   createNew?: Maybe<NewEntityResponse>;
   createNewFolder?: Maybe<RequestFolderEntity>;
   createNewTag?: Maybe<RequestTagEntity>;
@@ -3455,6 +3845,7 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  createWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   createWasteForm?: Maybe<WasteFormEntityResponse>;
   createYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   createYwsService?: Maybe<Scalars["Boolean"]>;
@@ -3468,6 +3859,9 @@ export type Mutation = {
   deleteChannelType?: Maybe<ChannelTypeEntityResponse>;
   deleteCity?: Maybe<CityEntityResponse>;
   deleteClientContact?: Maybe<ClientContactEntityResponse>;
+  deleteCollectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
+  deleteCollectDropOff?: Maybe<CollectDropOffEntityResponse>;
+  deleteCollectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   deleteConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   deleteConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
   deleteContactUs?: Maybe<ContactUsEntityResponse>;
@@ -3489,6 +3883,8 @@ export type Mutation = {
   deleteEvent?: Maybe<EventEntityResponse>;
   deleteEventSubService?: Maybe<EventSubServiceEntityResponse>;
   deleteExportEntity?: Maybe<ExportEntityEntityResponse>;
+  deleteFlow?: Maybe<FlowEntityResponse>;
+  deleteFlowColor?: Maybe<FlowColorEntityResponse>;
   deleteFooter?: Maybe<FooterEntityResponse>;
   deleteFreeContent?: Maybe<FreeContentEntityResponse>;
   deleteFreeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
@@ -3496,6 +3892,8 @@ export type Mutation = {
   deleteHomepage?: Maybe<HomepageEntityResponse>;
   deleteKeyMetric?: Maybe<KeyMetricEntityResponse>;
   deleteKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
+  deleteMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
+  deleteMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   deleteNew?: Maybe<NewEntityResponse>;
   deleteNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
   deletePickUpDay?: Maybe<PickUpDayEntityResponse>;
@@ -3523,6 +3921,7 @@ export type Mutation = {
   deleteUsersPermissionsRole?: Maybe<UsersPermissionsDeleteRolePayload>;
   /** Delete an existing user */
   deleteUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   deleteWasteForm?: Maybe<WasteFormEntityResponse>;
   deleteYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   deleteYwsService?: Maybe<Scalars["Boolean"]>;
@@ -3553,6 +3952,9 @@ export type Mutation = {
   updateChannelType?: Maybe<ChannelTypeEntityResponse>;
   updateCity?: Maybe<CityEntityResponse>;
   updateClientContact?: Maybe<ClientContactEntityResponse>;
+  updateCollectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
+  updateCollectDropOff?: Maybe<CollectDropOffEntityResponse>;
+  updateCollectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   updateConfidentiality?: Maybe<ConfidentialityEntityResponse>;
   updateConfidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
   updateContactUs?: Maybe<ContactUsEntityResponse>;
@@ -3575,6 +3977,8 @@ export type Mutation = {
   updateEventSubService?: Maybe<EventSubServiceEntityResponse>;
   updateExportEntity?: Maybe<ExportEntityEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
+  updateFlow?: Maybe<FlowEntityResponse>;
+  updateFlowColor?: Maybe<FlowColorEntityResponse>;
   updateFooter?: Maybe<FooterEntityResponse>;
   updateFreeContent?: Maybe<FreeContentEntityResponse>;
   updateFreeContentSubService?: Maybe<FreeContentSubServiceEntityResponse>;
@@ -3583,6 +3987,8 @@ export type Mutation = {
   updateHomepage?: Maybe<HomepageEntityResponse>;
   updateKeyMetric?: Maybe<KeyMetricEntityResponse>;
   updateKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
+  updateMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
+  updateMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   updateNew?: Maybe<NewEntityResponse>;
   updateNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
   updatePickUpDay?: Maybe<PickUpDayEntityResponse>;
@@ -3610,6 +4016,7 @@ export type Mutation = {
   updateUsersPermissionsRole?: Maybe<UsersPermissionsUpdateRolePayload>;
   /** Update an existing user */
   updateUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  updateWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
   updateYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   upload: UploadFileEntityResponse;
@@ -3694,6 +4101,18 @@ export type MutationCreateCityArgs = {
 
 export type MutationCreateClientContactArgs = {
   data: ClientContactInput;
+};
+
+export type MutationCreateCollectDoorToDoorArgs = {
+  data: CollectDoorToDoorInput;
+};
+
+export type MutationCreateCollectDropOffArgs = {
+  data: CollectDropOffInput;
+};
+
+export type MutationCreateCollectVoluntaryArgs = {
+  data: CollectVoluntaryInput;
 };
 
 export type MutationCreateConfidentialityArgs = {
@@ -3795,6 +4214,14 @@ export type MutationCreateExportEntityArgs = {
   data: ExportEntityInput;
 };
 
+export type MutationCreateFlowArgs = {
+  data: FlowInput;
+};
+
+export type MutationCreateFlowColorArgs = {
+  data: FlowColorInput;
+};
+
 export type MutationCreateFooterArgs = {
   data: FooterInput;
 };
@@ -3817,6 +4244,14 @@ export type MutationCreateKeyMetricArgs = {
 
 export type MutationCreateKeyMetricsServiceArgs = {
   data: KeyMetricsServiceInput;
+};
+
+export type MutationCreateMwCounterServiceArgs = {
+  data: MwCounterServiceInput;
+};
+
+export type MutationCreateMyWasteCounterArgs = {
+  data: MyWasteCounterInput;
 };
 
 export type MutationCreateNewArgs = {
@@ -3930,6 +4365,10 @@ export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
 };
 
+export type MutationCreateWasteFamilyArgs = {
+  data: WasteFamilyInput;
+};
+
 export type MutationCreateWasteFormArgs = {
   data: WasteFormInput;
 };
@@ -3980,6 +4419,18 @@ export type MutationDeleteCityArgs = {
 };
 
 export type MutationDeleteClientContactArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteCollectDoorToDoorArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteCollectDropOffArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteCollectVoluntaryArgs = {
   id: Scalars["ID"];
 };
 
@@ -4068,6 +4519,14 @@ export type MutationDeleteExportEntityArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteFlowArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteFlowColorArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteFooterArgs = {
   id: Scalars["ID"];
 };
@@ -4089,6 +4548,14 @@ export type MutationDeleteKeyMetricArgs = {
 };
 
 export type MutationDeleteKeyMetricsServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteMwCounterServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteMyWasteCounterArgs = {
   id: Scalars["ID"];
 };
 
@@ -4189,6 +4656,10 @@ export type MutationDeleteUsersPermissionsRoleArgs = {
 };
 
 export type MutationDeleteUsersPermissionsUserArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteWasteFamilyArgs = {
   id: Scalars["ID"];
 };
 
@@ -4309,6 +4780,21 @@ export type MutationUpdateClientContactArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateCollectDoorToDoorArgs = {
+  data: CollectDoorToDoorInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateCollectDropOffArgs = {
+  data: CollectDropOffInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateCollectVoluntaryArgs = {
+  data: CollectVoluntaryInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateConfidentialityArgs = {
   data: ConfidentialityInput;
   id: Scalars["ID"];
@@ -4419,6 +4905,16 @@ export type MutationUpdateFileInfoArgs = {
   info?: InputMaybe<FileInfoInput>;
 };
 
+export type MutationUpdateFlowArgs = {
+  data: FlowInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateFlowColorArgs = {
+  data: FlowColorInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateFooterArgs = {
   data: FooterInput;
   id: Scalars["ID"];
@@ -4456,6 +4952,16 @@ export type MutationUpdateKeyMetricArgs = {
 
 export type MutationUpdateKeyMetricsServiceArgs = {
   data: KeyMetricsServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateMwCounterServiceArgs = {
+  data: MwCounterServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateMyWasteCounterArgs = {
+  data: MyWasteCounterInput;
   id: Scalars["ID"];
 };
 
@@ -4584,6 +5090,11 @@ export type MutationUpdateUsersPermissionsUserArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateWasteFamilyArgs = {
+  data: WasteFamilyInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateWasteFormArgs = {
   data: WasteFormInput;
   id: Scalars["ID"];
@@ -4621,6 +5132,140 @@ export type MutationYwsActivationArgs = {
 
 export type MutationYwsDeactivationArgs = {
   contractId: Scalars["ID"];
+};
+
+export type MwCounterService = {
+  __typename?: "MwCounterService";
+  MwCounter?: Maybe<MyWasteCounterRelationResponseCollection>;
+  audience_types?: Maybe<AudienceTypeRelationResponseCollection>;
+  cities?: Maybe<CityRelationResponseCollection>;
+  contract?: Maybe<ContractEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  endDate?: Maybe<Scalars["Date"]>;
+  isActivated?: Maybe<Scalars["Boolean"]>;
+  name?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["Date"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type MwCounterServiceMwCounterArgs = {
+  filters?: InputMaybe<MyWasteCounterFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type MwCounterServiceAudience_TypesArgs = {
+  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type MwCounterServiceCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type MwCounterServiceEntity = {
+  __typename?: "MwCounterServiceEntity";
+  attributes?: Maybe<MwCounterService>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type MwCounterServiceEntityResponse = {
+  __typename?: "MwCounterServiceEntityResponse";
+  data?: Maybe<MwCounterServiceEntity>;
+};
+
+export type MwCounterServiceEntityResponseCollection = {
+  __typename?: "MwCounterServiceEntityResponseCollection";
+  data: Array<MwCounterServiceEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type MwCounterServiceFiltersInput = {
+  MwCounter?: InputMaybe<MyWasteCounterFiltersInput>;
+  and?: InputMaybe<Array<InputMaybe<MwCounterServiceFiltersInput>>>;
+  audience_types?: InputMaybe<AudienceTypeFiltersInput>;
+  cities?: InputMaybe<CityFiltersInput>;
+  contract?: InputMaybe<ContractFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  endDate?: InputMaybe<DateFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<MwCounterServiceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<MwCounterServiceFiltersInput>>>;
+  startDate?: InputMaybe<DateFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type MwCounterServiceInput = {
+  MwCounter?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audience_types?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  contract?: InputMaybe<Scalars["ID"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  endDate?: InputMaybe<Scalars["Date"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  startDate?: InputMaybe<Scalars["Date"]>;
+};
+
+export type MwCounterServiceRelationResponseCollection = {
+  __typename?: "MwCounterServiceRelationResponseCollection";
+  data: Array<MwCounterServiceEntity>;
+};
+
+export type MyWasteCounter = {
+  __typename?: "MyWasteCounter";
+  MwCounterService?: Maybe<MwCounterServiceEntityResponse>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type MyWasteCounterEntity = {
+  __typename?: "MyWasteCounterEntity";
+  attributes?: Maybe<MyWasteCounter>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type MyWasteCounterEntityResponse = {
+  __typename?: "MyWasteCounterEntityResponse";
+  data?: Maybe<MyWasteCounterEntity>;
+};
+
+export type MyWasteCounterEntityResponseCollection = {
+  __typename?: "MyWasteCounterEntityResponseCollection";
+  data: Array<MyWasteCounterEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type MyWasteCounterFiltersInput = {
+  MwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
+  and?: InputMaybe<Array<InputMaybe<MyWasteCounterFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<MyWasteCounterFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<MyWasteCounterFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type MyWasteCounterInput = {
+  MwCounterService?: InputMaybe<Scalars["ID"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+};
+
+export type MyWasteCounterRelationResponseCollection = {
+  __typename?: "MyWasteCounterRelationResponseCollection";
+  data: Array<MyWasteCounterEntity>;
 };
 
 export type New = {
@@ -5011,6 +5656,12 @@ export type Query = {
   city?: Maybe<CityEntityResponse>;
   clientContact?: Maybe<ClientContactEntityResponse>;
   clientContacts?: Maybe<ClientContactEntityResponseCollection>;
+  collectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
+  collectDoorToDoors?: Maybe<CollectDoorToDoorEntityResponseCollection>;
+  collectDropOff?: Maybe<CollectDropOffEntityResponse>;
+  collectDropOffs?: Maybe<CollectDropOffEntityResponseCollection>;
+  collectVoluntaries?: Maybe<CollectVoluntaryEntityResponseCollection>;
+  collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   confidentialities?: Maybe<ConfidentialityEntityResponseCollection>;
   confidentiality?: Maybe<ConfidentialityEntityResponse>;
   confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
@@ -5053,6 +5704,10 @@ export type Query = {
   events?: Maybe<EventEntityResponseCollection>;
   exportEntities?: Maybe<ExportEntityEntityResponseCollection>;
   exportEntity?: Maybe<ExportEntityEntityResponse>;
+  flow?: Maybe<FlowEntityResponse>;
+  flowColor?: Maybe<FlowColorEntityResponse>;
+  flowColors?: Maybe<FlowColorEntityResponseCollection>;
+  flows?: Maybe<FlowEntityResponseCollection>;
   footer?: Maybe<FooterEntityResponse>;
   footers?: Maybe<FooterEntityResponseCollection>;
   freeContent?: Maybe<FreeContentEntityResponse>;
@@ -5082,6 +5737,10 @@ export type Query = {
   libraryBreadcrumbTrail?: Maybe<Array<Maybe<Folders>>>;
   librarySearchEngine?: Maybe<Array<Maybe<RequestFileOrFolder>>>;
   me?: Maybe<UsersPermissionsMe>;
+  mwCounterService?: Maybe<MwCounterServiceEntityResponse>;
+  mwCounterServices?: Maybe<MwCounterServiceEntityResponseCollection>;
+  myWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
+  myWasteCounters?: Maybe<MyWasteCounterEntityResponseCollection>;
   new?: Maybe<NewEntityResponse>;
   news?: Maybe<NewEntityResponseCollection>;
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
@@ -5098,6 +5757,7 @@ export type Query = {
   quizzes?: Maybe<QuizEntityResponseCollection>;
   recyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   recyclingGuideBlocks?: Maybe<RecyclingGuideBlockEntityResponseCollection>;
+  recyclingGuideSearchEngine?: Maybe<Array<Maybe<SearchResult>>>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   recyclingGuideServices?: Maybe<RecyclingGuideServiceEntityResponseCollection>;
   request?: Maybe<RequestEntityResponse>;
@@ -5133,6 +5793,9 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+  wasteFamilies?: Maybe<WasteFamilyEntityResponseCollection>;
+  wasteFamily?: Maybe<WasteFamilyEntityResponse>;
+  wasteFamilyLength?: Maybe<Scalars["Int"]>;
   wasteForm?: Maybe<WasteFormEntityResponse>;
   wasteForms?: Maybe<WasteFormEntityResponseCollection>;
   yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
@@ -5238,6 +5901,36 @@ export type QueryClientContactsArgs = {
   filters?: InputMaybe<ClientContactFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCollectDoorToDoorArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryCollectDoorToDoorsArgs = {
+  filters?: InputMaybe<CollectDoorToDoorFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCollectDropOffArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryCollectDropOffsArgs = {
+  filters?: InputMaybe<CollectDropOffFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCollectVoluntariesArgs = {
+  filters?: InputMaybe<CollectVoluntaryFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryCollectVoluntaryArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type QueryConfidentialitiesArgs = {
@@ -5449,6 +6142,26 @@ export type QueryExportEntityArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
+export type QueryFlowArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryFlowColorArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryFlowColorsArgs = {
+  filters?: InputMaybe<FlowColorFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryFlowsArgs = {
+  filters?: InputMaybe<FlowFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type QueryFooterArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -5577,6 +6290,26 @@ export type QueryLibrarySearchEngineArgs = {
   query: Scalars["String"];
 };
 
+export type QueryMwCounterServiceArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryMwCounterServicesArgs = {
+  filters?: InputMaybe<MwCounterServiceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryMyWasteCounterArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryMyWasteCountersArgs = {
+  filters?: InputMaybe<MyWasteCounterFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type QueryNewArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -5656,6 +6389,11 @@ export type QueryRecyclingGuideBlocksArgs = {
   filters?: InputMaybe<RecyclingGuideBlockFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryRecyclingGuideSearchEngineArgs = {
+  contractId: Scalars["ID"];
+  searchTerm: Scalars["String"];
 };
 
 export type QueryRecyclingGuideServiceArgs = {
@@ -5833,6 +6571,20 @@ export type QueryUsersPermissionsUsersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryWasteFamiliesArgs = {
+  filters?: InputMaybe<WasteFamilyFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryWasteFamilyArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryWasteFamilyLengthArgs = {
+  id: Scalars["ID"];
+};
+
 export type QueryWasteFormArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -5840,7 +6592,6 @@ export type QueryWasteFormArgs = {
 export type QueryWasteFormsArgs = {
   filters?: InputMaybe<WasteFormFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -6140,10 +6891,14 @@ export type RecyclingGuideService = {
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   endDate?: Maybe<Scalars["Date"]>;
+  file?: Maybe<UploadFileEntityResponse>;
   isActivated: Scalars["Boolean"];
+  memoDesc?: Maybe<Scalars["String"]>;
+  memoName: Scalars["String"];
   name: Scalars["String"];
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  wasteFamilies?: Maybe<WasteFamilyRelationResponseCollection>;
   wasteForms?: Maybe<WasteFormRelationResponseCollection>;
 };
 
@@ -6159,10 +6914,15 @@ export type RecyclingGuideServiceCitiesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type RecyclingGuideServiceWasteFamiliesArgs = {
+  filters?: InputMaybe<WasteFamilyFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type RecyclingGuideServiceWasteFormsArgs = {
   filters?: InputMaybe<WasteFormFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -6192,11 +6952,14 @@ export type RecyclingGuideServiceFiltersInput = {
   endDate?: InputMaybe<DateFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isActivated?: InputMaybe<BooleanFilterInput>;
+  memoDesc?: InputMaybe<StringFilterInput>;
+  memoName?: InputMaybe<StringFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RecyclingGuideServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RecyclingGuideServiceFiltersInput>>>;
   startDate?: InputMaybe<DateFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  wasteFamilies?: InputMaybe<WasteFamilyFiltersInput>;
   wasteForms?: InputMaybe<WasteFormFiltersInput>;
 };
 
@@ -6205,9 +6968,13 @@ export type RecyclingGuideServiceInput = {
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
+  file?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
+  memoDesc?: InputMaybe<Scalars["String"]>;
+  memoName?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["Date"]>;
+  wasteFamilies?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   wasteForms?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -6427,6 +7194,13 @@ export type SearchEngineBlockInput = {
   titleContent?: InputMaybe<Scalars["String"]>;
 };
 
+export type SearchResult = {
+  __typename?: "SearchResult";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  typeName: Scalars["String"];
+};
+
 export type Sectorization = {
   __typename?: "Sectorization";
   contract?: Maybe<ContractEntityResponse>;
@@ -6555,6 +7329,7 @@ export type ServicesBlockServiceLinksDynamicZone =
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
@@ -7441,14 +8216,91 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>;
 };
 
+export type WasteFamily = {
+  __typename?: "WasteFamily";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  familyName: Scalars["String"];
+  isSystem: Scalars["Boolean"];
+  recyclingGuideServices?: Maybe<RecyclingGuideServiceEntityResponse>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  wasteForms?: Maybe<WasteFormRelationResponseCollection>;
+};
+
+export type WasteFamilyWasteFormsArgs = {
+  filters?: InputMaybe<WasteFormFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type WasteFamilyEntity = {
+  __typename?: "WasteFamilyEntity";
+  attributes?: Maybe<WasteFamily>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type WasteFamilyEntityResponse = {
+  __typename?: "WasteFamilyEntityResponse";
+  data?: Maybe<WasteFamilyEntity>;
+};
+
+export type WasteFamilyEntityResponseCollection = {
+  __typename?: "WasteFamilyEntityResponseCollection";
+  data: Array<WasteFamilyEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type WasteFamilyFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<WasteFamilyFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  familyName?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isSystem?: InputMaybe<BooleanFilterInput>;
+  not?: InputMaybe<WasteFamilyFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<WasteFamilyFiltersInput>>>;
+  recyclingGuideServices?: InputMaybe<RecyclingGuideServiceFiltersInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  wasteForms?: InputMaybe<WasteFormFiltersInput>;
+};
+
+export type WasteFamilyInput = {
+  familyName?: InputMaybe<Scalars["String"]>;
+  isSystem?: InputMaybe<Scalars["Boolean"]>;
+  recyclingGuideServices?: InputMaybe<Scalars["ID"]>;
+  wasteForms?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type WasteFamilyRelationResponseCollection = {
+  __typename?: "WasteFamilyRelationResponseCollection";
+  data: Array<WasteFamilyEntity>;
+};
+
 export type WasteForm = {
   __typename?: "WasteForm";
+  contentBlock?: Maybe<Array<Maybe<WasteFormContentBlockDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  picto?: Maybe<UploadFileEntityResponse>;
+  recyclingGestureText?: Maybe<Scalars["String"]>;
+  tags?: Maybe<TagRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  wasteFamily?: Maybe<WasteFamilyEntityResponse>;
 };
+
+export type WasteFormTagsArgs = {
+  filters?: InputMaybe<TagFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type WasteFormContentBlockDynamicZone =
+  | ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error;
 
 export type WasteFormEntity = {
   __typename?: "WasteFormEntity";
@@ -7475,14 +8327,22 @@ export type WasteFormFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<WasteFormFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  recyclingGestureText?: InputMaybe<StringFilterInput>;
+  tags?: InputMaybe<TagFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  wasteFamily?: InputMaybe<WasteFamilyFiltersInput>;
 };
 
 export type WasteFormInput = {
+  contentBlock?: InputMaybe<
+    Array<Scalars["WasteFormContentBlockDynamicZoneInput"]>
+  >;
   description?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  picto?: InputMaybe<Scalars["ID"]>;
+  recyclingGestureText?: InputMaybe<Scalars["String"]>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  wasteFamily?: InputMaybe<Scalars["ID"]>;
 };
 
 export type WasteFormRelationResponseCollection = {
@@ -8788,6 +9648,9 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ChannelType" }
           | { __typename?: "City" }
           | { __typename?: "ClientContact" }
+          | { __typename?: "CollectDoorToDoor" }
+          | { __typename?: "CollectDropOff" }
+          | { __typename?: "CollectVoluntary" }
           | { __typename?: "ComponentBlocksFile" }
           | { __typename?: "ComponentBlocksHorizontalRule" }
           | { __typename?: "ComponentBlocksImage" }
@@ -8803,6 +9666,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentLinksExternal" }
           | { __typename?: "ComponentLinksFrees" }
           | { __typename?: "ComponentLinksKeyMetrics" }
+          | { __typename?: "ComponentLinksMyWasteCounter" }
           | { __typename?: "ComponentLinksNews" }
           | { __typename?: "ComponentLinksPickUpDay" }
           | { __typename?: "ComponentLinksQuizzes" }
@@ -8829,6 +9693,8 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "Event" }
           | { __typename?: "EventSubService" }
           | { __typename?: "ExportEntity" }
+          | { __typename?: "Flow" }
+          | { __typename?: "FlowColor" }
           | { __typename?: "Footer" }
           | { __typename?: "FreeContent" }
           | { __typename?: "FreeContentSubService" }
@@ -8837,6 +9703,8 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "I18NLocale" }
           | { __typename?: "KeyMetric" }
           | { __typename?: "KeyMetricsService" }
+          | { __typename?: "MwCounterService" }
+          | { __typename?: "MyWasteCounter" }
           | { __typename?: "New" }
           | { __typename?: "NewsSubService" }
           | { __typename?: "PickUpDay" }
@@ -8868,6 +9736,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "UsersPermissionsPermission" }
           | { __typename?: "UsersPermissionsRole" }
           | { __typename?: "UsersPermissionsUser" }
+          | { __typename?: "WasteFamily" }
           | { __typename?: "WasteForm" }
           | { __typename?: "YesWeScanService" }
           | null
@@ -9035,7 +9904,7 @@ export type GetContactUsesSubServiceByContractIdQuery = {
       attributes?: {
         __typename?: "ContactUsSubService";
         name: string;
-        isActivated: boolean;
+        isActivated?: boolean | null;
         contactUses?: {
           __typename?: "ContactUsRelationResponseCollection";
           data: Array<{ __typename?: "ContactUsEntity"; id?: string | null }>;
@@ -10118,6 +10987,7 @@ export type GetContractByIdQuery = {
               __typename?: "RecyclingGuideService";
               name: string;
               isActivated: boolean;
+              memoName: string;
             } | null;
           } | null;
         } | null;
@@ -10295,7 +11165,7 @@ export type GetServicesActiveQuery = {
             __typename?: "ContactUsSubServiceEntity";
             attributes?: {
               __typename?: "ContactUsSubService";
-              isActivated: boolean;
+              isActivated?: boolean | null;
             } | null;
           } | null;
         } | null;
@@ -10702,6 +11572,7 @@ export type GetServicesBlockTabQuery = {
                           } | null;
                         }
                       | { __typename?: "ComponentLinksKeyMetrics" }
+                      | { __typename?: "ComponentLinksMyWasteCounter" }
                       | {
                           __typename?: "ComponentLinksNews";
                           id: string;
@@ -11070,6 +11941,7 @@ export type UpdateServicesBlockTabMutation = {
                           } | null;
                         }
                       | { __typename?: "ComponentLinksKeyMetrics" }
+                      | { __typename?: "ComponentLinksMyWasteCounter" }
                       | {
                           __typename?: "ComponentLinksNews";
                           id: string;
@@ -11636,6 +12508,22 @@ export type GetMenuPageQuery = {
                   }
                 | { __typename?: "ComponentLinksKeyMetrics" }
                 | {
+                    __typename?: "ComponentLinksMyWasteCounter";
+                    id: string;
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
                     __typename?: "ComponentLinksNews";
                     id: string;
                     name?: string | null;
@@ -11839,6 +12727,7 @@ export type UpdateMenuPageMutation = {
               } | null;
             }
           | { __typename?: "ComponentLinksKeyMetrics" }
+          | { __typename?: "ComponentLinksMyWasteCounter" }
           | {
               __typename?: "ComponentLinksNews";
               id: string;
@@ -16231,6 +17120,7 @@ export const GetContractByIdDocument = gql`
               attributes {
                 name
                 isActivated
+                memoName
               }
             }
           }
@@ -18386,6 +19276,18 @@ export const GetMenuPageDocument = gql`
                     }
                   }
                   ... on ComponentLinksFrees {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksMyWasteCounter {
                     id
                     name
                     isDisplayed
