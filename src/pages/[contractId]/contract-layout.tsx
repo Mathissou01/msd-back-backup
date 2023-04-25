@@ -72,7 +72,7 @@ export default function ContractLayout(props: IContractLayoutProps) {
     if (data !== undefined) {
       const contract = data.contract?.data;
       if (contract && contract.id && isStringOfNumber(contract.id)) {
-        setContract(contract.id);
+        setContract(contract);
         setContractId(contract.id);
       } else {
         router.push("/404");
