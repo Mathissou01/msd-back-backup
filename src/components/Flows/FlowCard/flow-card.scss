@@ -1,0 +1,20 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-FlowCard {
+  @include shadows.shadow(1);
+
+  justify-content: space-between;
+  width: 48%;
+  padding: 30px;
+  background: colors.$white;
+  border-radius: 8px;
+
+  &__Name {
+    color: colors.$expert-blue;
+    font-weight: 500;
+    font-size: 18px;
+    font-family: DINPro-Medium, sans-serif;
+    line-height: 20px;
+  }
+}

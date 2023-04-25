@@ -10843,6 +10843,27 @@ export type UploadGraphQlMutation = {
   uploadGraphQL?: boolean | null;
 };
 
+export type GetFlowsByContractIdQueryVariables = Exact<{
+  filters?: InputMaybe<FlowFiltersInput>;
+}>;
+
+export type GetFlowsByContractIdQuery = {
+  __typename?: "Query";
+  flows?: {
+    __typename?: "FlowEntityResponseCollection";
+    data: Array<{
+      __typename?: "FlowEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Flow";
+        name?: string | null;
+        isActivated?: boolean | null;
+        createdAt?: any | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetContractByIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -17012,6 +17033,71 @@ export type UploadGraphQlMutationResult =
 export type UploadGraphQlMutationOptions = Apollo.BaseMutationOptions<
   UploadGraphQlMutation,
   UploadGraphQlMutationVariables
+>;
+export const GetFlowsByContractIdDocument = gql`
+  query getFlowsByContractId($filters: FlowFiltersInput) {
+    flows(filters: $filters) {
+      data {
+        attributes {
+          name
+          isActivated
+          createdAt
+        }
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFlowsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetFlowsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFlowsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFlowsByContractIdQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetFlowsByContractIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetFlowsByContractIdQuery,
+    GetFlowsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFlowsByContractIdQuery,
+    GetFlowsByContractIdQueryVariables
+  >(GetFlowsByContractIdDocument, options);
+}
+export function useGetFlowsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFlowsByContractIdQuery,
+    GetFlowsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFlowsByContractIdQuery,
+    GetFlowsByContractIdQueryVariables
+  >(GetFlowsByContractIdDocument, options);
+}
+export type GetFlowsByContractIdQueryHookResult = ReturnType<
+  typeof useGetFlowsByContractIdQuery
+>;
+export type GetFlowsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetFlowsByContractIdLazyQuery
+>;
+export type GetFlowsByContractIdQueryResult = Apollo.QueryResult<
+  GetFlowsByContractIdQuery,
+  GetFlowsByContractIdQueryVariables
 >;
 export const GetContractByIdDocument = gql`
   query getContractById($contractId: ID!) {
