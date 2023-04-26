@@ -13,7 +13,9 @@ interface IFlowCardProps {
 }
 
 export function FlowCard({ name, flowId, isActivated }: IFlowCardProps) {
-  const [isToggleActive, setIsToggleActive] = useState<boolean>();
+  const [isToggleActive, setIsToggleActive] = useState<boolean>(
+    name === "Ordure Ménagère",
+  );
 
   const onChangeHandler = (isToggleActiveUpdated: boolean) => {
     if (isToggleActiveUpdated === true) {
