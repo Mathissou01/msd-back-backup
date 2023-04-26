@@ -1,0 +1,11 @@
+mutation updateFlow($updateFlowId: ID!, $data: FlowInput!) {
+  updateFlow(id: $updateFlowId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        isActivated
+      }
+    }
+  }
+}

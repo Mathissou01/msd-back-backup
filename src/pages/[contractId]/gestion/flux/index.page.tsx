@@ -10,7 +10,7 @@ import { removeNulls } from "../../../../lib/utilities";
 interface IFlowCardProps {
   id: string;
   name: string;
-  //isActivated: boolean;
+  isActivated: boolean;
 }
 
 export function FluxActivationPage() {
@@ -23,6 +23,7 @@ export function FluxActivationPage() {
   /* External Data */
   const { contractId } = useContract();
   const [flows, setFlows] = useState<IFlowCardProps[]>([]);
+
   const { data } = useGetFlowsByContractIdQuery({
     variables: contractId,
   });
@@ -32,7 +33,13 @@ export function FluxActivationPage() {
       setFlows(
         data?.flows?.data
           ?.map((flow) => {
-            if (flow && flow.id && flow.attributes) {
+            if (
+              flow &&
+              flow.id &&
+              flow.attributes &&
+              flow.attributes?.isActivated !== null &&
+              flow.attributes?.isActivated !== undefined
+            ) {
               return {
                 id: flow.id,
                 name: flow.attributes.name ?? "",
@@ -44,7 +51,6 @@ export function FluxActivationPage() {
       );
     }
   }, [data]);
-
   return (
     <>
       <PageTitle title={title} description={description} />

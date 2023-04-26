@@ -1,33 +1,60 @@
-import React from "react";
-// TODO
-//import CommonToggle from "../../Common/CommonToggle/CommonToggle";
+import React, { useState } from "react";
+import {
+  useUpdateFlowMutation,
+  GetFlowsByContractIdDocument,
+} from "../../../graphql/codegen/generated-types";
+import CommonToggle from "../../Common/CommonToggle/CommonToggle";
 import "./flow-card.scss";
 
 interface IFlowCardProps {
-  name?: string;
+  name: string;
+  flowId: string;
+  isActivated: boolean;
 }
 
-export function FlowCard({ name }: IFlowCardProps) {
-  // TODO
-  // const [isActivated, setIsActivated] = useState(name === "Ordure Ménagère");
+export function FlowCard({ name, flowId, isActivated }: IFlowCardProps) {
+  const [isToggleActive, setIsToggleActive] = useState<boolean>();
 
-  // const onChangeHandler = (checked: boolean) => {
-  //   setIsActivated(checked);
-  // };
-  // console.log(isActivated);
+  const onChangeHandler = (isToggleActiveUpdated: boolean) => {
+    if (isToggleActiveUpdated === true) {
+      setIsToggleActive(true);
+    } else {
+      setIsToggleActive(false);
+    }
+
+    const variables = {
+      updateFlowId: flowId,
+      data: {
+        isActivated: isToggleActiveUpdated,
+      },
+    };
+    return updateFlow({
+      variables,
+      refetchQueries: [
+        {
+          query: GetFlowsByContractIdDocument,
+          variables: { flowId },
+        },
+      ],
+    });
+  };
+
+  const [updateFlow] = useUpdateFlowMutation();
 
   return (
     <div className="c-FlowCard">
       <div className="c-FlowCard__Name">{name}</div>
       <div className="c-FlowCard__Modifications">
         {/* TODO : add <div className="c-FlowCard__Edit"> Edit</div> */}
-        {/* TODO : add <div className="c-FlowCard__ToogleActivation">
+        <div className="c-FlowCard__ToogleActivation">
           <CommonToggle
-            onChange={onChangeHandler}
-            checked={isActivated}
+            onChange={(isToggleActiveUpdated) =>
+              onChangeHandler(isToggleActiveUpdated)
+            }
+            checked={isToggleActive ? isToggleActive : isActivated}
             disabled={name === "Ordure Ménagère" ? true : false}
           />
-        </div> */}
+        </div>
       </div>
     </div>
   );

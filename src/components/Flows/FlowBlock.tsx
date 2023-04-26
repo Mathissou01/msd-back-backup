@@ -5,7 +5,7 @@ import { FlowCard } from "./FlowCard/FlowCard";
 interface IFlowCardProps {
   id: string;
   name: string;
-  //TODO : add isActivated: boolean;
+  isActivated: boolean;
 }
 
 interface IFlowsBlockProps {
@@ -16,7 +16,12 @@ export default function FlowBlock({ data }: IFlowsBlockProps) {
   return (
     <div className="c-FlowBlock">
       {data?.map((flow) => (
-        <FlowCard key={flow.id} name={flow.name} />
+        <FlowCard
+          key={flow.id}
+          name={flow.name}
+          flowId={flow.id}
+          isActivated={flow.isActivated}
+        />
       ))}
     </div>
   );

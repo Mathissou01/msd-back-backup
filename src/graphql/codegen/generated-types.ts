@@ -10864,6 +10864,27 @@ export type GetFlowsByContractIdQuery = {
   } | null;
 };
 
+export type UpdateFlowMutationVariables = Exact<{
+  updateFlowId: Scalars["ID"];
+  data: FlowInput;
+}>;
+
+export type UpdateFlowMutation = {
+  __typename?: "Mutation";
+  updateFlow?: {
+    __typename?: "FlowEntityResponse";
+    data?: {
+      __typename?: "FlowEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Flow";
+        name?: string | null;
+        isActivated?: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetContractByIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -17098,6 +17119,63 @@ export type GetFlowsByContractIdLazyQueryHookResult = ReturnType<
 export type GetFlowsByContractIdQueryResult = Apollo.QueryResult<
   GetFlowsByContractIdQuery,
   GetFlowsByContractIdQueryVariables
+>;
+export const UpdateFlowDocument = gql`
+  mutation updateFlow($updateFlowId: ID!, $data: FlowInput!) {
+    updateFlow(id: $updateFlowId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          isActivated
+        }
+      }
+    }
+  }
+`;
+export type UpdateFlowMutationFn = Apollo.MutationFunction<
+  UpdateFlowMutation,
+  UpdateFlowMutationVariables
+>;
+
+/**
+ * __useUpdateFlowMutation__
+ *
+ * To run a mutation, you first call `useUpdateFlowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFlowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFlowMutation, { data, loading, error }] = useUpdateFlowMutation({
+ *   variables: {
+ *      updateFlowId: // value for 'updateFlowId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateFlowMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateFlowMutation,
+    UpdateFlowMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateFlowMutation, UpdateFlowMutationVariables>(
+    UpdateFlowDocument,
+    options,
+  );
+}
+export type UpdateFlowMutationHookResult = ReturnType<
+  typeof useUpdateFlowMutation
+>;
+export type UpdateFlowMutationResult =
+  Apollo.MutationResult<UpdateFlowMutation>;
+export type UpdateFlowMutationOptions = Apollo.BaseMutationOptions<
+  UpdateFlowMutation,
+  UpdateFlowMutationVariables
 >;
 export const GetContractByIdDocument = gql`
   query getContractById($contractId: ID!) {
