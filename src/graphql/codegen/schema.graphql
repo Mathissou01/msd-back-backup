@@ -5128,11 +5128,12 @@ type RecyclingGuideService {
   contract: ContractEntityResponse
   createdAt: DateTime
   endDate: Date
-  file: UploadFileEntityResponse
   isActivated: Boolean!
   memoDesc: String
+  memoFile: UploadFileEntityResponse
   memoName: String!
   name: String!
+  orderExtension: Boolean
   startDate: Date
   updatedAt: DateTime
   wasteFamilies(
@@ -5175,6 +5176,7 @@ input RecyclingGuideServiceFiltersInput {
   name: StringFilterInput
   not: RecyclingGuideServiceFiltersInput
   or: [RecyclingGuideServiceFiltersInput]
+  orderExtension: BooleanFilterInput
   startDate: DateFilterInput
   updatedAt: DateTimeFilterInput
   wasteFamilies: WasteFamilyFiltersInput
@@ -5186,11 +5188,12 @@ input RecyclingGuideServiceInput {
   cities: [ID]
   contract: ID
   endDate: Date
-  file: ID
   isActivated: Boolean
   memoDesc: String
+  memoFile: ID
   memoName: String
   name: String
+  orderExtension: Boolean
   startDate: Date
   wasteFamilies: [ID]
   wasteForms: [ID]
@@ -6377,6 +6380,7 @@ type WasteForm {
   name: String
   picto: UploadFileEntityResponse
   recyclingGestureText: String
+  recyclingGuideService: RecyclingGuideServiceEntityResponse
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -6420,6 +6424,7 @@ input WasteFormFiltersInput {
   not: WasteFormFiltersInput
   or: [WasteFormFiltersInput]
   recyclingGestureText: StringFilterInput
+  recyclingGuideService: RecyclingGuideServiceFiltersInput
   tags: TagFiltersInput
   updatedAt: DateTimeFilterInput
   wasteFamily: WasteFamilyFiltersInput
@@ -6431,6 +6436,7 @@ input WasteFormInput {
   name: String
   picto: ID
   recyclingGestureText: String
+  recyclingGuideService: ID
   tags: [ID]
   wasteFamily: ID
 }

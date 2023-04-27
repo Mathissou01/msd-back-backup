@@ -5,6 +5,8 @@ query getFreeContentById($freeContentId: ID) {
       attributes {
         title
         shortDescription
+        createdAt
+        updatedAt
         freeContentSubService {
           data {
             id

@@ -21,6 +21,8 @@ import ContractLayout from "../../../../contract-layout";
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../../components/Edito/EditoForm/EditoForm";
+import { formatDate } from "../../../../../../lib/utilities";
+import { parseJSON } from "date-fns";
 
 interface IEditoFreeContentEditPageProps {
   freeContentId: string;
@@ -157,8 +159,15 @@ export function EditoFreeContentEditPage({
             freeContentData.attributes.blocks,
           ),
           unpublishedDate: freeContentData.attributes.unpublishedDate,
+          createdAt: formatDate(
+            parseJSON(freeContentData.attributes.createdAt),
+            "dd/MM/yyyy HH:mm",
+          ),
+          updatedAt: formatDate(
+            parseJSON(freeContentData.attributes.updatedAt),
+            "dd/MM/yyyy HH:mm",
+          ),
         };
-
         setMappedData(mappedData);
       }
     } else if (data?.freeContent && data.freeContent.data === null) {

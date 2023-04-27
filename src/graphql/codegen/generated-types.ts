@@ -6891,11 +6891,12 @@ export type RecyclingGuideService = {
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   endDate?: Maybe<Scalars["Date"]>;
-  file?: Maybe<UploadFileEntityResponse>;
   isActivated: Scalars["Boolean"];
   memoDesc?: Maybe<Scalars["String"]>;
+  memoFile?: Maybe<UploadFileEntityResponse>;
   memoName: Scalars["String"];
   name: Scalars["String"];
+  orderExtension?: Maybe<Scalars["Boolean"]>;
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   wasteFamilies?: Maybe<WasteFamilyRelationResponseCollection>;
@@ -6957,6 +6958,7 @@ export type RecyclingGuideServiceFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RecyclingGuideServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RecyclingGuideServiceFiltersInput>>>;
+  orderExtension?: InputMaybe<BooleanFilterInput>;
   startDate?: InputMaybe<DateFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   wasteFamilies?: InputMaybe<WasteFamilyFiltersInput>;
@@ -6968,11 +6970,12 @@ export type RecyclingGuideServiceInput = {
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
-  file?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   memoDesc?: InputMaybe<Scalars["String"]>;
+  memoFile?: InputMaybe<Scalars["ID"]>;
   memoName?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
+  orderExtension?: InputMaybe<Scalars["Boolean"]>;
   startDate?: InputMaybe<Scalars["Date"]>;
   wasteFamilies?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   wasteForms?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -8282,6 +8285,7 @@ export type WasteForm = {
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
   recyclingGestureText?: Maybe<Scalars["String"]>;
+  recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   tags?: Maybe<TagRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   wasteFamily?: Maybe<WasteFamilyEntityResponse>;
@@ -8328,6 +8332,7 @@ export type WasteFormFiltersInput = {
   not?: InputMaybe<WasteFormFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
   recyclingGestureText?: InputMaybe<StringFilterInput>;
+  recyclingGuideService?: InputMaybe<RecyclingGuideServiceFiltersInput>;
   tags?: InputMaybe<TagFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   wasteFamily?: InputMaybe<WasteFamilyFiltersInput>;
@@ -8341,6 +8346,7 @@ export type WasteFormInput = {
   name?: InputMaybe<Scalars["String"]>;
   picto?: InputMaybe<Scalars["ID"]>;
   recyclingGestureText?: InputMaybe<Scalars["String"]>;
+  recyclingGuideService?: InputMaybe<Scalars["ID"]>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   wasteFamily?: InputMaybe<Scalars["ID"]>;
 };
@@ -10188,6 +10194,8 @@ export type GetFreeContentByIdQuery = {
         __typename?: "FreeContent";
         title: string;
         shortDescription?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
         status?: Enum_Freecontent_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
@@ -15489,6 +15497,8 @@ export const GetFreeContentByIdDocument = gql`
         attributes {
           title
           shortDescription
+          createdAt
+          updatedAt
           freeContentSubService {
             data {
               id
