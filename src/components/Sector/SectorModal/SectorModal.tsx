@@ -1,19 +1,29 @@
 import React from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import CommonButton from "../../Common/CommonButton/CommonButton";
+import { IDefaultTableRow } from "../../Common/CommonDataTable/CommonDataTable";
 import FormInput from "../../Form/FormInput/FormInput";
 import "./sector-modal.scss";
+
+interface ISectorsTableRow extends IDefaultTableRow {
+  name: string;
+  description: string;
+}
 
 interface ISectorModal {
   onSubmitValid: (data: FieldValues) => void;
   onSubmitAndModalRefresh: (data: FieldValues) => void;
   handleCloseModal: () => void;
+  defaultValue: ISectorsTableRow | undefined;
+  onUpdate: (data: FieldValues) => void;
 }
 
 export default function SectorModal({
   onSubmitValid,
   onSubmitAndModalRefresh,
   handleCloseModal,
+  defaultValue,
+  onUpdate,
 }: ISectorModal) {
   /* Static Data */
   const formLabels = {
@@ -31,16 +41,19 @@ export default function SectorModal({
   /* Methods */
 
   /* Local Data */
-
   const formValidationMode = "onChange";
   const form = useForm({
     mode: formValidationMode,
+    defaultValues: defaultValue ?? {},
   });
   const { handleSubmit } = form;
 
   return (
     <FormProvider {...form}>
-      <form className="c-SectorModal" onSubmit={handleSubmit(onSubmitValid)}>
+      <form
+        className="c-SectorModal"
+        onSubmit={handleSubmit(defaultValue ? onUpdate : onSubmitValid)}
+      >
         <div className="c-SectorModal__Informations">
           <div className="c-SectorModal__InformationsTitle">
             {formLabels.title}

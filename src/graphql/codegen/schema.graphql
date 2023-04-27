@@ -888,13 +888,13 @@ type ComponentLinksKeyMetrics {
 }
 
 type ComponentLinksMyWasteCounter {
-  MyWCounter(
+  id: ID!
+  isDisplayed: Boolean!
+  myWCounter(
     filters: MwCounterServiceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): MwCounterServiceRelationResponseCollection
-  id: ID!
-  isDisplayed: Boolean!
   name: String
   picto: UploadFileEntityResponse
 }
@@ -2639,6 +2639,11 @@ type Flow {
   name: String
   recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE!
   updatedAt: DateTime
+  wasteForms(
+    filters: WasteFormFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WasteFormRelationResponseCollection
 }
 
 type FlowColor {
@@ -2714,6 +2719,7 @@ input FlowFiltersInput {
   or: [FlowFiltersInput]
   recyclingGesture: StringFilterInput
   updatedAt: DateTimeFilterInput
+  wasteForms: WasteFormFiltersInput
 }
 
 input FlowInput {
@@ -2726,6 +2732,7 @@ input FlowInput {
   isActivated: Boolean
   name: String
   recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE
+  wasteForms: [ID]
 }
 
 type FlowRelationResponseCollection {
@@ -3696,7 +3703,6 @@ type Mutation {
     password: String!
     passwordConfirmation: String!
   ): UsersPermissionsLoginPayload
-  sectorizationByCity(postalCode: Int!): CitySectorization
   servicesActivation(
     ServiceName: String!
     contractId: ID!
@@ -3963,7 +3969,7 @@ type MwCounterService {
   createdAt: DateTime
   description: String
   endDate: Date
-  isActivated: Boolean
+  isActivated: Boolean!
   name: String
   startDate: Date
   updatedAt: DateTime
@@ -4767,6 +4773,7 @@ type Query {
     sort: [String] = []
   ): SearchEngineBlockEntityResponseCollection
   sectorization(id: ID): SectorizationEntityResponse
+  sectorizationByCity(postalCode: Int!): CitySectorization
   sectorizations(
     filters: SectorizationFiltersInput
     pagination: PaginationArg = {}
@@ -6326,7 +6333,7 @@ type WasteFamily {
   createdAt: DateTime
   familyName: String!
   isSystem: Boolean!
-  recyclingGuideServices: RecyclingGuideServiceEntityResponse
+  recyclingGuideService: RecyclingGuideServiceEntityResponse
   updatedAt: DateTime
   wasteForms(
     filters: WasteFormFiltersInput
@@ -6357,7 +6364,7 @@ input WasteFamilyFiltersInput {
   isSystem: BooleanFilterInput
   not: WasteFamilyFiltersInput
   or: [WasteFamilyFiltersInput]
-  recyclingGuideServices: RecyclingGuideServiceFiltersInput
+  recyclingGuideService: RecyclingGuideServiceFiltersInput
   updatedAt: DateTimeFilterInput
   wasteForms: WasteFormFiltersInput
 }
@@ -6365,7 +6372,7 @@ input WasteFamilyFiltersInput {
 input WasteFamilyInput {
   familyName: String
   isSystem: Boolean
-  recyclingGuideServices: ID
+  recyclingGuideService: ID
   wasteForms: [ID]
 }
 
@@ -6376,7 +6383,7 @@ type WasteFamilyRelationResponseCollection {
 type WasteForm {
   contentBlock: [WasteFormContentBlockDynamicZone]
   createdAt: DateTime
-  description: String
+  flow: FlowEntityResponse
   name: String
   picto: UploadFileEntityResponse
   recyclingGestureText: String
@@ -6418,7 +6425,7 @@ type WasteFormEntityResponseCollection {
 input WasteFormFiltersInput {
   and: [WasteFormFiltersInput]
   createdAt: DateTimeFilterInput
-  description: StringFilterInput
+  flow: FlowFiltersInput
   id: IDFilterInput
   name: StringFilterInput
   not: WasteFormFiltersInput
@@ -6432,7 +6439,7 @@ input WasteFormFiltersInput {
 
 input WasteFormInput {
   contentBlock: [WasteFormContentBlockDynamicZoneInput!]
-  description: String
+  flow: ID
   name: String
   picto: ID
   recyclingGestureText: String

@@ -1,11 +1,17 @@
-.c-SectorsPage__Modal {
-  width: 100%;
-}
+.c-SectorsPage {
+  &__Modal {
+    width: 100%;
+  }
 
-.c-SectorsPage__Table {
-  margin-top: 20px;
-}
+  &__Table {
+    margin-top: 20px;
+  }
 
-.c-SectorsPage__Title {
-  margin-top: 38px;
+  &__Title {
+    margin-top: 38px;
+  }
+
+  &__Link {
+    cursor: pointer;
+  }
 }

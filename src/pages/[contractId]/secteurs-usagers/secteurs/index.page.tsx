@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { TableColumn } from "react-data-table-component";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
@@ -20,9 +19,9 @@ import {
   useCreateSectorizationMutation,
   useDeleteSectorizationMutation,
   GetSectorizationsByContractIdDocument,
+  useUpdateSectorizationMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
-import { useNavigation } from "../../../../hooks/useNavigation";
 import { removeNulls } from "../../../../lib/utilities";
 import ContractLayout from "../../contract-layout";
 import "./secteurs.scss";
@@ -46,8 +45,102 @@ export function SectorsPage() {
     },
   };
 
-  /* Methods */
+  /* External Data */
+  const { contractId } = useContract();
+  const defaultRowsPerPage = 30;
+  const defaultPage = 1;
+  const defaultQueryVariables: GetSectorizationsByContractIdQueryVariables = {
+    contractId,
+    sort: "createdAt:asc",
+    pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
+  };
 
+  const [getSectorizationsQuery, { data, loading, error }] =
+    useGetSectorizationsByContractIdLazyQuery({
+      variables: defaultQueryVariables,
+      fetchPolicy: "cache-and-network",
+    });
+
+  const [createSectorization] = useCreateSectorizationMutation();
+  const [
+    updateSectorizationMutation,
+    {
+      loading: updateSectorizationMutationLoading,
+      error: updateSectorizationMutationError,
+    },
+  ] = useUpdateSectorizationMutation();
+
+  const [
+    deleteSectorizationMutation,
+    {
+      loading: deleteSectorizationMutationLoading,
+      error: deleteSectorizationMutationError,
+    },
+  ] = useDeleteSectorizationMutation();
+
+  /* Local Data */
+  const isInitialized = useRef(false);
+  const [tableData, setTableData] = useState<Array<ISectorsTableRow>>([]);
+  const [isUpdatingData, setIsUpdatingData] = useState(false);
+  const isLoadingMutation =
+    isUpdatingData ||
+    deleteSectorizationMutationLoading ||
+    updateSectorizationMutationLoading;
+  const isLoading =
+    loading || isLoadingMutation || updateSectorizationMutationLoading;
+  const errors = [
+    error,
+    deleteSectorizationMutationError,
+    updateSectorizationMutationError,
+  ];
+  const modalRef = useRef<CommonModalWrapperRef>(null);
+  const [secteurDefaultValue, setSecteurDefaultValue] =
+    useState<ISectorsTableRow>();
+
+  const tableColumns: Array<TableColumn<ISectorsTableRow>> = [
+    {
+      id: "id",
+      selector: (row) => row.id,
+      omit: true,
+    },
+    {
+      id: "name",
+      name: tableLabels.columns.sectorTitle,
+      selector: (row) => row.name,
+      cell: (row) => (
+        <div onClick={() => onEdit(row)} className="c-SectorsPage__Link">
+          {row.name}
+        </div>
+      ),
+      sortable: true,
+      grow: 1,
+    },
+    {
+      id: "description",
+      name: tableLabels.columns.description,
+      selector: (row) => row.description,
+      sortable: true,
+    },
+  ];
+
+  const actionColumn = (row: ISectorsTableRow): Array<IDataTableAction> => [
+    // TODO: try to use picto scss or DS icons instead of /public/
+    {
+      id: "edit",
+      picto: "/images/pictos/edit.svg",
+      onClick: () => onEdit(row),
+    },
+    {
+      id: "delete",
+      picto: "/images/pictos/delete.svg",
+      confirmStateOptions: {
+        onConfirm: () => onDelete(row),
+        confirmStyle: "warning",
+      },
+    },
+  ];
+
+  /* Methods */
   async function handleLazyLoad(params: ICurrentPagination<ISectorsTableRow>) {
     return getSectorizationsQuery({
       variables: {
@@ -106,84 +199,36 @@ export function SectorsPage() {
 
     void getSectorizationsQuery();
   }
-  /* External Data */
-  const { currentRoot } = useNavigation();
-  const { contractId } = useContract();
-  const defaultRowsPerPage = 30;
-  const defaultPage = 1;
-  const defaultQueryVariables: GetSectorizationsByContractIdQueryVariables = {
-    contractId,
-    sort: "createdAt:asc",
-    pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
-  };
 
-  const [getSectorizationsQuery, { data, loading, error }] =
-    useGetSectorizationsByContractIdLazyQuery({
-      variables: defaultQueryVariables,
-      fetchPolicy: "cache-and-network",
+  function onEdit(row: ISectorsTableRow) {
+    modalRef.current?.toggleModal(true);
+
+    setSecteurDefaultValue(row);
+  }
+
+  async function handleUpdate(submitData: ISectorsTableRow) {
+    const variables = {
+      updateSectorizationId: submitData.id,
+      data: {
+        name: submitData.name,
+        description: submitData.description,
+        contract: contractId,
+      },
+    };
+
+    await updateSectorizationMutation({
+      variables,
+      refetchQueries: [
+        {
+          query: GetSectorizationsByContractIdDocument,
+          variables: { contractId },
+        },
+      ],
     });
 
-  const [createSectorization] = useCreateSectorizationMutation();
-
-  const [
-    deleteSectorizationMutation,
-    {
-      loading: deleteSectorizationMutationLoading,
-      error: deleteSectorizationMutationError,
-    },
-  ] = useDeleteSectorizationMutation();
-
-  /* Local Data */
-  const isInitialized = useRef(false);
-  const [tableData, setTableData] = useState<Array<ISectorsTableRow>>([]);
-  const [isUpdatingData, setIsUpdatingData] = useState(false);
-  const isLoadingMutation =
-    isUpdatingData || deleteSectorizationMutationLoading;
-  const isLoading = loading || isLoadingMutation;
-  const errors = [error, deleteSectorizationMutationError];
-  const modalRef = useRef<CommonModalWrapperRef>(null);
-
-  const tableColumns: Array<TableColumn<ISectorsTableRow>> = [
-    {
-      id: "id",
-      selector: (row) => row.id,
-      omit: true,
-    },
-    {
-      id: "name",
-      name: tableLabels.columns.sectorTitle,
-      selector: (row) => row.name,
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/secteurs-usagers/secteurs/${row.id}`}
-          className="o-SectorsPage__Link"
-        >
-          {row.name}
-        </Link>
-      ),
-      sortable: true,
-      grow: 1,
-    },
-    {
-      id: "description",
-      name: tableLabels.columns.description,
-      selector: (row) => row.description,
-      sortable: true,
-    },
-  ];
-
-  const actionColumn = (row: ISectorsTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
-
-    {
-      id: "delete",
-      picto: "/images/pictos/delete.svg",
-      confirmStateOptions: {
-        onConfirm: () => onDelete(row),
-        confirmStyle: "warning",
-      },
-    },
-  ];
+    setSecteurDefaultValue(undefined);
+    modalRef.current?.toggleModal(false);
+  }
 
   useEffect(() => {
     if (data) {
@@ -233,6 +278,8 @@ export function SectorsPage() {
             onSubmitAndModalRefresh={(data) =>
               onSubmitAndModalRefresh(data as ISectorsTableRow)
             }
+            defaultValue={secteurDefaultValue}
+            onUpdate={(data) => handleUpdate(data as ISectorsTableRow)}
             handleCloseModal={handleCloseModal}
           />
         </CommonModalWrapper>

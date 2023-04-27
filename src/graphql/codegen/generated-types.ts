@@ -1041,9 +1041,9 @@ export type ComponentLinksKeyMetricsKeyMetricsArgs = {
 
 export type ComponentLinksMyWasteCounter = {
   __typename?: "ComponentLinksMyWasteCounter";
-  MyWCounter?: Maybe<MwCounterServiceRelationResponseCollection>;
   id: Scalars["ID"];
   isDisplayed: Scalars["Boolean"];
+  myWCounter?: Maybe<MwCounterServiceRelationResponseCollection>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
 };
@@ -2944,6 +2944,7 @@ export type Flow = {
   name?: Maybe<Scalars["String"]>;
   recyclingGesture: Enum_Flow_Recyclinggesture;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  wasteForms?: Maybe<WasteFormRelationResponseCollection>;
 };
 
 export type FlowCollectDoorToDoorsArgs = {
@@ -2960,6 +2961,12 @@ export type FlowCollectDropOffsArgs = {
 
 export type FlowCollectVoluntariesArgs = {
   filters?: InputMaybe<CollectVoluntaryFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type FlowWasteFormsArgs = {
+  filters?: InputMaybe<WasteFormFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -3044,6 +3051,7 @@ export type FlowFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<FlowFiltersInput>>>;
   recyclingGesture?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  wasteForms?: InputMaybe<WasteFormFiltersInput>;
 };
 
 export type FlowInput = {
@@ -3056,6 +3064,7 @@ export type FlowInput = {
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   recyclingGesture?: InputMaybe<Enum_Flow_Recyclinggesture>;
+  wasteForms?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type FlowRelationResponseCollection = {
@@ -3940,7 +3949,6 @@ export type Mutation = {
   removeFile?: Maybe<UploadFileEntityResponse>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
-  sectorizationByCity?: Maybe<CitySectorization>;
   servicesActivation?: Maybe<ServiceActivated>;
   updateAccessibility?: Maybe<AccessibilityEntityResponse>;
   updateAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
@@ -4717,10 +4725,6 @@ export type MutationResetPasswordArgs = {
   passwordConfirmation: Scalars["String"];
 };
 
-export type MutationSectorizationByCityArgs = {
-  postalCode: Scalars["Int"];
-};
-
 export type MutationServicesActivationArgs = {
   ServiceName: Scalars["String"];
   contractId: Scalars["ID"];
@@ -5143,7 +5147,7 @@ export type MwCounterService = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   endDate?: Maybe<Scalars["Date"]>;
-  isActivated?: Maybe<Scalars["Boolean"]>;
+  isActivated: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -5768,6 +5772,7 @@ export type Query = {
   searchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   searchEngineBlocks?: Maybe<SearchEngineBlockEntityResponseCollection>;
   sectorization?: Maybe<SectorizationEntityResponse>;
+  sectorizationByCity?: Maybe<CitySectorization>;
   sectorizations?: Maybe<SectorizationEntityResponseCollection>;
   servicesBlock?: Maybe<ServicesBlockEntityResponse>;
   servicesBlocks?: Maybe<ServicesBlockEntityResponseCollection>;
@@ -6443,6 +6448,10 @@ export type QuerySearchEngineBlocksArgs = {
 
 export type QuerySectorizationArgs = {
   id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QuerySectorizationByCityArgs = {
+  postalCode: Scalars["Int"];
 };
 
 export type QuerySectorizationsArgs = {
@@ -8224,7 +8233,7 @@ export type WasteFamily = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   familyName: Scalars["String"];
   isSystem: Scalars["Boolean"];
-  recyclingGuideServices?: Maybe<RecyclingGuideServiceEntityResponse>;
+  recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   wasteForms?: Maybe<WasteFormRelationResponseCollection>;
 };
@@ -8260,7 +8269,7 @@ export type WasteFamilyFiltersInput = {
   isSystem?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<WasteFamilyFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<WasteFamilyFiltersInput>>>;
-  recyclingGuideServices?: InputMaybe<RecyclingGuideServiceFiltersInput>;
+  recyclingGuideService?: InputMaybe<RecyclingGuideServiceFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   wasteForms?: InputMaybe<WasteFormFiltersInput>;
 };
@@ -8268,7 +8277,7 @@ export type WasteFamilyFiltersInput = {
 export type WasteFamilyInput = {
   familyName?: InputMaybe<Scalars["String"]>;
   isSystem?: InputMaybe<Scalars["Boolean"]>;
-  recyclingGuideServices?: InputMaybe<Scalars["ID"]>;
+  recyclingGuideService?: InputMaybe<Scalars["ID"]>;
   wasteForms?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -8281,7 +8290,7 @@ export type WasteForm = {
   __typename?: "WasteForm";
   contentBlock?: Maybe<Array<Maybe<WasteFormContentBlockDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  description?: Maybe<Scalars["String"]>;
+  flow?: Maybe<FlowEntityResponse>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
   recyclingGestureText?: Maybe<Scalars["String"]>;
@@ -8326,7 +8335,7 @@ export type WasteFormEntityResponseCollection = {
 export type WasteFormFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  description?: InputMaybe<StringFilterInput>;
+  flow?: InputMaybe<FlowFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<WasteFormFiltersInput>;
@@ -8342,7 +8351,7 @@ export type WasteFormInput = {
   contentBlock?: InputMaybe<
     Array<Scalars["WasteFormContentBlockDynamicZoneInput"]>
   >;
-  description?: InputMaybe<Scalars["String"]>;
+  flow?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
   picto?: InputMaybe<Scalars["ID"]>;
   recyclingGestureText?: InputMaybe<Scalars["String"]>;
@@ -12962,6 +12971,30 @@ export type GetSectorizationsByContractIdQuery = {
         pageCount: number;
       };
     };
+  } | null;
+};
+
+export type UpdateSectorizationMutationVariables = Exact<{
+  updateSectorizationId: Scalars["ID"];
+  data: SectorizationInput;
+}>;
+
+export type UpdateSectorizationMutation = {
+  __typename?: "Mutation";
+  updateSectorization?: {
+    __typename?: "SectorizationEntityResponse";
+    data?: {
+      __typename?: "SectorizationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Sectorization";
+        name: string;
+        description: string;
+        polygonCoordinates?: any | null;
+        updatedAt?: any | null;
+        createdAt?: any | null;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -19935,4 +19968,67 @@ export type GetSectorizationsByContractIdLazyQueryHookResult = ReturnType<
 export type GetSectorizationsByContractIdQueryResult = Apollo.QueryResult<
   GetSectorizationsByContractIdQuery,
   GetSectorizationsByContractIdQueryVariables
+>;
+export const UpdateSectorizationDocument = gql`
+  mutation UpdateSectorization(
+    $updateSectorizationId: ID!
+    $data: SectorizationInput!
+  ) {
+    updateSectorization(id: $updateSectorizationId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+          polygonCoordinates
+          updatedAt
+          createdAt
+        }
+      }
+    }
+  }
+`;
+export type UpdateSectorizationMutationFn = Apollo.MutationFunction<
+  UpdateSectorizationMutation,
+  UpdateSectorizationMutationVariables
+>;
+
+/**
+ * __useUpdateSectorizationMutation__
+ *
+ * To run a mutation, you first call `useUpdateSectorizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSectorizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSectorizationMutation, { data, loading, error }] = useUpdateSectorizationMutation({
+ *   variables: {
+ *      updateSectorizationId: // value for 'updateSectorizationId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateSectorizationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateSectorizationMutation,
+    UpdateSectorizationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateSectorizationMutation,
+    UpdateSectorizationMutationVariables
+  >(UpdateSectorizationDocument, options);
+}
+export type UpdateSectorizationMutationHookResult = ReturnType<
+  typeof useUpdateSectorizationMutation
+>;
+export type UpdateSectorizationMutationResult =
+  Apollo.MutationResult<UpdateSectorizationMutation>;
+export type UpdateSectorizationMutationOptions = Apollo.BaseMutationOptions<
+  UpdateSectorizationMutation,
+  UpdateSectorizationMutationVariables
 >;
