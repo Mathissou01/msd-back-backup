@@ -12,7 +12,7 @@ import {
   useUpdateUploadFileMutation,
 } from "../../../graphql/codegen/generated-types";
 import {
-  fileSizeLimitation,
+  fileSizeLimitation_30mb,
   handleReplaceSpecialChars,
   ILocalFile,
   isMimeType,
@@ -32,6 +32,7 @@ import "./form-file-input.scss";
 interface IFormFileInputProps {
   name: string;
   label?: string;
+  fileSizeLimitation?: number;
   validationLabel?: string;
   hasEcoConceptionMessage?: boolean;
   placeholder?: string;
@@ -44,6 +45,7 @@ interface IFormFileInputProps {
 export default function FormFileInput({
   name,
   label,
+  fileSizeLimitation = fileSizeLimitation_30mb,
   validationLabel,
   hasEcoConceptionMessage = false,
   placeholder,

@@ -9209,6 +9209,7 @@ export type GetTipByIdQuery = {
                 __typename?: "UploadFileEntityResponse";
                 data?: {
                   __typename?: "UploadFileEntity";
+                  id?: string | null;
                   attributes?: {
                     __typename?: "UploadFile";
                     hash: string;
@@ -13997,6 +13998,7 @@ export const GetTipByIdDocument = gql`
               id
               picture {
                 data {
+                  id
                   attributes {
                     hash
                     mime

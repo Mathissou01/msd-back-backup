@@ -1,5 +1,8 @@
+@use "src/styles/02-tools/tools.typography" as typo;
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.shadows" as shadows;
+@use "src/styles/02-tools/tools.z-index" as index;
+@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-PersonnalisationCouleursPage {
   &__SvgTogRightAngle {
@@ -50,27 +53,10 @@
   &__SubGroup {
     display: flex;
     flex-direction: column;
+    gap: 10px;
 
     &_short {
       width: 60%;
-    }
-  }
-
-  &__InputWrapper {
-    display: flex;
-    flex-direction: row;
-
-    div {
-      flex: 1;
-      margin-top: 10px;
-
-      &:nth-child(1) {
-        margin-right: 10px;
-      }
-
-      :nth-child(2) {
-        margin-left: 10px;
-      }
     }
   }
 

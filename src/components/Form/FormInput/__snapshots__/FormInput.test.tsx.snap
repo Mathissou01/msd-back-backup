@@ -28,7 +28,7 @@ exports[`FormInput renders 1`] = `
         for="form-input"
       >
         <span
-          class="c-FormLabel__Secondary"
+          class="FormLabel__Secondary"
         >
           secondary label
         </span>

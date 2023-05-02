@@ -64,6 +64,7 @@ query getTipById($tipId: ID) {
             id
             picture {
               data {
+                id
                 attributes {
                   hash
                   mime

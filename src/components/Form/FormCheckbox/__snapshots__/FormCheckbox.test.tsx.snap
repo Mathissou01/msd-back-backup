@@ -30,7 +30,7 @@ exports[`FormCheckbox renders 1`] = `
         for="form-checkbox"
       >
         <span
-          class="c-FormLabel__Secondary"
+          class="FormLabel__Secondary"
         >
           secondary label
         </span>

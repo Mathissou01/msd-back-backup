@@ -223,7 +223,7 @@ exports[`EditoForm renders 1`] = `
                   for="image"
                 >
                   <span
-                    class="c-FormLabel__Secondary"
+                    class="FormLabel__Secondary"
                   >
                     Eco-conception: pensez à réduire la taille et le poids de vos images. Utilisez des logiciels ou des outils en ligne pour optimiser vos images (www.iloveimg.com par exemple).
                   </span>

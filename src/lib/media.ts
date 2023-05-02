@@ -30,7 +30,8 @@ export function isMimeType(type: string): type is TAcceptedMimeTypes {
   return AcceptedMimeTypes.includes(type as TAcceptedMimeTypes);
 }
 
-export const fileSizeLimitation = 31457280; // 30 MB
+export const fileSizeLimitation_30mb = 31457280; // 30 MB
+export const fileSizeLimitation_200kb = 204800; // 200 KB
 
 export interface IFolder {
   id: string;

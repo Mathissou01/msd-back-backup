@@ -80,6 +80,7 @@ export function EditoTipsCreatePage() {
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
     "ComponentBlocksFile",
+    "ComponentBlocksImage",
   ];
 
   return (

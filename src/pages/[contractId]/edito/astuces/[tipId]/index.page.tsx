@@ -142,6 +142,7 @@ export function EditoTipsEditPage({ tipId }: IEditoTipsEditPageProps) {
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
     "ComponentBlocksFile",
+    "ComponentBlocksImage",
   ];
 
   useEffect(() => {
