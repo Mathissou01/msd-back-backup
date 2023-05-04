@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   Enum_Tip_Status,
+  GetTipsByContractIdQuery,
   GetTipsByContractIdDocument,
   GetTipsByContractIdQueryVariables,
   useCreateTipByTipSubServiceIdMutation,
@@ -89,6 +90,21 @@ export function EditoAstucesPage() {
               variables: { contractId },
             },
           ],
+          onQueryUpdated: (observableQuery) => {
+            observableQuery
+              .result()
+              .then((result) => {
+                if (!result.loading) {
+                  setPageData(
+                    result?.data as GetTipsByContractIdQuery | undefined,
+                  );
+                }
+              })
+              .catch((error) => {
+                // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+                console.log(error);
+              });
+          },
         });
       }
     });
@@ -107,6 +123,19 @@ export function EditoAstucesPage() {
           variables: { contractId },
         },
       ],
+      onQueryUpdated: (observableQuery) => {
+        observableQuery
+          .result()
+          .then((result) => {
+            if (!result.loading) {
+              setPageData(result?.data as GetTipsByContractIdQuery | undefined);
+            }
+          })
+          .catch((error) => {
+            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+            console.log(error);
+          });
+      },
     });
   }
 
@@ -123,7 +152,7 @@ export function EditoAstucesPage() {
   const [getTipByQuery, { data, loading, error }] =
     useGetTipsByContractIdLazyQuery({
       variables: defaultQueryVariables,
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "no-cache",
     });
   const [
     GetTipByIdQuery,
@@ -141,6 +170,9 @@ export function EditoAstucesPage() {
   /* Local Data */
   const router = useRouter();
   const isInitialized = useRef(false);
+  const [pageData, setPageData] = useState<
+    GetTipsByContractIdQuery | undefined
+  >(data);
   const [tableData, setTableData] = useState<Array<ITipsTableRow>>([]);
   const [filterData, setFilterData] = useState<
     Array<IDataTableFilter<ITipsTableRow>>
@@ -224,9 +256,9 @@ export function EditoAstucesPage() {
   ];
 
   useEffect(() => {
-    if (data) {
+    if (pageData) {
       setTableData(
-        data?.tips?.data
+        pageData?.tips?.data
           ?.map((tips) => {
             if (tips && tips.id && tips.attributes) {
               return {
@@ -250,31 +282,35 @@ export function EditoAstucesPage() {
       setFilterData([
         {
           label: "Tous",
-          count: data?.tipsCount?.meta.pagination.total,
+          count: pageData?.tipsCount?.meta.pagination.total,
         },
         {
           label: "Publiés",
-          count: data?.tipsCountPublished?.meta.pagination.total,
+          count: pageData?.tipsCountPublished?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_Tip_Status.Published,
           },
         },
         {
           label: "Brouillons",
-          count: data?.tipsCountDraft?.meta.pagination.total,
+          count: pageData?.tipsCountDraft?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_Tip_Status.Draft,
           },
         },
         {
           label: "Archivés",
-          count: data?.tipsCountArchived?.meta.pagination.total,
+          count: pageData?.tipsCountArchived?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_Tip_Status.Archived,
           },
         },
       ]);
     }
+  }, [pageData]);
+
+  useEffect(() => {
+    setPageData(data);
   }, [data]);
 
   useEffect(() => {
@@ -308,7 +344,7 @@ export function EditoAstucesPage() {
             data={tableData}
             lazyLoadingOptions={{
               isRemote: true,
-              totalRows: data?.tips?.meta.pagination.total ?? 0,
+              totalRows: pageData?.tips?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
             filters={filterData}

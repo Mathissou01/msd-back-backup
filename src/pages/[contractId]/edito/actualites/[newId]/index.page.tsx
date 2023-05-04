@@ -66,13 +66,6 @@ export function EditoActualitesEditPage({
 
     return updateNew({
       variables,
-      refetchQueries: [
-        {
-          query: GetNewByIdDocument,
-          variables: { newId },
-          fetchPolicy: "network-only",
-        },
-      ],
     });
   }
 
@@ -97,12 +90,6 @@ export function EditoActualitesEditPage({
     };
     return updateNew({
       variables,
-      refetchQueries: [
-        {
-          query: GetNewByIdDocument,
-          variables: { newId },
-        },
-      ],
     });
   }
 

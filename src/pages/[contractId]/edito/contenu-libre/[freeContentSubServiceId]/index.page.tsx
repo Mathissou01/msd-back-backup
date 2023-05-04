@@ -5,18 +5,17 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   Enum_Freecontent_Status,
+  GetFreeContentsBySubServiceIdQuery,
   GetFreeContentsBySubServiceIdDocument,
   useCreateFreeContentByFreeContentSubServiceIdMutation,
   useDeleteFreeContentMutation,
   useGetFreeContentsBySubServiceIdLazyQuery,
   GetFreeContentsBySubServiceIdQueryVariables,
   useGetFreeContentByIdLazyQuery,
-  GetFreeContentByIdDocument,
   useGetFreeContentSubServiceByIdQuery,
 } from "../../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../../lib/utilities";
 import { EStatusLabel } from "../../../../../lib/status";
-import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import ContractLayout from "../../../contract-layout";
 import CommonDataTable, {
@@ -96,10 +95,28 @@ export function EditoFreeContentSubServicePage({
             },
             refetchQueries: [
               {
-                query: GetFreeContentByIdDocument,
-                variables: { contractId },
+                query: GetFreeContentsBySubServiceIdDocument,
+                variables: { freeContentSubServiceId },
               },
             ],
+            onQueryUpdated: (observableQuery) => {
+              observableQuery
+                .result()
+                .then((result) => {
+                  console.log("result here :", result);
+                  if (!result.loading) {
+                    setPageData(
+                      result?.data as
+                        | GetFreeContentsBySubServiceIdQuery
+                        | undefined,
+                    );
+                  }
+                })
+                .catch((error) => {
+                  // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+                  console.log(error);
+                });
+            },
           });
         }
       },
@@ -116,16 +133,30 @@ export function EditoFreeContentSubServicePage({
       refetchQueries: [
         {
           query: GetFreeContentsBySubServiceIdDocument,
-          variables: { contractId },
+          variables: { freeContentSubServiceId },
         },
       ],
+      onQueryUpdated: (observableQuery) => {
+        observableQuery
+          .result()
+          .then((result) => {
+            if (!result.loading) {
+              setPageData(
+                result?.data as GetFreeContentsBySubServiceIdQuery | undefined,
+              );
+            }
+          })
+          .catch((error) => {
+            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+            console.log(error);
+          });
+      },
     });
   }
 
   /* External Data */
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
-  const { contractId } = useContract();
   const {
     data: freeContentSubService,
     loading: freeContentSubServiceLoading,
@@ -141,7 +172,7 @@ export function EditoFreeContentSubServicePage({
   const [getFreeContentsQuery, { data, loading, error }] =
     useGetFreeContentsBySubServiceIdLazyQuery({
       variables: defaultQueryVariables,
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "no-cache",
     });
   const [
     GetFreeContentByIdQuery,
@@ -166,6 +197,9 @@ export function EditoFreeContentSubServicePage({
   const router = useRouter();
   const { currentRoot } = useNavigation();
   const isInitialized = useRef(false);
+  const [pageData, setPageData] = useState<
+    GetFreeContentsBySubServiceIdQuery | undefined
+  >(data);
   const [tableData, setTableData] = useState<Array<IFreeContentTableRow>>([]);
   const [filterData, setFilterData] = useState<
     Array<IDataTableFilter<IFreeContentTableRow>>
@@ -252,9 +286,9 @@ export function EditoFreeContentSubServicePage({
   ];
 
   useEffect(() => {
-    if (data) {
+    if (pageData) {
       setTableData(
-        data?.freeContents?.data
+        pageData?.freeContents?.data
           ?.map((freeContentId) => {
             if (freeContentId && freeContentId.id && freeContentId.attributes) {
               return {
@@ -280,31 +314,35 @@ export function EditoFreeContentSubServicePage({
       setFilterData([
         {
           label: "Tous",
-          count: data?.freeContentsCount?.meta.pagination.total,
+          count: pageData?.freeContentsCount?.meta.pagination.total,
         },
         {
           label: "Publiés",
-          count: data?.freeContentsCountPublished?.meta.pagination.total,
+          count: pageData?.freeContentsCountPublished?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_Freecontent_Status.Published,
           },
         },
         {
           label: "Brouillons",
-          count: data?.freeContentsCountDraft?.meta.pagination.total,
+          count: pageData?.freeContentsCountDraft?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_Freecontent_Status.Draft,
           },
         },
         {
           label: "Archivés",
-          count: data?.freeContentsCountArchived?.meta.pagination.total,
+          count: pageData?.freeContentsCountArchived?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_Freecontent_Status.Archived,
           },
         },
       ]);
     }
+  }, [pageData]);
+
+  useEffect(() => {
+    setPageData(data);
   }, [data]);
 
   useEffect(() => {
@@ -347,7 +385,7 @@ export function EditoFreeContentSubServicePage({
             data={tableData}
             lazyLoadingOptions={{
               isRemote: true,
-              totalRows: data?.freeContents?.meta.pagination.total ?? 0,
+              totalRows: pageData?.freeContents?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
             filters={filterData}

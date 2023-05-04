@@ -64,12 +64,6 @@ export function EditoTipsEditPage({ tipId }: IEditoTipsEditPageProps) {
 
     return updateTip({
       variables,
-      refetchQueries: [
-        {
-          query: GetTipByIdDocument,
-          variables: { tipId },
-        },
-      ],
     });
   }
 
@@ -94,12 +88,6 @@ export function EditoTipsEditPage({ tipId }: IEditoTipsEditPageProps) {
     };
     return updateTip({
       variables,
-      refetchQueries: [
-        {
-          query: GetTipByIdDocument,
-          variables: { tipId },
-        },
-      ],
     });
   }
 

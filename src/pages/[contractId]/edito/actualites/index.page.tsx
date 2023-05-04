@@ -11,6 +11,7 @@ import {
   useDeleteNewMutation,
   useGetNewByIdLazyQuery,
   useGetNewsByContractIdLazyQuery,
+  GetNewsByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../lib/utilities";
 import { EStatusLabel } from "../../../../lib/status";
@@ -89,6 +90,21 @@ export function EditoActualitesPage() {
               variables: { contractId },
             },
           ],
+          onQueryUpdated: (observableQuery) => {
+            observableQuery
+              .result()
+              .then((result) => {
+                if (!result.loading) {
+                  setPageData(
+                    result?.data as GetNewsByContractIdQuery | undefined,
+                  );
+                }
+              })
+              .catch((error) => {
+                // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+                console.log(error);
+              });
+          },
         });
       }
     });
@@ -107,6 +123,19 @@ export function EditoActualitesPage() {
           variables: { contractId },
         },
       ],
+      onQueryUpdated: (observableQuery) => {
+        observableQuery
+          .result()
+          .then((result) => {
+            if (!result.loading) {
+              setPageData(result?.data as GetNewsByContractIdQuery | undefined);
+            }
+          })
+          .catch((error) => {
+            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+            console.log(error);
+          });
+      },
     });
   }
 
@@ -124,7 +153,7 @@ export function EditoActualitesPage() {
   const [getNewsQuery, { data, loading, error }] =
     useGetNewsByContractIdLazyQuery({
       variables: defaultQueryVariables,
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "no-cache",
     });
   const [
     getNewByIdQuery,
@@ -142,6 +171,9 @@ export function EditoActualitesPage() {
   /* Local Data */
   const router = useRouter();
   const isInitialized = useRef(false);
+  const [pageData, setPageData] = useState<
+    GetNewsByContractIdQuery | undefined
+  >(data);
   const [tableData, setTableData] = useState<Array<INewsTableRow>>([]);
   const [filterData, setFilterData] = useState<
     Array<IDataTableFilter<INewsTableRow>>
@@ -225,9 +257,9 @@ export function EditoActualitesPage() {
   ];
 
   useEffect(() => {
-    if (data) {
+    if (pageData) {
       setTableData(
-        data?.news?.data
+        pageData?.news?.data
           ?.map((news) => {
             if (news && news.id && news.attributes) {
               return {
@@ -251,31 +283,35 @@ export function EditoActualitesPage() {
       setFilterData([
         {
           label: "Tous",
-          count: data?.newsCount?.meta.pagination.total,
+          count: pageData?.newsCount?.meta.pagination.total,
         },
         {
           label: "Publiés",
-          count: data?.newsCountPublished?.meta.pagination.total,
+          count: pageData?.newsCountPublished?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_New_Status.Published,
           },
         },
         {
           label: "Brouillons",
-          count: data?.newsCountDraft?.meta.pagination.total,
+          count: pageData?.newsCountDraft?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_New_Status.Draft,
           },
         },
         {
           label: "Archivés",
-          count: data?.newsCountArchived?.meta.pagination.total,
+          count: pageData?.newsCountArchived?.meta.pagination.total,
           lazyLoadSelector: {
             value: Enum_New_Status.Archived,
           },
         },
       ]);
     }
+  }, [pageData]);
+
+  useEffect(() => {
+    setPageData(data);
   }, [data]);
 
   useEffect(() => {
@@ -309,7 +345,7 @@ export function EditoActualitesPage() {
             data={tableData}
             lazyLoadingOptions={{
               isRemote: true,
-              totalRows: data?.news?.meta.pagination.total ?? 0,
+              totalRows: pageData?.news?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
             filters={filterData}

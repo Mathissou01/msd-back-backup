@@ -4,9 +4,7 @@ import { useRouter } from "next/router";
 import {
   useGetFreeContentByIdQuery,
   useUpdateFreeContentMutation,
-  GetFreeContentsBySubServiceIdDocument,
   Enum_Freecontent_Status,
-  GetFreeContentByIdDocument,
 } from "../../../../../../graphql/codegen/generated-types";
 import {
   IEditoBlock,
@@ -68,12 +66,6 @@ export function EditoFreeContentEditPage({
     };
     return updateFreeContent({
       variables,
-      refetchQueries: [
-        {
-          query: GetFreeContentByIdDocument,
-          variables: { freeContentId },
-        },
-      ],
     });
   }
 
@@ -86,12 +78,6 @@ export function EditoFreeContentEditPage({
     };
     return updateFreeContent({
       variables,
-      refetchQueries: [
-        {
-          query: GetFreeContentsBySubServiceIdDocument,
-          variables: { freeContentId },
-        },
-      ],
     });
   }
 
@@ -104,12 +90,6 @@ export function EditoFreeContentEditPage({
     };
     return updateFreeContent({
       variables,
-      refetchQueries: [
-        {
-          query: GetFreeContentsBySubServiceIdDocument,
-          variables: { freeContentId },
-        },
-      ],
     });
   }
 
