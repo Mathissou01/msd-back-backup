@@ -122,6 +122,7 @@ export function EditoFreeContentEditPage({
   /* External Data */
   const { data, loading, error } = useGetFreeContentByIdQuery({
     variables: { freeContentId: `${localFreeContentId}` },
+    fetchPolicy: "network-only",
   });
   const [
     updateFreeContent,
@@ -138,6 +139,7 @@ export function EditoFreeContentEditPage({
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
     "ComponentBlocksFile",
+    "ComponentBlocksImage",
   ];
 
   useEffect(() => {

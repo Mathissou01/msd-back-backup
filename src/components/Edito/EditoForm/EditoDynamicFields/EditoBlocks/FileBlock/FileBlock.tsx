@@ -12,7 +12,7 @@ export default function FileBlock({ blockName }: IFileBlockProps) {
     staticImage: "Fichier",
     staticImageValidation: "30 Mo maximum",
     staticImagePlaceholder:
-      "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
+      "Cliquer pour ajouter un fichier depuis la bibliothèque de média ou glissez-déposez un fichier dans cette zone.",
   };
   const acceptedTypes: Array<TAcceptedMimeTypes> = [
     "text/csv",

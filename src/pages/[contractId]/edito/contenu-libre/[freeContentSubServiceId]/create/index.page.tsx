@@ -82,6 +82,7 @@ export function EditoFreeContentCreatePage({
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
     "ComponentBlocksFile",
+    "ComponentBlocksImage",
   ];
 
   return (

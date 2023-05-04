@@ -147,6 +147,7 @@ export function EditoContactEditPage() {
     "ComponentBlocksHorizontalRule",
     "ComponentBlocksVideo",
     "ComponentBlocksFile",
+    "ComponentBlocksImage",
   ];
 
   useEffect(() => {

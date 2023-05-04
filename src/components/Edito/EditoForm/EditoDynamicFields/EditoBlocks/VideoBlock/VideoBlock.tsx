@@ -56,7 +56,6 @@ export default function VideoBlock({ blockName, isVisible }: IVideoBlockProps) {
           validationLabel={formLabels.subLabelTranscriptText}
           editorOptions={minimalWysiwygEditorOptions}
           isVisible={isVisible}
-          isRequired
         />
       </div>
     </div>
