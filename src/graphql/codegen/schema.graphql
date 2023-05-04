@@ -6384,6 +6384,7 @@ type WasteForm {
   contentBlock: [WasteFormContentBlockDynamicZone]
   createdAt: DateTime
   flow: FlowEntityResponse
+  isHidden: Boolean
   name: String
   picto: UploadFileEntityResponse
   recyclingGestureText: String
@@ -6427,6 +6428,7 @@ input WasteFormFiltersInput {
   createdAt: DateTimeFilterInput
   flow: FlowFiltersInput
   id: IDFilterInput
+  isHidden: BooleanFilterInput
   name: StringFilterInput
   not: WasteFormFiltersInput
   or: [WasteFormFiltersInput]
@@ -6440,6 +6442,7 @@ input WasteFormFiltersInput {
 input WasteFormInput {
   contentBlock: [WasteFormContentBlockDynamicZoneInput!]
   flow: ID
+  isHidden: Boolean
   name: String
   picto: ID
   recyclingGestureText: String

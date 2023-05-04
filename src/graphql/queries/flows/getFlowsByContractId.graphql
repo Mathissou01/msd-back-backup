@@ -5,6 +5,41 @@ query getFlowsByContractId($filters: FlowFiltersInput) {
         name
         isActivated
         createdAt
+        recyclingGesture
+        code
+        color {
+          data {
+            id
+            attributes {
+              hexaCode
+              name
+            }
+          }
+        }
+        collectVoluntaries {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectDoorToDoors {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectDropOffs {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
       }
       id
     }

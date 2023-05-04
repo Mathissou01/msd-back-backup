@@ -1,0 +1,89 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FlowModal > .c-FormLabel {
+  margin-bottom: 0;
+}
+
+.c-FlowModal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 14px;
+
+  &__InformationsTitle {
+    margin-bottom: 36px;
+    color: colors.$expert-blue;
+    font-weight: 500;
+    font-size: 30px;
+    font-family: DINPro-Regular, sans-serif;
+  }
+
+  &__ButtonsSave {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  &__ColorAndHexagonalCode {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-end;
+  }
+
+  &__Color {
+    display: flex;
+    flex-direction: row;
+    width: 42%;
+  }
+
+  &__HexagonalCode {
+    display: flex;
+    flex-direction: column;
+    width: 42%;
+  }
+
+  &__VisualHexagonalCode {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+  }
+
+  &__CollectionMethods {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__CollectionMethodsChoices {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 16px;
+  }
+
+  &__CollectionMethodsDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background-color: colors.$gray-200;
+  }
+
+  &__CollectionMethodsDetailsDoorToDoor {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  &__CollectionMethodsDetailsCollectDropOff {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  &__CollectionMethodsDetailsCollectVoluntaries {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+}

@@ -8291,6 +8291,7 @@ export type WasteForm = {
   contentBlock?: Maybe<Array<Maybe<WasteFormContentBlockDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   flow?: Maybe<FlowEntityResponse>;
+  isHidden?: Maybe<Scalars["Boolean"]>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
   recyclingGestureText?: Maybe<Scalars["String"]>;
@@ -8337,6 +8338,7 @@ export type WasteFormFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
+  isHidden?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<WasteFormFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
@@ -8352,6 +8354,7 @@ export type WasteFormInput = {
     Array<Scalars["WasteFormContentBlockDynamicZoneInput"]>
   >;
   flow?: InputMaybe<Scalars["ID"]>;
+  isHidden?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   picto?: InputMaybe<Scalars["ID"]>;
   recyclingGestureText?: InputMaybe<Scalars["String"]>;
@@ -10861,6 +10864,68 @@ export type UploadGraphQlMutation = {
   uploadGraphQL?: boolean | null;
 };
 
+export type GetCollectionMethodsByContractIdQueryVariables = Exact<{
+  filters?: InputMaybe<CollectDoorToDoorFiltersInput>;
+}>;
+
+export type GetCollectionMethodsByContractIdQuery = {
+  __typename?: "Query";
+  collectDoorToDoors?: {
+    __typename?: "CollectDoorToDoorEntityResponseCollection";
+    data: Array<{
+      __typename?: "CollectDoorToDoorEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CollectDoorToDoor";
+        name?: string | null;
+      } | null;
+    }>;
+  } | null;
+  collectDropOffs?: {
+    __typename?: "CollectDropOffEntityResponseCollection";
+    data: Array<{
+      __typename?: "CollectDropOffEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CollectDropOff";
+        name?: string | null;
+      } | null;
+    }>;
+  } | null;
+  collectVoluntaries?: {
+    __typename?: "CollectVoluntaryEntityResponseCollection";
+    data: Array<{
+      __typename?: "CollectVoluntaryEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CollectVoluntary";
+        name?: string | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetColorsQueryVariables = Exact<{
+  filters?: InputMaybe<FlowColorFiltersInput>;
+}>;
+
+export type GetColorsQuery = {
+  __typename?: "Query";
+  flowColors?: {
+    __typename?: "FlowColorEntityResponseCollection";
+    data: Array<{
+      __typename?: "FlowColorEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "FlowColor";
+        name: string;
+        hexaCode: string;
+        shouldChangeHexaCode: boolean;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetFlowsByContractIdQueryVariables = Exact<{
   filters?: InputMaybe<FlowFiltersInput>;
 }>;
@@ -10877,6 +10942,53 @@ export type GetFlowsByContractIdQuery = {
         name?: string | null;
         isActivated?: boolean | null;
         createdAt?: any | null;
+        recyclingGesture: Enum_Flow_Recyclinggesture;
+        code?: string | null;
+        color?: {
+          __typename?: "FlowColorEntityResponse";
+          data?: {
+            __typename?: "FlowColorEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "FlowColor";
+              hexaCode: string;
+              name: string;
+            } | null;
+          } | null;
+        } | null;
+        collectVoluntaries?: {
+          __typename?: "CollectVoluntaryRelationResponseCollection";
+          data: Array<{
+            __typename?: "CollectVoluntaryEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectVoluntary";
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
+        collectDoorToDoors?: {
+          __typename?: "CollectDoorToDoorRelationResponseCollection";
+          data: Array<{
+            __typename?: "CollectDoorToDoorEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectDoorToDoor";
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
+        collectDropOffs?: {
+          __typename?: "CollectDropOffRelationResponseCollection";
+          data: Array<{
+            __typename?: "CollectDropOffEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectDropOff";
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
       } | null;
     }>;
   } | null;
@@ -10898,6 +11010,53 @@ export type UpdateFlowMutation = {
         __typename?: "Flow";
         name?: string | null;
         isActivated?: boolean | null;
+        recyclingGesture: Enum_Flow_Recyclinggesture;
+        code?: string | null;
+        color?: {
+          __typename?: "FlowColorEntityResponse";
+          data?: {
+            __typename?: "FlowColorEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "FlowColor";
+              hexaCode: string;
+              name: string;
+            } | null;
+          } | null;
+        } | null;
+        collectDoorToDoors?: {
+          __typename?: "CollectDoorToDoorRelationResponseCollection";
+          data: Array<{
+            __typename?: "CollectDoorToDoorEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectDoorToDoor";
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
+        collectDropOffs?: {
+          __typename?: "CollectDropOffRelationResponseCollection";
+          data: Array<{
+            __typename?: "CollectDropOffEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectDropOff";
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
+        collectVoluntaries?: {
+          __typename?: "CollectVoluntaryRelationResponseCollection";
+          data: Array<{
+            __typename?: "CollectVoluntaryEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectVoluntary";
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -17100,6 +17259,150 @@ export type UploadGraphQlMutationOptions = Apollo.BaseMutationOptions<
   UploadGraphQlMutation,
   UploadGraphQlMutationVariables
 >;
+export const GetCollectionMethodsByContractIdDocument = gql`
+  query getCollectionMethodsByContractId(
+    $filters: CollectDoorToDoorFiltersInput
+  ) {
+    collectDoorToDoors(filters: $filters) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+    collectDropOffs {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+    collectVoluntaries {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCollectionMethodsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetCollectionMethodsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCollectionMethodsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCollectionMethodsByContractIdQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetCollectionMethodsByContractIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetCollectionMethodsByContractIdQuery,
+    GetCollectionMethodsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetCollectionMethodsByContractIdQuery,
+    GetCollectionMethodsByContractIdQueryVariables
+  >(GetCollectionMethodsByContractIdDocument, options);
+}
+export function useGetCollectionMethodsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCollectionMethodsByContractIdQuery,
+    GetCollectionMethodsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetCollectionMethodsByContractIdQuery,
+    GetCollectionMethodsByContractIdQueryVariables
+  >(GetCollectionMethodsByContractIdDocument, options);
+}
+export type GetCollectionMethodsByContractIdQueryHookResult = ReturnType<
+  typeof useGetCollectionMethodsByContractIdQuery
+>;
+export type GetCollectionMethodsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetCollectionMethodsByContractIdLazyQuery
+>;
+export type GetCollectionMethodsByContractIdQueryResult = Apollo.QueryResult<
+  GetCollectionMethodsByContractIdQuery,
+  GetCollectionMethodsByContractIdQueryVariables
+>;
+export const GetColorsDocument = gql`
+  query getColors($filters: FlowColorFiltersInput) {
+    flowColors(filters: $filters) {
+      data {
+        id
+        attributes {
+          name
+          hexaCode
+          shouldChangeHexaCode
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetColorsQuery__
+ *
+ * To run a query within a React component, call `useGetColorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetColorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetColorsQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetColorsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetColorsQuery,
+    GetColorsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetColorsQuery, GetColorsQueryVariables>(
+    GetColorsDocument,
+    options,
+  );
+}
+export function useGetColorsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetColorsQuery,
+    GetColorsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetColorsQuery, GetColorsQueryVariables>(
+    GetColorsDocument,
+    options,
+  );
+}
+export type GetColorsQueryHookResult = ReturnType<typeof useGetColorsQuery>;
+export type GetColorsLazyQueryHookResult = ReturnType<
+  typeof useGetColorsLazyQuery
+>;
+export type GetColorsQueryResult = Apollo.QueryResult<
+  GetColorsQuery,
+  GetColorsQueryVariables
+>;
 export const GetFlowsByContractIdDocument = gql`
   query getFlowsByContractId($filters: FlowFiltersInput) {
     flows(filters: $filters) {
@@ -17108,6 +17411,41 @@ export const GetFlowsByContractIdDocument = gql`
           name
           isActivated
           createdAt
+          recyclingGesture
+          code
+          color {
+            data {
+              id
+              attributes {
+                hexaCode
+                name
+              }
+            }
+          }
+          collectVoluntaries {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          collectDoorToDoors {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          collectDropOffs {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
         }
         id
       }
@@ -17173,6 +17511,41 @@ export const UpdateFlowDocument = gql`
         attributes {
           name
           isActivated
+          recyclingGesture
+          color {
+            data {
+              id
+              attributes {
+                hexaCode
+                name
+              }
+            }
+          }
+          code
+          collectDoorToDoors {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          collectDropOffs {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          collectVoluntaries {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
         }
       }
     }

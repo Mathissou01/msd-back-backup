@@ -5,6 +5,41 @@ mutation updateFlow($updateFlowId: ID!, $data: FlowInput!) {
       attributes {
         name
         isActivated
+        recyclingGesture
+        color {
+          data {
+            id
+            attributes {
+              hexaCode
+              name
+            }
+          }
+        }
+        code
+        collectDoorToDoors {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectDropOffs {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectVoluntaries {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
       }
     }
   }
