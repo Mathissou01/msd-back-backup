@@ -105,21 +105,21 @@ export default function NavigationList() {
           <NavigationListLink path={"/edito/contact"} />
         </NavigationListMenu>
       </li>
-      {/*<li className="c-NavigationList__Item">*/}
-      {/*  <NavigationListMenu*/}
-      {/*    path={"/services/"}*/}
-      {/*    activeMenu={activeMenu}*/}
-      {/*    pictoUrl="/images/pictos-temp/services.svg"*/}
-      {/*    onClick={handleClickMenu}*/}
-      {/*  >*/}
-      {/*    <NavigationListLink path={"/services/points-collecte"} />*/}
-      {/*    <NavigationListLink path={"/services/guide-tri"} />*/}
-      {/*    <NavigationListLink path={"/services/jour-collecte"} />*/}
-      {/*    <NavigationListLink path={"/services/demandes"} />*/}
-      {/*    <NavigationListLink path={"/services/yeswescan"} />*/}
-      {/*    <NavigationListLink path={"/services/alertes"} />*/}
-      {/*  </NavigationListMenu>*/}
-      {/*</li>*/}
+      <li className="c-NavigationList__Item">
+        <NavigationListMenu
+          path={"/services/"}
+          activeMenu={activeMenu}
+          pictoUrl="/images/pictos-temp/services.svg"
+          onClick={handleClickMenu}
+        >
+          {/*    <NavigationListLink path={"/services/points-collecte"} />*/}
+          <NavigationListLink path={"/services/guide-tri"} />
+          {/*    <NavigationListLink path={"/services/jour-collecte"} />*/}
+          {/*    <NavigationListLink path={"/services/demandes"} />*/}
+          {/*    <NavigationListLink path={"/services/yeswescan"} />*/}
+          {/*    <NavigationListLink path={"/services/alertes"} />*/}
+        </NavigationListMenu>
+      </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
           path={"/personnalisation/"}

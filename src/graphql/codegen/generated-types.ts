@@ -13158,6 +13158,50 @@ export type UpdateSectorizationMutation = {
   } | null;
 };
 
+export type GetGuideDuTriQueryVariables = Exact<{
+  recyclingGuideServiceId?: InputMaybe<Scalars["ID"]>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetGuideDuTriQuery = {
+  __typename?: "Query";
+  recyclingGuideService?: {
+    __typename?: "RecyclingGuideServiceEntityResponse";
+    data?: {
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        isActivated: boolean;
+        wasteFamilies?: {
+          __typename?: "WasteFamilyRelationResponseCollection";
+          data: Array<{
+            __typename?: "WasteFamilyEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "WasteFamily";
+              createdAt?: any | null;
+              familyName: string;
+              isSystem: boolean;
+              updatedAt?: any | null;
+              wasteForms?: {
+                __typename?: "WasteFormRelationResponseCollection";
+                data: Array<{
+                  __typename?: "WasteFormEntity";
+                  id?: string | null;
+                }>;
+              } | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export const CreateNewDocument = gql`
   mutation createNew($data: NewInput!) {
     createNew(data: $data) {
@@ -20406,4 +20450,89 @@ export type UpdateSectorizationMutationResult =
 export type UpdateSectorizationMutationOptions = Apollo.BaseMutationOptions<
   UpdateSectorizationMutation,
   UpdateSectorizationMutationVariables
+>;
+export const GetGuideDuTriDocument = gql`
+  query getGuideDuTri(
+    $recyclingGuideServiceId: ID
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    recyclingGuideService(id: $recyclingGuideServiceId) {
+      data {
+        id
+        attributes {
+          isActivated
+          wasteFamilies(sort: $sort, pagination: $pagination) {
+            data {
+              attributes {
+                createdAt
+                familyName
+                isSystem
+                updatedAt
+                wasteForms {
+                  data {
+                    id
+                  }
+                }
+              }
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetGuideDuTriQuery__
+ *
+ * To run a query within a React component, call `useGetGuideDuTriQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGuideDuTriQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGuideDuTriQuery({
+ *   variables: {
+ *      recyclingGuideServiceId: // value for 'recyclingGuideServiceId'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetGuideDuTriQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetGuideDuTriQuery,
+    GetGuideDuTriQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetGuideDuTriQuery, GetGuideDuTriQueryVariables>(
+    GetGuideDuTriDocument,
+    options,
+  );
+}
+export function useGetGuideDuTriLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetGuideDuTriQuery,
+    GetGuideDuTriQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetGuideDuTriQuery, GetGuideDuTriQueryVariables>(
+    GetGuideDuTriDocument,
+    options,
+  );
+}
+export type GetGuideDuTriQueryHookResult = ReturnType<
+  typeof useGetGuideDuTriQuery
+>;
+export type GetGuideDuTriLazyQueryHookResult = ReturnType<
+  typeof useGetGuideDuTriLazyQuery
+>;
+export type GetGuideDuTriQueryResult = Apollo.QueryResult<
+  GetGuideDuTriQuery,
+  GetGuideDuTriQueryVariables
 >;

@@ -1,0 +1,30 @@
+query getGuideDuTri(
+  $recyclingGuideServiceId: ID
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  recyclingGuideService(id: $recyclingGuideServiceId) {
+    data {
+      id
+      attributes {
+        isActivated
+        wasteFamilies(sort: $sort, pagination: $pagination) {
+          data {
+            attributes {
+              createdAt
+              familyName
+              isSystem
+              updatedAt
+              wasteForms {
+                data {
+                  id
+                }
+              }
+            }
+            id
+          }
+        }
+      }
+    }
+  }
+}
