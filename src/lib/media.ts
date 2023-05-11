@@ -4,6 +4,8 @@ import {
   GetFilesPaginationByPathIdDocument,
   GetFolderByPathIdDocument,
   GetFolderByPathIdQuery,
+  Maybe,
+  Scalars,
   UpdateUploadFileDocument,
   UpdateUploadFileMutation,
 } from "../graphql/codegen/generated-types";
@@ -32,6 +34,34 @@ export function isMimeType(type: string): type is TAcceptedMimeTypes {
 
 export const fileSizeLimitation_30mb = 31457280; // 30 MB
 export const fileSizeLimitation_200kb = 204800; // 200 KB
+
+export interface IUploadFileEntity {
+  __typename?: "UploadFileEntityResponse";
+  data?: Maybe<{
+    __typename?: "UploadFileEntity";
+    attributes?: Maybe<{
+      __typename?: "UploadFile";
+      alternativeText?: Maybe<Scalars["String"]>;
+      caption?: Maybe<Scalars["String"]>;
+      createdAt?: Maybe<Scalars["DateTime"]>;
+      ext?: Maybe<Scalars["String"]>;
+      formats?: Maybe<Scalars["JSON"]>;
+      hash: Scalars["String"];
+      height?: Maybe<Scalars["Int"]>;
+      mime: Scalars["String"];
+      name: Scalars["String"];
+      previewUrl?: Maybe<Scalars["String"]>;
+      provider: Scalars["String"];
+      provider_metadata?: Maybe<Scalars["JSON"]>;
+      // related?: Array<IGenericMorph>;
+      size: Scalars["Float"];
+      updatedAt?: Maybe<Scalars["DateTime"]>;
+      url: Scalars["String"];
+      width?: Maybe<Scalars["Int"]>;
+    }>;
+    id?: Maybe<Scalars["ID"]>;
+  }>;
+}
 
 export interface IFolder {
   id: string;
