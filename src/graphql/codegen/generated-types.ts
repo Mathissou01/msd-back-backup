@@ -36,6 +36,7 @@ export type Scalars = {
   Long: any;
   NewBlocksDynamicZoneInput: any;
   NewLinkToServicesDynamicZoneInput: any;
+  RequestAddableBlocksDynamicZoneInput: any;
   ServicesBlockServiceLinksDynamicZoneInput: any;
   TipBlocksDynamicZoneInput: any;
   TipLinkToServicesDynamicZoneInput: any;
@@ -53,6 +54,7 @@ export type Accessibility = {
   publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Accessibility_Status>;
   title: Scalars["String"];
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   versionNumber?: Maybe<Scalars["Int"]>;
 };
@@ -93,6 +95,7 @@ export type AccessibilityFiltersInput = {
   publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   versionNumber?: InputMaybe<IntFilterInput>;
 };
@@ -105,6 +108,7 @@ export type AccessibilityInput = {
   publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Accessibility_Status>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -386,15 +390,16 @@ export type BooleanFilterInput = {
 
 export type Cgu = {
   __typename?: "Cgu";
-  CustomId?: Maybe<Scalars["String"]>;
   blocks?: Maybe<Array<Maybe<CguBlocksDynamicZone>>>;
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
   draftCreationId?: Maybe<Scalars["String"]>;
   hasDraft?: Maybe<Scalars["Boolean"]>;
   publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Cgu_Status>;
   title: Scalars["String"];
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   versionNumber?: Maybe<Scalars["Int"]>;
 };
@@ -424,10 +429,10 @@ export type CguEntityResponseCollection = {
 };
 
 export type CguFiltersInput = {
-  CustomId?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
   cguSubService?: InputMaybe<CguSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   draftCreationId?: InputMaybe<StringFilterInput>;
   hasDraft?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -436,19 +441,21 @@ export type CguFiltersInput = {
   publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type CguInput = {
-  CustomId?: InputMaybe<Scalars["String"]>;
   blocks?: InputMaybe<Array<Scalars["CguBlocksDynamicZoneInput"]>>;
   cguSubService?: InputMaybe<Scalars["ID"]>;
+  customId?: InputMaybe<Scalars["String"]>;
   draftCreationId?: InputMaybe<Scalars["String"]>;
   hasDraft?: InputMaybe<Scalars["Boolean"]>;
   publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Cgu_Status>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -891,6 +898,42 @@ export type CommuneInput = {
   insee: Scalars["Int"];
 };
 
+export type ComponentBlocksAddress = {
+  __typename?: "ComponentBlocksAddress";
+  fieldLabelAddress: Scalars["String"];
+  fixedPosition: Scalars["Boolean"];
+  id: Scalars["ID"];
+};
+
+export type ComponentBlocksAttachments = {
+  __typename?: "ComponentBlocksAttachments";
+  attachment?: Maybe<UploadFileRelationResponseCollection>;
+  attachmentLabel: Scalars["String"];
+  id: Scalars["ID"];
+  multipleAttachments?: Maybe<Scalars["Boolean"]>;
+  renderField: Scalars["Boolean"];
+};
+
+export type ComponentBlocksAttachmentsAttachmentArgs = {
+  filters?: InputMaybe<UploadFileFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type ComponentBlocksCheckbox = {
+  __typename?: "ComponentBlocksCheckbox";
+  fieldStatusCheckbox: Enum_Componentblockscheckbox_Fieldstatuscheckbox;
+  id: Scalars["ID"];
+  labelCheckbox: Scalars["String"];
+};
+
+export type ComponentBlocksDateChoice = {
+  __typename?: "ComponentBlocksDateChoice";
+  fieldLabelDateChoice: Scalars["String"];
+  fieldStatus: Enum_Componentblocksdatechoice_Fieldstatus;
+  id: Scalars["ID"];
+};
+
 export type ComponentBlocksFile = {
   __typename?: "ComponentBlocksFile";
   document?: Maybe<UploadFileEntityResponse>;
@@ -911,6 +954,32 @@ export type ComponentBlocksImage = {
   picture?: Maybe<UploadFileEntityResponse>;
 };
 
+export type ComponentBlocksProofOfReceipt = {
+  __typename?: "ComponentBlocksProofOfReceipt";
+  id: Scalars["ID"];
+  proofOfReceiptHeader: Scalars["String"];
+  proofOfReceiptSubject: Scalars["String"];
+  sendProofOfReceipt: Scalars["Boolean"];
+};
+
+export type ComponentBlocksQcm = {
+  __typename?: "ComponentBlocksQcm";
+  fieldLabelQCM: Scalars["String"];
+  fieldStatusQCM: Enum_Componentblocksqcm_Fieldstatusqcm;
+  id: Scalars["ID"];
+  multipleChoice: Scalars["Boolean"];
+  responses: Scalars["String"];
+};
+
+export type ComponentBlocksQuestions = {
+  __typename?: "ComponentBlocksQuestions";
+  height: Scalars["Boolean"];
+  id: Scalars["ID"];
+  questionTextLabel: Scalars["String"];
+  questionTextPlaceholder: Scalars["String"];
+  textStatus: Enum_Componentblocksquestions_Textstatus;
+};
+
 export type ComponentBlocksSubHeading = {
   __typename?: "ComponentBlocksSubHeading";
   id: Scalars["ID"];
@@ -920,6 +989,16 @@ export type ComponentBlocksSubHeading = {
 
 export type ComponentBlocksTest = {
   __typename?: "ComponentBlocksTest";
+  id: Scalars["ID"];
+};
+
+export type ComponentBlocksUser = {
+  __typename?: "ComponentBlocksUser";
+  alertSms?: Maybe<Scalars["Boolean"]>;
+  civility: Enum_Componentblocksuser_Civility;
+  fieldStatusEmail: Enum_Componentblocksuser_Fieldstatusemail;
+  fieldStatusName: Enum_Componentblocksuser_Fieldstatusname;
+  fieldStatusPhone: Enum_Componentblocksuser_Fieldstatusphone;
   id: Scalars["ID"];
 };
 
@@ -1156,6 +1235,7 @@ export type Confidentiality = {
   publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Confidentiality_Status>;
   title: Scalars["String"];
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   versionNumber?: Maybe<Scalars["Int"]>;
 };
@@ -1197,6 +1277,7 @@ export type ConfidentialityFiltersInput = {
   publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   versionNumber?: InputMaybe<IntFilterInput>;
 };
@@ -1210,6 +1291,7 @@ export type ConfidentialityInput = {
   publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Confidentiality_Status>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -1294,6 +1376,7 @@ export type ContactUs = {
   status?: Maybe<Enum_Contactus_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   versionNumber?: Maybe<Scalars["Int"]>;
@@ -1344,6 +1427,7 @@ export type ContactUsFiltersInput = {
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   versionNumber?: InputMaybe<IntFilterInput>;
@@ -1358,6 +1442,7 @@ export type ContactUsInput = {
   status?: InputMaybe<Enum_Contactus_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
 };
@@ -1766,6 +1851,7 @@ export type Cookie = {
   publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Cookie_Status>;
   title: Scalars["String"];
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   versionNumber?: Maybe<Scalars["Int"]>;
 };
@@ -1806,6 +1892,7 @@ export type CookieFiltersInput = {
   publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   versionNumber?: InputMaybe<IntFilterInput>;
 };
@@ -1818,6 +1905,7 @@ export type CookieInput = {
   publishedDate?: InputMaybe<Scalars["DateTime"]>;
   status?: InputMaybe<Enum_Cookie_Status>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -2052,6 +2140,7 @@ export type DropOffMap = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
+  phoneNumber?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -2081,6 +2170,7 @@ export type DropOffMapFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<DropOffMapFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
+  phoneNumber?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -2088,6 +2178,7 @@ export type DropOffMapFiltersInput = {
 export type DropOffMapInput = {
   description?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
+  phoneNumber?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
 };
 
@@ -2206,12 +2297,52 @@ export enum Enum_Collectvoluntary_Grammaticalgender {
   Masculin = "masculin",
 }
 
+export enum Enum_Componentblockscheckbox_Fieldstatuscheckbox {
+  Obligatoire = "Obligatoire",
+  Optionnel = "Optionnel",
+}
+
+export enum Enum_Componentblocksdatechoice_Fieldstatus {
+  Obligatoire = "Obligatoire",
+  Optionnel = "Optionnel",
+}
+
+export enum Enum_Componentblocksqcm_Fieldstatusqcm {
+  Obligatoire = "Obligatoire",
+  Optionnel = "Optionnel",
+}
+
+export enum Enum_Componentblocksquestions_Textstatus {
+  Obligatoire = "Obligatoire",
+  Optionnel = "Optionnel",
+}
+
 export enum Enum_Componentblockssubheading_Subheadingtag {
   H2 = "h2",
   H3 = "h3",
   H4 = "h4",
   H5 = "h5",
   H6 = "h6",
+}
+
+export enum Enum_Componentblocksuser_Civility {
+  Cache = "Cache",
+  Visible = "Visible",
+}
+
+export enum Enum_Componentblocksuser_Fieldstatusemail {
+  Obligatoire = "Obligatoire",
+  Optionnel = "Optionnel",
+}
+
+export enum Enum_Componentblocksuser_Fieldstatusname {
+  Obligatoire = "Obligatoire",
+  Optionnel = "Optionnel",
+}
+
+export enum Enum_Componentblocksuser_Fieldstatusphone {
+  Obligatoire = "Obligatoire",
+  Optionnel = "Optionnel",
 }
 
 export enum Enum_Componentlinksdropoffmap_Pointtodisplayonthemap {
@@ -2320,6 +2451,12 @@ export enum Enum_Topcontentdto_Status {
   Published = "published",
 }
 
+export enum Enum_Wasteform_Status {
+  Archived = "archived",
+  Draft = "draft",
+  Published = "published",
+}
+
 export type EditoBlock = {
   __typename?: "EditoBlock";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -2388,7 +2525,7 @@ export type EditoContent = {
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   event?: Maybe<EventEntityResponse>;
   freeContent?: Maybe<FreeContentEntityResponse>;
-  news?: Maybe<NewEntityResponse>;
+  new?: Maybe<NewEntityResponse>;
   quiz?: Maybe<QuizEntityResponse>;
   tip?: Maybe<TipEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -2434,7 +2571,7 @@ export type EditoContentFiltersInput = {
   event?: InputMaybe<EventFiltersInput>;
   freeContent?: InputMaybe<FreeContentFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
-  news?: InputMaybe<NewFiltersInput>;
+  new?: InputMaybe<NewFiltersInput>;
   not?: InputMaybe<EditoContentFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<EditoContentFiltersInput>>>;
   quiz?: InputMaybe<QuizFiltersInput>;
@@ -2447,7 +2584,7 @@ export type EditoContentInput = {
   editorialService?: InputMaybe<Scalars["ID"]>;
   event?: InputMaybe<Scalars["ID"]>;
   freeContent?: InputMaybe<Scalars["ID"]>;
-  news?: InputMaybe<Scalars["ID"]>;
+  new?: InputMaybe<Scalars["ID"]>;
   quiz?: InputMaybe<Scalars["ID"]>;
   tip?: InputMaybe<Scalars["ID"]>;
 };
@@ -2623,6 +2760,7 @@ export type Event = {
   __typename?: "Event";
   blocks?: Maybe<Array<Maybe<EventBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
   documents?: Maybe<DocumentRelationResponseCollection>;
   draftCreationId?: Maybe<Scalars["String"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
@@ -2636,9 +2774,11 @@ export type Event = {
   status?: Maybe<Enum_Event_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   topContent?: Maybe<TopContentEntityResponse>;
   unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type EventDocumentsArgs = {
@@ -2688,6 +2828,7 @@ export type EventEntityResponseCollection = {
 export type EventFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<EventFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   documents?: InputMaybe<DocumentFiltersInput>;
   draftCreationId?: InputMaybe<StringFilterInput>;
   editoContent?: InputMaybe<EditoContentFiltersInput>;
@@ -2702,13 +2843,16 @@ export type EventFiltersInput = {
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   topContent?: InputMaybe<TopContentFiltersInput>;
   unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type EventInput = {
   blocks?: InputMaybe<Array<Scalars["EventBlocksDynamicZoneInput"]>>;
+  customId?: InputMaybe<Scalars["String"]>;
   documents?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   draftCreationId?: InputMaybe<Scalars["String"]>;
   editoContent?: InputMaybe<Scalars["ID"]>;
@@ -2724,8 +2868,10 @@ export type EventInput = {
   status?: InputMaybe<Enum_Event_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   topContent?: InputMaybe<Scalars["ID"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type EventLinkToServicesDynamicZone =
@@ -2840,7 +2986,7 @@ export type EventSubServiceRelationResponseCollection = {
 
 export enum EventsOrNewsType {
   Event = "event",
-  News = "news",
+  New = "new",
 }
 
 export type ExportEntity = {
@@ -3152,6 +3298,7 @@ export type FreeContent = {
   status?: Maybe<Enum_Freecontent_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   versionNumber?: Maybe<Scalars["Int"]>;
@@ -3205,6 +3352,7 @@ export type FreeContentFiltersInput = {
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   versionNumber?: InputMaybe<IntFilterInput>;
@@ -3226,6 +3374,7 @@ export type FreeContentInput = {
   status?: InputMaybe<Enum_Freecontent_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
 };
@@ -3343,11 +3492,19 @@ export type GenericMorph =
   | CollectDoorToDoor
   | CollectDropOff
   | CollectVoluntary
+  | ComponentBlocksAddress
+  | ComponentBlocksAttachments
+  | ComponentBlocksCheckbox
+  | ComponentBlocksDateChoice
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksProofOfReceipt
+  | ComponentBlocksQcm
+  | ComponentBlocksQuestions
   | ComponentBlocksSubHeading
   | ComponentBlocksTest
+  | ComponentBlocksUser
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
@@ -5290,6 +5447,7 @@ export type New = {
   status?: Maybe<Enum_New_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   topContent?: Maybe<TopContentEntityResponse>;
   unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -5358,6 +5516,7 @@ export type NewFiltersInput = {
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   topContent?: InputMaybe<TopContentFiltersInput>;
   unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -5382,6 +5541,7 @@ export type NewInput = {
   status?: InputMaybe<Enum_New_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   topContent?: InputMaybe<Scalars["ID"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
@@ -6617,6 +6777,7 @@ export type QueryYesWeScanServicesArgs = {
 export type Quiz = {
   __typename?: "Quiz";
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
   draftCreationId?: Maybe<Scalars["String"]>;
   editoContent?: Maybe<EditoContentEntityResponse>;
   hasDraft?: Maybe<Scalars["Boolean"]>;
@@ -6626,8 +6787,10 @@ export type Quiz = {
   status?: Maybe<Enum_Quiz_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title?: Maybe<Scalars["String"]>;
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type QuizTagsArgs = {
@@ -6718,6 +6881,7 @@ export type QuizEntityResponseCollection = {
 export type QuizFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<QuizFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
   draftCreationId?: InputMaybe<StringFilterInput>;
   editoContent?: InputMaybe<EditoContentFiltersInput>;
   hasDraft?: InputMaybe<BooleanFilterInput>;
@@ -6730,11 +6894,14 @@ export type QuizFiltersInput = {
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type QuizInput = {
+  customId?: InputMaybe<Scalars["String"]>;
   draftCreationId?: InputMaybe<Scalars["String"]>;
   editoContent?: InputMaybe<Scalars["ID"]>;
   hasDraft?: InputMaybe<Scalars["Boolean"]>;
@@ -6744,7 +6911,9 @@ export type QuizInput = {
   status?: InputMaybe<Enum_Quiz_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type QuizRelationResponseCollection = {
@@ -6997,12 +7166,26 @@ export type RecyclingGuideServiceRelationResponseCollection = {
 
 export type Request = {
   __typename?: "Request";
+  addableBlocks?: Maybe<Array<Maybe<RequestAddableBlocksDynamicZone>>>;
+  blockText?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  requestService: RequestServiceEntityResponse;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
+
+export type RequestAddableBlocksDynamicZone =
+  | ComponentBlocksAddress
+  | ComponentBlocksAttachments
+  | ComponentBlocksCheckbox
+  | ComponentBlocksDateChoice
+  | ComponentBlocksProofOfReceipt
+  | ComponentBlocksQcm
+  | ComponentBlocksQuestions
+  | ComponentBlocksUser
+  | Error;
 
 export type RequestEntity = {
   __typename?: "RequestEntity";
@@ -7029,6 +7212,7 @@ export type RequestFileOrFolder = Files | Folders;
 
 export type RequestFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
+  blockText?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -7036,6 +7220,7 @@ export type RequestFiltersInput = {
   not?: InputMaybe<RequestFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  requestService?: InputMaybe<RequestServiceFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -7060,9 +7245,14 @@ export type RequestFolders = {
 };
 
 export type RequestInput = {
+  addableBlocks?: InputMaybe<
+    Array<Scalars["RequestAddableBlocksDynamicZoneInput"]>
+  >;
+  blockText?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  requestService?: InputMaybe<Scalars["ID"]>;
 };
 
 export type RequestRelationResponseCollection = {
@@ -7543,6 +7733,7 @@ export type Tip = {
   tipSubService?: Maybe<TipSubServiceEntityResponse>;
   title: Scalars["String"];
   titleLabel?: Maybe<Scalars["String"]>;
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   versionNumber?: Maybe<Scalars["Int"]>;
@@ -7599,6 +7790,7 @@ export type TipFiltersInput = {
   tipSubService?: InputMaybe<TipSubServiceFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   titleLabel?: InputMaybe<StringFilterInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   versionNumber?: InputMaybe<IntFilterInput>;
@@ -7623,6 +7815,7 @@ export type TipInput = {
   tipSubService?: InputMaybe<Scalars["ID"]>;
   title?: InputMaybe<Scalars["String"]>;
   titleLabel?: InputMaybe<Scalars["String"]>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
   unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
   versionNumber?: InputMaybe<Scalars["Int"]>;
 };
@@ -7731,7 +7924,7 @@ export type TopContent = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   event?: Maybe<EventEntityResponse>;
-  news?: Maybe<NewEntityResponse>;
+  new?: Maybe<NewEntityResponse>;
   topContentBlock?: Maybe<TopContentBlockEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -7837,7 +8030,7 @@ export type TopContentFiltersInput = {
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
   event?: InputMaybe<EventFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
-  news?: InputMaybe<NewFiltersInput>;
+  new?: InputMaybe<NewFiltersInput>;
   not?: InputMaybe<TopContentFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<TopContentFiltersInput>>>;
   topContentBlock?: InputMaybe<TopContentBlockFiltersInput>;
@@ -7847,7 +8040,7 @@ export type TopContentFiltersInput = {
 export type TopContentInput = {
   editorialService?: InputMaybe<Scalars["ID"]>;
   event?: InputMaybe<Scalars["ID"]>;
-  news?: InputMaybe<Scalars["ID"]>;
+  new?: InputMaybe<Scalars["ID"]>;
   topContentBlock?: InputMaybe<Scalars["ID"]>;
 };
 
@@ -8290,14 +8483,22 @@ export type WasteForm = {
   __typename?: "WasteForm";
   contentBlock?: Maybe<Array<Maybe<WasteFormContentBlockDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customId?: Maybe<Scalars["String"]>;
+  draftCreationId?: Maybe<Scalars["String"]>;
   flow?: Maybe<FlowEntityResponse>;
+  hasDraft?: Maybe<Scalars["Boolean"]>;
   isHidden?: Maybe<Scalars["Boolean"]>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
+  publishedDate?: Maybe<Scalars["DateTime"]>;
   recyclingGestureText?: Maybe<Scalars["String"]>;
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
+  status?: Maybe<Enum_Wasteform_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
+  toBeUpdated?: Maybe<Scalars["Boolean"]>;
+  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  versionNumber?: Maybe<Scalars["Int"]>;
   wasteFamily?: Maybe<WasteFamilyEntityResponse>;
 };
 
@@ -8336,16 +8537,24 @@ export type WasteFormEntityResponseCollection = {
 export type WasteFormFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customId?: InputMaybe<StringFilterInput>;
+  draftCreationId?: InputMaybe<StringFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
+  hasDraft?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isHidden?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<WasteFormFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
+  publishedDate?: InputMaybe<DateTimeFilterInput>;
   recyclingGestureText?: InputMaybe<StringFilterInput>;
   recyclingGuideService?: InputMaybe<RecyclingGuideServiceFiltersInput>;
+  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
+  toBeUpdated?: InputMaybe<BooleanFilterInput>;
+  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  versionNumber?: InputMaybe<IntFilterInput>;
   wasteFamily?: InputMaybe<WasteFamilyFiltersInput>;
 };
 
@@ -8353,13 +8562,21 @@ export type WasteFormInput = {
   contentBlock?: InputMaybe<
     Array<Scalars["WasteFormContentBlockDynamicZoneInput"]>
   >;
+  customId?: InputMaybe<Scalars["String"]>;
+  draftCreationId?: InputMaybe<Scalars["String"]>;
   flow?: InputMaybe<Scalars["ID"]>;
+  hasDraft?: InputMaybe<Scalars["Boolean"]>;
   isHidden?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   picto?: InputMaybe<Scalars["ID"]>;
+  publishedDate?: InputMaybe<Scalars["DateTime"]>;
   recyclingGestureText?: InputMaybe<Scalars["String"]>;
   recyclingGuideService?: InputMaybe<Scalars["ID"]>;
+  status?: InputMaybe<Enum_Wasteform_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
+  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
+  versionNumber?: InputMaybe<Scalars["Int"]>;
   wasteFamily?: InputMaybe<Scalars["ID"]>;
 };
 
@@ -9670,11 +9887,19 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "CollectDoorToDoor" }
           | { __typename?: "CollectDropOff" }
           | { __typename?: "CollectVoluntary" }
+          | { __typename?: "ComponentBlocksAddress" }
+          | { __typename?: "ComponentBlocksAttachments" }
+          | { __typename?: "ComponentBlocksCheckbox" }
+          | { __typename?: "ComponentBlocksDateChoice" }
           | { __typename?: "ComponentBlocksFile" }
           | { __typename?: "ComponentBlocksHorizontalRule" }
           | { __typename?: "ComponentBlocksImage" }
+          | { __typename?: "ComponentBlocksProofOfReceipt" }
+          | { __typename?: "ComponentBlocksQcm" }
+          | { __typename?: "ComponentBlocksQuestions" }
           | { __typename?: "ComponentBlocksSubHeading" }
           | { __typename?: "ComponentBlocksTest" }
+          | { __typename?: "ComponentBlocksUser" }
           | { __typename?: "ComponentBlocksVideo" }
           | { __typename?: "ComponentBlocksWysiwyg" }
           | { __typename?: "ComponentLinksAlertNotification" }
@@ -12316,7 +12541,7 @@ export type UpdateTopContentTabMutation = {
                               } | null;
                             } | null;
                           } | null;
-                          news?: {
+                          new?: {
                             __typename?: "NewEntityResponse";
                             data?: {
                               __typename?: "NewEntity";
@@ -19244,7 +19469,7 @@ export const UpdateTopContentTabDocument = gql`
                                 }
                               }
                             }
-                            news {
+                            new {
                               data {
                                 attributes {
                                   title

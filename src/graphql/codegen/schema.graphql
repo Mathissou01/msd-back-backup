@@ -7,6 +7,7 @@ type Accessibility {
   publishedDate: DateTime
   status: ENUM_ACCESSIBILITY_STATUS
   title: String!
+  toBeUpdated: Boolean
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -46,6 +47,7 @@ input AccessibilityFiltersInput {
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
@@ -58,6 +60,7 @@ input AccessibilityInput {
   publishedDate: DateTime
   status: ENUM_ACCESSIBILITY_STATUS
   title: String
+  toBeUpdated: Boolean
   versionNumber: Int
 }
 
@@ -308,15 +311,16 @@ input BooleanFilterInput {
 }
 
 type Cgu {
-  CustomId: String
   blocks: [CguBlocksDynamicZone]
   cguSubService: CguSubServiceEntityResponse
   createdAt: DateTime
+  customId: String
   draftCreationId: String
   hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_CGU_STATUS
   title: String!
+  toBeUpdated: Boolean
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -345,10 +349,10 @@ type CguEntityResponseCollection {
 }
 
 input CguFiltersInput {
-  CustomId: StringFilterInput
   and: [CguFiltersInput]
   cguSubService: CguSubServiceFiltersInput
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   draftCreationId: StringFilterInput
   hasDraft: BooleanFilterInput
   id: IDFilterInput
@@ -357,19 +361,21 @@ input CguFiltersInput {
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
 
 input CguInput {
-  CustomId: String
   blocks: [CguBlocksDynamicZoneInput!]
   cguSubService: ID
+  customId: String
   draftCreationId: String
   hasDraft: Boolean
   publishedDate: DateTime
   status: ENUM_CGU_STATUS
   title: String
+  toBeUpdated: Boolean
   versionNumber: Int
 }
 
@@ -764,6 +770,36 @@ input CommuneInput {
   insee: Int!
 }
 
+type ComponentBlocksAddress {
+  fieldLabelAddress: String!
+  fixedPosition: Boolean!
+  id: ID!
+}
+
+type ComponentBlocksAttachments {
+  attachment(
+    filters: UploadFileFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): UploadFileRelationResponseCollection
+  attachmentLabel: String!
+  id: ID!
+  multipleAttachments: Boolean
+  renderField: Boolean!
+}
+
+type ComponentBlocksCheckbox {
+  fieldStatusCheckbox: ENUM_COMPONENTBLOCKSCHECKBOX_FIELDSTATUSCHECKBOX!
+  id: ID!
+  labelCheckbox: String!
+}
+
+type ComponentBlocksDateChoice {
+  fieldLabelDateChoice: String!
+  fieldStatus: ENUM_COMPONENTBLOCKSDATECHOICE_FIELDSTATUS!
+  id: ID!
+}
+
 type ComponentBlocksFile {
   document: UploadFileEntityResponse
   id: ID!
@@ -781,6 +817,29 @@ type ComponentBlocksImage {
   picture: UploadFileEntityResponse
 }
 
+type ComponentBlocksProofOfReceipt {
+  id: ID!
+  proofOfReceiptHeader: String!
+  proofOfReceiptSubject: String!
+  sendProofOfReceipt: Boolean!
+}
+
+type ComponentBlocksQcm {
+  fieldLabelQCM: String!
+  fieldStatusQCM: ENUM_COMPONENTBLOCKSQCM_FIELDSTATUSQCM!
+  id: ID!
+  multipleChoice: Boolean!
+  responses: String!
+}
+
+type ComponentBlocksQuestions {
+  height: Boolean!
+  id: ID!
+  questionTextLabel: String!
+  questionTextPlaceholder: String!
+  textStatus: ENUM_COMPONENTBLOCKSQUESTIONS_TEXTSTATUS!
+}
+
 type ComponentBlocksSubHeading {
   id: ID!
   subHeadingTag: ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG
@@ -788,6 +847,15 @@ type ComponentBlocksSubHeading {
 }
 
 type ComponentBlocksTest {
+  id: ID!
+}
+
+type ComponentBlocksUser {
+  alertSms: Boolean
+  civility: ENUM_COMPONENTBLOCKSUSER_CIVILITY!
+  fieldStatusEmail: ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSEMAIL!
+  fieldStatusName: ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSNAME!
+  fieldStatusPhone: ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSPHONE!
   id: ID!
 }
 
@@ -982,6 +1050,7 @@ type Confidentiality {
   publishedDate: DateTime
   status: ENUM_CONFIDENTIALITY_STATUS
   title: String!
+  toBeUpdated: Boolean
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -1022,6 +1091,7 @@ input ConfidentialityFiltersInput {
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
@@ -1035,6 +1105,7 @@ input ConfidentialityInput {
   publishedDate: DateTime
   status: ENUM_CONFIDENTIALITY_STATUS
   title: String
+  toBeUpdated: Boolean
   versionNumber: Int
 }
 
@@ -1113,6 +1184,7 @@ type ContactUs {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
   versionNumber: Int
@@ -1156,6 +1228,7 @@ input ContactUsFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
@@ -1170,6 +1243,7 @@ input ContactUsInput {
   status: ENUM_CONTACTUS_STATUS
   tags: [ID]
   title: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   versionNumber: Int
 }
@@ -1539,6 +1613,7 @@ type Cookie {
   publishedDate: DateTime
   status: ENUM_COOKIE_STATUS
   title: String!
+  toBeUpdated: Boolean
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -1578,6 +1653,7 @@ input CookieFiltersInput {
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
@@ -1590,6 +1666,7 @@ input CookieInput {
   publishedDate: DateTime
   status: ENUM_COOKIE_STATUS
   title: String
+  toBeUpdated: Boolean
   versionNumber: Int
 }
 
@@ -1811,6 +1888,7 @@ type DropOffMap {
   createdAt: DateTime
   description: String
   name: String
+  phoneNumber: String
   publishedAt: DateTime
   updatedAt: DateTime
 }
@@ -1837,6 +1915,7 @@ input DropOffMapFiltersInput {
   name: StringFilterInput
   not: DropOffMapFiltersInput
   or: [DropOffMapFiltersInput]
+  phoneNumber: StringFilterInput
   publishedAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
@@ -1844,6 +1923,7 @@ input DropOffMapFiltersInput {
 input DropOffMapInput {
   description: String
   name: String
+  phoneNumber: String
   publishedAt: DateTime
 }
 
@@ -1950,12 +2030,52 @@ enum ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER {
   masculin
 }
 
+enum ENUM_COMPONENTBLOCKSCHECKBOX_FIELDSTATUSCHECKBOX {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSDATECHOICE_FIELDSTATUS {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSQCM_FIELDSTATUSQCM {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSQUESTIONS_TEXTSTATUS {
+  Obligatoire
+  Optionnel
+}
+
 enum ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG {
   h2
   h3
   h4
   h5
   h6
+}
+
+enum ENUM_COMPONENTBLOCKSUSER_CIVILITY {
+  Cache
+  Visible
+}
+
+enum ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSEMAIL {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSNAME {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSPHONE {
+  Obligatoire
+  Optionnel
 }
 
 enum ENUM_COMPONENTLINKSDROPOFFMAP_POINTTODISPLAYONTHEMAP {
@@ -2064,6 +2184,12 @@ enum ENUM_TOPCONTENTDTO_STATUS {
   published
 }
 
+enum ENUM_WASTEFORM_STATUS {
+  archived
+  draft
+  published
+}
+
 type EditoBlock {
   createdAt: DateTime
   displayBlock: Boolean!
@@ -2124,7 +2250,7 @@ type EditoContent {
   editorialService: EditorialServiceEntityResponse
   event: EventEntityResponse
   freeContent: FreeContentEntityResponse
-  news: NewEntityResponse
+  new: NewEntityResponse
   quiz: QuizEntityResponse
   tip: TipEntityResponse
   updatedAt: DateTime
@@ -2165,7 +2291,7 @@ input EditoContentFiltersInput {
   event: EventFiltersInput
   freeContent: FreeContentFiltersInput
   id: IDFilterInput
-  news: NewFiltersInput
+  new: NewFiltersInput
   not: EditoContentFiltersInput
   or: [EditoContentFiltersInput]
   quiz: QuizFiltersInput
@@ -2178,7 +2304,7 @@ input EditoContentInput {
   editorialService: ID
   event: ID
   freeContent: ID
-  news: ID
+  new: ID
   quiz: ID
   tip: ID
 }
@@ -2332,6 +2458,7 @@ type Error {
 type Event {
   blocks: [EventBlocksDynamicZone]
   createdAt: DateTime
+  customId: String
   documents(
     filters: DocumentFiltersInput
     pagination: PaginationArg = {}
@@ -2357,9 +2484,11 @@ type Event {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
+  toBeUpdated: Boolean
   topContent: TopContentEntityResponse
   unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union EventBlocksDynamicZone =
@@ -2390,6 +2519,7 @@ type EventEntityResponseCollection {
 input EventFiltersInput {
   and: [EventFiltersInput]
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   documents: DocumentFiltersInput
   draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
@@ -2404,13 +2534,16 @@ input EventFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   topContent: TopContentFiltersInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input EventInput {
   blocks: [EventBlocksDynamicZoneInput!]
+  customId: String
   documents: [ID]
   draftCreationId: String
   editoContent: ID
@@ -2424,8 +2557,10 @@ input EventInput {
   status: ENUM_EVENT_STATUS
   tags: [ID]
   title: String
+  toBeUpdated: Boolean
   topContent: ID
   unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 union EventLinkToServicesDynamicZone =
@@ -2529,7 +2664,7 @@ type EventSubServiceRelationResponseCollection {
 
 enum EventsOrNewsType {
   event
-  news
+  new
 }
 
 type ExportEntity {
@@ -2817,6 +2952,7 @@ type FreeContent {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
   versionNumber: Int
@@ -2863,6 +2999,7 @@ input FreeContentFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
@@ -2882,6 +3019,7 @@ input FreeContentInput {
   status: ENUM_FREECONTENT_STATUS
   tags: [ID]
   title: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   versionNumber: Int
 }
@@ -2989,11 +3127,19 @@ union GenericMorph =
   | CollectDoorToDoor
   | CollectDropOff
   | CollectVoluntary
+  | ComponentBlocksAddress
+  | ComponentBlocksAttachments
+  | ComponentBlocksCheckbox
+  | ComponentBlocksDateChoice
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksProofOfReceipt
+  | ComponentBlocksQcm
+  | ComponentBlocksQuestions
   | ComponentBlocksSubHeading
   | ComponentBlocksTest
+  | ComponentBlocksUser
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
@@ -4096,6 +4242,7 @@ type New {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
+  toBeUpdated: Boolean
   topContent: TopContentEntityResponse
   unpublishedDate: DateTime
   updatedAt: DateTime
@@ -4145,6 +4292,7 @@ input NewFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   topContent: TopContentFiltersInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
@@ -4167,6 +4315,7 @@ input NewInput {
   status: ENUM_NEW_STATUS
   tags: [ID]
   title: String
+  toBeUpdated: Boolean
   topContent: ID
   unpublishedDate: DateTime
   versionNumber: Int
@@ -4874,6 +5023,7 @@ type Query {
 
 type Quiz {
   createdAt: DateTime
+  customId: String
   draftCreationId: String
   editoContent: EditoContentEntityResponse
   hasDraft: Boolean
@@ -4887,8 +5037,10 @@ type Quiz {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 type QuizAndTipsBlock {
@@ -4964,6 +5116,7 @@ type QuizEntityResponseCollection {
 input QuizFiltersInput {
   and: [QuizFiltersInput]
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   draftCreationId: StringFilterInput
   editoContent: EditoContentFiltersInput
   hasDraft: BooleanFilterInput
@@ -4976,11 +5129,14 @@ input QuizFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input QuizInput {
+  customId: String
   draftCreationId: String
   editoContent: ID
   hasDraft: Boolean
@@ -4990,7 +5146,9 @@ input QuizInput {
   status: ENUM_QUIZ_STATUS
   tags: [ID]
   title: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 type QuizRelationResponseCollection {
@@ -5211,12 +5369,28 @@ type RecyclingGuideServiceRelationResponseCollection {
 }
 
 type Request {
+  addableBlocks: [RequestAddableBlocksDynamicZone]
+  blockText: String
   createdAt: DateTime
   description: String
   name: String
   publishedAt: DateTime
+  requestService: RequestServiceEntityResponse!
   updatedAt: DateTime
 }
+
+union RequestAddableBlocksDynamicZone =
+    ComponentBlocksAddress
+  | ComponentBlocksAttachments
+  | ComponentBlocksCheckbox
+  | ComponentBlocksDateChoice
+  | ComponentBlocksProofOfReceipt
+  | ComponentBlocksQcm
+  | ComponentBlocksQuestions
+  | ComponentBlocksUser
+  | Error
+
+scalar RequestAddableBlocksDynamicZoneInput
 
 type RequestEntity {
   attributes: Request
@@ -5240,6 +5414,7 @@ union RequestFileOrFolder = Files | Folders
 
 input RequestFiltersInput {
   and: [RequestFiltersInput]
+  blockText: StringFilterInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   id: IDFilterInput
@@ -5247,6 +5422,7 @@ input RequestFiltersInput {
   not: RequestFiltersInput
   or: [RequestFiltersInput]
   publishedAt: DateTimeFilterInput
+  requestService: RequestServiceFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -5269,9 +5445,12 @@ type RequestFolders {
 }
 
 input RequestInput {
+  addableBlocks: [RequestAddableBlocksDynamicZoneInput!]
+  blockText: String
   description: String
   name: String
   publishedAt: DateTime
+  requestService: ID
 }
 
 type RequestRelationResponseCollection {
@@ -5707,6 +5886,7 @@ type Tip {
   tipSubService: TipSubServiceEntityResponse
   title: String!
   titleLabel: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
   versionNumber: Int
@@ -5756,6 +5936,7 @@ input TipFiltersInput {
   tipSubService: TipSubServiceFiltersInput
   title: StringFilterInput
   titleLabel: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
@@ -5778,6 +5959,7 @@ input TipInput {
   tipSubService: ID
   title: String
   titleLabel: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   versionNumber: Int
 }
@@ -5875,7 +6057,7 @@ type TopContent {
   createdAt: DateTime
   editorialService: EditorialServiceEntityResponse
   event: EventEntityResponse
-  news: NewEntityResponse
+  new: NewEntityResponse
   topContentBlock: TopContentBlockEntityResponse
   updatedAt: DateTime
 }
@@ -5971,7 +6153,7 @@ input TopContentFiltersInput {
   editorialService: EditorialServiceFiltersInput
   event: EventFiltersInput
   id: IDFilterInput
-  news: NewFiltersInput
+  new: NewFiltersInput
   not: TopContentFiltersInput
   or: [TopContentFiltersInput]
   topContentBlock: TopContentBlockFiltersInput
@@ -5981,7 +6163,7 @@ input TopContentFiltersInput {
 input TopContentInput {
   editorialService: ID
   event: ID
-  news: ID
+  new: ID
   topContentBlock: ID
 }
 
@@ -6383,18 +6565,26 @@ type WasteFamilyRelationResponseCollection {
 type WasteForm {
   contentBlock: [WasteFormContentBlockDynamicZone]
   createdAt: DateTime
+  customId: String
+  draftCreationId: String
   flow: FlowEntityResponse
+  hasDraft: Boolean
   isHidden: Boolean
   name: String
   picto: UploadFileEntityResponse
+  publishedDate: DateTime
   recyclingGestureText: String
   recyclingGuideService: RecyclingGuideServiceEntityResponse
+  status: ENUM_WASTEFORM_STATUS
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): TagRelationResponseCollection
+  toBeUpdated: Boolean
+  unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
   wasteFamily: WasteFamilyEntityResponse
 }
 
@@ -6426,28 +6616,44 @@ type WasteFormEntityResponseCollection {
 input WasteFormFiltersInput {
   and: [WasteFormFiltersInput]
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
+  draftCreationId: StringFilterInput
   flow: FlowFiltersInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
   isHidden: BooleanFilterInput
   name: StringFilterInput
   not: WasteFormFiltersInput
   or: [WasteFormFiltersInput]
+  publishedDate: DateTimeFilterInput
   recyclingGestureText: StringFilterInput
   recyclingGuideService: RecyclingGuideServiceFiltersInput
+  status: StringFilterInput
   tags: TagFiltersInput
+  toBeUpdated: BooleanFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
   wasteFamily: WasteFamilyFiltersInput
 }
 
 input WasteFormInput {
   contentBlock: [WasteFormContentBlockDynamicZoneInput!]
+  customId: String
+  draftCreationId: String
   flow: ID
+  hasDraft: Boolean
   isHidden: Boolean
   name: String
   picto: ID
+  publishedDate: DateTime
   recyclingGestureText: String
   recyclingGuideService: ID
+  status: ENUM_WASTEFORM_STATUS
   tags: [ID]
+  toBeUpdated: Boolean
+  unpublishedDate: DateTime
+  versionNumber: Int
   wasteFamily: ID
 }
 
