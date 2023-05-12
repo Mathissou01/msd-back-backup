@@ -1,0 +1,73 @@
+query getWasteFormsByRecyclingGuide(
+  $recyclingGuideId: ID!
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  wasteFormsCount: wasteForms(
+    filters: { recyclingGuideService: { id: { eq: $recyclingGuideId } } }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsDraftCount: wasteForms(
+    filters: {
+      recyclingGuideService: { id: { eq: $recyclingGuideId } }
+      status: { eq: "draft" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsPublishedtCount: wasteForms(
+    filters: {
+      recyclingGuideService: { id: { eq: $recyclingGuideId } }
+      status: { eq: "published" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsArchivedCount: wasteForms(
+    filters: {
+      recyclingGuideService: { id: { eq: $recyclingGuideId } }
+      status: { eq: "archived" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteForms(
+    filters: { recyclingGuideService: { id: { eq: $recyclingGuideId } } }
+    pagination: $pagination
+    sort: $sort
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        name
+        status
+        updatedAt
+      }
+    }
+  }
+}

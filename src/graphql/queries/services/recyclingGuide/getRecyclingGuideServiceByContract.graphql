@@ -1,0 +1,26 @@
+query getRecyclingGuideServiceByContract($contractId: ID!) {
+  recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      id
+      attributes {
+        name
+        endDate
+        memoName
+        memoDesc
+        memoFile {
+          data {
+            id
+            attributes {
+              name
+              hash
+              mime
+              size
+              url
+              provider
+            }
+          }
+        }
+      }
+    }
+  }
+}

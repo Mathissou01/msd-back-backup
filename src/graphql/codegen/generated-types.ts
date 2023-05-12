@@ -13531,6 +13531,107 @@ export type GetGuideDuTriQuery = {
   } | null;
 };
 
+export type GetRecyclingGuideServiceByContractQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetRecyclingGuideServiceByContractQuery = {
+  __typename?: "Query";
+  recyclingGuideServices?: {
+    __typename?: "RecyclingGuideServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        name: string;
+        endDate?: any | null;
+        memoName: string;
+        memoDesc?: string | null;
+        memoFile?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              name: string;
+              hash: string;
+              mime: string;
+              size: number;
+              url: string;
+              provider: string;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetWasteFormsByRecyclingGuideQueryVariables = Exact<{
+  recyclingGuideId: Scalars["ID"];
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetWasteFormsByRecyclingGuideQuery = {
+  __typename?: "Query";
+  wasteFormsCount?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  wasteFormsDraftCount?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  wasteFormsPublishedtCount?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  wasteFormsArchivedCount?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  wasteForms?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "WasteFormEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "WasteForm";
+        name?: string | null;
+        status?: Enum_Wasteform_Status | null;
+        updatedAt?: any | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export const CreateNewDocument = gql`
   mutation createNew($data: NewInput!) {
     createNew(data: $data) {
@@ -20986,4 +21087,211 @@ export type GetGuideDuTriLazyQueryHookResult = ReturnType<
 export type GetGuideDuTriQueryResult = Apollo.QueryResult<
   GetGuideDuTriQuery,
   GetGuideDuTriQueryVariables
+>;
+export const GetRecyclingGuideServiceByContractDocument = gql`
+  query getRecyclingGuideServiceByContract($contractId: ID!) {
+    recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          name
+          endDate
+          memoName
+          memoDesc
+          memoFile {
+            data {
+              id
+              attributes {
+                name
+                hash
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRecyclingGuideServiceByContractQuery__
+ *
+ * To run a query within a React component, call `useGetRecyclingGuideServiceByContractQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecyclingGuideServiceByContractQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecyclingGuideServiceByContractQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetRecyclingGuideServiceByContractQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRecyclingGuideServiceByContractQuery,
+    GetRecyclingGuideServiceByContractQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRecyclingGuideServiceByContractQuery,
+    GetRecyclingGuideServiceByContractQueryVariables
+  >(GetRecyclingGuideServiceByContractDocument, options);
+}
+export function useGetRecyclingGuideServiceByContractLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRecyclingGuideServiceByContractQuery,
+    GetRecyclingGuideServiceByContractQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRecyclingGuideServiceByContractQuery,
+    GetRecyclingGuideServiceByContractQueryVariables
+  >(GetRecyclingGuideServiceByContractDocument, options);
+}
+export type GetRecyclingGuideServiceByContractQueryHookResult = ReturnType<
+  typeof useGetRecyclingGuideServiceByContractQuery
+>;
+export type GetRecyclingGuideServiceByContractLazyQueryHookResult = ReturnType<
+  typeof useGetRecyclingGuideServiceByContractLazyQuery
+>;
+export type GetRecyclingGuideServiceByContractQueryResult = Apollo.QueryResult<
+  GetRecyclingGuideServiceByContractQuery,
+  GetRecyclingGuideServiceByContractQueryVariables
+>;
+export const GetWasteFormsByRecyclingGuideDocument = gql`
+  query getWasteFormsByRecyclingGuide(
+    $recyclingGuideId: ID!
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    wasteFormsCount: wasteForms(
+      filters: { recyclingGuideService: { id: { eq: $recyclingGuideId } } }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    wasteFormsDraftCount: wasteForms(
+      filters: {
+        recyclingGuideService: { id: { eq: $recyclingGuideId } }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    wasteFormsPublishedtCount: wasteForms(
+      filters: {
+        recyclingGuideService: { id: { eq: $recyclingGuideId } }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    wasteFormsArchivedCount: wasteForms(
+      filters: {
+        recyclingGuideService: { id: { eq: $recyclingGuideId } }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    wasteForms(
+      filters: { recyclingGuideService: { id: { eq: $recyclingGuideId } } }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          name
+          status
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetWasteFormsByRecyclingGuideQuery__
+ *
+ * To run a query within a React component, call `useGetWasteFormsByRecyclingGuideQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWasteFormsByRecyclingGuideQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWasteFormsByRecyclingGuideQuery({
+ *   variables: {
+ *      recyclingGuideId: // value for 'recyclingGuideId'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetWasteFormsByRecyclingGuideQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetWasteFormsByRecyclingGuideQuery,
+    GetWasteFormsByRecyclingGuideQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetWasteFormsByRecyclingGuideQuery,
+    GetWasteFormsByRecyclingGuideQueryVariables
+  >(GetWasteFormsByRecyclingGuideDocument, options);
+}
+export function useGetWasteFormsByRecyclingGuideLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetWasteFormsByRecyclingGuideQuery,
+    GetWasteFormsByRecyclingGuideQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetWasteFormsByRecyclingGuideQuery,
+    GetWasteFormsByRecyclingGuideQueryVariables
+  >(GetWasteFormsByRecyclingGuideDocument, options);
+}
+export type GetWasteFormsByRecyclingGuideQueryHookResult = ReturnType<
+  typeof useGetWasteFormsByRecyclingGuideQuery
+>;
+export type GetWasteFormsByRecyclingGuideLazyQueryHookResult = ReturnType<
+  typeof useGetWasteFormsByRecyclingGuideLazyQuery
+>;
+export type GetWasteFormsByRecyclingGuideQueryResult = Apollo.QueryResult<
+  GetWasteFormsByRecyclingGuideQuery,
+  GetWasteFormsByRecyclingGuideQueryVariables
 >;

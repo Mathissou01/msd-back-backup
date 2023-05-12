@@ -3,6 +3,7 @@ import ContractLayout from "../../contract-layout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import WasteFamilyTab from "../../../../components/TabBlock/WasteFamilyTab/WasteFamilyTab";
+import WasteFormTab from "../../../../components/TabBlock/WasteFormTab/WasteFormTab";
 
 export function GuideTriPage() {
   /* Static Data */
@@ -16,7 +17,11 @@ export function GuideTriPage() {
       {
         name: "fichesDechets",
         title: "Fiches déchets",
-        content: <></>,
+        content: (
+          <>
+            <WasteFormTab />
+          </>
+        ),
         isEnabled: true,
       },
       {
