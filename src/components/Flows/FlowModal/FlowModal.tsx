@@ -47,14 +47,14 @@ export default function FlowModal({
   };
   const collectDropOffLabels = {
     collectDoorToDoors: "Porte à porte",
-    collectDropOffs: "Point d'apport volontaire",
-    collectVoluntaries: "Lieux de dépot",
+    collectDropOffs: "Lieux de dépot",
+    collectVoluntaries: "Point d'apport volontaire",
   };
 
   const collectionMethodsName = {
     collectDoorToDoors: "Collecte porte à porte",
-    collectDropOffs: "Collecte point d'apport volontaire",
-    collectVoluntaries: "Collecte lieux de dépot",
+    collectDropOffs: "Collecte lieux de dépot",
+    collectVoluntaries: "Collecte point d'apport volontaire",
   };
 
   const buttonLabels = {
