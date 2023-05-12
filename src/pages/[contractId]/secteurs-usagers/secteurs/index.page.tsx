@@ -15,6 +15,7 @@ import PageTitle from "../../../../components/PageTitle/PageTitle";
 import SectorModal from "../../../../components/Sector/SectorModal/SectorModal";
 import {
   useGetSectorizationsByContractIdLazyQuery,
+  GetSectorizationsByContractIdQuery,
   GetSectorizationsByContractIdQueryVariables,
   useCreateSectorizationMutation,
   useDeleteSectorizationMutation,
@@ -24,6 +25,7 @@ import {
 import { useContract } from "../../../../hooks/useContract";
 import { removeNulls } from "../../../../lib/utilities";
 import ContractLayout from "../../contract-layout";
+import { TPolygon } from "../../../../lib/sectors";
 import "./secteurs.scss";
 
 export interface ISectorsTableRow extends IDefaultTableRow {
@@ -80,6 +82,9 @@ export function SectorsPage() {
 
   /* Local Data */
   const isInitialized = useRef(false);
+  const [pageData, setPageData] = useState<
+    GetSectorizationsByContractIdQuery | undefined
+  >(data);
   const [tableData, setTableData] = useState<Array<ISectorsTableRow>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
@@ -96,6 +101,7 @@ export function SectorsPage() {
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const [secteurDefaultValue, setSecteurDefaultValue] =
     useState<ISectorsTableRow>();
+  let polygonData: TPolygon;
 
   const tableColumns: Array<TableColumn<ISectorsTableRow>> = [
     {
@@ -155,11 +161,13 @@ export function SectorsPage() {
       },
     });
   }
+  async function handlePolygon(polygon: TPolygon) {
+    polygonData = polygon;
+  }
 
   async function onSubmit(submitData: ISectorsTableRow) {
     onSubmitAndModalRefresh(submitData);
     modalRef.current?.toggleModal(false);
-    void getSectorizationsQuery();
   }
 
   async function onSubmitAndModalRefresh(submitData: ISectorsTableRow) {
@@ -168,10 +176,32 @@ export function SectorsPage() {
         name: submitData.name,
         description: submitData.description,
         contract: contractId,
+        polygonCoordinates: polygonData,
       },
     };
-    return createSectorization({
+    createSectorization({
       variables,
+      refetchQueries: [
+        {
+          query: GetSectorizationsByContractIdDocument,
+          variables: { contractId },
+        },
+      ],
+      onQueryUpdated: (observableQuery) => {
+        observableQuery
+          .result()
+          .then((result) => {
+            if (!result.loading) {
+              setPageData(
+                result?.data as GetSectorizationsByContractIdQuery | undefined,
+              );
+            }
+          })
+          .catch(() => {
+            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+            // console.log(error);
+          });
+      },
     });
   }
 
@@ -187,7 +217,7 @@ export function SectorsPage() {
     const variables = {
       deleteSectorizationId: row.id,
     };
-    await deleteSectorizationMutation({
+    deleteSectorizationMutation({
       variables,
       refetchQueries: [
         {
@@ -195,9 +225,22 @@ export function SectorsPage() {
           variables: { contractId },
         },
       ],
+      onQueryUpdated: (observableQuery) => {
+        observableQuery
+          .result()
+          .then((result) => {
+            if (!result.loading) {
+              setPageData(
+                result?.data as GetSectorizationsByContractIdQuery | undefined,
+              );
+            }
+          })
+          .catch(() => {
+            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+            // console.log(error);
+          });
+      },
     });
-
-    void getSectorizationsQuery();
   }
 
   function onEdit(row: ISectorsTableRow) {
@@ -216,7 +259,7 @@ export function SectorsPage() {
       },
     };
 
-    await updateSectorizationMutation({
+    updateSectorizationMutation({
       variables,
       refetchQueries: [
         {
@@ -224,6 +267,21 @@ export function SectorsPage() {
           variables: { contractId },
         },
       ],
+      onQueryUpdated: (observableQuery) => {
+        observableQuery
+          .result()
+          .then((result) => {
+            if (!result.loading) {
+              setPageData(
+                result?.data as GetSectorizationsByContractIdQuery | undefined,
+              );
+            }
+          })
+          .catch(() => {
+            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+            //console.log(error);
+          });
+      },
     });
 
     setSecteurDefaultValue(undefined);
@@ -231,9 +289,9 @@ export function SectorsPage() {
   }
 
   useEffect(() => {
-    if (data) {
+    if (pageData) {
       setTableData(
-        data?.sectorizations?.data
+        pageData?.sectorizations?.data
           ?.map((sectorization) => {
             if (sectorization && sectorization.id && sectorization.attributes) {
               return {
@@ -249,6 +307,11 @@ export function SectorsPage() {
           .filter(removeNulls) ?? [],
       );
     }
+  }, [pageData]);
+
+  useEffect(() => {
+    setPageData(data);
+    setSecteurDefaultValue(undefined);
   }, [data]);
 
   useEffect(() => {
@@ -281,6 +344,7 @@ export function SectorsPage() {
             defaultValue={secteurDefaultValue}
             onUpdate={(data) => handleUpdate(data as ISectorsTableRow)}
             handleCloseModal={handleCloseModal}
+            handlePolygon={handlePolygon}
           />
         </CommonModalWrapper>
       </div>
@@ -297,7 +361,7 @@ export function SectorsPage() {
             data={tableData}
             lazyLoadingOptions={{
               isRemote: true,
-              totalRows: data?.sectorizations?.meta.pagination.total ?? 0,
+              totalRows: pageData?.sectorizations?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
             defaultSortFieldId={"name"}

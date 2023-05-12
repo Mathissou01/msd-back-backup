@@ -486,15 +486,23 @@ type ChannelTypeRelationResponseCollection {
 
 type City {
   MwCounter: MwCounterServiceEntityResponse
-  contract: ContractEntityResponse
   createdAt: DateTime
   department: String
-  epci: EpciEntityResponse
+  epci(
+    filters: EpciFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): EpciRelationResponseCollection
   insee: Long
   name: String
   postalCode: Long
   region: String
   siren: Long
+  territories(
+    filters: TerritoryFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): TerritoryRelationResponseCollection
   updatedAt: DateTime
 }
 
@@ -515,7 +523,6 @@ type CityEntityResponseCollection {
 input CityFiltersInput {
   MwCounter: MwCounterServiceFiltersInput
   and: [CityFiltersInput]
-  contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   department: StringFilterInput
   epci: EpciFiltersInput
@@ -527,19 +534,20 @@ input CityFiltersInput {
   postalCode: LongFilterInput
   region: StringFilterInput
   siren: LongFilterInput
+  territories: TerritoryFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
 input CityInput {
   MwCounter: ID
-  contract: ID
   department: String
-  epci: ID
+  epci: [ID]
   insee: Long
   name: String
   postalCode: Long
   region: String
   siren: Long
+  territories: [ID]
 }
 
 type CityRelationResponseCollection {
@@ -560,7 +568,7 @@ type ClientContact {
   updatedAt: DateTime
 }
 
-type ClientContactCreateInput {
+type ClientContactCreateOutput {
   email: String
   firstName: String
   lastName: String
@@ -659,6 +667,7 @@ type CollectDoorToDoorRelationResponseCollection {
 type CollectDropOff {
   contract: ContractEntityResponse
   createdAt: DateTime
+  dropOffMap: DropOffMapEntityResponse
   flows(
     filters: FlowFiltersInput
     pagination: PaginationArg = {}
@@ -692,6 +701,7 @@ input CollectDropOffFiltersInput {
   and: [CollectDropOffFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
+  dropOffMap: DropOffMapFiltersInput
   flows: FlowFiltersInput
   grammaticalGender: StringFilterInput
   id: IDFilterInput
@@ -703,6 +713,7 @@ input CollectDropOffFiltersInput {
 
 input CollectDropOffInput {
   contract: ID
+  dropOffMap: ID
   flows: [ID]
   grammaticalGender: ENUM_COLLECTDROPOFF_GRAMMATICALGENDER
   name: String
@@ -716,6 +727,7 @@ type CollectDropOffRelationResponseCollection {
 type CollectVoluntary {
   contract: ContractEntityResponse
   createdAt: DateTime
+  dropOffMap: DropOffMapEntityResponse
   flows(
     filters: FlowFiltersInput
     pagination: PaginationArg = {}
@@ -745,6 +757,7 @@ input CollectVoluntaryFiltersInput {
   and: [CollectVoluntaryFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
+  dropOffMap: DropOffMapFiltersInput
   flows: FlowFiltersInput
   grammaticalGender: StringFilterInput
   id: IDFilterInput
@@ -756,6 +769,7 @@ input CollectVoluntaryFiltersInput {
 
 input CollectVoluntaryInput {
   contract: ID
+  dropOffMap: ID
   flows: [ID]
   grammaticalGender: ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER
   name: String
@@ -1346,6 +1360,21 @@ type Contract {
   clientContact: ClientContactEntityResponse
   clientName: String!
   clientType: ENUM_CONTRACT_CLIENTTYPE!
+  collectDoorToDoors(
+    filters: CollectDoorToDoorFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDoorToDoorRelationResponseCollection
+  collectDropOffs(
+    filters: CollectDropOffFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDropOffRelationResponseCollection
+  collectVoluntaries(
+    filters: CollectVoluntaryFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectVoluntaryRelationResponseCollection
   contractCustomization: ContractCustomizationEntityResponse
   contractMenu: ContractMenuEntityResponse
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS!
@@ -1363,7 +1392,7 @@ type Contract {
   isRVFrance: Boolean!
   keyMetricsService: KeyMetricsServiceEntityResponse
   logicalDelete: Boolean
-  logo: UploadFileEntityResponse
+  logo: UploadFileEntityResponse!
   numberOfInhabitants: Long
   oldClientName: String
   pathId: Long
@@ -1395,9 +1424,11 @@ type Contract {
   ): YesWeScanServiceRelationResponseCollection
 }
 
-union ContractAndClientContact = ClientContactCreateInput | ContractCreateInput
+union ContractAndClientContact =
+    ClientContactCreateOutput
+  | ContractCreateOutput
 
-type ContractCreateInput {
+type ContractCreateOutput {
   ccap: Long
   clear: Long
   clientName: String!
@@ -1481,6 +1512,9 @@ input ContractFiltersInput {
   clientContact: ClientContactFiltersInput
   clientName: StringFilterInput
   clientType: StringFilterInput
+  collectDoorToDoors: CollectDoorToDoorFiltersInput
+  collectDropOffs: CollectDropOffFiltersInput
+  collectVoluntaries: CollectVoluntaryFiltersInput
   contractCustomization: ContractCustomizationFiltersInput
   contractMenu: ContractMenuFiltersInput
   contractStatus: StringFilterInput
@@ -1522,6 +1556,9 @@ input ContractInput {
   clientContact: ID
   clientName: String
   clientType: ENUM_CONTRACT_CLIENTTYPE
+  collectDoorToDoors: [ID]
+  collectDropOffs: [ID]
+  collectVoluntaries: [ID]
   contractCustomization: ID
   contractMenu: ID
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS
@@ -1885,11 +1922,14 @@ type DocumentRelationResponseCollection {
 }
 
 type DropOffMap {
+  collectDropOff: CollectDropOffEntityResponse
+  collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
   description: String
+  dropOffMapService: DropOffMapServiceEntityResponse
+  mustKnow: String
   name: String
   phoneNumber: String
-  publishedAt: DateTime
   updatedAt: DateTime
 }
 
@@ -1909,22 +1949,28 @@ type DropOffMapEntityResponseCollection {
 
 input DropOffMapFiltersInput {
   and: [DropOffMapFiltersInput]
+  collectDropOff: CollectDropOffFiltersInput
+  collectVoluntary: CollectVoluntaryFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
+  dropOffMapService: DropOffMapServiceFiltersInput
   id: IDFilterInput
+  mustKnow: StringFilterInput
   name: StringFilterInput
   not: DropOffMapFiltersInput
   or: [DropOffMapFiltersInput]
   phoneNumber: StringFilterInput
-  publishedAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input DropOffMapInput {
+  collectDropOff: ID
+  collectVoluntary: ID
   description: String
+  dropOffMapService: ID
+  mustKnow: String
   name: String
   phoneNumber: String
-  publishedAt: DateTime
 }
 
 type DropOffMapRelationResponseCollection {
@@ -1947,7 +1993,6 @@ type DropOffMapService {
   dropOffMaps(
     filters: DropOffMapFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): DropOffMapRelationResponseCollection
   endDate: Date
@@ -2403,7 +2448,7 @@ input EditorialServiceInput {
 }
 
 type Epci {
-  city: CityEntityResponse
+  cities: CityEntityResponse
   createdAt: DateTime
   name: String
   territories(
@@ -2430,7 +2475,7 @@ type EpciEntityResponseCollection {
 
 input EpciFiltersInput {
   and: [EpciFiltersInput]
-  city: CityFiltersInput
+  cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
   name: StringFilterInput
@@ -2441,7 +2486,7 @@ input EpciFiltersInput {
 }
 
 input EpciInput {
-  city: ID
+  cities: ID
   name: String
   territories: [ID]
 }
@@ -3826,6 +3871,8 @@ type Mutation {
   Request a reset password token
   """
   forgotPassword(email: String!): UsersPermissionsPasswordPayload
+  importMunicipalities(contractId: ID, file: String!): String
+  importSiren(contractId: ID, file: String!): Boolean
   logicalDeleteContract(contractId: ID!): Boolean
   login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
   multipleUpload(
@@ -4703,7 +4750,6 @@ type Query {
   dropOffMaps(
     filters: DropOffMapFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): DropOffMapEntityResponseCollection
   editoBlock(id: ID): EditoBlockEntityResponse
@@ -4780,6 +4826,7 @@ type Query {
   ): FreeContentEntityResponseCollection
   getAllFoldersHierarchy(path: String!): [RequestFolders]
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
+  getDropOffCollectType(contractId: ID!): [collectType]
   getEditoBlockDTO(
     contractId: ID!
     status: ENUM_EDITOCONTENTDTO_STATUS
@@ -4813,7 +4860,6 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): I18NLocaleEntityResponseCollection
-  importMunicipalities(file: String!): String
   keyMetric(id: ID): KeyMetricEntityResponse
   keyMetrics(
     filters: KeyMetricFiltersInput
@@ -6710,6 +6756,13 @@ type YesWeScanServiceRelationResponseCollection {
 
 type clientName {
   clientName: String
+}
+
+type collectType {
+  grammaticalGender: String!
+  name: String!
+  originalId: ID!
+  typeName: String!
 }
 
 type contractStatus {
