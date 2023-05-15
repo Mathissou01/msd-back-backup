@@ -40,7 +40,7 @@ export default function EditoForm({
   /* Local Data */
   const form = useForm({
     mode: "onChange",
-    defaultValues: data as IEditoFields,
+    defaultValues: data,
     shouldFocusError: false,
   });
   const [formData, setFormData] = useState<IEditoFields>();

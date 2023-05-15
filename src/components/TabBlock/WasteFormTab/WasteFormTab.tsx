@@ -2,6 +2,8 @@ import { parseISO } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import { TableColumn } from "react-data-table-component";
 import {
+  Enum_Wasteform_Status,
+  GetWasteFormsByRecyclingGuideQuery,
   useGetRecyclingGuideServiceByContractQuery,
   useGetWasteFormsByRecyclingGuideLazyQuery,
 } from "../../../graphql/codegen/generated-types";
@@ -12,13 +14,14 @@ import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
 } from "../../Common/CommonDataTable/CommonDataTable";
+import { IDataTableFilter } from "../../Common/CommonDataTable/DataTableFilters/DataTableFilters";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import "./waste-form-tab.scss";
 
 export interface IWastesTableRow extends IDefaultTableRow {
   name: string;
-  updatedAt: string;
   status: EStatusLabel;
+  updatedAt: string;
 }
 export default function WasteFormTab() {
   /* Static Data */
@@ -58,7 +61,12 @@ export default function WasteFormTab() {
   const [tableData, setTableData] = useState<Array<IWastesTableRow>>([]);
   const isLoading = loading;
   const errors = [error];
-
+  const [pageData, setPageData] = useState<
+    GetWasteFormsByRecyclingGuideQuery | undefined
+  >(data);
+  const [filterData, setFilterData] = useState<
+    Array<IDataTableFilter<IWastesTableRow>>
+  >([]);
   const tableColumns: Array<TableColumn<IWastesTableRow>> = [
     {
       id: "id",
@@ -125,15 +133,46 @@ export default function WasteFormTab() {
           })
           .filter(removeNulls) ?? [],
       );
+      setFilterData([
+        {
+          label: "Tous",
+          count: pageData?.wasteForms?.meta.pagination.total,
+        },
+        {
+          label: "Publiés",
+          count: pageData?.wasteFormsPublishedtCount?.meta.pagination.total,
+          lazyLoadSelector: {
+            value: Enum_Wasteform_Status.Published,
+          },
+        },
+        {
+          label: "Brouillons",
+          count: pageData?.wasteFormsDraftCount?.meta.pagination.total,
+          lazyLoadSelector: {
+            value: Enum_Wasteform_Status.Draft,
+          },
+        },
+        {
+          label: "Archivés",
+          count: pageData?.wasteFormsArchivedCount?.meta.pagination.total,
+          lazyLoadSelector: {
+            value: Enum_Wasteform_Status.Archived,
+          },
+        },
+      ]);
     }
-  }, [data]);
+  }, [data, pageData]);
 
+  useEffect(() => {
+    setPageData(data);
+  }, [data]);
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
       void getWasteFormsQuery();
     }
   }, [getWasteFormsQuery, isInitialized]);
+
   return (
     <div className="c-WasteFormTab">
       <h2 className="WasteFormTab__Title">{tableLabels.title}</h2>
@@ -148,6 +187,7 @@ export default function WasteFormTab() {
             }}
             onLazyLoad={handleLazyLoad}
             isLoading={isLoading}
+            filters={filterData}
             paginationOptions={{
               hasPagination: true,
               hasRowsPerPageOptions: false,

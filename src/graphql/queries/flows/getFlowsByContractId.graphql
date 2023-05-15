@@ -6,6 +6,14 @@ query getFlowsByContractId($filters: FlowFiltersInput) {
         isActivated
         createdAt
         recyclingGesture
+        wasteForms {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         code
         color {
           data {

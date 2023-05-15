@@ -1,5 +1,6 @@
 query getWasteFormsByRecyclingGuide(
   $recyclingGuideId: ID!
+  $statusFilter: StringFilterInput
   $sort: [String]
   $pagination: PaginationArg
 ) {
@@ -49,9 +50,12 @@ query getWasteFormsByRecyclingGuide(
     }
   }
   wasteForms(
-    filters: { recyclingGuideService: { id: { eq: $recyclingGuideId } } }
-    pagination: $pagination
+    filters: {
+      recyclingGuideService: { id: { eq: $recyclingGuideId } }
+      status: $statusFilter
+    }
     sort: $sort
+    pagination: $pagination
   ) {
     meta {
       pagination {

@@ -40,13 +40,13 @@ export default function FormColorPalette({
 }: IFormColorPaletteProps) {
   /* Static Data */
   const labels = {
-    defaultColor: "Couleurs par déaut",
+    defaultColor: "Couleurs par défaut",
     personalizedColor: "Couleurs personnalisées",
     primaryColor: "Couleur principale",
     secondaryColor: "Couleur secondaire",
     colorHintText: "Format hexadécimal, ex: #458203",
     colorPaletteTitle: "Palette créée à partir de vos couleurs",
-    exampleColorsElementTitle: "Examples d'utilisation de vos couleurs",
+    exampleColorsElementTitle: "Exemples d'utilisation de vos couleurs",
     exampleTitleElement: "Les services de ma ville",
     exampleSearchButtonElement: "Rechercher",
     exampleCardTitleElement: "Point de collecte",

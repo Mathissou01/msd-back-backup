@@ -11241,6 +11241,17 @@ export type GetFlowsByContractIdQuery = {
         createdAt?: any | null;
         recyclingGesture: Enum_Flow_Recyclinggesture;
         code?: string | null;
+        wasteForms?: {
+          __typename?: "WasteFormRelationResponseCollection";
+          data: Array<{
+            __typename?: "WasteFormEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "WasteForm";
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
         color?: {
           __typename?: "FlowColorEntityResponse";
           data?: {
@@ -13571,6 +13582,7 @@ export type GetRecyclingGuideServiceByContractQuery = {
 
 export type GetWasteFormsByRecyclingGuideQueryVariables = Exact<{
   recyclingGuideId: Scalars["ID"];
+  statusFilter?: InputMaybe<StringFilterInput>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
   >;
@@ -17886,6 +17898,14 @@ export const GetFlowsByContractIdDocument = gql`
           isActivated
           createdAt
           recyclingGesture
+          wasteForms {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
           code
           color {
             data {
@@ -21170,6 +21190,7 @@ export type GetRecyclingGuideServiceByContractQueryResult = Apollo.QueryResult<
 export const GetWasteFormsByRecyclingGuideDocument = gql`
   query getWasteFormsByRecyclingGuide(
     $recyclingGuideId: ID!
+    $statusFilter: StringFilterInput
     $sort: [String]
     $pagination: PaginationArg
   ) {
@@ -21219,9 +21240,12 @@ export const GetWasteFormsByRecyclingGuideDocument = gql`
       }
     }
     wasteForms(
-      filters: { recyclingGuideService: { id: { eq: $recyclingGuideId } } }
-      pagination: $pagination
+      filters: {
+        recyclingGuideService: { id: { eq: $recyclingGuideId } }
+        status: $statusFilter
+      }
       sort: $sort
+      pagination: $pagination
     ) {
       meta {
         pagination {
@@ -21256,6 +21280,7 @@ export const GetWasteFormsByRecyclingGuideDocument = gql`
  * const { data, loading, error } = useGetWasteFormsByRecyclingGuideQuery({
  *   variables: {
  *      recyclingGuideId: // value for 'recyclingGuideId'
+ *      statusFilter: // value for 'statusFilter'
  *      sort: // value for 'sort'
  *      pagination: // value for 'pagination'
  *   },
