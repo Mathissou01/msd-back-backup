@@ -4240,6 +4240,7 @@ export type Mutation = {
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
   updateYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   upload: UploadFileEntityResponse;
+  uploadFileAndGetId?: Maybe<UploadResult>;
   uploadGraphQL?: Maybe<Scalars["Boolean"]>;
   urlUploader?: Maybe<Scalars["Boolean"]>;
   ywsActivation?: Maybe<Scalars["Boolean"]>;
@@ -5337,6 +5338,10 @@ export type MutationUploadArgs = {
   info?: InputMaybe<FileInfoInput>;
   ref?: InputMaybe<Scalars["String"]>;
   refId?: InputMaybe<Scalars["ID"]>;
+};
+
+export type MutationUploadFileAndGetIdArgs = {
+  path: Scalars["String"];
 };
 
 export type MutationUploadGraphQlArgs = {
@@ -8268,6 +8273,11 @@ export type UploadFolderInput = {
 export type UploadFolderRelationResponseCollection = {
   __typename?: "UploadFolderRelationResponseCollection";
   data: Array<UploadFolderEntity>;
+};
+
+export type UploadResult = {
+  __typename?: "UploadResult";
+  id: Scalars["String"];
 };
 
 export type UsersPermissionsCreateRolePayload = {
@@ -13639,8 +13649,32 @@ export type GetWasteFormsByRecyclingGuideQuery = {
         name?: string | null;
         status?: Enum_Wasteform_Status | null;
         updatedAt?: any | null;
+        isHidden?: boolean | null;
       } | null;
     }>;
+  } | null;
+};
+
+export type UpdateWasteFormByRecyclingGuideMutationVariables = Exact<{
+  updateWasteFormId: Scalars["ID"];
+  data: WasteFormInput;
+}>;
+
+export type UpdateWasteFormByRecyclingGuideMutation = {
+  __typename?: "Mutation";
+  updateWasteForm?: {
+    __typename?: "WasteFormEntityResponse";
+    data?: {
+      __typename?: "WasteFormEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "WasteForm";
+        name?: string | null;
+        updatedAt?: any | null;
+        status?: Enum_Wasteform_Status | null;
+        isHidden?: boolean | null;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -21261,6 +21295,7 @@ export const GetWasteFormsByRecyclingGuideDocument = gql`
           name
           status
           updatedAt
+          isHidden
         }
       }
     }
@@ -21320,3 +21355,66 @@ export type GetWasteFormsByRecyclingGuideQueryResult = Apollo.QueryResult<
   GetWasteFormsByRecyclingGuideQuery,
   GetWasteFormsByRecyclingGuideQueryVariables
 >;
+export const UpdateWasteFormByRecyclingGuideDocument = gql`
+  mutation UpdateWasteFormByRecyclingGuide(
+    $updateWasteFormId: ID!
+    $data: WasteFormInput!
+  ) {
+    updateWasteForm(id: $updateWasteFormId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          updatedAt
+          status
+          isHidden
+        }
+      }
+    }
+  }
+`;
+export type UpdateWasteFormByRecyclingGuideMutationFn = Apollo.MutationFunction<
+  UpdateWasteFormByRecyclingGuideMutation,
+  UpdateWasteFormByRecyclingGuideMutationVariables
+>;
+
+/**
+ * __useUpdateWasteFormByRecyclingGuideMutation__
+ *
+ * To run a mutation, you first call `useUpdateWasteFormByRecyclingGuideMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWasteFormByRecyclingGuideMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWasteFormByRecyclingGuideMutation, { data, loading, error }] = useUpdateWasteFormByRecyclingGuideMutation({
+ *   variables: {
+ *      updateWasteFormId: // value for 'updateWasteFormId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateWasteFormByRecyclingGuideMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateWasteFormByRecyclingGuideMutation,
+    UpdateWasteFormByRecyclingGuideMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateWasteFormByRecyclingGuideMutation,
+    UpdateWasteFormByRecyclingGuideMutationVariables
+  >(UpdateWasteFormByRecyclingGuideDocument, options);
+}
+export type UpdateWasteFormByRecyclingGuideMutationHookResult = ReturnType<
+  typeof useUpdateWasteFormByRecyclingGuideMutation
+>;
+export type UpdateWasteFormByRecyclingGuideMutationResult =
+  Apollo.MutationResult<UpdateWasteFormByRecyclingGuideMutation>;
+export type UpdateWasteFormByRecyclingGuideMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateWasteFormByRecyclingGuideMutation,
+    UpdateWasteFormByRecyclingGuideMutationVariables
+  >;

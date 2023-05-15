@@ -71,6 +71,7 @@ query getWasteFormsByRecyclingGuide(
         name
         status
         updatedAt
+        isHidden
       }
     }
   }

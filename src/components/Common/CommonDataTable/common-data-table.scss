@@ -52,6 +52,12 @@
     &:not(:last-of-type) {
       border-bottom-color: colors.$blue-4;
     }
+
+    &_gray {
+      color: colors.$gray-500;
+      background-color: colors.$gray-200;
+      border-color: colors.$blue-4;
+    }
   }
 
   .rdt_TableCol,

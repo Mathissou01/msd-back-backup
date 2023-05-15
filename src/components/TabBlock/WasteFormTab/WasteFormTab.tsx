@@ -1,28 +1,32 @@
 import { parseISO } from "date-fns";
+import { ConditionalStyles, TableColumn } from "react-data-table-component";
 import React, { useEffect, useRef, useState } from "react";
-import { TableColumn } from "react-data-table-component";
 import {
   Enum_Wasteform_Status,
   GetWasteFormsByRecyclingGuideQuery,
   useGetRecyclingGuideServiceByContractQuery,
   useGetWasteFormsByRecyclingGuideLazyQuery,
+  useUpdateWasteFormByRecyclingGuideMutation,
 } from "../../../graphql/codegen/generated-types";
-import { useContract } from "../../../hooks/useContract";
 import { EStatusLabel } from "../../../lib/status";
 import { formatDate, removeNulls } from "../../../lib/utilities";
+import { useContract } from "../../../hooks/useContract";
 import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
 } from "../../Common/CommonDataTable/CommonDataTable";
 import { IDataTableFilter } from "../../Common/CommonDataTable/DataTableFilters/DataTableFilters";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
+import { IDataTableAction } from "../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import "./waste-form-tab.scss";
 
 export interface IWastesTableRow extends IDefaultTableRow {
   name: string;
   status: EStatusLabel;
   updatedAt: string;
+  isHidden: boolean;
 }
+
 export default function WasteFormTab() {
   /* Static Data */
   const tableLabels = {
@@ -56,17 +60,21 @@ export default function WasteFormTab() {
       fetchPolicy: "cache-and-network",
     });
 
+  const [updateWasteFormById, { loading: loadingUpdate, error: errorUpdate }] =
+    useUpdateWasteFormByRecyclingGuideMutation();
+
   /*Local Data*/
   const isInitialized = useRef(false);
   const [tableData, setTableData] = useState<Array<IWastesTableRow>>([]);
-  const isLoading = loading;
-  const errors = [error];
   const [pageData, setPageData] = useState<
     GetWasteFormsByRecyclingGuideQuery | undefined
   >(data);
   const [filterData, setFilterData] = useState<
     Array<IDataTableFilter<IWastesTableRow>>
   >([]);
+  const isLoading = loading && loadingUpdate;
+  const errors = [error, errorUpdate];
+
   const tableColumns: Array<TableColumn<IWastesTableRow>> = [
     {
       id: "id",
@@ -92,6 +100,38 @@ export default function WasteFormTab() {
       name: tableLabels.columns.updatedAt,
       selector: (row) => row.updatedAt,
       sortable: true,
+    },
+  ];
+
+  function setWasteFormVisibility(row: IWastesTableRow) {
+    updateWasteFormById({
+      variables: {
+        updateWasteFormId: row.id,
+        data: {
+          isHidden: !row.isHidden,
+        },
+      },
+    });
+  }
+
+  function onHideRow(row: IWastesTableRow): void {
+    setWasteFormVisibility(row);
+  }
+
+  const actionColumn = (row: IWastesTableRow): Array<IDataTableAction> => [
+    {
+      id: "hide",
+      picto: row.isHidden
+        ? "/images/pictos/view-off.svg"
+        : "/images/pictos/view.svg",
+      onClick: () => onHideRow(row),
+    },
+  ];
+
+  const conditionalRowStyles: Array<ConditionalStyles<IWastesTableRow>> = [
+    {
+      when: (row) => row.isHidden,
+      classNames: ["rdt_TableRow_gray"],
     },
   ];
 
@@ -128,6 +168,7 @@ export default function WasteFormTab() {
                 updatedAt: wasteForm.attributes.updatedAt
                   ? formatDate(parseISO(wasteForm.attributes.updatedAt))
                   : "-",
+                isHidden: wasteForm.attributes.isHidden ?? false,
               };
             }
           })
@@ -181,6 +222,8 @@ export default function WasteFormTab() {
           <CommonDataTable<IWastesTableRow>
             columns={tableColumns}
             data={tableData}
+            actionColumn={actionColumn}
+            conditionalRowStyles={conditionalRowStyles}
             lazyLoadingOptions={{
               isRemote: true,
               totalRows: data?.wasteForms?.meta.pagination.total ?? 0,

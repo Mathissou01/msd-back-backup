@@ -15,6 +15,7 @@ import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonDataTable, {
   ICommonDataTableValidation,
+  IDefaultTableRow,
 } from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import DataTableInput from "../../../../components/Common/CommonDataTable/Inputs/DataTableInput/DataTableInput";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
@@ -22,9 +23,7 @@ import DataTableForm from "../../../../components/Common/CommonDataTable/DataTab
 import FormInput from "../../../../components/Form/FormInput/FormInput";
 import "./edito-thematiques-page.scss";
 
-interface ITagTableRow {
-  id: string;
-  editState: boolean;
+interface ITagTableRow extends IDefaultTableRow {
   name: string;
   count: number;
 }

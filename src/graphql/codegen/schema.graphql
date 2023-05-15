@@ -4130,6 +4130,7 @@ type Mutation {
     ref: String
     refId: ID
   ): UploadFileEntityResponse!
+  uploadFileAndGetId(path: String!): UploadResult
   uploadGraphQL(
     field: String
     file: Upload!
@@ -6363,6 +6364,10 @@ input UploadFolderInput {
 
 type UploadFolderRelationResponseCollection {
   data: [UploadFolderEntity!]!
+}
+
+type UploadResult {
+  id: String!
 }
 
 type UsersPermissionsCreateRolePayload {

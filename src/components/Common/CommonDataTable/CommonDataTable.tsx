@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import DataTable, {
+  ConditionalStyles,
   PaginationComponentProps,
   SortOrder,
   TableColumn,
@@ -54,6 +55,7 @@ export interface ICurrentPagination<T> {
 interface ICommonDataTableProps<T> {
   columns: Array<TableColumn<T>>;
   actionColumn?: (row: T, rowIndex: number) => Array<IDataTableAction>;
+  conditionalRowStyles?: Array<ConditionalStyles<T>>;
   data: Array<T>;
   lazyLoadingOptions?: ILazyLoadingOptions;
   // State
@@ -70,6 +72,7 @@ interface ICommonDataTableProps<T> {
 export default function CommonDataTable<T extends IDefaultTableRow>({
   columns,
   actionColumn,
+  conditionalRowStyles,
   data,
   lazyLoadingOptions,
   isLoading,
@@ -217,6 +220,7 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
       >
         <DataTable<T>
           columns={tableColumns}
+          conditionalRowStyles={conditionalRowStyles}
           data={tableData}
           progressPending={isLoading}
           progressComponent={<CommonSpinner />}
