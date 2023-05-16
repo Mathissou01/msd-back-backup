@@ -22,8 +22,7 @@ interface IWasteFamilyTableRow extends IDefaultTableRow {
 export default function WasteFamilyTab() {
   /* Static Data */
   const tableLabels = {
-    hintText:
-      "Vous pouvez renommer et classer les familles dans l'ordre souhaité",
+    hintText: "Vous pouvez renommer les familles",
     columns: {
       title: "Famille de déchet",
       count: "Fiche déchets associées",

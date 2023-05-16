@@ -29,7 +29,7 @@ exports[`FormRadioInput renders 1`] = `
         </legend>
       </div>
       <div
-        class="c-FormRadioInput__Options"
+        class="c-FormRadioInput__Options c-FormRadioInput__Options_horizontal"
       >
         <div
           class="c-FormRadioInput__Option"

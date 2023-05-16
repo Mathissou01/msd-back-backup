@@ -1,6 +1,7 @@
+import React, { useEffect } from "react";
+import classNames from "classnames";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import React, { useEffect } from "react";
 import FormLabel from "../FormLabel/FormLabel";
 import "./form-radio-input.scss";
 
@@ -17,6 +18,7 @@ interface IFormRadioInputProps {
   isDisabled?: boolean;
   options: Array<IOption>;
   defaultValue?: string;
+  displayMode?: "vertical" | "horizontal";
   onChange?: (data: unknown) => void;
 }
 
@@ -28,6 +30,7 @@ export default function FormRadioInput({
   isDisabled = false,
   options,
   defaultValue,
+  displayMode = "horizontal",
   onChange,
 }: IFormRadioInputProps) {
   /* Static Data */
@@ -66,7 +69,13 @@ export default function FormRadioInput({
           secondaryLabel={secondaryDisplayName}
           tagType="legend"
         />
-        <div className="c-FormRadioInput__Options">
+        <div
+          className={classNames("c-FormRadioInput__Options", {
+            "c-FormRadioInput__Options_horizontal":
+              displayMode === "horizontal",
+            "c-FormRadioInput__Options_vertical": displayMode === "vertical",
+          })}
+        >
           {options.map((option, index) => (
             <div key={name + index} className="c-FormRadioInput__Option">
               <input

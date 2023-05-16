@@ -17,11 +17,7 @@ export function GuideTriPage() {
       {
         name: "fichesDechets",
         title: "Fiches déchets",
-        content: (
-          <>
-            <WasteFormTab />
-          </>
-        ),
+        content: <WasteFormTab />,
         isEnabled: true,
       },
       {

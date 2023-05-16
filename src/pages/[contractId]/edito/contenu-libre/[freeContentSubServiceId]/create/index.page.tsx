@@ -86,7 +86,7 @@ export function EditoFreeContentCreatePage({
   ];
 
   return (
-    <div className="o-EditoEditPage">
+    <div className="o-FormEditPage">
       <>
         <PageTitle title={title} />
         <CommonLoader isLoading={isLoading || isReloading} errors={errors}>

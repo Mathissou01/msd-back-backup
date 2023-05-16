@@ -1,5 +1,6 @@
 query getWasteFormsByRecyclingGuide(
   $recyclingGuideId: ID!
+  $wasteFormId: ID
   $statusFilter: StringFilterInput
   $sort: [String]
   $pagination: PaginationArg
@@ -50,10 +51,7 @@ query getWasteFormsByRecyclingGuide(
     }
   }
   wasteForms(
-    filters: {
-      recyclingGuideService: { id: { eq: $recyclingGuideId } }
-      status: $statusFilter
-    }
+    filters: { id: { eq: $wasteFormId }, status: $statusFilter }
     sort: $sort
     pagination: $pagination
   ) {
@@ -69,9 +67,125 @@ query getWasteFormsByRecyclingGuide(
       id
       attributes {
         name
-        status
         updatedAt
+        status
+        createdAt
+        publishedDate
+        unpublishedDate
+        versionNumber
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        draftCreationId
+        flow {
+          data {
+            id
+            attributes {
+              name
+              recyclingGesture
+            }
+          }
+        }
         isHidden
+        picto {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+              createdAt
+              ext
+              width
+              height
+            }
+          }
+        }
+        recyclingGestureText
+        wasteFamily {
+          data {
+            id
+            attributes {
+              familyName
+              isSystem
+              createdAt
+              updatedAt
+            }
+          }
+        }
+        contentBlock {
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
+                }
+                id
+              }
+            }
+            altText
+            isDecorative
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
+                }
+              }
+            }
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksVideo {
+            id
+            transcriptText
+            videoLink
+          }
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingTag
+            subHeadingText
+          }
+          ... on ComponentBlocksHorizontalRule {
+            hr
+            id
+          }
+        }
       }
     }
   }

@@ -8,9 +8,10 @@ import {
   useGetWasteFormsByRecyclingGuideLazyQuery,
   useUpdateWasteFormByRecyclingGuideMutation,
 } from "../../../graphql/codegen/generated-types";
+import { useContract } from "../../../hooks/useContract";
+import { useNavigation } from "../../../hooks/useNavigation";
 import { EStatusLabel } from "../../../lib/status";
 import { formatDate, removeNulls } from "../../../lib/utilities";
-import { useContract } from "../../../hooks/useContract";
 import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
@@ -40,6 +41,7 @@ export default function WasteFormTab() {
   };
 
   /* External Data */
+  const { currentRoot } = useNavigation();
   const { contractId } = useContract();
   const defaultPage = 1;
   const defaultRowsPerPage = 30;
@@ -55,6 +57,7 @@ export default function WasteFormTab() {
       variables: {
         recyclingGuideId:
           recyclingGuide?.recyclingGuideServices?.data[0].id ?? "",
+        sort: "publishedDate:asc",
         pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
       },
       fetchPolicy: "cache-and-network",
@@ -119,6 +122,11 @@ export default function WasteFormTab() {
   }
 
   const actionColumn = (row: IWastesTableRow): Array<IDataTableAction> => [
+    {
+      id: "edit",
+      picto: "/images/pictos/edit.svg",
+      href: `${currentRoot}/services/guide-tri/${row.id}`,
+    },
     {
       id: "hide",
       picto: row.isHidden

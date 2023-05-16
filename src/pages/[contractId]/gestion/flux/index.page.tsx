@@ -76,7 +76,15 @@ export function FluxActivationPage() {
   const [updateFlowMutation] = useUpdateFlowMutation();
 
   const { data } = useGetFlowsByContractIdQuery({
-    variables: contractId,
+    variables: {
+      filters: {
+        contract: {
+          id: {
+            eq: contractId,
+          },
+        },
+      },
+    },
   });
   const { data: collectionMethods } =
     useGetCollectionMethodsByContractIdQuery();

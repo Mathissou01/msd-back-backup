@@ -952,6 +952,26 @@ export type ComponentBlocksDateChoice = {
   id: Scalars["ID"];
 };
 
+export type ComponentBlocksDownloadBlock = {
+  __typename?: "ComponentBlocksDownloadBlock";
+  file: UploadFileEntityResponse;
+  id: Scalars["ID"];
+  linkText: Scalars["String"];
+};
+
+export type ComponentBlocksDownloadBlockFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentBlocksDownloadBlockFiltersInput>>>;
+  linkText?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentBlocksDownloadBlockFiltersInput>>>;
+};
+
+export type ComponentBlocksDownloadBlockInput = {
+  file?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  linkText?: InputMaybe<Scalars["String"]>;
+};
+
 export type ComponentBlocksFile = {
   __typename?: "ComponentBlocksFile";
   document?: Maybe<UploadFileEntityResponse>;
@@ -2186,11 +2206,18 @@ export type DropOffMap = {
   collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
+  downloadableFile?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   mustKnow?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
   phoneNumber?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type DropOffMapDownloadableFileArgs = {
+  filters?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type DropOffMapEntity = {
@@ -2216,6 +2243,7 @@ export type DropOffMapFiltersInput = {
   collectVoluntary?: InputMaybe<CollectVoluntaryFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
+  downloadableFile?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
   dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   mustKnow?: InputMaybe<StringFilterInput>;
@@ -2230,6 +2258,9 @@ export type DropOffMapInput = {
   collectDropOff?: InputMaybe<Scalars["ID"]>;
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
   description?: InputMaybe<Scalars["String"]>;
+  downloadableFile?: InputMaybe<
+    Array<InputMaybe<ComponentBlocksDownloadBlockInput>>
+  >;
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
   mustKnow?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
@@ -3549,6 +3580,7 @@ export type GenericMorph =
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksDateChoice
+  | ComponentBlocksDownloadBlock
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
@@ -5735,7 +5767,7 @@ export type PickUpDay = {
   __typename?: "PickUpDay";
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
   publishedAt?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -9973,6 +10005,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksAttachments" }
           | { __typename?: "ComponentBlocksCheckbox" }
           | { __typename?: "ComponentBlocksDateChoice" }
+          | { __typename?: "ComponentBlocksDownloadBlock" }
           | { __typename?: "ComponentBlocksFile" }
           | { __typename?: "ComponentBlocksHorizontalRule" }
           | { __typename?: "ComponentBlocksImage" }
@@ -13569,6 +13602,33 @@ export type GetRecyclingGuideServiceByContractQuery = {
         endDate?: any | null;
         memoName: string;
         memoDesc?: string | null;
+        isActivated: boolean;
+        orderExtension?: boolean | null;
+        wasteFamilies?: {
+          __typename?: "WasteFamilyRelationResponseCollection";
+          data: Array<{
+            __typename?: "WasteFamilyEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "WasteFamily";
+              createdAt?: any | null;
+              familyName: string;
+              isSystem: boolean;
+              updatedAt?: any | null;
+              wasteForms?: {
+                __typename?: "WasteFormRelationResponseCollection";
+                data: Array<{
+                  __typename?: "WasteFormEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "WasteForm";
+                    name?: string | null;
+                  } | null;
+                }>;
+              } | null;
+            } | null;
+          }>;
+        } | null;
         memoFile?: {
           __typename?: "UploadFileEntityResponse";
           data?: {
@@ -13592,6 +13652,7 @@ export type GetRecyclingGuideServiceByContractQuery = {
 
 export type GetWasteFormsByRecyclingGuideQueryVariables = Exact<{
   recyclingGuideId: Scalars["ID"];
+  wasteFormId?: InputMaybe<Scalars["ID"]>;
   statusFilter?: InputMaybe<StringFilterInput>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
@@ -13647,11 +13708,163 @@ export type GetWasteFormsByRecyclingGuideQuery = {
       attributes?: {
         __typename?: "WasteForm";
         name?: string | null;
-        status?: Enum_Wasteform_Status | null;
         updatedAt?: any | null;
+        status?: Enum_Wasteform_Status | null;
+        createdAt?: any | null;
+        publishedDate?: any | null;
+        unpublishedDate?: any | null;
+        versionNumber?: number | null;
+        draftCreationId?: string | null;
         isHidden?: boolean | null;
+        recyclingGestureText?: string | null;
+        tags?: {
+          __typename?: "TagRelationResponseCollection";
+          data: Array<{
+            __typename?: "TagEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Tag"; name: string } | null;
+          }>;
+        } | null;
+        flow?: {
+          __typename?: "FlowEntityResponse";
+          data?: {
+            __typename?: "FlowEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Flow";
+              name?: string | null;
+              recyclingGesture: Enum_Flow_Recyclinggesture;
+            } | null;
+          } | null;
+        } | null;
+        picto?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+              createdAt?: any | null;
+              ext?: string | null;
+              width?: number | null;
+              height?: number | null;
+            } | null;
+          } | null;
+        } | null;
+        wasteFamily?: {
+          __typename?: "WasteFamilyEntityResponse";
+          data?: {
+            __typename?: "WasteFamilyEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "WasteFamily";
+              familyName: string;
+              isSystem: boolean;
+              createdAt?: any | null;
+              updatedAt?: any | null;
+            } | null;
+          } | null;
+        } | null;
+        contentBlock?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              hr?: string | null;
+              id: string;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              altText?: string | null;
+              isDecorative?: boolean | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+              subHeadingText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              transcriptText?: string | null;
+              videoLink?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
       } | null;
     }>;
+  } | null;
+};
+
+export type UpdateWasteFormMutationVariables = Exact<{
+  updateWasteFormId: Scalars["ID"];
+  data: WasteFormInput;
+}>;
+
+export type UpdateWasteFormMutation = {
+  __typename?: "Mutation";
+  updateWasteForm?: {
+    __typename?: "WasteFormEntityResponse";
+    data?: { __typename?: "WasteFormEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -17927,6 +18140,7 @@ export const GetFlowsByContractIdDocument = gql`
   query getFlowsByContractId($filters: FlowFiltersInput) {
     flows(filters: $filters) {
       data {
+        id
         attributes {
           name
           isActivated
@@ -17975,7 +18189,6 @@ export const GetFlowsByContractIdDocument = gql`
             }
           }
         }
-        id
       }
     }
   }
@@ -21152,6 +21365,27 @@ export const GetRecyclingGuideServiceByContractDocument = gql`
           endDate
           memoName
           memoDesc
+          isActivated
+          orderExtension
+          wasteFamilies {
+            data {
+              id
+              attributes {
+                createdAt
+                familyName
+                isSystem
+                updatedAt
+                wasteForms {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
           memoFile {
             data {
               id
@@ -21224,6 +21458,7 @@ export type GetRecyclingGuideServiceByContractQueryResult = Apollo.QueryResult<
 export const GetWasteFormsByRecyclingGuideDocument = gql`
   query getWasteFormsByRecyclingGuide(
     $recyclingGuideId: ID!
+    $wasteFormId: ID
     $statusFilter: StringFilterInput
     $sort: [String]
     $pagination: PaginationArg
@@ -21274,10 +21509,7 @@ export const GetWasteFormsByRecyclingGuideDocument = gql`
       }
     }
     wasteForms(
-      filters: {
-        recyclingGuideService: { id: { eq: $recyclingGuideId } }
-        status: $statusFilter
-      }
+      filters: { id: { eq: $wasteFormId }, status: $statusFilter }
       sort: $sort
       pagination: $pagination
     ) {
@@ -21293,9 +21525,125 @@ export const GetWasteFormsByRecyclingGuideDocument = gql`
         id
         attributes {
           name
-          status
           updatedAt
+          status
+          createdAt
+          publishedDate
+          unpublishedDate
+          versionNumber
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          draftCreationId
+          flow {
+            data {
+              id
+              attributes {
+                name
+                recyclingGesture
+              }
+            }
+          }
           isHidden
+          picto {
+            data {
+              id
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+                createdAt
+                ext
+                width
+                height
+              }
+            }
+          }
+          recyclingGestureText
+          wasteFamily {
+            data {
+              id
+              attributes {
+                familyName
+                isSystem
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          contentBlock {
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
+                  }
+                  id
+                }
+              }
+              altText
+              isDecorative
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  id
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
+                  }
+                }
+              }
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksVideo {
+              id
+              transcriptText
+              videoLink
+            }
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingTag
+              subHeadingText
+            }
+            ... on ComponentBlocksHorizontalRule {
+              hr
+              id
+            }
+          }
         }
       }
     }
@@ -21315,6 +21663,7 @@ export const GetWasteFormsByRecyclingGuideDocument = gql`
  * const { data, loading, error } = useGetWasteFormsByRecyclingGuideQuery({
  *   variables: {
  *      recyclingGuideId: // value for 'recyclingGuideId'
+ *      wasteFormId: // value for 'wasteFormId'
  *      statusFilter: // value for 'statusFilter'
  *      sort: // value for 'sort'
  *      pagination: // value for 'pagination'
@@ -21355,8 +21704,61 @@ export type GetWasteFormsByRecyclingGuideQueryResult = Apollo.QueryResult<
   GetWasteFormsByRecyclingGuideQuery,
   GetWasteFormsByRecyclingGuideQueryVariables
 >;
+export const UpdateWasteFormDocument = gql`
+  mutation UpdateWasteForm($updateWasteFormId: ID!, $data: WasteFormInput!) {
+    updateWasteForm(id: $updateWasteFormId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateWasteFormMutationFn = Apollo.MutationFunction<
+  UpdateWasteFormMutation,
+  UpdateWasteFormMutationVariables
+>;
+
+/**
+ * __useUpdateWasteFormMutation__
+ *
+ * To run a mutation, you first call `useUpdateWasteFormMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWasteFormMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWasteFormMutation, { data, loading, error }] = useUpdateWasteFormMutation({
+ *   variables: {
+ *      updateWasteFormId: // value for 'updateWasteFormId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateWasteFormMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateWasteFormMutation,
+    UpdateWasteFormMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateWasteFormMutation,
+    UpdateWasteFormMutationVariables
+  >(UpdateWasteFormDocument, options);
+}
+export type UpdateWasteFormMutationHookResult = ReturnType<
+  typeof useUpdateWasteFormMutation
+>;
+export type UpdateWasteFormMutationResult =
+  Apollo.MutationResult<UpdateWasteFormMutation>;
+export type UpdateWasteFormMutationOptions = Apollo.BaseMutationOptions<
+  UpdateWasteFormMutation,
+  UpdateWasteFormMutationVariables
+>;
 export const UpdateWasteFormByRecyclingGuideDocument = gql`
-  mutation UpdateWasteFormByRecyclingGuide(
+  mutation updateWasteFormByRecyclingGuide(
     $updateWasteFormId: ID!
     $data: WasteFormInput!
   ) {

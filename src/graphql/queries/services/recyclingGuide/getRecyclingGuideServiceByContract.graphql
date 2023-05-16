@@ -7,6 +7,27 @@ query getRecyclingGuideServiceByContract($contractId: ID!) {
         endDate
         memoName
         memoDesc
+        isActivated
+        orderExtension
+        wasteFamilies {
+          data {
+            id
+            attributes {
+              createdAt
+              familyName
+              isSystem
+              updatedAt
+              wasteForms {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
         memoFile {
           data {
             id

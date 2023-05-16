@@ -814,6 +814,25 @@ type ComponentBlocksDateChoice {
   id: ID!
 }
 
+type ComponentBlocksDownloadBlock {
+  file: UploadFileEntityResponse!
+  id: ID!
+  linkText: String!
+}
+
+input ComponentBlocksDownloadBlockFiltersInput {
+  and: [ComponentBlocksDownloadBlockFiltersInput]
+  linkText: StringFilterInput
+  not: ComponentBlocksDownloadBlockFiltersInput
+  or: [ComponentBlocksDownloadBlockFiltersInput]
+}
+
+input ComponentBlocksDownloadBlockInput {
+  file: ID
+  id: ID
+  linkText: String
+}
+
 type ComponentBlocksFile {
   document: UploadFileEntityResponse
   id: ID!
@@ -1926,6 +1945,11 @@ type DropOffMap {
   collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
   description: String
+  downloadableFile(
+    filters: ComponentBlocksDownloadBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksDownloadBlock]
   dropOffMapService: DropOffMapServiceEntityResponse
   mustKnow: String
   name: String
@@ -1953,6 +1977,7 @@ input DropOffMapFiltersInput {
   collectVoluntary: CollectVoluntaryFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
+  downloadableFile: ComponentBlocksDownloadBlockFiltersInput
   dropOffMapService: DropOffMapServiceFiltersInput
   id: IDFilterInput
   mustKnow: StringFilterInput
@@ -1967,6 +1992,7 @@ input DropOffMapInput {
   collectDropOff: ID
   collectVoluntary: ID
   description: String
+  downloadableFile: [ComponentBlocksDownloadBlockInput]
   dropOffMapService: ID
   mustKnow: String
   name: String
@@ -3176,6 +3202,7 @@ union GenericMorph =
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksDateChoice
+  | ComponentBlocksDownloadBlock
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
@@ -4475,7 +4502,7 @@ input PaginationArg {
 type PickUpDay {
   createdAt: DateTime
   description: String
-  name: String
+  name: String!
   publishedAt: DateTime
   updatedAt: DateTime
 }

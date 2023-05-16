@@ -168,7 +168,7 @@ export function EditoTipsEditPage({ tipId }: IEditoTipsEditPageProps) {
   }, [data, router, currentRoot]);
 
   return (
-    <div className="o-EditoEditPage">
+    <div className="o-FormEditPage">
       {mappedData && (
         <>
           <PageTitle title={mappedData.title} />

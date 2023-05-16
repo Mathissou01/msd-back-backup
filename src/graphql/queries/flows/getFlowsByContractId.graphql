@@ -1,6 +1,7 @@
 query getFlowsByContractId($filters: FlowFiltersInput) {
   flows(filters: $filters) {
     data {
+      id
       attributes {
         name
         isActivated
@@ -49,7 +50,6 @@ query getFlowsByContractId($filters: FlowFiltersInput) {
           }
         }
       }
-      id
     }
   }
 }
