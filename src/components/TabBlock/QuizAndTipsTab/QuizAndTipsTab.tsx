@@ -3,6 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
 import {
+  Enum_Tip_Status,
   GetQuizAndTipsBlockTabDocument,
   QuizEntity,
   TipEntity,
@@ -53,6 +54,7 @@ export default function QuizAndTipsTab() {
   };
   const submitButtonLabel = "Enregistrer les modifications";
   const cancelButtonLabel = "Annuler les modifications";
+  const status = Enum_Tip_Status.Published;
 
   /* Methods */
   function quizDisplayTransformFunction(
@@ -137,7 +139,7 @@ export default function QuizAndTipsTab() {
   /* External Data */
   const { contractId } = useContract();
   const { loading, error, data } = useGetQuizAndTipsBlockTabQuery({
-    variables: { contractId },
+    variables: { contractId, status },
   });
   const [
     updateQuizAndTipsBlock,

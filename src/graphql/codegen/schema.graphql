@@ -850,6 +850,15 @@ type ComponentBlocksImage {
   picture: UploadFileEntityResponse
 }
 
+type ComponentBlocksOpeningDay {
+  afterNoonEnd: Time
+  afterNoonStart: Time
+  id: ID!
+  morningEnd: Time
+  morningStart: Time
+  weekDay: ENUM_COMPONENTBLOCKSOPENINGDAY_WEEKDAY!
+}
+
 type ComponentBlocksProofOfReceipt {
   id: ID!
   proofOfReceiptHeader: String!
@@ -1953,6 +1962,7 @@ type DropOffMap {
   dropOffMapService: DropOffMapServiceEntityResponse
   mustKnow: String
   name: String
+  openingHoursBlock: [DropOffMapOpeningHoursBlockDynamicZone]
   phoneNumber: String
   updatedAt: DateTime
 }
@@ -1996,8 +2006,13 @@ input DropOffMapInput {
   dropOffMapService: ID
   mustKnow: String
   name: String
+  openingHoursBlock: [DropOffMapOpeningHoursBlockDynamicZoneInput!]
   phoneNumber: String
 }
+
+union DropOffMapOpeningHoursBlockDynamicZone = ComponentBlocksOpeningDay | Error
+
+scalar DropOffMapOpeningHoursBlockDynamicZoneInput
 
 type DropOffMapRelationResponseCollection {
   data: [DropOffMapEntity!]!
@@ -2109,6 +2124,16 @@ enum ENUM_COMPONENTBLOCKSCHECKBOX_FIELDSTATUSCHECKBOX {
 enum ENUM_COMPONENTBLOCKSDATECHOICE_FIELDSTATUS {
   Obligatoire
   Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSOPENINGDAY_WEEKDAY {
+  Dimanche
+  Jeudi
+  Lundi
+  Mardi
+  Mercredi
+  Samedi
+  Vendredi
 }
 
 enum ENUM_COMPONENTBLOCKSQCM_FIELDSTATUSQCM {
@@ -3206,6 +3231,7 @@ union GenericMorph =
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksOpeningDay
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
@@ -4503,7 +4529,6 @@ type PickUpDay {
   createdAt: DateTime
   description: String
   name: String!
-  publishedAt: DateTime
   updatedAt: DateTime
 }
 
@@ -4529,14 +4554,12 @@ input PickUpDayFiltersInput {
   name: StringFilterInput
   not: PickUpDayFiltersInput
   or: [PickUpDayFiltersInput]
-  publishedAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input PickUpDayInput {
   description: String
   name: String
-  publishedAt: DateTime
 }
 
 type PickUpDayRelationResponseCollection {
@@ -4562,7 +4585,6 @@ type PickUpDayService {
   pickUpDays(
     filters: PickUpDayFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): PickUpDayRelationResponseCollection
   startDate: Date
@@ -4938,7 +4960,6 @@ type Query {
   pickUpDays(
     filters: PickUpDayFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): PickUpDayEntityResponseCollection
   quiz(id: ID): QuizEntityResponse
@@ -5938,6 +5959,11 @@ input TerritoryTypeFiltersInput {
 input TerritoryTypeInput {
   territoryType: String
 }
+
+"""
+A time string with format HH:mm:ss.SSS
+"""
+scalar Time
 
 type Tip {
   blocks: [TipBlocksDynamicZone]

@@ -1,4 +1,4 @@
-query getQuizAndTipsBlockTab($contractId: ID!) {
+query getQuizAndTipsBlockTab($contractId: ID!, $status: String!) {
   contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       attributes {
@@ -60,7 +60,7 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
   ) {
     data {
       attributes {
-        quizzes {
+        quizzes(filters: { status: { eq: $status } }) {
           data {
             id
             attributes {
@@ -78,7 +78,7 @@ query getQuizAndTipsBlockTab($contractId: ID!) {
   ) {
     data {
       attributes {
-        tips {
+        tips(filters: { status: { eq: $status } }) {
           data {
             id
             attributes {

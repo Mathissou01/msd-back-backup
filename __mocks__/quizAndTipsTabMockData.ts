@@ -6,6 +6,7 @@ export const defaultMockData = [
       query: GetQuizAndTipsBlockTabDocument,
       variables: {
         contractId: "0",
+        status: "published",
       },
     },
     result: {

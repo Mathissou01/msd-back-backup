@@ -28,6 +28,7 @@ export type Scalars = {
   CookieBlocksDynamicZoneInput: any;
   Date: any;
   DateTime: any;
+  DropOffMapOpeningHoursBlockDynamicZoneInput: any;
   EventBlocksDynamicZoneInput: any;
   EventLinkToServicesDynamicZoneInput: any;
   FreeContentBlocksDynamicZoneInput: any;
@@ -38,6 +39,7 @@ export type Scalars = {
   NewLinkToServicesDynamicZoneInput: any;
   RequestAddableBlocksDynamicZoneInput: any;
   ServicesBlockServiceLinksDynamicZoneInput: any;
+  Time: any;
   TipBlocksDynamicZoneInput: any;
   TipLinkToServicesDynamicZoneInput: any;
   Upload: any;
@@ -990,6 +992,16 @@ export type ComponentBlocksImage = {
   id: Scalars["ID"];
   isDecorative?: Maybe<Scalars["Boolean"]>;
   picture?: Maybe<UploadFileEntityResponse>;
+};
+
+export type ComponentBlocksOpeningDay = {
+  __typename?: "ComponentBlocksOpeningDay";
+  afterNoonEnd?: Maybe<Scalars["Time"]>;
+  afterNoonStart?: Maybe<Scalars["Time"]>;
+  id: Scalars["ID"];
+  morningEnd?: Maybe<Scalars["Time"]>;
+  morningStart?: Maybe<Scalars["Time"]>;
+  weekDay: Enum_Componentblocksopeningday_Weekday;
 };
 
 export type ComponentBlocksProofOfReceipt = {
@@ -2210,6 +2222,9 @@ export type DropOffMap = {
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   mustKnow?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
+  openingHoursBlock?: Maybe<
+    Array<Maybe<DropOffMapOpeningHoursBlockDynamicZone>>
+  >;
   phoneNumber?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -2264,8 +2279,15 @@ export type DropOffMapInput = {
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
   mustKnow?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
+  openingHoursBlock?: InputMaybe<
+    Array<Scalars["DropOffMapOpeningHoursBlockDynamicZoneInput"]>
+  >;
   phoneNumber?: InputMaybe<Scalars["String"]>;
 };
+
+export type DropOffMapOpeningHoursBlockDynamicZone =
+  | ComponentBlocksOpeningDay
+  | Error;
 
 export type DropOffMapRelationResponseCollection = {
   __typename?: "DropOffMapRelationResponseCollection";
@@ -2389,6 +2411,16 @@ export enum Enum_Componentblockscheckbox_Fieldstatuscheckbox {
 export enum Enum_Componentblocksdatechoice_Fieldstatus {
   Obligatoire = "Obligatoire",
   Optionnel = "Optionnel",
+}
+
+export enum Enum_Componentblocksopeningday_Weekday {
+  Dimanche = "Dimanche",
+  Jeudi = "Jeudi",
+  Lundi = "Lundi",
+  Mardi = "Mardi",
+  Mercredi = "Mercredi",
+  Samedi = "Samedi",
+  Vendredi = "Vendredi",
 }
 
 export enum Enum_Componentblocksqcm_Fieldstatusqcm {
@@ -3584,6 +3616,7 @@ export type GenericMorph =
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksOpeningDay
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
@@ -5768,7 +5801,6 @@ export type PickUpDay = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
-  publishedAt?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -5797,14 +5829,12 @@ export type PickUpDayFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<PickUpDayFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type PickUpDayInput = {
   description?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type PickUpDayRelationResponseCollection = {
@@ -5841,7 +5871,6 @@ export type PickUpDayServiceCitiesArgs = {
 export type PickUpDayServicePickUpDaysArgs = {
   filters?: InputMaybe<PickUpDayFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -6613,7 +6642,6 @@ export type QueryPickUpDayServicesArgs = {
 export type QueryPickUpDaysArgs = {
   filters?: InputMaybe<PickUpDayFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -10009,6 +10037,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksFile" }
           | { __typename?: "ComponentBlocksHorizontalRule" }
           | { __typename?: "ComponentBlocksImage" }
+          | { __typename?: "ComponentBlocksOpeningDay" }
           | { __typename?: "ComponentBlocksProofOfReceipt" }
           | { __typename?: "ComponentBlocksQcm" }
           | { __typename?: "ComponentBlocksQuestions" }
@@ -11805,6 +11834,7 @@ export type GetEditoBlockTabQuery = {
 
 export type GetQuizAndTipsBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
+  status: Scalars["String"];
 }>;
 
 export type GetQuizAndTipsBlockTabQuery = {
@@ -18860,7 +18890,7 @@ export type GetEditoBlockTabQueryResult = Apollo.QueryResult<
   GetEditoBlockTabQueryVariables
 >;
 export const GetQuizAndTipsBlockTabDocument = gql`
-  query getQuizAndTipsBlockTab($contractId: ID!) {
+  query getQuizAndTipsBlockTab($contractId: ID!, $status: String!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
@@ -18922,7 +18952,7 @@ export const GetQuizAndTipsBlockTabDocument = gql`
     ) {
       data {
         attributes {
-          quizzes {
+          quizzes(filters: { status: { eq: $status } }) {
             data {
               id
               attributes {
@@ -18940,7 +18970,7 @@ export const GetQuizAndTipsBlockTabDocument = gql`
     ) {
       data {
         attributes {
-          tips {
+          tips(filters: { status: { eq: $status } }) {
             data {
               id
               attributes {
@@ -18982,6 +19012,7 @@ export const GetQuizAndTipsBlockTabDocument = gql`
  * const { data, loading, error } = useGetQuizAndTipsBlockTabQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      status: // value for 'status'
  *   },
  * });
  */
