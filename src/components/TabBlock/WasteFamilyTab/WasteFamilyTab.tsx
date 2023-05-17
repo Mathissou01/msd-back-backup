@@ -1,22 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { FieldValues } from "react-hook-form";
 import { removeNulls } from "../../../lib/utilities";
 import {
-  useGetContractByIdQuery,
-  useGetGuideDuTriQuery,
+  GetWasteFamilyDocument,
+  useGetRecyclingGuideServiceByContractQuery,
+  useUpdateWasteFamilyMutation,
+  WasteFamilyEntity,
+  WasteFormEntity,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
+import { TableColumn } from "react-data-table-component";
+import { IDataTableAction } from "../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
+import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonDataTable, {
   IDefaultTableRow,
 } from "../../Common/CommonDataTable/CommonDataTable";
-import { TableColumn } from "react-data-table-component";
-import { IDataTableAction } from "../../Common/CommonDataTable/DataTableActions/DataTableActions";
+import FormModal from "../../Form/FormModal/FormModal";
+import FormInput from "../../Form/FormInput/FormInput";
 import "./waste-family-tab.scss";
 
 interface IWasteFamilyTableRow extends IDefaultTableRow {
   id: string;
   title: string;
   count: number;
+  wasteForms: Array<WasteFormEntity>;
 }
 
 export default function WasteFamilyTab() {
@@ -30,6 +38,8 @@ export default function WasteFamilyTab() {
   };
   /* Local Data */
   const [tableData, setTableData] = useState<Array<IWasteFamilyTableRow>>([]);
+  const modalRef = useRef<CommonModalWrapperRef>(null);
+  const [defaultValue, setDefaultValue] = useState<IWasteFamilyTableRow>();
   const tableColumns: Array<TableColumn<IWasteFamilyTableRow>> = [
     {
       id: "id",
@@ -56,59 +66,90 @@ export default function WasteFamilyTab() {
     {
       id: "edit",
       picto: "/images/pictos/edit.svg",
-      onClick: () => onEdit(row),
+      onClick: () => handleEdit(row),
     },
   ];
 
   /* External Data */
   const { contractId } = useContract();
   const {
-    data: getContractData,
-    loading: getContractLoading,
-    error: getContractError,
-  } = useGetContractByIdQuery({ variables: { contractId } });
-  const {
-    data: getGuideDuTriData,
-    loading: getGuideDuTriLoading,
-    error: getGuideDuTriError,
-  } = useGetGuideDuTriQuery({
+    data: getRecyclingGuideServiceData,
+    loading: getRecyclingGuideServiceLoading,
+    error: getRecyclingGuideServiceError,
+  } = useGetRecyclingGuideServiceByContractQuery({
     variables: {
-      recyclingGuideServiceId:
-        getContractData?.contract?.data?.attributes?.recyclingGuideService?.data
-          ?.id,
+      contractId,
     },
   });
+  const [
+    updateWasteFamilyMutation,
+    {
+      loading: updateWasteFamilyMutationLoading,
+      error: updateWasteFamilyMutationError,
+    },
+  ] = useUpdateWasteFamilyMutation();
 
   /* Methods */
-  function onEdit(row: IWasteFamilyTableRow): void {
-    throw new Error("Function not implemented." + row);
+  function handleEdit(row: IWasteFamilyTableRow): void {
+    modalRef.current?.toggleModal(true);
+
+    setDefaultValue(row);
+  }
+
+  async function handleUpdate(submitData: FieldValues) {
+    if (defaultValue) {
+      const variables = {
+        data: {
+          familyName: submitData.title,
+          recyclingGuideService:
+            getRecyclingGuideServiceData?.recyclingGuideServices?.data[0].id,
+        },
+        updateWasteFamilyId: defaultValue?.id,
+      };
+
+      await updateWasteFamilyMutation({
+        variables,
+        refetchQueries: [
+          {
+            query: GetWasteFamilyDocument,
+            variables: { contractId },
+          },
+        ],
+      });
+
+      setDefaultValue(undefined);
+      modalRef.current?.toggleModal(false);
+    }
   }
 
   useEffect(() => {
-    if (getGuideDuTriData) {
+    if (getRecyclingGuideServiceData) {
       setTableData(
-        getGuideDuTriData.recyclingGuideService?.data?.attributes?.wasteFamilies?.data
-          .map((item) => {
+        getRecyclingGuideServiceData.recyclingGuideServices?.data[0].attributes?.wasteFamilies?.data
+          .map((item: WasteFamilyEntity) => {
             if (item && item.id && item.attributes) {
               return {
                 id: item.id,
                 editState: false,
                 title: item.attributes.familyName,
                 count: item.attributes.wasteForms?.data.length ?? 0,
+                wasteForms: item.attributes.wasteForms?.data ?? [],
               };
             }
           })
           .filter(removeNulls) ?? [],
       );
     }
-  }, [getGuideDuTriData]);
+  }, [getRecyclingGuideServiceData]);
 
   return (
     <div className="c-WasteFamily">
       <CommonLoader
-        isLoading={getGuideDuTriLoading || getContractLoading}
+        isLoading={
+          getRecyclingGuideServiceLoading || updateWasteFamilyMutationLoading
+        }
         hasDelay={false}
-        errors={[getGuideDuTriError, getContractError]}
+        errors={[getRecyclingGuideServiceError, updateWasteFamilyMutationError]}
         isFlexGrow={false}
       >
         <p>{tableLabels.hintText}</p>
@@ -116,10 +157,35 @@ export default function WasteFamilyTab() {
           columns={tableColumns}
           actionColumn={actionColumn}
           data={tableData}
-          isLoading={getGuideDuTriLoading || getContractLoading}
+          isLoading={
+            getRecyclingGuideServiceLoading || updateWasteFamilyMutationLoading
+          }
           defaultSortFieldId={"title"}
         />
       </CommonLoader>
+      <FormModal
+        modalRef={modalRef}
+        modalTitle="Modification d'une famille de déchet"
+        hasRequiredChildren="all"
+        onSubmit={handleUpdate}
+        formValidationMode="onChange"
+      >
+        <FormInput
+          type="text"
+          name="title"
+          label="Nom de la Famille"
+          isRequired
+          defaultValue={defaultValue?.title}
+        />
+        <FormInput
+          type="text"
+          name="wasteform"
+          label="Déchets associés"
+          defaultValue={defaultValue?.wasteForms
+            .map((wasteForm) => wasteForm.attributes?.name)
+            .join(", ")}
+        />
+      </FormModal>
     </div>
   );
 }

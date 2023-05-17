@@ -1,0 +1,16 @@
+mutation UpdateWasteFamily(
+  $updateWasteFamilyId: ID!
+  $data: WasteFamilyInput!
+) {
+  updateWasteFamily(id: $updateWasteFamilyId, data: $data) {
+    data {
+      id
+      attributes {
+        familyName
+        createdAt
+        updatedAt
+        isSystem
+      }
+    }
+  }
+}

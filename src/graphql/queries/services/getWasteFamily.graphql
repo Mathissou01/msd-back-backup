@@ -1,4 +1,4 @@
-query getGuideDuTri(
+query getWasteFamily(
   $recyclingGuideServiceId: ID
   $sort: [String]
   $pagination: PaginationArg
@@ -10,6 +10,7 @@ query getGuideDuTri(
         isActivated
         wasteFamilies(sort: $sort, pagination: $pagination) {
           data {
+            id
             attributes {
               createdAt
               familyName
@@ -18,10 +19,12 @@ query getGuideDuTri(
               wasteForms {
                 data {
                   id
+                  attributes {
+                    name
+                  }
                 }
               }
             }
-            id
           }
         }
       }
