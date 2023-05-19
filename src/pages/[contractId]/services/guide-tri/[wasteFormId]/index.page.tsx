@@ -9,8 +9,8 @@ import {
   Enum_Wasteform_Status,
   useGetContractByIdQuery,
   useUpdateWasteFormMutation,
-  useGetWasteFormsByRecyclingGuideQuery,
-  GetWasteFormsByRecyclingGuideDocument,
+  useGetWasteFormByIdQuery,
+  GetWasteFormByIdDocument,
 } from "../../../../../graphql/codegen/generated-types";
 import {
   TDynamicFieldOption,
@@ -50,20 +50,18 @@ export function ServiceGuideDuTriEditPage({
 
   /* External Data */
   const { contractId } = useContract();
+
   const {
     data: getContractData,
     loading: getContractLoading,
     error: getContractError,
   } = useGetContractByIdQuery({ variables: { contractId } });
-  const { data, loading, error } = useGetWasteFormsByRecyclingGuideQuery({
-    variables: {
-      recyclingGuideId:
-        getContractData?.contract?.data?.attributes?.recyclingGuideService?.data
-          ?.id ?? "1",
-      wasteFormId,
-    },
+
+  const { data, loading, error } = useGetWasteFormByIdQuery({
+    variables: { wasteFormId },
     fetchPolicy: "network-only",
   });
+
   const [
     updateWasteFormMutation,
     { loading: updateWasteFormLoading, error: updateWasteFormError },
@@ -85,8 +83,8 @@ export function ServiceGuideDuTriEditPage({
   ];
 
   useEffect(() => {
-    if (data?.wasteForms?.data) {
-      const ficheDechetData = data.wasteForms.data[0];
+    if (data?.wasteForm?.data) {
+      const ficheDechetData = data.wasteForm.data;
 
       if (
         ficheDechetData.id &&
@@ -124,7 +122,7 @@ export function ServiceGuideDuTriEditPage({
         };
         setMappedData(mappedData);
       }
-    } else if (data?.wasteForms && data.wasteForms.data === null) {
+    } else if (data?.wasteForm && data.wasteForm.data === null) {
       void router.push(`${currentRoot}/edito/actualites`);
     }
   }, [data, router, currentRoot]);
@@ -155,7 +153,7 @@ export function ServiceGuideDuTriEditPage({
       variables,
       refetchQueries: [
         {
-          query: GetWasteFormsByRecyclingGuideDocument,
+          query: GetWasteFormByIdDocument,
           variables: {
             recyclingGuideId:
               getContractData?.contract?.data?.attributes?.recyclingGuideService
@@ -178,7 +176,7 @@ export function ServiceGuideDuTriEditPage({
       variables,
       refetchQueries: [
         {
-          query: GetWasteFormsByRecyclingGuideDocument,
+          query: GetWasteFormByIdDocument,
           variables: {
             recyclingGuideId:
               getContractData?.contract?.data?.attributes?.recyclingGuideService
@@ -202,7 +200,7 @@ export function ServiceGuideDuTriEditPage({
       variables,
       refetchQueries: [
         {
-          query: GetWasteFormsByRecyclingGuideDocument,
+          query: GetWasteFormByIdDocument,
           variables: {
             recyclingGuideId:
               getContractData?.contract?.data?.attributes?.recyclingGuideService

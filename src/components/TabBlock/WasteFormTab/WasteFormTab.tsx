@@ -3,10 +3,9 @@ import { ConditionalStyles, TableColumn } from "react-data-table-component";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Enum_Wasteform_Status,
-  GetWasteFormsByRecyclingGuideQuery,
-  useGetRecyclingGuideServiceByContractQuery,
-  useGetWasteFormsByRecyclingGuideLazyQuery,
-  useUpdateWasteFormByRecyclingGuideMutation,
+  GetWasteFormsByContractIdQuery,
+  useGetWasteFormsByContractIdLazyQuery,
+  useUpdateWasteFormMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { useNavigation } from "../../../hooks/useNavigation";
@@ -33,9 +32,8 @@ export default function WasteFormTab() {
   const tableLabels = {
     title: "Liste des fiches déchets",
     columns: {
-      sectorTitle: "Nom du déchet",
-      statut: "Statut",
-      usagers: "Usagers",
+      name: "Nom du déchet",
+      status: "Statut",
       updatedAt: "Modification",
     },
   };
@@ -46,31 +44,24 @@ export default function WasteFormTab() {
   const defaultPage = 1;
   const defaultRowsPerPage = 30;
 
-  const { data: recyclingGuide } = useGetRecyclingGuideServiceByContractQuery({
-    variables: {
-      contractId,
-    },
-  });
-
   const [getWasteFormsQuery, { data, loading, error }] =
-    useGetWasteFormsByRecyclingGuideLazyQuery({
+    useGetWasteFormsByContractIdLazyQuery({
       variables: {
-        recyclingGuideId:
-          recyclingGuide?.recyclingGuideServices?.data[0].id ?? "",
+        contractId: contractId,
         sort: "publishedDate:asc",
         pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
       },
       fetchPolicy: "cache-and-network",
     });
 
-  const [updateWasteFormById, { loading: loadingUpdate, error: errorUpdate }] =
-    useUpdateWasteFormByRecyclingGuideMutation();
+  const [updateWasteForm, { loading: loadingUpdate, error: errorUpdate }] =
+    useUpdateWasteFormMutation();
 
   /*Local Data*/
   const isInitialized = useRef(false);
   const [tableData, setTableData] = useState<Array<IWastesTableRow>>([]);
   const [pageData, setPageData] = useState<
-    GetWasteFormsByRecyclingGuideQuery | undefined
+    GetWasteFormsByContractIdQuery | undefined
   >(data);
   const [filterData, setFilterData] = useState<
     Array<IDataTableFilter<IWastesTableRow>>
@@ -86,40 +77,25 @@ export default function WasteFormTab() {
     },
     {
       id: "name",
-      name: tableLabels.columns.sectorTitle,
+      name: tableLabels.columns.name,
       selector: (row) => row.name,
       sortable: true,
       grow: 2,
     },
 
     {
-      id: "statut",
-      name: tableLabels.columns.statut,
+      id: "status",
+      name: tableLabels.columns.status,
       selector: (row) => row.status,
       sortable: true,
     },
     {
-      id: "updateDate",
+      id: "updatedAt",
       name: tableLabels.columns.updatedAt,
       selector: (row) => row.updatedAt,
       sortable: true,
     },
   ];
-
-  function setWasteFormVisibility(row: IWastesTableRow) {
-    updateWasteFormById({
-      variables: {
-        updateWasteFormId: row.id,
-        data: {
-          isHidden: !row.isHidden,
-        },
-      },
-    });
-  }
-
-  function onHideRow(row: IWastesTableRow): void {
-    setWasteFormVisibility(row);
-  }
 
   const actionColumn = (row: IWastesTableRow): Array<IDataTableAction> => [
     {
@@ -147,8 +123,7 @@ export default function WasteFormTab() {
   async function handleLazyLoad(params: ICurrentPagination<IWastesTableRow>) {
     return getWasteFormsQuery({
       variables: {
-        recyclingGuideId:
-          recyclingGuide?.recyclingGuideServices?.data[0].id ?? "",
+        contractId: contractId,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
         ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
           statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
@@ -158,6 +133,21 @@ export default function WasteFormTab() {
         }),
       },
     });
+  }
+
+  function setWasteFormVisibility(row: IWastesTableRow) {
+    updateWasteForm({
+      variables: {
+        updateWasteFormId: row.id,
+        data: {
+          isHidden: !row.isHidden,
+        },
+      },
+    });
+  }
+
+  function onHideRow(row: IWastesTableRow) {
+    setWasteFormVisibility(row);
   }
 
   useEffect(() => {
@@ -185,7 +175,7 @@ export default function WasteFormTab() {
       setFilterData([
         {
           label: "Tous",
-          count: pageData?.wasteForms?.meta.pagination.total,
+          count: pageData?.wasteFormsCount?.meta.pagination.total,
         },
         {
           label: "Publiés",

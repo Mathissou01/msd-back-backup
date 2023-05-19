@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { removeNulls } from "../../../lib/utilities";
 import {
-  GetWasteFamilyDocument,
-  useGetRecyclingGuideServiceByContractQuery,
+  GetWasteFamiliesByContractIdDocument,
+  useGetWasteFamiliesByContractIdQuery,
   useUpdateWasteFamilyMutation,
   WasteFamilyEntity,
   WasteFormEntity,
@@ -73,10 +73,10 @@ export default function WasteFamilyTab() {
   /* External Data */
   const { contractId } = useContract();
   const {
-    data: getRecyclingGuideServiceData,
-    loading: getRecyclingGuideServiceLoading,
-    error: getRecyclingGuideServiceError,
-  } = useGetRecyclingGuideServiceByContractQuery({
+    data: getWasteFamiliesData,
+    loading: getWasteFamiliesLoading,
+    error: getWasteFamiliesError,
+  } = useGetWasteFamiliesByContractIdQuery({
     variables: {
       contractId,
     },
@@ -101,8 +101,6 @@ export default function WasteFamilyTab() {
       const variables = {
         data: {
           familyName: submitData.title,
-          recyclingGuideService:
-            getRecyclingGuideServiceData?.recyclingGuideServices?.data[0].id,
         },
         updateWasteFamilyId: defaultValue?.id,
       };
@@ -111,7 +109,7 @@ export default function WasteFamilyTab() {
         variables,
         refetchQueries: [
           {
-            query: GetWasteFamilyDocument,
+            query: GetWasteFamiliesByContractIdDocument,
             variables: { contractId },
           },
         ],
@@ -123,9 +121,9 @@ export default function WasteFamilyTab() {
   }
 
   useEffect(() => {
-    if (getRecyclingGuideServiceData) {
+    if (getWasteFamiliesData) {
       setTableData(
-        getRecyclingGuideServiceData.recyclingGuideServices?.data[0].attributes?.wasteFamilies?.data
+        getWasteFamiliesData.recyclingGuideService?.data?.attributes?.wasteFamilies?.data
           .map((item: WasteFamilyEntity) => {
             if (item && item.id && item.attributes) {
               return {
@@ -140,16 +138,14 @@ export default function WasteFamilyTab() {
           .filter(removeNulls) ?? [],
       );
     }
-  }, [getRecyclingGuideServiceData]);
+  }, [getWasteFamiliesData]);
 
   return (
     <div className="c-WasteFamily">
       <CommonLoader
-        isLoading={
-          getRecyclingGuideServiceLoading || updateWasteFamilyMutationLoading
-        }
+        isLoading={getWasteFamiliesLoading || updateWasteFamilyMutationLoading}
         hasDelay={false}
-        errors={[getRecyclingGuideServiceError, updateWasteFamilyMutationError]}
+        errors={[getWasteFamiliesError, updateWasteFamilyMutationError]}
         isFlexGrow={false}
       >
         <p>{tableLabels.hintText}</p>
@@ -158,7 +154,7 @@ export default function WasteFamilyTab() {
           actionColumn={actionColumn}
           data={tableData}
           isLoading={
-            getRecyclingGuideServiceLoading || updateWasteFamilyMutationLoading
+            getWasteFamiliesLoading || updateWasteFamilyMutationLoading
           }
           defaultSortFieldId={"title"}
         />

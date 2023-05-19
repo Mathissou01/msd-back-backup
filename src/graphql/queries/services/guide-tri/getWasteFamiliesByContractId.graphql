@@ -1,16 +1,15 @@
-query getWasteFamily(
-  $recyclingGuideServiceId: ID
+query getWasteFamiliesByContractId(
+  $contractId: ID
   $sort: [String]
   $pagination: PaginationArg
 ) {
-  recyclingGuideService(id: $recyclingGuideServiceId) {
+  recyclingGuideService(id: $contractId) {
     data {
       id
       attributes {
         isActivated
         wasteFamilies(sort: $sort, pagination: $pagination) {
           data {
-            id
             attributes {
               createdAt
               familyName
@@ -19,12 +18,10 @@ query getWasteFamily(
               wasteForms {
                 data {
                   id
-                  attributes {
-                    name
-                  }
                 }
               }
             }
+            id
           }
         }
       }
