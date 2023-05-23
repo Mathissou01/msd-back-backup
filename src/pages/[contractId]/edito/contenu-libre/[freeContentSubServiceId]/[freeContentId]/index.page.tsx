@@ -21,6 +21,7 @@ import PageTitle from "../../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../../components/Edito/EditoForm/EditoForm";
 import { formatDate } from "../../../../../../lib/utilities";
 import { parseJSON } from "date-fns";
+import { remapUploadFileEntityToLocalFile } from "../../../../../../lib/media";
 
 interface IEditoFreeContentEditPageProps {
   freeContentId: string;
@@ -135,7 +136,9 @@ export function EditoFreeContentEditPage({
               value: tag.id ?? "",
               label: tag.attributes?.name ?? "",
             })) ?? [],
-          image: freeContentData.attributes.image ?? null,
+          image: remapUploadFileEntityToLocalFile(
+            freeContentData.attributes.image.data,
+          ),
           shortDescription: freeContentData.attributes.shortDescription,
           blocks: remapEditoBlocksDynamicZone(
             freeContentData.attributes.blocks,

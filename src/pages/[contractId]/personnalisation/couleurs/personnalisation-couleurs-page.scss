@@ -5,6 +5,9 @@
 @use "src/styles/02-tools/tools.pictos" as p;
 
 .c-PersonnalisationCouleursPage {
+  width: 100%;
+  padding-bottom: 37px;
+
   &__SvgTogRightAngle {
     position: absolute;
     top: 0;

@@ -22,6 +22,7 @@ import ContractLayout from "../../../contract-layout";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
+import { remapUploadFileEntityToLocalFile } from "../../../../../lib/media";
 
 interface IEditoActualitesEditPageProps {
   newId: string;
@@ -145,7 +146,10 @@ export function EditoActualitesEditPage({
           id: newData.id,
           status: valueToEStatus(newData.attributes.status),
           title: newData.attributes.title,
-          image: newData.attributes.image ?? null,
+          // image: newData.attributes.image ?? null,
+          image: remapUploadFileEntityToLocalFile(
+            newData.attributes.image?.data,
+          ),
           tags:
             newData.attributes.tags?.data.map((tag) => ({
               value: tag.id ?? "",

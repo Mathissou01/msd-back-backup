@@ -1,10 +1,8 @@
 import Image from "next/image";
 import { RequestFolders } from "../../../../../graphql/codegen/generated-types";
 import { formatFileSize } from "../../../../../lib/utilities";
-import {
-  handleReplaceSpecialChars,
-  ILocalFile,
-} from "../../../../../lib/media";
+import { ILocalFile } from "../../../../../lib/media";
+import { removeQuotesInString } from "../../../../../lib/utilities";
 import FormInput from "../../../../Form/FormInput/FormInput";
 import FormSelect from "../../../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../../../Form/FormMultiselect/FormMultiselect";
@@ -70,7 +68,7 @@ export default function EditModal({
           <div className="c-MediaImportButton__FormControl">
             <FormInput
               type="text"
-              name={handleReplaceSpecialChars(labels.formNameLabel)}
+              name={removeQuotesInString(labels.formNameLabel)}
               label={labels.formNameLabel}
               isRequired={true}
               defaultValue={fileToEdit?.name}
@@ -80,7 +78,7 @@ export default function EditModal({
             <div className="c-MediaImportButton__FormControl">
               <FormInput
                 type="text"
-                name={handleReplaceSpecialChars(labels.formDescLabel)}
+                name={removeQuotesInString(labels.formDescLabel)}
                 label={labels.formDescLabel}
                 secondaryLabel={labels.formDescHint}
                 isRequired={true}
@@ -91,7 +89,7 @@ export default function EditModal({
           )}
           <div className="c-MediaImportButton__FormControl">
             <FormSelect<RequestFolders>
-              name={handleReplaceSpecialChars(labels.formSelectLabel)}
+              name={removeQuotesInString(labels.formSelectLabel)}
               label={labels.formSelectLabel}
               displayTransform={folderHierarchyDisplayTransformFunction}
               options={sortFolderHierarchy(folderHierarchy)}

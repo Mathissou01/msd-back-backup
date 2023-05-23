@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { RequestFolders } from "../../../graphql/codegen/generated-types";
-import {
-  handleReplaceSpecialChars,
-  ILocalFile,
-  isMimeType,
-} from "../../../lib/media";
+import { ILocalFile, isMimeType } from "../../../lib/media";
+import { removeQuotesInString } from "../../../lib/utilities";
 import { ITab } from "../../TabBlock/TabBlock";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
@@ -91,9 +88,8 @@ export default function MediaImportButton({
     ) {
       const index = selectedFilesInstance.indexOf(file[0]);
       selectedFilesInstance[index] = {
-        name: submitData[handleReplaceSpecialChars(labels.formNameLabel)],
-        alternativeText:
-          submitData[handleReplaceSpecialChars(labels.formDescLabel)],
+        name: submitData[removeQuotesInString(labels.formNameLabel)],
+        alternativeText: submitData[removeQuotesInString(labels.formDescLabel)],
         width: selectedFilesInstance[index].width,
         height: selectedFilesInstance[index].height,
         ext: selectedFilesInstance[index].ext,

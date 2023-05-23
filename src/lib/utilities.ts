@@ -90,6 +90,10 @@ export function compareArraysOfObjects(
   );
 }
 
+export function removeQuotesInString(arg: string) {
+  return arg.replace(/['"]/g, "") ?? arg;
+}
+
 export function formatDate(
   date: Date | number | null,
   dateFormat = "dd/MM/yyyy",

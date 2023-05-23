@@ -1,7 +1,7 @@
 import { TPictoStyles } from "./pictos";
 import { removeNulls } from "./utilities";
 import { EStatus } from "./status";
-import { IUploadFileEntity } from "./media";
+import { ILocalFile, IUploadFileEntity } from "./media";
 import { ICommonSelectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 export type TEditoContentTypes =
@@ -15,7 +15,8 @@ export interface IEditoStaticFields {
   id: string;
   status: EStatus;
   title: string;
-  image?: IUploadFileEntity | null;
+  // image?: IUploadFileEntity | null;
+  image?: ILocalFile | null;
   tags?: Array<ICommonSelectOption>;
   shortDescription?: string | null;
   publishedDate?: Date;

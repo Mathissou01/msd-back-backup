@@ -4,16 +4,14 @@ import _ from "lodash";
 import classNames from "classnames";
 import { FieldValues, useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { removeNulls } from "../../../lib/utilities";
+import { removeNulls, removeQuotesInString } from "../../../lib/utilities";
 import {
   GetFilesPaginationByPathIdDocument,
-  UploadFileEntityResponse,
   useGetAllFoldersHierarchyQuery,
   useUpdateUploadFileMutation,
 } from "../../../graphql/codegen/generated-types";
 import {
   fileSizeLimitation_30mb,
-  handleReplaceSpecialChars,
   ILocalFile,
   isMimeType,
   TAcceptedMimeTypes,
@@ -81,9 +79,7 @@ export default function FormFileInput({
   const editModalRef = useRef<CommonModalWrapperRef>(null);
   const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
   const hasDefaultValue = useRef<boolean>();
-  const [selectedFile, setSelectedFile] = useState<ILocalFile>();
   const {
-    getValues,
     watch,
     setValue,
     resetField,
@@ -91,10 +87,10 @@ export default function FormFileInput({
     formState: { errors },
   } = useFormContext();
 
+  const selectedFile: ILocalFile = watch(name);
   const inputClassNames = classNames("c-FormFileInput", {
     "c-FormFileInput_error": errors.image,
   });
-  const currentFile: UploadFileEntityResponse = watch(name);
   const [UpdateUploadFileDocument] = useUpdateUploadFileMutation();
 
   /* Method */
@@ -158,19 +154,19 @@ export default function FormFileInput({
     const file: ILocalFile | undefined = fileToEdit;
     if (file?.id !== undefined) {
       file.alternativeText =
-        submitData[handleReplaceSpecialChars(labels.formDescLabel)];
-      file.name = submitData[handleReplaceSpecialChars(labels.formNameLabel)];
+        submitData[removeQuotesInString(labels.formDescLabel)];
+      file.name = submitData[removeQuotesInString(labels.formNameLabel)];
       handleSetFile(file);
 
       UpdateUploadFileDocument({
         variables: {
           updateUploadFileId: file?.id,
           data: {
-            name: submitData[handleReplaceSpecialChars(labels.formNameLabel)],
+            name: submitData[removeQuotesInString(labels.formNameLabel)],
             folder: submitData["Emplacement"]["id"],
             alternativeText:
-              submitData[handleReplaceSpecialChars(labels.formDescLabel)] ??
-              submitData[handleReplaceSpecialChars(labels.formNameLabel)],
+              submitData[removeQuotesInString(labels.formDescLabel)] ??
+              submitData[removeQuotesInString(labels.formNameLabel)],
           },
         },
         refetchQueries: [
@@ -192,12 +188,10 @@ export default function FormFileInput({
   }
 
   function handleDeleteFile() {
-    if (hasDefaultValue.current) {
-      setValue(name, null, { shouldDirty: true, shouldValidate: true });
-    } else {
-      resetField(name);
+    setValue(name, null, { shouldDirty: true, shouldValidate: true });
+    if (!hasDefaultValue.current) {
+      resetField(name, { defaultValue: null });
     }
-    setSelectedFile(undefined);
   }
 
   function handleEditFile(file: ILocalFile) {
@@ -207,8 +201,7 @@ export default function FormFileInput({
 
   function handleSetFile(file: ILocalFile) {
     if (file !== undefined) {
-      setSelectedFile(file);
-      setValue(name, file, { shouldDirty: true });
+      setValue(name, file, { shouldDirty: true, shouldValidate: true });
       modalRef.current?.toggleModal(false);
     }
   }
@@ -224,40 +217,10 @@ export default function FormFileInput({
 
   useEffect(() => {
     if (hasDefaultValue.current === undefined) {
-      hasDefaultValue.current = !!currentFile;
+      hasDefaultValue.current = !!selectedFile;
     }
-  }, [currentFile]);
+  }, [selectedFile]);
 
-  useEffect(() => {
-    if (currentFile) {
-      if (currentFile?.data?.id && currentFile.data?.attributes) {
-        const file = currentFile.data?.attributes;
-        const mappedData: ILocalFile = {
-          id: currentFile.data.id,
-          alternativeText: file.alternativeText ?? "",
-          name: file.name,
-          ext: file.ext ?? file.name.split(".")[1],
-          mime: file.mime,
-          size: file.size,
-          url: file.url,
-          width: file.width ?? 0,
-          height: file.height ?? 0,
-          createdAt: new Date(file.createdAt).toLocaleDateString(),
-          hash: file.hash,
-          provider: file.provider,
-        };
-        if (mappedData.id !== selectedFile?.id) {
-          setSelectedFile(mappedData);
-          setValue(name, mappedData, { shouldDirty: true });
-        }
-      } else if (name.split(".")[0] === "blocks") {
-        const file: ILocalFile = getValues(name);
-        if (file) {
-          setSelectedFile(file);
-        }
-      }
-    }
-  }, [currentFile, selectedFile, getValues, setValue, name]);
   return (
     <>
       <div className={inputClassNames}>

@@ -12,11 +12,8 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
-import {
-  handleReplaceSpecialChars,
-  IFolder,
-  ILocalFile,
-} from "../../../lib/media";
+import { IFolder, ILocalFile } from "../../../lib/media";
+import { removeQuotesInString } from "../../../lib/utilities";
 import MediaBreadcrumb, {
   IMediaBreadcrumb,
 } from "../../Media/MediaBreadcrumb/MediaBreadcrumb";
@@ -171,11 +168,11 @@ export default function CommonBibliothequeMedia({
         variables: {
           updateUploadFileId: file?.id,
           data: {
-            name: submitData[handleReplaceSpecialChars(labels.formNameLabel)],
+            name: submitData[removeQuotesInString(labels.formNameLabel)],
             folder: submitData["Emplacement"]["id"],
             alternativeText:
-              submitData[handleReplaceSpecialChars(labels.formDescLabel)] ??
-              submitData[handleReplaceSpecialChars(labels.formNameLabel)],
+              submitData[removeQuotesInString(labels.formDescLabel)] ??
+              submitData[removeQuotesInString(labels.formNameLabel)],
           },
         },
         refetchQueries: [

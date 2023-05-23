@@ -3,7 +3,6 @@ import chroma from "chroma-js";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import {
   GetContractCustomizationByIdDocument,
-  UploadFileEntityResponse,
   useGetContractCustomizationByIdQuery,
   useUpdateContractCustomizationByIdMutation,
   useUpdateContractCustomizationMutation,
@@ -16,8 +15,10 @@ import PageTitle from "../../../../components/PageTitle/PageTitle";
 import { useContract } from "../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
 import {
+  ILocalFile,
   TAcceptedMimeTypes,
   fileSizeLimitation_200kb,
+  remapUploadFileEntityToLocalFile,
 } from "../../../../lib/media";
 import ContractLayout from "../../contract-layout";
 import "./personnalisation-couleurs-page.scss";
@@ -35,7 +36,7 @@ interface IColorPalette {
 interface IPersonnalisationCouleursPage {
   colorMode: string;
   id: string;
-  logo: UploadFileEntityResponse;
+  logo: ILocalFile | null;
   contractCustomizationId: string | null | undefined;
   primaryColor: string | undefined;
   secondaryColor: string | null | undefined;
@@ -77,7 +78,7 @@ export function PersonnalisationCouleursPage() {
   });
   const {
     handleSubmit,
-    formState: { isDirty, isSubmitting, isValid },
+    formState: { isDirty, isSubmitting },
   } = form;
 
   /* External Data */
@@ -96,6 +97,25 @@ export function PersonnalisationCouleursPage() {
 
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
+    if (contractId) {
+      const variables = {
+        updateContractId: contractId,
+        data: {
+          logo: submitData.logo.id,
+        },
+      };
+
+      updateContract({
+        variables,
+        refetchQueries: [
+          {
+            query: GetContractCustomizationByIdDocument,
+            variables: { contractId },
+          },
+        ],
+      });
+    }
+
     if (
       contractCustomizationsData?.contractCustomizationId &&
       !primaryErrorMsg
@@ -122,25 +142,7 @@ export function PersonnalisationCouleursPage() {
             : defaultColorPalette?.contrastText,
         },
       };
-      return updateContractCustomizationMutation({
-        variables,
-        refetchQueries: [
-          {
-            query: GetContractCustomizationByIdDocument,
-            variables: { contractId },
-          },
-        ],
-      });
-    }
-
-    if (contractId) {
-      const variables = {
-        updateContractId: contractId,
-        data: {
-          logo: submitData.logo.id,
-        },
-      };
-      return updateContract({
+      updateContractCustomizationMutation({
         variables,
         refetchQueries: [
           {
@@ -195,7 +197,7 @@ export function PersonnalisationCouleursPage() {
         const mappedData: IPersonnalisationCouleursPage = {
           colorMode: "0",
           id: contract.id,
-          logo: contract.attributes.logo,
+          logo: remapUploadFileEntityToLocalFile(contract.attributes.logo.data),
           contractCustomizationId:
             contract.attributes.contractCustomization?.data?.id,
           primaryColor:
@@ -317,9 +319,9 @@ export function PersonnalisationCouleursPage() {
               <CommonButton
                 type="submit"
                 label={labels.submitButtonLabel}
-                style="secondary"
+                style="primary"
                 picto="check"
-                isDisabled={!isDirty || primaryErrorMsg || !isValid}
+                isDisabled={!isDirty || primaryErrorMsg}
               />
               <CommonButton
                 type="button"

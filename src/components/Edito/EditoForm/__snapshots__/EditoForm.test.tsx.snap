@@ -241,17 +241,17 @@ exports[`EditoForm renders 1`] = `
                     class="c-FormFileInput__Thumbnail"
                   >
                     <div
-                      class="c-FormFileInput__Doc"
+                      class="c-FormFileInput__Image"
                     >
                       <img
                         alt=""
                         data-nimg="1"
                         decoding="async"
-                        height="58"
+                        height="158"
                         loading="lazy"
-                        src=""
+                        src="https://stomsdmediadev.blob.core.windows.net/msd-media-dev/assets-local-piric/papier-toilette_166233.svg"
                         style="color: transparent;"
-                        width="48"
+                        width="245"
                       />
                     </div>
                     <div
