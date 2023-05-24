@@ -269,7 +269,7 @@ export default function FormFileInput({
             </>
           ) : (
             <div className="c-FormFileInput__Thumbnail">
-              {selectedFile && selectedFile.mime.split("/")[0] === "image" ? (
+              {selectedFile && selectedFile.mime?.split("/")[0] === "image" ? (
                 <div className="c-FormFileInput__Image">
                   {/** TODO: image css must be checked after solving the image preview issue  */}
                   <NextImage
@@ -279,7 +279,7 @@ export default function FormFileInput({
                     alt={selectedFile.alternativeText ?? ""}
                   />
                 </div>
-              ) : selectedFile.mime.split("/")[1] === "pdf" ? (
+              ) : selectedFile.mime?.split("/")[1] === "pdf" ? (
                 <div className="c-FormFileInput__Doc">
                   <NextImage src={pdfIcon} width={48} height={58} alt="" />
                 </div>
