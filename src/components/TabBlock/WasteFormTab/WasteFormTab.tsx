@@ -205,6 +205,7 @@ export default function WasteFormTab() {
   useEffect(() => {
     setPageData(data);
   }, [data]);
+
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;

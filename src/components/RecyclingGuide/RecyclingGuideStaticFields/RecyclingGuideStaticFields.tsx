@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import {
   WasteFamilyEntity,
-  useCountContentPerTagQuery,
   useGetFlowsByContractIdQuery,
-  useGetRecyclingGuideServiceByContractQuery,
+  useGetTagsByContractIdQuery,
+  useGetWasteFamiliesByContractIdQuery,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import { TAcceptedMimeTypes } from "../../../lib/media";
@@ -64,15 +64,12 @@ export default function RecyclingGuideStaticFields({
 
   /* External Data */
   const { contractId } = useContract();
-  const { data: tagsData } = useCountContentPerTagQuery({
+  const { data: tagsData } = useGetTagsByContractIdQuery({
     variables: { contractId },
   });
-  const { data: getRecyclingGuideServiceData } =
-    useGetRecyclingGuideServiceByContractQuery({
-      variables: {
-        contractId,
-      },
-    });
+  const { data: getWasteFamilies } = useGetWasteFamiliesByContractIdQuery({
+    variables: { contractId },
+  });
 
   const { data: activeFlowData } = useGetFlowsByContractIdQuery({
     variables: {
@@ -99,22 +96,21 @@ export default function RecyclingGuideStaticFields({
   useEffect(() => {
     if (tagsData) {
       const mappedTags: Array<ICommonSelectOption> =
-        tagsData.countContentPerTag?.map((tag) => {
+        tagsData.tags?.data?.map((tag) => {
           return {
             value: tag?.id ?? "",
-            label: tag?.name ?? "",
+            label: tag?.attributes?.name ?? "",
           };
         }) ?? [];
       setTagOptions(mappedTags);
     }
 
     if (
-      getRecyclingGuideServiceData &&
-      getRecyclingGuideServiceData.recyclingGuideServices?.data[0].attributes
-        ?.wasteFamilies
+      getWasteFamilies &&
+      getWasteFamilies.recyclingGuideService?.data?.attributes?.wasteFamilies
     ) {
       const mappedWasteFamily: Array<IOptionWrapper<WasteFamilyEntity> | null> =
-        getRecyclingGuideServiceData.recyclingGuideServices?.data[0].attributes?.wasteFamilies?.data.map(
+        getWasteFamilies.recyclingGuideService.data.attributes.wasteFamilies.data.map(
           (wasteFamily) => {
             return wasteFamily ? { option: wasteFamily } : null;
           },
@@ -133,7 +129,7 @@ export default function RecyclingGuideStaticFields({
           .filter(removeNulls);
       setactiveFlowOptions(mappedActiveFlow);
     }
-  }, [tagsData, getRecyclingGuideServiceData, activeFlowData]);
+  }, [tagsData, getWasteFamilies, activeFlowData]);
 
   return (
     <>

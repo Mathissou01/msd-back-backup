@@ -495,6 +495,7 @@ type City {
   ): EpciRelationResponseCollection
   insee: Long
   name: String
+  pickUpDay: PickUpDayEntityResponse
   postalCode: Long
   region: String
   siren: Long
@@ -531,6 +532,7 @@ input CityFiltersInput {
   name: StringFilterInput
   not: CityFiltersInput
   or: [CityFiltersInput]
+  pickUpDay: PickUpDayFiltersInput
   postalCode: LongFilterInput
   region: StringFilterInput
   siren: LongFilterInput
@@ -544,6 +546,7 @@ input CityInput {
   epci: [ID]
   insee: Long
   name: String
+  pickUpDay: ID
   postalCode: Long
   region: String
   siren: Long
@@ -552,6 +555,14 @@ input CityInput {
 
 type CityRelationResponseCollection {
   data: [CityEntity!]!
+}
+
+type CityResult {
+  id: ID!
+  insee: String
+  name: String
+  postalCode: String
+  siren: String
 }
 
 type CitySectorization {
@@ -1950,6 +1961,7 @@ type DocumentRelationResponseCollection {
 }
 
 type DropOffMap {
+  address: String
   collectDropOff: CollectDropOffEntityResponse
   collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
@@ -1960,6 +1972,7 @@ type DropOffMap {
     sort: [String] = []
   ): [ComponentBlocksDownloadBlock]
   dropOffMapService: DropOffMapServiceEntityResponse
+  gpsCoordinates: String!
   mustKnow: String
   name: String
   openingHoursBlock: [DropOffMapOpeningHoursBlockDynamicZone]
@@ -1982,6 +1995,7 @@ type DropOffMapEntityResponseCollection {
 }
 
 input DropOffMapFiltersInput {
+  address: StringFilterInput
   and: [DropOffMapFiltersInput]
   collectDropOff: CollectDropOffFiltersInput
   collectVoluntary: CollectVoluntaryFiltersInput
@@ -1989,6 +2003,7 @@ input DropOffMapFiltersInput {
   description: StringFilterInput
   downloadableFile: ComponentBlocksDownloadBlockFiltersInput
   dropOffMapService: DropOffMapServiceFiltersInput
+  gpsCoordinates: StringFilterInput
   id: IDFilterInput
   mustKnow: StringFilterInput
   name: StringFilterInput
@@ -1999,11 +2014,13 @@ input DropOffMapFiltersInput {
 }
 
 input DropOffMapInput {
+  address: String
   collectDropOff: ID
   collectVoluntary: ID
   description: String
   downloadableFile: [ComponentBlocksDownloadBlockInput]
   dropOffMapService: ID
+  gpsCoordinates: String
   mustKnow: String
   name: String
   openingHoursBlock: [DropOffMapOpeningHoursBlockDynamicZoneInput!]
@@ -2806,6 +2823,12 @@ input ExportEntityInput {
   status: ENUM_EXPORTENTITY_STATUS
 }
 
+type File {
+  id: Int!
+  name: String!
+  url: String!
+}
+
 input FileInfoInput {
   alternativeText: String
   caption: String
@@ -2868,6 +2891,7 @@ type Flow {
   createdAt: DateTime
   isActivated: Boolean
   name: String
+  pickUpDay: PickUpDayEntityResponse
   recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE!
   updatedAt: DateTime
   wasteForms(
@@ -2948,6 +2972,7 @@ input FlowFiltersInput {
   name: StringFilterInput
   not: FlowFiltersInput
   or: [FlowFiltersInput]
+  pickUpDay: PickUpDayFiltersInput
   recyclingGesture: StringFilterInput
   updatedAt: DateTimeFilterInput
   wasteForms: WasteFormFiltersInput
@@ -2962,6 +2987,7 @@ input FlowInput {
   contract: ID
   isActivated: Boolean
   name: String
+  pickUpDay: ID
   recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE
   wasteForms: [ID]
 }
@@ -3917,7 +3943,7 @@ type Mutation {
   Confirm an email users email address
   """
   emailConfirmation(confirmation: String!): UsersPermissionsLoginPayload
-  endDateServices: Boolean
+  endDateServices: [ServicesDeactivated]
   exportMunicipalities: ID
 
   """
@@ -3957,6 +3983,7 @@ type Mutation {
     serviceId: ID!
     startDate: Date
   ): ServiceActivated
+  singleUploadCustom(file: Upload!): File!
   updateAccessibility(
     data: AccessibilityInput!
     id: ID!
@@ -4526,9 +4553,16 @@ input PaginationArg {
 }
 
 type PickUpDay {
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
   createdAt: DateTime
   description: String
+  flow: FlowEntityResponse
   name: String!
+  sectorization: SectorizationEntityResponse
   updatedAt: DateTime
 }
 
@@ -4548,18 +4582,24 @@ type PickUpDayEntityResponseCollection {
 
 input PickUpDayFiltersInput {
   and: [PickUpDayFiltersInput]
+  cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
+  flow: FlowFiltersInput
   id: IDFilterInput
   name: StringFilterInput
   not: PickUpDayFiltersInput
   or: [PickUpDayFiltersInput]
+  sectorization: SectorizationFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
 input PickUpDayInput {
+  cities: [ID]
   description: String
+  flow: ID
   name: String
+  sectorization: ID
 }
 
 type PickUpDayRelationResponseCollection {
@@ -4844,6 +4884,7 @@ type Query {
     sort: [String] = []
   ): ExportEntityEntityResponseCollection
   exportEntity(id: ID): ExportEntityEntityResponse
+  files: [File]!
   flow(id: ID): FlowEntityResponse
   flowColor(id: ID): FlowColorEntityResponse
   flowColors(
@@ -4874,6 +4915,7 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): FreeContentEntityResponseCollection
+  getAddressCoordinates(searchTerm: String!): [SearchResultAddress]
   getAllFoldersHierarchy(path: String!): [RequestFolders]
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
   getDropOffCollectType(contractId: ID!): [collectType]
@@ -5009,6 +5051,7 @@ type Query {
     publicationState: PublicationState = LIVE
     sort: [String] = []
   ): RequestEntityResponseCollection
+  searchCities(contractId: ID!, searchTerm: String!): [CityResult]
   searchClientsByName(name: String!): [clientName]
   searchEngineBlock(id: ID): SearchEngineBlockEntityResponse
   searchEngineBlocks(
@@ -5675,6 +5718,12 @@ type SearchResult {
   id: ID!
   name: String!
   typeName: String!
+  wasteFamilyName: String
+}
+
+type SearchResultAddress {
+  coordinates: String!
+  name: String
 }
 
 type Sectorization {
@@ -5802,6 +5851,12 @@ union ServicesBlockServiceLinksDynamicZone =
   | Error
 
 scalar ServicesBlockServiceLinksDynamicZoneInput
+
+type ServicesDeactivated {
+  contractId: ID
+  serviceId: ID
+  serviceName: String
+}
 
 input StringFilterInput {
   and: [String]
@@ -6271,9 +6326,6 @@ type TopContentRelationResponseCollection {
   data: [TopContentEntity!]!
 }
 
-"""
-The `Upload` scalar type represents a file upload.
-"""
 scalar Upload
 
 type UploadFile {

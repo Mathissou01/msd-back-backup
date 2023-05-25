@@ -1,4 +1,4 @@
-query getRecyclingGuideServiceByContract($contractId: ID!) {
+query getRecyclingGuideServiceByContractId($contractId: ID!) {
   recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       id

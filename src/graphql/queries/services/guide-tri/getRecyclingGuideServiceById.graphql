@@ -1,0 +1,10 @@
+query getRecyclingGuideServiceById($recyclingGuideServiceId: ID) {
+  recyclingGuideService(id: $recyclingGuideServiceId) {
+    data {
+      id
+      attributes {
+        orderExtension
+      }
+    }
+  }
+}

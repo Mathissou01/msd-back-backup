@@ -1,0 +1,13 @@
+mutation updateRecyclingGuideService(
+  $updateRecyclingGuideServiceId: ID!
+  $data: RecyclingGuideServiceInput!
+) {
+  updateRecyclingGuideService(id: $updateRecyclingGuideServiceId, data: $data) {
+    data {
+      id
+      attributes {
+        orderExtension
+      }
+    }
+  }
+}

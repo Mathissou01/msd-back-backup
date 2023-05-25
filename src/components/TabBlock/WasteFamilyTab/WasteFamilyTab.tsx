@@ -3,7 +3,7 @@ import { FieldValues } from "react-hook-form";
 import { removeNulls } from "../../../lib/utilities";
 import {
   GetWasteFamiliesByContractIdDocument,
-  useGetWasteFamiliesByContractIdQuery,
+  useGetWasteFamiliesQuery,
   useUpdateWasteFamilyMutation,
   WasteFamilyEntity,
   WasteFormEntity,
@@ -22,7 +22,7 @@ import "./waste-family-tab.scss";
 
 interface IWasteFamilyTableRow extends IDefaultTableRow {
   id: string;
-  title: string;
+  familyName: string;
   count: number;
   wasteForms: Array<WasteFormEntity>;
 }
@@ -32,7 +32,7 @@ export default function WasteFamilyTab() {
   const tableLabels = {
     hintText: "Vous pouvez renommer les familles",
     columns: {
-      title: "Famille de déchet",
+      familyName: "Famille de déchet",
       count: "Fiche déchets associées",
     },
   };
@@ -47,10 +47,10 @@ export default function WasteFamilyTab() {
       omit: true,
     },
     {
-      id: "title",
-      name: tableLabels.columns.title,
-      selector: (row) => row.title,
-      cell: (row) => row.title,
+      id: "familyName",
+      name: tableLabels.columns.familyName,
+      selector: (row) => row.familyName,
+      cell: (row) => row.familyName,
       sortable: true,
       grow: 4,
     },
@@ -76,9 +76,10 @@ export default function WasteFamilyTab() {
     data: getWasteFamiliesData,
     loading: getWasteFamiliesLoading,
     error: getWasteFamiliesError,
-  } = useGetWasteFamiliesByContractIdQuery({
+  } = useGetWasteFamiliesQuery({
     variables: {
       contractId,
+      sort: "familyName:asc",
     },
   });
   const [
@@ -100,7 +101,7 @@ export default function WasteFamilyTab() {
     if (defaultValue) {
       const variables = {
         data: {
-          familyName: submitData.title,
+          familyName: submitData.familyName,
         },
         updateWasteFamilyId: defaultValue?.id,
       };
@@ -129,7 +130,7 @@ export default function WasteFamilyTab() {
               return {
                 id: item.id,
                 editState: false,
-                title: item.attributes.familyName,
+                familyName: item.attributes.familyName,
                 count: item.attributes.wasteForms?.data.length ?? 0,
                 wasteForms: item.attributes.wasteForms?.data ?? [],
               };
@@ -151,12 +152,12 @@ export default function WasteFamilyTab() {
         <p>{tableLabels.hintText}</p>
         <CommonDataTable<IWasteFamilyTableRow>
           columns={tableColumns}
-          actionColumn={actionColumn}
           data={tableData}
+          actionColumn={actionColumn}
           isLoading={
             getWasteFamiliesLoading || updateWasteFamilyMutationLoading
           }
-          defaultSortFieldId={"title"}
+          defaultSortFieldId={"familyName"}
         />
       </CommonLoader>
       <FormModal
@@ -168,10 +169,10 @@ export default function WasteFamilyTab() {
       >
         <FormInput
           type="text"
-          name="title"
+          name="familyName"
           label="Nom de la Famille"
           isRequired
-          defaultValue={defaultValue?.title}
+          defaultValue={defaultValue?.familyName}
         />
         <FormInput
           type="text"
