@@ -19,4 +19,5 @@ export type TPictoStyles =
   | "windowCancel"
   | "fileDouble"
   | "eye"
-  | "printer";
+  | "printer"
+  | "history";

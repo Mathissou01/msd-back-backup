@@ -1,5 +1,6 @@
 import { MockedProvider } from "@apollo/client/testing";
 import { render, screen } from "@testing-library/react";
+import mockRouter from "next-router-mock";
 import React from "react";
 import { IEditoFields, TDynamicFieldOption } from "../../../lib/edito";
 import { valueToEStatus } from "../../../lib/status";
@@ -7,6 +8,7 @@ import EditoForm from "./EditoForm";
 import { defaultMockData } from "../../../../__mocks__/editoFormMockData";
 
 jest.mock("../../../graphql/client", () => null);
+jest.mock("next/router", () => require("next-router-mock"));
 
 const mocks: {
   dynamicFieldOptions: Array<TDynamicFieldOption>;
@@ -76,6 +78,7 @@ const mocks: {
 
 describe("EditoForm", () => {
   it("renders", async () => {
+    mockRouter.push("/");
     const onSubmit = jest.fn();
     const { container } = render(
       <MockedProvider mocks={defaultMockData}>

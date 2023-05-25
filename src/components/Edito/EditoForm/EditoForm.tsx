@@ -38,6 +38,7 @@ export default function EditoForm({
   hideShortDescriptionField,
 }: IEditoFormProps) {
   /* Local Data */
+
   const form = useForm({
     mode: "onChange",
     defaultValues: data,
@@ -132,6 +133,7 @@ export default function EditoForm({
                 status={formData?.status}
                 creationDate={formData?.createdAt ? formData.createdAt : ""}
                 updateDate={formData?.updatedAt ? formData.updatedAt : ""}
+                customId={formData?.customId ? formData.customId : ""}
               />
             </div>
           </div>

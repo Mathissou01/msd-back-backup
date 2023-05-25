@@ -62,6 +62,7 @@ export function EditoActualitesEditPage({
           ({ id, ...rest }: IEditoBlock) => rest,
         ),
         unpublishedDate: newsInputData.unpublishedDate,
+        toBeUpdated: true,
       },
     };
 
@@ -87,6 +88,7 @@ export function EditoActualitesEditPage({
       updateNewId: newId,
       data: {
         status: Enum_New_Status.Published,
+        toBeUpdated: false,
       },
     };
     return updateNew({
@@ -100,6 +102,7 @@ export function EditoActualitesEditPage({
       data: {
         status: Enum_New_Status.Archived,
         unpublishedDate: new Date(),
+        toBeUpdated: false,
       },
     };
     return updateNew({
@@ -141,10 +144,11 @@ export function EditoActualitesEditPage({
   useEffect(() => {
     if (data?.new?.data) {
       const newData = data.new.data;
-      if (newData?.id && newData.attributes) {
+      if (newData?.id && newData.attributes && newData.attributes.customId) {
         const mappedData: IEditoFields = {
           id: newData.id,
           status: valueToEStatus(newData.attributes.status),
+          customId: newData.attributes.customId,
           title: newData.attributes.title,
           // image: newData.attributes.image ?? null,
           image: remapUploadFileEntityToLocalFile(

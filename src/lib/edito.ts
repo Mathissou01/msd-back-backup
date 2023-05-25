@@ -14,6 +14,7 @@ export type TEditoContentTypes =
 export interface IEditoStaticFields {
   id: string;
   status: EStatus;
+  customId?: string;
   title: string;
   // image?: IUploadFileEntity | null;
   image?: ILocalFile | null;

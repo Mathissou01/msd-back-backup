@@ -9031,6 +9031,72 @@ export type DeleteNewMutation = {
   } | null;
 };
 
+export type GetAllVersionsOfNewsByCustomIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  customId?: InputMaybe<Scalars["String"]>;
+  statusFilter?: InputMaybe<StringFilterInput>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetAllVersionsOfNewsByCustomIdQuery = {
+  __typename?: "Query";
+  newsCount?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountDraft?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountPublished?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  newsCountArchived?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  news?: {
+    __typename?: "NewEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "NewEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "New";
+        versionNumber?: number | null;
+        status?: Enum_New_Status | null;
+        publishedDate?: any | null;
+        updatedAt?: any | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetNewByIdQueryVariables = Exact<{
   newId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -9040,12 +9106,13 @@ export type GetNewByIdQuery = {
   new?: {
     __typename?: "NewEntityResponse";
     data?: {
-      __typename?: "NewEntity";
+      __typename: "NewEntity";
       id?: string | null;
       attributes?: {
         __typename?: "New";
         title: string;
         shortDescription?: string | null;
+        customId?: string | null;
         status?: Enum_New_Status | null;
         publishedDate?: any | null;
         unpublishedDate?: any | null;
@@ -14295,14 +14362,169 @@ export type DeleteNewMutationOptions = Apollo.BaseMutationOptions<
   DeleteNewMutation,
   DeleteNewMutationVariables
 >;
+export const GetAllVersionsOfNewsByCustomIdDocument = gql`
+  query getAllVersionsOfNewsByCustomId(
+    $contractId: ID!
+    $customId: String
+    $statusFilter: StringFilterInput
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    newsCount: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountDraft: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountPublished: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    newsCountArchived: news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    news(
+      filters: {
+        newsSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: $statusFilter
+      }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          versionNumber
+          status
+          publishedDate
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAllVersionsOfNewsByCustomIdQuery__
+ *
+ * To run a query within a React component, call `useGetAllVersionsOfNewsByCustomIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllVersionsOfNewsByCustomIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllVersionsOfNewsByCustomIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      customId: // value for 'customId'
+ *      statusFilter: // value for 'statusFilter'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetAllVersionsOfNewsByCustomIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetAllVersionsOfNewsByCustomIdQuery,
+    GetAllVersionsOfNewsByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAllVersionsOfNewsByCustomIdQuery,
+    GetAllVersionsOfNewsByCustomIdQueryVariables
+  >(GetAllVersionsOfNewsByCustomIdDocument, options);
+}
+export function useGetAllVersionsOfNewsByCustomIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllVersionsOfNewsByCustomIdQuery,
+    GetAllVersionsOfNewsByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAllVersionsOfNewsByCustomIdQuery,
+    GetAllVersionsOfNewsByCustomIdQueryVariables
+  >(GetAllVersionsOfNewsByCustomIdDocument, options);
+}
+export type GetAllVersionsOfNewsByCustomIdQueryHookResult = ReturnType<
+  typeof useGetAllVersionsOfNewsByCustomIdQuery
+>;
+export type GetAllVersionsOfNewsByCustomIdLazyQueryHookResult = ReturnType<
+  typeof useGetAllVersionsOfNewsByCustomIdLazyQuery
+>;
+export type GetAllVersionsOfNewsByCustomIdQueryResult = Apollo.QueryResult<
+  GetAllVersionsOfNewsByCustomIdQuery,
+  GetAllVersionsOfNewsByCustomIdQueryVariables
+>;
 export const GetNewByIdDocument = gql`
   query getNewById($newId: ID) {
     new(id: $newId) {
       data {
+        __typename
         id
         attributes {
           title
           shortDescription
+          customId
           newsSubService {
             data {
               id
