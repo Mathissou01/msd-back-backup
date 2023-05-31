@@ -1,97 +1,65 @@
+import { parseJSON } from "date-fns";
 import React, { useEffect, useState } from "react";
-import ContractLayout from "../../contract-layout";
 import { useRouter } from "next/router";
-import PageTitle from "../../../../components/PageTitle/PageTitle";
-import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import {
   Enum_Contactus_Status,
-  GetContactUsByIdDocument,
+  TagEntity,
   useGetContactUsByIdQuery,
-  useGetContactUsesSubServiceByContractIdQuery,
+  useGetContactUsesByContractIdQuery,
   useUpdateContactUsMutation,
 } from "../../../../graphql/codegen/generated-types";
-import { useContract } from "../../../../hooks/useContract";
-import EditoForm from "../../../../components/Edito/EditoForm/EditoForm";
-import {
-  IEditoBlock,
-  IEditoFields,
-  remapEditoBlocksDynamicZone,
-  TDynamicFieldOption,
-} from "../../../../lib/edito";
+import { IEditorialFields } from "../../../../lib/editorial";
 import { valueToEStatus } from "../../../../lib/status";
-import { FieldValues } from "react-hook-form/dist/types/fields";
-import { useNavigation } from "../../../../hooks/useNavigation";
 import { formatDate } from "../../../../lib/utilities";
-import { parseJSON } from "date-fns";
+import { remapFormBlocksDynamicZone } from "../../../../lib/dynamic-blocks";
+import { useContract } from "../../../../hooks/useContract";
+import { useNavigation } from "../../../../hooks/useNavigation";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
+import EditorialFormPage, {
+  ICommonUpdateMutationVariables,
+  IEditoContentLabels,
+  IEditorialFormPage,
+} from "../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPage";
 
 export function EditoContactEditPage() {
   /* Static Data */
-  const title = "Créer la page";
-  const formLabels = {
-    staticTitle: "Titre de la page",
+  const labels: IEditoContentLabels = {
+    pageTitle: "Créer la page",
+    form: {
+      staticTitle: "Titre de la page",
+    },
   };
 
   /* Methods */
-  const router = useRouter();
-
-  async function onSubmit(contactUsInputData: FieldValues) {
-    const variables = {
-      updateContactUsId: subserviceId ?? "",
-      data: {
-        title: contactUsInputData.title,
-        blocks: contactUsInputData.blocks?.map(
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          ({ id, ...rest }: IEditoBlock) => rest,
-        ),
-        unpublishedDate: contactUsInputData.unpublishedDate,
-      },
-    };
-
+  async function handleUpdate(
+    contactUsId: string,
+    commonSubmitVariables: ICommonUpdateMutationVariables,
+  ) {
     return updateContactUs({
-      variables,
-      refetchQueries: [
-        {
-          query: GetContactUsByIdDocument,
-          variables: { subserviceId },
-          fetchPolicy: "network-only",
+      variables: {
+        updateContactUsId: contactUsId,
+        data: {
+          ...commonSubmitVariables,
         },
-      ],
+      },
     });
   }
 
-  async function onPreview() {
-    if (typeof window !== "undefined") {
-      window.open(
-        `${currentRoot}/edito/contact/preview?id=${subserviceId}`,
-        "_blank",
-        "noreferrer",
-      );
-    } else {
-      router.push("/404");
-    }
-  }
-
-  async function onPublish() {
+  async function handlePublish(contactUsId: string) {
     const variables = {
-      updateContactUsId: subserviceId ?? "",
+      updateContactUsId: contactUsId,
       data: {
         status: Enum_Contactus_Status.Published,
       },
     };
     return updateContactUs({
       variables,
-      refetchQueries: [
-        {
-          query: GetContactUsByIdDocument,
-          variables: { subserviceId },
-        },
-      ],
     });
   }
 
-  async function onDepublish() {
+  async function handleDepublish(contactUsId: string) {
     const variables = {
-      updateContactUsId: subserviceId ?? "",
+      updateContactUsId: contactUsId,
       data: {
         status: Enum_Contactus_Status.Archived,
         unpublishedDate: new Date(),
@@ -99,106 +67,105 @@ export function EditoContactEditPage() {
     };
     return updateContactUs({
       variables,
-      refetchQueries: [
-        {
-          query: GetContactUsByIdDocument,
-          variables: { subserviceId },
-        },
-      ],
     });
   }
 
-  // ----------------------------------------------------------------
-  /* External Data */
+  async function handlePreview(contactUsId: string) {
+    // TODO: merge preview pages or refactor code. In this case is the contactUsId needed?
+    if (typeof window !== "undefined") {
+      window.open(
+        `${currentRoot}/edito/contact/preview?id=${contactUsId}`,
+        "_blank",
+        "noreferrer",
+      );
+    } else {
+      return router.push("/404");
+    }
+  }
 
+  /* Local data */
+  const router = useRouter();
   const { contractId } = useContract();
-
-  const { data: contactUsSubServicesData } =
-    useGetContactUsesSubServiceByContractIdQuery({
-      variables: { contractId: `${contractId}` },
-      fetchPolicy: "network-only",
-    });
-
-  const subserviceId =
-    contactUsSubServicesData?.contactUsSubServices?.data[0]?.attributes
-      ?.contactUses?.data[0].id;
+  const { currentRoot, currentPage } = useNavigation();
   const {
-    data,
-    loading: loadingContactUs,
-    error: errorContactUs,
-  } = useGetContactUsByIdQuery({
-    variables: { contactUsId: `${subserviceId}` },
-    skip: !subserviceId,
+    data: contractContactUses,
+    loading: contractContactUsesLoading,
+    error: contractContactUsesError,
+  } = useGetContactUsesByContractIdQuery({
+    variables: { contractId },
+    fetchPolicy: "network-only",
   });
-
-  /* Local Data */
+  const contactUsId = contractContactUses?.contactUsSubServices?.data[0]?.id;
+  const { data, loading, error } = useGetContactUsByIdQuery({
+    variables: { contactUsId },
+    fetchPolicy: "network-only",
+  });
   const [
     updateContactUs,
     { loading: updateMutationLoading, error: updateMutationError },
-  ] = useUpdateContactUsMutation();
-  const { currentRoot } = useNavigation();
-  // const contractPathId = contract.attributes?.pathId;
-  const isLoading = loadingContactUs || updateMutationLoading;
-  const errors = [errorContactUs, updateMutationError];
-  const [mappedData, setMappedData] = useState<IEditoFields>();
-  const dynamicFieldOptions: Array<TDynamicFieldOption> = [
-    "ComponentBlocksWysiwyg",
-    "ComponentBlocksSubHeading",
-    "ComponentBlocksHorizontalRule",
-    "ComponentBlocksVideo",
-    "ComponentBlocksFile",
-    "ComponentBlocksImage",
-  ];
+  ] = useUpdateContactUsMutation({
+    refetchQueries: ["getContactUsById"],
+    awaitRefetchQueries: true,
+  });
+  const isLoading =
+    contractContactUsesLoading || loading || updateMutationLoading;
+  const errors = [contractContactUsesError, error, updateMutationError];
+  const [mappedData, setMappedData] = useState<IEditorialFields>();
 
   useEffect(() => {
     if (data?.contactUs?.data) {
-      const contactUsData = data.contactUs.data;
-      if (contactUsData?.id && contactUsData.attributes) {
-        const mappedData: IEditoFields = {
-          image: null,
-          shortDescription: null,
-          id: contactUsData.id,
-          status: valueToEStatus(contactUsData.attributes.status),
-          title: contactUsData.attributes.title,
-          blocks: remapEditoBlocksDynamicZone(contactUsData.attributes.blocks),
-          unpublishedDate: contactUsData.attributes.unpublishedDate,
+      const editoData = data.contactUs.data;
+      if (editoData.id && editoData.attributes && editoData.attributes.title) {
+        const mappedData: IEditorialFields = {
+          id: editoData.id,
+          customId: editoData.attributes.customId ?? undefined,
+          status: valueToEStatus(editoData.attributes.status),
+          title: editoData.attributes.title,
+          tags:
+            editoData.attributes.tags?.data.map((tag: TagEntity) => ({
+              value: tag.id ?? "",
+              label: tag.attributes?.name ?? "",
+            })) ?? [],
+          blocks: remapFormBlocksDynamicZone(editoData.attributes.blocks),
+          unpublishedDate: editoData.attributes.unpublishedDate,
           createdAt: formatDate(
-            parseJSON(contactUsData.attributes.createdAt),
+            parseJSON(editoData.attributes.createdAt),
             "dd/MM/yyyy HH:mm",
           ),
           updatedAt: formatDate(
-            parseJSON(contactUsData.attributes.updatedAt),
+            parseJSON(editoData.attributes.updatedAt),
             "dd/MM/yyyy HH:mm",
           ),
         };
         setMappedData(mappedData);
       }
-    } else if (data?.contactUs && data.contactUs.data === null) {
-      void router.push(`${currentRoot}/edito/contact`);
+    } else if (data?.contactUs && data.contactUs?.data === null) {
+      void router.push(`${currentRoot}${currentPage}`);
     }
-  }, [data, router, currentRoot]);
+  }, [data, router, currentRoot, currentPage]);
+
+  const pageProps: IEditorialFormPage = {
+    labels,
+    staticFieldsOverride: ["title"],
+    onUpdate: handleUpdate,
+    onPublish: handlePublish,
+    onDepublish: handleDepublish,
+    onPreview: handlePreview,
+  };
+
   return (
-    <div className="c-EditoContactPage">
-      {mappedData && (
-        <>
-          <PageTitle title={title} />
-          <CommonLoader isLoading={isLoading} errors={errors}>
-            <EditoForm
-              data={mappedData}
-              dynamicFieldsOptions={dynamicFieldOptions}
-              onSubmitValid={onSubmit}
-              onPublish={onPublish}
-              onDepublish={onDepublish}
-              onPreview={onPreview}
-              labels={formLabels}
-              hideImageField={true}
-              hideShortDescriptionField={true}
-              hideTagField={true}
-            />
-          </CommonLoader>
-        </>
+    <>
+      {contactUsId && mappedData && (
+        <EditorialFormPage
+          isCreateMode={false}
+          contentId={contactUsId}
+          mappedData={mappedData}
+          isLoading={isLoading}
+          errors={errors}
+          pageProps={pageProps}
+        />
       )}
-    </div>
+    </>
   );
 }
 

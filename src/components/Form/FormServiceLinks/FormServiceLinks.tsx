@@ -78,6 +78,7 @@ export default function FormServiceLinks({
   }
 
   function onToggleDisplay(i: number, shiftToEnd = false) {
+    console.log(i, shiftToEnd, values[i]);
     const updatedServiceLink: IServiceLink = {
       ...values[i],
       isDisplayed: !values[i].isDisplayed,

@@ -7,7 +7,7 @@ import {
   Enum_Freecontent_Status,
   GetFreeContentsBySubServiceIdQuery,
   GetFreeContentsBySubServiceIdDocument,
-  useCreateFreeContentByFreeContentSubServiceIdMutation,
+  useCreateFreeContentMutation,
   useDeleteFreeContentMutation,
   useGetFreeContentsBySubServiceIdLazyQuery,
   GetFreeContentsBySubServiceIdQueryVariables,
@@ -17,7 +17,7 @@ import {
 import { formatDate, removeNulls } from "../../../../../lib/utilities";
 import { EStatusLabel } from "../../../../../lib/status";
 import { useNavigation } from "../../../../../hooks/useNavigation";
-import ContractLayout from "../../../contract-layout";
+import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
@@ -27,6 +27,8 @@ import { IDataTableAction } from "../../../../../components/Common/CommonDataTab
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import CommonButton from "../../../../../components/Common/CommonButton/CommonButton";
+import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
+import { useRerenderOnUpdate } from "../../../../../hooks/useRerenderOnUpdate";
 
 interface IFreeContentTableRow extends IDefaultTableRow {
   title: string;
@@ -103,6 +105,7 @@ export function EditoFreeContentSubServicePage({
               observableQuery
                 .result()
                 .then((result) => {
+                  // TODO: probably a better way to refetch than this
                   console.log("result here :", result);
                   if (!result.loading) {
                     setPageData(
@@ -184,7 +187,7 @@ export function EditoFreeContentSubServicePage({
       loading: CreateFreeContentByFreeContentSubServiceIdMutationLoading,
       error: CreateFreeContentByFreeContentSubServiceIdMutationError,
     },
-  ] = useCreateFreeContentByFreeContentSubServiceIdMutation();
+  ] = useCreateFreeContentMutation();
   const [
     DeleteFreeContentMutation,
     {
@@ -233,7 +236,7 @@ export function EditoFreeContentSubServicePage({
         <>
           <Link
             href={`${currentRoot}/edito/contenu-libre/${freeContentSubServiceId}/${row.id}`}
-            className="o-EditoPage__Link"
+            className="o-TablePage__Link"
           >
             {row.title}
           </Link>
@@ -357,7 +360,7 @@ export function EditoFreeContentSubServicePage({
   }, [getFreeContentsQuery, isInitialized]);
 
   return (
-    <div className="o-EditoPage">
+    <div className="o-TablePage">
       <CommonLoader
         isLoading={freeContentSubServiceLoading || !isInitialized.current}
         errors={errors}
@@ -377,8 +380,8 @@ export function EditoFreeContentSubServicePage({
             }
           />
         </div>
-        <h2 className="o-EditoPage__Title">{tableLabels.title}</h2>
-        <div className="o-EditoPage__Table">
+        <h2 className="o-TablePage__Title">{tableLabels.title}</h2>
+        <div className="o-TablePage__Table">
           <CommonDataTable<IFreeContentTableRow>
             columns={tableColumns}
             actionColumn={actionColumn}
@@ -405,42 +408,12 @@ export function EditoFreeContentSubServicePage({
 }
 
 export default function IndexPage() {
-  const router = useRouter();
-  const [freeContentSubServiceId, setFreeContentSubServiceId] = useState<
-    string | null
-  >(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const query = router?.query?.freeContentSubServiceId;
-    let localFreeContentSubServiceId: string | null | false = null;
-    if (query?.toString()) {
-      if (Number.parseInt(query.toString())) {
-        localFreeContentSubServiceId = query.toString();
-      } else if (query.toString() === "create") {
-        localFreeContentSubServiceId = "0";
-      } else {
-        localFreeContentSubServiceId = false;
-      }
-    }
-    if (
-      localFreeContentSubServiceId &&
-      localFreeContentSubServiceId !== freeContentSubServiceId
-    ) {
-      setIsLoading(true);
-      setFreeContentSubServiceId(localFreeContentSubServiceId);
-    } else if (localFreeContentSubServiceId === false) {
-      void router.push("/404");
-    }
-  }, [router, freeContentSubServiceId, setFreeContentSubServiceId]);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, [freeContentSubServiceId]);
+  const freeContentSubServiceId = useRoutingQueryId("freeContentSubServiceId");
+  const { rerender } = useRerenderOnUpdate(freeContentSubServiceId);
 
   return (
     <ContractLayout>
-      {!isLoading && freeContentSubServiceId && (
+      {rerender && freeContentSubServiceId && (
         <EditoFreeContentSubServicePage
           freeContentSubServiceId={freeContentSubServiceId}
         />

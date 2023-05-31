@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   Enum_New_Status,
-  GetNewsByContractIdDocument,
   GetNewsByContractIdQueryVariables,
   useCreateNewMutation,
   useDeleteNewMutation,
@@ -17,7 +16,7 @@ import { formatDate, removeNulls } from "../../../../lib/utilities";
 import { EStatusLabel } from "../../../../lib/status";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
@@ -69,7 +68,7 @@ export function EditoActualitesPage() {
     getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
       const originalNew = data.data?.new?.data?.attributes;
       if (originalNew) {
-        createNewMutation({
+        void createNewMutation({
           variables: {
             data: {
               title: `${originalNew.title} Ajout`,
@@ -84,27 +83,6 @@ export function EditoActualitesPage() {
               }),
             },
           },
-          refetchQueries: [
-            {
-              query: GetNewsByContractIdDocument,
-              variables: { contractId },
-            },
-          ],
-          onQueryUpdated: (observableQuery) => {
-            observableQuery
-              .result()
-              .then((result) => {
-                if (!result.loading) {
-                  setPageData(
-                    result?.data as GetNewsByContractIdQuery | undefined,
-                  );
-                }
-              })
-              .catch((error) => {
-                // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
-                console.log(error);
-              });
-          },
         });
       }
     });
@@ -112,30 +90,8 @@ export function EditoActualitesPage() {
 
   async function onDelete(row: INewsTableRow) {
     setIsUpdatingData(true);
-    const variables = {
-      deleteNewId: row.id,
-    };
     return deleteNewMutation({
-      variables,
-      refetchQueries: [
-        {
-          query: GetNewsByContractIdDocument,
-          variables: { contractId },
-        },
-      ],
-      onQueryUpdated: (observableQuery) => {
-        observableQuery
-          .result()
-          .then((result) => {
-            if (!result.loading) {
-              setPageData(result?.data as GetNewsByContractIdQuery | undefined);
-            }
-          })
-          .catch((error) => {
-            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
-            console.log(error);
-          });
-      },
+      variables: { deleteNewId: row.id },
     });
   }
 
@@ -153,7 +109,7 @@ export function EditoActualitesPage() {
   const [getNewsQuery, { data, loading, error }] =
     useGetNewsByContractIdLazyQuery({
       variables: defaultQueryVariables,
-      fetchPolicy: "no-cache",
+      fetchPolicy: "network-only",
     });
   const [
     getNewByIdQuery,
@@ -162,11 +118,17 @@ export function EditoActualitesPage() {
   const [
     createNewMutation,
     { loading: createNewMutationLoading, error: createNewMutationError },
-  ] = useCreateNewMutation();
+  ] = useCreateNewMutation({
+    refetchQueries: ["getNewsByContractId"],
+    awaitRefetchQueries: true,
+  });
   const [
     deleteNewMutation,
     { loading: deleteNewMutationLoading, error: deleteNewMutationError },
-  ] = useDeleteNewMutation();
+  ] = useDeleteNewMutation({
+    refetchQueries: ["getNewsByContractId"],
+    awaitRefetchQueries: true,
+  });
 
   /* Local Data */
   const router = useRouter();
@@ -205,7 +167,7 @@ export function EditoActualitesPage() {
       cell: (row) => (
         <Link
           href={`${currentRoot}/edito/actualites/${row.id}`}
-          className="o-EditoPage__Link"
+          className="o-TablePage__Link"
         >
           {row.title}
         </Link>
@@ -326,7 +288,7 @@ export function EditoActualitesPage() {
   }, [getNewsQuery, isInitialized]);
 
   return (
-    <div className="o-EditoPage">
+    <div className="o-TablePage">
       <PageTitle title={title} />
       <div>
         <CommonButton
@@ -336,8 +298,8 @@ export function EditoActualitesPage() {
           onClick={() => router.push(`${currentRoot}/edito/actualites/create`)}
         />
       </div>
-      <h2 className="o-EditoPage__Title">{tableLabels.title}</h2>
-      <div className="o-EditoPage__Table">
+      <h2 className="o-TablePage__Title">{tableLabels.title}</h2>
+      <div className="o-TablePage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={errors}>
           <CommonDataTable<INewsTableRow>
             columns={tableColumns}

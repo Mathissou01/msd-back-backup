@@ -64,9 +64,19 @@ mutation updateTip($updateTipId: ID!, $data: TipInput!) {
             id
             picture {
               data {
+                id
                 attributes {
+                  hash
+                  mime
                   name
+                  provider
+                  size
                   url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
@@ -77,16 +87,22 @@ mutation updateTip($updateTipId: ID!, $data: TipInput!) {
             id
             document {
               data {
+                id
                 attributes {
+                  hash
+                  mime
                   name
+                  provider
+                  size
                   url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
-          }
-          ... on Error {
-            code
-            message
           }
         }
       }

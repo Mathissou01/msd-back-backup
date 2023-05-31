@@ -9,7 +9,7 @@ import { removeNulls } from "../../../../lib/utilities";
 import { useContract } from "../../../../hooks/useContract";
 import { useContentTypeMutations } from "../../../../hooks/useContentTypeMutations";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";

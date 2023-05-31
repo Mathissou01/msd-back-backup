@@ -1,5 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import { TableColumn } from "react-data-table-component";
+import {
+  useGetSectorizationsByContractIdLazyQuery,
+  GetSectorizationsByContractIdQuery,
+  GetSectorizationsByContractIdQueryVariables,
+  useCreateSectorizationMutation,
+  useDeleteSectorizationMutation,
+  GetSectorizationsByContractIdDocument,
+  useUpdateSectorizationMutation,
+} from "../../../../graphql/codegen/generated-types";
+import { removeNulls } from "../../../../lib/utilities";
+import { TPolygon } from "../../../../lib/sectors";
+import { useContract } from "../../../../hooks/useContract";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
 import CommonDataTable, {
   ICurrentPagination,
@@ -13,19 +26,6 @@ import CommonModalWrapper, {
 } from "../../../../components/Common/CommonModalWrapper/CommonModalWrapper";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import SectorModal from "../../../../components/Sector/SectorModal/SectorModal";
-import {
-  useGetSectorizationsByContractIdLazyQuery,
-  GetSectorizationsByContractIdQuery,
-  GetSectorizationsByContractIdQueryVariables,
-  useCreateSectorizationMutation,
-  useDeleteSectorizationMutation,
-  GetSectorizationsByContractIdDocument,
-  useUpdateSectorizationMutation,
-} from "../../../../graphql/codegen/generated-types";
-import { useContract } from "../../../../hooks/useContract";
-import { removeNulls } from "../../../../lib/utilities";
-import ContractLayout from "../../contract-layout";
-import { TPolygon } from "../../../../lib/sectors";
 import "./secteurs.scss";
 
 export interface ISectorsTableRow extends IDefaultTableRow {
@@ -161,6 +161,7 @@ export function SectorsPage() {
       },
     });
   }
+
   async function handlePolygon(polygon: TPolygon) {
     polygonData = polygon;
   }

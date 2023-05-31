@@ -1,89 +1,107 @@
-import { parseJSON } from "date-fns";
-import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
+import client from "../../../../../graphql/client";
 import {
-  useGetNewByIdQuery,
-  useUpdateNewMutation,
-  GetNewByIdDocument,
   Enum_New_Status,
+  GetNewDraftDocument,
+  GetNewDraftQuery,
+  useCreateNewMutation,
+  useGetNewByIdLazyQuery,
+  useUpdateNewMutation,
 } from "../../../../../graphql/codegen/generated-types";
-import {
-  IEditoBlock,
-  IEditoFields,
-  remapEditoBlocksDynamicZone,
-  TDynamicFieldOption,
-} from "../../../../../lib/edito";
-import { valueToEStatus } from "../../../../../lib/status";
-import { formatDate } from "../../../../../lib/utilities";
+import { EStatus } from "../../../../../lib/status";
+import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
-import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
-import ContractLayout from "../../../contract-layout";
-import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
-import PageTitle from "../../../../../components/PageTitle/PageTitle";
-import EditoForm from "../../../../../components/Edito/EditoForm/EditoForm";
-import { remapUploadFileEntityToLocalFile } from "../../../../../lib/media";
+import {
+  ICommonMutationVariables,
+  ICommonUpdateMutationVariables,
+  IEditoContentLabels,
+  IEditorialFormPage,
+} from "../../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPage";
+import EditorialFormPageLoader from "../../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPageLoader";
 
-interface IEditoActualitesEditPageProps {
-  newId: string;
-}
-
-export function EditoActualitesEditPage({
-  newId,
-}: IEditoActualitesEditPageProps) {
+export default function EditoActualitesEditPage() {
   /* Static Data */
-  const formLabels = {
-    staticTitle: "Titre de l'actualité",
-    staticTags: "Thématique",
-    staticTagsDescription: "(Tags)",
-    staticImage: "Vignette",
-    staticImageValidation:
-      "Format carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum",
-    staticImagePlaceholder:
-      "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
-    staticShortDescription: "Description courte",
-    staticShortDescriptionMaxCharacters:
-      "caractères maximum, affichés dans l'aperçu de l'actualité",
+  const labels: IEditoContentLabels = {
+    createTitle: "Créer une actualité",
+    form: {
+      staticTitle: "Titre de l'actualité",
+      staticTags: "Thématique",
+      staticTagsDescription: "(Tags)",
+      staticImage: "Vignette",
+      staticImageValidation:
+        "Format carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum",
+      staticImagePlaceholder:
+        "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
+      staticShortDescription: "Description courte",
+      staticShortDescriptionMaxCharacters:
+        "caractères maximum, affichés dans l'aperçu de l'actualité",
+    },
   };
 
   /* Methods */
-  async function onSubmit(newsInputData: FieldValues) {
-    const variables = {
-      updateNewId: newId,
-      data: {
-        title: newsInputData.title,
-        tags: newsInputData.tags.map(
-          (option: ICommonSelectOption) => option.value,
-        ),
-        shortDescription: newsInputData.shortDescription,
-        image: newsInputData.image?.id,
-        blocks: newsInputData.blocks?.map(
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          ({ id, ...rest }: IEditoBlock) => rest,
-        ),
-        unpublishedDate: newsInputData.unpublishedDate,
-        toBeUpdated: true,
+  async function handleCreate(commonSubmitVariables: ICommonMutationVariables) {
+    const [createNew] = createNewMutation;
+    return createNew({
+      variables: {
+        data: {
+          newsSubService:
+            contract.attributes?.editorialService?.data?.attributes
+              ?.newsSubService?.data?.id,
+          ...commonSubmitVariables,
+        },
       },
-    };
-
-    return updateNew({
-      variables,
+      onCompleted: (result) => {
+        if (result.createNew?.data?.id) {
+          router.push(
+            `${currentRoot}/edito/actualites/${result.createNew?.data?.id}`,
+          );
+        }
+      },
     });
   }
 
-  async function onPreview() {
-    if (typeof window !== "undefined") {
-      window.open(
-        `${currentRoot}/edito/actualites/preview?id=${newId}`,
-        "_blank",
-        "noreferrer",
-      );
-    } else {
-      router.push("/404");
-    }
+  async function handleUpdate(
+    newId: string,
+    commonSubmitVariables: ICommonUpdateMutationVariables,
+    status: EStatus,
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [updateNews] = updateNewMutation;
+    return updateNews({
+      variables: {
+        updateNewId: newId,
+        data: {
+          ...commonSubmitVariables,
+        },
+      },
+      onCompleted: (result) => {
+        if (
+          status !== EStatus.Draft &&
+          result.updateNew?.data?.attributes?.customId
+        ) {
+          client
+            .query<GetNewDraftQuery>({
+              query: GetNewDraftDocument,
+              variables: {
+                customId: result.updateNew?.data?.attributes.customId,
+              },
+              fetchPolicy: "no-cache",
+            })
+            .then((drafts) => {
+              if (drafts.data.news?.data[0]) {
+                router.push(
+                  `${currentRoot}/edito/actualites/${drafts.data.news.data[0].id}`,
+                );
+              }
+            });
+        }
+      },
+    });
   }
 
-  async function onPublish() {
+  async function handlePublish(newId: string) {
+    const [updateNews] = updateNewMutation;
     const variables = {
       updateNewId: newId,
       data: {
@@ -91,12 +109,13 @@ export function EditoActualitesEditPage({
         toBeUpdated: false,
       },
     };
-    return updateNew({
+    return updateNews({
       variables,
     });
   }
 
-  async function onDepublish() {
+  async function handleDepublish(newId: string) {
+    const [updateNews] = updateNewMutation;
     const variables = {
       updateNewId: newId,
       data: {
@@ -105,128 +124,55 @@ export function EditoActualitesEditPage({
         toBeUpdated: false,
       },
     };
-    return updateNew({
+    return updateNews({
       variables,
-      refetchQueries: [
-        {
-          query: GetNewByIdDocument,
-          variables: { newId },
-        },
-      ],
     });
   }
 
-  /* External Data */
-  const { data, loading, error } = useGetNewByIdQuery({
-    variables: { newId },
-    fetchPolicy: "network-only",
-  });
+  async function handlePreview(newId: string) {
+    // TODO: implement this on other edito types, either same page (with type param), or 1 page per type
+    if (typeof window !== "undefined") {
+      window.open(
+        `${currentRoot}/edito/actualites/preview?id=${newId}`,
+        "_blank",
+        "noreferrer",
+      );
+    } else {
+      return router.push("/404");
+    }
+  }
 
-  const [
-    updateNew,
-    { loading: updateMutationLoading, error: updateMutationError },
-  ] = useUpdateNewMutation();
   /* Local data */
   const router = useRouter();
   const { currentRoot } = useNavigation();
-  const isLoading = loading || updateMutationLoading;
-  const errors = [error, updateMutationError];
-  const [mappedData, setMappedData] = useState<IEditoFields>();
-  const dynamicFieldOptions: Array<TDynamicFieldOption> = [
-    "ComponentBlocksWysiwyg",
-    "ComponentBlocksSubHeading",
-    "ComponentBlocksHorizontalRule",
-    "ComponentBlocksVideo",
-    "ComponentBlocksFile",
-    "ComponentBlocksImage",
-  ];
+  const { contract } = useContract();
 
-  useEffect(() => {
-    if (data?.new?.data) {
-      const newData = data.new.data;
-      if (newData?.id && newData.attributes && newData.attributes.customId) {
-        const mappedData: IEditoFields = {
-          id: newData.id,
-          status: valueToEStatus(newData.attributes.status),
-          customId: newData.attributes.customId,
-          title: newData.attributes.title,
-          // image: newData.attributes.image ?? null,
-          image: remapUploadFileEntityToLocalFile(
-            newData.attributes.image?.data,
-          ),
-          tags:
-            newData.attributes.tags?.data.map((tag) => ({
-              value: tag.id ?? "",
-              label: tag.attributes?.name ?? "",
-            })) ?? [],
-          shortDescription: newData.attributes.shortDescription,
-          blocks: remapEditoBlocksDynamicZone(newData.attributes.blocks),
-          unpublishedDate: newData.attributes.unpublishedDate,
+  const getNewByIdLazyQuery = useGetNewByIdLazyQuery({
+    fetchPolicy: "network-only",
+  });
+  const createNewMutation = useCreateNewMutation();
+  const updateNewMutation = useUpdateNewMutation({
+    refetchQueries: ["getNewById", "getTagsByContractId"],
+    awaitRefetchQueries: true,
+  });
 
-          createdAt: formatDate(
-            parseJSON(newData.attributes.createdAt),
-            "dd/MM/yyyy HH:mm",
-          ),
-          updatedAt: formatDate(
-            parseJSON(newData.attributes.updatedAt),
-            "dd/MM/yyyy HH:mm",
-          ),
-        };
-        setMappedData(mappedData);
-      }
-    } else if (data?.new && data.new.data === null) {
-      void router.push(`${currentRoot}/edito/actualites`);
-    }
-  }, [data, router, currentRoot]);
+  const pageProps: IEditorialFormPage = {
+    labels,
+    onCreate: handleCreate,
+    onUpdate: handleUpdate,
+    onPublish: handlePublish,
+    onDepublish: handleDepublish,
+    onPreview: handlePreview,
+  };
 
   return (
-    <div className="o-FormEditPage">
-      {mappedData && (
-        <>
-          <PageTitle title={mappedData.title} />
-          <CommonLoader isLoading={isLoading} errors={errors}>
-            <EditoForm
-              data={mappedData}
-              dynamicFieldsOptions={dynamicFieldOptions}
-              onSubmitValid={onSubmit}
-              onPublish={onPublish}
-              onDepublish={onDepublish}
-              onPreview={onPreview}
-              labels={formLabels}
-            />
-          </CommonLoader>
-        </>
-      )}
-    </div>
-  );
-}
-
-export default function IndexPage() {
-  const router = useRouter();
-  const [newId, setNewId] = useState<string>();
-
-  useEffect(() => {
-    const query = router.query.newId;
-    let localNewId: string | null | false = null;
-    if (query?.toString()) {
-      if (Number.parseInt(query.toString())) {
-        localNewId = query.toString();
-      } else if (query.toString() === "create") {
-        localNewId = "0";
-      } else {
-        localNewId = false;
-      }
-    }
-    if (localNewId) {
-      setNewId(localNewId);
-    } else if (localNewId === false) {
-      void router.push("/404");
-    }
-  }, [router, setNewId]);
-
-  return (
-    <ContractLayout>
-      {newId && <EditoActualitesEditPage newId={newId} />}
-    </ContractLayout>
+    <EditorialFormPageLoader
+      queryParam={"newId"}
+      entityName={"new"}
+      getByIdLazyQuery={getNewByIdLazyQuery}
+      createMutation={createNewMutation}
+      updateMutation={updateNewMutation}
+      pageProps={pageProps}
+    />
   );
 }

@@ -1,12 +1,47 @@
 mutation deleteNew($deleteNewId: ID!) {
   deleteNew(id: $deleteNewId) {
     data {
+      id
       attributes {
+        customId
         title
         shortDescription
+        newsSubService {
+          data {
+            id
+          }
+        }
         status
         publishedDate
         unpublishedDate
+        createdAt
+        updatedAt
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        image {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+              ext
+              height
+              width
+              createdAt
+            }
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id
@@ -16,6 +51,7 @@ mutation deleteNew($deleteNewId: ID!) {
           ... on ComponentBlocksVideo {
             id
             videoLink
+            transcriptText
           }
           ... on ComponentBlocksWysiwyg {
             id
@@ -29,9 +65,19 @@ mutation deleteNew($deleteNewId: ID!) {
             id
             picture {
               data {
+                id
                 attributes {
+                  hash
+                  mime
                   name
+                  provider
+                  size
                   url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
@@ -42,9 +88,19 @@ mutation deleteNew($deleteNewId: ID!) {
             id
             document {
               data {
+                id
                 attributes {
+                  hash
+                  mime
                   name
+                  provider
+                  size
                   url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }

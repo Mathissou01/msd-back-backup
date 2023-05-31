@@ -1,9 +1,9 @@
-import { GetRecyclingBlockTabDocument } from "../src/graphql/codegen/generated-types";
+import { GetRecyclingGuideBlockTabDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetRecyclingBlockTabDocument,
+      query: GetRecyclingGuideBlockTabDocument,
       variables: {
         contractId: "0",
       },

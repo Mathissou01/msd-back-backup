@@ -16,6 +16,8 @@ mutation updateFreeContent(
         status
         publishedDate
         unpublishedDate
+        createdAt
+        updatedAt
         tags {
           data {
             id
@@ -35,6 +37,10 @@ mutation updateFreeContent(
               size
               url
               alternativeText
+              ext
+              height
+              width
+              createdAt
             }
           }
         }
@@ -61,9 +67,19 @@ mutation updateFreeContent(
             id
             picture {
               data {
+                id
                 attributes {
+                  hash
+                  mime
                   name
+                  provider
+                  size
                   url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
@@ -74,16 +90,22 @@ mutation updateFreeContent(
             id
             document {
               data {
+                id
                 attributes {
+                  hash
+                  mime
                   name
+                  provider
+                  size
                   url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
-          }
-          ... on Error {
-            code
-            message
           }
         }
       }

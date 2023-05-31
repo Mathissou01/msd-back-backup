@@ -1,21 +1,21 @@
+import { FieldValues } from "react-hook-form";
 import React, { useEffect, useRef, useState } from "react";
-import ContractLayout from "../../contract-layout";
-import PageTitle from "../../../../components/PageTitle/PageTitle";
-import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import {
   useGetFlowsByContractIdQuery,
   useUpdateFlowMutation,
   useGetCollectionMethodsByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
-import { useContract } from "../../../../hooks/useContract";
 import { removeNulls } from "../../../../lib/utilities";
+import { cleanCollectionMethods, IFlow } from "../../../../lib/flows";
+import { useContract } from "../../../../hooks/useContract";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
+import PageTitle from "../../../../components/PageTitle/PageTitle";
+import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import FlowsBlock from "../../../../components/Flows/FlowsBlock";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../../../components/Common/CommonModalWrapper/CommonModalWrapper";
-import { FieldValues } from "react-hook-form";
 import FlowModal from "../../../../components/Flows/FlowModal/FlowModal";
-import { cleanCollectionMethods, IFlow } from "../../../../lib/flows";
 
 export function FluxActivationPage() {
   /* Static Data */
@@ -64,18 +64,18 @@ export function FluxActivationPage() {
 
     modalRef.current?.toggleModal(false);
   }
+
   const handleCloseModal = () => {
     modalRef.current?.toggleModal(false);
   };
-  /* External Data */
-  const modalRef = useRef<CommonModalWrapperRef>();
+
+  /* Local Data */
   const { contractId } = useContract();
   const [flows, setFlows] = useState<IFlow[]>([]);
   const [openedFlow, setOpenedFlow] = useState<IFlow | null>(null);
+  const modalRef = useRef<CommonModalWrapperRef>();
 
-  const [updateFlowMutation] = useUpdateFlowMutation();
-
-  const { data } = useGetFlowsByContractIdQuery({
+  const { data, loading, error } = useGetFlowsByContractIdQuery({
     variables: {
       filters: {
         contract: {
@@ -85,9 +85,27 @@ export function FluxActivationPage() {
         },
       },
     },
+    fetchPolicy: "network-only",
   });
-  const { data: collectionMethods } =
-    useGetCollectionMethodsByContractIdQuery();
+  const {
+    data: collectionMethods,
+    loading: collectionLoading,
+    error: collectionError,
+  } = useGetCollectionMethodsByContractIdQuery({
+    fetchPolicy: "network-only",
+  });
+  const [
+    updateFlowMutation,
+    { loading: mutationLoading, error: mutationError },
+  ] = useUpdateFlowMutation({
+    refetchQueries: [
+      "getFlowsByContractId",
+      "getCollectionMethodsByContractId",
+    ],
+    awaitRefetchQueries: true,
+  });
+  const isLoading = loading || collectionLoading || mutationLoading;
+  const errors = [error, collectionError, mutationError];
 
   useEffect(() => {
     if (data) {
@@ -130,15 +148,11 @@ export function FluxActivationPage() {
       );
     }
   }, [data]);
+
   return (
     <>
       <PageTitle title={title} description={description} />
-      <CommonLoader
-        isLoading={false}
-        hasDelay={false}
-        // TODO : add errors={[error]}
-        isFlexGrow={false}
-      >
+      <CommonLoader isLoading={isLoading} errors={errors} isFlexGrow={false}>
         <h2 className="c-FluxActivationPage__Title">{pageLabel}</h2>
         <FlowsBlock
           flows={flows}

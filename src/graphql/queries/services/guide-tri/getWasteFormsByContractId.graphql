@@ -27,7 +27,7 @@ query getWasteFormsByContractId(
       }
     }
   }
-  wasteFormsPublishedtCount: wasteForms(
+  wasteFormsPublishedCount: wasteForms(
     filters: {
       recyclingGuideService: { contract: { id: { eq: $contractId } } }
       status: { eq: "published" }

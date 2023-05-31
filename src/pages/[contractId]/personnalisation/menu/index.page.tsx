@@ -13,7 +13,7 @@ import {
 import { extractMenu } from "../../../../lib/graphql-data";
 import { useContract } from "../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";

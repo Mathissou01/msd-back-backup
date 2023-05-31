@@ -65,89 +65,6 @@ export default function CommonBibliothequeMedia({
     formDescLabel: "Description de l'image",
   };
 
-  /* Local Data */
-  const modalRef = useRef<CommonModalWrapperRef>(null);
-  const { contract } = useContract();
-  const contractFolderId = contract.attributes?.pathId;
-  const defaultPath = `/1/${contractFolderId}`;
-  const [activePathId, setActivePathId] = useState<number>(
-    defaultActivePath ? defaultActivePath.pathId : contractFolderId,
-  );
-  const [activePath, setActivePath] = useState<string>(
-    defaultActivePath ? defaultActivePath.path : defaultPath,
-  );
-  const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
-  const [folders, setFolders] = useState<Array<IFolder>>([]);
-  const [files, setFiles] = useState<Array<ILocalFile>>([]);
-  const [checkedFiles, setCheckedFiles] =
-    useState<Array<string>>(defaultSelectedFiles);
-  const [breadcrumbs, setBreadcrumbs] = useState<Array<IMediaBreadcrumb>>([]);
-  const mediaLibraryClasses = classNames("c-CommonBibliothequeMedia", {
-    [`c-CommonBibliothequeMedia_${style}`]: style,
-  });
-  const {
-    data: foldersData,
-    loading: foldersDataLoading,
-    error: foldersDataError,
-  } = useGetFolderAndChildrenByIdQuery({
-    variables: { filters: { pathId: { eq: activePathId } } },
-  });
-  const defaultRowsPerPage = 10;
-  const defaultPage = 1;
-  const defaultQueryVariables: GetFilesPaginationByPathIdQueryVariables = {
-    filters: {
-      folder: {
-        pathId: {
-          eq: activePathId,
-        },
-      },
-      mime: {
-        // TODO: works?
-        contains: mimeFilterContains,
-        notContains: mimeFilterNotContains,
-      },
-    },
-    sort: "mime:desc",
-    pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
-  };
-  const {
-    data: filesData,
-    loading: filesDataLoading,
-    error: filesDataError,
-  } = useGetFilesPaginationByPathIdQuery({
-    variables: defaultQueryVariables,
-  });
-  const {
-    data: foldersBreadcrumb,
-    loading: foldersBreadcrumbLoading,
-    error: foldersBreadcrumbError,
-  } = useGetFolderBreadcrumbQuery({
-    variables: { path: activePath },
-  });
-  const [currentPagination, setCurrentPagination] = useState({
-    page: defaultPage,
-    rowsPerPage: defaultRowsPerPage,
-  });
-  const {
-    data: folderHierarchy,
-    loading: folderHierarchyLoading,
-    error: folderHierarchyError,
-  } = useGetAllFoldersHierarchyQuery({
-    variables: { path: activePath },
-  });
-  const [UpdateUploadFileDocument] = useUpdateUploadFileMutation();
-  const loading =
-    filesDataLoading ||
-    foldersDataLoading ||
-    folderHierarchyLoading ||
-    foldersBreadcrumbLoading;
-  const errors = [
-    filesDataError,
-    foldersDataError,
-    folderHierarchyError,
-    foldersBreadcrumbError,
-  ];
-
   /* Methods */
   function setUpdatePath(pathId: number, path: string) {
     setActivePathId(pathId);
@@ -162,9 +79,8 @@ export default function CommonBibliothequeMedia({
 
   async function handleSaveNewFileInfo(submitData: FieldValues) {
     const file: ILocalFile | undefined = fileToEdit;
-
     if (file?.id !== undefined) {
-      UpdateUploadFileDocument({
+      void UpdateUploadFileDocument({
         variables: {
           updateUploadFileId: file?.id,
           data: {
@@ -205,6 +121,105 @@ export default function CommonBibliothequeMedia({
       }
     }
   }
+
+  /* Local Data */
+  const { contract } = useContract();
+  const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
+  const [folders, setFolders] = useState<Array<IFolder>>([]);
+  const [files, setFiles] = useState<Array<ILocalFile>>([]);
+  const [checkedFiles, setCheckedFiles] =
+    useState<Array<string>>(defaultSelectedFiles);
+  const [breadcrumbs, setBreadcrumbs] = useState<Array<IMediaBreadcrumb>>([]);
+  const contractFolderId = contract.attributes?.pathId;
+  const defaultPath = `/1/${contractFolderId}`;
+  const [activePathId, setActivePathId] = useState<number>(
+    defaultActivePath ? defaultActivePath.pathId : contractFolderId,
+  );
+  const [activePath, setActivePath] = useState<string>(
+    defaultActivePath ? defaultActivePath.path : defaultPath,
+  );
+  const modalRef = useRef<CommonModalWrapperRef>(null);
+
+  const defaultRowsPerPage = 10;
+  const defaultPage = 1;
+  const defaultQueryVariables: GetFilesPaginationByPathIdQueryVariables = {
+    filters: {
+      folder: {
+        pathId: {
+          eq: activePathId,
+        },
+      },
+      mime: {
+        // TODO: works?
+        contains: mimeFilterContains,
+        notContains: mimeFilterNotContains,
+      },
+    },
+    sort: "mime:desc",
+    pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
+  };
+  const [currentPagination, setCurrentPagination] = useState({
+    page: defaultPage,
+    rowsPerPage: defaultRowsPerPage,
+  });
+
+  const {
+    data: foldersData,
+    loading: foldersDataLoading,
+    error: foldersDataError,
+  } = useGetFolderAndChildrenByIdQuery({
+    variables: { filters: { pathId: { eq: activePathId } } },
+    fetchPolicy: "network-only",
+  });
+  const {
+    data: filesData,
+    loading: filesDataLoading,
+    error: filesDataError,
+  } = useGetFilesPaginationByPathIdQuery({
+    variables: defaultQueryVariables,
+    fetchPolicy: "network-only",
+  });
+  const {
+    data: foldersBreadcrumb,
+    loading: foldersBreadcrumbLoading,
+    error: foldersBreadcrumbError,
+  } = useGetFolderBreadcrumbQuery({
+    variables: { path: activePath },
+    fetchPolicy: "network-only",
+  });
+  const {
+    data: folderHierarchy,
+    loading: folderHierarchyLoading,
+    error: folderHierarchyError,
+  } = useGetAllFoldersHierarchyQuery({
+    variables: { path: activePath },
+    fetchPolicy: "network-only",
+  });
+  const [
+    UpdateUploadFileDocument,
+    { loading: updateLoading, error: updateError },
+  ] = useUpdateUploadFileMutation({
+    refetchQueries: ["getFolderAndChildrenById", "getFilesPaginationByPathId"],
+    awaitRefetchQueries: true,
+  });
+
+  const loading =
+    filesDataLoading ||
+    foldersDataLoading ||
+    folderHierarchyLoading ||
+    foldersBreadcrumbLoading ||
+    updateLoading;
+  const errors = [
+    filesDataError,
+    foldersDataError,
+    folderHierarchyError,
+    foldersBreadcrumbError,
+    updateError,
+  ];
+
+  const mediaLibraryClasses = classNames("c-CommonBibliothequeMedia", {
+    [`c-CommonBibliothequeMedia_${style}`]: style,
+  });
 
   useEffect(() => {
     if (foldersData) {

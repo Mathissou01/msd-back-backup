@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ApolloError } from "@apollo/client";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 import CommonSpinner from "../CommonSpinner/CommonSpinner";
 import "./common-loader.scss";
 
@@ -30,21 +30,13 @@ export default function CommonLoader({
   children,
 }: ICommonLoaderProps) {
   const hasErrors = errors?.some((error) => error);
-
   const [isShowingLoader, setIsShowingLoader] = useState(!hasDelay);
-  const spinnerTimerRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (isLoading) {
-      if (!isShowingLoader) {
-        spinnerTimerRef.current = setTimeout(() => {
-          setIsShowingLoader(true);
-        }, 200);
-      }
-    } else {
-      clearTimeout(spinnerTimerRef.current);
-      setIsShowingLoader(false);
-    }
-  }, [isLoading, isShowingLoader]);
+
+  if (isLoading && hasDelay) {
+    setTimeout(() => {
+      setIsShowingLoader(true);
+    }, 200);
+  }
 
   const wrapperClassnames = classNames("c-CommonLoader", {
     "c-CommonLoader_absolute": isShowingContent,

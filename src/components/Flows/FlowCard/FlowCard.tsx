@@ -14,10 +14,9 @@ interface IFlowCardProps {
 }
 
 export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
-  const [isToggleActive, setIsToggleActive] = useState<boolean>();
-  const [updateFlow] = useUpdateFlowMutation();
+  /* Methods */
   const onChangeHandler = (isToggleActiveUpdated: boolean) => {
-    if (isToggleActiveUpdated === true) {
+    if (isToggleActiveUpdated) {
       setIsToggleActive(true);
     } else {
       setIsToggleActive(false);
@@ -40,6 +39,16 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
     });
   };
 
+  /* Local Data */
+  const [isToggleActive, setIsToggleActive] = useState<boolean>();
+  // TODO: try to use loading and error from mutation
+  const [updateFlow] = useUpdateFlowMutation({
+    refetchQueries: [
+      "getFlowsByContractId",
+      "getCollectionMethodsByContractId",
+    ],
+  });
+
   return (
     <div className="c-FlowCard">
       <div className="c-FlowCard__Name">{flow.name}</div>
@@ -60,7 +69,7 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
               onChangeHandler(isToggleActiveUpdated)
             }
             checked={isToggleActive ? isToggleActive : flow.isActivated}
-            disabled={flow.name === "Ordure Ménagère" ? true : false}
+            disabled={flow.name === "Ordure Ménagère"}
           />
         </div>
       </div>

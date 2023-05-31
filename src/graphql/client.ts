@@ -14,13 +14,37 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
     uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
     cache: new InMemoryCache({
       typePolicies: {
-        New: {
-          merge: true,
-        },
         UploadFolder: {
           merge: true,
         },
         UploadFile: {
+          merge: true,
+        },
+        Contract: {
+          merge: true,
+        },
+        ContractCustomization: {
+          merge: true,
+        },
+        New: {
+          merge: true,
+        },
+        Tip: {
+          merge: true,
+        },
+        RecyclingGuideService: {
+          merge: true,
+        },
+        WasteForm: {
+          merge: true,
+        },
+        WasteFamily: {
+          merge: true,
+        },
+        Flow: {
+          merge: true,
+        },
+        FlowColor: {
           merge: true,
         },
       },

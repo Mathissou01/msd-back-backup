@@ -5,10 +5,17 @@
 }
 
 .c-FlowModal {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
   margin-bottom: 14px;
+
+  &__Container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 75vh;
+    margin: 20px 0 12px;
+    padding-right: 5px;
+    overflow: auto;
+  }
 
   &__InformationsTitle {
     margin-bottom: 36px;

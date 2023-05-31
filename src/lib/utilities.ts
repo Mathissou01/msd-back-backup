@@ -76,20 +76,6 @@ export function comparePropertyValueByPriority(
   };
 }
 
-export function compareArraysOfObjects(
-  a: Array<unknown>,
-  b: Array<unknown>,
-): boolean {
-  return (
-    Array.isArray(a) &&
-    Array.isArray(b) &&
-    a.length === b.length &&
-    a.every((val, i) =>
-      Object.keys(val).every((prop) => b[i][prop] && b[i][prop] === val[prop]),
-    )
-  );
-}
-
 export function removeQuotesInString(arg: string) {
   return arg.replace(/['"]/g, "") ?? arg;
 }
@@ -108,11 +94,25 @@ export function formatDate(
   return "";
 }
 
+export const commonDateStringFormat = "dd/MM/yyyy HH:mm";
+
 export function formatFileSize(size: number): string {
   const i = Math.floor(Math.log(size) / Math.log(1024));
   return (
     (size / Math.pow(1024, i)).toFixed(2) +
     " " +
     (i > -1 ? ["B", "KB", "MB", "GB", "TB"][i] : "Bit")
+  );
+}
+
+export function isTypename<Typename>(
+  entity: unknown,
+  typename: string,
+): entity is Typename {
+  return (
+    typeof entity === "object" &&
+    !!entity &&
+    "__typename" in entity &&
+    entity.__typename === typename
   );
 }

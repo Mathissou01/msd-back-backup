@@ -9,6 +9,14 @@ mutation UpdateContactUs($updateContactUsId: ID!, $data: ContactUsInput!) {
         unpublishedDate
         createdAt
         updatedAt
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id
@@ -32,6 +40,7 @@ mutation UpdateContactUs($updateContactUsId: ID!, $data: ContactUsInput!) {
             id
             picture {
               data {
+                id
                 attributes {
                   hash
                   mime
@@ -40,6 +49,10 @@ mutation UpdateContactUs($updateContactUsId: ID!, $data: ContactUsInput!) {
                   size
                   url
                   alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
@@ -50,6 +63,7 @@ mutation UpdateContactUs($updateContactUsId: ID!, $data: ContactUsInput!) {
             id
             document {
               data {
+                id
                 attributes {
                   hash
                   mime
@@ -58,6 +72,10 @@ mutation UpdateContactUs($updateContactUsId: ID!, $data: ContactUsInput!) {
                   size
                   url
                   alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }

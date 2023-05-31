@@ -1,15 +1,15 @@
-import React from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import CommonButton from "../../Common/CommonButton/CommonButton";
-import { IDefaultTableRow } from "../../Common/CommonDataTable/CommonDataTable";
-import FormInput from "../../Form/FormInput/FormInput";
+import React from "react";
 import dynamic from "next/dynamic";
 import {
   GetSectorizationByContractIdQueryVariables,
   useGetSectorizationByContractIdQuery,
 } from "../../../graphql/codegen/generated-types";
-import "./sector-modal.scss";
 import { TPolygon } from "../../../lib/sectors";
+import CommonButton from "../../Common/CommonButton/CommonButton";
+import { IDefaultTableRow } from "../../Common/CommonDataTable/CommonDataTable";
+import FormInput from "../../Form/FormInput/FormInput";
+import "./sector-modal.scss";
 
 //TODO: to import it for #2220
 // import FormMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
@@ -41,31 +41,26 @@ export default function SectorModal({
     title: "Nom du secteur",
     descritpion: "Description du secteur",
   };
-
   const buttonLabels = {
     save: "Enregistrer ce secteur",
     saveAndCreate: "Enregistrer et créer un autre secteur",
     cancel: "Annuler",
   };
   const maxCharacters = 30;
-
-  /* Methods */
   const defaultQueryVariables: GetSectorizationByContractIdQueryVariables = {
     sectorizationId: defaultValue?.id,
   };
 
+  /* Local Data */
   const { data } = useGetSectorizationByContractIdQuery({
     variables: defaultQueryVariables,
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
   });
   //TODO: to use it to store postalcode
   // const [currentSectorContents, setCurrentSectorContents] = useState<any>([]);
   const polygon = data?.sectorization?.data?.attributes?.polygonCoordinates;
-
-  /* Local Data */
-  const formValidationMode = "onChange";
   const form = useForm({
-    mode: formValidationMode,
+    mode: "onChange",
     defaultValues: defaultValue ?? {},
   });
   const { handleSubmit } = form;

@@ -1,7 +1,7 @@
 import React from "react";
-import { useContract } from "../../../../hooks/useContract";
 import { EContractClientTypeLabels } from "../../../../lib/contract";
-import ContractLayout from "../../contract-layout";
+import { useContract } from "../../../../hooks/useContract";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import "./gestion-informations-page.scss";
 

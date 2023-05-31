@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import NextImage from "next/image";
 import _ from "lodash";
 import classNames from "classnames";
 import { FieldValues, useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { removeNulls, removeQuotesInString } from "../../../lib/utilities";
+import React, { useEffect, useRef, useState } from "react";
+import NextImage from "next/image";
+import {
+  isTypename,
+  removeNulls,
+  removeQuotesInString,
+} from "../../../lib/utilities";
 import {
   GetFilesPaginationByPathIdDocument,
   useGetAllFoldersHierarchyQuery,
@@ -13,9 +17,15 @@ import {
 import {
   fileSizeLimitation_30mb,
   ILocalFile,
+  isLocalFile,
   isMimeType,
+  IUploadFileEntity,
+  IUploadFileEntityResponse,
+  remapUploadFileEntityToLocalFile,
   TAcceptedMimeTypes,
 } from "../../../lib/media";
+import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
+import docIcon from "./../../../../public/images/pictos/doc.svg";
 import { useContract } from "../../../hooks/useContract";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -23,8 +33,6 @@ import FormLabel from "../FormLabel/FormLabel";
 import FormModal from "../FormModal/FormModal";
 import EditModal from "../../Media/MediaImportButton/Modals/EditModal/EditModal";
 import FormFileInputModals from "./FormFileInputModals/FormFileInputModals";
-import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
-import docIcon from "./../../../../public/images/pictos/doc.svg";
 import "./form-file-input.scss";
 
 interface IFormFileInputProps {
@@ -38,6 +46,7 @@ interface IFormFileInputProps {
   acceptedMimeTypes?: Array<TAcceptedMimeTypes>;
   mimeFilterContains?: string;
   mimeFilterNotContains?: string;
+  isPriority?: boolean;
 }
 
 export default function FormFileInput({
@@ -51,6 +60,7 @@ export default function FormFileInput({
   acceptedMimeTypes,
   mimeFilterContains,
   mimeFilterNotContains,
+  isPriority = false,
 }: IFormFileInputProps) {
   /* Static Data */
   const ecoConceptionMessage =
@@ -65,35 +75,7 @@ export default function FormFileInput({
   };
   const addImagePicto = "/images/pictos/add-photo.svg";
 
-  /* Local Data */
-  const { contract } = useContract();
-  const contractFolderId = contract.attributes?.pathId;
-  const defaultPath = `/1/${contractFolderId}`;
-  const [activePathId, setActivePathId] = useState<number>(contractFolderId);
-  const [activePath, setActivePath] = useState<string>(defaultPath);
-  const { data: folderHierarchy } = useGetAllFoldersHierarchyQuery({
-    variables: { path: activePath },
-  });
-  const modalRef = useRef<CommonModalWrapperRef>(null);
-  const [draggedFile, setDraggedFile] = useState<ILocalFile>();
-  const editModalRef = useRef<CommonModalWrapperRef>(null);
-  const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
-  const hasDefaultValue = useRef<boolean>();
-  const {
-    watch,
-    setValue,
-    resetField,
-    register,
-    formState: { errors },
-  } = useFormContext();
-
-  const selectedFile: ILocalFile = watch(name);
-  const inputClassNames = classNames("c-FormFileInput", {
-    "c-FormFileInput_error": errors.image,
-  });
-  const [UpdateUploadFileDocument] = useUpdateUploadFileMutation();
-
-  /* Method */
+  /* Methods */
   const onClickDragDrop = (): void => modalRef.current?.toggleModal(true);
 
   function handleDrop(event: React.DragEvent<HTMLDivElement>) {
@@ -158,7 +140,7 @@ export default function FormFileInput({
       file.name = submitData[removeQuotesInString(labels.formNameLabel)];
       handleSetFile(file);
 
-      UpdateUploadFileDocument({
+      return UpdateUploadFileDocument({
         variables: {
           updateUploadFileId: file?.id,
           data: {
@@ -215,9 +197,71 @@ export default function FormFileInput({
     setActivePath(path);
   }
 
+  function isNotRemapped(
+    file: ILocalFile | IUploadFileEntityResponse | IUploadFileEntity,
+  ): file is IUploadFileEntityResponse | IUploadFileEntity {
+    return (
+      isTypename<IUploadFileEntityResponse>(file, "UploadFileEntityResponse") ||
+      isTypename<IUploadFileEntity>(file, "UploadFileEntity")
+    );
+  }
+
+  /* Local Data */
+  const { contract } = useContract();
+  const contractFolderId = contract.attributes?.pathId;
+  const defaultPath = `/1/${contractFolderId}`;
+  const [activePathId, setActivePathId] = useState<number>(contractFolderId);
+  const [activePath, setActivePath] = useState<string>(defaultPath);
+  const [draggedFile, setDraggedFile] = useState<ILocalFile>();
+  const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
+  const modalRef = useRef<CommonModalWrapperRef>(null);
+  const editModalRef = useRef<CommonModalWrapperRef>(null);
+  const hasDefaultValue = useRef<boolean>();
+  const {
+    watch,
+    setValue,
+    resetField,
+    register,
+    formState: { errors },
+  } = useFormContext();
+  const selectedFile:
+    | ILocalFile
+    | IUploadFileEntity
+    | IUploadFileEntityResponse = watch(name);
+
+  const { data: folderHierarchy } = useGetAllFoldersHierarchyQuery({
+    variables: { path: activePath },
+    fetchPolicy: "network-only",
+  });
+  // TODO: try to use loading and error of mutation
+  const [UpdateUploadFileDocument] = useUpdateUploadFileMutation({
+    refetchQueries: ["getAllFoldersHierarchy"],
+  });
+
+  const inputClassNames = classNames("c-FormFileInput", {
+    "c-FormFileInput_error": errors.image,
+  });
+
   useEffect(() => {
-    if (hasDefaultValue.current === undefined) {
-      hasDefaultValue.current = !!selectedFile;
+    // Check if field value is UploadFileEntityResponse or UploadFileEntity and automatically remap to ILocalFile
+    if (isNotRemapped(selectedFile)) {
+      if (selectedFile.__typename === "UploadFileEntityResponse") {
+        resetField(name, {
+          defaultValue: remapUploadFileEntityToLocalFile(selectedFile.data),
+        });
+      } else if (selectedFile.__typename === "UploadFileEntity") {
+        resetField(name, {
+          defaultValue: remapUploadFileEntityToLocalFile(selectedFile),
+        });
+      }
+    }
+  }, [selectedFile, name, resetField]);
+
+  useEffect(() => {
+    if (selectedFile === null || isLocalFile(selectedFile)) {
+      if (hasDefaultValue.current === undefined) {
+        hasDefaultValue.current = !!selectedFile;
+      }
     }
   }, [selectedFile]);
 
@@ -234,11 +278,18 @@ export default function FormFileInput({
           <input
             {...register(name, {
               required: { value: isRequired, message: errorMessages.required },
+              setValueAs: (v) => {
+                if (typeof v === "string") {
+                  return null;
+                } else {
+                  return v;
+                }
+              },
             })}
             type="hidden"
             aria-invalid={!!_.get(errors, name)}
           />
-          {!selectedFile ? (
+          {!selectedFile && !isNotRemapped(selectedFile) ? (
             <>
               <div
                 className={classNames("c-FormFileInput__DragDrop", {
@@ -268,42 +319,45 @@ export default function FormFileInput({
               />
             </>
           ) : (
-            <div className="c-FormFileInput__Thumbnail">
-              {selectedFile && selectedFile.mime?.split("/")[0] === "image" ? (
-                <div className="c-FormFileInput__Image">
-                  {/** TODO: image css must be checked after solving the image preview issue  */}
-                  <NextImage
-                    src={selectedFile.url}
-                    width={245}
-                    height={158}
-                    alt={selectedFile.alternativeText ?? ""}
+            isLocalFile(selectedFile) && (
+              <div className="c-FormFileInput__Thumbnail">
+                {selectedFile.mime?.split("/")[0] === "image" ? (
+                  <div className="c-FormFileInput__Image">
+                    {/** TODO: image css must be checked after solving the image preview issue  */}
+                    <NextImage
+                      src={selectedFile.url}
+                      width={245}
+                      height={158}
+                      alt={selectedFile.alternativeText ?? ""}
+                      priority={isPriority}
+                    />
+                  </div>
+                ) : selectedFile.mime?.split("/")[1] === "pdf" ? (
+                  <div className="c-FormFileInput__Doc">
+                    <NextImage src={pdfIcon} width={48} height={58} alt="" />
+                  </div>
+                ) : (
+                  <div className="c-FormFileInput__Doc">
+                    <NextImage src={docIcon} width={48} height={58} alt="" />
+                  </div>
+                )}
+                <div className="c-FormFileInput__ButtonsWrapper">
+                  <button
+                    type="button"
+                    className="c-FormFileInput__Delete"
+                    onClick={() => handleDeleteFile()}
+                  />
+                  <button
+                    type="button"
+                    className="c-FormFileInput__Edit"
+                    onClick={() => handleEditFile(selectedFile)}
                   />
                 </div>
-              ) : selectedFile.mime?.split("/")[1] === "pdf" ? (
-                <div className="c-FormFileInput__Doc">
-                  <NextImage src={pdfIcon} width={48} height={58} alt="" />
-                </div>
-              ) : (
-                <div className="c-FormFileInput__Doc">
-                  <NextImage src={docIcon} width={48} height={58} alt="" />
-                </div>
-              )}
-              <div className="c-FormFileInput__ButtonsWrapper">
-                <button
-                  type="button"
-                  className="c-FormFileInput__Delete"
-                  onClick={() => handleDeleteFile()}
-                />
-                <button
-                  type="button"
-                  className="c-FormFileInput__Edit"
-                  onClick={() => handleEditFile(selectedFile)}
-                />
               </div>
-            </div>
+            )
           )}
         </FormLabel>
-        {!selectedFile && (
+        {!selectedFile && !isNotRemapped(selectedFile) && (
           <ErrorMessage
             errors={errors}
             name={name}

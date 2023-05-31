@@ -1,4 +1,4 @@
-query getContactUsesSubServiceByContractId($contractId: ID!) {
+query getContactUsesByContractId($contractId: ID!) {
   contactUsSubServices(
     filters: { editorialService: { contract: { id: { eq: $contractId } } } }
   ) {

@@ -19,7 +19,7 @@ const Wrapper = (props: { children: ReactNode }) => {
 };
 
 describe("FormWysiwyg", () => {
-  it("renders", () => {
+  it("renders", async () => {
     const { container } = render(
       <Wrapper>
         <FormWysiwyg
@@ -32,8 +32,7 @@ describe("FormWysiwyg", () => {
       </Wrapper>,
     );
 
-    const input = screen.getByTestId("form-wysiwyg");
-    expect(input).toBeInTheDocument();
+    const input = await screen.findByTestId("form-wysiwyg");
     expect(input).not.toHaveClass("c-FormWysiwyg__Input_invalid");
     expect(container).toMatchSnapshot();
   });

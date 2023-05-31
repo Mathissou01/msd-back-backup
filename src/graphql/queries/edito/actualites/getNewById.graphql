@@ -1,12 +1,11 @@
 query getNewById($newId: ID) {
   new(id: $newId) {
     data {
-      __typename
       id
       attributes {
+        customId
         title
         shortDescription
-        customId
         newsSubService {
           data {
             id

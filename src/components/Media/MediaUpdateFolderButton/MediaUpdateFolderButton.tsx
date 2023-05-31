@@ -35,6 +35,7 @@ export default function MediaUpdateFolderButton({
     titleFolderContent: "Nom du dossier",
     locationFolder: "Emplacement",
   };
+
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
     const folderLocation = submitData["folderLocation"];
@@ -157,9 +158,12 @@ export default function MediaUpdateFolderButton({
   // TODO: optimize component, data should only be fetched when modal is opened not on page load
   const { data: folderHierarchy } = useGetAllFoldersHierarchyQuery({
     variables: { path: folder.path },
+    fetchPolicy: "network-only",
   });
   const [updateUploadFolder, { loading: mutationLoading }] =
-    useUpdateUploadFolderMutation();
+    useUpdateUploadFolderMutation({
+      refetchQueries: ["getAllFoldersHierarchy"],
+    });
 
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);

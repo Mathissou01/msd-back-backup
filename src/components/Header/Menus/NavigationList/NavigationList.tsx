@@ -1,11 +1,9 @@
 import { useState } from "react";
+import { ENavigationPages } from "../../../../lib/navigation";
+import { useNavigation } from "../../../../hooks/useNavigation";
+import { useContract } from "../../../../hooks/useContract";
 import NavigationListMenu from "./NavigationListMenu/NavigationListMenu";
 import NavigationListLink from "./NavigationListLink/NavigationListLink";
-import {
-  ENavigationPages,
-  useNavigation,
-} from "../../../../hooks/useNavigation";
-import { useContract } from "../../../../hooks/useContract";
 import "./navigation-list.scss";
 
 export interface IActiveMenu {

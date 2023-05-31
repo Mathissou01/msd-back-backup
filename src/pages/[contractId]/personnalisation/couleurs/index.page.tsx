@@ -7,20 +7,19 @@ import {
   useUpdateContractCustomizationByIdMutation,
   useUpdateContractCustomizationMutation,
 } from "../../../../graphql/codegen/generated-types";
+import {
+  TAcceptedMimeTypes,
+  fileSizeLimitation_200kb,
+  IUploadFileEntity,
+} from "../../../../lib/media";
+import { useContract } from "../../../../hooks/useContract";
+import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
 import FormFileInput from "../../../../components/Form/FormFileInput/FormFileInput";
 import FormColorPalette from "../../../../components/Form/FormColorPalette/FormColorPalette";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
-import { useContract } from "../../../../hooks/useContract";
-import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
-import {
-  ILocalFile,
-  TAcceptedMimeTypes,
-  fileSizeLimitation_200kb,
-  remapUploadFileEntityToLocalFile,
-} from "../../../../lib/media";
-import ContractLayout from "../../contract-layout";
 import "./personnalisation-couleurs-page.scss";
 
 interface IColorPalette {
@@ -36,7 +35,7 @@ interface IColorPalette {
 interface IPersonnalisationCouleursPage {
   colorMode: string;
   id: string;
-  logo: ILocalFile | null;
+  logo: IUploadFileEntity | null;
   contractCustomizationId: string | null | undefined;
   primaryColor: string | undefined;
   secondaryColor: string | null | undefined;
@@ -105,7 +104,7 @@ export function PersonnalisationCouleursPage() {
         },
       };
 
-      updateContract({
+      return updateContract({
         variables,
         refetchQueries: [
           {
@@ -142,7 +141,7 @@ export function PersonnalisationCouleursPage() {
             : defaultColorPalette?.contrastText,
         },
       };
-      updateContractCustomizationMutation({
+      return updateContractCustomizationMutation({
         variables,
         refetchQueries: [
           {
@@ -197,7 +196,7 @@ export function PersonnalisationCouleursPage() {
         const mappedData: IPersonnalisationCouleursPage = {
           colorMode: "0",
           id: contract.id,
-          logo: remapUploadFileEntityToLocalFile(contract.attributes.logo.data),
+          logo: contract.attributes.logo.data ?? null,
           contractCustomizationId:
             contract.attributes.contractCustomization?.data?.id,
           primaryColor:

@@ -2,6 +2,7 @@ import React, { RefObject, useEffect, useState } from "react";
 import { useGetAllFoldersHierarchyQuery } from "../../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../../lib/utilities";
 import { ILocalFile } from "../../../../../lib/media";
+import { useContract } from "../../../../../hooks/useContract";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import CommonBibliothequeMedia from "../../../../Common/CommonBibliothequeMedia/CommonBibliothequeMedia";
@@ -11,7 +12,6 @@ import TabHeader, {
 import MediaCard from "../../../../Media/MediaCard/MediaCard";
 import MediaCreateFolderButton from "../../../../Media/MediaCreateFolderButton/MediaCreateFolderButton";
 import MediaImportButton from "../../../../Media/MediaImportButton/MediaImportButton";
-import { useContract } from "../../../../../hooks/useContract";
 
 interface ISelectingModalProps {
   modalRef: RefObject<CommonModalWrapperRef>;
@@ -32,12 +32,21 @@ export default function SelectingModal({
   onFinish,
   onPathChange,
 }: ISelectingModalProps) {
-  /** Local Data */
+  /* Static Data */
   const labels = {
     modalTitle: "Ajouter des médias",
     emptyMessage:
       "Aucun élément prêt à être téléchargé à la bibliothèque de Média",
   };
+
+  /* Methods */
+  function handlePathChange(pathId: number, path: string) {
+    setActivePathId(pathId);
+    setActivePath(path);
+    onPathChange(pathId, path);
+  }
+
+  /* Local Data */
   const { contract } = useContract();
   const contractFolderId = contract.attributes?.pathId;
   const defaultPath = `/1/${contractFolderId}`;
@@ -46,16 +55,11 @@ export default function SelectingModal({
   const [tabs, setTabs] = useState<Array<ITabHeader>>([]);
   const [activeTab, setActiveTab] = useState<number>(0);
   const [selectedFile, setSelectedFile] = useState<ILocalFile | null>();
+
   const { data: folderHierarchy } = useGetAllFoldersHierarchyQuery({
     variables: { path: activePath },
+    fetchPolicy: "network-only",
   });
-
-  /** Method */
-  function handlePathChange(pathId: number, path: string) {
-    setActivePathId(pathId);
-    setActivePath(path);
-    onPathChange(pathId, path);
-  }
 
   useEffect(() => {
     setTabs([

@@ -1,142 +1,68 @@
-import { useEffect, useState } from "react";
-import _ from "lodash";
-import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import { IServiceGuideDuTri } from "../../lib/services";
-import { TDynamicFieldOption } from "../../lib/edito";
-import { removeNulls } from "../../lib/utilities";
-import EditoButtons from "../Edito/EditoForm/EditoButtons/EditoButtons";
-import EditoDynamicFields from "../Edito/EditoForm/EditoDynamicFields/EditoDynamicFields";
-import RecyclingGuideSiderBar from "./RecyclingGuideSideBar/RecyclingGuideSideBar";
+import { IRecyclingGuideFields } from "../../lib/recycling-guide";
+import { TDynamicFieldOption } from "../../lib/dynamic-blocks";
+import FormLayout, {
+  IFormlayoutOptions,
+} from "../../layouts/FormLayout/FormLayout";
+import { IFormLayoutButtonsProps } from "../../layouts/FormLayout/FormLayoutButtons/FormLayoutButtons";
 import RecyclingGuideStaticFields, {
-  IStaticRecyclingGuideStaticFieldsLabels,
+  IRecyclingGuideStaticFieldsLabels,
+  TRecyclingGuideStaticFields,
 } from "./RecyclingGuideStaticFields/RecyclingGuideStaticFields";
-import "./recycling-guide-form.scss";
+import FormDynamicBlocks from "../Form/FormDynamicBlocks/FormDynamicBlocks";
+import RecyclingGuideSideBar from "./RecyclingGuideSideBar/RecyclingGuideSideBar";
 
 interface IRecyclingGuideFormProps {
-  data?: IServiceGuideDuTri;
+  data?: IRecyclingGuideFields;
+  staticFieldsOverride?: Array<TRecyclingGuideStaticFields>;
   dynamicFieldsOptions: Array<TDynamicFieldOption>;
   onSubmitValid: (data: FieldValues) => void;
   onPublish?: () => void;
   onDepublish?: () => void;
   onPreview?: () => void;
-  labels: IStaticRecyclingGuideStaticFieldsLabels;
-  hideImageField?: boolean;
-  hideTagField?: boolean;
-  hideShortDescriptionField?: boolean;
+  labels: IRecyclingGuideStaticFieldsLabels;
 }
 
 export default function RecyclingGuideForm({
   data,
+  staticFieldsOverride,
   dynamicFieldsOptions,
   onSubmitValid,
   onPublish,
   onDepublish,
   onPreview,
   labels,
-  hideImageField,
-  hideTagField,
-  hideShortDescriptionField,
 }: IRecyclingGuideFormProps) {
-  /* Local Data */
-  const form = useForm({
-    mode: "onChange",
-    shouldFocusError: false,
-  });
-  const [formData, setFormData] = useState<IServiceGuideDuTri>();
-
-  const [canFocus, setCanFocus] = useState(false);
-  const { handleSubmit } = form;
-
-  function onError() {
-    setCanFocus(true);
-  }
-
-  useEffect(() => {
-    if (form.formState.errors && canFocus) {
-      const errors = form.formState.errors;
-      const elements = Object.keys(errors)
-        .map((name) => {
-          if (name === "blocks" && errors[name]) {
-            const blocksErrors = { ...errors[name] };
-            return Object.keys(blocksErrors)
-              .map((block) => {
-                const blockErrors = _.get(blocksErrors, block);
-                return Object.keys(blockErrors).map((field) =>
-                  document.getElementById(`${name}.${block}.${field}`),
-                );
-              })
-              .flat();
-          }
-          return document.getElementById(name);
-        })
-        .flat()
-        .filter(removeNulls);
-      elements.sort(
-        (a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top,
-      );
-      if (elements.length > 0) {
-        const errorElement = elements[0];
-        setTimeout(() => {
-          errorElement.focus({ preventScroll: true });
-          errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 100);
-        setCanFocus(false);
-      }
-    }
-  }, [form, canFocus]);
-
-  useEffect(() => {
-    if (data) {
-      const mappedData = {
-        ...data,
-      };
-      setFormData(mappedData);
-      form.reset(mappedData);
-    } else {
-      form.reset();
-    }
-  }, [data, form]);
+  const fieldContent = (
+    <>
+      <RecyclingGuideStaticFields
+        labels={labels}
+        enabledFieldsOverride={staticFieldsOverride}
+      />
+      <FormDynamicBlocks
+        name={"contentBlock"}
+        blockOptions={dynamicFieldsOptions}
+      />
+    </>
+  );
+  const sidebarContent = <RecyclingGuideSideBar />;
+  const formOptions: IFormlayoutOptions<IRecyclingGuideFields> = {
+    onSubmitValid,
+    defaultValues: data,
+    nestedFieldsToFocus: ["contentBlock"],
+  };
+  const buttonOptions: IFormLayoutButtonsProps = {
+    onPublish,
+    onDepublish,
+    onPreview,
+  };
 
   return (
-    <>
-      <FormProvider {...form}>
-        <form
-          className="c-RecyclingGuideForm"
-          onSubmit={handleSubmit(onSubmitValid, onError)}
-        >
-          <div className="c-RecyclingGuideForm__Buttons">
-            <EditoButtons
-              status={formData?.status}
-              onPublish={onPublish}
-              onDepublish={onDepublish}
-              onPreview={onPreview}
-            />
-          </div>
-          <div className="c-RecyclingGuideForm__Form">
-            <div className="c-RecyclingGuideForm__Content">
-              <RecyclingGuideStaticFields
-                labels={labels}
-                hideImageField={hideImageField}
-                hideTagField={hideTagField}
-                hideShortDescriptionField={hideShortDescriptionField}
-              />
-              <EditoDynamicFields
-                blockOptions={dynamicFieldsOptions}
-                defaultValues={data?.blocks}
-              />
-            </div>
-
-            <div className="c-RecyclingGuideForm__SideBar">
-              <RecyclingGuideSiderBar
-                status={formData?.status}
-                creationDate={formData?.createdAt ? formData.createdAt : ""}
-                updateDate={formData?.updatedAt ? formData.updatedAt : ""}
-              />
-            </div>
-          </div>
-        </form>
-      </FormProvider>
-    </>
+    <FormLayout<IRecyclingGuideFields>
+      formContent={fieldContent}
+      sidebarContent={sidebarContent}
+      formOptions={formOptions}
+      buttonOptions={buttonOptions}
+    />
   );
 }

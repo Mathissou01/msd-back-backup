@@ -1,5 +1,5 @@
-import ContractLayout from "./contract-layout";
 import { useContract } from "../../hooks/useContract";
+import ContractLayout from "../../layouts/ContractLayout/ContractLayout";
 
 export default function ContractHomePage() {
   const { contract } = useContract();

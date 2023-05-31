@@ -69,17 +69,10 @@ query getFreeContentsBySubServiceId(
       id
       attributes {
         title
+        shortDescription
         status
         publishedDate
         unpublishedDate
-        tags {
-          data {
-            id
-            attributes {
-              name
-            }
-          }
-        }
       }
     }
   }

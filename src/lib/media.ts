@@ -72,25 +72,33 @@ export interface IFolder {
 }
 
 export interface ILocalFile {
-  name: string;
+  id?: string;
   alternativeText: string;
+  createdAt?: string;
   ext: string;
+  height?: number;
   mime: string;
+  name: string;
   size: number;
   url: string;
-  file?: File;
   width?: number;
-  height?: number;
-  createdAt?: string;
-  hash?: string;
-  provider?: string;
+  // Extended attributes
+  file?: File;
   folder?: string;
-  id?: string;
   isChecked?: boolean;
 }
 
 export function isMimeType(type: string): type is TAcceptedMimeTypes {
   return AcceptedMimeTypes.includes(type as TAcceptedMimeTypes);
+}
+
+export function isLocalFile(entity: unknown): entity is ILocalFile {
+  return (
+    typeof entity === "object" &&
+    !!entity &&
+    !("__typename" in entity) &&
+    "alternativeText" in entity
+  );
 }
 
 export function remapUploadFileEntityToLocalFile(
@@ -110,8 +118,6 @@ export function remapUploadFileEntityToLocalFile(
       width: file.width ?? 0,
       height: file.height ?? 0,
       createdAt: new Date(file.createdAt).toLocaleDateString(),
-      hash: file.hash,
-      provider: file.provider,
     };
   }
   return mappedData;

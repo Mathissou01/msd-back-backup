@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useGetServicesActiveQuery } from "../../../../graphql/codegen/generated-types";
+import { removeNulls } from "../../../../lib/utilities";
+import { TEditorialContentTypes } from "../../../../lib/editorial";
 import { useContract } from "../../../../hooks/useContract";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
-import WelcomeAndSearchEngineTab from "../../../../components/TabBlock/WelcomeAndSearchEngineTab/WelcomeAndSearchEngineTab";
-import RecyclingGuideTab from "../../../../components/TabBlock/RecyclingGuideTab/RecyclingGuideTab";
-import ServiceTab from "../../../../components/TabBlock/ServicesTab/ServicesTab";
-import TopContentTab from "../../../../components/TabBlock/TopContentTab/TopContentTab";
-import QuizAndTipsTab from "../../../../components/TabBlock/QuizAndTipsTab/QuizAndTipsTab";
-import EditoTab from "../../../../components/TabBlock/EditoTab/EditoTab";
-import { removeNulls } from "../../../../lib/utilities";
-import { TEditoContentTypes } from "../../../../lib/edito";
+import WelcomeAndSearchEngineTab from "../../../../components/TabBlock/Tabs/Homepage/WelcomeAndSearchEngineTab/WelcomeAndSearchEngineTab";
+import RecyclingGuideTab from "../../../../components/TabBlock/Tabs/Homepage/RecyclingGuideTab/RecyclingGuideTab";
+import ServiceTab from "../../../../components/TabBlock/Tabs/Homepage/ServicesTab/ServicesTab";
+import TopContentTab from "../../../../components/TabBlock/Tabs/Homepage/TopContentTab/TopContentTab";
+import QuizAndTipsTab from "../../../../components/TabBlock/Tabs/Homepage/QuizAndTipsTab/QuizAndTipsTab";
+import EditoTab from "../../../../components/TabBlock/Tabs/Homepage/EditoTab/EditoTab";
 
 export interface IServiceParameters {
   isServiceRecyclingGuideActivated: boolean;
@@ -91,7 +91,7 @@ export function PersonnalisationAccueilPage() {
           name: "keyMetrics",
           title: "Chiffres clés",
           content: <div />,
-          isEnabled: true,
+          isEnabled: false,
         },
         {
           name: "topContent",
@@ -116,16 +116,16 @@ export function PersonnalisationAccueilPage() {
             <EditoTab
               activatedTypes={[
                 serviceParameters.isQuizActivated
-                  ? ("quiz" as TEditoContentTypes)
+                  ? ("quiz" as TEditorialContentTypes)
                   : null,
                 serviceParameters.isTipsActivated
-                  ? ("tip" as TEditoContentTypes)
+                  ? ("tip" as TEditorialContentTypes)
                   : null,
                 serviceParameters.isEventsActivated
-                  ? ("event" as TEditoContentTypes)
+                  ? ("event" as TEditorialContentTypes)
                   : null,
                 serviceParameters.isNewsActivated
-                  ? ("news" as TEditoContentTypes)
+                  ? ("news" as TEditorialContentTypes)
                   : null,
                 // TODO
                 // serviceParameters.??

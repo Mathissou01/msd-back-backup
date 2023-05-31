@@ -3,6 +3,7 @@ mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
     data {
       id
       attributes {
+        customId
         title
         shortDescription
         newsSubService {
@@ -64,6 +65,7 @@ mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
             id
             picture {
               data {
+                id
                 attributes {
                   hash
                   mime
@@ -72,6 +74,10 @@ mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
                   size
                   url
                   alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
@@ -82,6 +88,7 @@ mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
             id
             document {
               data {
+                id
                 attributes {
                   hash
                   mime
@@ -90,6 +97,10 @@ mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
                   size
                   url
                   alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }

@@ -1,5 +1,4 @@
 query getTipsByContractId(
-  # $filters: TipFiltersInput
   $contractId: ID!
   $statusFilter: StringFilterInput
   $sort: [String]
@@ -86,32 +85,6 @@ query getTipsByContractId(
         status
         publishedDate
         unpublishedDate
-        image {
-          data {
-            id
-            attributes {
-              hash
-              mime
-              name
-              provider
-              size
-              url
-              alternativeText
-              ext
-              height
-              width
-              createdAt
-            }
-          }
-        }
-        tags {
-          data {
-            id
-            attributes {
-              name
-            }
-          }
-        }
       }
     }
   }

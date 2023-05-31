@@ -3,10 +3,8 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { isAbsoluteOrRelativeUrl } from "../../../../../lib/utilities";
-import {
-  ENavigationPages,
-  useNavigation,
-} from "../../../../../hooks/useNavigation";
+import { ENavigationPages } from "../../../../../lib/navigation";
+import { useNavigation } from "../../../../../hooks/useNavigation";
 import { IActiveMenu } from "../NavigationList";
 import "./navigation-list-menu.scss";
 

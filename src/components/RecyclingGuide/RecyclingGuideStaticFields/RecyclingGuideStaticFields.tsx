@@ -17,7 +17,7 @@ import FormFileInput from "../../Form/FormFileInput/FormFileInput";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
 import "./recycling-guide-static-fields.scss";
 
-export interface IStaticRecyclingGuideStaticFieldsLabels {
+export interface IRecyclingGuideStaticFieldsLabels {
   staticTitle: string;
   staticTags: string;
   staticWasteFamily: string;
@@ -28,19 +28,23 @@ export interface IStaticRecyclingGuideStaticFieldsLabels {
   staticImagePlaceholder: string;
 }
 
-interface IEditoStaticFieldsProps {
-  labels: IStaticRecyclingGuideStaticFieldsLabels;
-  maxCharacters?: number;
-  hideImageField?: boolean;
-  hideShortDescriptionField?: boolean;
-  hideTagField?: boolean;
+export type TRecyclingGuideStaticFields =
+  | "name"
+  | "wasteFamily"
+  | "tags"
+  | "picto"
+  | "flow"
+  | "recyclingGestureText";
+
+interface IRecyclingGuideStaticFieldsProps {
+  labels: IRecyclingGuideStaticFieldsLabels;
+  enabledFieldsOverride?: Array<TRecyclingGuideStaticFields>;
 }
 
 export default function RecyclingGuideStaticFields({
   labels,
-  hideImageField = false,
-  hideTagField = false,
-}: IEditoStaticFieldsProps) {
+  enabledFieldsOverride,
+}: IRecyclingGuideStaticFieldsProps) {
   /* Static Data */
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
   const acceptedTypes: Array<TAcceptedMimeTypes> = [
@@ -53,7 +57,22 @@ export default function RecyclingGuideStaticFields({
     "image/dvu",
   ];
 
-  /** Local Data */
+  /* Methods */
+  function wasteFamilySelectDisplayTransformFunction(
+    wasteFamily: WasteFamilyEntity,
+  ): string {
+    return wasteFamily.attributes?.familyName ?? "";
+  }
+
+  function hasFieldEnabled(fieldName: TRecyclingGuideStaticFields) {
+    return (
+      !enabledFieldsOverride ||
+      enabledFieldsOverride?.find((field) => field === fieldName)
+    );
+  }
+
+  /* Local Data */
+  const { contractId } = useContract();
   const [tagOptions, setTagOptions] = useState<Array<ICommonSelectOption>>([]);
   const [wasteFamilyOptions, setWasteFamilyOptions] = useState<
     Array<IOptionWrapper<WasteFamilyEntity>>
@@ -62,15 +81,14 @@ export default function RecyclingGuideStaticFields({
     { label: string; value: string }[]
   >([]);
 
-  /* External Data */
-  const { contractId } = useContract();
   const { data: tagsData } = useGetTagsByContractIdQuery({
     variables: { contractId },
+    fetchPolicy: "network-only",
   });
-  const { data: getWasteFamilies } = useGetWasteFamiliesByContractIdQuery({
+  const { data: wasteFamiliesData } = useGetWasteFamiliesByContractIdQuery({
     variables: { contractId },
+    fetchPolicy: "network-only",
   });
-
   const { data: activeFlowData } = useGetFlowsByContractIdQuery({
     variables: {
       filters: {
@@ -84,33 +102,31 @@ export default function RecyclingGuideStaticFields({
         },
       },
     },
+    fetchPolicy: "network-only",
   });
-
-  /** Method */
-  function wasteFamilySelectDisplayTransformFunction(
-    wasteFamily: WasteFamilyEntity,
-  ): string {
-    return wasteFamily.attributes?.familyName ?? "";
-  }
 
   useEffect(() => {
     if (tagsData) {
       const mappedTags: Array<ICommonSelectOption> =
-        tagsData.tags?.data?.map((tag) => {
-          return {
-            value: tag?.id ?? "",
-            label: tag?.attributes?.name ?? "",
-          };
-        }) ?? [];
+        tagsData.tags?.data
+          ?.map((tag) => {
+            if (tag?.id && tag.attributes?.name) {
+              return {
+                value: tag.id,
+                label: tag.attributes.name,
+              };
+            }
+          })
+          .filter(removeNulls) ?? [];
       setTagOptions(mappedTags);
     }
 
     if (
-      getWasteFamilies &&
-      getWasteFamilies.recyclingGuideService?.data?.attributes?.wasteFamilies
+      wasteFamiliesData &&
+      wasteFamiliesData.recyclingGuideService?.data?.attributes?.wasteFamilies
     ) {
       const mappedWasteFamily: Array<IOptionWrapper<WasteFamilyEntity> | null> =
-        getWasteFamilies.recyclingGuideService.data.attributes.wasteFamilies.data.map(
+        wasteFamiliesData.recyclingGuideService?.data?.attributes?.wasteFamilies?.data?.map(
           (wasteFamily) => {
             return wasteFamily ? { option: wasteFamily } : null;
           },
@@ -129,7 +145,7 @@ export default function RecyclingGuideStaticFields({
           .filter(removeNulls);
       setactiveFlowOptions(mappedActiveFlow);
     }
-  }, [tagsData, getWasteFamilies, activeFlowData]);
+  }, [tagsData, wasteFamiliesData, activeFlowData]);
 
   return (
     <>
@@ -137,24 +153,28 @@ export default function RecyclingGuideStaticFields({
         <span className="c-RecyclingGuideStaticFields__RequiredLabel">
           {mandatoryFields}
         </span>
-        <div className="c-RecyclingGuideStaticFields__Name">
-          <FormInput
-            type="text"
-            name="name"
-            label={labels.staticTitle}
-            isRequired={true}
-          />
-        </div>
-        <div className="c-RecyclingGuideStaticFields__WasteFamily">
-          <FormSelect<WasteFamilyEntity>
-            label={labels.staticWasteFamily}
-            name="wasteFamily"
-            displayTransform={wasteFamilySelectDisplayTransformFunction}
-            options={wasteFamilyOptions}
-            optionKey={"id"}
-          />
-        </div>
-        {!hideTagField && (
+        {hasFieldEnabled("name") && (
+          <div className="c-RecyclingGuideStaticFields__Name">
+            <FormInput
+              type="text"
+              name="name"
+              label={labels.staticTitle}
+              isRequired={true}
+            />
+          </div>
+        )}
+        {hasFieldEnabled("wasteFamily") && (
+          <div className="c-RecyclingGuideStaticFields__WasteFamily">
+            <FormSelect<WasteFamilyEntity>
+              label={labels.staticWasteFamily}
+              name="wasteFamily"
+              displayTransform={wasteFamilySelectDisplayTransformFunction}
+              options={wasteFamilyOptions}
+              optionKey={"id"}
+            />
+          </div>
+        )}
+        {hasFieldEnabled("tags") && (
           <div className="c-RecyclingGuideStaticFields__Tags">
             <FormSingleMultiselect
               label={labels.staticTags}
@@ -166,12 +186,13 @@ export default function RecyclingGuideStaticFields({
             />
           </div>
         )}
-        {!hideImageField && (
-          <div className="c-EditoDynamicFields__Picto">
+        {hasFieldEnabled("picto") && (
+          <div className="c-RecyclingGuideStaticFields__Picto">
             <FormFileInput
               name="picto"
               label={labels.staticPicto}
               isRequired={true}
+              isPriority={true}
               validationLabel={labels.staticImageValidation}
               placeholder={labels.staticImagePlaceholder}
               acceptedMimeTypes={acceptedTypes}

@@ -1,9 +1,46 @@
 mutation deleteFreeContent($deleteFreeContentId: ID!) {
   deleteFreeContent(id: $deleteFreeContentId) {
     data {
+      id
       attributes {
         title
         shortDescription
+        freeContentSubService {
+          data {
+            id
+          }
+        }
+        status
+        publishedDate
+        unpublishedDate
+        createdAt
+        updatedAt
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        image {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+              ext
+              height
+              width
+              createdAt
+            }
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id
@@ -27,9 +64,19 @@ mutation deleteFreeContent($deleteFreeContentId: ID!) {
             id
             picture {
               data {
+                id
                 attributes {
+                  hash
+                  mime
                   name
+                  provider
+                  size
                   url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
@@ -40,16 +87,22 @@ mutation deleteFreeContent($deleteFreeContentId: ID!) {
             id
             document {
               data {
+                id
                 attributes {
+                  hash
+                  mime
                   name
+                  provider
+                  size
                   url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
                 }
               }
             }
-          }
-          ... on Error {
-            code
-            message
           }
         }
       }

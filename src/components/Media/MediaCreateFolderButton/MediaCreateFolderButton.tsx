@@ -80,6 +80,7 @@ export default function MediaCreateFolderButton({
   }
 
   /* External Data */
+  // TODO: try to use error of mutation
   const [createNewFolder, { loading: mutationLoading }] =
     useCreateNewFolderMutation();
 

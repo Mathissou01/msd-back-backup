@@ -50,32 +50,17 @@ export default function FlowModal({
     collectDropOffs: "Lieux de dépot",
     collectVoluntaries: "Point d'apport volontaire",
   };
-
   const collectionMethodsName = {
     collectDoorToDoors: "Collecte porte à porte",
     collectDropOffs: "Collecte lieux de dépot",
     collectVoluntaries: "Collecte point d'apport volontaire",
   };
-
   const buttonLabels = {
     save: "Enregistrer",
     cancel: "Annuler",
   };
 
-  /* Local Data */
-  const formValidationMode = "onChange";
-  const form = useForm({
-    mode: formValidationMode,
-  });
-
-  const { handleSubmit, watch } = form;
-
-  /* External Data */
-  const { data: dataColors } = useGetColorsQuery();
-  const { data: collectionMethods } =
-    useGetCollectionMethodsByContractIdQuery();
-
-  /*Methods */
+  /* Methods */
   function getOptions(data: Array<FlowColorEntity>) {
     return mapOptionsInWrappers<FlowColorEntity>(data);
   }
@@ -83,6 +68,19 @@ export default function FlowModal({
   function colorDisplayTransformFunction(item: FlowColorEntity): string {
     return item.attributes?.name ?? "";
   }
+
+  /* Local Data */
+  const form = useForm({
+    mode: "onChange",
+  });
+  const { handleSubmit, watch } = form;
+
+  const { data: dataColors } = useGetColorsQuery({
+    fetchPolicy: "network-only",
+  });
+  const { data: collectionMethods } = useGetCollectionMethodsByContractIdQuery({
+    fetchPolicy: "network-only",
+  });
 
   if (!dataColors?.flowColors) {
     return <></>;
@@ -96,200 +94,203 @@ export default function FlowModal({
           onSubmitValid({ ...formData, id }),
         )}
       >
-        <div className="c-FlowModal__InformationsTitle">{formLabels.title}</div>
-        <div className="c-FlowModal__FlowName">
-          <FormInput
-            type="text"
-            name="name"
-            label={formLabels.name}
-            defaultValue={name}
-            isRequired={true}
+        <div className="c-FlowModal__Container">
+          <div className="c-FlowModal__InformationsTitle">
+            {formLabels.title}
+          </div>
+          <div className="c-FlowModal__FlowName">
+            <FormInput
+              type="text"
+              name="name"
+              label={formLabels.name}
+              defaultValue={name}
+              isRequired={true}
+            />
+          </div>
+          <div className="c-FlowModal__RecyclingGesture"></div>
+          <FormRadioInput
+            name="recyclingGesture"
+            displayName={formLabels.recyclingGesture}
+            defaultValue={recyclingGesture}
+            options={[
+              { label: "A trier", value: Enum_Flow_Recyclinggesture.ToSort },
+              { label: "A jeter", value: Enum_Flow_Recyclinggesture.ToTrash },
+              {
+                label: "Poubelle interdite",
+                value: Enum_Flow_Recyclinggesture.NoTrash,
+              },
+            ]}
           />
-        </div>
-        <div className="c-FlowModal__RecyclingGesture"></div>
-        <FormRadioInput
-          name="recyclingGesture"
-          displayName={formLabels.recyclingGesture}
-          defaultValue={recyclingGesture}
-          options={[
-            { label: "A trier", value: Enum_Flow_Recyclinggesture.ToSort },
-            { label: "A jeter", value: Enum_Flow_Recyclinggesture.ToTrash },
-            {
-              label: "Poubelle interdite",
-              value: Enum_Flow_Recyclinggesture.NoTrash,
-            },
-          ]}
-        />
-        <div className="c-FlowModal__ColorAndHexagonalCode">
-          <div className="c-FlowModal__Color">
-            {" "}
-            <FormSelect<FlowColorEntity>
-              name="color"
-              label={formLabels.color}
-              displayTransform={colorDisplayTransformFunction}
-              options={getOptions(dataColors?.flowColors?.data ?? [])}
-              optionKey={"id"}
-              defaultValue={
-                dataColors?.flowColors?.data.find(
-                  (dataColor) => dataColor.id === color,
-                ) ?? undefined
-              }
-            />
-          </div>
-          <div
-            className="c-FlowModal__HexagonalCode"
-            style={{
-              display:
-                form.getValues().color?.attributes?.name === "Personnalisé"
-                  ? "block"
-                  : "none",
-            }}
-          >
-            <FormInput
-              type="text"
-              name="code"
-              label={formLabels.hexagonalCode}
-              defaultValue={code ?? ""}
-            />
-          </div>
-          <div
-            className="c-FlowModal__HexagonalCode"
-            style={{
-              display:
-                form.getValues().color?.attributes?.name !== "Personnalisé"
-                  ? "block"
-                  : "none",
-            }}
-          >
-            <FormInput
-              type="text"
-              name="hexaCode"
-              label={formLabels.hexagonalCode}
-              placeholder={form.getValues().color?.attributes?.hexaCode}
-              isDisabled
-            />
-          </div>
-
-          <div
-            className="c-FlowModal__VisualHexagonalCode"
-            style={{
-              backgroundColor:
-                form.getValues().color?.attributes?.name === "Personnalisé"
-                  ? watch("code")
-                  : watch("color")?.attributes?.hexaCode,
-            }}
-          ></div>
-        </div>
-
-        <FormLabel label={formLabels.collectionMethods} />
-        <div className="c-FlowModal__CollectionMethods">
-          <div className="c-FlowModal__CollectionMethodsChoices">
-            <FormCheckbox
-              name={"collectDoorToDoors"}
-              label={collectDropOffLabels.collectDoorToDoors}
-              defaultChecked={collectDoorToDoors.length > 0 ? true : false}
-            />
-            <FormCheckbox
-              name={"collectDropOffs"}
-              label={collectDropOffLabels.collectDropOffs}
-              defaultChecked={collectDropOffs.length > 0 ? true : false}
-            />
-            <FormCheckbox
-              name={"collectVoluntaries"}
-              label={collectDropOffLabels.collectVoluntaries}
-              defaultChecked={collectVoluntaries.length > 0 ? true : false}
-            />
-          </div>
-
-          {(form.getValues().collectDoorToDoors ||
-            form.getValues().collectDropOffs ||
-            form.getValues().collectVoluntaries) && (
-            <div className="c-FlowModal__CollectionMethodsDetails">
-              {form.getValues().collectDoorToDoors && (
-                <>
-                  <FormLabel label={collectionMethodsName.collectDoorToDoors} />
-                  <div className="c-FlowModal__CollectionMethodsDetailsDoorToDoor">
-                    {cleanCollectionMethods(
-                      collectionMethods?.collectDoorToDoors?.data ?? [],
-                    ).map((doorToDoorCollectionMethod) => (
-                      <FormCheckbox
-                        key={doorToDoorCollectionMethod.id}
-                        name={"doorToDoor/" + doorToDoorCollectionMethod.id}
-                        label={doorToDoorCollectionMethod.name}
-                        defaultChecked={
-                          collectDoorToDoors.find(
-                            (collectionMethod) =>
-                              collectionMethod.id ===
-                              doorToDoorCollectionMethod.id,
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {form.getValues().collectDropOffs && (
-                <>
-                  {" "}
-                  <FormLabel label={collectionMethodsName.collectDropOffs} />
-                  <div className="c-FlowModal__CollectionMethodsDetailsCollectDropOff">
-                    {cleanCollectionMethods(
-                      collectionMethods?.collectDropOffs?.data ?? [],
-                    ).map((collectDropOffCollectionMethod) => (
-                      <FormCheckbox
-                        key={collectDropOffCollectionMethod.id}
-                        name={
-                          "collectDropOffs/" + collectDropOffCollectionMethod.id
-                        }
-                        label={collectDropOffCollectionMethod.name}
-                        defaultChecked={
-                          collectDropOffs.find(
-                            (collectionMethod) =>
-                              collectionMethod.id ===
-                              collectDropOffCollectionMethod.id,
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {form.getValues().collectVoluntaries && (
-                <>
-                  <FormLabel label={collectionMethodsName.collectVoluntaries} />
-                  <div className="c-FlowModal__CollectionMethodsDetailsCollectVoluntaries">
-                    {cleanCollectionMethods(
-                      collectionMethods?.collectVoluntaries?.data ?? [],
-                    ).map((collectVoluntariesCollectionMethod) => (
-                      <FormCheckbox
-                        key={collectVoluntariesCollectionMethod.id}
-                        name={
-                          "collectVoluntaries/" +
-                          collectVoluntariesCollectionMethod.id
-                        }
-                        label={collectVoluntariesCollectionMethod.name}
-                        defaultChecked={
-                          collectVoluntaries.find(
-                            (collectionMethod) =>
-                              collectionMethod.id ===
-                              collectVoluntariesCollectionMethod.id,
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
+          <div className="c-FlowModal__ColorAndHexagonalCode">
+            <div className="c-FlowModal__Color">
+              {" "}
+              <FormSelect<FlowColorEntity>
+                name="color"
+                label={formLabels.color}
+                displayTransform={colorDisplayTransformFunction}
+                options={getOptions(dataColors?.flowColors?.data ?? [])}
+                optionKey={"id"}
+                defaultValue={
+                  dataColors?.flowColors?.data.find(
+                    (dataColor) => dataColor.id === color,
+                  ) ?? undefined
+                }
+              />
             </div>
-          )}
+            <div
+              className="c-FlowModal__HexagonalCode"
+              style={{
+                display:
+                  form.getValues().color?.attributes?.name === "Personnalisé"
+                    ? "block"
+                    : "none",
+              }}
+            >
+              <FormInput
+                type="text"
+                name="code"
+                label={formLabels.hexagonalCode}
+                defaultValue={code ?? ""}
+              />
+            </div>
+            <div
+              className="c-FlowModal__HexagonalCode"
+              style={{
+                display:
+                  form.getValues().color?.attributes?.name !== "Personnalisé"
+                    ? "block"
+                    : "none",
+              }}
+            >
+              <FormInput
+                type="text"
+                name="hexaCode"
+                label={formLabels.hexagonalCode}
+                placeholder={form.getValues().color?.attributes?.hexaCode}
+                isDisabled
+              />
+            </div>
+
+            <div
+              className="c-FlowModal__VisualHexagonalCode"
+              style={{
+                backgroundColor:
+                  form.getValues().color?.attributes?.name === "Personnalisé"
+                    ? watch("code")
+                    : watch("color")?.attributes?.hexaCode,
+              }}
+            ></div>
+          </div>
+
+          <FormLabel label={formLabels.collectionMethods} />
+          <div className="c-FlowModal__CollectionMethods">
+            <div className="c-FlowModal__CollectionMethodsChoices">
+              <FormCheckbox
+                name={"collectDoorToDoors"}
+                label={collectDropOffLabels.collectDoorToDoors}
+                defaultChecked={collectDoorToDoors.length > 0}
+              />
+              <FormCheckbox
+                name={"collectDropOffs"}
+                label={collectDropOffLabels.collectDropOffs}
+                defaultChecked={collectDropOffs.length > 0}
+              />
+              <FormCheckbox
+                name={"collectVoluntaries"}
+                label={collectDropOffLabels.collectVoluntaries}
+                defaultChecked={collectVoluntaries.length > 0}
+              />
+            </div>
+
+            {(form.getValues().collectDoorToDoors ||
+              form.getValues().collectDropOffs ||
+              form.getValues().collectVoluntaries) && (
+              <div className="c-FlowModal__CollectionMethodsDetails">
+                {form.getValues().collectDoorToDoors && (
+                  <>
+                    <FormLabel
+                      label={collectionMethodsName.collectDoorToDoors}
+                    />
+                    <div className="c-FlowModal__CollectionMethodsDetailsDoorToDoor">
+                      {cleanCollectionMethods(
+                        collectionMethods?.collectDoorToDoors?.data ?? [],
+                      ).map((doorToDoorCollectionMethod) => (
+                        <FormCheckbox
+                          key={doorToDoorCollectionMethod.id}
+                          name={"doorToDoor/" + doorToDoorCollectionMethod.id}
+                          label={doorToDoorCollectionMethod.name}
+                          defaultChecked={
+                            !!collectDoorToDoors.find(
+                              (collectionMethod) =>
+                                collectionMethod.id ===
+                                doorToDoorCollectionMethod.id,
+                            )
+                          }
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {form.getValues().collectDropOffs && (
+                  <>
+                    {" "}
+                    <FormLabel label={collectionMethodsName.collectDropOffs} />
+                    <div className="c-FlowModal__CollectionMethodsDetailsCollectDropOff">
+                      {cleanCollectionMethods(
+                        collectionMethods?.collectDropOffs?.data ?? [],
+                      ).map((collectDropOffCollectionMethod) => (
+                        <FormCheckbox
+                          key={collectDropOffCollectionMethod.id}
+                          name={
+                            "collectDropOffs/" +
+                            collectDropOffCollectionMethod.id
+                          }
+                          label={collectDropOffCollectionMethod.name}
+                          defaultChecked={
+                            !!collectDropOffs.find(
+                              (collectionMethod) =>
+                                collectionMethod.id ===
+                                collectDropOffCollectionMethod.id,
+                            )
+                          }
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {form.getValues().collectVoluntaries && (
+                  <>
+                    <FormLabel
+                      label={collectionMethodsName.collectVoluntaries}
+                    />
+                    <div className="c-FlowModal__CollectionMethodsDetailsCollectVoluntaries">
+                      {cleanCollectionMethods(
+                        collectionMethods?.collectVoluntaries?.data ?? [],
+                      ).map((collectVoluntariesCollectionMethod) => (
+                        <FormCheckbox
+                          key={collectVoluntariesCollectionMethod.id}
+                          name={
+                            "collectVoluntaries/" +
+                            collectVoluntariesCollectionMethod.id
+                          }
+                          label={collectVoluntariesCollectionMethod.name}
+                          defaultChecked={
+                            !!collectVoluntaries.find(
+                              (collectionMethod) =>
+                                collectionMethod.id ===
+                                collectVoluntariesCollectionMethod.id,
+                            )
+                          }
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
         <div className="c-FlowModal__Buttons">
           <div className="c-FlowModal__ButtonsSave">

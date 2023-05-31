@@ -85,7 +85,7 @@ export default function RootHomePage() {
       cell: (row) => (
         <Link
           href={`/${row.id}/gestion/informations`}
-          className="o-EditoPage__Link"
+          className="o-TablePage__Link"
         >
           {row.clientName}
         </Link>
@@ -153,6 +153,8 @@ export default function RootHomePage() {
       );
     }
   }, [searchText]);
+
+  // TODO: detect ENTER key for search filter
 
   return (
     <>

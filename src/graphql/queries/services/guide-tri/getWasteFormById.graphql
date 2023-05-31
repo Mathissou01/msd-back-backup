@@ -3,6 +3,7 @@ query getWasteFormById($wasteFormId: ID) {
     data {
       id
       attributes {
+        customId
         name
         updatedAt
         status

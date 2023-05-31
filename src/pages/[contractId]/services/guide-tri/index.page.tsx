@@ -4,13 +4,13 @@ import {
   useGetRecyclingGuideServiceByIdQuery,
   useUpdateRecyclingGuideServiceMutation,
 } from "../../../../graphql/codegen/generated-types";
-import ContractLayout from "../../contract-layout";
+import { useContract } from "../../../../hooks/useContract";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
-import WasteFamilyTab from "../../../../components/TabBlock/WasteFamilyTab/WasteFamilyTab";
-import WasteFormTab from "../../../../components/TabBlock/WasteFormTab/WasteFormTab";
-import { useContract } from "../../../../hooks/useContract";
+import WasteFormTab from "../../../../components/TabBlock/Tabs/RecyclingGuide/WasteFormTab/WasteFormTab";
+import WasteFamilyTab from "../../../../components/TabBlock/Tabs/RecyclingGuide/WasteFamilyTab/WasteFamilyTab";
 import "./guide-tri-page.scss";
 
 export function GuideTriPage() {
@@ -22,19 +22,27 @@ export function GuideTriPage() {
 
   /* External Data */
   const { contractId, contract } = useContract();
-  const { data: getRecyclingGuideServiceData } =
-    useGetRecyclingGuideServiceByIdQuery({
-      variables: {
-        recyclingGuideServiceId:
-          contract.attributes?.recyclingGuideService?.data?.id ?? "1",
-      },
-    });
+  const {
+    data: recyclingGuideData,
+    loading: recyclingGuideLoading,
+    error: recyclingGuideError,
+  } = useGetRecyclingGuideServiceByIdQuery({
+    variables: {
+      recyclingGuideServiceId:
+        contract.attributes?.recyclingGuideService?.data?.id,
+    },
+    fetchPolicy: "network-only",
+  });
   const [updateRecyclingGuideServiceMutation, { loading, error }] =
-    useUpdateRecyclingGuideServiceMutation();
+    useUpdateRecyclingGuideServiceMutation({
+      refetchQueries: ["getRecyclingGuideServiceById"],
+    });
 
   /* Local Data */
   const [tabs, setTabs] = useState<Array<ITab>>([]);
   const [checked, setChecked] = useState<boolean>(false);
+  const isLoading = recyclingGuideLoading || loading;
+  const errors = [recyclingGuideError, error];
 
   useEffect(() => {
     const tabs = [
@@ -68,23 +76,21 @@ export function GuideTriPage() {
 
   useEffect(() => {
     if (
-      getRecyclingGuideServiceData &&
-      getRecyclingGuideServiceData.recyclingGuideService?.data?.attributes
-        ?.orderExtension
+      recyclingGuideData &&
+      recyclingGuideData.recyclingGuideService?.data?.attributes?.orderExtension
     ) {
       setChecked(
-        getRecyclingGuideServiceData.recyclingGuideService.data.attributes
-          .orderExtension,
+        recyclingGuideData.recyclingGuideService.data.attributes.orderExtension,
       );
     }
-  }, [getRecyclingGuideServiceData]);
+  }, [recyclingGuideData]);
 
   async function handleChange() {
     setChecked(!checked);
-    if (getRecyclingGuideServiceData?.recyclingGuideService?.data?.id) {
+    if (recyclingGuideData?.recyclingGuideService?.data?.id) {
       const variables = {
         updateRecyclingGuideServiceId:
-          getRecyclingGuideServiceData?.recyclingGuideService.data.id,
+          recyclingGuideData?.recyclingGuideService.data.id,
         data: {
           orderExtension: !checked,
         },
@@ -102,7 +108,7 @@ export function GuideTriPage() {
   return (
     <div className="c-GuideTriPage">
       <PageTitle title={label.title} />
-      <CommonLoader isLoading={loading} errors={[error]}>
+      <CommonLoader isLoading={isLoading} errors={errors}>
         <form className="c-GuideTriPage__Form">
           <input
             type="checkbox"

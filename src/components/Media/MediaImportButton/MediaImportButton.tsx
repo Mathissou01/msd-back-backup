@@ -41,16 +41,6 @@ export default function MediaImportButton({
     cancelBtn: "Annuler",
   };
 
-  /* Local Data */
-  const modalRef = useRef<CommonModalWrapperRef>(null);
-  const EditModalRef = useRef<CommonModalWrapperRef>(null);
-  const [selectedFiles, setSelectedFiles] = useState<ILocalFile[]>([]);
-  const [activeModal, setActiveModal] = useState<ModalStatus>(
-    ModalStatus.MAIN_MODAL,
-  );
-  const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
-  const [tabs, setTabs] = useState<Array<ITab>>([]);
-
   /* Methods */
   const handleCloseModal = () => {
     switch (activeModal) {
@@ -118,6 +108,16 @@ export default function MediaImportButton({
 
     modalRef.current?.toggleModal(true);
   };
+
+  /* Local Data */
+  const modalRef = useRef<CommonModalWrapperRef>(null);
+  const EditModalRef = useRef<CommonModalWrapperRef>(null);
+  const [selectedFiles, setSelectedFiles] = useState<ILocalFile[]>([]);
+  const [activeModal, setActiveModal] = useState<ModalStatus>(
+    ModalStatus.MAIN_MODAL,
+  );
+  const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
+  const [tabs, setTabs] = useState<Array<ITab>>([]);
 
   useEffect(() => {
     const handleDrop = (event: React.DragEvent<HTMLFormElement>) => {

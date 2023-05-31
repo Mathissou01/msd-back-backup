@@ -3,10 +3,9 @@ query getFreeContentById($freeContentId: ID) {
     data {
       id
       attributes {
+        customId
         title
         shortDescription
-        createdAt
-        updatedAt
         freeContentSubService {
           data {
             id
@@ -15,6 +14,8 @@ query getFreeContentById($freeContentId: ID) {
         status
         publishedDate
         unpublishedDate
+        createdAt
+        updatedAt
         tags {
           data {
             id
@@ -34,6 +35,10 @@ query getFreeContentById($freeContentId: ID) {
               size
               url
               alternativeText
+              ext
+              height
+              width
+              createdAt
             }
           }
         }
@@ -60,6 +65,7 @@ query getFreeContentById($freeContentId: ID) {
             id
             picture {
               data {
+                id
                 attributes {
                   hash
                   mime
@@ -68,6 +74,10 @@ query getFreeContentById($freeContentId: ID) {
                   size
                   url
                   alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
                 }
               }
             }
@@ -80,14 +90,17 @@ query getFreeContentById($freeContentId: ID) {
               data {
                 id
                 attributes {
-                  name
-                  ext
-                  height
-                  width
+                  hash
                   mime
-                  url
+                  name
+                  provider
                   size
-                  formats
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
                 }
               }
             }

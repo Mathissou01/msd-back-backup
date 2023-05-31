@@ -58,7 +58,6 @@ export default function EditModal({
     return mapOptionsInWrappers(sortedFolderHierarchy);
   };
 
-  /* Local Data */
   const isImageToUpload = () => fileToEdit?.mime.split("/")[0] === "image";
 
   return (

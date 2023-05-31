@@ -3,12 +3,21 @@ query getContactUsById($contactUsId: ID) {
     data {
       id
       attributes {
+        customId
         title
         status
         publishedDate
         unpublishedDate
         createdAt
         updatedAt
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id
@@ -32,6 +41,7 @@ query getContactUsById($contactUsId: ID) {
             id
             picture {
               data {
+                id
                 attributes {
                   hash
                   mime
@@ -70,10 +80,6 @@ query getContactUsById($contactUsId: ID) {
                 }
               }
             }
-          }
-          ... on Error {
-            message
-            code
           }
         }
       }

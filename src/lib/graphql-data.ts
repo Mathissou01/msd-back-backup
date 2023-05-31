@@ -3,16 +3,15 @@ import {
   GetFooterPageQuery,
   GetMenuPageQuery,
   GetQuizAndTipsBlockTabQuery,
-  GetRecyclingBlockTabQuery,
-  GetSearchEngineTabQuery,
+  GetRecyclingGuideBlockTabQuery,
+  GetSearchEngineBlockTabQuery,
   GetServicesBlockTabQuery,
-  GetTopContentTabQuery,
+  GetTopContentBlockTabQuery,
   QuizAndTipsBlockEntity,
   QuizEntity,
   RecyclingGuideBlockEntity,
   SearchEngineBlockEntity,
   TipEntity,
-  GetAllFoldersHierarchyQuery,
 } from "../graphql/codegen/generated-types";
 import { IServiceLink, remapServiceLinksDynamicZone } from "./service-links";
 
@@ -22,7 +21,7 @@ export function extractMenu(data: GetMenuPageQuery) {
 }
 
 /* Homepage */
-export function extractSearchEngineBlock(data: GetSearchEngineTabQuery) {
+export function extractSearchEngineBlock(data: GetSearchEngineBlockTabQuery) {
   const searchEngineBlock: SearchEngineBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.searchEngineBlock?.data ?? null;
@@ -30,7 +29,9 @@ export function extractSearchEngineBlock(data: GetSearchEngineTabQuery) {
   return { searchEngineBlock };
 }
 
-export function extractRecyclingGuideBlock(data: GetRecyclingBlockTabQuery) {
+export function extractRecyclingGuideBlock(
+  data: GetRecyclingGuideBlockTabQuery,
+) {
   const recyclingGuideBlock: RecyclingGuideBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.recyclingGuideBlock?.data ?? null;
@@ -53,7 +54,7 @@ export function extractServicesBlock(data: GetServicesBlockTabQuery) {
   };
 }
 
-export function extractTopContentBlock(data: GetTopContentTabQuery) {
+export function extractTopContentBlock(data: GetTopContentBlockTabQuery) {
   const topContentBlock = data.getTopContentBlockDTO ?? null;
   const topContents = data.getTopContentDTOs ?? null;
 
@@ -77,13 +78,6 @@ export function extractEditoBlock(data: GetEditoBlockTabQuery) {
   const editoContents = data.getEditoContentDTOs ?? null;
 
   return { editoBlock, editoContents };
-}
-
-/* Edito */
-export function extractFoldersHierarchy(data: GetAllFoldersHierarchyQuery) {
-  const folderHierarchy = data.getAllFoldersHierarchy ?? null;
-  // const pathFolder = data.getAllFoldersHierarchy[0]?.path ?? null;
-  return folderHierarchy;
 }
 
 /* Footer */

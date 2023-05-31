@@ -38,7 +38,7 @@ export default function MediaImportUrl({
     const urls: Array<string> = submitData["url"].split("\n");
 
     for (const url of urls) {
-      if (onPatternValidation(url) === false) {
+      if (!onPatternValidation(url)) {
         setError("url", { message: "une URL est invalide" });
         return;
       }
@@ -97,16 +97,16 @@ export default function MediaImportUrl({
                   fr.readAsDataURL(file);
                 } else {
                   selectedFilesInstance.push({
+                    alternativeText: "",
+                    createdAt: file.lastModified.toString(),
+                    ext: `.${extension}`,
+                    height: 0,
+                    mime: mimeType,
                     name: file.name,
                     size: file.size,
                     url: URL.createObjectURL(blob),
-                    file: file,
-                    mime: mimeType,
-                    ext: `.${extension}`,
-                    alternativeText: "",
                     width: 0,
-                    height: 0,
-                    createdAt: file.lastModified.toString(),
+                    file: file,
                   });
                 }
 
@@ -137,9 +137,7 @@ export default function MediaImportUrl({
   function onPatternValidation(url: string): boolean {
     const regex =
       /^https?:\/\/.*\/.*\.(png|gif|jpeg|jpg|svg|dvu|ico|tiff|pdf|csv|zip|xls|xlsx|json)\??.*$/gim;
-
-    if (url.match(regex)) return true;
-    return false;
+    return !!url.match(regex);
   }
 
   return (

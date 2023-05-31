@@ -1,8 +1,8 @@
 import { RefObject, useState } from "react";
+import { ILocalFile, uploadFile } from "../../../../../lib/media";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import MediaCard from "../../../../Media/MediaCard/MediaCard";
-import { ILocalFile, uploadFile } from "../../../../../lib/media";
 
 interface IDragDropModalProps {
   modalRef: RefObject<CommonModalWrapperRef>;

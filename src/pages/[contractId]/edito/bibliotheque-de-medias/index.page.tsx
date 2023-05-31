@@ -1,5 +1,5 @@
 import React from "react";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonBibliothequeMedia from "../../../../components/Common/CommonBibliothequeMedia/CommonBibliothequeMedia";
 import "./edito-bibliotheque-de-medias.scss";

@@ -16,7 +16,7 @@ import { formatDate, removeNulls } from "../../../../../../lib/utilities";
 import { EStatusLabel } from "../../../../../../lib/status";
 import { useContract } from "../../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../../hooks/useNavigation";
-import ContractLayout from "../../../../contract-layout";
+import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
 import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
@@ -49,7 +49,7 @@ export function EditoActualitesVersionPage({ customId }: { customId: string }) {
 
   /* Methods */
   async function handleLazyLoad(params: ICurrentPagination<INewsTableRow>) {
-    return getNewsQuery({
+    void getNewsQuery({
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
@@ -64,10 +64,10 @@ export function EditoActualitesVersionPage({ customId }: { customId: string }) {
   }
 
   function onDuplicate(row: INewsTableRow) {
-    getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
+    void getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
       const originalNew = data.data?.new?.data?.attributes;
       if (originalNew) {
-        createNewMutation({
+        void createNewMutation({
           variables: {
             data: {
               title: `${originalNew.title} Ajout`,

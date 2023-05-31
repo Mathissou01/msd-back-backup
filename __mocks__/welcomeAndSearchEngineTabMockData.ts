@@ -1,9 +1,9 @@
-import { GetSearchEngineTabDocument } from "../src/graphql/codegen/generated-types";
+import { GetSearchEngineBlockTabDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetSearchEngineTabDocument,
+      query: GetSearchEngineBlockTabDocument,
       variables: {
         contractId: "0",
       },

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Link from "next/link";
+import { ENavigationPages } from "../../../../../lib/navigation";
 import {
-  ENavigationPages,
   isNavigationPath,
   useNavigation,
 } from "../../../../../hooks/useNavigation";

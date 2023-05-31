@@ -46,6 +46,16 @@ query getContractById($contractId: ID!) {
             }
           }
         }
+        contractCustomization {
+          data {
+            id
+            attributes {
+              primaryColor
+              secondaryColor
+              textContrast
+            }
+          }
+        }
         editorialService {
           data {
             id
@@ -132,16 +142,6 @@ query getContractById($contractId: ID!) {
             attributes {
               name
               isActivated
-            }
-          }
-        }
-        contractCustomization {
-          data {
-            id
-            attributes {
-              primaryColor
-              secondaryColor
-              textContrast
             }
           }
         }

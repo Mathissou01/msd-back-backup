@@ -17,6 +17,7 @@ exports[`Header renders 1`] = `
           alt="logo suez"
           data-nimg="1"
           decoding="async"
+          fetchpriority="high"
           height="56"
           src="/images/suez-logo.svg"
           style="color: transparent;"

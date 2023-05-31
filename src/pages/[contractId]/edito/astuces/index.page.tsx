@@ -6,9 +6,8 @@ import { useRouter } from "next/router";
 import {
   Enum_Tip_Status,
   GetTipsByContractIdQuery,
-  GetTipsByContractIdDocument,
   GetTipsByContractIdQueryVariables,
-  useCreateTipByTipSubServiceIdMutation,
+  useCreateTipMutation,
   useDeleteTipMutation,
   useGetTipByIdLazyQuery,
   useGetTipsByContractIdLazyQuery,
@@ -17,7 +16,7 @@ import { formatDate, removeNulls } from "../../../../lib/utilities";
 import { EStatusLabel } from "../../../../lib/status";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonDataTable, {
   ICurrentPagination,
   IDefaultTableRow,
@@ -69,7 +68,7 @@ export function EditoAstucesPage() {
     GetTipByIdQuery({ variables: { tipId: row.id } }).then((data) => {
       const originalTip = data.data?.tip?.data?.attributes;
       if (originalTip) {
-        createTipMutation({
+        void createTipMutation({
           variables: {
             data: {
               title: `${originalTip.title} Ajout`,
@@ -84,27 +83,6 @@ export function EditoAstucesPage() {
               }),
             },
           },
-          refetchQueries: [
-            {
-              query: GetTipsByContractIdDocument,
-              variables: { contractId },
-            },
-          ],
-          onQueryUpdated: (observableQuery) => {
-            observableQuery
-              .result()
-              .then((result) => {
-                if (!result.loading) {
-                  setPageData(
-                    result?.data as GetTipsByContractIdQuery | undefined,
-                  );
-                }
-              })
-              .catch((error) => {
-                // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
-                console.log(error);
-              });
-          },
         });
       }
     });
@@ -112,30 +90,8 @@ export function EditoAstucesPage() {
 
   async function onDelete(row: ITipsTableRow) {
     setIsUpdatingData(true);
-    const variables = {
-      deleteTipId: row.id,
-    };
     return deleteTipMutation({
-      variables,
-      refetchQueries: [
-        {
-          query: GetTipsByContractIdDocument,
-          variables: { contractId },
-        },
-      ],
-      onQueryUpdated: (observableQuery) => {
-        observableQuery
-          .result()
-          .then((result) => {
-            if (!result.loading) {
-              setPageData(result?.data as GetTipsByContractIdQuery | undefined);
-            }
-          })
-          .catch((error) => {
-            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
-            console.log(error);
-          });
-      },
+      variables: { deleteTipId: row.id },
     });
   }
 
@@ -152,7 +108,7 @@ export function EditoAstucesPage() {
   const [getTipByQuery, { data, loading, error }] =
     useGetTipsByContractIdLazyQuery({
       variables: defaultQueryVariables,
-      fetchPolicy: "no-cache",
+      fetchPolicy: "network-only",
     });
   const [
     GetTipByIdQuery,
@@ -161,11 +117,17 @@ export function EditoAstucesPage() {
   const [
     createTipMutation,
     { loading: createTipMutationLoading, error: createTipMutationError },
-  ] = useCreateTipByTipSubServiceIdMutation();
+  ] = useCreateTipMutation({
+    refetchQueries: ["getTipsByContractId"],
+    awaitRefetchQueries: true,
+  });
   const [
     deleteTipMutation,
     { loading: deleteTipMutationLoading, error: deleteTipMutationError },
-  ] = useDeleteTipMutation();
+  ] = useDeleteTipMutation({
+    refetchQueries: ["getTipsByContractId"],
+    awaitRefetchQueries: true,
+  });
 
   /* Local Data */
   const router = useRouter();
@@ -204,7 +166,7 @@ export function EditoAstucesPage() {
       cell: (row) => (
         <Link
           href={`${currentRoot}/edito/astuces/${row.id}`}
-          className="o-EditoPage__Link"
+          className="o-TablePage__Link"
         >
           {row.title}
         </Link>
@@ -325,7 +287,7 @@ export function EditoAstucesPage() {
   }, [getTipByQuery, isInitialized]);
 
   return (
-    <div className="o-EditoPage">
+    <div className="o-TablePage">
       <PageTitle title={title} />
       <div>
         <CommonButton
@@ -335,8 +297,8 @@ export function EditoAstucesPage() {
           onClick={() => router.push(`${currentRoot}/edito/astuces/create`)}
         />
       </div>
-      <h2 className="o-EditoPage__Title">{tableLabels.title}</h2>
-      <div className="o-EditoPage__Table">
+      <h2 className="o-TablePage__Title">{tableLabels.title}</h2>
+      <div className="o-TablePage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={errors}>
           <CommonDataTable<ITipsTableRow>
             columns={tableColumns}

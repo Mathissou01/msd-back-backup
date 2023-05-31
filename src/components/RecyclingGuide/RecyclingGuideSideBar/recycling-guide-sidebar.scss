@@ -1,19 +1,6 @@
 @use "src/styles/01-settings/settings.colors" as colors;
-@use "src/styles/02-tools/tools.shadows" as shadows;
 
-.c-RecyclingGuideSiderBar {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  > * {
-    @include shadows.shadow(1);
-
-    padding: 16px 20px;
-    background-color: colors.$white;
-    border-radius: 8px;
-  }
-
+.c-RecyclingGuideSideBar {
   &__Status {
     display: flex;
     align-items: center;
