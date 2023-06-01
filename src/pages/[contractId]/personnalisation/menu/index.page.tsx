@@ -41,9 +41,7 @@ export function PersonnalisationMenuPage() {
         (link: IServiceLink) => {
           return {
             __typename: link.type,
-            name: link.name,
-            isDisplayed: link.isDisplayed,
-            picto: link.picto,
+            id: link.id,
           };
         },
       );
