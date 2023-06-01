@@ -20,4 +20,6 @@ export type TPictoStyles =
   | "fileDouble"
   | "eye"
   | "printer"
-  | "history";
+  | "history"
+  | "edit"
+  | "polygon";

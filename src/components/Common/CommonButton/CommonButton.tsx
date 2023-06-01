@@ -8,7 +8,7 @@ interface ICommonButtonProps {
   type?: "button" | "submit" | "reset" | undefined;
   picto?: TPictoStyles;
   isDisabled?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent) => void;
   formLabelId?: string;
   buttonRef?: React.RefObject<HTMLButtonElement>;
   style?: "primary" | "secondary" | null;

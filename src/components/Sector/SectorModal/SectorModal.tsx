@@ -1,22 +1,26 @@
+import React, { useEffect, useState, useMemo } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import React from "react";
-import dynamic from "next/dynamic";
+import CommonButton from "../../Common/CommonButton/CommonButton";
+import { IDefaultTableRow } from "../../Common/CommonDataTable/CommonDataTable";
+import FormInput from "../../Form/FormInput/FormInput";
 import {
   GetSectorizationByContractIdQueryVariables,
   useGetSectorizationByContractIdQuery,
 } from "../../../graphql/codegen/generated-types";
-import { TPolygon } from "../../../lib/sectors";
-import CommonButton from "../../Common/CommonButton/CommonButton";
-import { IDefaultTableRow } from "../../Common/CommonDataTable/CommonDataTable";
-import FormInput from "../../Form/FormInput/FormInput";
+import dynamic from "next/dynamic";
+import FormMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import GeoJSON from "ol/format/GeoJSON";
+import Image from "next/image";
 import "./sector-modal.scss";
 
-//TODO: to import it for #2220
-// import FormMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
-
+type Commune = {
+  value: number;
+  label: string;
+};
 interface ISectorsTableRow extends IDefaultTableRow {
   name: string;
   description: string;
+  communes?: Commune[];
 }
 
 interface ISectorModal {
@@ -25,7 +29,7 @@ interface ISectorModal {
   handleCloseModal: () => void;
   defaultValue: ISectorsTableRow | undefined;
   onUpdate: (data: FieldValues) => void;
-  handlePolygon: (data: TPolygon) => void;
+  handlePolygon: (data: GeoJSON | string) => void;
 }
 
 export default function SectorModal({
@@ -46,6 +50,10 @@ export default function SectorModal({
     saveAndCreate: "Enregistrer et créer un autre secteur",
     cancel: "Annuler",
   };
+  const communesLabels = {
+    title:
+      "Dessinez un secteur sur la carte ou bien saisissez les communes du secteur :",
+  };
   const maxCharacters = 30;
   const defaultQueryVariables: GetSectorizationByContractIdQueryVariables = {
     sectorizationId: defaultValue?.id,
@@ -56,37 +64,49 @@ export default function SectorModal({
     variables: defaultQueryVariables,
     fetchPolicy: "network-only",
   });
-  //TODO: to use it to store postalcode
-  // const [currentSectorContents, setCurrentSectorContents] = useState<any>([]);
+  const [currentSectorContents, setCurrentSectorContents] = useState<
+    {
+      value: number | string;
+      label: string;
+    }[]
+  >([{ value: 0, label: "" }]);
+
   const polygon = data?.sectorization?.data?.attributes?.polygonCoordinates;
   const form = useForm({
     mode: "onChange",
     defaultValues: defaultValue ?? {},
   });
-  const { handleSubmit } = form;
-  const GoogleMap = dynamic(() => import("../../Map/LeafletMap"), {
-    ssr: false,
-  });
+  const { handleSubmit, watch } = form;
+  const GoogleMap = useMemo(
+    () =>
+      dynamic(() => import("../../Map/OpenlayersMap"), {
+        ssr: false,
+        loading: () => <p>Loading...</p>,
+      }),
+    [],
+  );
+  const postalCodes = useMemo(
+    () => [
+      { value: 69500, name: "lyon-1" },
+      { value: 69400, name: "lyon-2" },
+      { value: 69100, name: "lyon-3" },
+      { value: 69200, name: "lyon-4" },
+    ],
+    [],
+  );
 
-  //TODO: postalcode example
-  // const postalCodes = [
-  //   { value: 69500, name: "lyon-1" },
-  //   { value: 69400, name: "lyon-2" },
-  //   { value: 69100, name: "lyon-3" },
-  //   { value: 69200, name: "lyon-4" },
-  // ];
-  // useEffect(() => {
-  //   const mappedTags = postalCodes.map((commune) => {
-  //     if (!communeLoading) {
-  //       return {
-  //         value: commune.value ?? "",
-  //         label: commune.name ?? "",
-  //       };
-  //     }
-  //   });
-  //   setCurrentSectorContents(mappedTags);
-  // }, []);
-  // const watchingData = watch("communes");
+  const SelectedCommunes = watch("communes");
+  useEffect(() => {
+    const mappedTags = postalCodes.map(
+      (commune: { value: number; name: string }) => {
+        return {
+          value: commune.value ?? "",
+          label: commune.name ?? "",
+        };
+      },
+    );
+    setCurrentSectorContents(mappedTags);
+  }, [postalCodes]);
 
   return (
     <FormProvider {...form}>
@@ -118,20 +138,26 @@ export default function SectorModal({
           </div>
 
           <div className="c-SectorModal__InformationsSectorCommunes">
-            {
-              //TODO: add commune selector
-              /* {currentSectorContents && (
-              <FormMultiselect
-                name="communes"
-                label="communes"
-                options={currentSectorContents}
-                isMulti
-                maxMultiSelection={3}
-              />
-            )}  */
-            }
+            <Image
+              src={"/images/pictos/polygon.svg"}
+              alt=""
+              width={30}
+              height={30}
+            />
+            <div className="c-SectorModal__InformationsSectorCommunesInfo">
+              <p>{communesLabels.title}</p>
+              {currentSectorContents && (
+                <FormMultiselect
+                  name="communes"
+                  label="communes"
+                  options={currentSectorContents}
+                  isMulti
+                  maxMultiSelection={20}
+                />
+              )}
+            </div>
           </div>
-          <div className="c-SectorModal__InformationsSectorListing"></div>
+
           <div className="c-SectorModal__InformationsButtons">
             <div className="c-SectorModal__InformationsSaveButton">
               <CommonButton
@@ -164,14 +190,8 @@ export default function SectorModal({
         <div className="c-SectorModal__Maps">
           <GoogleMap
             polygon={polygon}
+            communes={SelectedCommunes || []}
             handlePolygon={handlePolygon}
-
-            //TODO:Send Commune
-            // commune={
-            //   watchingData && watchingData.length > 0
-            //     ? watchingData[0].value
-            //     : ""
-            // }
           />
         </div>
       </form>

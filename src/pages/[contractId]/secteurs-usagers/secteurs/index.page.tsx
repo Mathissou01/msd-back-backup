@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import GeoJSON from "ol/format/GeoJSON";
 import { TableColumn } from "react-data-table-component";
 import {
   useGetSectorizationsByContractIdLazyQuery,
@@ -10,7 +11,6 @@ import {
   useUpdateSectorizationMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
-import { TPolygon } from "../../../../lib/sectors";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
@@ -31,6 +31,11 @@ import "./secteurs.scss";
 export interface ISectorsTableRow extends IDefaultTableRow {
   name: string;
   description: string;
+}
+
+export interface ISectorPolygon {
+  polygon: GeoJSON;
+  handlePolygon: (polygon: GeoJSON | string) => void;
 }
 
 export function SectorsPage() {
@@ -101,7 +106,7 @@ export function SectorsPage() {
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const [secteurDefaultValue, setSecteurDefaultValue] =
     useState<ISectorsTableRow>();
-  let polygonData: TPolygon;
+  let polygonData: GeoJSON | string;
 
   const tableColumns: Array<TableColumn<ISectorsTableRow>> = [
     {
@@ -161,8 +166,7 @@ export function SectorsPage() {
       },
     });
   }
-
-  async function handlePolygon(polygon: TPolygon) {
+  function handlePolygon(polygon: GeoJSON | string) {
     polygonData = polygon;
   }
 
@@ -212,6 +216,11 @@ export function SectorsPage() {
 
   const handleCloseModal = () => {
     modalRef.current?.toggleModal(false);
+    setSecteurDefaultValue(undefined);
+  };
+
+  const handleCloseCommonModal = () => {
+    setSecteurDefaultValue(undefined);
   };
 
   async function onDelete(row: ISectorsTableRow) {
@@ -257,6 +266,7 @@ export function SectorsPage() {
         name: submitData.name,
         description: submitData.description,
         contract: contractId,
+        polygonCoordinates: polygonData,
       },
     };
 
@@ -336,7 +346,11 @@ export function SectorsPage() {
           picto="add"
           onClick={() => handleStartModal()}
         />
-        <CommonModalWrapper size={ICommonModalWrapperSize.LARGE} ref={modalRef}>
+        <CommonModalWrapper
+          onClose={handleCloseCommonModal}
+          size={ICommonModalWrapperSize.LARGE}
+          ref={modalRef}
+        >
           <SectorModal
             onSubmitValid={(data) => onSubmit(data as ISectorsTableRow)}
             onSubmitAndModalRefresh={(data) =>

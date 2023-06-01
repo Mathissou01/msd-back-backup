@@ -9,7 +9,7 @@ import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import "./form-single-multiselect.scss";
 
 export type ICommonSelectOption = {
-  value: string; // Suez component library only supports a value which is a string
+  value: string | number;
   label: string;
 };
 

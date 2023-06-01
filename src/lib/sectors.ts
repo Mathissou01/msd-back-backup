@@ -1,8 +1,12 @@
-import type { FeatureCollection } from "geojson";
+import { GeoJSONFeature } from "ol/format/GeoJSON";
 
-export type TPolygon = FeatureCollection;
+export type GeoJSON = {
+  type: string;
+  features: GeoJSONFeature[];
+};
 
 export interface ISectorPolygon {
-  polygon: TPolygon;
-  handlePolygon: (polygon: TPolygon) => void;
+  polygon: GeoJSON;
+  handlePolygon: (polygon: GeoJSON | string) => void;
+  communes: number;
 }

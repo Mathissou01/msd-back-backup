@@ -20,11 +20,16 @@
     margin-bottom: 26px;
   }
 
-  &__InformationsSectorListing {
-    width: 430px;
-    height: 210px;
-    margin-top: 20px;
-    margin-bottom: 40px;
+  &__InformationsSectorCommunes {
+    display: flex;
+    margin-top: 60px;
+    margin-bottom: 80px;
+    padding: 50px;
+    background: colors.$gray-100;
+  }
+
+  &__InformationsSectorCommunesInfo {
+    padding-left: 30px;
   }
 
   &__InformationsButtons {
@@ -42,6 +47,6 @@
   &__Maps {
     width: 65%;
     margin: 0 36px;
-    background-color: colors.$blue-4; // TODO: color to replace by map
+    background-color: colors.$blue-4;
   }
 }
