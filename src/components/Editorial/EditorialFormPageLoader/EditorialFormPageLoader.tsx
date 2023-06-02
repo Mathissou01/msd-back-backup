@@ -68,11 +68,16 @@ export default function EditorialFormPageLoader({
   useEffect(() => {
     if (data?.[entityName]?.data) {
       const editoData = data?.[entityName]?.data;
-      if (editoData.id && editoData.attributes && editoData.attributes.title) {
+      if (
+        editoData.id &&
+        editoData.attributes &&
+        editoData.attributes.customId &&
+        editoData.attributes.title
+      ) {
         const mappedData: IEditorialFields = {
           __typename: editoData.__typename,
           id: editoData.id,
-          customId: editoData.attributes.customId ?? undefined,
+          customId: editoData.attributes.customId,
           status: valueToEStatus(editoData.attributes.status),
           title: editoData.attributes.title,
           image: editoData.attributes.image?.data ?? null,

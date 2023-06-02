@@ -1,31 +1,34 @@
 import { useFormContext } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import { EStatus } from "../../../lib/status";
-import CommonButton from "../../../components/Common/CommonButton/CommonButton";
-import "./form-layout-buttons.scss";
+import CommonButton from "../../Common/CommonButton/CommonButton";
+import "./example-buttons.scss";
 
-export interface IFormLayoutButtonsLabels {
+export interface IExampleButtonsLabels {
   preview: string;
   publish: string;
   depublish: string;
   save: string;
 }
 
-export interface IFormLayoutButtonsProps {
+export interface IExampleButtonsProps {
   onPublish?: () => void;
   onDepublish?: () => void;
   onPreview?: () => void;
-  labels?: IFormLayoutButtonsLabels;
+  labels?: IExampleButtonsLabels;
 }
 
-export default function FormLayoutButtons<Fields extends FieldValues>({
+// TODO: Souleymane, renomme et modifie cette copie de FormLayoutDefaultButtons avec les boutons et labels spécifique à WasteForm
+//  n'oublie pas bien associer les bonnes interface (ou en faire de nouvelles), renommer tout,
+//  et déplacer de component au bon endroit avec tes autres component de Form (ta version de SideBar, ta version de StaticFields, etc)
+export default function ExampleButtons<Fields extends FieldValues>({
   onPublish,
   onDepublish,
   onPreview,
   labels,
-}: IFormLayoutButtonsProps) {
+}: IExampleButtonsProps) {
   /* Static Data */
-  const buttonLabels: IFormLayoutButtonsLabels = labels ?? {
+  const buttonLabels: IExampleButtonsLabels = labels ?? {
     preview: "Prévisualiser",
     publish: "Publier",
     depublish: "Dépublier",
@@ -38,7 +41,7 @@ export default function FormLayoutButtons<Fields extends FieldValues>({
   } = useFormContext<Fields>();
 
   return (
-    <div className="c-FormLayoutButtons">
+    <div className="c-ExampleButtons">
       <CommonButton
         label={buttonLabels.preview}
         picto="eye"

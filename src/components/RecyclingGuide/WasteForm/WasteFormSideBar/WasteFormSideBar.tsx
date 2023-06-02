@@ -1,14 +1,14 @@
 import classNames from "classnames";
 import { useFormContext } from "react-hook-form";
-import { statusLabels } from "../../../lib/status";
-import { IRecyclingGuideFields } from "../../../lib/recycling-guide";
-import FormDatePicker from "../../Form/FormDatePicker/FormDatePicker";
-import InformationsCard from "../../../layouts/FormLayout/FormLayoutSideBar/InformationsCard/InformationsCard";
-import VersioningCard from "../../../layouts/FormLayout/FormLayoutSideBar/VersioningCard/VersioningCard";
-import "./recycling-guide-sidebar.scss";
-import { isNavigationEntity } from "../../../lib/navigation";
+import { statusLabels } from "../../../../lib/status";
+import { IWasteFormFields } from "../../../../lib/recycling-guide";
+import FormDatePicker from "../../../Form/FormDatePicker/FormDatePicker";
+import InformationsCard from "../../../../layouts/FormLayout/FormLayoutSideBar/InformationsCard/InformationsCard";
+import VersioningCard from "../../../../layouts/FormLayout/FormLayoutSideBar/VersioningCard/VersioningCard";
+import { isNavigationEntity } from "../../../../lib/navigation";
+import "./waste-form-sidebar.scss";
 
-export default function RecyclingGuideSideBar() {
+export default function WasteFormSideBar() {
   /* Static Values */
   const labels = {
     unpublishedDateLabel: "Date de dépublication",
@@ -18,15 +18,14 @@ export default function RecyclingGuideSideBar() {
   /* Local Data */
   const {
     formState: { defaultValues },
-  } = useFormContext<IRecyclingGuideFields>();
+  } = useFormContext<IWasteFormFields>();
 
   return (
     <>
       <span
-        className={classNames("c-RecyclingGuideSideBar__Status", {
-          "c-RecyclingGuideSideBar__Status_draft":
-            defaultValues?.status === "draft",
-          "c-RecyclingGuideSideBar__Status_published":
+        className={classNames("c-WasteFormSideBar__Status", {
+          "c-WasteFormSideBar__Status_draft": defaultValues?.status === "draft",
+          "c-WasteFormSideBar__Status_published":
             defaultValues?.status === "published",
         })}
       >
@@ -35,14 +34,14 @@ export default function RecyclingGuideSideBar() {
           : statusLabels.draft}
       </span>
       {defaultValues?.status !== "archived" && (
-        <div className="c-RecyclingGuideSideBar__UnpublishedDateDatePicker">
+        <div className="c-WasteFormSideBar__UnpublishedDateDatePicker">
           <FormDatePicker
             name="unpublishedDate"
             minDate={new Date()}
             maxDate={new Date("2099-12-31")}
             label={labels.unpublishedDateLabel}
           />
-          <p className="c-RecyclingGuideSideBar__UnpublishedDateText">
+          <p className="c-WasteFormSideBar__UnpublishedDateText">
             {labels.text}
           </p>
         </div>

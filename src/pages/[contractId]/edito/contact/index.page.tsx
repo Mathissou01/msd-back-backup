@@ -115,10 +115,15 @@ export function EditoContactEditPage() {
   useEffect(() => {
     if (data?.contactUs?.data) {
       const editoData = data.contactUs.data;
-      if (editoData.id && editoData.attributes && editoData.attributes.title) {
+      if (
+        editoData.id &&
+        editoData.attributes &&
+        editoData.attributes.customId &&
+        editoData.attributes.title
+      ) {
         const mappedData: IEditorialFields = {
           id: editoData.id,
-          customId: editoData.attributes.customId ?? undefined,
+          customId: editoData.attributes.customId,
           status: valueToEStatus(editoData.attributes.status),
           title: editoData.attributes.title,
           tags:

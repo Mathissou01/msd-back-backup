@@ -3,9 +3,6 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
 import { ReactNode, useEffect, useState } from "react";
 import { removeNulls } from "../../lib/utilities";
-import FormLayoutButtons, {
-  IFormLayoutButtonsProps,
-} from "./FormLayoutButtons/FormLayoutButtons";
 import "./form-layout.scss";
 
 export interface IFormlayoutOptions<Fields> {
@@ -15,17 +12,17 @@ export interface IFormlayoutOptions<Fields> {
 }
 
 interface IFormLayoutProps<Fields> {
+  buttonContent: ReactNode;
   formContent: ReactNode;
   sidebarContent: ReactNode;
   formOptions: IFormlayoutOptions<Fields>;
-  buttonOptions?: IFormLayoutButtonsProps;
 }
 
 export default function FormLayout<Fields extends FieldValues>({
+  buttonContent,
   formContent,
   sidebarContent,
   formOptions,
-  buttonOptions,
 }: IFormLayoutProps<Fields>) {
   /* Local Data */
   const form = useForm<Fields>({
@@ -86,14 +83,7 @@ export default function FormLayout<Fields extends FieldValues>({
           className="c-FormLayout"
           onSubmit={handleSubmit(formOptions.onSubmitValid, onError)}
         >
-          <div className="c-FormLayout__Buttons">
-            <FormLayoutButtons<Fields>
-              onPublish={buttonOptions?.onPublish}
-              onDepublish={buttonOptions?.onDepublish}
-              onPreview={buttonOptions?.onPreview}
-              labels={buttonOptions?.labels}
-            />
-          </div>
+          <div className="c-FormLayout__Buttons">{buttonContent}</div>
           <div className="c-FormLayout__Form">
             <div className="c-FormLayout__Content">{formContent}</div>
             <div className="c-FormLayout__SideBar">{sidebarContent}</div>

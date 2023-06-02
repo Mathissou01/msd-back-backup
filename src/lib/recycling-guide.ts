@@ -4,7 +4,7 @@ import { IUploadFileEntity } from "./media";
 import { IFormVersioningFields } from "./form";
 import { ICommonSelectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
-export interface IRecyclingGuideStaticFields extends IFormVersioningFields {
+export interface IWasteFormStaticFields extends IFormVersioningFields {
   name: string;
   tags: Array<ICommonSelectOption>;
   wasteFamily: WasteFamilyEntity | null;
@@ -13,6 +13,6 @@ export interface IRecyclingGuideStaticFields extends IFormVersioningFields {
   recyclingGestureText: string;
 }
 
-export interface IRecyclingGuideFields extends IRecyclingGuideStaticFields {
+export interface IWasteFormFields extends IWasteFormStaticFields {
   contentBlock: Array<IFormBlock>;
 }

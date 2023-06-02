@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import {
-  WasteFamilyEntity,
   useGetFlowsByContractIdQuery,
   useGetTagsByContractIdQuery,
   useGetWasteFamiliesByContractIdQuery,
-} from "../../../graphql/codegen/generated-types";
-import { removeNulls } from "../../../lib/utilities";
-import { TAcceptedMimeTypes } from "../../../lib/media";
-import { useContract } from "../../../hooks/useContract";
-import FormSingleMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
-import { ICommonSelectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
-import FormInput from "../../Form/FormInput/FormInput";
-import FormSelect from "../../Form/FormSelect/FormSelect";
-import { IOptionWrapper } from "../../Form/FormMultiselect/FormMultiselect";
-import FormFileInput from "../../Form/FormFileInput/FormFileInput";
-import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
-import "./recycling-guide-static-fields.scss";
+  WasteFamilyEntity,
+} from "../../../../graphql/codegen/generated-types";
+import { removeNulls } from "../../../../lib/utilities";
+import { TAcceptedMimeTypes } from "../../../../lib/media";
+import { useContract } from "../../../../hooks/useContract";
+import { IOptionWrapper } from "../../../Form/FormMultiselect/FormMultiselect";
+import FormSingleMultiselect, {
+  ICommonSelectOption,
+} from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import FormInput from "../../../Form/FormInput/FormInput";
+import FormSelect from "../../../Form/FormSelect/FormSelect";
+import FormFileInput from "../../../Form/FormFileInput/FormFileInput";
+import FormRadioInput from "../../../Form/FormRadioInput/FormRadioInput";
+import "./waste-form-static-fields.scss";
 
-export interface IRecyclingGuideStaticFieldsLabels {
+export interface IWasteFormStaticFieldsLabels {
   staticTitle: string;
   staticTags: string;
   staticWasteFamily: string;
@@ -28,7 +29,7 @@ export interface IRecyclingGuideStaticFieldsLabels {
   staticImagePlaceholder: string;
 }
 
-export type TRecyclingGuideStaticFields =
+export type TWasteFormStaticFields =
   | "name"
   | "wasteFamily"
   | "tags"
@@ -36,15 +37,15 @@ export type TRecyclingGuideStaticFields =
   | "flow"
   | "recyclingGestureText";
 
-interface IRecyclingGuideStaticFieldsProps {
-  labels: IRecyclingGuideStaticFieldsLabels;
-  enabledFieldsOverride?: Array<TRecyclingGuideStaticFields>;
+interface IWasteFormStaticFieldsProps {
+  labels: IWasteFormStaticFieldsLabels;
+  enabledFieldsOverride?: Array<TWasteFormStaticFields>;
 }
 
-export default function RecyclingGuideStaticFields({
+export default function WasteFormStaticFields({
   labels,
   enabledFieldsOverride,
-}: IRecyclingGuideStaticFieldsProps) {
+}: IWasteFormStaticFieldsProps) {
   /* Static Data */
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
   const acceptedTypes: Array<TAcceptedMimeTypes> = [
@@ -64,7 +65,7 @@ export default function RecyclingGuideStaticFields({
     return wasteFamily.attributes?.familyName ?? "";
   }
 
-  function hasFieldEnabled(fieldName: TRecyclingGuideStaticFields) {
+  function hasFieldEnabled(fieldName: TWasteFormStaticFields) {
     return (
       !enabledFieldsOverride ||
       enabledFieldsOverride?.find((field) => field === fieldName)
@@ -149,12 +150,12 @@ export default function RecyclingGuideStaticFields({
 
   return (
     <>
-      <div className="c-RecyclingGuideStaticFields">
-        <span className="c-RecyclingGuideStaticFields__RequiredLabel">
+      <div className="c-WasteFormStaticFields">
+        <span className="c-WasteFormStaticFields__RequiredLabel">
           {mandatoryFields}
         </span>
         {hasFieldEnabled("name") && (
-          <div className="c-RecyclingGuideStaticFields__Name">
+          <div className="c-WasteFormStaticFields__Name">
             <FormInput
               type="text"
               name="name"
@@ -164,7 +165,7 @@ export default function RecyclingGuideStaticFields({
           </div>
         )}
         {hasFieldEnabled("wasteFamily") && (
-          <div className="c-RecyclingGuideStaticFields__WasteFamily">
+          <div className="c-WasteFormStaticFields__WasteFamily">
             <FormSelect<WasteFamilyEntity>
               label={labels.staticWasteFamily}
               name="wasteFamily"
@@ -175,7 +176,7 @@ export default function RecyclingGuideStaticFields({
           </div>
         )}
         {hasFieldEnabled("tags") && (
-          <div className="c-RecyclingGuideStaticFields__Tags">
+          <div className="c-WasteFormStaticFields__Tags">
             <FormSingleMultiselect
               label={labels.staticTags}
               labelDescription="(Tags)"
@@ -187,7 +188,7 @@ export default function RecyclingGuideStaticFields({
           </div>
         )}
         {hasFieldEnabled("picto") && (
-          <div className="c-RecyclingGuideStaticFields__Picto">
+          <div className="c-WasteFormStaticFields__Picto">
             <FormFileInput
               name="picto"
               label={labels.staticPicto}
@@ -201,8 +202,8 @@ export default function RecyclingGuideStaticFields({
           </div>
         )}
       </div>
-      <div className="c-RecyclingGuideStaticFields">
-        <div className="c-RecyclingGuideStaticFields__Flow">
+      <div className="c-WasteFormStaticFields">
+        <div className="c-WasteFormStaticFields__Flow">
           <FormRadioInput
             name="flow"
             displayName={labels.staticFlow}
@@ -211,8 +212,8 @@ export default function RecyclingGuideStaticFields({
           />
         </div>
       </div>
-      <div className="c-RecyclingGuideStaticFields">
-        <div className="c-RecyclingGuideStaticFields__GesteDeTri">
+      <div className="c-WasteFormStaticFields">
+        <div className="c-WasteFormStaticFields__GesteDeTri">
           <FormInput
             type="text"
             name="recyclingGestureText"

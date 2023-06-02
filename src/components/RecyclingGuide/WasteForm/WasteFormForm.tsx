@@ -1,30 +1,32 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import { TDynamicFieldOption } from "../../../lib/dynamic-blocks";
-import { IEditorialFields } from "../../../lib/editorial";
-import FormLayout from "../../../layouts/FormLayout/FormLayout";
+import { IWasteFormFields } from "../../../lib/recycling-guide";
+import FormLayout, {
+  IFormlayoutOptions,
+} from "../../../layouts/FormLayout/FormLayout";
 import FormLayoutDefaultButtons, {
   IFormLayoutDefaultButtonsLabels,
 } from "../../../layouts/FormLayout/FormLayoutDefaultButtons/FormLayoutDefaultButtons";
-import EditorialStaticFields, {
-  IEditorialStaticFieldsLabels,
-  TEditorialStaticFields,
-} from "./EditorialStaticFields/EditorialStaticFields";
-import EditorialSideBar from "./EditorialSideBar/EditorialSideBar";
+import WasteFormStaticFields, {
+  IWasteFormStaticFieldsLabels,
+  TWasteFormStaticFields,
+} from "./WasteFormStaticFields/WasteFormStaticFields";
+import WasteFormSideBar from "./WasteFormSideBar/WasteFormSideBar";
 import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
 
-interface IEditorialFormProps {
-  data?: IEditorialFields;
-  staticFieldsOverride?: Array<TEditorialStaticFields>;
+interface IWasteFormFormProps {
+  data?: IWasteFormFields;
+  staticFieldsOverride?: Array<TWasteFormStaticFields>;
   dynamicFieldsOptions: Array<TDynamicFieldOption>;
   onSubmitValid: (data: FieldValues) => void;
   onPublish?: () => void;
   onDepublish?: () => void;
   onPreview?: () => void;
-  labels: IEditorialStaticFieldsLabels;
+  labels: IWasteFormStaticFieldsLabels;
   buttonLabels?: IFormLayoutDefaultButtonsLabels;
 }
 
-export default function EditorialForm({
+export default function WasteFormForm({
   data,
   staticFieldsOverride,
   dynamicFieldsOptions,
@@ -34,9 +36,9 @@ export default function EditorialForm({
   onPreview,
   labels,
   buttonLabels,
-}: IEditorialFormProps) {
+}: IWasteFormFormProps) {
   const buttonContent = (
-    <FormLayoutDefaultButtons<IEditorialFields>
+    <FormLayoutDefaultButtons<IWasteFormFields>
       onPublish={onPublish}
       onDepublish={onDepublish}
       onPreview={onPreview}
@@ -45,22 +47,25 @@ export default function EditorialForm({
   );
   const fieldContent = (
     <>
-      <EditorialStaticFields
+      <WasteFormStaticFields
         labels={labels}
         enabledFieldsOverride={staticFieldsOverride}
       />
-      <FormDynamicBlocks name={"blocks"} blockOptions={dynamicFieldsOptions} />
+      <FormDynamicBlocks
+        name={"contentBlock"}
+        blockOptions={dynamicFieldsOptions}
+      />
     </>
   );
-  const sidebarContent = <EditorialSideBar />;
-  const formOptions = {
+  const sidebarContent = <WasteFormSideBar />;
+  const formOptions: IFormlayoutOptions<IWasteFormFields> = {
     onSubmitValid,
     defaultValues: data,
-    nestedFieldsToFocus: ["blocks"],
+    nestedFieldsToFocus: ["contentBlock"],
   };
 
   return (
-    <FormLayout<IEditorialFields>
+    <FormLayout<IWasteFormFields>
       buttonContent={buttonContent}
       formContent={fieldContent}
       sidebarContent={sidebarContent}

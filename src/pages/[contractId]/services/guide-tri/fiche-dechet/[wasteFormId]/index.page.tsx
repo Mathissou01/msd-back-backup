@@ -13,7 +13,7 @@ import {
 } from "../../../../../../graphql/codegen/generated-types";
 import { valueToEStatus } from "../../../../../../lib/status";
 import { formatDate } from "../../../../../../lib/utilities";
-import { IRecyclingGuideFields } from "../../../../../../lib/recycling-guide";
+import { IWasteFormFields } from "../../../../../../lib/recycling-guide";
 import {
   IFormBlock,
   remapFormBlocksDynamicZone,
@@ -23,8 +23,8 @@ import { useRoutingQueryId } from "../../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
-import RecyclingGuideForm from "../../../../../../components/RecyclingGuide/RecyclingGuideForm";
 import { ICommonSelectOption } from "../../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
+import WasteFormForm from "../../../../../../components/RecyclingGuide/WasteForm/WasteFormForm";
 
 interface IServiceGuideDuTriEditPageProps {
   wasteFormId: string;
@@ -155,7 +155,7 @@ export function ServiceGuideDuTriEditPage({
   const { currentRoot } = useNavigation();
   const isLoading = loading || updateWasteFormLoading || getContractLoading;
   const errors = [error, updateWasteFormError, getContractError];
-  const [mappedData, setMappedData] = useState<IRecyclingGuideFields>();
+  const [mappedData, setMappedData] = useState<IWasteFormFields>();
   const dynamicFieldOptions: Array<TDynamicFieldOption> = [
     "ComponentBlocksWysiwyg",
     "ComponentBlocksSubHeading",
@@ -172,11 +172,12 @@ export function ServiceGuideDuTriEditPage({
       if (
         wasteFormData.id &&
         wasteFormData.attributes &&
+        wasteFormData.attributes.customId &&
         wasteFormData.attributes.wasteFamily?.data
       ) {
-        const mappedData: IRecyclingGuideFields = {
+        const mappedData: IWasteFormFields = {
           id: wasteFormData.id,
-          customId: wasteFormData.attributes.customId ?? undefined,
+          customId: wasteFormData.attributes.customId,
           status: valueToEStatus(wasteFormData.attributes.status),
           name: wasteFormData.attributes.name ?? "",
           picto: wasteFormData.attributes.picto?.data ?? null,
@@ -216,7 +217,7 @@ export function ServiceGuideDuTriEditPage({
         <>
           <PageTitle title={mappedData.name} />
           <CommonLoader isLoading={isLoading} errors={errors}>
-            <RecyclingGuideForm
+            <WasteFormForm
               data={mappedData}
               dynamicFieldsOptions={dynamicFieldOptions}
               onSubmitValid={onSubmit}
