@@ -1,0 +1,13 @@
+mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
+    updateDropOffMap(id: $updateDropOffMapId, data: $data) {
+        data {
+            id
+            attributes {
+                description
+                name
+                updatedAt
+                createdAt
+            }
+        }
+    }
+}

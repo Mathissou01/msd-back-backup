@@ -110,7 +110,7 @@ export default function NavigationList() {
           pictoUrl="/images/pictos-temp/services.svg"
           onClick={handleClickMenu}
         >
-          {/*    <NavigationListLink path={"/services/points-collecte"} />*/}
+          <NavigationListLink path={"/services/carte"} />
           <NavigationListLink path={"/services/guide-tri"} />
           {/*    <NavigationListLink path={"/services/jour-collecte"} />*/}
           {/*    <NavigationListLink path={"/services/demandes"} />*/}

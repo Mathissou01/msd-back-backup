@@ -1,0 +1,47 @@
+query getDropOffMapByContractId(
+  $contractId: ID!
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  dropOffMaps(
+    filters: { dropOffMapService: { id: { eq: $contractId } } }
+    pagination: $pagination
+    sort: $sort
+  ) {
+    data {
+      id
+      attributes {
+        createdAt
+        description
+        name
+        updatedAt
+        address
+        gpsCoordinates
+        city
+        collectDropOff {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+        collectVoluntary {
+          data {
+            attributes {
+              name
+            }
+            id
+          }
+        }
+      }
+    }
+    meta {
+      pagination {
+        total
+        pageSize
+        page
+        pageCount
+      }
+    }
+  }
+}

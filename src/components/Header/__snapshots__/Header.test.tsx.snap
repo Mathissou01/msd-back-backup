@@ -229,6 +229,16 @@ exports[`Header renders 1`] = `
           >
             <a
               class="c-NavigationListLink"
+              href="null/services/carte"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Carte
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
               href="null/services/guide-tri"
             >
               <span

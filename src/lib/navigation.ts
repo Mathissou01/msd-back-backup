@@ -18,7 +18,7 @@ export enum ENavigationPages {
   "/edito/contact" = "Contact",
   /* Services */
   "/services/" = "Services",
-  "/services/points-collecte" = "Points de collecte",
+  "/services/carte" = "Carte",
   "/services/guide-tri" = "Guide du tri",
   "/services/jour-collecte" = "Jour de collecte",
   "/services/demandes" = "Demandes",

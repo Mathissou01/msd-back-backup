@@ -798,22 +798,22 @@ export type CollectDropOff = {
   __typename?: "CollectDropOff";
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  dropOffMap?: Maybe<DropOffMapEntityResponse>;
+  dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
   flows?: Maybe<FlowRelationResponseCollection>;
   grammaticalGender?: Maybe<Enum_Collectdropoff_Grammaticalgender>;
   name?: Maybe<Scalars["String"]>;
-  picto?: Maybe<UploadFileRelationResponseCollection>;
+  picto?: Maybe<UploadFileEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type CollectDropOffFlowsArgs = {
-  filters?: InputMaybe<FlowFiltersInput>;
+export type CollectDropOffDropOffMapsArgs = {
+  filters?: InputMaybe<DropOffMapFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type CollectDropOffPictoArgs = {
-  filters?: InputMaybe<UploadFileFiltersInput>;
+export type CollectDropOffFlowsArgs = {
+  filters?: InputMaybe<FlowFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -839,7 +839,7 @@ export type CollectDropOffFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CollectDropOffFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  dropOffMap?: InputMaybe<DropOffMapFiltersInput>;
+  dropOffMaps?: InputMaybe<DropOffMapFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
   grammaticalGender?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -851,11 +851,11 @@ export type CollectDropOffFiltersInput = {
 
 export type CollectDropOffInput = {
   contract?: InputMaybe<Scalars["ID"]>;
-  dropOffMap?: InputMaybe<Scalars["ID"]>;
+  dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   grammaticalGender?: InputMaybe<Enum_Collectdropoff_Grammaticalgender>;
   name?: InputMaybe<Scalars["String"]>;
-  picto?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  picto?: InputMaybe<Scalars["ID"]>;
 };
 
 export type CollectDropOffRelationResponseCollection = {
@@ -867,12 +867,18 @@ export type CollectVoluntary = {
   __typename?: "CollectVoluntary";
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  dropOffMap?: Maybe<DropOffMapEntityResponse>;
+  dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
   flows?: Maybe<FlowRelationResponseCollection>;
   grammaticalGender?: Maybe<Enum_Collectvoluntary_Grammaticalgender>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CollectVoluntaryDropOffMapsArgs = {
+  filters?: InputMaybe<DropOffMapFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CollectVoluntaryFlowsArgs = {
@@ -902,7 +908,7 @@ export type CollectVoluntaryFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CollectVoluntaryFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  dropOffMap?: InputMaybe<DropOffMapFiltersInput>;
+  dropOffMaps?: InputMaybe<DropOffMapFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
   grammaticalGender?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -914,7 +920,7 @@ export type CollectVoluntaryFiltersInput = {
 
 export type CollectVoluntaryInput = {
   contract?: InputMaybe<Scalars["ID"]>;
-  dropOffMap?: InputMaybe<Scalars["ID"]>;
+  dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   grammaticalGender?: InputMaybe<Enum_Collectvoluntary_Grammaticalgender>;
   name?: InputMaybe<Scalars["String"]>;
@@ -2227,13 +2233,14 @@ export type DocumentRelationResponseCollection = {
 export type DropOffMap = {
   __typename?: "DropOffMap";
   address?: Maybe<Scalars["String"]>;
+  city?: Maybe<Scalars["String"]>;
   collectDropOff?: Maybe<CollectDropOffEntityResponse>;
   collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   downloadableFile?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
-  gpsCoordinates: Scalars["String"];
+  gpsCoordinates?: Maybe<Scalars["String"]>;
   mustKnow?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
   openingHoursBlock?: Maybe<
@@ -2269,6 +2276,7 @@ export type DropOffMapEntityResponseCollection = {
 export type DropOffMapFiltersInput = {
   address?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
+  city?: InputMaybe<StringFilterInput>;
   collectDropOff?: InputMaybe<CollectDropOffFiltersInput>;
   collectVoluntary?: InputMaybe<CollectVoluntaryFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -2287,6 +2295,7 @@ export type DropOffMapFiltersInput = {
 
 export type DropOffMapInput = {
   address?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]>;
   collectDropOff?: InputMaybe<Scalars["ID"]>;
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
   description?: InputMaybe<Scalars["String"]>;
@@ -3229,7 +3238,7 @@ export type Flow = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   isActivated?: Maybe<Scalars["Boolean"]>;
   name?: Maybe<Scalars["String"]>;
-  pickUpDay?: Maybe<PickUpDayEntityResponse>;
+  pickUpDays?: Maybe<PickUpDayRelationResponseCollection>;
   recyclingGesture: Enum_Flow_Recyclinggesture;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   wasteForms?: Maybe<WasteFormRelationResponseCollection>;
@@ -3249,6 +3258,12 @@ export type FlowCollectDropOffsArgs = {
 
 export type FlowCollectVoluntariesArgs = {
   filters?: InputMaybe<CollectVoluntaryFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type FlowPickUpDaysArgs = {
+  filters?: InputMaybe<PickUpDayFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -3337,7 +3352,7 @@ export type FlowFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<FlowFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<FlowFiltersInput>>>;
-  pickUpDay?: InputMaybe<PickUpDayFiltersInput>;
+  pickUpDays?: InputMaybe<PickUpDayFiltersInput>;
   recyclingGesture?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   wasteForms?: InputMaybe<WasteFormFiltersInput>;
@@ -3352,7 +3367,7 @@ export type FlowInput = {
   contract?: InputMaybe<Scalars["ID"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
-  pickUpDay?: InputMaybe<Scalars["ID"]>;
+  pickUpDays?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   recyclingGesture?: InputMaybe<Enum_Flow_Recyclinggesture>;
   wasteForms?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
@@ -4509,6 +4524,7 @@ export type MutationCreateEmptyContractArgs = {
   contactFirstName: Scalars["String"];
   contactLastName: Scalars["String"];
   contactPhoneNumber: Scalars["String"];
+  isNonExclusive: Scalars["Boolean"];
   isRVFrance: Scalars["Boolean"];
   siretNumber?: InputMaybe<Scalars["Long"]>;
 };
@@ -5836,6 +5852,7 @@ export type PickUpDay = {
   description?: Maybe<Scalars["String"]>;
   flow?: Maybe<FlowEntityResponse>;
   name: Scalars["String"];
+  pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   sectorization?: Maybe<SectorizationEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -5873,6 +5890,7 @@ export type PickUpDayFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<PickUpDayFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
+  pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   sectorization?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -5882,6 +5900,7 @@ export type PickUpDayInput = {
   description?: InputMaybe<Scalars["String"]>;
   flow?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
+  pickUpDayService?: InputMaybe<Scalars["ID"]>;
   sectorization?: InputMaybe<Scalars["ID"]>;
 };
 
@@ -14106,6 +14125,111 @@ export type UpdateSectorizationMutation = {
         name: string;
         description: string;
         polygonCoordinates?: any | null;
+        updatedAt?: any | null;
+        createdAt?: any | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type DeleteDropOffMapMutationVariables = Exact<{
+  deleteDropOffMapId: Scalars["ID"];
+}>;
+
+export type DeleteDropOffMapMutation = {
+  __typename?: "Mutation";
+  deleteDropOffMap?: {
+    __typename?: "DropOffMapEntityResponse";
+    data?: {
+      __typename?: "DropOffMapEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMap";
+        createdAt?: any | null;
+        description?: string | null;
+        name?: string | null;
+        updatedAt?: any | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetDropOffMapByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetDropOffMapByContractIdQuery = {
+  __typename?: "Query";
+  dropOffMaps?: {
+    __typename?: "DropOffMapEntityResponseCollection";
+    data: Array<{
+      __typename?: "DropOffMapEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMap";
+        createdAt?: any | null;
+        description?: string | null;
+        name?: string | null;
+        updatedAt?: any | null;
+        address?: string | null;
+        gpsCoordinates?: string | null;
+        city?: string | null;
+        collectDropOff?: {
+          __typename?: "CollectDropOffEntityResponse";
+          data?: {
+            __typename?: "CollectDropOffEntity";
+            attributes?: {
+              __typename?: "CollectDropOff";
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
+        collectVoluntary?: {
+          __typename?: "CollectVoluntaryEntityResponse";
+          data?: {
+            __typename?: "CollectVoluntaryEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectVoluntary";
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        total: number;
+        pageSize: number;
+        page: number;
+        pageCount: number;
+      };
+    };
+  } | null;
+};
+
+export type UpdateDropOffMapMutationVariables = Exact<{
+  updateDropOffMapId: Scalars["ID"];
+  data: DropOffMapInput;
+}>;
+
+export type UpdateDropOffMapMutation = {
+  __typename?: "Mutation";
+  updateDropOffMap?: {
+    __typename?: "DropOffMapEntityResponse";
+    data?: {
+      __typename?: "DropOffMapEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMap";
+        description?: string | null;
+        name?: string | null;
         updatedAt?: any | null;
         createdAt?: any | null;
       } | null;
@@ -22448,6 +22572,226 @@ export type UpdateSectorizationMutationResult =
 export type UpdateSectorizationMutationOptions = Apollo.BaseMutationOptions<
   UpdateSectorizationMutation,
   UpdateSectorizationMutationVariables
+>;
+export const DeleteDropOffMapDocument = gql`
+  mutation deleteDropOffMap($deleteDropOffMapId: ID!) {
+    deleteDropOffMap(id: $deleteDropOffMapId) {
+      data {
+        id
+        attributes {
+          createdAt
+          description
+          name
+          description
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export type DeleteDropOffMapMutationFn = Apollo.MutationFunction<
+  DeleteDropOffMapMutation,
+  DeleteDropOffMapMutationVariables
+>;
+
+/**
+ * __useDeleteDropOffMapMutation__
+ *
+ * To run a mutation, you first call `useDeleteDropOffMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDropOffMapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDropOffMapMutation, { data, loading, error }] = useDeleteDropOffMapMutation({
+ *   variables: {
+ *      deleteDropOffMapId: // value for 'deleteDropOffMapId'
+ *   },
+ * });
+ */
+export function useDeleteDropOffMapMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteDropOffMapMutation,
+    DeleteDropOffMapMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteDropOffMapMutation,
+    DeleteDropOffMapMutationVariables
+  >(DeleteDropOffMapDocument, options);
+}
+export type DeleteDropOffMapMutationHookResult = ReturnType<
+  typeof useDeleteDropOffMapMutation
+>;
+export type DeleteDropOffMapMutationResult =
+  Apollo.MutationResult<DeleteDropOffMapMutation>;
+export type DeleteDropOffMapMutationOptions = Apollo.BaseMutationOptions<
+  DeleteDropOffMapMutation,
+  DeleteDropOffMapMutationVariables
+>;
+export const GetDropOffMapByContractIdDocument = gql`
+  query getDropOffMapByContractId(
+    $contractId: ID!
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    dropOffMaps(
+      filters: { dropOffMapService: { id: { eq: $contractId } } }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      data {
+        id
+        attributes {
+          createdAt
+          description
+          name
+          updatedAt
+          address
+          gpsCoordinates
+          city
+          collectDropOff {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+          collectVoluntary {
+            data {
+              attributes {
+                name
+              }
+              id
+            }
+          }
+        }
+      }
+      meta {
+        pagination {
+          total
+          pageSize
+          page
+          pageCount
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetDropOffMapByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetDropOffMapByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDropOffMapByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDropOffMapByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetDropOffMapByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetDropOffMapByContractIdQuery,
+    GetDropOffMapByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetDropOffMapByContractIdQuery,
+    GetDropOffMapByContractIdQueryVariables
+  >(GetDropOffMapByContractIdDocument, options);
+}
+export function useGetDropOffMapByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetDropOffMapByContractIdQuery,
+    GetDropOffMapByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetDropOffMapByContractIdQuery,
+    GetDropOffMapByContractIdQueryVariables
+  >(GetDropOffMapByContractIdDocument, options);
+}
+export type GetDropOffMapByContractIdQueryHookResult = ReturnType<
+  typeof useGetDropOffMapByContractIdQuery
+>;
+export type GetDropOffMapByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetDropOffMapByContractIdLazyQuery
+>;
+export type GetDropOffMapByContractIdQueryResult = Apollo.QueryResult<
+  GetDropOffMapByContractIdQuery,
+  GetDropOffMapByContractIdQueryVariables
+>;
+export const UpdateDropOffMapDocument = gql`
+  mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
+    updateDropOffMap(id: $updateDropOffMapId, data: $data) {
+      data {
+        id
+        attributes {
+          description
+          name
+          updatedAt
+          createdAt
+        }
+      }
+    }
+  }
+`;
+export type UpdateDropOffMapMutationFn = Apollo.MutationFunction<
+  UpdateDropOffMapMutation,
+  UpdateDropOffMapMutationVariables
+>;
+
+/**
+ * __useUpdateDropOffMapMutation__
+ *
+ * To run a mutation, you first call `useUpdateDropOffMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDropOffMapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDropOffMapMutation, { data, loading, error }] = useUpdateDropOffMapMutation({
+ *   variables: {
+ *      updateDropOffMapId: // value for 'updateDropOffMapId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateDropOffMapMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateDropOffMapMutation,
+    UpdateDropOffMapMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateDropOffMapMutation,
+    UpdateDropOffMapMutationVariables
+  >(UpdateDropOffMapDocument, options);
+}
+export type UpdateDropOffMapMutationHookResult = ReturnType<
+  typeof useUpdateDropOffMapMutation
+>;
+export type UpdateDropOffMapMutationResult =
+  Apollo.MutationResult<UpdateDropOffMapMutation>;
+export type UpdateDropOffMapMutationOptions = Apollo.BaseMutationOptions<
+  UpdateDropOffMapMutation,
+  UpdateDropOffMapMutationVariables
 >;
 export const GetRecyclingGuideServiceByContractIdDocument = gql`
   query getRecyclingGuideServiceByContractId($contractId: ID!) {

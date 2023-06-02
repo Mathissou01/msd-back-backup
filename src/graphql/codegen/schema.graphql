@@ -678,7 +678,11 @@ type CollectDoorToDoorRelationResponseCollection {
 type CollectDropOff {
   contract: ContractEntityResponse
   createdAt: DateTime
-  dropOffMap: DropOffMapEntityResponse
+  dropOffMaps(
+    filters: DropOffMapFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): DropOffMapRelationResponseCollection
   flows(
     filters: FlowFiltersInput
     pagination: PaginationArg = {}
@@ -686,11 +690,7 @@ type CollectDropOff {
   ): FlowRelationResponseCollection
   grammaticalGender: ENUM_COLLECTDROPOFF_GRAMMATICALGENDER
   name: String
-  picto(
-    filters: UploadFileFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): UploadFileRelationResponseCollection
+  picto: UploadFileEntityResponse
   updatedAt: DateTime
 }
 
@@ -712,7 +712,7 @@ input CollectDropOffFiltersInput {
   and: [CollectDropOffFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
-  dropOffMap: DropOffMapFiltersInput
+  dropOffMaps: DropOffMapFiltersInput
   flows: FlowFiltersInput
   grammaticalGender: StringFilterInput
   id: IDFilterInput
@@ -724,11 +724,11 @@ input CollectDropOffFiltersInput {
 
 input CollectDropOffInput {
   contract: ID
-  dropOffMap: ID
+  dropOffMaps: [ID]
   flows: [ID]
   grammaticalGender: ENUM_COLLECTDROPOFF_GRAMMATICALGENDER
   name: String
-  picto: [ID]
+  picto: ID
 }
 
 type CollectDropOffRelationResponseCollection {
@@ -738,7 +738,11 @@ type CollectDropOffRelationResponseCollection {
 type CollectVoluntary {
   contract: ContractEntityResponse
   createdAt: DateTime
-  dropOffMap: DropOffMapEntityResponse
+  dropOffMaps(
+    filters: DropOffMapFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): DropOffMapRelationResponseCollection
   flows(
     filters: FlowFiltersInput
     pagination: PaginationArg = {}
@@ -768,7 +772,7 @@ input CollectVoluntaryFiltersInput {
   and: [CollectVoluntaryFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
-  dropOffMap: DropOffMapFiltersInput
+  dropOffMaps: DropOffMapFiltersInput
   flows: FlowFiltersInput
   grammaticalGender: StringFilterInput
   id: IDFilterInput
@@ -780,7 +784,7 @@ input CollectVoluntaryFiltersInput {
 
 input CollectVoluntaryInput {
   contract: ID
-  dropOffMap: ID
+  dropOffMaps: [ID]
   flows: [ID]
   grammaticalGender: ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER
   name: String
@@ -1962,6 +1966,7 @@ type DocumentRelationResponseCollection {
 
 type DropOffMap {
   address: String
+  city: String
   collectDropOff: CollectDropOffEntityResponse
   collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
@@ -1972,7 +1977,7 @@ type DropOffMap {
     sort: [String] = []
   ): [ComponentBlocksDownloadBlock]
   dropOffMapService: DropOffMapServiceEntityResponse
-  gpsCoordinates: String!
+  gpsCoordinates: String
   mustKnow: String
   name: String
   openingHoursBlock: [DropOffMapOpeningHoursBlockDynamicZone]
@@ -1997,6 +2002,7 @@ type DropOffMapEntityResponseCollection {
 input DropOffMapFiltersInput {
   address: StringFilterInput
   and: [DropOffMapFiltersInput]
+  city: StringFilterInput
   collectDropOff: CollectDropOffFiltersInput
   collectVoluntary: CollectVoluntaryFiltersInput
   createdAt: DateTimeFilterInput
@@ -2015,6 +2021,7 @@ input DropOffMapFiltersInput {
 
 input DropOffMapInput {
   address: String
+  city: String
   collectDropOff: ID
   collectVoluntary: ID
   description: String
@@ -2891,7 +2898,11 @@ type Flow {
   createdAt: DateTime
   isActivated: Boolean
   name: String
-  pickUpDay: PickUpDayEntityResponse
+  pickUpDays(
+    filters: PickUpDayFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): PickUpDayRelationResponseCollection
   recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE!
   updatedAt: DateTime
   wasteForms(
@@ -2972,7 +2983,7 @@ input FlowFiltersInput {
   name: StringFilterInput
   not: FlowFiltersInput
   or: [FlowFiltersInput]
-  pickUpDay: PickUpDayFiltersInput
+  pickUpDays: PickUpDayFiltersInput
   recyclingGesture: StringFilterInput
   updatedAt: DateTimeFilterInput
   wasteForms: WasteFormFiltersInput
@@ -2987,7 +2998,7 @@ input FlowInput {
   contract: ID
   isActivated: Boolean
   name: String
-  pickUpDay: ID
+  pickUpDays: [ID]
   recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE
   wasteForms: [ID]
 }
@@ -3765,6 +3776,7 @@ type Mutation {
     contactFirstName: String!
     contactLastName: String!
     contactPhoneNumber: String!
+    isNonExclusive: Boolean!
     isRVFrance: Boolean!
     siretNumber: Long
   ): [ContractAndClientContact]
@@ -4562,6 +4574,7 @@ type PickUpDay {
   description: String
   flow: FlowEntityResponse
   name: String!
+  pickUpDayService: PickUpDayServiceEntityResponse
   sectorization: SectorizationEntityResponse
   updatedAt: DateTime
 }
@@ -4590,6 +4603,7 @@ input PickUpDayFiltersInput {
   name: StringFilterInput
   not: PickUpDayFiltersInput
   or: [PickUpDayFiltersInput]
+  pickUpDayService: PickUpDayServiceFiltersInput
   sectorization: SectorizationFiltersInput
   updatedAt: DateTimeFilterInput
 }
@@ -4599,6 +4613,7 @@ input PickUpDayInput {
   description: String
   flow: ID
   name: String
+  pickUpDayService: ID
   sectorization: ID
 }
 

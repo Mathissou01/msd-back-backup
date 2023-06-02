@@ -1,4 +1,4 @@
-.c-SectorsPage {
+.c-CartePage {
   &__Modal {
     width: 100%;
   }
@@ -13,9 +13,7 @@
 
   &__Link {
     // TODO: Use main component for styling the DataTable
-    cursor: pointer;
     font-weight: 500;
     font-family: DINPro-Medium, sans-serif;
-    text-decoration: underline;
   }
 }
