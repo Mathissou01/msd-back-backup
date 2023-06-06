@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Enum_Wasteform_Status,
   GetWasteFormsByContractIdQuery,
+  useGetFlowsFilterByContractIdLazyQuery,
   useGetWasteFormsByContractIdLazyQuery,
   useUpdateWasteFormMutation,
 } from "../../../../../graphql/codegen/generated-types";
@@ -11,21 +12,29 @@ import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { EStatusLabel } from "../../../../../lib/status";
 import { formatDate, removeNulls } from "../../../../../lib/utilities";
-import CommonDataTable, {
-  ICurrentPagination,
+import {
   IDefaultTableRow,
-} from "../../../../Common/CommonDataTable/CommonDataTable";
-import { IDataTableFilter } from "../../../../Common/CommonDataTable/DataTableFilters/DataTableFilters";
+  ICurrentPagination,
+} from "../../../../../lib/common-data-table";
+import CommonDataTable from "../../../../Common/CommonDataTable/CommonDataTable";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import { IDataTableAction } from "../../../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import "./waste-form-tab.scss";
 import Link from "next/link";
+import CommonButtonGroup, {
+  ICommonButtonGroupSingle,
+} from "../../../../Common/CommonButtonGroup/CommonButtonGroup";
 
 export interface IWastesTableRow extends IDefaultTableRow {
   name: string;
   status: EStatusLabel;
   updatedAt: string;
   isHidden: boolean;
+}
+
+interface IFilters extends Record<string, unknown> {
+  status?: string;
+  flowId?: string;
 }
 
 export default function WasteFormTab() {
@@ -38,37 +47,6 @@ export default function WasteFormTab() {
       updatedAt: "Modification",
     },
   };
-
-  /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination<IWastesTableRow>) {
-    return getWasteFormsQuery({
-      variables: {
-        contractId: contractId,
-        pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
-          statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
-        }),
-        ...(params.sort?.column && {
-          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
-        }),
-      },
-    });
-  }
-
-  function setWasteFormVisibility(row: IWastesTableRow) {
-    updateWasteForm({
-      variables: {
-        updateWasteFormId: row.id,
-        data: {
-          isHidden: !row.isHidden,
-        },
-      },
-    });
-  }
-
-  function onHideRow(row: IWastesTableRow) {
-    setWasteFormVisibility(row);
-  }
 
   /* External Data */
   const { currentRoot } = useNavigation();
@@ -84,6 +62,16 @@ export default function WasteFormTab() {
       },
       fetchPolicy: "network-only",
     });
+
+  const [
+    getFilterFlows,
+    { data: dataFlows, loading: loadingFlows, error: errorFlows },
+  ] = useGetFlowsFilterByContractIdLazyQuery({
+    variables: {
+      contractId,
+    },
+  });
+
   const [updateWasteForm, { loading: loadingUpdate, error: errorUpdate }] =
     useUpdateWasteFormMutation({
       refetchQueries: ["getWasteFormsByContractId"],
@@ -96,11 +84,9 @@ export default function WasteFormTab() {
   const [pageData, setPageData] = useState<
     GetWasteFormsByContractIdQuery | undefined
   >(data);
-  const [filterData, setFilterData] = useState<
-    Array<IDataTableFilter<IWastesTableRow>>
-  >([]);
-  const isLoading = loading && loadingUpdate;
-  const errors = [error, errorUpdate];
+  const isLoading = loading || loadingUpdate || loadingFlows;
+  const errors = [error, errorUpdate, errorFlows];
+  const [filters, setFilters] = useState<IFilters>({});
 
   const tableColumns: Array<TableColumn<IWastesTableRow>> = [
     {
@@ -159,6 +145,75 @@ export default function WasteFormTab() {
       classNames: ["rdt_TableRow_gray"],
     },
   ];
+  const [filterButtonGroup, setFilterButtonGroup] =
+    useState<Array<ICommonButtonGroupSingle>>();
+
+  const filtersNode = (
+    <>
+      <CommonButtonGroup
+        buttons={filterButtonGroup ?? []}
+        onChange={(button) => setFilters({ ...filters, status: button.value })}
+      />
+      <div className="o-SelectWrapper">
+        <select
+          className="o-SelectWrapper__Select"
+          value={filters.flowId}
+          onChange={(e) => setFilters({ ...filters, flowId: e.target.value })}
+        >
+          <option value={""}>{"- Selectionner un flux -"}</option>
+          {dataFlows?.flows?.data
+            .map((flow, index) => {
+              if (flow && flow.id && flow.attributes) {
+                return (
+                  <option key={index} value={flow.id}>
+                    {flow.attributes.name}
+                  </option>
+                );
+              }
+            })
+            .filter(removeNulls) ?? []}
+        </select>
+      </div>
+    </>
+  );
+
+  /* Methods */
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
+    return getWasteFormsQuery({
+      variables: {
+        contractId: contractId,
+        pagination: { page: params.page, pageSize: params.rowsPerPage },
+        ...(filters?.status && {
+          statusFilter: filters?.status,
+        }),
+        ...(filters?.flowId &&
+          filters.flowId && {
+            flowId: filters?.flowId,
+          }),
+        ...(params.sort?.column && {
+          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
+        }),
+      },
+    });
+  }
+
+  function setWasteFormVisibility(row: IWastesTableRow) {
+    updateWasteForm({
+      variables: {
+        updateWasteFormId: row.id,
+        data: {
+          isHidden: !row.isHidden,
+        },
+      },
+    });
+  }
+
+  function onHideRow(row: IWastesTableRow) {
+    setWasteFormVisibility(row);
+  }
 
   useEffect(() => {
     if (data) {
@@ -182,46 +237,39 @@ export default function WasteFormTab() {
           })
           .filter(removeNulls) ?? [],
       );
-      setFilterData([
-        {
-          label: "Tous",
-          count: pageData?.wasteFormsCount?.meta.pagination.total,
-        },
-        {
-          label: "Publiés",
-          count: pageData?.wasteFormsPublishedCount?.meta.pagination.total,
-          lazyLoadSelector: {
+      if (pageData) {
+        setFilterButtonGroup([
+          {
+            label: `Tous (${pageData.wasteFormsCount?.meta.pagination.total})`,
+          },
+          {
+            label: `Publiés (${pageData.wasteFormsPublishedCount?.meta.pagination.total})`,
             value: Enum_Wasteform_Status.Published,
           },
-        },
-        {
-          label: "Brouillons",
-          count: pageData?.wasteFormsDraftCount?.meta.pagination.total,
-          lazyLoadSelector: {
+          {
+            label: `Brouillons (${pageData.wasteFormsDraftCount?.meta.pagination.total})`,
             value: Enum_Wasteform_Status.Draft,
           },
-        },
-        {
-          label: "Archivés",
-          count: pageData?.wasteFormsArchivedCount?.meta.pagination.total,
-          lazyLoadSelector: {
+          {
+            label: `Archivés (${pageData.wasteFormsArchivedCount?.meta.pagination.total})`,
             value: Enum_Wasteform_Status.Archived,
           },
-        },
-      ]);
+        ]);
+      }
     }
   }, [data, pageData]);
 
   useEffect(() => {
     setPageData(data);
-  }, [data]);
+  }, [data, filters]);
 
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
       void getWasteFormsQuery();
+      void getFilterFlows();
     }
-  }, [getWasteFormsQuery, isInitialized]);
+  }, [getWasteFormsQuery, isInitialized, getFilterFlows]);
 
   return (
     <div className="o-TablePage">
@@ -241,7 +289,8 @@ export default function WasteFormTab() {
             }}
             onLazyLoad={handleLazyLoad}
             isLoading={isLoading}
-            filters={filterData}
+            filtersNode={filtersNode}
+            filters={filters}
             paginationOptions={{
               hasPagination: true,
               hasRowsPerPageOptions: false,

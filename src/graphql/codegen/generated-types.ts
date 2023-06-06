@@ -3725,6 +3725,7 @@ export type GenericMorph =
   | RecyclingGuideBlock
   | RecyclingGuideService
   | Request
+  | RequestAggregate
   | RequestService
   | SearchEngineBlock
   | Sectorization
@@ -4155,6 +4156,7 @@ export type Mutation = {
   createRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   createRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   createRequest?: Maybe<RequestEntityResponse>;
+  createRequestAggregate?: Maybe<RequestAggregateEntityResponse>;
   createRequestService?: Maybe<RequestServiceEntityResponse>;
   createSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   createSectorization?: Maybe<SectorizationEntityResponse>;
@@ -4231,6 +4233,7 @@ export type Mutation = {
   deleteRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   deleteRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   deleteRequest?: Maybe<RequestEntityResponse>;
+  deleteRequestAggregate?: Maybe<RequestAggregateEntityResponse>;
   deleteRequestService?: Maybe<RequestServiceEntityResponse>;
   deleteSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   deleteSectorization?: Maybe<SectorizationEntityResponse>;
@@ -4328,6 +4331,7 @@ export type Mutation = {
   updateRecyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   updateRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   updateRequest?: Maybe<RequestEntityResponse>;
+  updateRequestAggregate?: Maybe<RequestAggregateEntityResponse>;
   updateRequestService?: Maybe<RequestServiceEntityResponse>;
   updateSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   updateSectorization?: Maybe<SectorizationEntityResponse>;
@@ -4636,6 +4640,10 @@ export type MutationCreateRequestArgs = {
   data: RequestInput;
 };
 
+export type MutationCreateRequestAggregateArgs = {
+  data: RequestAggregateInput;
+};
+
 export type MutationCreateRequestServiceArgs = {
   data: RequestServiceInput;
 };
@@ -4927,6 +4935,10 @@ export type MutationDeleteRecyclingGuideServiceArgs = {
 };
 
 export type MutationDeleteRequestArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteRequestAggregateArgs = {
   id: Scalars["ID"];
 };
 
@@ -5353,6 +5365,11 @@ export type MutationUpdateRecyclingGuideServiceArgs = {
 
 export type MutationUpdateRequestArgs = {
   data: RequestInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateRequestAggregateArgs = {
+  data: RequestAggregateInput;
   id: Scalars["ID"];
 };
 
@@ -6125,6 +6142,8 @@ export type Query = {
   recyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   recyclingGuideServices?: Maybe<RecyclingGuideServiceEntityResponseCollection>;
   request?: Maybe<RequestEntityResponse>;
+  requestAggregate?: Maybe<RequestAggregateEntityResponse>;
+  requestAggregates?: Maybe<RequestAggregateEntityResponseCollection>;
   requestService?: Maybe<RequestServiceEntityResponse>;
   requestServices?: Maybe<RequestServiceEntityResponseCollection>;
   requests?: Maybe<RequestEntityResponseCollection>;
@@ -6778,6 +6797,16 @@ export type QueryRequestArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
+export type QueryRequestAggregateArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryRequestAggregatesArgs = {
+  filters?: InputMaybe<RequestAggregateFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type QueryRequestServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -7380,6 +7409,7 @@ export type Request = {
   description?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  requestAggregate?: Maybe<RequestAggregateEntityResponse>;
   requestService: RequestServiceEntityResponse;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -7394,6 +7424,54 @@ export type RequestAddableBlocksDynamicZone =
   | ComponentBlocksQuestions
   | ComponentBlocksUser
   | Error;
+
+export type RequestAggregate = {
+  __typename?: "RequestAggregate";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  name: Scalars["String"];
+  requests?: Maybe<RequestRelationResponseCollection>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type RequestAggregateRequestsArgs = {
+  filters?: InputMaybe<RequestFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type RequestAggregateEntity = {
+  __typename?: "RequestAggregateEntity";
+  attributes?: Maybe<RequestAggregate>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type RequestAggregateEntityResponse = {
+  __typename?: "RequestAggregateEntityResponse";
+  data?: Maybe<RequestAggregateEntity>;
+};
+
+export type RequestAggregateEntityResponseCollection = {
+  __typename?: "RequestAggregateEntityResponseCollection";
+  data: Array<RequestAggregateEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type RequestAggregateFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<RequestAggregateFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<RequestAggregateFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<RequestAggregateFiltersInput>>>;
+  requests?: InputMaybe<RequestFiltersInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type RequestAggregateInput = {
+  name?: InputMaybe<Scalars["String"]>;
+  requests?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
 
 export type RequestEntity = {
   __typename?: "RequestEntity";
@@ -7428,6 +7506,7 @@ export type RequestFiltersInput = {
   not?: InputMaybe<RequestFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  requestAggregate?: InputMaybe<RequestAggregateFiltersInput>;
   requestService?: InputMaybe<RequestServiceFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -7460,6 +7539,7 @@ export type RequestInput = {
   description?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  requestAggregate?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
 };
 
@@ -10492,6 +10572,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "RecyclingGuideBlock" }
           | { __typename?: "RecyclingGuideService" }
           | { __typename?: "Request" }
+          | { __typename?: "RequestAggregate" }
           | { __typename?: "RequestService" }
           | { __typename?: "SearchEngineBlock" }
           | { __typename?: "Sectorization" }
@@ -14237,90 +14318,6 @@ export type UpdateDropOffMapMutation = {
   } | null;
 };
 
-export type GetRecyclingGuideServiceByContractIdQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetRecyclingGuideServiceByContractIdQuery = {
-  __typename?: "Query";
-  recyclingGuideServices?: {
-    __typename?: "RecyclingGuideServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "RecyclingGuideServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "RecyclingGuideService";
-        name: string;
-        endDate?: any | null;
-        memoName: string;
-        memoDesc?: string | null;
-        isActivated: boolean;
-        orderExtension?: boolean | null;
-        wasteFamilies?: {
-          __typename?: "WasteFamilyRelationResponseCollection";
-          data: Array<{
-            __typename?: "WasteFamilyEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "WasteFamily";
-              createdAt?: any | null;
-              familyName: string;
-              isSystem: boolean;
-              updatedAt?: any | null;
-              wasteForms?: {
-                __typename?: "WasteFormRelationResponseCollection";
-                data: Array<{
-                  __typename?: "WasteFormEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "WasteForm";
-                    name?: string | null;
-                  } | null;
-                }>;
-              } | null;
-            } | null;
-          }>;
-        } | null;
-        memoFile?: {
-          __typename?: "UploadFileEntityResponse";
-          data?: {
-            __typename?: "UploadFileEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "UploadFile";
-              name: string;
-              hash: string;
-              mime: string;
-              size: number;
-              url: string;
-              provider: string;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    }>;
-  } | null;
-};
-
-export type GetRecyclingGuideServiceByIdQueryVariables = Exact<{
-  recyclingGuideServiceId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetRecyclingGuideServiceByIdQuery = {
-  __typename?: "Query";
-  recyclingGuideService?: {
-    __typename?: "RecyclingGuideServiceEntityResponse";
-    data?: {
-      __typename?: "RecyclingGuideServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "RecyclingGuideService";
-        orderExtension?: boolean | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export type GetWasteFamiliesQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
   sort?: InputMaybe<
@@ -14392,6 +14389,49 @@ export type GetWasteFamiliesByContractIdQuery = {
         } | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type UpdateWasteFamilyMutationVariables = Exact<{
+  updateWasteFamilyId: Scalars["ID"];
+  data: WasteFamilyInput;
+}>;
+
+export type UpdateWasteFamilyMutation = {
+  __typename?: "Mutation";
+  updateWasteFamily?: {
+    __typename?: "WasteFamilyEntityResponse";
+    data?: {
+      __typename?: "WasteFamilyEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "WasteFamily";
+        familyName: string;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        isSystem: boolean;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetFlowsFilterByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetFlowsFilterByContractIdQuery = {
+  __typename?: "Query";
+  flows?: {
+    __typename?: "FlowEntityResponseCollection";
+    data: Array<{
+      __typename?: "FlowEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Flow";
+        name?: string | null;
+        recyclingGesture: Enum_Flow_Recyclinggesture;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -14559,7 +14599,8 @@ export type GetWasteFormByIdQuery = {
 
 export type GetWasteFormsByContractIdQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
-  statusFilter?: InputMaybe<StringFilterInput>;
+  statusFilter?: InputMaybe<Scalars["String"]>;
+  flowId?: InputMaybe<Scalars["ID"]>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
   >;
@@ -14622,49 +14663,6 @@ export type GetWasteFormsByContractIdQuery = {
   } | null;
 };
 
-export type UpdateRecyclingGuideServiceMutationVariables = Exact<{
-  updateRecyclingGuideServiceId: Scalars["ID"];
-  data: RecyclingGuideServiceInput;
-}>;
-
-export type UpdateRecyclingGuideServiceMutation = {
-  __typename?: "Mutation";
-  updateRecyclingGuideService?: {
-    __typename?: "RecyclingGuideServiceEntityResponse";
-    data?: {
-      __typename?: "RecyclingGuideServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "RecyclingGuideService";
-        orderExtension?: boolean | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type UpdateWasteFamilyMutationVariables = Exact<{
-  updateWasteFamilyId: Scalars["ID"];
-  data: WasteFamilyInput;
-}>;
-
-export type UpdateWasteFamilyMutation = {
-  __typename?: "Mutation";
-  updateWasteFamily?: {
-    __typename?: "WasteFamilyEntityResponse";
-    data?: {
-      __typename?: "WasteFamilyEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "WasteFamily";
-        familyName: string;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        isSystem: boolean;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export type UpdateWasteFormMutationVariables = Exact<{
   updateWasteFormId: Scalars["ID"];
   data: WasteFormInput;
@@ -14680,6 +14678,110 @@ export type UpdateWasteFormMutation = {
       attributes?: {
         __typename?: "WasteForm";
         isHidden?: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetRecyclingGuideServiceByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetRecyclingGuideServiceByContractIdQuery = {
+  __typename?: "Query";
+  recyclingGuideServices?: {
+    __typename?: "RecyclingGuideServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        name: string;
+        endDate?: any | null;
+        memoName: string;
+        memoDesc?: string | null;
+        isActivated: boolean;
+        orderExtension?: boolean | null;
+        wasteFamilies?: {
+          __typename?: "WasteFamilyRelationResponseCollection";
+          data: Array<{
+            __typename?: "WasteFamilyEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "WasteFamily";
+              createdAt?: any | null;
+              familyName: string;
+              isSystem: boolean;
+              updatedAt?: any | null;
+              wasteForms?: {
+                __typename?: "WasteFormRelationResponseCollection";
+                data: Array<{
+                  __typename?: "WasteFormEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "WasteForm";
+                    name?: string | null;
+                  } | null;
+                }>;
+              } | null;
+            } | null;
+          }>;
+        } | null;
+        memoFile?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              name: string;
+              hash: string;
+              mime: string;
+              size: number;
+              url: string;
+              provider: string;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetRecyclingGuideServiceByIdQueryVariables = Exact<{
+  recyclingGuideServiceId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetRecyclingGuideServiceByIdQuery = {
+  __typename?: "Query";
+  recyclingGuideService?: {
+    __typename?: "RecyclingGuideServiceEntityResponse";
+    data?: {
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        orderExtension?: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateRecyclingGuideServiceMutationVariables = Exact<{
+  updateRecyclingGuideServiceId: Scalars["ID"];
+  data: RecyclingGuideServiceInput;
+}>;
+
+export type UpdateRecyclingGuideServiceMutation = {
+  __typename?: "Mutation";
+  updateRecyclingGuideService?: {
+    __typename?: "RecyclingGuideServiceEntityResponse";
+    data?: {
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        orderExtension?: boolean | null;
       } | null;
     } | null;
   } | null;
@@ -22793,169 +22895,6 @@ export type UpdateDropOffMapMutationOptions = Apollo.BaseMutationOptions<
   UpdateDropOffMapMutation,
   UpdateDropOffMapMutationVariables
 >;
-export const GetRecyclingGuideServiceByContractIdDocument = gql`
-  query getRecyclingGuideServiceByContractId($contractId: ID!) {
-    recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        id
-        attributes {
-          name
-          endDate
-          memoName
-          memoDesc
-          isActivated
-          orderExtension
-          wasteFamilies {
-            data {
-              id
-              attributes {
-                createdAt
-                familyName
-                isSystem
-                updatedAt
-                wasteForms {
-                  data {
-                    id
-                    attributes {
-                      name
-                    }
-                  }
-                }
-              }
-            }
-          }
-          memoFile {
-            data {
-              id
-              attributes {
-                name
-                hash
-                mime
-                size
-                url
-                provider
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetRecyclingGuideServiceByContractIdQuery__
- *
- * To run a query within a React component, call `useGetRecyclingGuideServiceByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecyclingGuideServiceByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetRecyclingGuideServiceByContractIdQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetRecyclingGuideServiceByContractIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >(GetRecyclingGuideServiceByContractIdDocument, options);
-}
-export function useGetRecyclingGuideServiceByContractIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >(GetRecyclingGuideServiceByContractIdDocument, options);
-}
-export type GetRecyclingGuideServiceByContractIdQueryHookResult = ReturnType<
-  typeof useGetRecyclingGuideServiceByContractIdQuery
->;
-export type GetRecyclingGuideServiceByContractIdLazyQueryHookResult =
-  ReturnType<typeof useGetRecyclingGuideServiceByContractIdLazyQuery>;
-export type GetRecyclingGuideServiceByContractIdQueryResult =
-  Apollo.QueryResult<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >;
-export const GetRecyclingGuideServiceByIdDocument = gql`
-  query getRecyclingGuideServiceById($recyclingGuideServiceId: ID) {
-    recyclingGuideService(id: $recyclingGuideServiceId) {
-      data {
-        id
-        attributes {
-          orderExtension
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetRecyclingGuideServiceByIdQuery__
- *
- * To run a query within a React component, call `useGetRecyclingGuideServiceByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecyclingGuideServiceByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetRecyclingGuideServiceByIdQuery({
- *   variables: {
- *      recyclingGuideServiceId: // value for 'recyclingGuideServiceId'
- *   },
- * });
- */
-export function useGetRecyclingGuideServiceByIdQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetRecyclingGuideServiceByIdQuery,
-    GetRecyclingGuideServiceByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetRecyclingGuideServiceByIdQuery,
-    GetRecyclingGuideServiceByIdQueryVariables
-  >(GetRecyclingGuideServiceByIdDocument, options);
-}
-export function useGetRecyclingGuideServiceByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetRecyclingGuideServiceByIdQuery,
-    GetRecyclingGuideServiceByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetRecyclingGuideServiceByIdQuery,
-    GetRecyclingGuideServiceByIdQueryVariables
-  >(GetRecyclingGuideServiceByIdDocument, options);
-}
-export type GetRecyclingGuideServiceByIdQueryHookResult = ReturnType<
-  typeof useGetRecyclingGuideServiceByIdQuery
->;
-export type GetRecyclingGuideServiceByIdLazyQueryHookResult = ReturnType<
-  typeof useGetRecyclingGuideServiceByIdLazyQuery
->;
-export type GetRecyclingGuideServiceByIdQueryResult = Apollo.QueryResult<
-  GetRecyclingGuideServiceByIdQuery,
-  GetRecyclingGuideServiceByIdQueryVariables
->;
 export const GetWasteFamiliesDocument = gql`
   query getWasteFamilies($contractId: ID, $sort: [String]) {
     recyclingGuideService(id: $contractId) {
@@ -23106,6 +23045,138 @@ export type GetWasteFamiliesByContractIdLazyQueryHookResult = ReturnType<
 export type GetWasteFamiliesByContractIdQueryResult = Apollo.QueryResult<
   GetWasteFamiliesByContractIdQuery,
   GetWasteFamiliesByContractIdQueryVariables
+>;
+export const UpdateWasteFamilyDocument = gql`
+  mutation UpdateWasteFamily(
+    $updateWasteFamilyId: ID!
+    $data: WasteFamilyInput!
+  ) {
+    updateWasteFamily(id: $updateWasteFamilyId, data: $data) {
+      data {
+        id
+        attributes {
+          familyName
+          createdAt
+          updatedAt
+          isSystem
+        }
+      }
+    }
+  }
+`;
+export type UpdateWasteFamilyMutationFn = Apollo.MutationFunction<
+  UpdateWasteFamilyMutation,
+  UpdateWasteFamilyMutationVariables
+>;
+
+/**
+ * __useUpdateWasteFamilyMutation__
+ *
+ * To run a mutation, you first call `useUpdateWasteFamilyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWasteFamilyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWasteFamilyMutation, { data, loading, error }] = useUpdateWasteFamilyMutation({
+ *   variables: {
+ *      updateWasteFamilyId: // value for 'updateWasteFamilyId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateWasteFamilyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateWasteFamilyMutation,
+    UpdateWasteFamilyMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateWasteFamilyMutation,
+    UpdateWasteFamilyMutationVariables
+  >(UpdateWasteFamilyDocument, options);
+}
+export type UpdateWasteFamilyMutationHookResult = ReturnType<
+  typeof useUpdateWasteFamilyMutation
+>;
+export type UpdateWasteFamilyMutationResult =
+  Apollo.MutationResult<UpdateWasteFamilyMutation>;
+export type UpdateWasteFamilyMutationOptions = Apollo.BaseMutationOptions<
+  UpdateWasteFamilyMutation,
+  UpdateWasteFamilyMutationVariables
+>;
+export const GetFlowsFilterByContractIdDocument = gql`
+  query getFlowsFilterByContractId($contractId: ID!) {
+    flows(
+      filters: {
+        isActivated: { eq: true }
+        contract: { id: { eq: $contractId } }
+      }
+      sort: "name:asc"
+    ) {
+      data {
+        id
+        attributes {
+          name
+          recyclingGesture
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFlowsFilterByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetFlowsFilterByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFlowsFilterByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFlowsFilterByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetFlowsFilterByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFlowsFilterByContractIdQuery,
+    GetFlowsFilterByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFlowsFilterByContractIdQuery,
+    GetFlowsFilterByContractIdQueryVariables
+  >(GetFlowsFilterByContractIdDocument, options);
+}
+export function useGetFlowsFilterByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFlowsFilterByContractIdQuery,
+    GetFlowsFilterByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFlowsFilterByContractIdQuery,
+    GetFlowsFilterByContractIdQueryVariables
+  >(GetFlowsFilterByContractIdDocument, options);
+}
+export type GetFlowsFilterByContractIdQueryHookResult = ReturnType<
+  typeof useGetFlowsFilterByContractIdQuery
+>;
+export type GetFlowsFilterByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetFlowsFilterByContractIdLazyQuery
+>;
+export type GetFlowsFilterByContractIdQueryResult = Apollo.QueryResult<
+  GetFlowsFilterByContractIdQuery,
+  GetFlowsFilterByContractIdQueryVariables
 >;
 export const GetWasteFormByIdDocument = gql`
   query getWasteFormById($wasteFormId: ID) {
@@ -23293,7 +23364,8 @@ export type GetWasteFormByIdQueryResult = Apollo.QueryResult<
 export const GetWasteFormsByContractIdDocument = gql`
   query getWasteFormsByContractId(
     $contractId: ID
-    $statusFilter: StringFilterInput
+    $statusFilter: String
+    $flowId: ID
     $sort: [String]
     $pagination: PaginationArg
   ) {
@@ -23347,7 +23419,8 @@ export const GetWasteFormsByContractIdDocument = gql`
     wasteForms(
       filters: {
         recyclingGuideService: { contract: { id: { eq: $contractId } } }
-        status: $statusFilter
+        status: { eq: $statusFilter }
+        flow: { id: { eq: $flowId } }
       }
       sort: $sort
       pagination: $pagination
@@ -23387,6 +23460,7 @@ export const GetWasteFormsByContractIdDocument = gql`
  *   variables: {
  *      contractId: // value for 'contractId'
  *      statusFilter: // value for 'statusFilter'
+ *      flowId: // value for 'flowId'
  *      sort: // value for 'sort'
  *      pagination: // value for 'pagination'
  *   },
@@ -23425,6 +23499,225 @@ export type GetWasteFormsByContractIdLazyQueryHookResult = ReturnType<
 export type GetWasteFormsByContractIdQueryResult = Apollo.QueryResult<
   GetWasteFormsByContractIdQuery,
   GetWasteFormsByContractIdQueryVariables
+>;
+export const UpdateWasteFormDocument = gql`
+  mutation UpdateWasteForm($updateWasteFormId: ID!, $data: WasteFormInput!) {
+    updateWasteForm(id: $updateWasteFormId, data: $data) {
+      data {
+        id
+        attributes {
+          isHidden
+        }
+      }
+    }
+  }
+`;
+export type UpdateWasteFormMutationFn = Apollo.MutationFunction<
+  UpdateWasteFormMutation,
+  UpdateWasteFormMutationVariables
+>;
+
+/**
+ * __useUpdateWasteFormMutation__
+ *
+ * To run a mutation, you first call `useUpdateWasteFormMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWasteFormMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWasteFormMutation, { data, loading, error }] = useUpdateWasteFormMutation({
+ *   variables: {
+ *      updateWasteFormId: // value for 'updateWasteFormId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateWasteFormMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateWasteFormMutation,
+    UpdateWasteFormMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateWasteFormMutation,
+    UpdateWasteFormMutationVariables
+  >(UpdateWasteFormDocument, options);
+}
+export type UpdateWasteFormMutationHookResult = ReturnType<
+  typeof useUpdateWasteFormMutation
+>;
+export type UpdateWasteFormMutationResult =
+  Apollo.MutationResult<UpdateWasteFormMutation>;
+export type UpdateWasteFormMutationOptions = Apollo.BaseMutationOptions<
+  UpdateWasteFormMutation,
+  UpdateWasteFormMutationVariables
+>;
+export const GetRecyclingGuideServiceByContractIdDocument = gql`
+  query getRecyclingGuideServiceByContractId($contractId: ID!) {
+    recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          name
+          endDate
+          memoName
+          memoDesc
+          isActivated
+          orderExtension
+          wasteFamilies {
+            data {
+              id
+              attributes {
+                createdAt
+                familyName
+                isSystem
+                updatedAt
+                wasteForms {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
+          memoFile {
+            data {
+              id
+              attributes {
+                name
+                hash
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRecyclingGuideServiceByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetRecyclingGuideServiceByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecyclingGuideServiceByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecyclingGuideServiceByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetRecyclingGuideServiceByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRecyclingGuideServiceByContractIdQuery,
+    GetRecyclingGuideServiceByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRecyclingGuideServiceByContractIdQuery,
+    GetRecyclingGuideServiceByContractIdQueryVariables
+  >(GetRecyclingGuideServiceByContractIdDocument, options);
+}
+export function useGetRecyclingGuideServiceByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRecyclingGuideServiceByContractIdQuery,
+    GetRecyclingGuideServiceByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRecyclingGuideServiceByContractIdQuery,
+    GetRecyclingGuideServiceByContractIdQueryVariables
+  >(GetRecyclingGuideServiceByContractIdDocument, options);
+}
+export type GetRecyclingGuideServiceByContractIdQueryHookResult = ReturnType<
+  typeof useGetRecyclingGuideServiceByContractIdQuery
+>;
+export type GetRecyclingGuideServiceByContractIdLazyQueryHookResult =
+  ReturnType<typeof useGetRecyclingGuideServiceByContractIdLazyQuery>;
+export type GetRecyclingGuideServiceByContractIdQueryResult =
+  Apollo.QueryResult<
+    GetRecyclingGuideServiceByContractIdQuery,
+    GetRecyclingGuideServiceByContractIdQueryVariables
+  >;
+export const GetRecyclingGuideServiceByIdDocument = gql`
+  query getRecyclingGuideServiceById($recyclingGuideServiceId: ID) {
+    recyclingGuideService(id: $recyclingGuideServiceId) {
+      data {
+        id
+        attributes {
+          orderExtension
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRecyclingGuideServiceByIdQuery__
+ *
+ * To run a query within a React component, call `useGetRecyclingGuideServiceByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecyclingGuideServiceByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecyclingGuideServiceByIdQuery({
+ *   variables: {
+ *      recyclingGuideServiceId: // value for 'recyclingGuideServiceId'
+ *   },
+ * });
+ */
+export function useGetRecyclingGuideServiceByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetRecyclingGuideServiceByIdQuery,
+    GetRecyclingGuideServiceByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRecyclingGuideServiceByIdQuery,
+    GetRecyclingGuideServiceByIdQueryVariables
+  >(GetRecyclingGuideServiceByIdDocument, options);
+}
+export function useGetRecyclingGuideServiceByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRecyclingGuideServiceByIdQuery,
+    GetRecyclingGuideServiceByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRecyclingGuideServiceByIdQuery,
+    GetRecyclingGuideServiceByIdQueryVariables
+  >(GetRecyclingGuideServiceByIdDocument, options);
+}
+export type GetRecyclingGuideServiceByIdQueryHookResult = ReturnType<
+  typeof useGetRecyclingGuideServiceByIdQuery
+>;
+export type GetRecyclingGuideServiceByIdLazyQueryHookResult = ReturnType<
+  typeof useGetRecyclingGuideServiceByIdLazyQuery
+>;
+export type GetRecyclingGuideServiceByIdQueryResult = Apollo.QueryResult<
+  GetRecyclingGuideServiceByIdQuery,
+  GetRecyclingGuideServiceByIdQueryVariables
 >;
 export const UpdateRecyclingGuideServiceDocument = gql`
   mutation updateRecyclingGuideService(
@@ -23489,121 +23782,3 @@ export type UpdateRecyclingGuideServiceMutationOptions =
     UpdateRecyclingGuideServiceMutation,
     UpdateRecyclingGuideServiceMutationVariables
   >;
-export const UpdateWasteFamilyDocument = gql`
-  mutation UpdateWasteFamily(
-    $updateWasteFamilyId: ID!
-    $data: WasteFamilyInput!
-  ) {
-    updateWasteFamily(id: $updateWasteFamilyId, data: $data) {
-      data {
-        id
-        attributes {
-          familyName
-          createdAt
-          updatedAt
-          isSystem
-        }
-      }
-    }
-  }
-`;
-export type UpdateWasteFamilyMutationFn = Apollo.MutationFunction<
-  UpdateWasteFamilyMutation,
-  UpdateWasteFamilyMutationVariables
->;
-
-/**
- * __useUpdateWasteFamilyMutation__
- *
- * To run a mutation, you first call `useUpdateWasteFamilyMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateWasteFamilyMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateWasteFamilyMutation, { data, loading, error }] = useUpdateWasteFamilyMutation({
- *   variables: {
- *      updateWasteFamilyId: // value for 'updateWasteFamilyId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateWasteFamilyMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateWasteFamilyMutation,
-    UpdateWasteFamilyMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateWasteFamilyMutation,
-    UpdateWasteFamilyMutationVariables
-  >(UpdateWasteFamilyDocument, options);
-}
-export type UpdateWasteFamilyMutationHookResult = ReturnType<
-  typeof useUpdateWasteFamilyMutation
->;
-export type UpdateWasteFamilyMutationResult =
-  Apollo.MutationResult<UpdateWasteFamilyMutation>;
-export type UpdateWasteFamilyMutationOptions = Apollo.BaseMutationOptions<
-  UpdateWasteFamilyMutation,
-  UpdateWasteFamilyMutationVariables
->;
-export const UpdateWasteFormDocument = gql`
-  mutation UpdateWasteForm($updateWasteFormId: ID!, $data: WasteFormInput!) {
-    updateWasteForm(id: $updateWasteFormId, data: $data) {
-      data {
-        id
-        attributes {
-          isHidden
-        }
-      }
-    }
-  }
-`;
-export type UpdateWasteFormMutationFn = Apollo.MutationFunction<
-  UpdateWasteFormMutation,
-  UpdateWasteFormMutationVariables
->;
-
-/**
- * __useUpdateWasteFormMutation__
- *
- * To run a mutation, you first call `useUpdateWasteFormMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateWasteFormMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateWasteFormMutation, { data, loading, error }] = useUpdateWasteFormMutation({
- *   variables: {
- *      updateWasteFormId: // value for 'updateWasteFormId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateWasteFormMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateWasteFormMutation,
-    UpdateWasteFormMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateWasteFormMutation,
-    UpdateWasteFormMutationVariables
-  >(UpdateWasteFormDocument, options);
-}
-export type UpdateWasteFormMutationHookResult = ReturnType<
-  typeof useUpdateWasteFormMutation
->;
-export type UpdateWasteFormMutationResult =
-  Apollo.MutationResult<UpdateWasteFormMutation>;
-export type UpdateWasteFormMutationOptions = Apollo.BaseMutationOptions<
-  UpdateWasteFormMutation,
-  UpdateWasteFormMutationVariables
->;

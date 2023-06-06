@@ -11,13 +11,14 @@ import {
   useUpdateSectorizationMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
+import {
+  IDefaultTableRow,
+  ICurrentPagination,
+} from "../../../../lib/common-data-table";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
-import CommonDataTable, {
-  ICurrentPagination,
-  IDefaultTableRow,
-} from "../../../../components/Common/CommonDataTable/CommonDataTable";
+import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonModalWrapper, {
@@ -31,6 +32,10 @@ import "./secteurs.scss";
 export interface ISectorsTableRow extends IDefaultTableRow {
   name: string;
   description: string;
+}
+
+interface IFilters extends Record<string, unknown> {
+  status?: string;
 }
 
 export interface ISectorPolygon {
@@ -152,13 +157,16 @@ export function SectorsPage() {
   ];
 
   /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination<ISectorsTableRow>) {
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
     return getSectorizationsQuery({
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
-          statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
+        ...(filters?.status && {
+          statusFilter: { eq: filters?.status },
         }),
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,

@@ -13,25 +13,32 @@ import {
   useGetTipsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../lib/utilities";
+import {
+  ICurrentPagination,
+  IDefaultTableRow,
+} from "../../../../lib/common-data-table";
 import { EStatusLabel } from "../../../../lib/status";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
-import CommonDataTable, {
-  ICurrentPagination,
-  IDefaultTableRow,
-} from "../../../../components/Common/CommonDataTable/CommonDataTable";
-import { IDataTableFilter } from "../../../../components/Common/CommonDataTable/DataTableFilters/DataTableFilters";
+import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
+import CommonButtonGroup, {
+  ICommonButtonGroupSingle,
+} from "../../../../components/Common/CommonButtonGroup/CommonButtonGroup";
 
 interface ITipsTableRow extends IDefaultTableRow {
   title: string;
   status: EStatusLabel;
   publishedDate: string;
   unpublishedDate: string;
+}
+
+interface IFilters extends Record<string, unknown> {
+  status?: string;
 }
 
 export function EditoAstucesPage() {
@@ -49,13 +56,16 @@ export function EditoAstucesPage() {
   };
 
   /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination<ITipsTableRow>) {
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
     return getTipByQuery({
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
-          statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
+        ...(filters?.status && {
+          statusFilter: { eq: filters?.status },
         }),
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
@@ -136,9 +146,7 @@ export function EditoAstucesPage() {
     GetTipsByContractIdQuery | undefined
   >(data);
   const [tableData, setTableData] = useState<Array<ITipsTableRow>>([]);
-  const [filterData, setFilterData] = useState<
-    Array<IDataTableFilter<ITipsTableRow>>
-  >([]);
+  const [filters, setFilters] = useState<IFilters>({});
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
     isUpdatingData ||
@@ -217,6 +225,18 @@ export function EditoAstucesPage() {
     },
   ];
 
+  const [filterButtonGroup, setFilterButtonGroup] =
+    useState<Array<ICommonButtonGroupSingle>>();
+
+  const filtersNode = (
+    <>
+      <CommonButtonGroup
+        buttons={filterButtonGroup ?? []}
+        onChange={(button) => setFilters({ ...filters, status: button.value })}
+      />
+    </>
+  );
+
   useEffect(() => {
     if (pageData) {
       setTableData(
@@ -241,31 +261,21 @@ export function EditoAstucesPage() {
           })
           .filter(removeNulls) ?? [],
       );
-      setFilterData([
+      setFilterButtonGroup([
         {
-          label: "Tous",
-          count: pageData?.tipsCount?.meta.pagination.total,
+          label: `Tous (${pageData.tipsCount?.meta.pagination.total})`,
         },
         {
-          label: "Publiés",
-          count: pageData?.tipsCountPublished?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_Tip_Status.Published,
-          },
+          label: `Publiés (${pageData.tipsCountPublished?.meta.pagination.total})`,
+          value: Enum_Tip_Status.Published,
         },
         {
-          label: "Brouillons",
-          count: pageData?.tipsCountDraft?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_Tip_Status.Draft,
-          },
+          label: `Brouillons (${pageData.tipsCountDraft?.meta.pagination.total})`,
+          value: Enum_Tip_Status.Draft,
         },
         {
-          label: "Archivés",
-          count: pageData?.tipsCountArchived?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_Tip_Status.Archived,
-          },
+          label: `Archivés (${pageData.tipsCountArchived?.meta.pagination.total})`,
+          value: Enum_Tip_Status.Archived,
         },
       ]);
     }
@@ -309,7 +319,8 @@ export function EditoAstucesPage() {
               totalRows: pageData?.tips?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
-            filters={filterData}
+            filters={filters}
+            filtersNode={filtersNode}
             defaultSortFieldId={"title"}
             paginationOptions={{
               hasPagination: true,

@@ -13,25 +13,31 @@ import {
   GetAllVersionsOfNewsByCustomIdQueryVariables,
 } from "../../../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../../../lib/utilities";
+import {
+  ICurrentPagination,
+  IDefaultTableRow,
+} from "../../../../../../lib/common-data-table";
 import { EStatusLabel } from "../../../../../../lib/status";
 import { useContract } from "../../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../../hooks/useNavigation";
 import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
-import CommonDataTable, {
-  ICurrentPagination,
-  IDefaultTableRow,
-} from "../../../../../../components/Common/CommonDataTable/CommonDataTable";
-import { IDataTableFilter } from "../../../../../../components/Common/CommonDataTable/DataTableFilters/DataTableFilters";
+import CommonDataTable from "../../../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../../components/PageTitle/PageTitle";
 import { useRoutingQueryCustomId } from "../../../../../../hooks/useRoutingQueryCustomId";
+import CommonButtonGroup, {
+  ICommonButtonGroupSingle,
+} from "../../../../../../components/Common/CommonButtonGroup/CommonButtonGroup";
 
 interface INewsTableRow extends IDefaultTableRow {
   versionNumber: number;
   status: EStatusLabel;
   publishedDate: string;
   updatedAt: string;
+}
+interface IFilters extends Record<string, unknown> {
+  status?: string;
 }
 
 export function EditoActualitesVersionPage({ customId }: { customId: string }) {
@@ -46,100 +52,6 @@ export function EditoActualitesVersionPage({ customId }: { customId: string }) {
       updatedAt: "Modifié",
     },
   };
-
-  /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination<INewsTableRow>) {
-    void getNewsQuery({
-      variables: {
-        ...defaultQueryVariables,
-        pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
-          statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
-        }),
-        ...(params.sort?.column && {
-          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
-        }),
-      },
-    });
-  }
-
-  function onDuplicate(row: INewsTableRow) {
-    void getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
-      const originalNew = data.data?.new?.data?.attributes;
-      if (originalNew) {
-        void createNewMutation({
-          variables: {
-            data: {
-              title: `${originalNew.title} Ajout`,
-              shortDescription: originalNew.shortDescription,
-              newsSubService: originalNew.newsSubService?.data?.id,
-              image: originalNew.image?.data?.id,
-              blocks: originalNew.blocks?.map((block) => {
-                return {
-                  ...block,
-                  id: undefined,
-                };
-              }),
-            },
-          },
-          refetchQueries: [
-            {
-              query: GetNewsByContractIdDocument,
-              variables: { contractId },
-            },
-          ],
-          onQueryUpdated: (observableQuery) => {
-            observableQuery
-              .result()
-              .then((result) => {
-                if (!result.loading) {
-                  setPageData(
-                    result?.data as
-                      | GetAllVersionsOfNewsByCustomIdQuery
-                      | undefined,
-                  );
-                }
-              })
-              .catch((error) => {
-                // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
-                console.log(error);
-              });
-          },
-        });
-      }
-    });
-  }
-
-  async function onDelete(row: INewsTableRow) {
-    setIsUpdatingData(true);
-    const variables = {
-      deleteNewId: row.id,
-    };
-    return deleteNewMutation({
-      variables,
-      refetchQueries: [
-        {
-          query: GetNewsByContractIdDocument,
-          variables: { contractId },
-        },
-      ],
-      onQueryUpdated: (observableQuery) => {
-        observableQuery
-          .result()
-          .then((result) => {
-            if (!result.loading) {
-              setPageData(
-                result?.data as GetAllVersionsOfNewsByCustomIdQuery | undefined,
-              );
-            }
-          })
-          .catch((error) => {
-            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
-            console.log(error);
-          });
-      },
-    });
-  }
 
   /* External Data */
   const { currentRoot } = useNavigation();
@@ -182,9 +94,7 @@ export function EditoActualitesVersionPage({ customId }: { customId: string }) {
     GetAllVersionsOfNewsByCustomIdQuery | undefined
   >(data);
   const [tableData, setTableData] = useState<Array<INewsTableRow>>([]);
-  const [filterData, setFilterData] = useState<
-    Array<IDataTableFilter<INewsTableRow>>
-  >([]);
+  const [filters, setFilters] = useState<IFilters>({});
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
     isUpdatingData ||
@@ -263,6 +173,121 @@ export function EditoActualitesVersionPage({ customId }: { customId: string }) {
     },
   ];
 
+  const [filterButtonGroup, setFilterButtonGroup] =
+    useState<Array<ICommonButtonGroupSingle>>();
+
+  const filtersNode = (
+    <>
+      <CommonButtonGroup
+        buttons={filterButtonGroup ?? []}
+        onChange={(button) => setFilters({ ...filters, status: button.value })}
+      />
+    </>
+  );
+
+  /* Methods */
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
+    void getNewsQuery({
+      variables: {
+        ...defaultQueryVariables,
+        pagination: { page: params.page, pageSize: params.rowsPerPage },
+        ...(filters?.status && {
+          statusFilter: { eq: filters?.status },
+        }),
+        ...(params.sort?.column && {
+          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
+        }),
+      },
+    });
+  }
+
+  function onDuplicate(row: INewsTableRow) {
+    void getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
+      const originalNew = data.data?.new?.data?.attributes;
+      if (originalNew) {
+        void createNewMutation({
+          variables: {
+            data: {
+              title: `${originalNew.title} Ajout`,
+              shortDescription: originalNew.shortDescription,
+              newsSubService: originalNew.newsSubService?.data?.id,
+              image: originalNew.image?.data?.id,
+              blocks: originalNew.blocks?.map((block) => {
+                return {
+                  ...block,
+                  id: undefined,
+                };
+              }),
+            },
+          },
+          refetchQueries: [
+            {
+              query: GetNewsByContractIdDocument,
+              variables: { contractId },
+            },
+          ],
+          onQueryUpdated: (observableQuery) => {
+            observableQuery
+              .result()
+              .then((result) => {
+                if (!result.loading) {
+                  setPageData(
+                    result?.data as
+                      | GetAllVersionsOfNewsByCustomIdQuery
+                      | undefined,
+                  );
+                }
+              })
+              .catch((error) => {
+                if (error instanceof Error) {
+                  return {
+                    message: error,
+                  };
+                }
+              });
+          },
+        });
+      }
+    });
+  }
+
+  async function onDelete(row: INewsTableRow) {
+    setIsUpdatingData(true);
+    const variables = {
+      deleteNewId: row.id,
+    };
+    return deleteNewMutation({
+      variables,
+      refetchQueries: [
+        {
+          query: GetNewsByContractIdDocument,
+          variables: { contractId },
+        },
+      ],
+      onQueryUpdated: (observableQuery) => {
+        observableQuery
+          .result()
+          .then((result) => {
+            if (!result.loading) {
+              setPageData(
+                result?.data as GetAllVersionsOfNewsByCustomIdQuery | undefined,
+              );
+            }
+          })
+          .catch((error) => {
+            if (error instanceof Error) {
+              return {
+                message: error,
+              };
+            }
+          });
+      },
+    });
+  }
+
   useEffect(() => {
     setPageData(data);
   }, [data]);
@@ -296,35 +321,27 @@ export function EditoActualitesVersionPage({ customId }: { customId: string }) {
           })
           .filter(removeNulls) ?? [],
       );
-      setFilterData([
-        {
-          label: "Tous",
-          count: pageData?.newsCount?.meta.pagination.total,
-        },
-        {
-          label: "Publiés",
-          count: pageData?.newsCountPublished?.meta.pagination.total,
-          lazyLoadSelector: {
+      if (pageData) {
+        setFilterButtonGroup([
+          {
+            label: `Tous (${pageData.newsCount?.meta.pagination.total})`,
+          },
+          {
+            label: `Publiés (${pageData.newsCountPublished?.meta.pagination.total})`,
             value: Enum_New_Status.Published,
           },
-        },
-        {
-          label: "Brouillons",
-          count: pageData?.newsCountDraft?.meta.pagination.total,
-          lazyLoadSelector: {
+          {
+            label: `Brouillons (${pageData.newsCountDraft?.meta.pagination.total})`,
             value: Enum_New_Status.Draft,
           },
-        },
-        {
-          label: "Archivés",
-          count: pageData?.newsCountArchived?.meta.pagination.total,
-          lazyLoadSelector: {
+          {
+            label: `Archivés (${pageData.newsCountArchived?.meta.pagination.total})`,
             value: Enum_New_Status.Archived,
           },
-        },
-      ]);
+        ]);
+      }
     }
-  }, [pageData]);
+  }, [data, pageData]);
 
   useEffect(() => {
     setIsUpdatingData(false);
@@ -353,7 +370,8 @@ export function EditoActualitesVersionPage({ customId }: { customId: string }) {
               totalRows: pageData?.news?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
-            filters={filterData}
+            filters={filters}
+            filtersNode={filtersNode}
             defaultSortFieldId={"title"}
             paginationOptions={{
               hasPagination: true,

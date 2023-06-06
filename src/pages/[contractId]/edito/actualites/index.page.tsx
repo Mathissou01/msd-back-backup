@@ -13,25 +13,32 @@ import {
   GetNewsByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../lib/utilities";
+import {
+  ICurrentPagination,
+  IDefaultTableRow,
+} from "../../../../lib/common-data-table";
 import { EStatusLabel } from "../../../../lib/status";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
-import CommonDataTable, {
-  ICurrentPagination,
-  IDefaultTableRow,
-} from "../../../../components/Common/CommonDataTable/CommonDataTable";
-import { IDataTableFilter } from "../../../../components/Common/CommonDataTable/DataTableFilters/DataTableFilters";
+import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
+import CommonButtonGroup, {
+  ICommonButtonGroupSingle,
+} from "../../../../components/Common/CommonButtonGroup/CommonButtonGroup";
 
 interface INewsTableRow extends IDefaultTableRow {
   title: string;
   status: EStatusLabel;
   publishedDate: string;
   unpublishedDate: string;
+}
+
+interface IFilters extends Record<string, unknown> {
+  status?: string;
 }
 
 export function EditoActualitesPage() {
@@ -47,53 +54,6 @@ export function EditoActualitesPage() {
       depublishedDate: "Dépublication",
     },
   };
-
-  /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination<INewsTableRow>) {
-    return getNewsQuery({
-      variables: {
-        ...defaultQueryVariables,
-        pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
-          statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
-        }),
-        ...(params.sort?.column && {
-          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
-        }),
-      },
-    });
-  }
-
-  function onDuplicate(row: INewsTableRow) {
-    getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
-      const originalNew = data.data?.new?.data?.attributes;
-      if (originalNew) {
-        void createNewMutation({
-          variables: {
-            data: {
-              title: `${originalNew.title} Ajout`,
-              shortDescription: originalNew.shortDescription,
-              newsSubService: originalNew.newsSubService?.data?.id,
-              image: originalNew.image?.data?.id,
-              blocks: originalNew.blocks?.map((block) => {
-                return {
-                  ...block,
-                  id: undefined,
-                };
-              }),
-            },
-          },
-        });
-      }
-    });
-  }
-
-  async function onDelete(row: INewsTableRow) {
-    setIsUpdatingData(true);
-    return deleteNewMutation({
-      variables: { deleteNewId: row.id },
-    });
-  }
 
   /* External Data */
   const { currentRoot } = useNavigation();
@@ -137,9 +97,7 @@ export function EditoActualitesPage() {
     GetNewsByContractIdQuery | undefined
   >(data);
   const [tableData, setTableData] = useState<Array<INewsTableRow>>([]);
-  const [filterData, setFilterData] = useState<
-    Array<IDataTableFilter<INewsTableRow>>
-  >([]);
+  const [filters, setFilters] = useState<IFilters>({});
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
     isUpdatingData ||
@@ -218,10 +176,72 @@ export function EditoActualitesPage() {
     },
   ];
 
+  const [filterButtonGroup, setFilterButtonGroup] =
+    useState<Array<ICommonButtonGroupSingle>>();
+
+  const filtersNode = (
+    <>
+      <CommonButtonGroup
+        buttons={filterButtonGroup ?? []}
+        onChange={(button) => setFilters({ ...filters, status: button.value })}
+      />
+    </>
+  );
+
+  /* Methods */
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
+    return getNewsQuery({
+      variables: {
+        ...defaultQueryVariables,
+        pagination: { page: params.page, pageSize: params.rowsPerPage },
+        ...(filters?.status && {
+          statusFilter: { eq: filters?.status },
+        }),
+        ...(params.sort?.column && {
+          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
+        }),
+      },
+    });
+  }
+
+  function onDuplicate(row: INewsTableRow) {
+    getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
+      const originalNew = data.data?.new?.data?.attributes;
+      if (originalNew) {
+        void createNewMutation({
+          variables: {
+            data: {
+              title: `${originalNew.title} Ajout`,
+              shortDescription: originalNew.shortDescription,
+              newsSubService: originalNew.newsSubService?.data?.id,
+              image: originalNew.image?.data?.id,
+              blocks: originalNew.blocks?.map((block) => {
+                return {
+                  ...block,
+                  id: undefined,
+                };
+              }),
+            },
+          },
+        });
+      }
+    });
+  }
+
+  async function onDelete(row: INewsTableRow) {
+    setIsUpdatingData(true);
+    return deleteNewMutation({
+      variables: { deleteNewId: row.id },
+    });
+  }
+
   useEffect(() => {
-    if (pageData) {
+    if (data) {
       setTableData(
-        pageData?.news?.data
+        data?.news?.data
           ?.map((news) => {
             if (news && news.id && news.attributes) {
               return {
@@ -242,35 +262,27 @@ export function EditoActualitesPage() {
           })
           .filter(removeNulls) ?? [],
       );
-      setFilterData([
+    }
+    if (pageData) {
+      setFilterButtonGroup([
         {
-          label: "Tous",
-          count: pageData?.newsCount?.meta.pagination.total,
+          label: `Tous (${pageData.newsCount?.meta.pagination.total})`,
         },
         {
-          label: "Publiés",
-          count: pageData?.newsCountPublished?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_New_Status.Published,
-          },
+          label: `Publiés (${pageData.newsCountPublished?.meta.pagination.total})`,
+          value: Enum_New_Status.Published,
         },
         {
-          label: "Brouillons",
-          count: pageData?.newsCountDraft?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_New_Status.Draft,
-          },
+          label: `Brouillons (${pageData.newsCountDraft?.meta.pagination.total})`,
+          value: Enum_New_Status.Draft,
         },
         {
-          label: "Archivés",
-          count: pageData?.newsCountArchived?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_New_Status.Archived,
-          },
+          label: `Archivés (${pageData.newsCountArchived?.meta.pagination.total})`,
+          value: Enum_New_Status.Archived,
         },
       ]);
     }
-  }, [pageData]);
+  }, [data, pageData]);
 
   useEffect(() => {
     setPageData(data);
@@ -310,7 +322,8 @@ export function EditoActualitesPage() {
               totalRows: pageData?.news?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
-            filters={filterData}
+            filters={filters}
+            filtersNode={filtersNode}
             defaultSortFieldId={"title"}
             paginationOptions={{
               hasPagination: true,

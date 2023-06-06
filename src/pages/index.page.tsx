@@ -4,13 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useGetContractsQuery } from "../graphql/codegen/generated-types";
 import { removeNulls } from "../lib/utilities";
+import { IDefaultTableRow } from "../lib/common-data-table";
 import Header from "../components/Header/Header";
 import PageTitle from "../components/PageTitle/PageTitle";
 import CommonLoader from "../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../components/Common/CommonButton/CommonButton";
-import CommonDataTable, {
-  IDefaultTableRow,
-} from "../components/Common/CommonDataTable/CommonDataTable";
+import CommonDataTable from "../components/Common/CommonDataTable/CommonDataTable";
 import "./root-home-page.scss";
 
 interface IContractTableRow extends IDefaultTableRow {

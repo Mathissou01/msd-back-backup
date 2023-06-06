@@ -9,14 +9,15 @@ import {
   useUpdateTagMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
+import {
+  IDefaultTableRow,
+  ICommonDataTableValidation,
+} from "../../../../lib/common-data-table";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
-import CommonDataTable, {
-  ICommonDataTableValidation,
-  IDefaultTableRow,
-} from "../../../../components/Common/CommonDataTable/CommonDataTable";
+import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import DataTableInput from "../../../../components/Common/CommonDataTable/Inputs/DataTableInput/DataTableInput";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import DataTableForm from "../../../../components/Common/CommonDataTable/DataTableForm/DataTableForm";

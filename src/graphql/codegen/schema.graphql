@@ -3334,6 +3334,7 @@ union GenericMorph =
   | RecyclingGuideBlock
   | RecyclingGuideService
   | Request
+  | RequestAggregate
   | RequestService
   | SearchEngineBlock
   | Sectorization
@@ -3826,6 +3827,9 @@ type Mutation {
     data: RecyclingGuideServiceInput!
   ): RecyclingGuideServiceEntityResponse
   createRequest(data: RequestInput!): RequestEntityResponse
+  createRequestAggregate(
+    data: RequestAggregateInput!
+  ): RequestAggregateEntityResponse
   createRequestService(data: RequestServiceInput!): RequestServiceEntityResponse
   createSearchEngineBlock(
     data: SearchEngineBlockInput!
@@ -3922,6 +3926,7 @@ type Mutation {
   deleteRecyclingGuideBlock(id: ID!): RecyclingGuideBlockEntityResponse
   deleteRecyclingGuideService(id: ID!): RecyclingGuideServiceEntityResponse
   deleteRequest(id: ID!): RequestEntityResponse
+  deleteRequestAggregate(id: ID!): RequestAggregateEntityResponse
   deleteRequestService(id: ID!): RequestServiceEntityResponse
   deleteSearchEngineBlock(id: ID!): SearchEngineBlockEntityResponse
   deleteSectorization(id: ID!): SectorizationEntityResponse
@@ -4156,6 +4161,10 @@ type Mutation {
     id: ID!
   ): RecyclingGuideServiceEntityResponse
   updateRequest(data: RequestInput!, id: ID!): RequestEntityResponse
+  updateRequestAggregate(
+    data: RequestAggregateInput!
+    id: ID!
+  ): RequestAggregateEntityResponse
   updateRequestService(
     data: RequestServiceInput!
     id: ID!
@@ -5054,6 +5063,12 @@ type Query {
     sort: [String] = []
   ): RecyclingGuideServiceEntityResponseCollection
   request(id: ID): RequestEntityResponse
+  requestAggregate(id: ID): RequestAggregateEntityResponse
+  requestAggregates(
+    filters: RequestAggregateFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestAggregateEntityResponseCollection
   requestService(id: ID): RequestServiceEntityResponse
   requestServices(
     filters: RequestServiceFiltersInput
@@ -5528,6 +5543,7 @@ type Request {
   description: String
   name: String
   publishedAt: DateTime
+  requestAggregate: RequestAggregateEntityResponse
   requestService: RequestServiceEntityResponse!
   updatedAt: DateTime
 }
@@ -5544,6 +5560,48 @@ union RequestAddableBlocksDynamicZone =
   | Error
 
 scalar RequestAddableBlocksDynamicZoneInput
+
+type RequestAggregate {
+  createdAt: DateTime
+  name: String!
+  requests(
+    filters: RequestFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): RequestRelationResponseCollection
+  updatedAt: DateTime
+}
+
+type RequestAggregateEntity {
+  attributes: RequestAggregate
+  id: ID
+}
+
+type RequestAggregateEntityResponse {
+  data: RequestAggregateEntity
+}
+
+type RequestAggregateEntityResponseCollection {
+  data: [RequestAggregateEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input RequestAggregateFiltersInput {
+  and: [RequestAggregateFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: RequestAggregateFiltersInput
+  or: [RequestAggregateFiltersInput]
+  requests: RequestFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input RequestAggregateInput {
+  name: String
+  requests: [ID]
+}
 
 type RequestEntity {
   attributes: Request
@@ -5575,6 +5633,7 @@ input RequestFiltersInput {
   not: RequestFiltersInput
   or: [RequestFiltersInput]
   publishedAt: DateTimeFilterInput
+  requestAggregate: RequestAggregateFiltersInput
   requestService: RequestServiceFiltersInput
   updatedAt: DateTimeFilterInput
 }
@@ -5603,6 +5662,7 @@ input RequestInput {
   description: String
   name: String
   publishedAt: DateTime
+  requestAggregate: ID
   requestService: ID
 }
 

@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { TableColumn } from "react-data-table-component";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
-import CommonDataTable, {
-  ICurrentPagination,
-  IDefaultTableRow,
-} from "../../../../components/Common/CommonDataTable/CommonDataTable";
+import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import { useContract } from "../../../../hooks/useContract";
 import { removeNulls } from "../../../../lib/utilities";
+import {
+  IDefaultTableRow,
+  ICurrentPagination,
+} from "../../../../lib/common-data-table";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import {
   GetDropOffMapByContractIdDocument,
@@ -25,6 +26,10 @@ export interface ISectorsTableRow extends IDefaultTableRow {
   name: string;
   type: string;
   place: string;
+}
+
+interface IFilters extends Record<string, unknown> {
+  status?: string;
 }
 
 export function CartePage() {
@@ -124,13 +129,16 @@ export function CartePage() {
   ];
 
   /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination<ISectorsTableRow>) {
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
     return getDropOffMapsQuery({
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
-          statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
+        ...(filters?.status && {
+          statusFilter: { eq: filters?.status },
         }),
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,

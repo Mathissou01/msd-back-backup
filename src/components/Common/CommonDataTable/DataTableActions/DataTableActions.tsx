@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 import Image from "next/image";
 import "./data-table-actions.scss";
-import { ICommonDataTableValidation } from "../CommonDataTable";
+import { ICommonDataTableValidation } from "../../../../lib/common-data-table";
 import Link from "next/link";
 
 export interface IConfirmStateOptions {

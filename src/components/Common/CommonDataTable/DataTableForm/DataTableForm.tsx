@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React from "react";
-import { ICommonDataTableValidation } from "../CommonDataTable";
+import { ICommonDataTableValidation } from "../../../../lib/common-data-table";
 import CommonButton from "../../CommonButton/CommonButton";
 import "./data-table-form.scss";
 

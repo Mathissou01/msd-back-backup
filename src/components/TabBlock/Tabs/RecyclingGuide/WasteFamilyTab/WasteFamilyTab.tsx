@@ -9,9 +9,7 @@ import {
 } from "../../../../../graphql/codegen/generated-types";
 import { TableColumn } from "react-data-table-component";
 import "./waste-family-tab.scss";
-import CommonDataTable, {
-  IDefaultTableRow,
-} from "../../../../Common/CommonDataTable/CommonDataTable";
+import CommonDataTable from "../../../../Common/CommonDataTable/CommonDataTable";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import { IDataTableAction } from "../../../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import FormInput from "../../../../Form/FormInput/FormInput";
@@ -19,6 +17,7 @@ import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import FormModal from "../../../../Form/FormModal/FormModal";
 import { useContract } from "../../../../../hooks/useContract";
 import { removeNulls } from "../../../../../lib/utilities";
+import { IDefaultTableRow } from "../../../../../lib/common-data-table";
 
 interface IWasteFamilyTableRow extends IDefaultTableRow {
   id: string;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import CommonButton from "../../Common/CommonButton/CommonButton";
-import { IDefaultTableRow } from "../../Common/CommonDataTable/CommonDataTable";
+import { IDefaultTableRow } from "../../../lib/common-data-table";
 import FormInput from "../../Form/FormInput/FormInput";
 import {
   GetSectorizationByContractIdQueryVariables,

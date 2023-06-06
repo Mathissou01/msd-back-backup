@@ -15,20 +15,23 @@ import {
   useGetFreeContentSubServiceByIdQuery,
 } from "../../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../../lib/utilities";
+import {
+  ICurrentPagination,
+  IDefaultTableRow,
+} from "../../../../../lib/common-data-table";
 import { EStatusLabel } from "../../../../../lib/status";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
-import CommonDataTable, {
-  ICurrentPagination,
-  IDefaultTableRow,
-} from "../../../../../components/Common/CommonDataTable/CommonDataTable";
-import { IDataTableFilter } from "../../../../../components/Common/CommonDataTable/DataTableFilters/DataTableFilters";
+import CommonDataTable from "../../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import CommonButton from "../../../../../components/Common/CommonButton/CommonButton";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import { useRerenderOnUpdate } from "../../../../../hooks/useRerenderOnUpdate";
+import CommonButtonGroup, {
+  ICommonButtonGroupSingle,
+} from "../../../../../components/Common/CommonButtonGroup/CommonButtonGroup";
 
 interface IFreeContentTableRow extends IDefaultTableRow {
   title: string;
@@ -39,6 +42,9 @@ interface IFreeContentTableRow extends IDefaultTableRow {
 
 interface IEditoFreeContentSubServicePage {
   freeContentSubServiceId: string;
+}
+interface IFilters extends Record<string, unknown> {
+  status?: string;
 }
 
 export function EditoFreeContentSubServicePage({
@@ -58,14 +64,15 @@ export function EditoFreeContentSubServicePage({
 
   /* Methods */
   async function handleLazyLoad(
-    params: ICurrentPagination<IFreeContentTableRow>,
+    params: ICurrentPagination,
+    filters?: IFilters,
   ) {
     return getFreeContentsQuery({
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
-          statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
+        ...(filters?.status && {
+          statusFilter: { eq: filters?.status },
         }),
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
@@ -204,9 +211,7 @@ export function EditoFreeContentSubServicePage({
     GetFreeContentsBySubServiceIdQuery | undefined
   >(data);
   const [tableData, setTableData] = useState<Array<IFreeContentTableRow>>([]);
-  const [filterData, setFilterData] = useState<
-    Array<IDataTableFilter<IFreeContentTableRow>>
-  >([]);
+  const [filters, setFilters] = useState<IFilters>({});
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
     isUpdatingData ||
@@ -288,6 +293,18 @@ export function EditoFreeContentSubServicePage({
     },
   ];
 
+  const [filterButtonGroup, setFilterButtonGroup] =
+    useState<Array<ICommonButtonGroupSingle>>();
+
+  const filtersNode = (
+    <>
+      <CommonButtonGroup
+        buttons={filterButtonGroup ?? []}
+        onChange={(button) => setFilters({ ...filters, status: button.value })}
+      />
+    </>
+  );
+
   useEffect(() => {
     if (pageData) {
       setTableData(
@@ -314,31 +331,21 @@ export function EditoFreeContentSubServicePage({
           })
           .filter(removeNulls) ?? [],
       );
-      setFilterData([
+      setFilterButtonGroup([
         {
-          label: "Tous",
-          count: pageData?.freeContentsCount?.meta.pagination.total,
+          label: `Tous (${pageData.freeContentsCount?.meta.pagination.total})`,
         },
         {
-          label: "Publiés",
-          count: pageData?.freeContentsCountPublished?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_Freecontent_Status.Published,
-          },
+          label: `Publiés (${pageData.freeContentsCountPublished?.meta.pagination.total})`,
+          value: Enum_Freecontent_Status.Published,
         },
         {
-          label: "Brouillons",
-          count: pageData?.freeContentsCountDraft?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_Freecontent_Status.Draft,
-          },
+          label: `Brouillons (${pageData.freeContentsCountDraft?.meta.pagination.total})`,
+          value: Enum_Freecontent_Status.Draft,
         },
         {
-          label: "Archivés",
-          count: pageData?.freeContentsCountArchived?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_Freecontent_Status.Archived,
-          },
+          label: `Archivés (${pageData.freeContentsCountArchived?.meta.pagination.total})`,
+          value: Enum_Freecontent_Status.Archived,
         },
       ]);
     }
@@ -391,7 +398,8 @@ export function EditoFreeContentSubServicePage({
               totalRows: pageData?.freeContents?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
-            filters={filterData}
+            filters={filters}
+            filtersNode={filtersNode}
             defaultSortFieldId={"title"}
             paginationOptions={{
               hasPagination: true,
