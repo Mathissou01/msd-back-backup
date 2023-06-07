@@ -973,6 +973,16 @@ export type ComponentBlocksCommentary = {
   id: Scalars["ID"];
 };
 
+export type ComponentBlocksCumbersome = {
+  __typename?: "ComponentBlocksCumbersome";
+  cumbersomeLabel: Scalars["String"];
+  cumbersomeLimitMessage: Scalars["String"];
+  id: Scalars["ID"];
+  isNumberAndVolume: Scalars["Boolean"];
+  maxNumberOfCumbersome?: Maybe<Scalars["Int"]>;
+  maxVolumeOfCumbersome?: Maybe<Scalars["Float"]>;
+};
+
 export type ComponentBlocksDateChoice = {
   __typename?: "ComponentBlocksDateChoice";
   fieldLabelDateChoice: Scalars["String"];
@@ -3692,6 +3702,7 @@ export type GenericMorph =
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksCommentary
+  | ComponentBlocksCumbersome
   | ComponentBlocksDateChoice
   | ComponentBlocksDownloadBlock
   | ComponentBlocksFile
@@ -5909,12 +5920,18 @@ export type PickUpDay = {
   flow?: Maybe<FlowEntityResponse>;
   name: Scalars["String"];
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
-  sectorization?: Maybe<SectorizationEntityResponse>;
+  sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
 export type PickUpDayCitiesArgs = {
   filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type PickUpDaySectorizationsArgs = {
+  filters?: InputMaybe<SectorizationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -5947,7 +5964,7 @@ export type PickUpDayFiltersInput = {
   not?: InputMaybe<PickUpDayFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
-  sectorization?: InputMaybe<SectorizationFiltersInput>;
+  sectorizations?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -5957,7 +5974,7 @@ export type PickUpDayInput = {
   flow?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
-  sectorization?: InputMaybe<Scalars["ID"]>;
+  sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type PickUpDayRelationResponseCollection = {
@@ -7464,6 +7481,7 @@ export type RequestAddableBlocksDynamicZone =
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksCommentary
+  | ComponentBlocksCumbersome
   | ComponentBlocksDateChoice
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
@@ -10548,6 +10566,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksAttachments" }
           | { __typename?: "ComponentBlocksCheckbox" }
           | { __typename?: "ComponentBlocksCommentary" }
+          | { __typename?: "ComponentBlocksCumbersome" }
           | { __typename?: "ComponentBlocksDateChoice" }
           | { __typename?: "ComponentBlocksDownloadBlock" }
           | { __typename?: "ComponentBlocksFile" }
@@ -14882,6 +14901,54 @@ export type UpdateRecyclingGuideServiceMutation = {
         orderExtension?: boolean | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetPickUpDaysByContractIdQueryVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetPickUpDaysByContractIdQuery = {
+  __typename?: "Query";
+  pickUpDays?: {
+    __typename?: "PickUpDayEntityResponseCollection";
+    data: Array<{
+      __typename?: "PickUpDayEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "PickUpDay";
+        name: string;
+        updatedAt?: any | null;
+        flow?: {
+          __typename?: "FlowEntityResponse";
+          data?: {
+            __typename?: "FlowEntity";
+            attributes?: { __typename?: "Flow"; name?: string | null } | null;
+          } | null;
+        } | null;
+        sectorizations?: {
+          __typename?: "SectorizationRelationResponseCollection";
+          data: Array<{
+            __typename?: "SectorizationEntity";
+            attributes?: { __typename?: "Sectorization"; name: string } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageCount: number;
+        pageSize: number;
+        total: number;
+      };
+    };
   } | null;
 };
 
@@ -23970,3 +24037,99 @@ export type UpdateRecyclingGuideServiceMutationOptions =
     UpdateRecyclingGuideServiceMutation,
     UpdateRecyclingGuideServiceMutationVariables
   >;
+export const GetPickUpDaysByContractIdDocument = gql`
+  query getPickUpDaysByContractId(
+    $contractId: ID
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    pickUpDays(
+      filters: { pickUpDayService: { contract: { id: { eq: $contractId } } } }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      data {
+        id
+        attributes {
+          name
+          updatedAt
+          flow {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+          sectorizations {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+      meta {
+        pagination {
+          page
+          pageCount
+          pageSize
+          total
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetPickUpDaysByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetPickUpDaysByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPickUpDaysByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPickUpDaysByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetPickUpDaysByContractIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetPickUpDaysByContractIdQuery,
+    GetPickUpDaysByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetPickUpDaysByContractIdQuery,
+    GetPickUpDaysByContractIdQueryVariables
+  >(GetPickUpDaysByContractIdDocument, options);
+}
+export function useGetPickUpDaysByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetPickUpDaysByContractIdQuery,
+    GetPickUpDaysByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetPickUpDaysByContractIdQuery,
+    GetPickUpDaysByContractIdQueryVariables
+  >(GetPickUpDaysByContractIdDocument, options);
+}
+export type GetPickUpDaysByContractIdQueryHookResult = ReturnType<
+  typeof useGetPickUpDaysByContractIdQuery
+>;
+export type GetPickUpDaysByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetPickUpDaysByContractIdLazyQuery
+>;
+export type GetPickUpDaysByContractIdQueryResult = Apollo.QueryResult<
+  GetPickUpDaysByContractIdQuery,
+  GetPickUpDaysByContractIdQueryVariables
+>;

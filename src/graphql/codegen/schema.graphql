@@ -830,6 +830,15 @@ type ComponentBlocksCommentary {
   id: ID!
 }
 
+type ComponentBlocksCumbersome {
+  cumbersomeLabel: String!
+  cumbersomeLimitMessage: String!
+  id: ID!
+  isNumberAndVolume: Boolean!
+  maxNumberOfCumbersome: Int
+  maxVolumeOfCumbersome: Float
+}
+
 type ComponentBlocksDateChoice {
   fieldLabelDateChoice: String!
   fieldStatus: ENUM_COMPONENTBLOCKSDATECHOICE_FIELDSTATUS!
@@ -3299,6 +3308,7 @@ union GenericMorph =
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksCommentary
+  | ComponentBlocksCumbersome
   | ComponentBlocksDateChoice
   | ComponentBlocksDownloadBlock
   | ComponentBlocksFile
@@ -4621,7 +4631,11 @@ type PickUpDay {
   flow: FlowEntityResponse
   name: String!
   pickUpDayService: PickUpDayServiceEntityResponse
-  sectorization: SectorizationEntityResponse
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationRelationResponseCollection
   updatedAt: DateTime
 }
 
@@ -4650,7 +4664,7 @@ input PickUpDayFiltersInput {
   not: PickUpDayFiltersInput
   or: [PickUpDayFiltersInput]
   pickUpDayService: PickUpDayServiceFiltersInput
-  sectorization: SectorizationFiltersInput
+  sectorizations: SectorizationFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -4660,7 +4674,7 @@ input PickUpDayInput {
   flow: ID
   name: String
   pickUpDayService: ID
-  sectorization: ID
+  sectorizations: [ID]
 }
 
 type PickUpDayRelationResponseCollection {
@@ -5594,6 +5608,7 @@ union RequestAddableBlocksDynamicZone =
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksCommentary
+  | ComponentBlocksCumbersome
   | ComponentBlocksDateChoice
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm

@@ -1,0 +1,41 @@
+query getPickUpDaysByContractId(
+  $contractId: ID
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  pickUpDays(
+    filters: { pickUpDayService: { contract: { id: { eq: $contractId } } } }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    data {
+      id
+      attributes {
+        name
+        updatedAt
+        flow {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+        sectorizations {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+    meta {
+      pagination {
+        page
+        pageCount
+        pageSize
+        total
+      }
+    }
+  }
+}

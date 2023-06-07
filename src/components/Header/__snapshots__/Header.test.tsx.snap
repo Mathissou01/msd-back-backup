@@ -257,6 +257,16 @@ exports[`Header renders 1`] = `
                 Mon compteur dechets
               </span>
             </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/services/jour-collecte"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Jour de collecte
+              </span>
+            </a>
           </div>
         </div>
       </li>
