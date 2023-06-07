@@ -9,8 +9,8 @@ import {
 } from "../../../../graphql/codegen/generated-types";
 import {
   TAcceptedMimeTypes,
-  fileSizeLimitation_200kb,
   IUploadFileEntity,
+  fileSizeLimitationOptions,
 } from "../../../../lib/media";
 import { useContract } from "../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
@@ -285,7 +285,7 @@ export function PersonnalisationCouleursPage() {
                   <FormFileInput
                     name="logo"
                     label={labels.logoImage}
-                    fileSizeLimitation={fileSizeLimitation_200kb}
+                    fileSizeLimitation={fileSizeLimitationOptions._200kb}
                     isRequired={true}
                     hasEcoConceptionMessage
                     validationLabel={labels.logoImageValidation}

@@ -823,6 +823,13 @@ type ComponentBlocksCheckbox {
   labelCheckbox: String!
 }
 
+type ComponentBlocksCommentary {
+  commentaryLabel: String!
+  commentaryPlaceholder: String
+  commentaryStatus: ENUM_COMPONENTBLOCKSCOMMENTARY_COMMENTARYSTATUS!
+  id: ID!
+}
+
 type ComponentBlocksDateChoice {
   fieldLabelDateChoice: String!
   fieldStatus: ENUM_COMPONENTBLOCKSDATECHOICE_FIELDSTATUS!
@@ -895,6 +902,29 @@ type ComponentBlocksQuestions {
   questionTextLabel: String!
   questionTextPlaceholder: String!
   textStatus: ENUM_COMPONENTBLOCKSQUESTIONS_TEXTSTATUS!
+}
+
+type ComponentBlocksRequestType {
+  email: String
+  id: ID!
+  isEmail: Boolean
+  title: String!
+}
+
+input ComponentBlocksRequestTypeFiltersInput {
+  and: [ComponentBlocksRequestTypeFiltersInput]
+  email: StringFilterInput
+  isEmail: BooleanFilterInput
+  not: ComponentBlocksRequestTypeFiltersInput
+  or: [ComponentBlocksRequestTypeFiltersInput]
+  title: StringFilterInput
+}
+
+input ComponentBlocksRequestTypeInput {
+  email: String
+  id: ID
+  isEmail: Boolean
+  title: String
 }
 
 type ComponentBlocksSubHeading {
@@ -2145,6 +2175,11 @@ enum ENUM_COMPONENTBLOCKSCHECKBOX_FIELDSTATUSCHECKBOX {
   Optionnel
 }
 
+enum ENUM_COMPONENTBLOCKSCOMMENTARY_COMMENTARYSTATUS {
+  Facultatif
+  Obligatoire
+}
+
 enum ENUM_COMPONENTBLOCKSDATECHOICE_FIELDSTATUS {
   Obligatoire
   Optionnel
@@ -3263,6 +3298,7 @@ union GenericMorph =
   | ComponentBlocksAddress
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
+  | ComponentBlocksCommentary
   | ComponentBlocksDateChoice
   | ComponentBlocksDownloadBlock
   | ComponentBlocksFile
@@ -3272,6 +3308,7 @@ union GenericMorph =
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
+  | ComponentBlocksRequestType
   | ComponentBlocksSubHeading
   | ComponentBlocksTest
   | ComponentBlocksUser
@@ -5078,7 +5115,6 @@ type Query {
   requests(
     filters: RequestFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): RequestEntityResponseCollection
   searchCities(contractId: ID!, searchTerm: String!): [CityResult]
@@ -5541,10 +5577,15 @@ type Request {
   blockText: String
   createdAt: DateTime
   description: String
+  hasSeveralRequestTypes: Boolean!
   name: String
-  publishedAt: DateTime
   requestAggregate: RequestAggregateEntityResponse
   requestService: RequestServiceEntityResponse!
+  requestType(
+    filters: ComponentBlocksRequestTypeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksRequestType]
   updatedAt: DateTime
 }
 
@@ -5552,6 +5593,7 @@ union RequestAddableBlocksDynamicZone =
     ComponentBlocksAddress
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
+  | ComponentBlocksCommentary
   | ComponentBlocksDateChoice
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
@@ -5567,7 +5609,6 @@ type RequestAggregate {
   requests(
     filters: RequestFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): RequestRelationResponseCollection
   updatedAt: DateTime
@@ -5628,13 +5669,14 @@ input RequestFiltersInput {
   blockText: StringFilterInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
+  hasSeveralRequestTypes: BooleanFilterInput
   id: IDFilterInput
   name: StringFilterInput
   not: RequestFiltersInput
   or: [RequestFiltersInput]
-  publishedAt: DateTimeFilterInput
   requestAggregate: RequestAggregateFiltersInput
   requestService: RequestServiceFiltersInput
+  requestType: ComponentBlocksRequestTypeFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -5660,10 +5702,11 @@ input RequestInput {
   addableBlocks: [RequestAddableBlocksDynamicZoneInput!]
   blockText: String
   description: String
+  hasSeveralRequestTypes: Boolean
   name: String
-  publishedAt: DateTime
   requestAggregate: ID
   requestService: ID
+  requestType: [ComponentBlocksRequestTypeInput]
 }
 
 type RequestRelationResponseCollection {
@@ -5689,7 +5732,6 @@ type RequestService {
   requests(
     filters: RequestFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): RequestRelationResponseCollection
   startDate: Date

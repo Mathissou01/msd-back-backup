@@ -28,8 +28,11 @@ export const AcceptedMimeTypes = [
 type AcceptedMimeTypesTuple = typeof AcceptedMimeTypes;
 export type TAcceptedMimeTypes = AcceptedMimeTypesTuple[number];
 
-export const fileSizeLimitation_30mb = 31457280; // 30 MB
-export const fileSizeLimitation_200kb = 204800; // 200 KB
+export const fileSizeLimitationOptions = {
+  _30mb: 31457280, // 30 MB
+  _200kb: 204800, // 200 KB
+  _20mb: 20971520, // 20 MB
+};
 
 export interface IUploadFileEntityResponse {
   __typename?: "UploadFileEntityResponse";
@@ -137,7 +140,7 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
 
         formData.append("files", file.file ?? "");
 
-        const API = "graphql";
+        const API = "upload";
         const HOST = process.env.NEXT_PUBLIC_API_URL;
         const url = `${HOST}/${API}`;
 

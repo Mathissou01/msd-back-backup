@@ -965,6 +965,14 @@ export type ComponentBlocksCheckbox = {
   labelCheckbox: Scalars["String"];
 };
 
+export type ComponentBlocksCommentary = {
+  __typename?: "ComponentBlocksCommentary";
+  commentaryLabel: Scalars["String"];
+  commentaryPlaceholder?: Maybe<Scalars["String"]>;
+  commentaryStatus: Enum_Componentblockscommentary_Commentarystatus;
+  id: Scalars["ID"];
+};
+
 export type ComponentBlocksDateChoice = {
   __typename?: "ComponentBlocksDateChoice";
   fieldLabelDateChoice: Scalars["String"];
@@ -1046,6 +1054,30 @@ export type ComponentBlocksQuestions = {
   questionTextLabel: Scalars["String"];
   questionTextPlaceholder: Scalars["String"];
   textStatus: Enum_Componentblocksquestions_Textstatus;
+};
+
+export type ComponentBlocksRequestType = {
+  __typename?: "ComponentBlocksRequestType";
+  email?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
+  isEmail?: Maybe<Scalars["Boolean"]>;
+  title: Scalars["String"];
+};
+
+export type ComponentBlocksRequestTypeFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeFiltersInput>>>;
+  email?: InputMaybe<StringFilterInput>;
+  isEmail?: InputMaybe<BooleanFilterInput>;
+  not?: InputMaybe<ComponentBlocksRequestTypeFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeFiltersInput>>>;
+  title?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentBlocksRequestTypeInput = {
+  email?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  isEmail?: InputMaybe<Scalars["Boolean"]>;
+  title?: InputMaybe<Scalars["String"]>;
 };
 
 export type ComponentBlocksSubHeading = {
@@ -2435,6 +2467,11 @@ export enum Enum_Componentblockscheckbox_Fieldstatuscheckbox {
   Optionnel = "Optionnel",
 }
 
+export enum Enum_Componentblockscommentary_Commentarystatus {
+  Facultatif = "Facultatif",
+  Obligatoire = "Obligatoire",
+}
+
 export enum Enum_Componentblocksdatechoice_Fieldstatus {
   Obligatoire = "Obligatoire",
   Optionnel = "Optionnel",
@@ -3654,6 +3691,7 @@ export type GenericMorph =
   | ComponentBlocksAddress
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
+  | ComponentBlocksCommentary
   | ComponentBlocksDateChoice
   | ComponentBlocksDownloadBlock
   | ComponentBlocksFile
@@ -3663,6 +3701,7 @@ export type GenericMorph =
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
+  | ComponentBlocksRequestType
   | ComponentBlocksSubHeading
   | ComponentBlocksTest
   | ComponentBlocksUser
@@ -6820,7 +6859,6 @@ export type QueryRequestServicesArgs = {
 export type QueryRequestsArgs = {
   filters?: InputMaybe<RequestFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -7407,17 +7445,25 @@ export type Request = {
   blockText?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
+  hasSeveralRequestTypes: Scalars["Boolean"];
   name?: Maybe<Scalars["String"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
   requestAggregate?: Maybe<RequestAggregateEntityResponse>;
   requestService: RequestServiceEntityResponse;
+  requestType?: Maybe<Array<Maybe<ComponentBlocksRequestType>>>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type RequestRequestTypeArgs = {
+  filters?: InputMaybe<ComponentBlocksRequestTypeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type RequestAddableBlocksDynamicZone =
   | ComponentBlocksAddress
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
+  | ComponentBlocksCommentary
   | ComponentBlocksDateChoice
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
@@ -7436,7 +7482,6 @@ export type RequestAggregate = {
 export type RequestAggregateRequestsArgs = {
   filters?: InputMaybe<RequestFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -7501,13 +7546,14 @@ export type RequestFiltersInput = {
   blockText?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
+  hasSeveralRequestTypes?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RequestFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   requestAggregate?: InputMaybe<RequestAggregateFiltersInput>;
   requestService?: InputMaybe<RequestServiceFiltersInput>;
+  requestType?: InputMaybe<ComponentBlocksRequestTypeFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -7537,10 +7583,11 @@ export type RequestInput = {
   >;
   blockText?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  hasSeveralRequestTypes?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
   requestAggregate?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
+  requestType?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeInput>>>;
 };
 
 export type RequestRelationResponseCollection = {
@@ -7577,7 +7624,6 @@ export type RequestServiceCitiesArgs = {
 export type RequestServiceRequestsArgs = {
   filters?: InputMaybe<RequestFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -10501,6 +10547,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksAddress" }
           | { __typename?: "ComponentBlocksAttachments" }
           | { __typename?: "ComponentBlocksCheckbox" }
+          | { __typename?: "ComponentBlocksCommentary" }
           | { __typename?: "ComponentBlocksDateChoice" }
           | { __typename?: "ComponentBlocksDownloadBlock" }
           | { __typename?: "ComponentBlocksFile" }
@@ -10510,6 +10557,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksProofOfReceipt" }
           | { __typename?: "ComponentBlocksQcm" }
           | { __typename?: "ComponentBlocksQuestions" }
+          | { __typename?: "ComponentBlocksRequestType" }
           | { __typename?: "ComponentBlocksSubHeading" }
           | { __typename?: "ComponentBlocksTest" }
           | { __typename?: "ComponentBlocksUser" }
@@ -14762,6 +14810,56 @@ export type GetRecyclingGuideServiceByIdQuery = {
       attributes?: {
         __typename?: "RecyclingGuideService";
         orderExtension?: boolean | null;
+        memoName: string;
+        memoDesc?: string | null;
+        memoFile?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+              ext?: string | null;
+              height?: number | null;
+              width?: number | null;
+              createdAt?: any | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateMemoTriMutationVariables = Exact<{
+  updateRecyclingGuideServiceId: Scalars["ID"];
+  data: RecyclingGuideServiceInput;
+}>;
+
+export type UpdateMemoTriMutation = {
+  __typename?: "Mutation";
+  updateRecyclingGuideService?: {
+    __typename?: "RecyclingGuideServiceEntityResponse";
+    data?: {
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        name: string;
+        isActivated: boolean;
+        memoName: string;
+        memoDesc?: string | null;
+        memoFile?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: { __typename?: "UploadFileEntity"; id?: string | null } | null;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -23663,6 +23761,26 @@ export const GetRecyclingGuideServiceByIdDocument = gql`
         id
         attributes {
           orderExtension
+          memoName
+          memoDesc
+          memoFile {
+            data {
+              id
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+                ext
+                height
+                width
+                createdAt
+              }
+            }
+          }
         }
       }
     }
@@ -23718,6 +23836,76 @@ export type GetRecyclingGuideServiceByIdLazyQueryHookResult = ReturnType<
 export type GetRecyclingGuideServiceByIdQueryResult = Apollo.QueryResult<
   GetRecyclingGuideServiceByIdQuery,
   GetRecyclingGuideServiceByIdQueryVariables
+>;
+export const UpdateMemoTriDocument = gql`
+  mutation updateMemoTri(
+    $updateRecyclingGuideServiceId: ID!
+    $data: RecyclingGuideServiceInput!
+  ) {
+    updateRecyclingGuideService(
+      id: $updateRecyclingGuideServiceId
+      data: $data
+    ) {
+      data {
+        id
+        attributes {
+          name
+          isActivated
+          memoName
+          memoDesc
+          memoFile {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateMemoTriMutationFn = Apollo.MutationFunction<
+  UpdateMemoTriMutation,
+  UpdateMemoTriMutationVariables
+>;
+
+/**
+ * __useUpdateMemoTriMutation__
+ *
+ * To run a mutation, you first call `useUpdateMemoTriMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMemoTriMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMemoTriMutation, { data, loading, error }] = useUpdateMemoTriMutation({
+ *   variables: {
+ *      updateRecyclingGuideServiceId: // value for 'updateRecyclingGuideServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateMemoTriMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateMemoTriMutation,
+    UpdateMemoTriMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateMemoTriMutation,
+    UpdateMemoTriMutationVariables
+  >(UpdateMemoTriDocument, options);
+}
+export type UpdateMemoTriMutationHookResult = ReturnType<
+  typeof useUpdateMemoTriMutation
+>;
+export type UpdateMemoTriMutationResult =
+  Apollo.MutationResult<UpdateMemoTriMutation>;
+export type UpdateMemoTriMutationOptions = Apollo.BaseMutationOptions<
+  UpdateMemoTriMutation,
+  UpdateMemoTriMutationVariables
 >;
 export const UpdateRecyclingGuideServiceDocument = gql`
   mutation updateRecyclingGuideService(

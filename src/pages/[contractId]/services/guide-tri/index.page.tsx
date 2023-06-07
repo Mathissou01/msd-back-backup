@@ -11,6 +11,7 @@ import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import WasteFormTab from "../../../../components/TabBlock/Tabs/RecyclingGuide/WasteFormTab/WasteFormTab";
 import WasteFamilyTab from "../../../../components/TabBlock/Tabs/RecyclingGuide/WasteFamilyTab/WasteFamilyTab";
+import MemoTriTab from "../../../../components/TabBlock/MemoTriTab/MemoTriTab";
 import "./guide-tri-page.scss";
 
 export function GuideTriPage() {
@@ -59,16 +60,10 @@ export function GuideTriPage() {
         isEnabled: true,
       },
       {
-        name: "classerDechets",
-        title: "classer les déchets",
-        content: <></>,
-        isEnabled: false,
-      },
-      {
         name: "memotri",
         title: "Mémotri",
-        content: <></>,
-        isEnabled: false,
+        content: <MemoTriTab />,
+        isEnabled: true,
       },
     ];
     setTabs(tabs);

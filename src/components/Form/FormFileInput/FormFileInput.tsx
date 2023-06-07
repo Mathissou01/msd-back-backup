@@ -15,7 +15,7 @@ import {
   useUpdateUploadFileMutation,
 } from "../../../graphql/codegen/generated-types";
 import {
-  fileSizeLimitation_30mb,
+  fileSizeLimitationOptions,
   ILocalFile,
   isLocalFile,
   isMimeType,
@@ -52,7 +52,7 @@ interface IFormFileInputProps {
 export default function FormFileInput({
   name,
   label,
-  fileSizeLimitation = fileSizeLimitation_30mb,
+  fileSizeLimitation = fileSizeLimitationOptions._30mb,
   validationLabel,
   hasEcoConceptionMessage = false,
   placeholder,
