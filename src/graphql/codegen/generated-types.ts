@@ -4323,6 +4323,7 @@ export type Mutation = {
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
   servicesActivation?: Maybe<ServiceActivated>;
+  setFlowIsActivated?: Maybe<FlowEntity>;
   singleUploadCustom: File;
   updateAccessibility?: Maybe<AccessibilityEntityResponse>;
   updateAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
@@ -5129,6 +5130,12 @@ export type MutationServicesActivationArgs = {
   startDate?: InputMaybe<Scalars["Date"]>;
 };
 
+export type MutationSetFlowIsActivatedArgs = {
+  code: Scalars["String"];
+  id: Scalars["ID"];
+  isActivated: Scalars["Boolean"];
+};
+
 export type MutationSingleUploadCustomArgs = {
   file: Scalars["Upload"];
 };
@@ -5915,6 +5922,8 @@ export type PaginationArg = {
 export type PickUpDay = {
   __typename?: "PickUpDay";
   cities?: Maybe<CityRelationResponseCollection>;
+  collectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
+  collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   flow?: Maybe<FlowEntityResponse>;
@@ -5956,6 +5965,8 @@ export type PickUpDayEntityResponseCollection = {
 export type PickUpDayFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
   cities?: InputMaybe<CityFiltersInput>;
+  collectDoorToDoor?: InputMaybe<CollectDoorToDoorFiltersInput>;
+  collectVoluntary?: InputMaybe<CollectVoluntaryFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
@@ -5970,6 +5981,8 @@ export type PickUpDayFiltersInput = {
 
 export type PickUpDayInput = {
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  collectDoorToDoor?: InputMaybe<Scalars["ID"]>;
+  collectVoluntary?: InputMaybe<Scalars["ID"]>;
   description?: InputMaybe<Scalars["String"]>;
   flow?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;

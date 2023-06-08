@@ -4047,6 +4047,7 @@ type Mutation {
     serviceId: ID!
     startDate: Date
   ): ServiceActivated
+  setFlowIsActivated(code: String!, id: ID!, isActivated: Boolean!): FlowEntity
   singleUploadCustom(file: Upload!): File!
   updateAccessibility(
     data: AccessibilityInput!
@@ -4626,6 +4627,8 @@ type PickUpDay {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): CityRelationResponseCollection
+  collectDoorToDoor: CollectDoorToDoorEntityResponse
+  collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
   description: String
   flow: FlowEntityResponse
@@ -4656,6 +4659,8 @@ type PickUpDayEntityResponseCollection {
 input PickUpDayFiltersInput {
   and: [PickUpDayFiltersInput]
   cities: CityFiltersInput
+  collectDoorToDoor: CollectDoorToDoorFiltersInput
+  collectVoluntary: CollectVoluntaryFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   flow: FlowFiltersInput
@@ -4670,6 +4675,8 @@ input PickUpDayFiltersInput {
 
 input PickUpDayInput {
   cities: [ID]
+  collectDoorToDoor: ID
+  collectVoluntary: ID
   description: String
   flow: ID
   name: String

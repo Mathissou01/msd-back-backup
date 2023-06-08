@@ -1,3 +1,4 @@
+// TODO: all comments concerns the db when it's ready
 import React, { useEffect, useState } from "react";
 // import { useGetFlowsByContractIdQuery } from "../../../graphql/codegen/generated-types";
 import {
@@ -14,10 +15,10 @@ import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
-import "./flow.scss";
+import "./MCD-flow.scss";
 
 interface IFlow {
-  name: string;
+  flowName: string;
   systemPesee: string;
 }
 
@@ -32,37 +33,42 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
     cancel: "Annuler les modifications",
     removeFlow: "Retirer ce flux",
   };
+
   // const [flowData, setFlowData] = useState<IFlow[]>([]);
   const [flowData, setFlowData] = useState<IFlow[]>([
-    { name: "Ordure Ménagère", systemPesee: "Pesée à l'exutoire" },
-    { name: "Collecte Sélective", systemPesee: "Pesée dynamique des bacs" },
+    { flowName: "Ordure Ménagère", systemPesee: "Pesée à l'exutoire" },
+    { flowName: "Collecte Sélective", systemPesee: "Pesée dynamique des bacs" },
   ]);
-
+  // This bool is created to check if user selected a flow (Associer un (autre) flux)
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
   const form = useForm({
     mode: "onChange",
   });
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    register,
-    setValue,
-    // formState: { errors },
-  } = form;
+  const { control, handleSubmit, watch, register, setValue } = form;
 
   const selectedFlow = watch("flowSelect");
   const [selectedFlows, setSelectedFlows] = useState<
     { id: number; flow: IFlow }[]
   >([]);
 
+  const [idCounter, setIdCounter] = useState(0);
+
   const onSubmit = (data: FieldValues) => {
-    // I added setFlowData to the console.log to avoid the error in the lint :
-    // 41:20  warning  'setFlowData' is assigned a value but never used
-    console.log("Valeur sélectionnée : ", data, setFlowData);
+    // Filter empty data (bloc media)
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([key, value]) => {
+        if (key.startsWith("contentBlock_")) {
+          return value.length > 0; // Exclude empty arrays
+        }
+        return value !== "" && value !== null; // Exclude null and empty values
+      }),
+    );
+
+    console.log("Valeur sélectionnée : ", filteredData, setFlowData);
   };
+
   // const { contractId } = useContract();
   // const { data } = useGetFlowsByContractIdQuery({
   //   variables: {
@@ -77,17 +83,35 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
   // });
   const removeFlow = (id: number) => {
     setSelectedFlows((prevFlows) => prevFlows.filter((flow) => flow.id !== id));
+
+    setValue(`prodMoyenne_${id}`, "");
+    setValue(`systemPesee_${id}`, null);
+  };
+
+  const removeAllFlows = () => {
+    selectedFlows.forEach((flow) => {
+      setValue(`prodMoyenne_${flow.id}`, "");
+      setValue(`systemPesee_${flow.id}`, null);
+    });
+    setSelectedFlows([]);
   };
   useEffect(() => {
     if (selectedFlow) {
       setIsSelected(true);
+      // Copy values of the selected bloc in an empty array
+      const newFlow = {
+        flowName: selectedFlow.flowName,
+        systemPesee: selectedFlow.systemPesee,
+      };
+
       setSelectedFlows((prevFlows) => [
         ...prevFlows,
-        { id: prevFlows.length, flow: selectedFlow },
+        { id: idCounter, flow: newFlow },
       ]);
+      setIdCounter((prevCounter) => prevCounter + 1);
       setValue("flowSelect", null);
     }
-  }, [selectedFlow, setValue]);
+  }, [selectedFlow, setValue, idCounter]);
 
   // useEffect(() => {
   //   if (data?.flows && data.flows?.data) {
@@ -112,12 +136,14 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
               onSubmit={handleSubmit(onSubmit)}
               ref={useFocusFirstElement()}
             >
-              {selectedFlows.map((flow) => (
+              {selectedFlows.map((flow, index) => (
                 <div className="c-Flow__ListFlows" key={flow.id}>
-                  <div className="c-Flow__ListFlows_head">
+                  <div className="c-Flow__ListFlowsHead">
                     <h3>
-                      Flux {flow.id + 1}: {flow.flow && flow.flow.name}
+                      Flux {index === 0 ? 1 : 2}:{" "}
+                      {flow.flow && flow.flow.flowName}
                     </h3>
+
                     <CommonButton
                       type="button"
                       label={buttonLabels.removeFlow}
@@ -125,12 +151,12 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
                       onClick={() => removeFlow(flow.id)}
                     />
                   </div>
-                  <div className="c-Flow__ListFlows_inputs">
-                    <div className="c-Flow__ListFlows_field">
+                  <div className="c-Flow__ListFlowsInputs">
+                    <div className="c-Flow__ListFlowsField">
                       <Controller
                         control={control}
                         defaultValue=""
-                        {...register(`ProdMoyenne_${flow.id}`)}
+                        {...register(`prodMoyenne_${flow.id}`)}
                         rules={{
                           required: "La production moyenne est obligatoire",
                           validate: (val) =>
@@ -145,18 +171,18 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
                           />
                         )}
                       />
-                      <span className="c-Flow__ListFlows_unity">
+                      <span className="c-Flow__ListFlowsUnity">
                         {" "}
                         en kg/mois
                       </span>
                     </div>
-                    <div className="c-Flow__ListFlows_field">
+                    <div className="c-Flow__ListFlowsField">
                       <Controller
                         control={control}
                         defaultValue={
                           flowData?.find((n) => n?.systemPesee) || ""
                         }
-                        {...register(`flowPesee_${flow.id}`)}
+                        {...register(`systemPesee_${flow.id}`)}
                         rules={{
                           required: "Le système de pesée est obligatoire",
                           validate: (val) =>
@@ -177,13 +203,13 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
                     </div>
                   </div>
 
-                  <div className="c-Flow__ListFlows_media">
+                  <div className="c-Flow__ListFlowsMedia">
                     <h3>Ajouter un contenu associé à ce flux</h3>
                     <p>
                       Ce contenu additionnel sera présenté en regard de la part
                       de production de déchet de ce flux
                     </p>
-                    <div className="c-Flow__ListFlows_mediaContent">
+                    <div className="c-Flow__ListFlowsMediaContent">
                       <FormDynamicBlocks
                         key={flow.id}
                         name={`contentBlock_${flow.id}`}
@@ -200,15 +226,12 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
                       label={`Associer un ${
                         isSelected && selectedFlows.length >= 1 ? "autre" : ""
                       } flux`}
-                      displayTransform={(value) => value.name}
+                      displayTransform={(value) => value.flowName}
                       options={flowData.map((flow) => ({
                         option: flow,
                       }))}
-                      // options={flowData.map((flow) => ({
-                      //   option: flow,
-                      // }))}
-                      optionKey={"name"}
-                      defaultValue={flowData?.find((n) => n?.name)}
+                      optionKey={"flowName"}
+                      defaultValue={flowData?.find((n) => n?.flowName)}
                       {...register("flowSelect")}
                     />
                   )}
@@ -220,11 +243,7 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
                   <CommonButton
                     label={buttonLabels.cancel}
                     picto="cross"
-                    onClick={() => {
-                      setSelectedFlows([]);
-                      setIsSelected(false);
-                      // reset();
-                    }}
+                    onClick={removeAllFlows}
                   />
                   <CommonButton
                     type="submit"

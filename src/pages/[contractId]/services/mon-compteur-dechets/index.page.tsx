@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
-import Flow from "../../../../components/TabBlock/Flow/Flow";
+import Flow from "../../../../components/MonCompteurDechets/MCDFlow/MCDFlow";
 import { TDynamicFieldOption } from "../../../../lib/dynamic-blocks";
 
 export function MonCompteurDechets() {
