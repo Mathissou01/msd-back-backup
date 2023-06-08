@@ -5589,6 +5589,7 @@ type RecyclingGuideServiceRelationResponseCollection {
 type Request {
   addableBlocks: [RequestAddableBlocksDynamicZone]
   blockText: String
+  confirmationMessage: String
   createdAt: DateTime
   description: String
   hasSeveralRequestTypes: Boolean!
@@ -5682,6 +5683,7 @@ union RequestFileOrFolder = Files | Folders
 input RequestFiltersInput {
   and: [RequestFiltersInput]
   blockText: StringFilterInput
+  confirmationMessage: StringFilterInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   hasSeveralRequestTypes: BooleanFilterInput
@@ -5716,6 +5718,7 @@ type RequestFolders {
 input RequestInput {
   addableBlocks: [RequestAddableBlocksDynamicZoneInput!]
   blockText: String
+  confirmationMessage: String
   description: String
   hasSeveralRequestTypes: Boolean
   name: String

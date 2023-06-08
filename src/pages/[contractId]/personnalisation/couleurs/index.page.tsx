@@ -255,7 +255,6 @@ export function PersonnalisationCouleursPage() {
 
   return (
     <div className="c-PersonnalisationCouleursPage">
-      <div className="c-PersonnalisationCouleursPage__SvgTogRightAngle" />
       <PageTitle title={title} description={description} />
       <CommonLoader
         isLoading={

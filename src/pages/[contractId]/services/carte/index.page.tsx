@@ -1,25 +1,26 @@
 import { useEffect, useRef, useState } from "react";
+import router from "next/router";
 import { TableColumn } from "react-data-table-component";
-import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
-import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
-import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
-import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
-import PageTitle from "../../../../components/PageTitle/PageTitle";
+import {
+  GetDropOffMapByContractIdDocument,
+  GetDropOffMapByContractIdQuery,
+  GetSectorizationsByContractIdQueryVariables,
+  useDeleteDropOffMapMutation,
+  useGetDropOffMapByContractIdLazyQuery,
+} from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
+import { useNavigation } from "../../../../hooks/useNavigation";
 import { removeNulls } from "../../../../lib/utilities";
 import {
   IDefaultTableRow,
   ICurrentPagination,
 } from "../../../../lib/common-data-table";
+import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
+import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
+import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
+import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
+import PageTitle from "../../../../components/PageTitle/PageTitle";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
-import {
-  GetDropOffMapByContractIdDocument,
-  GetDropOffMapByContractIdQuery,
-  GetSectorizationsByContractIdQuery,
-  GetSectorizationsByContractIdQueryVariables,
-  useDeleteDropOffMapMutation,
-  useGetDropOffMapByContractIdLazyQuery,
-} from "../../../../graphql/codegen/generated-types";
 import "./carte-page.scss";
 
 export interface ISectorsTableRow extends IDefaultTableRow {
@@ -35,9 +36,8 @@ interface IFilters extends Record<string, unknown> {
 export function CartePage() {
   /* Static Data */
   const title = "Carte";
-  const label =
-    "Créez la liste des points de collecte à afficher sur la carte.";
-  const addButton = "Créer un point de collecte";
+  const label = "Créez la liste des points d'intérêt à afficher sur la carte.";
+  const addButton = "Créer un point d'intérêt";
   const tableLabels = {
     title: "Liste des points d'intérêt",
     columns: {
@@ -49,7 +49,42 @@ export function CartePage() {
     },
   };
 
+  /* Methods */
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
+    return getDropOffMapsQuery({
+      variables: {
+        ...defaultQueryVariables,
+        pagination: { page: params.page, pageSize: params.rowsPerPage },
+        ...(filters?.status && {
+          statusFilter: { eq: filters?.status },
+        }),
+        ...(params.sort?.column && {
+          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
+        }),
+      },
+    });
+  }
+
+  async function onDelete(row: ISectorsTableRow) {
+    const variables = {
+      deleteDropOffMapId: row.id,
+    };
+    deleteDropOffMapMutation({
+      variables,
+      refetchQueries: [
+        {
+          query: GetDropOffMapByContractIdDocument,
+          variables: { contractId },
+        },
+      ],
+    });
+  }
+
   /* External Data */
+  const { currentRoot } = useNavigation();
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
@@ -117,6 +152,7 @@ export function CartePage() {
     {
       id: "edit",
       picto: "/images/pictos/edit.svg",
+      href: `${currentRoot}/services/carte/point-interet/${row.id}`,
     },
     {
       id: "delete",
@@ -127,55 +163,6 @@ export function CartePage() {
       },
     },
   ];
-
-  /* Methods */
-  async function handleLazyLoad(
-    params: ICurrentPagination,
-    filters?: IFilters,
-  ) {
-    return getDropOffMapsQuery({
-      variables: {
-        ...defaultQueryVariables,
-        pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(filters?.status && {
-          statusFilter: { eq: filters?.status },
-        }),
-        ...(params.sort?.column && {
-          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
-        }),
-      },
-    });
-  }
-
-  async function onDelete(row: ISectorsTableRow) {
-    const variables = {
-      deleteDropOffMapId: row.id,
-    };
-    deleteDropOffMapMutation({
-      variables,
-      refetchQueries: [
-        {
-          query: GetDropOffMapByContractIdDocument,
-          variables: { contractId },
-        },
-      ],
-      onQueryUpdated: (observableQuery) => {
-        observableQuery
-          .result()
-          .then((result) => {
-            if (!result.loading) {
-              setPageData(
-                result?.data as GetSectorizationsByContractIdQuery | undefined,
-              );
-            }
-          })
-          .catch(() => {
-            // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
-            // console.log(error);
-          });
-      },
-    });
-  }
 
   useEffect(() => {
     if (pageData) {
@@ -223,7 +210,14 @@ export function CartePage() {
     <div className="c-CartePage">
       <PageTitle title={title} description={label} />
       <div>
-        <CommonButton label={addButton} style="primary" picto="add" />
+        <CommonButton
+          label={addButton}
+          style="primary"
+          picto="add"
+          onClick={() =>
+            router.push(`${currentRoot}/services/carte/point-interet/create`)
+          }
+        />
       </div>
       <h2 className="c-CartePage__Title">{tableLabels.title}</h2>
       <div className="c-CartePage__Table">

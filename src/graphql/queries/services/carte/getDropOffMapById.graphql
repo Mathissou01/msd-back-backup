@@ -1,0 +1,16 @@
+query getDropOffMapById($dropOffMapId: ID) {
+  dropOffMap(id: $dropOffMapId) {
+    data {
+      id
+      attributes {
+        name
+        gpsCoordinates
+        dropOffMapService {
+          data {
+            id
+          }
+        }
+      }
+    }
+  }
+}

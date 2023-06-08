@@ -1,0 +1,74 @@
+mutation createDropOffMap($data: DropOffMapInput!) {
+  createDropOffMap(data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+        phoneNumber
+        downloadableFile {
+          id
+          linkText
+          file {
+            data {
+              id
+              attributes {
+                name
+                hash
+                mime
+                size
+                url
+                provider
+                alternativeText
+              }
+            }
+          }
+        }
+        dropOffMapService {
+          data {
+            id
+            attributes {
+              name
+              isActivated
+              startDate
+              endDate
+            }
+          }
+        }
+        mustKnow
+        openingHoursBlock {
+          ... on ComponentBlocksOpeningDay {
+            id
+            weekDay
+            morningStart
+            morningEnd
+            afterNoonStart
+            afterNoonEnd
+          }
+          ... on Error {
+            code
+            message
+          }
+        }
+        address
+        gpsCoordinates
+        collectDropOff {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectVoluntary {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

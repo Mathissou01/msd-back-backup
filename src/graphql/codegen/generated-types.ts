@@ -7460,6 +7460,7 @@ export type Request = {
   __typename?: "Request";
   addableBlocks?: Maybe<Array<Maybe<RequestAddableBlocksDynamicZone>>>;
   blockText?: Maybe<Scalars["String"]>;
+  confirmationMessage?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   hasSeveralRequestTypes: Scalars["Boolean"];
@@ -7562,6 +7563,7 @@ export type RequestFileOrFolder = Files | Folders;
 export type RequestFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
   blockText?: InputMaybe<StringFilterInput>;
+  confirmationMessage?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   hasSeveralRequestTypes?: InputMaybe<BooleanFilterInput>;
@@ -7600,6 +7602,7 @@ export type RequestInput = {
     Array<Scalars["RequestAddableBlocksDynamicZoneInput"]>
   >;
   blockText?: InputMaybe<Scalars["String"]>;
+  confirmationMessage?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
   hasSeveralRequestTypes?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
@@ -14280,6 +14283,101 @@ export type UpdateSectorizationMutation = {
   } | null;
 };
 
+export type CreateDropOffMapMutationVariables = Exact<{
+  data: DropOffMapInput;
+}>;
+
+export type CreateDropOffMapMutation = {
+  __typename?: "Mutation";
+  createDropOffMap?: {
+    __typename?: "DropOffMapEntityResponse";
+    data?: {
+      __typename?: "DropOffMapEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMap";
+        name?: string | null;
+        description?: string | null;
+        phoneNumber?: string | null;
+        mustKnow?: string | null;
+        address?: string | null;
+        gpsCoordinates?: string | null;
+        downloadableFile?: Array<{
+          __typename?: "ComponentBlocksDownloadBlock";
+          id: string;
+          linkText: string;
+          file: {
+            __typename?: "UploadFileEntityResponse";
+            data?: {
+              __typename?: "UploadFileEntity";
+              id?: string | null;
+              attributes?: {
+                __typename?: "UploadFile";
+                name: string;
+                hash: string;
+                mime: string;
+                size: number;
+                url: string;
+                provider: string;
+                alternativeText?: string | null;
+              } | null;
+            } | null;
+          };
+        } | null> | null;
+        dropOffMapService?: {
+          __typename?: "DropOffMapServiceEntityResponse";
+          data?: {
+            __typename?: "DropOffMapServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "DropOffMapService";
+              name?: string | null;
+              isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
+            } | null;
+          } | null;
+        } | null;
+        openingHoursBlock?: Array<
+          | {
+              __typename?: "ComponentBlocksOpeningDay";
+              id: string;
+              weekDay: Enum_Componentblocksopeningday_Weekday;
+              morningStart?: any | null;
+              morningEnd?: any | null;
+              afterNoonStart?: any | null;
+              afterNoonEnd?: any | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+        collectDropOff?: {
+          __typename?: "CollectDropOffEntityResponse";
+          data?: {
+            __typename?: "CollectDropOffEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectDropOff";
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
+        collectVoluntary?: {
+          __typename?: "CollectVoluntaryEntityResponse";
+          data?: {
+            __typename?: "CollectVoluntaryEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectVoluntary";
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type DeleteDropOffMapMutationVariables = Exact<{
   deleteDropOffMapId: Scalars["ID"];
 }>;
@@ -14359,6 +14457,33 @@ export type GetDropOffMapByContractIdQuery = {
         pageCount: number;
       };
     };
+  } | null;
+};
+
+export type GetDropOffMapByIdQueryVariables = Exact<{
+  dropOffMapId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetDropOffMapByIdQuery = {
+  __typename?: "Query";
+  dropOffMap?: {
+    __typename?: "DropOffMapEntityResponse";
+    data?: {
+      __typename?: "DropOffMapEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMap";
+        name?: string | null;
+        gpsCoordinates?: string | null;
+        dropOffMapService?: {
+          __typename?: "DropOffMapServiceEntityResponse";
+          data?: {
+            __typename?: "DropOffMapServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -22840,6 +22965,125 @@ export type UpdateSectorizationMutationOptions = Apollo.BaseMutationOptions<
   UpdateSectorizationMutation,
   UpdateSectorizationMutationVariables
 >;
+export const CreateDropOffMapDocument = gql`
+  mutation createDropOffMap($data: DropOffMapInput!) {
+    createDropOffMap(data: $data) {
+      data {
+        id
+        attributes {
+          name
+          description
+          phoneNumber
+          downloadableFile {
+            id
+            linkText
+            file {
+              data {
+                id
+                attributes {
+                  name
+                  hash
+                  mime
+                  size
+                  url
+                  provider
+                  alternativeText
+                }
+              }
+            }
+          }
+          dropOffMapService {
+            data {
+              id
+              attributes {
+                name
+                isActivated
+                startDate
+                endDate
+              }
+            }
+          }
+          mustKnow
+          openingHoursBlock {
+            ... on ComponentBlocksOpeningDay {
+              id
+              weekDay
+              morningStart
+              morningEnd
+              afterNoonStart
+              afterNoonEnd
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+          address
+          gpsCoordinates
+          collectDropOff {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          collectVoluntary {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type CreateDropOffMapMutationFn = Apollo.MutationFunction<
+  CreateDropOffMapMutation,
+  CreateDropOffMapMutationVariables
+>;
+
+/**
+ * __useCreateDropOffMapMutation__
+ *
+ * To run a mutation, you first call `useCreateDropOffMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDropOffMapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDropOffMapMutation, { data, loading, error }] = useCreateDropOffMapMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateDropOffMapMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateDropOffMapMutation,
+    CreateDropOffMapMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateDropOffMapMutation,
+    CreateDropOffMapMutationVariables
+  >(CreateDropOffMapDocument, options);
+}
+export type CreateDropOffMapMutationHookResult = ReturnType<
+  typeof useCreateDropOffMapMutation
+>;
+export type CreateDropOffMapMutationResult =
+  Apollo.MutationResult<CreateDropOffMapMutation>;
+export type CreateDropOffMapMutationOptions = Apollo.BaseMutationOptions<
+  CreateDropOffMapMutation,
+  CreateDropOffMapMutationVariables
+>;
 export const DeleteDropOffMapDocument = gql`
   mutation deleteDropOffMap($deleteDropOffMapId: ID!) {
     deleteDropOffMap(id: $deleteDropOffMapId) {
@@ -23000,6 +23244,75 @@ export type GetDropOffMapByContractIdLazyQueryHookResult = ReturnType<
 export type GetDropOffMapByContractIdQueryResult = Apollo.QueryResult<
   GetDropOffMapByContractIdQuery,
   GetDropOffMapByContractIdQueryVariables
+>;
+export const GetDropOffMapByIdDocument = gql`
+  query getDropOffMapById($dropOffMapId: ID) {
+    dropOffMap(id: $dropOffMapId) {
+      data {
+        id
+        attributes {
+          name
+          gpsCoordinates
+          dropOffMapService {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetDropOffMapByIdQuery__
+ *
+ * To run a query within a React component, call `useGetDropOffMapByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDropOffMapByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDropOffMapByIdQuery({
+ *   variables: {
+ *      dropOffMapId: // value for 'dropOffMapId'
+ *   },
+ * });
+ */
+export function useGetDropOffMapByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetDropOffMapByIdQuery,
+    GetDropOffMapByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetDropOffMapByIdQuery,
+    GetDropOffMapByIdQueryVariables
+  >(GetDropOffMapByIdDocument, options);
+}
+export function useGetDropOffMapByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetDropOffMapByIdQuery,
+    GetDropOffMapByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetDropOffMapByIdQuery,
+    GetDropOffMapByIdQueryVariables
+  >(GetDropOffMapByIdDocument, options);
+}
+export type GetDropOffMapByIdQueryHookResult = ReturnType<
+  typeof useGetDropOffMapByIdQuery
+>;
+export type GetDropOffMapByIdLazyQueryHookResult = ReturnType<
+  typeof useGetDropOffMapByIdLazyQuery
+>;
+export type GetDropOffMapByIdQueryResult = Apollo.QueryResult<
+  GetDropOffMapByIdQuery,
+  GetDropOffMapByIdQueryVariables
 >;
 export const UpdateDropOffMapDocument = gql`
   mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {

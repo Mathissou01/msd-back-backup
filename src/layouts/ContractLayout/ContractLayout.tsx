@@ -88,6 +88,7 @@ export default function ContractLayout(props: IContractLayoutProps) {
         <>
           <Header />
           <div className="o-Page__Container">
+            <div className="o-Page__SvgTopRightAngle" />
             <main role="main" className="o-Page__Main">
               {props.children}
             </main>
