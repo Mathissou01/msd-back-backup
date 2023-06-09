@@ -130,20 +130,6 @@ export function PickUpDaysPage() {
       picto: "/images/pictos/edit.svg",
       href: `${currentRoot}/services/jour-collecte/${row.id}`,
     },
-    {
-      id: "duplicate",
-      picto: "/images/pictos/duplicate.svg",
-      //onClick: () => onDuplicate(row),
-    },
-    {
-      id: "delete",
-      picto: "/images/pictos/delete.svg",
-      //TODO: to use later
-      // confirmStateOptions: {
-      //   onConfirm: () => onDelete(row),
-      //   confirmStyle: "warning",
-      // },
-    },
   ];
 
   useEffect(() => {
