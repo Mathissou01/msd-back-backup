@@ -1,0 +1,37 @@
+mutation CreatePickUpDayById($data: PickUpDayInput!) {
+  createPickUpDay(data: $data) {
+    data {
+      id
+      attributes {
+        createdAt
+        description
+        name
+        updatedAt
+        pickUpDayService {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        flow {
+          data {
+            id
+            attributes {
+              name
+              isActivated
+            }
+          }
+        }
+        sectorizations {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

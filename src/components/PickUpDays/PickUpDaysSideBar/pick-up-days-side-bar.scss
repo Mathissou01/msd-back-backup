@@ -1,0 +1,11 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-PickUpDaysSideBar {
+  &__Users {
+    height: 156px;
+  }
+
+  &__Alert {
+    height: 156px;
+  }
+}

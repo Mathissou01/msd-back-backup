@@ -1,0 +1,151 @@
+import { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import router from "next/router";
+import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
+import PageTitle from "../../../../../components/PageTitle/PageTitle";
+import {
+  useCreatePickUpDayByIdMutation,
+  useGetPickUpDayByIdQuery,
+  useUpdatePickUpDayMutation,
+} from "../../../../../graphql/codegen/generated-types";
+import { useContract } from "../../../../../hooks/useContract";
+import { useNavigation } from "../../../../../hooks/useNavigation";
+import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
+import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
+import PickUpDaysForm from "../../../../../components/PickUpDays/PickUpDaysForm";
+
+interface IPickUpDayIdPageProps {
+  pickUpDayId: string;
+  isCreateMode: boolean;
+}
+
+export interface IPickUpDayStaticFields {
+  name: string;
+}
+
+export function ServicesPickUpDatePage({
+  pickUpDayId,
+  isCreateMode,
+}: IPickUpDayIdPageProps) {
+  /* Static Data */
+  const title = "Créer une collecte";
+  const formLabels = {
+    staticName: "Nom de la collecte",
+  };
+
+  /* Methods */
+  async function onSubmit(submitData: FieldValues, submitType?: string) {
+    const variables = {
+      updatePickUpDayId: pickUpDayId,
+      data: {
+        name: submitData.name,
+        pickUpDayService: contract.attributes?.pickUpDayService?.data?.id,
+      },
+    };
+    if (isCreateMode) {
+      return createPickUpDay({
+        variables,
+        onCompleted: (result) => {
+          if (result.createPickUpDay?.data?.id) {
+            if (submitType === "submit") {
+              router.push(`${currentRoot}/services/jour-collecte`);
+            }
+          }
+        },
+      });
+    } else {
+      return updatePickUpDay({
+        variables,
+        onCompleted: (result) => {
+          if (result.updatePickUpDay?.data?.id) {
+            if (submitType === "submit") {
+              router.push(`${currentRoot}/services/jour-collecte`);
+            }
+          }
+        },
+      });
+    }
+  }
+
+  function onCancel() {
+    form.reset();
+    router.push(`${currentRoot}/services/jour-collecte`);
+  }
+
+  /* External Data */
+  const { currentRoot } = useNavigation();
+  const { contract } = useContract();
+  const { loading, error, data } = useGetPickUpDayByIdQuery({
+    variables: { pickUpDayId },
+    fetchPolicy: "network-only",
+  });
+
+  const [
+    createPickUpDay,
+    { loading: createPickUpDayLoading, error: createPickUpDayError },
+  ] = useCreatePickUpDayByIdMutation({
+    awaitRefetchQueries: true,
+    onError: (error) => {
+      setError("name", { type: "validate", message: error.message });
+    },
+  });
+
+  const [
+    updatePickUpDay,
+    { loading: updatePickUpDayLoading, error: updatePickUpDayError },
+  ] = useUpdatePickUpDayMutation();
+
+  /* Local data */
+  const isLoading = loading || createPickUpDayLoading || updatePickUpDayLoading;
+  const errors = [error, createPickUpDayError, updatePickUpDayError];
+  const [pickUpDaysData, setPickUpDaysData] =
+    useState<IPickUpDayStaticFields>();
+  const form = useForm({
+    mode: "onChange",
+  });
+  const { setError } = form;
+
+  useEffect(() => {
+    if (data?.pickUpDay?.data) {
+      const pickUpDaysData = data?.pickUpDay?.data;
+
+      if (pickUpDaysData.id && pickUpDaysData.attributes?.name) {
+        const mappedData: IPickUpDayStaticFields = {
+          name: pickUpDaysData.attributes.name,
+        };
+        setPickUpDaysData(mappedData);
+      }
+    }
+  }, [data]);
+
+  return (
+    <div className="o-FormEditPage">
+      <>
+        <PageTitle title={title} />
+        <CommonLoader isLoading={isLoading} errors={errors}>
+          <PickUpDaysForm
+            data={pickUpDaysData}
+            onSubmitValid={onSubmit}
+            onCancel={onCancel}
+            labels={formLabels}
+          />
+        </CommonLoader>
+      </>
+    </div>
+  );
+}
+
+export default function IndexPage() {
+  const pickUpDayId = useRoutingQueryId("pickUpDayId", "create");
+
+  return (
+    pickUpDayId && (
+      <ContractLayout>
+        <ServicesPickUpDatePage
+          pickUpDayId={pickUpDayId}
+          isCreateMode={pickUpDayId === "-1"}
+        />
+      </ContractLayout>
+    )
+  );
+}

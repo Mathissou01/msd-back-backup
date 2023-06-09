@@ -1,0 +1,13 @@
+query getPickUpDayById($pickUpDayId: ID) {
+  pickUpDay(id: $pickUpDayId) {
+    data {
+      id
+      attributes {
+        createdAt
+        description
+        name
+        updatedAt
+      }
+    }
+  }
+}

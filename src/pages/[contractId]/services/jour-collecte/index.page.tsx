@@ -1,22 +1,26 @@
+import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useNavigation } from "../../../../hooks/useNavigation";
+import { useContract } from "../../../../hooks/useContract";
 import { TableColumn } from "react-data-table-component";
 import { parseISO } from "date-fns";
-import React, { useEffect, useRef, useState } from "react";
+import { formatDate, removeNulls } from "../../../../lib/utilities";
+import {
+  ICurrentPagination,
+  IDefaultTableRow,
+} from "../../../../lib/common-data-table";
 import {
   GetPickUpDaysByContractIdQueryVariables,
   useGetPickUpDaysByContractIdLazyQuery,
   GetPickUpDaysByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
-import { formatDate, removeNulls } from "../../../../lib/utilities";
-import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
-import {
-  ICurrentPagination,
-  IDefaultTableRow,
-} from "../../../../lib/common-data-table";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLabel from "../../../../components/Common/CommonLabel/CommonLabel";
+import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
+import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 
 interface IPickUpTableRow extends IDefaultTableRow {
   name: string;
@@ -28,8 +32,7 @@ interface IPickUpTableRow extends IDefaultTableRow {
 
 export function PickUpDaysPage() {
   /* Static Data */
-  //TODO: to use it in another US
-  // const addButton = "Créer une pickupday";
+  const addButton = "Créer une collecte";
   const title = "Jour de collecte";
   const tableLabels = {
     title: "Liste des collectes",
@@ -56,10 +59,8 @@ export function PickUpDaysPage() {
 
   /* External Data */
   //TODO: to be used in a nother US
-  // const { currentRoot } = useNavigation();
-
+  const { currentRoot } = useNavigation();
   const { contractId } = useContract();
-
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
   const defaultQueryVariables: GetPickUpDaysByContractIdQueryVariables = {
@@ -74,9 +75,7 @@ export function PickUpDaysPage() {
     });
 
   /* Local Data */
-
-  //TODO: to be used in a nother US
-  // const router = useRouter();
+  const router = useRouter();
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
     GetPickUpDaysByContractIdQuery | undefined
@@ -122,6 +121,28 @@ export function PickUpDaysPage() {
       selector: (row) => row.modification,
       sortable: true,
       minWidth: "148px",
+    },
+  ];
+
+  const actionColumn = (row: IPickUpTableRow): Array<IDataTableAction> => [
+    {
+      id: "edit",
+      picto: "/images/pictos/edit.svg",
+      href: `${currentRoot}/services/jour-collecte/${row.id}`,
+    },
+    {
+      id: "duplicate",
+      picto: "/images/pictos/duplicate.svg",
+      //onClick: () => onDuplicate(row),
+    },
+    {
+      id: "delete",
+      picto: "/images/pictos/delete.svg",
+      //TODO: to use later
+      // confirmStateOptions: {
+      //   onConfirm: () => onDelete(row),
+      //   confirmStyle: "warning",
+      // },
     },
   ];
 
@@ -177,24 +198,22 @@ export function PickUpDaysPage() {
     <div className="o-TablePage">
       <PageTitle title={title} />
 
-      {
-        //TODO: create a pickupday collecte
-        /* <div>
+      <div>
         <CommonButton
           label={addButton}
           style="primary"
           picto="add"
-          onClick={() => router.push(`${currentRoot}/edito/actualites/create`)}
+          onClick={() =>
+            router.push(`${currentRoot}/services/jour-collecte/create`)
+          }
         />
-      </div> */
-      }
+      </div>
       <h2 className="o-TablePage__Title">{tableLabels.title}</h2>
       <div className="o-TablePage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={errors}>
           <CommonDataTable<IPickUpTableRow>
             columns={tableColumns}
-            //TODO: to be used in another US
-            // actionColumn={actionColumn}
+            actionColumn={actionColumn}
             data={tableData}
             lazyLoadingOptions={{
               isRemote: true,
