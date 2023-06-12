@@ -4,6 +4,26 @@ query getDropOffMapById($dropOffMapId: ID) {
       id
       attributes {
         name
+        phoneNumber
+        downloadableFile {
+          id
+          linkText
+          file {
+            data {
+              id
+              attributes {
+                name
+                alternativeText
+                hash
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+        }
+        mustKnow
         gpsCoordinates
         dropOffMapService {
           data {

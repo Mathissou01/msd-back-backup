@@ -27,6 +27,8 @@ export function ServiceCartePointInteretPage({
   /* Static Data */
   const formLabels = {
     staticName: "Nom du point d'intérêt",
+    staticPhoneNumber: "Téléphone",
+    staticMustKnow: "A savoir avant de venir",
   };
   const title = "Créer un point d'intérêt";
   //TODO temporarily static Data After remove use true data from form
@@ -39,6 +41,8 @@ export function ServiceCartePointInteretPage({
       updateDropOffMapId: dropOffMapId,
       data: {
         name: submitData.name,
+        phoneNumber: submitData.phoneNumber,
+        mustKnow: submitData.mustKnow,
         gpsCoordinates: gpsCoordinates,
         collectDropOff: collectDropOff,
         dropOffMapService: contract.attributes?.dropOffMapService?.data?.id,
@@ -101,7 +105,12 @@ export function ServiceCartePointInteretPage({
   const [
     updateDropOffMap,
     { loading: updateDropOffMapLoading, error: updateDropOffMapError },
-  ] = useUpdateDropOffMapMutation();
+  ] = useUpdateDropOffMapMutation({
+    awaitRefetchQueries: true,
+    onError: (error) => {
+      setError("name", { type: "validate", message: error.message });
+    },
+  });
 
   /* Local data */
   const isLoading =
@@ -126,6 +135,8 @@ export function ServiceCartePointInteretPage({
       ) {
         const mappedData: IDropOffMapStaticFields = {
           name: dropOffMapData.attributes.name,
+          phoneNumber: dropOffMapData.attributes.phoneNumber,
+          mustKnow: dropOffMapData.attributes.mustKnow,
           gpsCoordinates: dropOffMapData.attributes.gpsCoordinates,
         };
         setMappedData(mappedData);

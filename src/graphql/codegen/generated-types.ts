@@ -7771,12 +7771,13 @@ export type RecyclingGuideServiceRelationResponseCollection = {
 export type Request = {
   __typename?: 'Request';
   addableBlocks?: Maybe<Array<Maybe<RequestAddableBlocksDynamicZone>>>;
-  blockText?: Maybe<Scalars['String']>;
-  confirmationMessage?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  description?: Maybe<Scalars['String']>;
-  hasSeveralRequestTypes: Scalars['Boolean'];
-  name?: Maybe<Scalars['String']>;
+  blockText?: Maybe<Scalars["String"]>;
+  confirmationMessage?: Maybe<Scalars["String"]>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description?: Maybe<Scalars["String"]>;
+  hasSeveralRequestTypes: Scalars["Boolean"];
+  isActivated?: Maybe<Scalars["Boolean"]>;
+  name?: Maybe<Scalars["String"]>;
   requestAggregate?: Maybe<RequestAggregateEntityResponse>;
   requestService: RequestServiceEntityResponse;
   requestType?: Maybe<Array<Maybe<ComponentBlocksRequestType>>>;
@@ -7871,6 +7872,7 @@ export type RequestFiltersInput = {
   description?: InputMaybe<StringFilterInput>;
   hasSeveralRequestTypes?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RequestFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
@@ -7901,14 +7903,17 @@ export type RequestFolders = {
 };
 
 export type RequestInput = {
-  addableBlocks?: InputMaybe<Array<Scalars['RequestAddableBlocksDynamicZoneInput']>>;
-  blockText?: InputMaybe<Scalars['String']>;
-  confirmationMessage?: InputMaybe<Scalars['String']>;
-  description?: InputMaybe<Scalars['String']>;
-  hasSeveralRequestTypes?: InputMaybe<Scalars['Boolean']>;
-  name?: InputMaybe<Scalars['String']>;
-  requestAggregate?: InputMaybe<Scalars['ID']>;
-  requestService?: InputMaybe<Scalars['ID']>;
+  addableBlocks?: InputMaybe<
+    Array<Scalars["RequestAddableBlocksDynamicZoneInput"]>
+  >;
+  blockText?: InputMaybe<Scalars["String"]>;
+  confirmationMessage?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  hasSeveralRequestTypes?: InputMaybe<Scalars["Boolean"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  requestAggregate?: InputMaybe<Scalars["ID"]>;
+  requestService?: InputMaybe<Scalars["ID"]>;
   requestType?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeInput>>>;
 };
 
@@ -9956,16 +9961,104 @@ export type GetDropOffMapByIdQueryVariables = Exact<{
   dropOffMapId?: InputMaybe<Scalars['ID']>;
 }>;
 
-
-export type GetDropOffMapByIdQuery = { __typename?: 'Query', dropOffMap?: { __typename?: 'DropOffMapEntityResponse', data?: { __typename?: 'DropOffMapEntity', id?: string | null, attributes?: { __typename?: 'DropOffMap', name?: string | null, gpsCoordinates?: string | null, dropOffMapService?: { __typename?: 'DropOffMapServiceEntityResponse', data?: { __typename?: 'DropOffMapServiceEntity', id?: string | null } | null } | null } | null } | null } | null };
+export type GetDropOffMapByIdQuery = {
+  __typename?: "Query";
+  dropOffMap?: {
+    __typename?: "DropOffMapEntityResponse";
+    data?: {
+      __typename?: "DropOffMapEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMap";
+        name?: string | null;
+        phoneNumber?: string | null;
+        mustKnow?: string | null;
+        gpsCoordinates?: string | null;
+        downloadableFile?: Array<{
+          __typename?: "ComponentBlocksDownloadBlock";
+          id: string;
+          linkText: string;
+          file: {
+            __typename?: "UploadFileEntityResponse";
+            data?: {
+              __typename?: "UploadFileEntity";
+              id?: string | null;
+              attributes?: {
+                __typename?: "UploadFile";
+                name: string;
+                alternativeText?: string | null;
+                hash: string;
+                mime: string;
+                size: number;
+                url: string;
+                provider: string;
+              } | null;
+            } | null;
+          };
+        } | null> | null;
+        dropOffMapService?: {
+          __typename?: "DropOffMapServiceEntityResponse";
+          data?: {
+            __typename?: "DropOffMapServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
 
 export type UpdateDropOffMapMutationVariables = Exact<{
   updateDropOffMapId: Scalars['ID'];
   data: DropOffMapInput;
 }>;
 
-
-export type UpdateDropOffMapMutation = { __typename?: 'Mutation', updateDropOffMap?: { __typename?: 'DropOffMapEntityResponse', data?: { __typename?: 'DropOffMapEntity', id?: string | null, attributes?: { __typename?: 'DropOffMap', description?: string | null, name?: string | null, updatedAt?: any | null, createdAt?: any | null } | null } | null } | null };
+export type UpdateDropOffMapMutation = {
+  __typename?: "Mutation";
+  updateDropOffMap?: {
+    __typename?: "DropOffMapEntityResponse";
+    data?: {
+      __typename?: "DropOffMapEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMap";
+        name?: string | null;
+        gpsCoordinates?: string | null;
+        phoneNumber?: string | null;
+        mustKnow?: string | null;
+        downloadableFile?: Array<{
+          __typename?: "ComponentBlocksDownloadBlock";
+          id: string;
+          linkText: string;
+          file: {
+            __typename?: "UploadFileEntityResponse";
+            data?: {
+              __typename?: "UploadFileEntity";
+              id?: string | null;
+              attributes?: {
+                __typename?: "UploadFile";
+                name: string;
+                hash: string;
+                alternativeText?: string | null;
+                mime: string;
+                size: number;
+                url: string;
+                provider: string;
+              } | null;
+            } | null;
+          };
+        } | null> | null;
+        dropOffMapService?: {
+          __typename?: "DropOffMapServiceEntityResponse";
+          data?: {
+            __typename?: "DropOffMapServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
 
 export type GetWasteFamiliesQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars['ID']>;
@@ -16403,23 +16496,43 @@ export type GetDropOffMapByContractIdQueryHookResult = ReturnType<typeof useGetD
 export type GetDropOffMapByContractIdLazyQueryHookResult = ReturnType<typeof useGetDropOffMapByContractIdLazyQuery>;
 export type GetDropOffMapByContractIdQueryResult = Apollo.QueryResult<GetDropOffMapByContractIdQuery, GetDropOffMapByContractIdQueryVariables>;
 export const GetDropOffMapByIdDocument = gql`
-    query getDropOffMapById($dropOffMapId: ID) {
-  dropOffMap(id: $dropOffMapId) {
-    data {
-      id
-      attributes {
-        name
-        gpsCoordinates
-        dropOffMapService {
-          data {
+  query getDropOffMapById($dropOffMapId: ID) {
+    dropOffMap(id: $dropOffMapId) {
+      data {
+        id
+        attributes {
+          name
+          phoneNumber
+          downloadableFile {
             id
+            linkText
+            file {
+              data {
+                id
+                attributes {
+                  name
+                  alternativeText
+                  hash
+                  mime
+                  size
+                  url
+                  provider
+                }
+              }
+            }
+          }
+          mustKnow
+          gpsCoordinates
+          dropOffMapService {
+            data {
+              id
+            }
           }
         }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetDropOffMapByIdQuery__
@@ -16449,21 +16562,47 @@ export type GetDropOffMapByIdQueryHookResult = ReturnType<typeof useGetDropOffMa
 export type GetDropOffMapByIdLazyQueryHookResult = ReturnType<typeof useGetDropOffMapByIdLazyQuery>;
 export type GetDropOffMapByIdQueryResult = Apollo.QueryResult<GetDropOffMapByIdQuery, GetDropOffMapByIdQueryVariables>;
 export const UpdateDropOffMapDocument = gql`
-    mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
-  updateDropOffMap(id: $updateDropOffMapId, data: $data) {
-    data {
-      id
-      attributes {
-        description
-        name
-        updatedAt
-        createdAt
+  mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
+    updateDropOffMap(id: $updateDropOffMapId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+          gpsCoordinates
+          phoneNumber
+          downloadableFile {
+            id
+            linkText
+            file {
+              data {
+                id
+                attributes {
+                  name
+                  hash
+                  alternativeText
+                  mime
+                  size
+                  url
+                  provider
+                }
+              }
+            }
+          }
+          dropOffMapService {
+            data {
+              id
+            }
+          }
+          mustKnow
+        }
       }
     }
   }
-}
-    `;
-export type UpdateDropOffMapMutationFn = Apollo.MutationFunction<UpdateDropOffMapMutation, UpdateDropOffMapMutationVariables>;
+`;
+export type UpdateDropOffMapMutationFn = Apollo.MutationFunction<
+  UpdateDropOffMapMutation,
+  UpdateDropOffMapMutationVariables
+>;
 
 /**
  * __useUpdateDropOffMapMutation__

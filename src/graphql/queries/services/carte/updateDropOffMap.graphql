@@ -3,10 +3,33 @@ mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
     data {
       id
       attributes {
-        description
         name
-        updatedAt
-        createdAt
+        gpsCoordinates
+        phoneNumber
+        downloadableFile {
+          id
+          linkText
+          file {
+            data {
+              id
+              attributes {
+                name
+                hash
+                alternativeText
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+        }
+        dropOffMapService {
+          data {
+            id
+          }
+        }
+        mustKnow
       }
     }
   }

@@ -5600,6 +5600,7 @@ type Request {
   createdAt: DateTime
   description: String
   hasSeveralRequestTypes: Boolean!
+  isActivated: Boolean
   name: String
   requestAggregate: RequestAggregateEntityResponse
   requestService: RequestServiceEntityResponse!
@@ -5695,6 +5696,7 @@ input RequestFiltersInput {
   description: StringFilterInput
   hasSeveralRequestTypes: BooleanFilterInput
   id: IDFilterInput
+  isActivated: BooleanFilterInput
   name: StringFilterInput
   not: RequestFiltersInput
   or: [RequestFiltersInput]
@@ -5728,6 +5730,7 @@ input RequestInput {
   confirmationMessage: String
   description: String
   hasSeveralRequestTypes: Boolean
+  isActivated: Boolean
   name: String
   requestAggregate: ID
   requestService: ID

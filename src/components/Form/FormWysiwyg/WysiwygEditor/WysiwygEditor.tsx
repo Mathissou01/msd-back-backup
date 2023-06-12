@@ -78,6 +78,9 @@ export default function WysiwygEditor({
   value,
   isDisabled,
 }: IWysiwygEditorProps) {
+  /* Static Data */
+  // TODO AllowedKeys
+  //const allowedKeys = ["Backspace", "Delete", "Tab", "Escape", "Enter"];
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
@@ -108,6 +111,30 @@ export default function WysiwygEditor({
             //     text: "My Custom Button",
             //     onAction: () => alert("button clicked!"),
             //   });
+            // TODO Add or remove validation max length character
+            //   const maxlength = maxLengthValidation;
+            //   maxlength &&
+            //     editor.on("keydown", (event: KeyboardEvent) => {
+            //       const key = event.key;
+            //       const lenghtCharacter = editor.getContent({
+            //         format: "text",
+            //       }).length;
+
+            //       if (
+            //         allowedKeys.includes(key) ||
+            //         ((key === "a" || key === "A") && event.ctrlKey === true) ||
+            //         key.startsWith("Arrow") ||
+            //         key === "Home" ||
+            //         key === "End"
+            //       ) {
+            //         return;
+            //       }
+
+            //       if (lenghtCharacter >= maxlength) {
+            //         event.preventDefault();
+            //         event.stopPropagation();
+            //       }
+            //     });
             // },
             plugins: editorOptions?.plugins,
             language: "fr_FR",
