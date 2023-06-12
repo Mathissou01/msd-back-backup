@@ -9,6 +9,8 @@ query getTopContentBlockTab(
     hasTopContent
     titleContent
     topContent {
+      componentId
+      uniqueId
       id
       contentType
       typeName
@@ -23,6 +25,7 @@ query getTopContentBlockTab(
     id
     contentType
     typeName
+    uniqueId
     attributes {
       title
       status

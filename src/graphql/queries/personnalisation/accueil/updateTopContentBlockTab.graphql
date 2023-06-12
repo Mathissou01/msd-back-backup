@@ -14,26 +14,6 @@ mutation updateTopContentBlockTab(
                     displayBlock
                     titleContent
                     hasTopContent
-                    topContent {
-                      data {
-                        attributes {
-                          event {
-                            data {
-                              attributes {
-                                title
-                              }
-                            }
-                          }
-                          new {
-                            data {
-                              attributes {
-                                title
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
                     displayLastThreeContents
                   }
                 }

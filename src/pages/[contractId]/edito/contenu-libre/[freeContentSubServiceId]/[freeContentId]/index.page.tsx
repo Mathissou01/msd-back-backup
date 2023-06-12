@@ -5,6 +5,7 @@ import {
   Enum_Freecontent_Status,
   useGetFreeContentByIdLazyQuery,
   useCreateFreeContentMutation,
+  FreeContentSubServiceEntity,
 } from "../../../../../../graphql/codegen/generated-types";
 import { useNavigation } from "../../../../../../hooks/useNavigation";
 import { useContract } from "../../../../../../hooks/useContract";
@@ -44,12 +45,19 @@ export function EditoFreeContentEditPage({
   /* Methods */
   async function handleCreate(commonSubmitVariables: ICommonMutationVariables) {
     const [createFreeContent] = createFreeContentMutation;
+    const currentFreeContentSubService:
+      | Array<FreeContentSubServiceEntity>
+      | undefined =
+      contract.attributes?.editorialService?.data?.attributes?.freeContentSubServices?.data?.filter(
+        (freeContentSubService) =>
+          freeContentSubService.id === freeContentSubServiceId,
+      );
     return createFreeContent({
       variables: {
         data: {
-          freeContentSubService:
-            contract.attributes?.editorialService?.data?.attributes
-              ?.tipSubService?.data?.id,
+          freeContentSubService: currentFreeContentSubService
+            ? currentFreeContentSubService[0].id
+            : undefined,
           ...commonSubmitVariables,
         },
       },

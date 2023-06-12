@@ -3,8 +3,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
 import {
+  EditoContentDto,
   Enum_Topcontentdto_Status,
-  TopContentDto,
   useGetTopContentBlockTabQuery,
   useUpdateTopContentBlockTabMutation,
 } from "../../../../../graphql/codegen/generated-types";
@@ -31,7 +31,8 @@ interface ITopContentBlock {
   titleContent: string;
   hasTopContent: boolean;
   displayLastThreeContents: boolean;
-  topContent?: TopContentDto | null;
+  topContent?: EditoContentDto | null;
+  componentId?: string | null;
 }
 
 export default function TopContentTab() {
@@ -54,7 +55,7 @@ export default function TopContentTab() {
 
   /* Methods */
   function topContentDisplayTransformFunction(
-    topContent: Partial<TopContentDto> | undefined,
+    topContent: Partial<EditoContentDto> | undefined,
   ): ReactNode {
     return (
       <p>
@@ -66,7 +67,7 @@ export default function TopContentTab() {
   }
 
   function topContentSelectDisplayTransformFunction(
-    topContent: TopContentDto,
+    topContent: EditoContentDto,
   ): string {
     return `${topContent?.attributes?.title} - ${formatDate(
       parseJSON(topContent?.attributes?.publishedDate),
@@ -74,7 +75,7 @@ export default function TopContentTab() {
   }
 
   function onTopContentModalSubmit(submitData: {
-    [key: string]: Partial<TopContentDto> | undefined;
+    [key: string]: Partial<EditoContentDto> | undefined;
   }) {
     const topContent = Object.values(submitData)[1];
     setValue("topContent", topContent, { shouldDirty: true });
@@ -99,7 +100,22 @@ export default function TopContentTab() {
           titleContent: submitData["titleContent"],
           hasTopContent: submitData["hasTopContent"],
           displayLastThreeContents: submitData["displayLastThreeContents"],
-          topContent: submitData["topContent"]?.id ?? null,
+          topContent: [
+            {
+              id: submitData["componentId"]
+                ? submitData["componentId"]
+                : undefined,
+              __typename: "ComponentLinksTopContent",
+              new:
+                submitData["topContent"].contentType === "new"
+                  ? submitData["topContent"]?.id ?? null
+                  : null,
+              events:
+                submitData["topContent"].contentType === "event"
+                  ? submitData["topContent"]?.id ?? null
+                  : null,
+            },
+          ],
         },
       };
       return updateTopContentBlock({
@@ -116,7 +132,7 @@ export default function TopContentTab() {
   const { contractId } = useContract();
   const { loading, error, data } = useGetTopContentBlockTabQuery({
     variables: { contractId, status: Enum_Topcontentdto_Status.Published },
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   });
   const [
     updateTopContentBlock,
@@ -129,11 +145,11 @@ export default function TopContentTab() {
   /* Local Data */
   const [isInitialized, setIsInitialized] = useState(false);
   const [topContentData, setTopContentData] = useState<ITopContentBlock>();
-  const [allTopContents, setAllTopContents] = useState<Array<TopContentDto>>(
+  const [allTopContents, setAllTopContents] = useState<Array<EditoContentDto>>(
     [],
   );
   const [currentTopContents, setCurrentTopContents] = useState<
-    Array<IOptionWrapper<TopContentDto>>
+    Array<IOptionWrapper<EditoContentDto>>
   >([]);
   const formValidationMode = "onChange";
   const form = useForm({
@@ -147,6 +163,7 @@ export default function TopContentTab() {
       const { topContentBlock, topContents } = extractTopContentBlock(data);
       if (topContentBlock?.id) {
         const mappedData: ITopContentBlock = {
+          componentId: topContentBlock.topContent?.componentId,
           id: topContentBlock.id,
           displayBlock: topContentBlock.displayBlock,
           displayLastThreeContents: topContentBlock.displayLastThreeContents,
@@ -208,7 +225,7 @@ export default function TopContentTab() {
                 name="hasTopContent"
                 label={formLabels.hasTopContent}
               />
-              <FormModalButtonInput<TopContentDto>
+              <FormModalButtonInput<EditoContentDto>
                 name="topContent"
                 label={formLabels.topContent}
                 displayTransform={topContentDisplayTransformFunction}
@@ -218,22 +235,23 @@ export default function TopContentTab() {
                 isRequired={true}
                 modalHasRequiredChildren="all"
                 isDisabled={mutationLoading}
+                defaultValue={data?.getTopContentBlockDTO?.topContent}
               >
                 <div className="c-TopContentTab__Group">
                   <FormRadioInput
                     name={"topContentRadio"}
                     displayName={formLabels.topContentModalRadio}
                     options={[
-                      { label: "Actualité", value: "news" },
+                      { label: "Actualité", value: "new" },
                       { label: "Evénement", value: "event" },
                     ]}
-                    defaultValue={watch("topContent")?.contentType ?? "news"}
+                    defaultValue={watch("topContent")?.contentType ?? "new"}
                     isRequired={true}
                     onChange={onTopContentModalRadioChange}
                   />
                 </div>
                 <div className="c-TopContentTab__Group">
-                  <FormSelect<TopContentDto>
+                  <FormSelect<EditoContentDto>
                     name="topContentSelect"
                     label={formLabels.topContentModalType}
                     displayTransform={topContentSelectDisplayTransformFunction}

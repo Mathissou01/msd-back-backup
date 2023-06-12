@@ -9,7 +9,7 @@ describe("EditoTab", () => {
     const { container } = render(
       <MockedProvider mocks={defaultMockData} addTypename={false}>
         <EditoTab
-          activatedTypes={["tip", "quiz", "event", "news", "freeContent"]}
+          activatedTypes={["tip", "quiz", "event", "new", "free-content"]}
         />
       </MockedProvider>,
     );

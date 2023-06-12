@@ -94,7 +94,30 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
           titleContent: submitData["titleContent"],
           editoContents:
             submitData["editoContents"]?.map(
-              (editoContent: EditoContentDto) => editoContent?.id ?? null,
+              (editoContent: EditoContentDto, index: number) => {
+                return {
+                  id: editoData?.editoContents
+                    ? editoData.editoContents[index]?.componentId
+                    : undefined,
+                  __typename: "ComponentLinksEditoContent",
+                  new:
+                    editoContent.contentType === "new" ? editoContent.id : null,
+                  event:
+                    editoContent.contentType === "event"
+                      ? editoContent.id
+                      : null,
+                  tip:
+                    editoContent.contentType === "tip" ? editoContent.id : null,
+                  quiz:
+                    editoContent.contentType === "quiz"
+                      ? editoContent.id
+                      : null,
+                  freeContent:
+                    editoContent.contentType === "free-content"
+                      ? editoContent.id
+                      : null,
+                };
+              },
             ) ?? null,
         },
       };
@@ -115,7 +138,7 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
       contractId,
       status: Enum_Editocontentdto_Status.Published,
     },
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   });
   const [updateEditoBlock, { loading: mutationLoading, error: mutationError }] =
     useUpdateEditoBlockTabMutation({
@@ -135,7 +158,6 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
   });
   const { handleSubmit, setValue, watch, formState } = form;
   const { isDirty, isSubmitting } = formState;
-
   useEffect(() => {
     if (data?.getEditoBlockDTO && data.getEditoContentDTOs) {
       const { editoBlock, editoContents } = extractEditoBlock(data);
@@ -150,7 +172,6 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
         setIsInitialized(true);
         form.reset(mappedData);
       }
-
       const filteredEditoContents = [...(editoContents ?? [])].filter(
         (content) => {
           if (
@@ -166,11 +187,11 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
       );
       filteredEditoContents?.sort(
         comparePropertyValueByPriority("contentType", {
-          news: 0,
+          new: 0,
           event: 1,
           tip: 2,
           quiz: 3,
-          freeContent: 4,
+          "free-content": 4,
         }),
       );
       setEditoContents(mapOptionsInWrappers(filteredEditoContents, "typeName"));
@@ -228,7 +249,7 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
                   displayTransform={editoContentSelectDisplayTransformFunction}
                   options={editoContents}
                   selectAmount={3}
-                  optionKey={"id"}
+                  optionKey={"uniqueId"}
                   defaultValues={watch("editoContents")}
                 />
               </FormModalButtonInput>

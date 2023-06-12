@@ -4,6 +4,8 @@ query getEditoBlockTab($contractId: ID!, $status: ENUM_EDITOCONTENTDTO_STATUS) {
     displayBlock
     titleContent
     editoContents {
+      componentId
+      uniqueId
       id
       contentType
       typeName
@@ -18,6 +20,7 @@ query getEditoBlockTab($contractId: ID!, $status: ENUM_EDITOCONTENTDTO_STATUS) {
     id
     contentType
     typeName
+    uniqueId
     attributes {
       title
       status

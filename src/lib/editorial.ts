@@ -7,8 +7,8 @@ export type TEditorialContentTypes =
   | "quiz"
   | "tip"
   | "event"
-  | "news"
-  | "freeContent";
+  | "new"
+  | "free-content";
 
 export interface IEditorialStaticFields extends IFormVersioningFields {
   title: string;

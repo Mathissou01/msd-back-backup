@@ -125,12 +125,11 @@ export function PersonnalisationAccueilPage() {
                   ? ("event" as TEditorialContentTypes)
                   : null,
                 serviceParameters.isNewsActivated
-                  ? ("news" as TEditorialContentTypes)
+                  ? ("new" as TEditorialContentTypes)
                   : null,
-                // TODO
-                // serviceParameters.??
-                //   ? ("freeContent" as TEditoContentTypes)
-                //   : null,
+                serviceParameters.hasFreeContentsActivated
+                  ? ("free-content" as TEditorialContentTypes)
+                  : null,
               ].filter(removeNulls)}
             />
           ),

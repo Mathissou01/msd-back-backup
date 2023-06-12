@@ -8,11 +8,6 @@ mutation updateEditoBlockTab(
       attributes {
         displayBlock
         titleContent
-        editoContents {
-          data {
-            id
-          }
-        }
       }
     }
   }
