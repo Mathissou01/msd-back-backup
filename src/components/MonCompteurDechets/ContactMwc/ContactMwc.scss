@@ -1,0 +1,90 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-ContactFormPage {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 16px 20px 32px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 1px rgb(17 95 251 / 5%), 0 1px 3px rgb(17 95 251 / 10%);
+
+  &__Form {
+    width: 552.5px;
+  }
+
+  &__LabelWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__Label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 2px;
+    color: colors.$blue-2;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &__InputContent {
+    display: flex;
+    flex-direction: row;
+
+    input {
+      position: relative;
+      width: 100%;
+      height: 48px;
+      padding: 0 8px;
+      color: colors.$blue-1;
+      background-color: #fff;
+      border: 1px solid colors.$blue-1;
+      border-radius: 4px;
+      outline: 2px solid transparent;
+    }
+  }
+
+  &__BlockFieldAndInputCol2 {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  &__BlockFieldAndInput {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 24px;
+    color: colors.$blue-2;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &__ButtonBlock {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  &__ButtonsSave {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  &__ErrorMessage {
+    padding: 2px 0;
+    color: colors.$error;
+    font-size: 16px;
+    font-style: italic;
+  }
+}

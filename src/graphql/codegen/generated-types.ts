@@ -36,6 +36,8 @@ export type Scalars = {
   FreeContentLinkToServicesDynamicZoneInput: any;
   JSON: any;
   Long: any;
+  MwcFlowBlocksDynamicZoneInput: any;
+  MwcFlowOmBlocksDynamicZoneInput: any;
   NewBlocksDynamicZoneInput: any;
   NewLinkToServicesDynamicZoneInput: any;
   RequestAddableBlocksDynamicZoneInput: any;
@@ -2647,6 +2649,21 @@ export enum Enum_Freecontent_Status {
   Published = "published",
 }
 
+export enum Enum_Mwcflowcs_Weighingsystem {
+  DynamicWeighingOfBins = "dynamicWeighingOfBins",
+  WeighingAtTheOutlet = "weighingAtTheOutlet",
+}
+
+export enum Enum_Mwcflowom_Weighingsystem {
+  DynamicWeighingOfBins = "dynamicWeighingOfBins",
+  WeighingAtTheOutlet = "weighingAtTheOutlet",
+}
+
+export enum Enum_Mwcflow_Weighingsystem {
+  DynamicWeighingOfBins = "dynamicWeighingOfBins",
+  WeighingAtTheOutlet = "weighingAtTheOutlet",
+}
+
 export enum Enum_New_Status {
   Archived = "archived",
   Draft = "draft",
@@ -3710,6 +3727,9 @@ export type GenericMorph =
   | KeyMetricsService
   | MwCounterService
   | MwcContact
+  | MwcFlow
+  | MwcFlowCs
+  | MwcFlowOm
   | MyWasteCounter
   | New
   | NewsSubService
@@ -4192,6 +4212,9 @@ export type Mutation = {
   createKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   createMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   createMwcContact?: Maybe<MwcContactEntityResponse>;
+  createMwcFlow?: Maybe<MwcFlowEntityResponse>;
+  createMwcFlowCs?: Maybe<MwcFlowCsEntityResponse>;
+  createMwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
   createMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   createNew?: Maybe<NewEntityResponse>;
   createNewFolder?: Maybe<RequestFolderEntity>;
@@ -4271,6 +4294,9 @@ export type Mutation = {
   deleteKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   deleteMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   deleteMwcContact?: Maybe<MwcContactEntityResponse>;
+  deleteMwcFlow?: Maybe<MwcFlowEntityResponse>;
+  deleteMwcFlowCs?: Maybe<MwcFlowCsEntityResponse>;
+  deleteMwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
   deleteMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   deleteNew?: Maybe<NewEntityResponse>;
   deleteNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
@@ -4371,6 +4397,9 @@ export type Mutation = {
   updateKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   updateMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   updateMwcContact?: Maybe<MwcContactEntityResponse>;
+  updateMwcFlow?: Maybe<MwcFlowEntityResponse>;
+  updateMwcFlowCs?: Maybe<MwcFlowCsEntityResponse>;
+  updateMwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
   updateMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   updateNew?: Maybe<NewEntityResponse>;
   updateNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
@@ -4637,6 +4666,18 @@ export type MutationCreateMwCounterServiceArgs = {
 
 export type MutationCreateMwcContactArgs = {
   data: MwcContactInput;
+};
+
+export type MutationCreateMwcFlowArgs = {
+  data: MwcFlowInput;
+};
+
+export type MutationCreateMwcFlowCsArgs = {
+  data: MwcFlowCsInput;
+};
+
+export type MutationCreateMwcFlowOmArgs = {
+  data: MwcFlowOmInput;
 };
 
 export type MutationCreateMyWasteCounterArgs = {
@@ -4945,6 +4986,18 @@ export type MutationDeleteMwCounterServiceArgs = {
 };
 
 export type MutationDeleteMwcContactArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteMwcFlowArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteMwcFlowCsArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteMwcFlowOmArgs = {
   id: Scalars["ID"];
 };
 
@@ -5384,6 +5437,21 @@ export type MutationUpdateMwcContactArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateMwcFlowArgs = {
+  data: MwcFlowInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateMwcFlowCsArgs = {
+  data: MwcFlowCsInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateMwcFlowOmArgs = {
+  data: MwcFlowOmInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateMyWasteCounterArgs = {
   data: MyWasteCounterInput;
   id: Scalars["ID"];
@@ -5565,6 +5633,8 @@ export type MutationYwsDeactivationArgs = {
 export type MwCounterService = {
   __typename?: "MwCounterService";
   MwCounter?: Maybe<MyWasteCounterRelationResponseCollection>;
+  MwcFlow?: Maybe<MwcFlowEntityResponse>;
+  MwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
   audience_types?: Maybe<AudienceTypeRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
@@ -5615,6 +5685,8 @@ export type MwCounterServiceEntityResponseCollection = {
 
 export type MwCounterServiceFiltersInput = {
   MwCounter?: InputMaybe<MyWasteCounterFiltersInput>;
+  MwcFlow?: InputMaybe<MwcFlowFiltersInput>;
+  MwcFlowOm?: InputMaybe<MwcFlowOmFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<MwCounterServiceFiltersInput>>>;
   audience_types?: InputMaybe<AudienceTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
@@ -5634,6 +5706,8 @@ export type MwCounterServiceFiltersInput = {
 
 export type MwCounterServiceInput = {
   MwCounter?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  MwcFlow?: InputMaybe<Scalars["ID"]>;
+  MwcFlowOm?: InputMaybe<Scalars["ID"]>;
   audience_types?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
@@ -5704,6 +5778,156 @@ export type MwcContactInput = {
   postalAddress?: InputMaybe<Scalars["String"]>;
   postalCode?: InputMaybe<Scalars["String"]>;
   serviceName?: InputMaybe<Scalars["String"]>;
+};
+
+export type MwcFlow = {
+  __typename?: "MwcFlow";
+  MwCounterService?: Maybe<MwCounterServiceEntityResponse>;
+  averageProductionPerson?: Maybe<Scalars["Long"]>;
+  blocks?: Maybe<Array<Maybe<MwcFlowBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  weighingSystem?: Maybe<Enum_Mwcflow_Weighingsystem>;
+};
+
+export type MwcFlowBlocksDynamicZone =
+  | ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type MwcFlowCs = {
+  __typename?: "MwcFlowCs";
+  averageProductionPerson?: Maybe<Scalars["Long"]>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  weighingSystem?: Maybe<Enum_Mwcflowcs_Weighingsystem>;
+};
+
+export type MwcFlowCsEntity = {
+  __typename?: "MwcFlowCsEntity";
+  attributes?: Maybe<MwcFlowCs>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type MwcFlowCsEntityResponse = {
+  __typename?: "MwcFlowCsEntityResponse";
+  data?: Maybe<MwcFlowCsEntity>;
+};
+
+export type MwcFlowCsEntityResponseCollection = {
+  __typename?: "MwcFlowCsEntityResponseCollection";
+  data: Array<MwcFlowCsEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type MwcFlowCsFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<MwcFlowCsFiltersInput>>>;
+  averageProductionPerson?: InputMaybe<LongFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<MwcFlowCsFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<MwcFlowCsFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  weighingSystem?: InputMaybe<StringFilterInput>;
+};
+
+export type MwcFlowCsInput = {
+  averageProductionPerson?: InputMaybe<Scalars["Long"]>;
+  weighingSystem?: InputMaybe<Enum_Mwcflowcs_Weighingsystem>;
+};
+
+export type MwcFlowEntity = {
+  __typename?: "MwcFlowEntity";
+  attributes?: Maybe<MwcFlow>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type MwcFlowEntityResponse = {
+  __typename?: "MwcFlowEntityResponse";
+  data?: Maybe<MwcFlowEntity>;
+};
+
+export type MwcFlowEntityResponseCollection = {
+  __typename?: "MwcFlowEntityResponseCollection";
+  data: Array<MwcFlowEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type MwcFlowFiltersInput = {
+  MwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
+  and?: InputMaybe<Array<InputMaybe<MwcFlowFiltersInput>>>;
+  averageProductionPerson?: InputMaybe<LongFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<MwcFlowFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<MwcFlowFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  weighingSystem?: InputMaybe<StringFilterInput>;
+};
+
+export type MwcFlowInput = {
+  MwCounterService?: InputMaybe<Scalars["ID"]>;
+  averageProductionPerson?: InputMaybe<Scalars["Long"]>;
+  blocks?: InputMaybe<Array<Scalars["MwcFlowBlocksDynamicZoneInput"]>>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  weighingSystem?: InputMaybe<Enum_Mwcflow_Weighingsystem>;
+};
+
+export type MwcFlowOm = {
+  __typename?: "MwcFlowOm";
+  averageProductionPerson?: Maybe<Scalars["Long"]>;
+  blocks?: Maybe<Array<Maybe<MwcFlowOmBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  mwCounterService?: Maybe<MwCounterServiceEntityResponse>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  weighingSystem?: Maybe<Enum_Mwcflowom_Weighingsystem>;
+};
+
+export type MwcFlowOmBlocksDynamicZone =
+  | ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type MwcFlowOmEntity = {
+  __typename?: "MwcFlowOmEntity";
+  attributes?: Maybe<MwcFlowOm>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type MwcFlowOmEntityResponse = {
+  __typename?: "MwcFlowOmEntityResponse";
+  data?: Maybe<MwcFlowOmEntity>;
+};
+
+export type MwcFlowOmEntityResponseCollection = {
+  __typename?: "MwcFlowOmEntityResponseCollection";
+  data: Array<MwcFlowOmEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type MwcFlowOmFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<MwcFlowOmFiltersInput>>>;
+  averageProductionPerson?: InputMaybe<LongFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  mwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
+  not?: InputMaybe<MwcFlowOmFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<MwcFlowOmFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  weighingSystem?: InputMaybe<StringFilterInput>;
+};
+
+export type MwcFlowOmInput = {
+  averageProductionPerson?: InputMaybe<Scalars["Long"]>;
+  blocks?: InputMaybe<Array<Scalars["MwcFlowOmBlocksDynamicZoneInput"]>>;
+  mwCounterService?: InputMaybe<Scalars["ID"]>;
+  weighingSystem?: InputMaybe<Enum_Mwcflowom_Weighingsystem>;
 };
 
 export type MyWasteCounter = {
@@ -6256,6 +6480,12 @@ export type Query = {
   mwCounterServices?: Maybe<MwCounterServiceEntityResponseCollection>;
   mwcContact?: Maybe<MwcContactEntityResponse>;
   mwcContacts?: Maybe<MwcContactEntityResponseCollection>;
+  mwcFlow?: Maybe<MwcFlowEntityResponse>;
+  mwcFlowCs?: Maybe<MwcFlowCsEntityResponse>;
+  mwcFlowCss?: Maybe<MwcFlowCsEntityResponseCollection>;
+  mwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
+  mwcFlowOms?: Maybe<MwcFlowOmEntityResponseCollection>;
+  mwcFlows?: Maybe<MwcFlowEntityResponseCollection>;
   myWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   myWasteCounters?: Maybe<MyWasteCounterEntityResponseCollection>;
   new?: Maybe<NewEntityResponse>;
@@ -6829,6 +7059,37 @@ export type QueryMwcContactArgs = {
 export type QueryMwcContactsArgs = {
   filters?: InputMaybe<MwcContactFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryMwcFlowArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryMwcFlowCsArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryMwcFlowCssArgs = {
+  filters?: InputMaybe<MwcFlowCsFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryMwcFlowOmArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryMwcFlowOmsArgs = {
+  filters?: InputMaybe<MwcFlowOmFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryMwcFlowsArgs = {
+  filters?: InputMaybe<MwcFlowFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -10664,6 +10925,9 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "KeyMetricsService" }
           | { __typename?: "MwCounterService" }
           | { __typename?: "MwcContact" }
+          | { __typename?: "MwcFlow" }
+          | { __typename?: "MwcFlowCs" }
+          | { __typename?: "MwcFlowOm" }
           | { __typename?: "MyWasteCounter" }
           | { __typename?: "New" }
           | { __typename?: "NewsSubService" }
@@ -12532,6 +12796,62 @@ export type GetServicesActiveQuery = {
       attributes?: {
         __typename?: "RequestService";
         isActivated: boolean;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateContactMwcMutationVariables = Exact<{
+  serviceName?: InputMaybe<Scalars["String"]>;
+  postalAddress?: InputMaybe<Scalars["String"]>;
+  postalCode?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]>;
+  contactEmail?: InputMaybe<Scalars["String"]>;
+  phoneNumber?: InputMaybe<Scalars["String"]>;
+  contractId?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type UpdateContactMwcMutation = {
+  __typename?: "Mutation";
+  updateContactMwc?: {
+    __typename?: "ContactResponse";
+    serviceName?: string | null;
+    postalAddress?: string | null;
+    city?: string | null;
+    postalCode?: string | null;
+    contactEmail?: string | null;
+    phoneNumber?: string | null;
+  } | null;
+};
+
+export type GetContactMwcQueryVariables = Exact<{
+  filters?: InputMaybe<MwCounterServiceFiltersInput>;
+}>;
+
+export type GetContactMwcQuery = {
+  __typename?: "Query";
+  mwCounterServices?: {
+    __typename?: "MwCounterServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "MwCounterServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "MwCounterService";
+        mwcContact?: {
+          __typename?: "MwcContactEntityResponse";
+          data?: {
+            __typename?: "MwcContactEntity";
+            attributes?: {
+              __typename?: "MwcContact";
+              city?: string | null;
+              serviceName?: string | null;
+              postalAddress?: string | null;
+              postalCode?: string | null;
+              contactEmail?: string | null;
+              phoneNumber?: string | null;
+            } | null;
+          } | null;
+        } | null;
       } | null;
     }>;
   } | null;
@@ -20592,6 +20912,157 @@ export type GetServicesActiveLazyQueryHookResult = ReturnType<
 export type GetServicesActiveQueryResult = Apollo.QueryResult<
   GetServicesActiveQuery,
   GetServicesActiveQueryVariables
+>;
+export const UpdateContactMwcDocument = gql`
+  mutation UpdateContactMwc(
+    $serviceName: String
+    $postalAddress: String
+    $postalCode: String
+    $city: String
+    $contactEmail: String
+    $phoneNumber: String
+    $contractId: Int
+  ) {
+    updateContactMwc(
+      serviceName: $serviceName
+      postalAddress: $postalAddress
+      postalCode: $postalCode
+      city: $city
+      contactEmail: $contactEmail
+      phoneNumber: $phoneNumber
+      contractId: $contractId
+    ) {
+      serviceName
+      postalAddress
+      city
+      postalCode
+      contactEmail
+      phoneNumber
+    }
+  }
+`;
+export type UpdateContactMwcMutationFn = Apollo.MutationFunction<
+  UpdateContactMwcMutation,
+  UpdateContactMwcMutationVariables
+>;
+
+/**
+ * __useUpdateContactMwcMutation__
+ *
+ * To run a mutation, you first call `useUpdateContactMwcMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContactMwcMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContactMwcMutation, { data, loading, error }] = useUpdateContactMwcMutation({
+ *   variables: {
+ *      serviceName: // value for 'serviceName'
+ *      postalAddress: // value for 'postalAddress'
+ *      postalCode: // value for 'postalCode'
+ *      city: // value for 'city'
+ *      contactEmail: // value for 'contactEmail'
+ *      phoneNumber: // value for 'phoneNumber'
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useUpdateContactMwcMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContactMwcMutation,
+    UpdateContactMwcMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContactMwcMutation,
+    UpdateContactMwcMutationVariables
+  >(UpdateContactMwcDocument, options);
+}
+export type UpdateContactMwcMutationHookResult = ReturnType<
+  typeof useUpdateContactMwcMutation
+>;
+export type UpdateContactMwcMutationResult =
+  Apollo.MutationResult<UpdateContactMwcMutation>;
+export type UpdateContactMwcMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContactMwcMutation,
+  UpdateContactMwcMutationVariables
+>;
+export const GetContactMwcDocument = gql`
+  query GetContactMwc($filters: MwCounterServiceFiltersInput) {
+    mwCounterServices(filters: $filters) {
+      data {
+        id
+        attributes {
+          mwcContact {
+            data {
+              attributes {
+                city
+                serviceName
+                postalAddress
+                postalCode
+                contactEmail
+                phoneNumber
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetContactMwcQuery__
+ *
+ * To run a query within a React component, call `useGetContactMwcQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContactMwcQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContactMwcQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetContactMwcQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetContactMwcQuery,
+    GetContactMwcQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetContactMwcQuery, GetContactMwcQueryVariables>(
+    GetContactMwcDocument,
+    options,
+  );
+}
+export function useGetContactMwcLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetContactMwcQuery,
+    GetContactMwcQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetContactMwcQuery, GetContactMwcQueryVariables>(
+    GetContactMwcDocument,
+    options,
+  );
+}
+export type GetContactMwcQueryHookResult = ReturnType<
+  typeof useGetContactMwcQuery
+>;
+export type GetContactMwcLazyQueryHookResult = ReturnType<
+  typeof useGetContactMwcLazyQuery
+>;
+export type GetContactMwcQueryResult = Apollo.QueryResult<
+  GetContactMwcQuery,
+  GetContactMwcQueryVariables
 >;
 export const GetEditoBlockTabDocument = gql`
   query getEditoBlockTab(

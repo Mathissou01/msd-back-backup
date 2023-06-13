@@ -2349,6 +2349,21 @@ enum ENUM_FREECONTENT_STATUS {
   published
 }
 
+enum ENUM_MWCFLOWCS_WEIGHINGSYSTEM {
+  dynamicWeighingOfBins
+  weighingAtTheOutlet
+}
+
+enum ENUM_MWCFLOWOM_WEIGHINGSYSTEM {
+  dynamicWeighingOfBins
+  weighingAtTheOutlet
+}
+
+enum ENUM_MWCFLOW_WEIGHINGSYSTEM {
+  dynamicWeighingOfBins
+  weighingAtTheOutlet
+}
+
 enum ENUM_NEW_STATUS {
   archived
   draft
@@ -3320,6 +3335,9 @@ union GenericMorph =
   | KeyMetricsService
   | MwCounterService
   | MwcContact
+  | MwcFlow
+  | MwcFlowCs
+  | MwcFlowOm
   | MyWasteCounter
   | New
   | NewsSubService
@@ -3848,6 +3866,9 @@ type Mutation {
     data: MwCounterServiceInput!
   ): MwCounterServiceEntityResponse
   createMwcContact(data: MwcContactInput!): MwcContactEntityResponse
+  createMwcFlow(data: MwcFlowInput!): MwcFlowEntityResponse
+  createMwcFlowCs(data: MwcFlowCsInput!): MwcFlowCsEntityResponse
+  createMwcFlowOm(data: MwcFlowOmInput!): MwcFlowOmEntityResponse
   createMyWasteCounter(data: MyWasteCounterInput!): MyWasteCounterEntityResponse
   createNew(data: NewInput!): NewEntityResponse
   createNewFolder(
@@ -3961,6 +3982,9 @@ type Mutation {
   deleteKeyMetricsService(id: ID!): KeyMetricsServiceEntityResponse
   deleteMwCounterService(id: ID!): MwCounterServiceEntityResponse
   deleteMwcContact(id: ID!): MwcContactEntityResponse
+  deleteMwcFlow(id: ID!): MwcFlowEntityResponse
+  deleteMwcFlowCs(id: ID!): MwcFlowCsEntityResponse
+  deleteMwcFlowOm(id: ID!): MwcFlowOmEntityResponse
   deleteMyWasteCounter(id: ID!): MyWasteCounterEntityResponse
   deleteNew(id: ID!): NewEntityResponse
   deleteNewsSubService(id: ID!): NewsSubServiceEntityResponse
@@ -4185,6 +4209,9 @@ type Mutation {
     id: ID!
   ): MwCounterServiceEntityResponse
   updateMwcContact(data: MwcContactInput!, id: ID!): MwcContactEntityResponse
+  updateMwcFlow(data: MwcFlowInput!, id: ID!): MwcFlowEntityResponse
+  updateMwcFlowCs(data: MwcFlowCsInput!, id: ID!): MwcFlowCsEntityResponse
+  updateMwcFlowOm(data: MwcFlowOmInput!, id: ID!): MwcFlowOmEntityResponse
   updateMyWasteCounter(
     data: MyWasteCounterInput!
     id: ID!
@@ -4305,6 +4332,8 @@ type MwCounterService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): MyWasteCounterRelationResponseCollection
+  MwcFlow: MwcFlowEntityResponse
+  MwcFlowOm: MwcFlowOmEntityResponse
   audience_types(
     filters: AudienceTypeFiltersInput
     pagination: PaginationArg = {}
@@ -4342,6 +4371,8 @@ type MwCounterServiceEntityResponseCollection {
 
 input MwCounterServiceFiltersInput {
   MwCounter: MyWasteCounterFiltersInput
+  MwcFlow: MwcFlowFiltersInput
+  MwcFlowOm: MwcFlowOmFiltersInput
   and: [MwCounterServiceFiltersInput]
   audience_types: AudienceTypeFiltersInput
   cities: CityFiltersInput
@@ -4361,6 +4392,8 @@ input MwCounterServiceFiltersInput {
 
 input MwCounterServiceInput {
   MwCounter: [ID]
+  MwcFlow: ID
+  MwcFlowOm: ID
   audience_types: [ID]
   cities: [ID]
   contract: ID
@@ -4426,6 +4459,148 @@ input MwcContactInput {
   postalAddress: String
   postalCode: String
   serviceName: String
+}
+
+type MwcFlow {
+  MwCounterService: MwCounterServiceEntityResponse
+  averageProductionPerson: Long
+  blocks: [MwcFlowBlocksDynamicZone]
+  createdAt: DateTime
+  publishedAt: DateTime
+  updatedAt: DateTime
+  weighingSystem: ENUM_MWCFLOW_WEIGHINGSYSTEM
+}
+
+union MwcFlowBlocksDynamicZone =
+    ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar MwcFlowBlocksDynamicZoneInput
+
+type MwcFlowCs {
+  averageProductionPerson: Long
+  createdAt: DateTime
+  updatedAt: DateTime
+  weighingSystem: ENUM_MWCFLOWCS_WEIGHINGSYSTEM
+}
+
+type MwcFlowCsEntity {
+  attributes: MwcFlowCs
+  id: ID
+}
+
+type MwcFlowCsEntityResponse {
+  data: MwcFlowCsEntity
+}
+
+type MwcFlowCsEntityResponseCollection {
+  data: [MwcFlowCsEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input MwcFlowCsFiltersInput {
+  and: [MwcFlowCsFiltersInput]
+  averageProductionPerson: LongFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: MwcFlowCsFiltersInput
+  or: [MwcFlowCsFiltersInput]
+  updatedAt: DateTimeFilterInput
+  weighingSystem: StringFilterInput
+}
+
+input MwcFlowCsInput {
+  averageProductionPerson: Long
+  weighingSystem: ENUM_MWCFLOWCS_WEIGHINGSYSTEM
+}
+
+type MwcFlowEntity {
+  attributes: MwcFlow
+  id: ID
+}
+
+type MwcFlowEntityResponse {
+  data: MwcFlowEntity
+}
+
+type MwcFlowEntityResponseCollection {
+  data: [MwcFlowEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input MwcFlowFiltersInput {
+  MwCounterService: MwCounterServiceFiltersInput
+  and: [MwcFlowFiltersInput]
+  averageProductionPerson: LongFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: MwcFlowFiltersInput
+  or: [MwcFlowFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  weighingSystem: StringFilterInput
+}
+
+input MwcFlowInput {
+  MwCounterService: ID
+  averageProductionPerson: Long
+  blocks: [MwcFlowBlocksDynamicZoneInput!]
+  publishedAt: DateTime
+  weighingSystem: ENUM_MWCFLOW_WEIGHINGSYSTEM
+}
+
+type MwcFlowOm {
+  averageProductionPerson: Long
+  blocks: [MwcFlowOmBlocksDynamicZone]
+  createdAt: DateTime
+  mwCounterService: MwCounterServiceEntityResponse
+  updatedAt: DateTime
+  weighingSystem: ENUM_MWCFLOWOM_WEIGHINGSYSTEM
+}
+
+union MwcFlowOmBlocksDynamicZone =
+    ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar MwcFlowOmBlocksDynamicZoneInput
+
+type MwcFlowOmEntity {
+  attributes: MwcFlowOm
+  id: ID
+}
+
+type MwcFlowOmEntityResponse {
+  data: MwcFlowOmEntity
+}
+
+type MwcFlowOmEntityResponseCollection {
+  data: [MwcFlowOmEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input MwcFlowOmFiltersInput {
+  and: [MwcFlowOmFiltersInput]
+  averageProductionPerson: LongFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  mwCounterService: MwCounterServiceFiltersInput
+  not: MwcFlowOmFiltersInput
+  or: [MwcFlowOmFiltersInput]
+  updatedAt: DateTimeFilterInput
+  weighingSystem: StringFilterInput
+}
+
+input MwcFlowOmInput {
+  averageProductionPerson: Long
+  blocks: [MwcFlowOmBlocksDynamicZoneInput!]
+  mwCounterService: ID
+  weighingSystem: ENUM_MWCFLOWOM_WEIGHINGSYSTEM
 }
 
 type MyWasteCounter {
@@ -5121,6 +5296,25 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): MwcContactEntityResponseCollection
+  mwcFlow(id: ID): MwcFlowEntityResponse
+  mwcFlowCs(id: ID): MwcFlowCsEntityResponse
+  mwcFlowCss(
+    filters: MwcFlowCsFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwcFlowCsEntityResponseCollection
+  mwcFlowOm(id: ID): MwcFlowOmEntityResponse
+  mwcFlowOms(
+    filters: MwcFlowOmFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwcFlowOmEntityResponseCollection
+  mwcFlows(
+    filters: MwcFlowFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): MwcFlowEntityResponseCollection
   myWasteCounter(id: ID): MyWasteCounterEntityResponse
   myWasteCounters(
     filters: MyWasteCounterFiltersInput

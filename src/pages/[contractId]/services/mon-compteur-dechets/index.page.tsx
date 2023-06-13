@@ -4,6 +4,7 @@ import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import Flow from "../../../../components/MonCompteurDechets/MCDFlow/MCDFlow";
 import { TDynamicFieldOption } from "../../../../lib/dynamic-blocks";
+import ContactMwc from "../../../../components/MonCompteurDechets/ContactMwc/ContactMwc";
 
 export function MonCompteurDechets() {
   /* Static Data */
@@ -25,6 +26,12 @@ export function MonCompteurDechets() {
         name: "fichesDechets",
         title: "Flow",
         content: <Flow dynamicFieldsOptions={dynamicFieldOptions} />,
+        isEnabled: true,
+      },
+      {
+        name: "contactMwc",
+        title: "Contact dédié",
+        content: <ContactMwc />,
         isEnabled: true,
       },
     ];
