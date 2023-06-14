@@ -267,6 +267,16 @@ exports[`Header renders 1`] = `
                 Jour de collecte
               </span>
             </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/services/demandes"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Demandes
+              </span>
+            </a>
           </div>
         </div>
       </li>

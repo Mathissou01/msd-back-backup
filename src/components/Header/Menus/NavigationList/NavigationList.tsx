@@ -114,7 +114,7 @@ export default function NavigationList() {
           <NavigationListLink path={"/services/guide-tri"} />
           <NavigationListLink path={"/services/mon-compteur-dechets"} />
           <NavigationListLink path={"/services/jour-collecte"} />
-          {/*    <NavigationListLink path={"/services/demandes"} />*/}
+          <NavigationListLink path={"/services/demandes"} />
           {/*    <NavigationListLink path={"/services/yeswescan"} />*/}
           {/*    <NavigationListLink path={"/services/alertes"} />*/}
         </NavigationListMenu>
