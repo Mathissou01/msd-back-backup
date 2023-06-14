@@ -1,0 +1,15 @@
+query getFlows($contractId: ID) {
+  flows(
+    filters: {
+      contract: { id: { eq: $contractId } }
+      isActivated: { eq: true }
+    }
+  ) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

@@ -36,7 +36,7 @@ mutation createDropOffMap($data: DropOffMapInput!) {
           }
         }
         mustKnow
-        openingHoursBlock {
+        openingHoursBlocks {
           ... on ComponentBlocksOpeningDay {
             id
             weekDay
@@ -51,7 +51,8 @@ mutation createDropOffMap($data: DropOffMapInput!) {
           }
         }
         address
-        gpsCoordinates
+        longitude
+        latitude
         collectDropOff {
           data {
             id

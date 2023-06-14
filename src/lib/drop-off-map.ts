@@ -9,5 +9,6 @@ export interface IDropOffMapStaticFields {
   mustKnow?: string | null;
   collectVoluntary: CollectVoluntary;
   collectDropOff: CollectDropOff;
-  gpsCoordinates: string;
+  longitude: number;
+  latitude: number;
 }

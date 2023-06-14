@@ -16,7 +16,8 @@ query getDropOffMapByContractId(
         name
         updatedAt
         address
-        gpsCoordinates
+        longitude
+        latitude
         city
         collectDropOff {
           data {

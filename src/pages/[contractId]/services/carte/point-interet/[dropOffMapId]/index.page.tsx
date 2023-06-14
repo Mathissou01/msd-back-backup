@@ -161,7 +161,8 @@ export function ServiceCartePointInteretPage({
         dropOffMapData.id &&
         dropOffMapData.attributes &&
         dropOffMapData.attributes.name &&
-        dropOffMapData.attributes.gpsCoordinates &&
+        dropOffMapData.attributes.longitude &&
+        dropOffMapData.attributes.latitude &&
         dropOffMapData.attributes.collectDropOff?.data &&
         dropOffMapData.attributes.collectVoluntary?.data
       ) {
@@ -173,7 +174,8 @@ export function ServiceCartePointInteretPage({
             dropOffMapData.attributes.collectDropOff.data.attributes ?? {},
           collectVoluntary:
             dropOffMapData.attributes.collectVoluntary.data.attributes ?? {},
-          gpsCoordinates: dropOffMapData.attributes.gpsCoordinates,
+          longitude: dropOffMapData.attributes.longitude,
+          latitude: dropOffMapData.attributes.latitude,
         };
         setMappedData(mappedData);
       }

@@ -31,6 +31,7 @@ export function ServicesPickUpDatePage({
   const title = "Créer une collecte";
   const formLabels = {
     staticName: "Nom de la collecte",
+    staticFlow: "Flux",
   };
 
   /* Methods */

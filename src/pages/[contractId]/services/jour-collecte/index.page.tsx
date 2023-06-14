@@ -71,7 +71,7 @@ export function PickUpDaysPage() {
   const [getPickUpDaysQuery, { data, loading, error }] =
     useGetPickUpDaysByContractIdLazyQuery({
       variables: defaultQueryVariables,
-      fetchPolicy: "network-only",
+      fetchPolicy: "cache-and-network",
     });
 
   /* Local Data */

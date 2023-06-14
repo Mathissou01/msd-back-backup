@@ -28,7 +28,7 @@ export type Scalars = {
   CookieBlocksDynamicZoneInput: any;
   Date: any;
   DateTime: any;
-  DropOffMapOpeningHoursBlockDynamicZoneInput: any;
+  DropOffMapOpeningHoursBlocksDynamicZoneInput: any;
   EditoBlockEditoContentsDynamicZoneInput: any;
   EventBlocksDynamicZoneInput: any;
   EventLinkToServicesDynamicZoneInput: any;
@@ -800,18 +800,11 @@ export type CollectDropOff = {
   __typename?: "CollectDropOff";
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
   flows?: Maybe<FlowRelationResponseCollection>;
   grammaticalGender?: Maybe<Enum_Collectdropoff_Grammaticalgender>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type CollectDropOffDropOffMapsArgs = {
-  filters?: InputMaybe<DropOffMapFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CollectDropOffFlowsArgs = {
@@ -841,7 +834,6 @@ export type CollectDropOffFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CollectDropOffFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  dropOffMaps?: InputMaybe<DropOffMapFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
   grammaticalGender?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -853,7 +845,6 @@ export type CollectDropOffFiltersInput = {
 
 export type CollectDropOffInput = {
   contract?: InputMaybe<Scalars["ID"]>;
-  dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   grammaticalGender?: InputMaybe<Enum_Collectdropoff_Grammaticalgender>;
   name?: InputMaybe<Scalars["String"]>;
@@ -869,18 +860,11 @@ export type CollectVoluntary = {
   __typename?: "CollectVoluntary";
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
   flows?: Maybe<FlowRelationResponseCollection>;
   grammaticalGender?: Maybe<Enum_Collectvoluntary_Grammaticalgender>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type CollectVoluntaryDropOffMapsArgs = {
-  filters?: InputMaybe<DropOffMapFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CollectVoluntaryFlowsArgs = {
@@ -910,7 +894,6 @@ export type CollectVoluntaryFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CollectVoluntaryFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  dropOffMaps?: InputMaybe<DropOffMapFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
   grammaticalGender?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -922,7 +905,6 @@ export type CollectVoluntaryFiltersInput = {
 
 export type CollectVoluntaryInput = {
   contract?: InputMaybe<Scalars["ID"]>;
-  dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   grammaticalGender?: InputMaybe<Enum_Collectvoluntary_Grammaticalgender>;
   name?: InputMaybe<Scalars["String"]>;
@@ -2312,13 +2294,16 @@ export type DropOffMap = {
   description?: Maybe<Scalars["String"]>;
   downloadableFile?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
-  gpsCoordinates?: Maybe<Scalars["String"]>;
+  latitude?: Maybe<Scalars["Float"]>;
+  longitude?: Maybe<Scalars["Float"]>;
   mustKnow?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
-  openingHoursBlock?: Maybe<
-    Array<Maybe<DropOffMapOpeningHoursBlockDynamicZone>>
+  openingHoursBlocks?: Maybe<
+    Array<Maybe<DropOffMapOpeningHoursBlocksDynamicZone>>
   >;
   phoneNumber?: Maybe<Scalars["String"]>;
+  postalCode?: Maybe<Scalars["String"]>;
+  shortAddress?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -2355,13 +2340,16 @@ export type DropOffMapFiltersInput = {
   description?: InputMaybe<StringFilterInput>;
   downloadableFile?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
   dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
-  gpsCoordinates?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  latitude?: InputMaybe<FloatFilterInput>;
+  longitude?: InputMaybe<FloatFilterInput>;
   mustKnow?: InputMaybe<StringFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<DropOffMapFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
   phoneNumber?: InputMaybe<StringFilterInput>;
+  postalCode?: InputMaybe<StringFilterInput>;
+  shortAddress?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -2375,16 +2363,19 @@ export type DropOffMapInput = {
     Array<InputMaybe<ComponentBlocksDownloadBlockInput>>
   >;
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
-  gpsCoordinates?: InputMaybe<Scalars["String"]>;
+  latitude?: InputMaybe<Scalars["Float"]>;
+  longitude?: InputMaybe<Scalars["Float"]>;
   mustKnow?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
-  openingHoursBlock?: InputMaybe<
-    Array<Scalars["DropOffMapOpeningHoursBlockDynamicZoneInput"]>
+  openingHoursBlocks?: InputMaybe<
+    Array<Scalars["DropOffMapOpeningHoursBlocksDynamicZoneInput"]>
   >;
   phoneNumber?: InputMaybe<Scalars["String"]>;
+  postalCode?: InputMaybe<Scalars["String"]>;
+  shortAddress?: InputMaybe<Scalars["String"]>;
 };
 
-export type DropOffMapOpeningHoursBlockDynamicZone =
+export type DropOffMapOpeningHoursBlocksDynamicZone =
   | ComponentBlocksOpeningDay
   | Error;
 
@@ -2651,6 +2642,11 @@ export enum Enum_New_Status {
   Archived = "archived",
   Draft = "draft",
   Published = "published",
+}
+
+export enum Enum_Pickupday_Periodicity {
+  Hebdomadaire = "hebdomadaire",
+  Mensuel = "mensuel",
 }
 
 export enum Enum_Quiz_Status {
@@ -5983,14 +5979,16 @@ export type PaginationArg = {
 
 export type PickUpDay = {
   __typename?: "PickUpDay";
+  advancedSelection: Scalars["JSON"];
   cities?: Maybe<CityRelationResponseCollection>;
   collectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
   collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
-  flow?: Maybe<FlowEntityResponse>;
+  flow: FlowEntityResponse;
   informationMessage?: Maybe<InformationMessageEntityResponse>;
   name: Scalars["String"];
+  periodicity?: Maybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -6026,6 +6024,7 @@ export type PickUpDayEntityResponseCollection = {
 };
 
 export type PickUpDayFiltersInput = {
+  advancedSelection?: InputMaybe<JsonFilterInput>;
   and?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
   cities?: InputMaybe<CityFiltersInput>;
   collectDoorToDoor?: InputMaybe<CollectDoorToDoorFiltersInput>;
@@ -6038,12 +6037,14 @@ export type PickUpDayFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<PickUpDayFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
+  periodicity?: InputMaybe<StringFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   sectorizations?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type PickUpDayInput = {
+  advancedSelection?: InputMaybe<Scalars["JSON"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   collectDoorToDoor?: InputMaybe<Scalars["ID"]>;
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
@@ -6051,6 +6052,7 @@ export type PickUpDayInput = {
   flow?: InputMaybe<Scalars["ID"]>;
   informationMessage?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
+  periodicity?: InputMaybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
@@ -7859,8 +7861,12 @@ export type SearchResult = {
 
 export type SearchResultAddress = {
   __typename?: "SearchResultAddress";
-  coordinates: Scalars["String"];
+  city?: Maybe<Scalars["String"]>;
+  latitude?: Maybe<Scalars["Float"]>;
+  longitude?: Maybe<Scalars["Float"]>;
   name?: Maybe<Scalars["String"]>;
+  postalCode?: Maybe<Scalars["String"]>;
+  shortAddress?: Maybe<Scalars["String"]>;
 };
 
 export type Sectorization = {
@@ -14362,7 +14368,8 @@ export type CreateDropOffMapMutation = {
         phoneNumber?: string | null;
         mustKnow?: string | null;
         address?: string | null;
-        gpsCoordinates?: string | null;
+        longitude?: number | null;
+        latitude?: number | null;
         downloadableFile?: Array<{
           __typename?: "ComponentBlocksDownloadBlock";
           id: string;
@@ -14399,7 +14406,7 @@ export type CreateDropOffMapMutation = {
             } | null;
           } | null;
         } | null;
-        openingHoursBlock?: Array<
+        openingHoursBlocks?: Array<
           | {
               __typename?: "ComponentBlocksOpeningDay";
               id: string;
@@ -14483,7 +14490,8 @@ export type GetDropOffMapByContractIdQuery = {
         name?: string | null;
         updatedAt?: any | null;
         address?: string | null;
-        gpsCoordinates?: string | null;
+        longitude?: number | null;
+        latitude?: number | null;
         city?: string | null;
         collectDropOff?: {
           __typename?: "CollectDropOffEntityResponse";
@@ -14537,7 +14545,8 @@ export type GetDropOffMapByIdQuery = {
         name?: string | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
-        gpsCoordinates?: string | null;
+        longitude?: number | null;
+        latitude?: number | null;
         downloadableFile?: Array<{
           __typename?: "ComponentBlocksDownloadBlock";
           id: string;
@@ -14609,7 +14618,8 @@ export type UpdateDropOffMapMutation = {
       attributes?: {
         __typename?: "DropOffMap";
         name?: string | null;
-        gpsCoordinates?: string | null;
+        longitude?: number | null;
+        latitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
         downloadableFile?: Array<{
@@ -15165,6 +15175,22 @@ export type UpdateRecyclingGuideServiceMutation = {
   } | null;
 };
 
+export type GetFlowsQueryVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetFlowsQuery = {
+  __typename?: "Query";
+  flows?: {
+    __typename?: "FlowEntityResponseCollection";
+    data: Array<{
+      __typename?: "FlowEntity";
+      id?: string | null;
+      attributes?: { __typename?: "Flow"; name?: string | null } | null;
+    }>;
+  } | null;
+};
+
 export type CreatePickUpDayByIdMutationVariables = Exact<{
   data: PickUpDayInput;
 }>;
@@ -15193,7 +15219,7 @@ export type CreatePickUpDayByIdMutation = {
             } | null;
           } | null;
         } | null;
-        flow?: {
+        flow: {
           __typename?: "FlowEntityResponse";
           data?: {
             __typename?: "FlowEntity";
@@ -15204,7 +15230,7 @@ export type CreatePickUpDayByIdMutation = {
               isActivated?: boolean | null;
             } | null;
           } | null;
-        } | null;
+        };
         sectorizations?: {
           __typename?: "SectorizationRelationResponseCollection";
           data: Array<{
@@ -15272,13 +15298,13 @@ export type GetPickUpDaysByContractIdQuery = {
         __typename?: "PickUpDay";
         name: string;
         updatedAt?: any | null;
-        flow?: {
+        flow: {
           __typename?: "FlowEntityResponse";
           data?: {
             __typename?: "FlowEntity";
             attributes?: { __typename?: "Flow"; name?: string | null } | null;
           } | null;
-        } | null;
+        };
         sectorizations?: {
           __typename?: "SectorizationRelationResponseCollection";
           data: Array<{
@@ -23387,7 +23413,7 @@ export const CreateDropOffMapDocument = gql`
             }
           }
           mustKnow
-          openingHoursBlock {
+          openingHoursBlocks {
             ... on ComponentBlocksOpeningDay {
               id
               weekDay
@@ -23402,7 +23428,8 @@ export const CreateDropOffMapDocument = gql`
             }
           }
           address
-          gpsCoordinates
+          longitude
+          latitude
           collectDropOff {
             data {
               id
@@ -23545,7 +23572,8 @@ export const GetDropOffMapByContractIdDocument = gql`
           name
           updatedAt
           address
-          gpsCoordinates
+          longitude
+          latitude
           city
           collectDropOff {
             data {
@@ -23655,7 +23683,8 @@ export const GetDropOffMapByIdDocument = gql`
             }
           }
           mustKnow
-          gpsCoordinates
+          longitude
+          latitude
           collectDropOff {
             data {
               id
@@ -23740,7 +23769,8 @@ export const UpdateDropOffMapDocument = gql`
         id
         attributes {
           name
-          gpsCoordinates
+          longitude
+          latitude
           phoneNumber
           downloadableFile {
             id
@@ -24792,6 +24822,69 @@ export type UpdateRecyclingGuideServiceMutationOptions =
     UpdateRecyclingGuideServiceMutation,
     UpdateRecyclingGuideServiceMutationVariables
   >;
+export const GetFlowsDocument = gql`
+  query getFlows($contractId: ID) {
+    flows(
+      filters: {
+        contract: { id: { eq: $contractId } }
+        isActivated: { eq: true }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFlowsQuery__
+ *
+ * To run a query within a React component, call `useGetFlowsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFlowsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFlowsQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetFlowsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetFlowsQuery, GetFlowsQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetFlowsQuery, GetFlowsQueryVariables>(
+    GetFlowsDocument,
+    options,
+  );
+}
+export function useGetFlowsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFlowsQuery,
+    GetFlowsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetFlowsQuery, GetFlowsQueryVariables>(
+    GetFlowsDocument,
+    options,
+  );
+}
+export type GetFlowsQueryHookResult = ReturnType<typeof useGetFlowsQuery>;
+export type GetFlowsLazyQueryHookResult = ReturnType<
+  typeof useGetFlowsLazyQuery
+>;
+export type GetFlowsQueryResult = Apollo.QueryResult<
+  GetFlowsQuery,
+  GetFlowsQueryVariables
+>;
 export const CreatePickUpDayByIdDocument = gql`
   mutation CreatePickUpDayById($data: PickUpDayInput!) {
     createPickUpDay(data: $data) {
