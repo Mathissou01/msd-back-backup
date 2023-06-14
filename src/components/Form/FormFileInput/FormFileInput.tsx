@@ -23,12 +23,14 @@ import {
   IUploadFileEntityResponse,
   remapUploadFileEntityToLocalFile,
   TAcceptedMimeTypes,
+  updateUploadedFile,
 } from "../../../lib/media";
 import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
 import docIcon from "./../../../../public/images/pictos/doc.svg";
 import { useContract } from "../../../hooks/useContract";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import FormLabel from "../FormLabel/FormLabel";
 import FormModal from "../FormModal/FormModal";
 import EditModal from "../../Media/MediaImportButton/Modals/EditModal/EditModal";
@@ -139,33 +141,41 @@ export default function FormFileInput({
         submitData[removeQuotesInString(labels.formDescLabel)];
       file.name = submitData[removeQuotesInString(labels.formNameLabel)];
       handleSetFile(file);
+      setUploadLoading(true);
+      const response = await updateUploadedFile(
+        Number(submitData["Emplacement"]["id"]),
+        file,
+      );
 
-      return UpdateUploadFileDocument({
-        variables: {
-          updateUploadFileId: file?.id,
-          data: {
-            name: submitData[removeQuotesInString(labels.formNameLabel)],
-            folder: submitData["Emplacement"]["id"],
-            alternativeText:
-              submitData[removeQuotesInString(labels.formDescLabel)] ??
-              submitData[removeQuotesInString(labels.formNameLabel)],
+      if (response === 200) {
+        UpdateUploadFileDocument({
+          variables: {
+            updateUploadFileId: file?.id,
+            data: {
+              name: submitData[removeQuotesInString(labels.formNameLabel)],
+              folder: submitData["Emplacement"]["id"],
+              alternativeText:
+                submitData[removeQuotesInString(labels.formDescLabel)] ??
+                submitData[removeQuotesInString(labels.formNameLabel)],
+            },
           },
-        },
-        refetchQueries: [
-          {
-            query: GetFilesPaginationByPathIdDocument,
-            variables: {
-              filters: {
-                folder: {
-                  pathId: {
-                    eq: activePathId,
+          refetchQueries: [
+            {
+              query: GetFilesPaginationByPathIdDocument,
+              variables: {
+                filters: {
+                  folder: {
+                    pathId: {
+                      eq: activePathId,
+                    },
                   },
                 },
               },
             },
-          },
-        ],
-      });
+          ],
+        });
+        setUploadLoading(false);
+      }
     }
   }
 
@@ -214,6 +224,8 @@ export default function FormFileInput({
   const [activePath, setActivePath] = useState<string>(defaultPath);
   const [draggedFile, setDraggedFile] = useState<ILocalFile>();
   const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
+  const [croppedImg, setCroppedImg] = useState<boolean>(false);
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const editModalRef = useRef<CommonModalWrapperRef>(null);
   const hasDefaultValue = useRef<boolean>();
@@ -324,13 +336,15 @@ export default function FormFileInput({
                 {selectedFile.mime?.split("/")[0] === "image" ? (
                   <div className="c-FormFileInput__Image">
                     {/** TODO: image css must be checked after solving the image preview issue  */}
-                    <NextImage
-                      src={selectedFile.url}
-                      width={245}
-                      height={158}
-                      alt={selectedFile.alternativeText ?? ""}
-                      priority={isPriority}
-                    />
+                    <CommonLoader isLoading={uploadLoading}>
+                      <NextImage
+                        src={selectedFile.url}
+                        width={245}
+                        height={158}
+                        alt={selectedFile.alternativeText ?? ""}
+                        priority={isPriority}
+                      />
+                    </CommonLoader>
                   </div>
                 ) : selectedFile.mime?.split("/")[1] === "pdf" ? (
                   <div className="c-FormFileInput__Doc">
@@ -372,6 +386,7 @@ export default function FormFileInput({
         modalTitle={labels.detailsModalTitle}
         hasRequiredChildren="all"
         onSubmit={handleSaveNewFileInfo}
+        submitButtonIsDisabled={croppedImg}
         formValidationMode="onChange"
       >
         <EditModal
@@ -379,7 +394,9 @@ export default function FormFileInput({
             folderHierarchy?.getAllFoldersHierarchy?.filter(removeNulls) ?? []
           }
           activePathId={activePathId}
+          onFileEdited={(file: ILocalFile) => setFileToEdit(file)}
           fileToEdit={fileToEdit}
+          setCroppedImg={setCroppedImg}
         />
       </FormModal>
     </>

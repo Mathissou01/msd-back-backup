@@ -28,6 +28,7 @@ module.exports = {
           "./node_modules/react-datepicker/**/*.{js,jsx,ts,tsx,html}",
           "./node_modules/react-big-calendar/**/*.{js,jsx,ts,tsx,html}",
           "./node_modules/leaflet*/**/*.{js,jsx,ts,tsx,html}",
+          "./node_modules/react-image-crop/**/*.{js,jsx,ts,tsx,html}",
         ],
         defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
         safelist: {
@@ -39,6 +40,7 @@ module.exports = {
             /^rdt/,
             /^react-datepicker/,
             /^react-date-picker/,
+            /^react-image-crop/,
             /^rbc/,
             /^leaflet/,
           ],

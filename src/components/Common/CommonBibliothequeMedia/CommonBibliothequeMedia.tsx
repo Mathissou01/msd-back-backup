@@ -12,7 +12,7 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
-import { IFolder, ILocalFile } from "../../../lib/media";
+import { IFolder, ILocalFile, updateUploadedFile } from "../../../lib/media";
 import { removeQuotesInString } from "../../../lib/utilities";
 import MediaBreadcrumb, {
   IMediaBreadcrumb,
@@ -80,24 +80,34 @@ export default function CommonBibliothequeMedia({
   async function handleSaveNewFileInfo(submitData: FieldValues) {
     const file: ILocalFile | undefined = fileToEdit;
     if (file?.id !== undefined) {
-      void UpdateUploadFileDocument({
-        variables: {
-          updateUploadFileId: file?.id,
-          data: {
-            name: submitData[removeQuotesInString(labels.formNameLabel)],
-            folder: submitData["Emplacement"]["id"],
-            alternativeText:
-              submitData[removeQuotesInString(labels.formDescLabel)] ??
-              submitData[removeQuotesInString(labels.formNameLabel)],
+      setUploadLoading(true);
+      const response = await updateUploadedFile(
+        Number(submitData["Emplacement"]["id"]),
+        file,
+      );
+      if (response === 200) {
+        void UpdateUploadFileDocument({
+          variables: {
+            updateUploadFileId: file?.id,
+            data: {
+              name: submitData[removeQuotesInString(labels.formNameLabel)],
+              folder: submitData["Emplacement"]["id"],
+              alternativeText:
+                submitData[removeQuotesInString(labels.formDescLabel)] ??
+                submitData[removeQuotesInString(labels.formNameLabel)],
+              width: file.width,
+              height: file.height,
+            },
           },
-        },
-        refetchQueries: [
-          {
-            query: GetFilesPaginationByPathIdDocument,
-            variables: defaultQueryVariables,
-          },
-        ],
-      });
+          refetchQueries: [
+            {
+              query: GetFilesPaginationByPathIdDocument,
+              variables: defaultQueryVariables,
+            },
+          ],
+        });
+        setUploadLoading(false);
+      }
     }
   }
 
@@ -138,6 +148,8 @@ export default function CommonBibliothequeMedia({
   const [activePath, setActivePath] = useState<string>(
     defaultActivePath ? defaultActivePath.path : defaultPath,
   );
+  const [croppedImg, setCroppedImg] = useState<boolean>(false);
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const modalRef = useRef<CommonModalWrapperRef>(null);
 
   const defaultRowsPerPage = 10;
@@ -376,6 +388,7 @@ export default function CommonBibliothequeMedia({
                   onSelectedFile={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleSelectedFile(e, file)
                   }
+                  loading={uploadLoading}
                   isChecked={!!file.id && checkedFiles.includes(file.id)}
                 />
               ))}
@@ -410,14 +423,17 @@ export default function CommonBibliothequeMedia({
         modalTitle={labels.detailsModalTitle}
         hasRequiredChildren="all"
         onSubmit={handleSaveNewFileInfo}
+        submitButtonIsDisabled={croppedImg}
         formValidationMode="onChange"
       >
         <EditModal
           folderHierarchy={
             folderHierarchy?.getAllFoldersHierarchy?.filter(removeNulls) ?? []
           }
+          onFileEdited={(file: ILocalFile) => setFileToEdit(file)}
           activePathId={activePathId}
           fileToEdit={fileToEdit}
+          setCroppedImg={setCroppedImg}
         />
       </FormModal>
     </CommonLoader>

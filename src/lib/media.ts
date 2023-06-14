@@ -138,7 +138,7 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
       try {
         const formData = new FormData();
 
-        formData.append("files", file.file ?? "");
+        formData.append("files", file.file ?? "", file.name);
 
         const API = "upload";
         const HOST = process.env.NEXT_PUBLIC_API_URL;
@@ -152,14 +152,14 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
           },
         };
 
-        const result = await axios.post(url, formData, config);
+        const { status, data } = await axios.post(url, formData, config);
 
-        if (result.data[0].id) {
+        if (status === 200) {
           const { data: UpdateUploadFileMutationData } =
             await client.mutate<UpdateUploadFileMutation>({
               mutation: UpdateUploadFileDocument,
               variables: {
-                updateUploadFileId: result.data[0].id,
+                updateUploadFileId: data[0].id,
                 data: {
                   folder:
                     file.folder ??
@@ -180,9 +180,47 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
             });
           return {
             data: UpdateUploadFileMutationData,
-            result: result.data[0],
+            result: data[0],
           };
         }
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          return {
+            message: error,
+          };
+        }
+      }
+    }
+  }
+}
+
+export async function updateUploadedFile(pathId: number, file: ILocalFile) {
+  const { errors: getFolderByPathIdErrors } =
+    await client.query<GetFolderByPathIdQuery>({
+      query: GetFolderByPathIdDocument,
+      variables: { pathId },
+    });
+
+  if (!getFolderByPathIdErrors) {
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("files", file.file ?? "", file.name);
+
+        const API = `upload/${file.id}`;
+        const HOST = process.env.NEXT_PUBLIC_API_URL;
+        const url = `${HOST}/${API}`;
+
+        const config = {
+          headers: {
+            Authorization: "*",
+            "content-type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
+          },
+        };
+
+        const { status } = await axios.post(url, formData, config);
+        return status;
       } catch (error: unknown) {
         if (error instanceof Error) {
           return {

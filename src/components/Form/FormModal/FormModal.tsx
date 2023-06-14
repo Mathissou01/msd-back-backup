@@ -20,6 +20,7 @@ interface IFormModalProps<T> {
   children: ReactNode;
   formValidationMode?: Mode;
   defaultValues?: DeepPartial<T>;
+  submitButtonIsDisabled?: boolean;
 }
 
 export default function FormModal<T extends FieldValues>({
@@ -33,6 +34,7 @@ export default function FormModal<T extends FieldValues>({
   children,
   formValidationMode = "onChange",
   defaultValues,
+  submitButtonIsDisabled,
 }: IFormModalProps<T>) {
   /* Static Data */
   const childrenRequiredAllLabel = "* Tous les champs sont obligatoires";
@@ -93,7 +95,7 @@ export default function FormModal<T extends FieldValues>({
               type="submit"
               label={submitButtonLabel}
               style="primary"
-              isDisabled={!isDirty}
+              isDisabled={!isDirty && !submitButtonIsDisabled}
             />
             <CommonButton
               type="button"

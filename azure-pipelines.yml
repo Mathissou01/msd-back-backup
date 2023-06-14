@@ -50,9 +50,9 @@ pool:
 stages:
   - stage: Build
     # pool:
-      # name: "MSD Self hosted agents"
-      # demands:
-        # - environment -equals ${{ variables.env }}
+    # name: "MSD Self hosted agents"
+    # demands:
+    # - environment -equals ${{ variables.env }}
     displayName: CI tasks
     jobs:
       - template: azure-pipelines/build.yml

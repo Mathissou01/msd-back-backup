@@ -80,14 +80,14 @@ export default function MediaImportButton({
       selectedFilesInstance[index] = {
         name: submitData[removeQuotesInString(labels.formNameLabel)],
         alternativeText: submitData[removeQuotesInString(labels.formDescLabel)],
-        width: selectedFilesInstance[index].width,
-        height: selectedFilesInstance[index].height,
-        ext: selectedFilesInstance[index].ext,
-        mime: selectedFilesInstance[index].mime,
+        width: fileToEdit?.width,
+        height: fileToEdit?.height,
+        ext: fileToEdit?.ext ?? "",
+        mime: fileToEdit?.mime ?? "",
         size: fileToEdit?.size ?? 0,
-        url: selectedFilesInstance[index].url,
-        createdAt: selectedFilesInstance[index].createdAt,
-        file: selectedFilesInstance[index].file,
+        url: fileToEdit?.url ?? "",
+        createdAt: fileToEdit?.createdAt,
+        file: fileToEdit?.file ?? selectedFilesInstance[index].file,
         folder: submitData["Emplacement"]["id"],
       };
 
@@ -118,6 +118,7 @@ export default function MediaImportButton({
   );
   const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
   const [tabs, setTabs] = useState<Array<ITab>>([]);
+  const [croppedImg, setCroppedImg] = useState<boolean>(false);
 
   useEffect(() => {
     const handleDrop = (event: React.DragEvent<HTMLFormElement>) => {
@@ -288,11 +289,14 @@ export default function MediaImportButton({
             onSubmit={handleSaveNewFileInfo}
             formValidationMode="onChange"
             onClose={() => handleCloseEditModal()}
+            submitButtonIsDisabled={croppedImg}
           >
             <EditModal
               folderHierarchy={folderHierarchy}
               activePathId={activePathId}
+              onFileEdited={(file: ILocalFile) => setFileToEdit(file)}
               fileToEdit={fileToEdit}
+              setCroppedImg={setCroppedImg}
             />
           </FormModal>
         )}

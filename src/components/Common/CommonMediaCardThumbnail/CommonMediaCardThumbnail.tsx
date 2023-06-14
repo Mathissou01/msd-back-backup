@@ -28,10 +28,12 @@ export default function CommonCommonMediaCardThumbnailThumbnail({
       {media.url && imageType === "image" ? (
         <div className="c-CommonMediaCardThumbnail__Image">
           <Image
-            src={media.url}
-            width={245}
-            height={158}
+            src={
+              media.id ? `${media.url}?v=${new Date().getTime()}` : media.url
+            }
+            fill
             alt={media.alternativeText}
+            priority={true}
           />
         </div>
       ) : media.mime.split("/")[1] === "pdf" ? (

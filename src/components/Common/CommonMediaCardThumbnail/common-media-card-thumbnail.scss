@@ -1,3 +1,5 @@
+@use "src/styles/02-tools/tools.classboardBackground" as classboardBackground;
+
 .c-CommonMediaCardThumbnail {
   &__Doc {
     display: flex;
@@ -8,9 +10,17 @@
   }
 
   &__Image {
+    @include classboardBackground.bg;
+
+    position: relative;
+    display: flex;
+    justify-content: center;
     height: 158px;
+    overflow: hidden;
 
     img {
+      width: auto;
+      height: auto;
       object-fit: contain;
       border-radius: 8px 8px 0 0;
     }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Image from "next/image";
 import { RequestFolders } from "../../../../../graphql/codegen/generated-types";
 import { formatFileSize } from "../../../../../lib/utilities";
@@ -6,17 +7,24 @@ import { removeQuotesInString } from "../../../../../lib/utilities";
 import FormInput from "../../../../Form/FormInput/FormInput";
 import FormSelect from "../../../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../../../Form/FormMultiselect/FormMultiselect";
+import CommonImageCropper from "../../../../Common/CommonImageCropper/CommonImageCropper";
+import "react-image-crop/src/ReactCrop.scss";
+import "./edit-modal.scss";
 
 interface IEditModalProps {
-  fileToEdit: ILocalFile | undefined;
+  fileToEdit?: ILocalFile;
   folderHierarchy: Array<RequestFolders>;
   activePathId: number;
+  onFileEdited?: (file: ILocalFile) => void;
+  setCroppedImg: (croppedImg: boolean) => void;
 }
 
 export default function EditModal({
   fileToEdit,
   folderHierarchy,
   activePathId,
+  onFileEdited,
+  setCroppedImg,
 }: IEditModalProps) {
   /* Static Data */
   const labels = {
@@ -34,6 +42,9 @@ export default function EditModal({
     SaveInfoBtn: "Enregistrer les informations",
     cancelBtn: "Annuler",
   };
+
+  /* Local Data */
+  const [showCrop, setShowCrop] = useState(false);
 
   /* Methods */
   const folderHierarchyDisplayTransformFunction = (
@@ -59,6 +70,10 @@ export default function EditModal({
   };
 
   const isImageToUpload = () => fileToEdit?.mime.split("/")[0] === "image";
+
+  const activateCrop = () => {
+    setShowCrop(true);
+  };
 
   return (
     <>
@@ -131,24 +146,42 @@ export default function EditModal({
         {isImageToUpload() && (
           <div className="c-MediaImportButton__Block">
             <div className="c-MediaImportButton__EditImg">
-              <div className="c-MediaImportButton__ToolsIcon">
-                <button
-                  type="button"
-                  className="c-MediaImportButton_crop"
-                  onClick={() => console.log("clicked")}
-                />
-                <button
-                  type="button"
-                  className="c-MediaImportButton_trash"
-                  onClick={() => console.log("clicked")}
-                />
-              </div>
-              {fileToEdit?.url && (
-                <Image
-                  src={fileToEdit?.url}
-                  width={245}
-                  height={158}
-                  alt={fileToEdit?.name}
+              {!showCrop && (
+                <div className="c-MediaImportButton__ToolsIcon">
+                  <button
+                    type="button"
+                    className="c-MediaImportButton_crop"
+                    onClick={activateCrop}
+                  />
+                </div>
+              )}
+              {!showCrop && (
+                <div className="c-EditModal__ImageWrapper">
+                  {fileToEdit?.url && (
+                    <Image
+                      className="c-EditModal__Image"
+                      src={fileToEdit?.url}
+                      width={300}
+                      height={300}
+                      alt={fileToEdit?.name}
+                    />
+                  )}
+                </div>
+              )}
+              {showCrop && fileToEdit !== undefined && (
+                <CommonImageCropper
+                  fileToEdit={fileToEdit}
+                  activateCrop={activateCrop}
+                  onCropCanceled={() => setShowCrop(false)}
+                  onCropCompleted={(croppedFile) => {
+                    setShowCrop(false);
+                    setCroppedImg(true);
+                    if (fileToEdit && onFileEdited) {
+                      onFileEdited({
+                        ...croppedFile,
+                      });
+                    }
+                  }}
                 />
               )}
             </div>
