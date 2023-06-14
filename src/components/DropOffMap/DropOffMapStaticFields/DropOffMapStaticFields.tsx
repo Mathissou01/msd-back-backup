@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { CollectType } from "../../../graphql/codegen/generated-types";
 import { minimalWysiwygEditorOptions } from "../../Form/FormWysiwyg/WysiwygEditor/WysiwygEditor";
 import FormInput from "../../Form/FormInput/FormInput";
+import FormSelect from "../../Form/FormSelect/FormSelect";
+import { IOptionWrapper } from "../../Form/FormMultiselect/FormMultiselect";
+import { removeNulls } from "../../../lib/utilities";
 import FormWysiwyg from "../../Form/FormWysiwyg/FormWysiwyg";
 import "./drop-off-map-static-fields.scss";
 
@@ -8,6 +12,7 @@ const validationPhoneNumber = /^[0-9]{10}$/;
 
 export interface IDropOffMapStaticFieldsLabels {
   staticName: string;
+  staticCollectType: string;
   staticDescription?: string;
   staticPhoneNumber?: string;
   staticMustKnow: string;
@@ -15,9 +20,11 @@ export interface IDropOffMapStaticFieldsLabels {
 
 interface IDropOffMapStaticFieldsProps {
   labels: IDropOffMapStaticFieldsLabels;
+  collectTypes: Array<CollectType>;
 }
 export default function DropOffMapStaticFields({
   labels,
+  collectTypes,
 }: IDropOffMapStaticFieldsProps) {
   /* Static Data */
   const formLabels = {
@@ -26,18 +33,54 @@ export default function DropOffMapStaticFields({
   };
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
+  const [dropOffMapCollectTypes, setDropOffMapCollectTypes] = useState<
+    Array<IOptionWrapper<CollectType>>
+  >([]);
+
+  function dropOffMapCollectTypesSelectDisplayTransformFunction(
+    wasteFamily: CollectType,
+  ): string {
+    return wasteFamily.name ?? "";
+  }
+
+  useEffect(() => {
+    if (collectTypes) {
+      const mappedDropOffMapCollectTypes: Array<IOptionWrapper<CollectType> | null> =
+        collectTypes
+          .map((collectType) => {
+            return collectType ? { option: collectType } : null;
+          })
+          .filter(removeNulls);
+      setDropOffMapCollectTypes(
+        mappedDropOffMapCollectTypes?.filter(removeNulls),
+      );
+    }
+  }, [collectTypes]);
+
   return (
     <>
+      <span className="c-DropOffMapStaticFields__RequiredLabel">
+        {mandatoryFields}
+      </span>
       <div className="c-DropOffMapStaticFields">
-        <span className="c-DropOffMapStaticFields__RequiredLabel">
-          {mandatoryFields}
-        </span>
         <div className="c-DropOffMapStaticFields__Name">
           <FormInput
             type="text"
             name="name"
             label={labels.staticName}
             isRequired={true}
+          />
+        </div>
+        <div className="c-DropOffMapStaticFields__CollectType">
+          <FormSelect<CollectType>
+            label={labels.staticCollectType}
+            name="dropOffMapCollectTypeSelect"
+            isRequired
+            options={dropOffMapCollectTypes}
+            displayTransform={
+              dropOffMapCollectTypesSelectDisplayTransformFunction
+            }
+            optionKey={"originalId"}
           />
         </div>
       </div>

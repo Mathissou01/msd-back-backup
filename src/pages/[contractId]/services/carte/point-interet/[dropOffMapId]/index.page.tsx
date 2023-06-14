@@ -6,8 +6,10 @@ import CommonLoader from "../../../../../../components/Common/CommonLoader/Commo
 import DropOffMapForm from "../../../../../../components/DropOffMap/DropOffMapForm";
 import { useContract } from "../../../../../../hooks/useContract";
 import {
+  CollectType,
   GetDropOffMapByIdDocument,
   useCreateDropOffMapMutation,
+  useGetDropOffCollectTypeByContractIdQuery,
   useGetDropOffMapByIdQuery,
   useUpdateDropOffMapMutation,
 } from "../../../../../../graphql/codegen/generated-types";
@@ -29,14 +31,16 @@ export function ServiceCartePointInteretPage({
     staticName: "Nom du point d'intérêt",
     staticPhoneNumber: "Téléphone",
     staticMustKnow: "A savoir avant de venir",
+    staticCollectType: "Type de conteneur ou de lieu",
   };
   const title = "Créer un point d'intérêt";
   //TODO temporarily static Data After remove use true data from form
   const gpsCoordinates = "43.1236, 3.5739";
-  const collectDropOff = "2";
 
   /* Methods */
   async function onSubmit(submitData: FieldValues, submitType?: string) {
+    const collectTypeSelected = submitData.dropOffMapCollectTypeSelect;
+
     const variables = {
       updateDropOffMapId: dropOffMapId,
       data: {
@@ -44,7 +48,14 @@ export function ServiceCartePointInteretPage({
         phoneNumber: submitData.phoneNumber,
         mustKnow: submitData.mustKnow,
         gpsCoordinates: gpsCoordinates,
-        collectDropOff: collectDropOff,
+        collectDropOff:
+          collectTypeSelected.typeName === "collectDropOff"
+            ? collectTypeSelected.originalId
+            : null,
+        collectVoluntary:
+          collectTypeSelected.typeName === "collectVoluntary"
+            ? collectTypeSelected.originalId
+            : null,
         dropOffMapService: contract.attributes?.dropOffMapService?.data?.id,
       },
     };
@@ -88,7 +99,7 @@ export function ServiceCartePointInteretPage({
 
   /* External Data */
   const { currentRoot } = useNavigation();
-  const { contract } = useContract();
+  const { contract, contractId } = useContract();
   const { loading, error, data } = useGetDropOffMapByIdQuery({
     variables: { dropOffMapId },
     fetchPolicy: "network-only",
@@ -102,6 +113,17 @@ export function ServiceCartePointInteretPage({
       setError("name", { type: "validate", message: error.message });
     },
   });
+
+  const {
+    data: dataDropOffCollectTypes,
+    loading: loadingDropOffCollectTypes,
+    error: errorDropOffCollectTypes,
+  } = useGetDropOffCollectTypeByContractIdQuery({
+    variables: {
+      contractId: contractId,
+    },
+  });
+
   const [
     updateDropOffMap,
     { loading: updateDropOffMapLoading, error: updateDropOffMapError },
@@ -114,8 +136,16 @@ export function ServiceCartePointInteretPage({
 
   /* Local data */
   const isLoading =
-    loading || createDropOffMapLoading || updateDropOffMapLoading;
-  const errors = [error || createDropOffMapError || updateDropOffMapError];
+    loading ||
+    createDropOffMapLoading ||
+    updateDropOffMapLoading ||
+    loadingDropOffCollectTypes;
+  const errors = [
+    error,
+    createDropOffMapError,
+    updateDropOffMapError,
+    errorDropOffCollectTypes,
+  ];
 
   const [mappedData, setMappedData] = useState<IDropOffMapStaticFields>();
   const form = useForm({
@@ -131,12 +161,18 @@ export function ServiceCartePointInteretPage({
         dropOffMapData.id &&
         dropOffMapData.attributes &&
         dropOffMapData.attributes.name &&
-        dropOffMapData.attributes.gpsCoordinates
+        dropOffMapData.attributes.gpsCoordinates &&
+        dropOffMapData.attributes.collectDropOff?.data &&
+        dropOffMapData.attributes.collectVoluntary?.data
       ) {
         const mappedData: IDropOffMapStaticFields = {
           name: dropOffMapData.attributes.name,
           phoneNumber: dropOffMapData.attributes.phoneNumber,
           mustKnow: dropOffMapData.attributes.mustKnow,
+          collectDropOff:
+            dropOffMapData.attributes.collectDropOff.data.attributes ?? {},
+          collectVoluntary:
+            dropOffMapData.attributes.collectVoluntary.data.attributes ?? {},
           gpsCoordinates: dropOffMapData.attributes.gpsCoordinates,
         };
         setMappedData(mappedData);
@@ -154,6 +190,9 @@ export function ServiceCartePointInteretPage({
             onSubmitValid={onSubmit}
             onCancel={onCancel}
             labels={formLabels}
+            collectTypes={
+              dataDropOffCollectTypes?.getDropOffCollectType as Array<CollectType>
+            }
           />
         </CommonLoader>
       </>

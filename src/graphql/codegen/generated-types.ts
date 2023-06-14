@@ -36,8 +36,6 @@ export type Scalars = {
   FreeContentLinkToServicesDynamicZoneInput: any;
   JSON: any;
   Long: any;
-  MwcFlowBlocksDynamicZoneInput: any;
-  MwcFlowOmBlocksDynamicZoneInput: any;
   NewBlocksDynamicZoneInput: any;
   NewLinkToServicesDynamicZoneInput: any;
   RequestAddableBlocksDynamicZoneInput: any;
@@ -2649,21 +2647,6 @@ export enum Enum_Freecontent_Status {
   Published = "published",
 }
 
-export enum Enum_Mwcflowcs_Weighingsystem {
-  DynamicWeighingOfBins = "dynamicWeighingOfBins",
-  WeighingAtTheOutlet = "weighingAtTheOutlet",
-}
-
-export enum Enum_Mwcflowom_Weighingsystem {
-  DynamicWeighingOfBins = "dynamicWeighingOfBins",
-  WeighingAtTheOutlet = "weighingAtTheOutlet",
-}
-
-export enum Enum_Mwcflow_Weighingsystem {
-  DynamicWeighingOfBins = "dynamicWeighingOfBins",
-  WeighingAtTheOutlet = "weighingAtTheOutlet",
-}
-
 export enum Enum_New_Status {
   Archived = "archived",
   Draft = "draft",
@@ -3727,9 +3710,6 @@ export type GenericMorph =
   | KeyMetricsService
   | MwCounterService
   | MwcContact
-  | MwcFlow
-  | MwcFlowCs
-  | MwcFlowOm
   | MyWasteCounter
   | New
   | NewsSubService
@@ -4212,9 +4192,6 @@ export type Mutation = {
   createKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   createMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   createMwcContact?: Maybe<MwcContactEntityResponse>;
-  createMwcFlow?: Maybe<MwcFlowEntityResponse>;
-  createMwcFlowCs?: Maybe<MwcFlowCsEntityResponse>;
-  createMwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
   createMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   createNew?: Maybe<NewEntityResponse>;
   createNewFolder?: Maybe<RequestFolderEntity>;
@@ -4294,9 +4271,6 @@ export type Mutation = {
   deleteKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   deleteMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   deleteMwcContact?: Maybe<MwcContactEntityResponse>;
-  deleteMwcFlow?: Maybe<MwcFlowEntityResponse>;
-  deleteMwcFlowCs?: Maybe<MwcFlowCsEntityResponse>;
-  deleteMwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
   deleteMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   deleteNew?: Maybe<NewEntityResponse>;
   deleteNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
@@ -4397,9 +4371,6 @@ export type Mutation = {
   updateKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   updateMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   updateMwcContact?: Maybe<MwcContactEntityResponse>;
-  updateMwcFlow?: Maybe<MwcFlowEntityResponse>;
-  updateMwcFlowCs?: Maybe<MwcFlowCsEntityResponse>;
-  updateMwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
   updateMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   updateNew?: Maybe<NewEntityResponse>;
   updateNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
@@ -4666,18 +4637,6 @@ export type MutationCreateMwCounterServiceArgs = {
 
 export type MutationCreateMwcContactArgs = {
   data: MwcContactInput;
-};
-
-export type MutationCreateMwcFlowArgs = {
-  data: MwcFlowInput;
-};
-
-export type MutationCreateMwcFlowCsArgs = {
-  data: MwcFlowCsInput;
-};
-
-export type MutationCreateMwcFlowOmArgs = {
-  data: MwcFlowOmInput;
 };
 
 export type MutationCreateMyWasteCounterArgs = {
@@ -4986,18 +4945,6 @@ export type MutationDeleteMwCounterServiceArgs = {
 };
 
 export type MutationDeleteMwcContactArgs = {
-  id: Scalars["ID"];
-};
-
-export type MutationDeleteMwcFlowArgs = {
-  id: Scalars["ID"];
-};
-
-export type MutationDeleteMwcFlowCsArgs = {
-  id: Scalars["ID"];
-};
-
-export type MutationDeleteMwcFlowOmArgs = {
   id: Scalars["ID"];
 };
 
@@ -5437,21 +5384,6 @@ export type MutationUpdateMwcContactArgs = {
   id: Scalars["ID"];
 };
 
-export type MutationUpdateMwcFlowArgs = {
-  data: MwcFlowInput;
-  id: Scalars["ID"];
-};
-
-export type MutationUpdateMwcFlowCsArgs = {
-  data: MwcFlowCsInput;
-  id: Scalars["ID"];
-};
-
-export type MutationUpdateMwcFlowOmArgs = {
-  data: MwcFlowOmInput;
-  id: Scalars["ID"];
-};
-
 export type MutationUpdateMyWasteCounterArgs = {
   data: MyWasteCounterInput;
   id: Scalars["ID"];
@@ -5633,8 +5565,6 @@ export type MutationYwsDeactivationArgs = {
 export type MwCounterService = {
   __typename?: "MwCounterService";
   MwCounter?: Maybe<MyWasteCounterRelationResponseCollection>;
-  MwcFlow?: Maybe<MwcFlowEntityResponse>;
-  MwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
   audience_types?: Maybe<AudienceTypeRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
@@ -5685,8 +5615,6 @@ export type MwCounterServiceEntityResponseCollection = {
 
 export type MwCounterServiceFiltersInput = {
   MwCounter?: InputMaybe<MyWasteCounterFiltersInput>;
-  MwcFlow?: InputMaybe<MwcFlowFiltersInput>;
-  MwcFlowOm?: InputMaybe<MwcFlowOmFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<MwCounterServiceFiltersInput>>>;
   audience_types?: InputMaybe<AudienceTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
@@ -5706,8 +5634,6 @@ export type MwCounterServiceFiltersInput = {
 
 export type MwCounterServiceInput = {
   MwCounter?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  MwcFlow?: InputMaybe<Scalars["ID"]>;
-  MwcFlowOm?: InputMaybe<Scalars["ID"]>;
   audience_types?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
@@ -5778,156 +5704,6 @@ export type MwcContactInput = {
   postalAddress?: InputMaybe<Scalars["String"]>;
   postalCode?: InputMaybe<Scalars["String"]>;
   serviceName?: InputMaybe<Scalars["String"]>;
-};
-
-export type MwcFlow = {
-  __typename?: "MwcFlow";
-  MwCounterService?: Maybe<MwCounterServiceEntityResponse>;
-  averageProductionPerson?: Maybe<Scalars["Long"]>;
-  blocks?: Maybe<Array<Maybe<MwcFlowBlocksDynamicZone>>>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
-  weighingSystem?: Maybe<Enum_Mwcflow_Weighingsystem>;
-};
-
-export type MwcFlowBlocksDynamicZone =
-  | ComponentBlocksImage
-  | ComponentBlocksSubHeading
-  | ComponentBlocksVideo
-  | ComponentBlocksWysiwyg
-  | Error;
-
-export type MwcFlowCs = {
-  __typename?: "MwcFlowCs";
-  averageProductionPerson?: Maybe<Scalars["Long"]>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
-  weighingSystem?: Maybe<Enum_Mwcflowcs_Weighingsystem>;
-};
-
-export type MwcFlowCsEntity = {
-  __typename?: "MwcFlowCsEntity";
-  attributes?: Maybe<MwcFlowCs>;
-  id?: Maybe<Scalars["ID"]>;
-};
-
-export type MwcFlowCsEntityResponse = {
-  __typename?: "MwcFlowCsEntityResponse";
-  data?: Maybe<MwcFlowCsEntity>;
-};
-
-export type MwcFlowCsEntityResponseCollection = {
-  __typename?: "MwcFlowCsEntityResponseCollection";
-  data: Array<MwcFlowCsEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type MwcFlowCsFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<MwcFlowCsFiltersInput>>>;
-  averageProductionPerson?: InputMaybe<LongFilterInput>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  not?: InputMaybe<MwcFlowCsFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<MwcFlowCsFiltersInput>>>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-  weighingSystem?: InputMaybe<StringFilterInput>;
-};
-
-export type MwcFlowCsInput = {
-  averageProductionPerson?: InputMaybe<Scalars["Long"]>;
-  weighingSystem?: InputMaybe<Enum_Mwcflowcs_Weighingsystem>;
-};
-
-export type MwcFlowEntity = {
-  __typename?: "MwcFlowEntity";
-  attributes?: Maybe<MwcFlow>;
-  id?: Maybe<Scalars["ID"]>;
-};
-
-export type MwcFlowEntityResponse = {
-  __typename?: "MwcFlowEntityResponse";
-  data?: Maybe<MwcFlowEntity>;
-};
-
-export type MwcFlowEntityResponseCollection = {
-  __typename?: "MwcFlowEntityResponseCollection";
-  data: Array<MwcFlowEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type MwcFlowFiltersInput = {
-  MwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
-  and?: InputMaybe<Array<InputMaybe<MwcFlowFiltersInput>>>;
-  averageProductionPerson?: InputMaybe<LongFilterInput>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  not?: InputMaybe<MwcFlowFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<MwcFlowFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-  weighingSystem?: InputMaybe<StringFilterInput>;
-};
-
-export type MwcFlowInput = {
-  MwCounterService?: InputMaybe<Scalars["ID"]>;
-  averageProductionPerson?: InputMaybe<Scalars["Long"]>;
-  blocks?: InputMaybe<Array<Scalars["MwcFlowBlocksDynamicZoneInput"]>>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
-  weighingSystem?: InputMaybe<Enum_Mwcflow_Weighingsystem>;
-};
-
-export type MwcFlowOm = {
-  __typename?: "MwcFlowOm";
-  averageProductionPerson?: Maybe<Scalars["Long"]>;
-  blocks?: Maybe<Array<Maybe<MwcFlowOmBlocksDynamicZone>>>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  mwCounterService?: Maybe<MwCounterServiceEntityResponse>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
-  weighingSystem?: Maybe<Enum_Mwcflowom_Weighingsystem>;
-};
-
-export type MwcFlowOmBlocksDynamicZone =
-  | ComponentBlocksImage
-  | ComponentBlocksSubHeading
-  | ComponentBlocksVideo
-  | ComponentBlocksWysiwyg
-  | Error;
-
-export type MwcFlowOmEntity = {
-  __typename?: "MwcFlowOmEntity";
-  attributes?: Maybe<MwcFlowOm>;
-  id?: Maybe<Scalars["ID"]>;
-};
-
-export type MwcFlowOmEntityResponse = {
-  __typename?: "MwcFlowOmEntityResponse";
-  data?: Maybe<MwcFlowOmEntity>;
-};
-
-export type MwcFlowOmEntityResponseCollection = {
-  __typename?: "MwcFlowOmEntityResponseCollection";
-  data: Array<MwcFlowOmEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type MwcFlowOmFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<MwcFlowOmFiltersInput>>>;
-  averageProductionPerson?: InputMaybe<LongFilterInput>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  mwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
-  not?: InputMaybe<MwcFlowOmFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<MwcFlowOmFiltersInput>>>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-  weighingSystem?: InputMaybe<StringFilterInput>;
-};
-
-export type MwcFlowOmInput = {
-  averageProductionPerson?: InputMaybe<Scalars["Long"]>;
-  blocks?: InputMaybe<Array<Scalars["MwcFlowOmBlocksDynamicZoneInput"]>>;
-  mwCounterService?: InputMaybe<Scalars["ID"]>;
-  weighingSystem?: InputMaybe<Enum_Mwcflowom_Weighingsystem>;
 };
 
 export type MyWasteCounter = {
@@ -6480,12 +6256,6 @@ export type Query = {
   mwCounterServices?: Maybe<MwCounterServiceEntityResponseCollection>;
   mwcContact?: Maybe<MwcContactEntityResponse>;
   mwcContacts?: Maybe<MwcContactEntityResponseCollection>;
-  mwcFlow?: Maybe<MwcFlowEntityResponse>;
-  mwcFlowCs?: Maybe<MwcFlowCsEntityResponse>;
-  mwcFlowCss?: Maybe<MwcFlowCsEntityResponseCollection>;
-  mwcFlowOm?: Maybe<MwcFlowOmEntityResponse>;
-  mwcFlowOms?: Maybe<MwcFlowOmEntityResponseCollection>;
-  mwcFlows?: Maybe<MwcFlowEntityResponseCollection>;
   myWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   myWasteCounters?: Maybe<MyWasteCounterEntityResponseCollection>;
   new?: Maybe<NewEntityResponse>;
@@ -7059,37 +6829,6 @@ export type QueryMwcContactArgs = {
 export type QueryMwcContactsArgs = {
   filters?: InputMaybe<MwcContactFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type QueryMwcFlowArgs = {
-  id?: InputMaybe<Scalars["ID"]>;
-};
-
-export type QueryMwcFlowCsArgs = {
-  id?: InputMaybe<Scalars["ID"]>;
-};
-
-export type QueryMwcFlowCssArgs = {
-  filters?: InputMaybe<MwcFlowCsFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type QueryMwcFlowOmArgs = {
-  id?: InputMaybe<Scalars["ID"]>;
-};
-
-export type QueryMwcFlowOmsArgs = {
-  filters?: InputMaybe<MwcFlowOmFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type QueryMwcFlowsArgs = {
-  filters?: InputMaybe<MwcFlowFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -7799,6 +7538,7 @@ export type Request = {
   confirmationMessage?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
+  hasAppointmentSlots?: Maybe<Scalars["Boolean"]>;
   hasSeveralRequestTypes: Scalars["Boolean"];
   isActivated?: Maybe<Scalars["Boolean"]>;
   name?: Maybe<Scalars["String"]>;
@@ -7911,6 +7651,7 @@ export type RequestFiltersInput = {
   confirmationMessage?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
+  hasAppointmentSlots?: InputMaybe<BooleanFilterInput>;
   hasSeveralRequestTypes?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isActivated?: InputMaybe<BooleanFilterInput>;
@@ -7950,6 +7691,7 @@ export type RequestInput = {
   blockText?: InputMaybe<Scalars["String"]>;
   confirmationMessage?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  hasAppointmentSlots?: InputMaybe<Scalars["Boolean"]>;
   hasSeveralRequestTypes?: InputMaybe<Scalars["Boolean"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
@@ -10925,9 +10667,6 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "KeyMetricsService" }
           | { __typename?: "MwCounterService" }
           | { __typename?: "MwcContact" }
-          | { __typename?: "MwcFlow" }
-          | { __typename?: "MwcFlowCs" }
-          | { __typename?: "MwcFlowOm" }
           | { __typename?: "MyWasteCounter" }
           | { __typename?: "New" }
           | { __typename?: "NewsSubService" }
@@ -14783,7 +14522,7 @@ export type GetDropOffMapByContractIdQuery = {
 };
 
 export type GetDropOffMapByIdQueryVariables = Exact<{
-  dropOffMapId?: InputMaybe<Scalars["ID"]>;
+  dropOffMapId: Scalars["ID"];
 }>;
 
 export type GetDropOffMapByIdQuery = {
@@ -14821,6 +14560,28 @@ export type GetDropOffMapByIdQuery = {
             } | null;
           };
         } | null> | null;
+        collectDropOff?: {
+          __typename?: "CollectDropOffEntityResponse";
+          data?: {
+            __typename?: "CollectDropOffEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectDropOff";
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
+        collectVoluntary?: {
+          __typename?: "CollectVoluntaryEntityResponse";
+          data?: {
+            __typename?: "CollectVoluntaryEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectVoluntary";
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
         dropOffMapService?: {
           __typename?: "DropOffMapServiceEntityResponse";
           data?: {
@@ -15454,6 +15215,20 @@ export type CreatePickUpDayByIdMutation = {
       } | null;
     } | null;
   } | null;
+};
+
+export type GetDropOffCollectTypeByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetDropOffCollectTypeByContractIdQuery = {
+  __typename?: "Query";
+  getDropOffCollectType?: Array<{
+    __typename?: "collectType";
+    name: string;
+    originalId: string;
+    typeName: string;
+  } | null> | null;
 };
 
 export type GetPickUpDayByIdQueryVariables = Exact<{
@@ -23854,7 +23629,7 @@ export type GetDropOffMapByContractIdQueryResult = Apollo.QueryResult<
   GetDropOffMapByContractIdQueryVariables
 >;
 export const GetDropOffMapByIdDocument = gql`
-  query getDropOffMapById($dropOffMapId: ID) {
+  query getDropOffMapById($dropOffMapId: ID!) {
     dropOffMap(id: $dropOffMapId) {
       data {
         id
@@ -23881,6 +23656,22 @@ export const GetDropOffMapByIdDocument = gql`
           }
           mustKnow
           gpsCoordinates
+          collectDropOff {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          collectVoluntary {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
           dropOffMapService {
             data {
               id
@@ -23909,7 +23700,7 @@ export const GetDropOffMapByIdDocument = gql`
  * });
  */
 export function useGetDropOffMapByIdQuery(
-  baseOptions?: Apollo.QueryHookOptions<
+  baseOptions: Apollo.QueryHookOptions<
     GetDropOffMapByIdQuery,
     GetDropOffMapByIdQueryVariables
   >,
@@ -25082,6 +24873,66 @@ export type CreatePickUpDayByIdMutationResult =
 export type CreatePickUpDayByIdMutationOptions = Apollo.BaseMutationOptions<
   CreatePickUpDayByIdMutation,
   CreatePickUpDayByIdMutationVariables
+>;
+export const GetDropOffCollectTypeByContractIdDocument = gql`
+  query getDropOffCollectTypeByContractId($contractId: ID!) {
+    getDropOffCollectType(contractId: $contractId) {
+      name
+      originalId
+      typeName
+    }
+  }
+`;
+
+/**
+ * __useGetDropOffCollectTypeByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetDropOffCollectTypeByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDropOffCollectTypeByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDropOffCollectTypeByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetDropOffCollectTypeByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetDropOffCollectTypeByContractIdQuery,
+    GetDropOffCollectTypeByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetDropOffCollectTypeByContractIdQuery,
+    GetDropOffCollectTypeByContractIdQueryVariables
+  >(GetDropOffCollectTypeByContractIdDocument, options);
+}
+export function useGetDropOffCollectTypeByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetDropOffCollectTypeByContractIdQuery,
+    GetDropOffCollectTypeByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetDropOffCollectTypeByContractIdQuery,
+    GetDropOffCollectTypeByContractIdQueryVariables
+  >(GetDropOffCollectTypeByContractIdDocument, options);
+}
+export type GetDropOffCollectTypeByContractIdQueryHookResult = ReturnType<
+  typeof useGetDropOffCollectTypeByContractIdQuery
+>;
+export type GetDropOffCollectTypeByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetDropOffCollectTypeByContractIdLazyQuery
+>;
+export type GetDropOffCollectTypeByContractIdQueryResult = Apollo.QueryResult<
+  GetDropOffCollectTypeByContractIdQuery,
+  GetDropOffCollectTypeByContractIdQueryVariables
 >;
 export const GetPickUpDayByIdDocument = gql`
   query getPickUpDayById($pickUpDayId: ID) {

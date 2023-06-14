@@ -1,4 +1,4 @@
-query getDropOffMapById($dropOffMapId: ID) {
+query getDropOffMapById($dropOffMapId: ID!) {
   dropOffMap(id: $dropOffMapId) {
     data {
       id
@@ -25,6 +25,22 @@ query getDropOffMapById($dropOffMapId: ID) {
         }
         mustKnow
         gpsCoordinates
+        collectDropOff {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectVoluntary {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         dropOffMapService {
           data {
             id
