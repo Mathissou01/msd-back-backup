@@ -35,7 +35,8 @@ export function ServiceCartePointInteretPage({
   };
   const title = "Créer un point d'intérêt";
   //TODO temporarily static Data After remove use true data from form
-  const gpsCoordinates = "43.1236, 3.5739";
+  const latitude = 45.770829;
+  const longitude = 4.844977;
 
   /* Methods */
   async function onSubmit(submitData: FieldValues, submitType?: string) {
@@ -47,7 +48,8 @@ export function ServiceCartePointInteretPage({
         name: submitData.name,
         phoneNumber: submitData.phoneNumber,
         mustKnow: submitData.mustKnow,
-        gpsCoordinates: gpsCoordinates,
+        latitude: latitude,
+        longitude: longitude,
         collectDropOff:
           collectTypeSelected.typeName === "collectDropOff"
             ? collectTypeSelected.originalId
