@@ -678,11 +678,6 @@ type CollectDoorToDoorRelationResponseCollection {
 type CollectDropOff {
   contract: ContractEntityResponse
   createdAt: DateTime
-  dropOffMaps(
-    filters: DropOffMapFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): DropOffMapRelationResponseCollection
   flows(
     filters: FlowFiltersInput
     pagination: PaginationArg = {}
@@ -712,7 +707,6 @@ input CollectDropOffFiltersInput {
   and: [CollectDropOffFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
-  dropOffMaps: DropOffMapFiltersInput
   flows: FlowFiltersInput
   grammaticalGender: StringFilterInput
   id: IDFilterInput
@@ -724,7 +718,6 @@ input CollectDropOffFiltersInput {
 
 input CollectDropOffInput {
   contract: ID
-  dropOffMaps: [ID]
   flows: [ID]
   grammaticalGender: ENUM_COLLECTDROPOFF_GRAMMATICALGENDER
   name: String
@@ -738,11 +731,6 @@ type CollectDropOffRelationResponseCollection {
 type CollectVoluntary {
   contract: ContractEntityResponse
   createdAt: DateTime
-  dropOffMaps(
-    filters: DropOffMapFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): DropOffMapRelationResponseCollection
   flows(
     filters: FlowFiltersInput
     pagination: PaginationArg = {}
@@ -772,7 +760,6 @@ input CollectVoluntaryFiltersInput {
   and: [CollectVoluntaryFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
-  dropOffMaps: DropOffMapFiltersInput
   flows: FlowFiltersInput
   grammaticalGender: StringFilterInput
   id: IDFilterInput
@@ -784,7 +771,6 @@ input CollectVoluntaryFiltersInput {
 
 input CollectVoluntaryInput {
   contract: ID
-  dropOffMaps: [ID]
   flows: [ID]
   grammaticalGender: ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER
   name: String
@@ -2364,6 +2350,11 @@ enum ENUM_NEW_STATUS {
   archived
   draft
   published
+}
+
+enum ENUM_PICKUPDAY_PERIODICITY {
+  hebdomadaire
+  mensuel
 }
 
 enum ENUM_QUIZ_STATUS {
@@ -4689,6 +4680,7 @@ input PaginationArg {
 }
 
 type PickUpDay {
+  advancedSelection: JSON!
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4698,9 +4690,10 @@ type PickUpDay {
   collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
   description: String
-  flow: FlowEntityResponse
+  flow: FlowEntityResponse!
   informationMessage: InformationMessageEntityResponse
   name: String!
+  periodicity: ENUM_PICKUPDAY_PERIODICITY
   pickUpDayService: PickUpDayServiceEntityResponse
   sectorizations(
     filters: SectorizationFiltersInput
@@ -4725,6 +4718,7 @@ type PickUpDayEntityResponseCollection {
 }
 
 input PickUpDayFiltersInput {
+  advancedSelection: JSONFilterInput
   and: [PickUpDayFiltersInput]
   cities: CityFiltersInput
   collectDoorToDoor: CollectDoorToDoorFiltersInput
@@ -4737,12 +4731,14 @@ input PickUpDayFiltersInput {
   name: StringFilterInput
   not: PickUpDayFiltersInput
   or: [PickUpDayFiltersInput]
+  periodicity: StringFilterInput
   pickUpDayService: PickUpDayServiceFiltersInput
   sectorizations: SectorizationFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
 input PickUpDayInput {
+  advancedSelection: JSON
   cities: [ID]
   collectDoorToDoor: ID
   collectVoluntary: ID
@@ -4750,6 +4746,7 @@ input PickUpDayInput {
   flow: ID
   informationMessage: ID
   name: String
+  periodicity: ENUM_PICKUPDAY_PERIODICITY
   pickUpDayService: ID
   sectorizations: [ID]
 }

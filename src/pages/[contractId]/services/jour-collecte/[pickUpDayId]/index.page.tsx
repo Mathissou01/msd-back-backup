@@ -4,6 +4,9 @@ import router from "next/router";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import {
+  Enum_Pickupday_Periodicity,
+  GetFlowsByContractIdDocument,
+  InputMaybe,
   useCreatePickUpDayByIdMutation,
   useGetPickUpDayByIdQuery,
   useUpdatePickUpDayMutation,
@@ -21,6 +24,14 @@ interface IPickUpDayIdPageProps {
 
 export interface IPickUpDayStaticFields {
   name: string;
+  flow:
+    | {
+        attributes: {
+          name: string | null;
+        } | null;
+      }
+    | string
+    | null;
 }
 
 export function ServicesPickUpDatePage({
@@ -40,7 +51,16 @@ export function ServicesPickUpDatePage({
       updatePickUpDayId: pickUpDayId,
       data: {
         name: submitData.name,
+        flow: submitData.flow,
         pickUpDayService: contract.attributes?.pickUpDayService?.data?.id,
+        //TODO: temporally mock data to remove after
+        advancedSelection: {
+          mensuel: {
+            choice: "le premier",
+            selection: ["Lundi", "Mardi"],
+          },
+        },
+        periodicity: "mensuel" as InputMaybe<Enum_Pickupday_Periodicity>,
       },
     };
     if (isCreateMode) {
@@ -57,6 +77,14 @@ export function ServicesPickUpDatePage({
     } else {
       return updatePickUpDay({
         variables,
+        refetchQueries: [
+          {
+            query: GetFlowsByContractIdDocument,
+            variables: {
+              pickUpDayId,
+            },
+          },
+        ],
         onCompleted: (result) => {
           if (result.updatePickUpDay?.data?.id) {
             if (submitType === "submit") {
@@ -110,9 +138,14 @@ export function ServicesPickUpDatePage({
     if (data?.pickUpDay?.data) {
       const pickUpDaysData = data?.pickUpDay?.data;
 
-      if (pickUpDaysData.id && pickUpDaysData.attributes?.name) {
+      if (
+        pickUpDaysData.id &&
+        pickUpDaysData.attributes?.name &&
+        pickUpDaysData.attributes?.flow
+      ) {
         const mappedData: IPickUpDayStaticFields = {
           name: pickUpDaysData.attributes.name,
+          flow: pickUpDaysData.attributes.flow.data?.id ?? "0",
         };
         setPickUpDaysData(mappedData);
       }

@@ -3,10 +3,33 @@ query getPickUpDayById($pickUpDayId: ID) {
     data {
       id
       attributes {
-        createdAt
-        description
         name
-        updatedAt
+        flow {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        sectorizations {
+          data {
+            id
+            attributes {
+              name
+              description
+              polygonCoordinates
+            }
+          }
+        }
+        cities {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
       }
     }
   }

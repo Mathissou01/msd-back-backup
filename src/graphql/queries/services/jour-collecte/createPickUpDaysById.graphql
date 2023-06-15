@@ -7,14 +7,6 @@ mutation CreatePickUpDayById($data: PickUpDayInput!) {
         description
         name
         updatedAt
-        pickUpDayService {
-          data {
-            id
-            attributes {
-              name
-            }
-          }
-        }
         flow {
           data {
             id
@@ -24,6 +16,16 @@ mutation CreatePickUpDayById($data: PickUpDayInput!) {
             }
           }
         }
+        pickUpDayService {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        advancedSelection
+        periodicity
         sectorizations {
           data {
             attributes {

@@ -1,14 +1,29 @@
-mutation UpdatePickUpDay($updatePickUpDayId: ID!, $data: PickUpDayInput!) {
+mutation updatePickUpDay($updatePickUpDayId: ID!, $data: PickUpDayInput!) {
   updatePickUpDay(id: $updatePickUpDayId, data: $data) {
     data {
       id
       attributes {
         name
-        pickUpDayService {
+        advancedSelection
+        flow {
           data {
             id
+            attributes {
+              name
+            }
           }
         }
+        sectorizations {
+          data {
+            id
+            attributes {
+              name
+              description
+              polygonCoordinates
+            }
+          }
+        }
+        periodicity
       }
     }
   }

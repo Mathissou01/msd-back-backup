@@ -800,18 +800,11 @@ export type CollectDropOff = {
   __typename?: "CollectDropOff";
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
   flows?: Maybe<FlowRelationResponseCollection>;
   grammaticalGender?: Maybe<Enum_Collectdropoff_Grammaticalgender>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type CollectDropOffDropOffMapsArgs = {
-  filters?: InputMaybe<DropOffMapFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CollectDropOffFlowsArgs = {
@@ -841,7 +834,6 @@ export type CollectDropOffFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CollectDropOffFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  dropOffMaps?: InputMaybe<DropOffMapFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
   grammaticalGender?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -853,7 +845,6 @@ export type CollectDropOffFiltersInput = {
 
 export type CollectDropOffInput = {
   contract?: InputMaybe<Scalars["ID"]>;
-  dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   grammaticalGender?: InputMaybe<Enum_Collectdropoff_Grammaticalgender>;
   name?: InputMaybe<Scalars["String"]>;
@@ -869,18 +860,11 @@ export type CollectVoluntary = {
   __typename?: "CollectVoluntary";
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  dropOffMaps?: Maybe<DropOffMapRelationResponseCollection>;
   flows?: Maybe<FlowRelationResponseCollection>;
   grammaticalGender?: Maybe<Enum_Collectvoluntary_Grammaticalgender>;
   name?: Maybe<Scalars["String"]>;
   picto?: Maybe<UploadFileEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type CollectVoluntaryDropOffMapsArgs = {
-  filters?: InputMaybe<DropOffMapFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CollectVoluntaryFlowsArgs = {
@@ -910,7 +894,6 @@ export type CollectVoluntaryFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CollectVoluntaryFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  dropOffMaps?: InputMaybe<DropOffMapFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
   grammaticalGender?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -922,7 +905,6 @@ export type CollectVoluntaryFiltersInput = {
 
 export type CollectVoluntaryInput = {
   contract?: InputMaybe<Scalars["ID"]>;
-  dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   grammaticalGender?: InputMaybe<Enum_Collectvoluntary_Grammaticalgender>;
   name?: InputMaybe<Scalars["String"]>;
@@ -2660,6 +2642,11 @@ export enum Enum_New_Status {
   Archived = "archived",
   Draft = "draft",
   Published = "published",
+}
+
+export enum Enum_Pickupday_Periodicity {
+  Hebdomadaire = "hebdomadaire",
+  Mensuel = "mensuel",
 }
 
 export enum Enum_Quiz_Status {
@@ -5992,14 +5979,16 @@ export type PaginationArg = {
 
 export type PickUpDay = {
   __typename?: "PickUpDay";
+  advancedSelection: Scalars["JSON"];
   cities?: Maybe<CityRelationResponseCollection>;
   collectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
   collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
-  flow?: Maybe<FlowEntityResponse>;
+  flow: FlowEntityResponse;
   informationMessage?: Maybe<InformationMessageEntityResponse>;
   name: Scalars["String"];
+  periodicity?: Maybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -6035,6 +6024,7 @@ export type PickUpDayEntityResponseCollection = {
 };
 
 export type PickUpDayFiltersInput = {
+  advancedSelection?: InputMaybe<JsonFilterInput>;
   and?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
   cities?: InputMaybe<CityFiltersInput>;
   collectDoorToDoor?: InputMaybe<CollectDoorToDoorFiltersInput>;
@@ -6047,12 +6037,14 @@ export type PickUpDayFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<PickUpDayFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
+  periodicity?: InputMaybe<StringFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   sectorizations?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type PickUpDayInput = {
+  advancedSelection?: InputMaybe<Scalars["JSON"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   collectDoorToDoor?: InputMaybe<Scalars["ID"]>;
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
@@ -6060,6 +6052,7 @@ export type PickUpDayInput = {
   flow?: InputMaybe<Scalars["ID"]>;
   informationMessage?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
+  periodicity?: InputMaybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
@@ -15215,18 +15208,9 @@ export type CreatePickUpDayByIdMutation = {
         description?: string | null;
         name: string;
         updatedAt?: any | null;
-        pickUpDayService?: {
-          __typename?: "PickUpDayServiceEntityResponse";
-          data?: {
-            __typename?: "PickUpDayServiceEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "PickUpDayService";
-              name: string;
-            } | null;
-          } | null;
-        } | null;
-        flow?: {
+        advancedSelection: any;
+        periodicity?: Enum_Pickupday_Periodicity | null;
+        flow: {
           __typename?: "FlowEntityResponse";
           data?: {
             __typename?: "FlowEntity";
@@ -15235,6 +15219,17 @@ export type CreatePickUpDayByIdMutation = {
               __typename?: "Flow";
               name?: string | null;
               isActivated?: boolean | null;
+            } | null;
+          } | null;
+        };
+        pickUpDayService?: {
+          __typename?: "PickUpDayServiceEntityResponse";
+          data?: {
+            __typename?: "PickUpDayServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "PickUpDayService";
+              name: string;
             } | null;
           } | null;
         } | null;
@@ -15277,10 +15272,36 @@ export type GetPickUpDayByIdQuery = {
       id?: string | null;
       attributes?: {
         __typename?: "PickUpDay";
-        createdAt?: any | null;
-        description?: string | null;
         name: string;
-        updatedAt?: any | null;
+        flow: {
+          __typename?: "FlowEntityResponse";
+          data?: {
+            __typename?: "FlowEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Flow"; name?: string | null } | null;
+          } | null;
+        };
+        sectorizations?: {
+          __typename?: "SectorizationRelationResponseCollection";
+          data: Array<{
+            __typename?: "SectorizationEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Sectorization";
+              name: string;
+              description: string;
+              polygonCoordinates?: any | null;
+            } | null;
+          }>;
+        } | null;
+        cities?: {
+          __typename?: "CityRelationResponseCollection";
+          data: Array<{
+            __typename?: "CityEntity";
+            id?: string | null;
+            attributes?: { __typename?: "City"; name?: string | null } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -15305,13 +15326,13 @@ export type GetPickUpDaysByContractIdQuery = {
         __typename?: "PickUpDay";
         name: string;
         updatedAt?: any | null;
-        flow?: {
+        flow: {
           __typename?: "FlowEntityResponse";
           data?: {
             __typename?: "FlowEntity";
             attributes?: { __typename?: "Flow"; name?: string | null } | null;
           } | null;
-        } | null;
+        };
         sectorizations?: {
           __typename?: "SectorizationRelationResponseCollection";
           data: Array<{
@@ -15349,12 +15370,28 @@ export type UpdatePickUpDayMutation = {
       attributes?: {
         __typename?: "PickUpDay";
         name: string;
-        pickUpDayService?: {
-          __typename?: "PickUpDayServiceEntityResponse";
+        advancedSelection: any;
+        periodicity?: Enum_Pickupday_Periodicity | null;
+        flow: {
+          __typename?: "FlowEntityResponse";
           data?: {
-            __typename?: "PickUpDayServiceEntity";
+            __typename?: "FlowEntity";
             id?: string | null;
+            attributes?: { __typename?: "Flow"; name?: string | null } | null;
           } | null;
+        };
+        sectorizations?: {
+          __typename?: "SectorizationRelationResponseCollection";
+          data: Array<{
+            __typename?: "SectorizationEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Sectorization";
+              name: string;
+              description: string;
+              polygonCoordinates?: any | null;
+            } | null;
+          }>;
         } | null;
       } | null;
     } | null;
@@ -24902,14 +24939,6 @@ export const CreatePickUpDayByIdDocument = gql`
           description
           name
           updatedAt
-          pickUpDayService {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
           flow {
             data {
               id
@@ -24919,6 +24948,16 @@ export const CreatePickUpDayByIdDocument = gql`
               }
             }
           }
+          pickUpDayService {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          advancedSelection
+          periodicity
           sectorizations {
             data {
               attributes {
@@ -25040,10 +25079,33 @@ export const GetPickUpDayByIdDocument = gql`
       data {
         id
         attributes {
-          createdAt
-          description
           name
-          updatedAt
+          flow {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          sectorizations {
+            data {
+              id
+              attributes {
+                name
+                description
+                polygonCoordinates
+              }
+            }
+          }
+          cities {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -25197,17 +25259,32 @@ export type GetPickUpDaysByContractIdQueryResult = Apollo.QueryResult<
   GetPickUpDaysByContractIdQueryVariables
 >;
 export const UpdatePickUpDayDocument = gql`
-  mutation UpdatePickUpDay($updatePickUpDayId: ID!, $data: PickUpDayInput!) {
+  mutation updatePickUpDay($updatePickUpDayId: ID!, $data: PickUpDayInput!) {
     updatePickUpDay(id: $updatePickUpDayId, data: $data) {
       data {
         id
         attributes {
           name
-          pickUpDayService {
+          advancedSelection
+          flow {
             data {
               id
+              attributes {
+                name
+              }
             }
           }
+          sectorizations {
+            data {
+              id
+              attributes {
+                name
+                description
+                polygonCoordinates
+              }
+            }
+          }
+          periodicity
         }
       }
     }
