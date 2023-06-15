@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import DataTable, {
   ConditionalStyles,
+  ExpanderComponentProps,
   PaginationComponentProps,
   SortOrder,
   TableColumn,
@@ -24,6 +25,8 @@ interface ICommonDataTableProps<T> {
   columns: Array<TableColumn<T>>;
   actionColumn?: (row: T, rowIndex: number) => Array<IDataTableAction>;
   conditionalRowStyles?: Array<ConditionalStyles<T>>;
+  expandableRows?: boolean;
+  expandableRowsComponent?: React.FC<ExpanderComponentProps<T>>;
   data: Array<T>;
   lazyLoadingOptions?: ILazyLoadingOptions;
   // State
@@ -45,6 +48,8 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
   columns,
   actionColumn,
   conditionalRowStyles,
+  expandableRows = false,
+  expandableRowsComponent,
   data,
   lazyLoadingOptions,
   isLoading,
@@ -172,6 +177,10 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
           onSort={(selectedColumn, sortDirection) =>
             handleSort(selectedColumn, sortDirection)
           }
+          expandableRows={expandableRows}
+          expandableRowExpanded={(row) => row.expandableRow ?? false}
+          expandableRowsComponent={expandableRowsComponent}
+          expandableRowsHideExpander={true}
           {...(paginationOptions &&
             paginationOptions.hasPagination && {
               pagination: true,

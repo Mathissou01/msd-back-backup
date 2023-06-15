@@ -200,7 +200,7 @@ export default function WasteFormTab() {
     });
   }
 
-  function setWasteFormVisibility(row: IWastesTableRow) {
+  function onHideRow(row: IWastesTableRow) {
     updateWasteForm({
       variables: {
         updateWasteFormId: row.id,
@@ -209,10 +209,6 @@ export default function WasteFormTab() {
         },
       },
     });
-  }
-
-  function onHideRow(row: IWastesTableRow) {
-    setWasteFormVisibility(row);
   }
 
   useEffect(() => {

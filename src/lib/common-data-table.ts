@@ -6,6 +6,7 @@ export interface ICommonDataTableValidation {
 export interface IDefaultTableRow {
   id: string;
   editState: boolean;
+  expandableRow?: boolean;
 }
 
 export interface ILazyLoadingOptions {

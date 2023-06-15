@@ -14656,6 +14656,62 @@ export type UpdateDropOffMapMutation = {
   } | null;
 };
 
+export type DeleteRequestByIdMutationVariables = Exact<{
+  deleteRequestId: Scalars["ID"];
+}>;
+
+export type DeleteRequestByIdMutation = {
+  __typename?: "Mutation";
+  deleteRequest?: {
+    __typename?: "RequestEntityResponse";
+    data?: { __typename?: "RequestEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type GetRequestsByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetRequestsByContractIdQuery = {
+  __typename?: "Query";
+  requests?: {
+    __typename?: "RequestEntityResponseCollection";
+    data: Array<{
+      __typename?: "RequestEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Request";
+        name?: string | null;
+        isActivated?: boolean | null;
+        hasSeveralRequestTypes: boolean;
+        updatedAt?: any | null;
+        createdAt?: any | null;
+        requestType?: Array<{
+          __typename?: "ComponentBlocksRequestType";
+          email?: string | null;
+          id: string;
+          title: string;
+          isEmail?: boolean | null;
+        } | null> | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageCount: number;
+        pageSize: number;
+        total: number;
+      };
+    };
+  } | null;
+};
+
 export type GetWasteFamiliesQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
   sort?: InputMaybe<
@@ -23888,6 +23944,149 @@ export type UpdateDropOffMapMutationResult =
 export type UpdateDropOffMapMutationOptions = Apollo.BaseMutationOptions<
   UpdateDropOffMapMutation,
   UpdateDropOffMapMutationVariables
+>;
+export const DeleteRequestByIdDocument = gql`
+  mutation deleteRequestById($deleteRequestId: ID!) {
+    deleteRequest(id: $deleteRequestId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteRequestByIdMutationFn = Apollo.MutationFunction<
+  DeleteRequestByIdMutation,
+  DeleteRequestByIdMutationVariables
+>;
+
+/**
+ * __useDeleteRequestByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteRequestByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRequestByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRequestByIdMutation, { data, loading, error }] = useDeleteRequestByIdMutation({
+ *   variables: {
+ *      deleteRequestId: // value for 'deleteRequestId'
+ *   },
+ * });
+ */
+export function useDeleteRequestByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRequestByIdMutation,
+    DeleteRequestByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteRequestByIdMutation,
+    DeleteRequestByIdMutationVariables
+  >(DeleteRequestByIdDocument, options);
+}
+export type DeleteRequestByIdMutationHookResult = ReturnType<
+  typeof useDeleteRequestByIdMutation
+>;
+export type DeleteRequestByIdMutationResult =
+  Apollo.MutationResult<DeleteRequestByIdMutation>;
+export type DeleteRequestByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRequestByIdMutation,
+  DeleteRequestByIdMutationVariables
+>;
+export const GetRequestsByContractIdDocument = gql`
+  query getRequestsByContractId(
+    $contractId: ID!
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    requests(
+      filters: { requestService: { contract: { id: { eq: $contractId } } } }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      data {
+        id
+        attributes {
+          requestType {
+            email
+            id
+            title
+            isEmail
+          }
+          name
+          isActivated
+          hasSeveralRequestTypes
+          updatedAt
+          createdAt
+        }
+      }
+      meta {
+        pagination {
+          page
+          pageCount
+          pageSize
+          total
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRequestsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetRequestsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRequestsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRequestsByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetRequestsByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRequestsByContractIdQuery,
+    GetRequestsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRequestsByContractIdQuery,
+    GetRequestsByContractIdQueryVariables
+  >(GetRequestsByContractIdDocument, options);
+}
+export function useGetRequestsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRequestsByContractIdQuery,
+    GetRequestsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRequestsByContractIdQuery,
+    GetRequestsByContractIdQueryVariables
+  >(GetRequestsByContractIdDocument, options);
+}
+export type GetRequestsByContractIdQueryHookResult = ReturnType<
+  typeof useGetRequestsByContractIdQuery
+>;
+export type GetRequestsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetRequestsByContractIdLazyQuery
+>;
+export type GetRequestsByContractIdQueryResult = Apollo.QueryResult<
+  GetRequestsByContractIdQuery,
+  GetRequestsByContractIdQueryVariables
 >;
 export const GetWasteFamiliesDocument = gql`
   query getWasteFamilies($contractId: ID, $sort: [String]) {
