@@ -1,0 +1,26 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-RequestAggregate {
+  &__Title,
+  &__Subtitle {
+    display: block;
+    margin-bottom: 18px;
+  }
+
+  &__Error {
+    color: colors.$error;
+  }
+
+  &__ModalText {
+    display: block;
+    margin-bottom: 18px;
+  }
+
+  &__ModalButtonsContainer {
+    display: flex;
+
+    button:first-of-type {
+      margin-right: 18px;
+    }
+  }
+}

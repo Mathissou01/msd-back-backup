@@ -24,6 +24,7 @@ import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../../../components/Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
+import RequestAggregate from "../../../../components/Demandes/RequestAggregate";
 import "./demandes-page.scss";
 export interface IRequestTableRow extends IDefaultTableRow {
   name: string;
@@ -322,6 +323,7 @@ export function RequestsPage() {
           ></CommonDataTable>
         </CommonLoader>
       </div>
+      <RequestAggregate />
       <CommonModalWrapper ref={modalRef}>
         <div>
           <span className="c-RequestsPage__ModalText">{modalText}</span>

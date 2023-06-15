@@ -1,0 +1,13 @@
+mutation updateRequestAggregate(
+  $updateRequestAggregateId: ID!
+  $data: RequestAggregateInput!
+) {
+  updateRequestAggregate(id: $updateRequestAggregateId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

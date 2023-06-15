@@ -14654,6 +14654,46 @@ export type UpdateDropOffMapMutation = {
   } | null;
 };
 
+export type CreateRequestAggregateMutationVariables = Exact<{
+  data: RequestAggregateInput;
+}>;
+
+export type CreateRequestAggregateMutation = {
+  __typename?: "Mutation";
+  createRequestAggregate?: {
+    __typename?: "RequestAggregateEntityResponse";
+    data?: {
+      __typename?: "RequestAggregateEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RequestAggregate";
+        name: string;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        requestService?: {
+          __typename?: "RequestServiceEntityResponse";
+          data?: {
+            __typename?: "RequestServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type DeleteRequestAggregateByIdMutationVariables = Exact<{
+  deleteRequestAggregateId: Scalars["ID"];
+}>;
+
+export type DeleteRequestAggregateByIdMutation = {
+  __typename?: "Mutation";
+  deleteRequestAggregate?: {
+    __typename?: "RequestAggregateEntityResponse";
+    data?: { __typename?: "RequestAggregateEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type DeleteRequestByIdMutationVariables = Exact<{
   deleteRequestId: Scalars["ID"];
 }>;
@@ -14663,6 +14703,43 @@ export type DeleteRequestByIdMutation = {
   deleteRequest?: {
     __typename?: "RequestEntityResponse";
     data?: { __typename?: "RequestEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type GetRequestAggregatesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetRequestAggregatesByContractIdQuery = {
+  __typename?: "Query";
+  requestAggregates?: {
+    __typename?: "RequestAggregateEntityResponseCollection";
+    data: Array<{
+      __typename?: "RequestAggregateEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RequestAggregate";
+        name: string;
+        requests?: {
+          __typename?: "RequestRelationResponseCollection";
+          data: Array<{ __typename?: "RequestEntity"; id?: string | null }>;
+        } | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        total: number;
+        page: number;
+        pageSize: number;
+        pageCount: number;
+      };
+    };
   } | null;
 };
 
@@ -14707,6 +14784,23 @@ export type GetRequestsByContractIdQuery = {
         total: number;
       };
     };
+  } | null;
+};
+
+export type UpdateRequestAggregateMutationVariables = Exact<{
+  updateRequestAggregateId: Scalars["ID"];
+  data: RequestAggregateInput;
+}>;
+
+export type UpdateRequestAggregateMutation = {
+  __typename?: "Mutation";
+  updateRequestAggregate?: {
+    __typename?: "RequestAggregateEntityResponse";
+    data?: {
+      __typename?: "RequestAggregateEntity";
+      id?: string | null;
+      attributes?: { __typename?: "RequestAggregate"; name: string } | null;
+    } | null;
   } | null;
 };
 
@@ -23943,6 +24037,121 @@ export type UpdateDropOffMapMutationOptions = Apollo.BaseMutationOptions<
   UpdateDropOffMapMutation,
   UpdateDropOffMapMutationVariables
 >;
+export const CreateRequestAggregateDocument = gql`
+  mutation createRequestAggregate($data: RequestAggregateInput!) {
+    createRequestAggregate(data: $data) {
+      data {
+        id
+        attributes {
+          name
+          requestService {
+            data {
+              id
+            }
+          }
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export type CreateRequestAggregateMutationFn = Apollo.MutationFunction<
+  CreateRequestAggregateMutation,
+  CreateRequestAggregateMutationVariables
+>;
+
+/**
+ * __useCreateRequestAggregateMutation__
+ *
+ * To run a mutation, you first call `useCreateRequestAggregateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRequestAggregateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRequestAggregateMutation, { data, loading, error }] = useCreateRequestAggregateMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateRequestAggregateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateRequestAggregateMutation,
+    CreateRequestAggregateMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateRequestAggregateMutation,
+    CreateRequestAggregateMutationVariables
+  >(CreateRequestAggregateDocument, options);
+}
+export type CreateRequestAggregateMutationHookResult = ReturnType<
+  typeof useCreateRequestAggregateMutation
+>;
+export type CreateRequestAggregateMutationResult =
+  Apollo.MutationResult<CreateRequestAggregateMutation>;
+export type CreateRequestAggregateMutationOptions = Apollo.BaseMutationOptions<
+  CreateRequestAggregateMutation,
+  CreateRequestAggregateMutationVariables
+>;
+export const DeleteRequestAggregateByIdDocument = gql`
+  mutation deleteRequestAggregateById($deleteRequestAggregateId: ID!) {
+    deleteRequestAggregate(id: $deleteRequestAggregateId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteRequestAggregateByIdMutationFn = Apollo.MutationFunction<
+  DeleteRequestAggregateByIdMutation,
+  DeleteRequestAggregateByIdMutationVariables
+>;
+
+/**
+ * __useDeleteRequestAggregateByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteRequestAggregateByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRequestAggregateByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRequestAggregateByIdMutation, { data, loading, error }] = useDeleteRequestAggregateByIdMutation({
+ *   variables: {
+ *      deleteRequestAggregateId: // value for 'deleteRequestAggregateId'
+ *   },
+ * });
+ */
+export function useDeleteRequestAggregateByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRequestAggregateByIdMutation,
+    DeleteRequestAggregateByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteRequestAggregateByIdMutation,
+    DeleteRequestAggregateByIdMutationVariables
+  >(DeleteRequestAggregateByIdDocument, options);
+}
+export type DeleteRequestAggregateByIdMutationHookResult = ReturnType<
+  typeof useDeleteRequestAggregateByIdMutation
+>;
+export type DeleteRequestAggregateByIdMutationResult =
+  Apollo.MutationResult<DeleteRequestAggregateByIdMutation>;
+export type DeleteRequestAggregateByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    DeleteRequestAggregateByIdMutation,
+    DeleteRequestAggregateByIdMutationVariables
+  >;
 export const DeleteRequestByIdDocument = gql`
   mutation deleteRequestById($deleteRequestId: ID!) {
     deleteRequest(id: $deleteRequestId) {
@@ -23994,6 +24203,92 @@ export type DeleteRequestByIdMutationResult =
 export type DeleteRequestByIdMutationOptions = Apollo.BaseMutationOptions<
   DeleteRequestByIdMutation,
   DeleteRequestByIdMutationVariables
+>;
+export const GetRequestAggregatesByContractIdDocument = gql`
+  query getRequestAggregatesByContractId(
+    $contractId: ID!
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    requestAggregates(
+      filters: { requestService: { contract: { id: { eq: $contractId } } } }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      data {
+        id
+        attributes {
+          name
+          requests {
+            data {
+              id
+            }
+          }
+        }
+      }
+      meta {
+        pagination {
+          total
+          page
+          pageSize
+          pageCount
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRequestAggregatesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetRequestAggregatesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRequestAggregatesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRequestAggregatesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetRequestAggregatesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRequestAggregatesByContractIdQuery,
+    GetRequestAggregatesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRequestAggregatesByContractIdQuery,
+    GetRequestAggregatesByContractIdQueryVariables
+  >(GetRequestAggregatesByContractIdDocument, options);
+}
+export function useGetRequestAggregatesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRequestAggregatesByContractIdQuery,
+    GetRequestAggregatesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRequestAggregatesByContractIdQuery,
+    GetRequestAggregatesByContractIdQueryVariables
+  >(GetRequestAggregatesByContractIdDocument, options);
+}
+export type GetRequestAggregatesByContractIdQueryHookResult = ReturnType<
+  typeof useGetRequestAggregatesByContractIdQuery
+>;
+export type GetRequestAggregatesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetRequestAggregatesByContractIdLazyQuery
+>;
+export type GetRequestAggregatesByContractIdQueryResult = Apollo.QueryResult<
+  GetRequestAggregatesByContractIdQuery,
+  GetRequestAggregatesByContractIdQueryVariables
 >;
 export const GetRequestsByContractIdDocument = gql`
   query getRequestsByContractId(
@@ -24085,6 +24380,65 @@ export type GetRequestsByContractIdLazyQueryHookResult = ReturnType<
 export type GetRequestsByContractIdQueryResult = Apollo.QueryResult<
   GetRequestsByContractIdQuery,
   GetRequestsByContractIdQueryVariables
+>;
+export const UpdateRequestAggregateDocument = gql`
+  mutation updateRequestAggregate(
+    $updateRequestAggregateId: ID!
+    $data: RequestAggregateInput!
+  ) {
+    updateRequestAggregate(id: $updateRequestAggregateId, data: $data) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
+export type UpdateRequestAggregateMutationFn = Apollo.MutationFunction<
+  UpdateRequestAggregateMutation,
+  UpdateRequestAggregateMutationVariables
+>;
+
+/**
+ * __useUpdateRequestAggregateMutation__
+ *
+ * To run a mutation, you first call `useUpdateRequestAggregateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRequestAggregateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRequestAggregateMutation, { data, loading, error }] = useUpdateRequestAggregateMutation({
+ *   variables: {
+ *      updateRequestAggregateId: // value for 'updateRequestAggregateId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRequestAggregateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRequestAggregateMutation,
+    UpdateRequestAggregateMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateRequestAggregateMutation,
+    UpdateRequestAggregateMutationVariables
+  >(UpdateRequestAggregateDocument, options);
+}
+export type UpdateRequestAggregateMutationHookResult = ReturnType<
+  typeof useUpdateRequestAggregateMutation
+>;
+export type UpdateRequestAggregateMutationResult =
+  Apollo.MutationResult<UpdateRequestAggregateMutation>;
+export type UpdateRequestAggregateMutationOptions = Apollo.BaseMutationOptions<
+  UpdateRequestAggregateMutation,
+  UpdateRequestAggregateMutationVariables
 >;
 export const GetWasteFamiliesDocument = gql`
   query getWasteFamilies($contractId: ID, $sort: [String]) {

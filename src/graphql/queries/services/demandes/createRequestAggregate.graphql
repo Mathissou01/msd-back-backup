@@ -1,0 +1,17 @@
+mutation createRequestAggregate($data: RequestAggregateInput!) {
+  createRequestAggregate(data: $data) {
+    data {
+      id
+      attributes {
+        name
+        requestService {
+          data {
+            id
+          }
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}
