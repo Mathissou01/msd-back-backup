@@ -486,6 +486,7 @@ type ChannelTypeRelationResponseCollection {
 
 type City {
   MwCounter: MwCounterServiceEntityResponse
+  contract: ContractEntityResponse
   createdAt: DateTime
   department: String
   epci(
@@ -524,6 +525,7 @@ type CityEntityResponseCollection {
 input CityFiltersInput {
   MwCounter: MwCounterServiceFiltersInput
   and: [CityFiltersInput]
+  contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   department: StringFilterInput
   epci: EpciFiltersInput
@@ -542,6 +544,7 @@ input CityFiltersInput {
 
 input CityInput {
   MwCounter: ID
+  contract: ID
   department: String
   epci: [ID]
   insee: Long
@@ -2015,13 +2018,14 @@ type DocumentRelationResponseCollection {
 }
 
 type DropOffMap {
+  BANFeatureProperties: JSON
   address: String
   city: String
   collectDropOff: CollectDropOffEntityResponse
   collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
   description: String
-  downloadableFile(
+  downloadableFiles(
     filters: ComponentBlocksDownloadBlockFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
@@ -2033,8 +2037,6 @@ type DropOffMap {
   name: String
   openingHoursBlocks: [DropOffMapOpeningHoursBlocksDynamicZone]
   phoneNumber: String
-  postalCode: String
-  shortAddress: String
   updatedAt: DateTime
 }
 
@@ -2053,6 +2055,7 @@ type DropOffMapEntityResponseCollection {
 }
 
 input DropOffMapFiltersInput {
+  BANFeatureProperties: JSONFilterInput
   address: StringFilterInput
   and: [DropOffMapFiltersInput]
   city: StringFilterInput
@@ -2060,7 +2063,7 @@ input DropOffMapFiltersInput {
   collectVoluntary: CollectVoluntaryFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
-  downloadableFile: ComponentBlocksDownloadBlockFiltersInput
+  downloadableFiles: ComponentBlocksDownloadBlockFiltersInput
   dropOffMapService: DropOffMapServiceFiltersInput
   id: IDFilterInput
   latitude: FloatFilterInput
@@ -2070,18 +2073,17 @@ input DropOffMapFiltersInput {
   not: DropOffMapFiltersInput
   or: [DropOffMapFiltersInput]
   phoneNumber: StringFilterInput
-  postalCode: StringFilterInput
-  shortAddress: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input DropOffMapInput {
+  BANFeatureProperties: JSON
   address: String
   city: String
   collectDropOff: ID
   collectVoluntary: ID
   description: String
-  downloadableFile: [ComponentBlocksDownloadBlockInput]
+  downloadableFiles: [ComponentBlocksDownloadBlockInput]
   dropOffMapService: ID
   latitude: Float
   longitude: Float
@@ -2089,8 +2091,6 @@ input DropOffMapInput {
   name: String
   openingHoursBlocks: [DropOffMapOpeningHoursBlocksDynamicZoneInput!]
   phoneNumber: String
-  postalCode: String
-  shortAddress: String
 }
 
 union DropOffMapOpeningHoursBlocksDynamicZone =
@@ -5948,12 +5948,10 @@ type SearchResult {
 }
 
 type SearchResultAddress {
-  city: String
+  banFeaturesProperties: JSON
   latitude: Float
   longitude: Float
   name: String
-  postalCode: String
-  shortAddress: String
 }
 
 type Sectorization {

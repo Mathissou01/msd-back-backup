@@ -585,6 +585,7 @@ export type ChannelTypeRelationResponseCollection = {
 export type City = {
   __typename?: "City";
   MwCounter?: Maybe<MwCounterServiceEntityResponse>;
+  contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   department?: Maybe<Scalars["String"]>;
   epci?: Maybe<EpciRelationResponseCollection>;
@@ -630,6 +631,7 @@ export type CityEntityResponseCollection = {
 export type CityFiltersInput = {
   MwCounter?: InputMaybe<MwCounterServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
+  contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   department?: InputMaybe<StringFilterInput>;
   epci?: InputMaybe<EpciFiltersInput>;
@@ -648,6 +650,7 @@ export type CityFiltersInput = {
 
 export type CityInput = {
   MwCounter?: InputMaybe<Scalars["ID"]>;
+  contract?: InputMaybe<Scalars["ID"]>;
   department?: InputMaybe<Scalars["String"]>;
   epci?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   insee?: InputMaybe<Scalars["Long"]>;
@@ -2286,13 +2289,14 @@ export type DocumentRelationResponseCollection = {
 
 export type DropOffMap = {
   __typename?: "DropOffMap";
+  BANFeatureProperties?: Maybe<Scalars["JSON"]>;
   address?: Maybe<Scalars["String"]>;
   city?: Maybe<Scalars["String"]>;
   collectDropOff?: Maybe<CollectDropOffEntityResponse>;
   collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
-  downloadableFile?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
+  downloadableFiles?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
   latitude?: Maybe<Scalars["Float"]>;
   longitude?: Maybe<Scalars["Float"]>;
@@ -2302,12 +2306,10 @@ export type DropOffMap = {
     Array<Maybe<DropOffMapOpeningHoursBlocksDynamicZone>>
   >;
   phoneNumber?: Maybe<Scalars["String"]>;
-  postalCode?: Maybe<Scalars["String"]>;
-  shortAddress?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type DropOffMapDownloadableFileArgs = {
+export type DropOffMapDownloadableFilesArgs = {
   filters?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -2331,6 +2333,7 @@ export type DropOffMapEntityResponseCollection = {
 };
 
 export type DropOffMapFiltersInput = {
+  BANFeatureProperties?: InputMaybe<JsonFilterInput>;
   address?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
   city?: InputMaybe<StringFilterInput>;
@@ -2338,7 +2341,7 @@ export type DropOffMapFiltersInput = {
   collectVoluntary?: InputMaybe<CollectVoluntaryFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
-  downloadableFile?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
+  downloadableFiles?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
   dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   latitude?: InputMaybe<FloatFilterInput>;
@@ -2348,18 +2351,17 @@ export type DropOffMapFiltersInput = {
   not?: InputMaybe<DropOffMapFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
   phoneNumber?: InputMaybe<StringFilterInput>;
-  postalCode?: InputMaybe<StringFilterInput>;
-  shortAddress?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type DropOffMapInput = {
+  BANFeatureProperties?: InputMaybe<Scalars["JSON"]>;
   address?: InputMaybe<Scalars["String"]>;
   city?: InputMaybe<Scalars["String"]>;
   collectDropOff?: InputMaybe<Scalars["ID"]>;
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
   description?: InputMaybe<Scalars["String"]>;
-  downloadableFile?: InputMaybe<
+  downloadableFiles?: InputMaybe<
     Array<InputMaybe<ComponentBlocksDownloadBlockInput>>
   >;
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
@@ -2371,8 +2373,6 @@ export type DropOffMapInput = {
     Array<Scalars["DropOffMapOpeningHoursBlocksDynamicZoneInput"]>
   >;
   phoneNumber?: InputMaybe<Scalars["String"]>;
-  postalCode?: InputMaybe<Scalars["String"]>;
-  shortAddress?: InputMaybe<Scalars["String"]>;
 };
 
 export type DropOffMapOpeningHoursBlocksDynamicZone =
@@ -7861,12 +7861,10 @@ export type SearchResult = {
 
 export type SearchResultAddress = {
   __typename?: "SearchResultAddress";
-  city?: Maybe<Scalars["String"]>;
+  banFeaturesProperties?: Maybe<Scalars["JSON"]>;
   latitude?: Maybe<Scalars["Float"]>;
   longitude?: Maybe<Scalars["Float"]>;
   name?: Maybe<Scalars["String"]>;
-  postalCode?: Maybe<Scalars["String"]>;
-  shortAddress?: Maybe<Scalars["String"]>;
 };
 
 export type Sectorization = {
@@ -14370,7 +14368,7 @@ export type CreateDropOffMapMutation = {
         address?: string | null;
         longitude?: number | null;
         latitude?: number | null;
-        downloadableFile?: Array<{
+        downloadableFiles?: Array<{
           __typename?: "ComponentBlocksDownloadBlock";
           id: string;
           linkText: string;
@@ -14547,7 +14545,7 @@ export type GetDropOffMapByIdQuery = {
         mustKnow?: string | null;
         longitude?: number | null;
         latitude?: number | null;
-        downloadableFile?: Array<{
+        downloadableFiles?: Array<{
           __typename?: "ComponentBlocksDownloadBlock";
           id: string;
           linkText: string;
@@ -14622,7 +14620,7 @@ export type UpdateDropOffMapMutation = {
         latitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
-        downloadableFile?: Array<{
+        downloadableFiles?: Array<{
           __typename?: "ComponentBlocksDownloadBlock";
           id: string;
           linkText: string;
@@ -23483,7 +23481,7 @@ export const CreateDropOffMapDocument = gql`
           name
           description
           phoneNumber
-          downloadableFile {
+          downloadableFiles {
             id
             linkText
             file {
@@ -23764,7 +23762,7 @@ export const GetDropOffMapByIdDocument = gql`
         attributes {
           name
           phoneNumber
-          downloadableFile {
+          downloadableFiles {
             id
             linkText
             file {
@@ -23872,7 +23870,7 @@ export const UpdateDropOffMapDocument = gql`
           longitude
           latitude
           phoneNumber
-          downloadableFile {
+          downloadableFiles {
             id
             linkText
             file {

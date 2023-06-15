@@ -7,7 +7,7 @@ mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
         longitude
         latitude
         phoneNumber
-        downloadableFile {
+        downloadableFiles {
           id
           linkText
           file {

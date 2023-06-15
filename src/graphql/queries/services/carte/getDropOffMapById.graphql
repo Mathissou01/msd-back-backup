@@ -5,7 +5,7 @@ query getDropOffMapById($dropOffMapId: ID!) {
       attributes {
         name
         phoneNumber
-        downloadableFile {
+        downloadableFiles {
           id
           linkText
           file {

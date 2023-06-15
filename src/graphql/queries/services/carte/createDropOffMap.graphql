@@ -6,7 +6,7 @@ mutation createDropOffMap($data: DropOffMapInput!) {
         name
         description
         phoneNumber
-        downloadableFile {
+        downloadableFiles {
           id
           linkText
           file {
