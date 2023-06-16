@@ -1,6 +1,8 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
 .c-RequestAggregate {
+  width: 50%;
+
   &__Title,
   &__Subtitle {
     display: block;

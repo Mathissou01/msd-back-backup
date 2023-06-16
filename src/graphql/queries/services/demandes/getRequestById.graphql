@@ -1,0 +1,126 @@
+query getRequestById($requestId: ID) {
+  request(id: $requestId) {
+    data {
+      id
+      attributes {
+        name
+        description
+        blockText
+        addableBlocks {
+          ... on ComponentBlocksQuestions {
+            id
+            textStatus
+            questionTextLabel
+            questionTextPlaceholder
+            height
+          }
+          ... on ComponentBlocksQcm {
+            id
+            fieldStatusQCM
+            fieldLabelQCM
+            responses
+            multipleChoice
+          }
+          ... on ComponentBlocksUser {
+            id
+            civility
+            fieldStatusName
+            fieldStatusEmail
+            fieldStatusPhone
+            alertSms
+          }
+          ... on ComponentBlocksCheckbox {
+            id
+            fieldStatusCheckbox
+            labelCheckbox
+          }
+          ... on ComponentBlocksDateChoice {
+            id
+            fieldStatus
+            fieldLabelDateChoice
+          }
+          ... on ComponentBlocksAttachments {
+            id
+            attachmentLabel
+            renderField
+            multipleAttachments
+            attachment {
+              data {
+                id
+                attributes {
+                  name
+                  alternativeText
+                  caption
+                  width
+                  height
+                  formats
+                  hash
+                  ext
+                  mime
+                  size
+                  url
+                  previewUrl
+                  provider
+                  provider_metadata
+                  related {
+                    ... on ComponentBlocksCheckbox {
+                      fieldStatusCheckbox
+                    }
+                  }
+                  createdAt
+                  updatedAt
+                }
+              }
+            }
+          }
+          ... on ComponentBlocksAddress {
+            id
+            fieldLabelAddress
+            fixedPosition
+          }
+          ... on ComponentBlocksProofOfReceipt {
+            id
+            sendProofOfReceipt
+            proofOfReceiptSubject
+            proofOfReceiptHeader
+          }
+          ... on ComponentBlocksCommentary {
+            id
+            commentaryStatus
+            commentaryLabel
+            commentaryPlaceholder
+          }
+          ... on ComponentBlocksCumbersome {
+            id
+            cumbersomeLabel
+            maxVolumeOfCumbersome
+            maxNumberOfCumbersome
+            isNumberAndVolume
+            cumbersomeLimitMessage
+          }
+          ... on Error {
+            code
+            message
+          }
+        }
+        requestAggregate {
+          data {
+            id
+          }
+        }
+        hasSeveralRequestTypes
+        requestType {
+          id
+          email
+          isEmail
+          title
+        }
+        confirmationMessage
+        isActivated
+        hasAppointmentSlots
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

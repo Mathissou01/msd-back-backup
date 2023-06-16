@@ -1,0 +1,7 @@
+mutation updateRequestById($updateRequestId: ID!, $data: RequestInput!) {
+  updateRequest(id: $updateRequestId, data: $data) {
+    data {
+      id
+    }
+  }
+}

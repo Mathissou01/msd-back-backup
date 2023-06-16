@@ -62,7 +62,7 @@ export function RequestsPage() {
   };
 
   /* Local Data */
-  let rowToBeDeleted: IRequestTableRow | undefined = undefined;
+  const [rowToBeDeleted, setRowToBeDeleted] = useState<IRequestTableRow>();
 
   const [modalText, setModalText] = useState("");
 
@@ -161,14 +161,16 @@ export function RequestsPage() {
     return (
       <div className="c-RequestsPage__Table_expandedrow">
         <table>
-          {data.requestsType.map((rqt, index) => {
-            return (
-              <tr key={index}>
-                <td className="">{rqt.typeTitle}</td>
-                <td>{rqt.typeRecipient}</td>
-              </tr>
-            );
-          })}
+          <tbody>
+            {data.requestsType.map((rqt, index) => {
+              return (
+                <tr key={index}>
+                  <td className="">{rqt.typeTitle}</td>
+                  <td>{rqt.typeRecipient}</td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     );
@@ -201,13 +203,13 @@ export function RequestsPage() {
   }
 
   function handleOpenModal(row: IRequestTableRow) {
-    rowToBeDeleted = row;
+    setRowToBeDeleted(row);
     setModalText(`${labels.warningModal.text} "${row.name}" ?`);
     modalRef.current?.toggleModal(true);
   }
 
   function handleCloseModal() {
-    rowToBeDeleted = undefined;
+    setRowToBeDeleted(undefined);
     setModalText("");
     modalRef.current?.toggleModal(false);
   }

@@ -2,14 +2,6 @@ mutation deleteDropOffMap($deleteDropOffMapId: ID!) {
   deleteDropOffMap(id: $deleteDropOffMapId) {
     data {
       id
-      attributes {
-        createdAt
-        description
-        name
-
-        description
-        updatedAt
-      }
     }
   }
 }

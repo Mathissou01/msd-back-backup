@@ -24,8 +24,6 @@ mutation CreatePickUpDayById($data: PickUpDayInput!) {
             }
           }
         }
-        advancedSelection
-        periodicity
         sectorizations {
           data {
             attributes {

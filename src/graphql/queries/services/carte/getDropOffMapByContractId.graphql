@@ -16,8 +16,9 @@ query getDropOffMapByContractId(
         name
         updatedAt
         address
-        longitude
+        BANFeatureProperties
         latitude
+        longitude
         city
         collectDropOff {
           data {

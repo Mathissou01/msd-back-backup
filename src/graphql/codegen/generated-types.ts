@@ -14452,17 +14452,7 @@ export type DeleteDropOffMapMutation = {
   __typename?: "Mutation";
   deleteDropOffMap?: {
     __typename?: "DropOffMapEntityResponse";
-    data?: {
-      __typename?: "DropOffMapEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "DropOffMap";
-        createdAt?: any | null;
-        description?: string | null;
-        name?: string | null;
-        updatedAt?: any | null;
-      } | null;
-    } | null;
+    data?: { __typename?: "DropOffMapEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -14488,8 +14478,9 @@ export type GetDropOffMapByContractIdQuery = {
         name?: string | null;
         updatedAt?: any | null;
         address?: string | null;
-        longitude?: number | null;
+        BANFeatureProperties?: any | null;
         latitude?: number | null;
+        longitude?: number | null;
         city?: string | null;
         collectDropOff?: {
           __typename?: "CollectDropOffEntityResponse";
@@ -14543,8 +14534,9 @@ export type GetDropOffMapByIdQuery = {
         name?: string | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
-        longitude?: number | null;
+        BANFeatureProperties?: any | null;
         latitude?: number | null;
+        longitude?: number | null;
         downloadableFiles?: Array<{
           __typename?: "ComponentBlocksDownloadBlock";
           id: string;
@@ -14616,8 +14608,9 @@ export type UpdateDropOffMapMutation = {
       attributes?: {
         __typename?: "DropOffMap";
         name?: string | null;
-        longitude?: number | null;
+        BANFeatureProperties?: any | null;
         latitude?: number | null;
+        longitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
         downloadableFiles?: Array<{
@@ -14682,6 +14675,18 @@ export type CreateRequestAggregateMutation = {
   } | null;
 };
 
+export type CreateRequestByContractIdMutationVariables = Exact<{
+  data: RequestInput;
+}>;
+
+export type CreateRequestByContractIdMutation = {
+  __typename?: "Mutation";
+  createRequest?: {
+    __typename?: "RequestEntityResponse";
+    data?: { __typename?: "RequestEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type DeleteRequestAggregateByIdMutationVariables = Exact<{
   deleteRequestAggregateId: Scalars["ID"];
 }>;
@@ -14743,6 +14748,268 @@ export type GetRequestAggregatesByContractIdQuery = {
   } | null;
 };
 
+export type GetRequestByIdQueryVariables = Exact<{
+  requestId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetRequestByIdQuery = {
+  __typename?: "Query";
+  request?: {
+    __typename?: "RequestEntityResponse";
+    data?: {
+      __typename?: "RequestEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Request";
+        name?: string | null;
+        description?: string | null;
+        blockText?: string | null;
+        hasSeveralRequestTypes: boolean;
+        confirmationMessage?: string | null;
+        isActivated?: boolean | null;
+        hasAppointmentSlots?: boolean | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        addableBlocks?: Array<
+          | {
+              __typename?: "ComponentBlocksAddress";
+              id: string;
+              fieldLabelAddress: string;
+              fixedPosition: boolean;
+            }
+          | {
+              __typename?: "ComponentBlocksAttachments";
+              id: string;
+              attachmentLabel: string;
+              renderField: boolean;
+              multipleAttachments?: boolean | null;
+              attachment?: {
+                __typename?: "UploadFileRelationResponseCollection";
+                data: Array<{
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    alternativeText?: string | null;
+                    caption?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                    formats?: any | null;
+                    hash: string;
+                    ext?: string | null;
+                    mime: string;
+                    size: number;
+                    url: string;
+                    previewUrl?: string | null;
+                    provider: string;
+                    provider_metadata?: any | null;
+                    createdAt?: any | null;
+                    updatedAt?: any | null;
+                    related?: Array<
+                      | { __typename?: "Accessibility" }
+                      | { __typename?: "AccessibilitySubService" }
+                      | { __typename?: "AlertNotification" }
+                      | { __typename?: "AlertNotificationService" }
+                      | { __typename?: "AudienceType" }
+                      | { __typename?: "Cgu" }
+                      | { __typename?: "CguSubService" }
+                      | { __typename?: "ChannelType" }
+                      | { __typename?: "City" }
+                      | { __typename?: "ClientContact" }
+                      | { __typename?: "CollectDoorToDoor" }
+                      | { __typename?: "CollectDropOff" }
+                      | { __typename?: "CollectVoluntary" }
+                      | { __typename?: "ComponentBlocksAddress" }
+                      | { __typename?: "ComponentBlocksAttachments" }
+                      | {
+                          __typename?: "ComponentBlocksCheckbox";
+                          fieldStatusCheckbox: Enum_Componentblockscheckbox_Fieldstatuscheckbox;
+                        }
+                      | { __typename?: "ComponentBlocksCommentary" }
+                      | { __typename?: "ComponentBlocksCumbersome" }
+                      | { __typename?: "ComponentBlocksDateChoice" }
+                      | { __typename?: "ComponentBlocksDownloadBlock" }
+                      | { __typename?: "ComponentBlocksFile" }
+                      | { __typename?: "ComponentBlocksHorizontalRule" }
+                      | { __typename?: "ComponentBlocksImage" }
+                      | { __typename?: "ComponentBlocksOpeningDay" }
+                      | { __typename?: "ComponentBlocksProofOfReceipt" }
+                      | { __typename?: "ComponentBlocksQcm" }
+                      | { __typename?: "ComponentBlocksQuestions" }
+                      | { __typename?: "ComponentBlocksRequestType" }
+                      | { __typename?: "ComponentBlocksSubHeading" }
+                      | { __typename?: "ComponentBlocksTest" }
+                      | { __typename?: "ComponentBlocksUser" }
+                      | { __typename?: "ComponentBlocksVideo" }
+                      | { __typename?: "ComponentBlocksWysiwyg" }
+                      | { __typename?: "ComponentLinksAlertNotification" }
+                      | { __typename?: "ComponentLinksContactUs" }
+                      | { __typename?: "ComponentLinksDropOffMap" }
+                      | { __typename?: "ComponentLinksEditoContent" }
+                      | { __typename?: "ComponentLinksEditorial" }
+                      | { __typename?: "ComponentLinksEvents" }
+                      | { __typename?: "ComponentLinksExternal" }
+                      | { __typename?: "ComponentLinksFrees" }
+                      | { __typename?: "ComponentLinksKeyMetrics" }
+                      | { __typename?: "ComponentLinksMyWasteCounter" }
+                      | { __typename?: "ComponentLinksNews" }
+                      | { __typename?: "ComponentLinksPickUpDay" }
+                      | { __typename?: "ComponentLinksQuizzes" }
+                      | { __typename?: "ComponentLinksRecyclingGuide" }
+                      | { __typename?: "ComponentLinksRequest" }
+                      | { __typename?: "ComponentLinksTips" }
+                      | { __typename?: "ComponentLinksTopContent" }
+                      | { __typename?: "Confidentiality" }
+                      | { __typename?: "ConfidentialitySubService" }
+                      | { __typename?: "ContactUs" }
+                      | { __typename?: "ContactUsSubService" }
+                      | { __typename?: "Contract" }
+                      | { __typename?: "ContractCustomization" }
+                      | { __typename?: "ContractMenu" }
+                      | { __typename?: "Cookie" }
+                      | { __typename?: "CookiesSubService" }
+                      | { __typename?: "DescriptionService" }
+                      | { __typename?: "Document" }
+                      | { __typename?: "DropOffMap" }
+                      | { __typename?: "DropOffMapService" }
+                      | { __typename?: "EditoBlock" }
+                      | { __typename?: "EditorialService" }
+                      | { __typename?: "Epci" }
+                      | { __typename?: "Event" }
+                      | { __typename?: "EventSubService" }
+                      | { __typename?: "ExportEntity" }
+                      | { __typename?: "Flow" }
+                      | { __typename?: "FlowColor" }
+                      | { __typename?: "Footer" }
+                      | { __typename?: "FreeContent" }
+                      | { __typename?: "FreeContentSubService" }
+                      | { __typename?: "Global" }
+                      | { __typename?: "Homepage" }
+                      | { __typename?: "I18NLocale" }
+                      | { __typename?: "InformationMessage" }
+                      | { __typename?: "KeyMetric" }
+                      | { __typename?: "KeyMetricsService" }
+                      | { __typename?: "MwCounterService" }
+                      | { __typename?: "MwcContact" }
+                      | { __typename?: "MyWasteCounter" }
+                      | { __typename?: "New" }
+                      | { __typename?: "NewsSubService" }
+                      | { __typename?: "PickUpDay" }
+                      | { __typename?: "PickUpDayService" }
+                      | { __typename?: "Quiz" }
+                      | { __typename?: "QuizAndTipsBlock" }
+                      | { __typename?: "QuizSubService" }
+                      | { __typename?: "RecyclingGuideBlock" }
+                      | { __typename?: "RecyclingGuideService" }
+                      | { __typename?: "Request" }
+                      | { __typename?: "RequestAggregate" }
+                      | { __typename?: "RequestService" }
+                      | { __typename?: "SearchEngineBlock" }
+                      | { __typename?: "Sectorization" }
+                      | { __typename?: "ServicesBlock" }
+                      | { __typename?: "Tag" }
+                      | { __typename?: "Territory" }
+                      | { __typename?: "TerritoryType" }
+                      | { __typename?: "Tip" }
+                      | { __typename?: "TipSubService" }
+                      | { __typename?: "TopContentBlock" }
+                      | { __typename?: "UploadFile" }
+                      | { __typename?: "UploadFolder" }
+                      | { __typename?: "UsersPermissionsPermission" }
+                      | { __typename?: "UsersPermissionsRole" }
+                      | { __typename?: "UsersPermissionsUser" }
+                      | { __typename?: "WasteFamily" }
+                      | { __typename?: "WasteForm" }
+                      | { __typename?: "YesWeScanService" }
+                      | null
+                    > | null;
+                  } | null;
+                }>;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksCheckbox";
+              id: string;
+              fieldStatusCheckbox: Enum_Componentblockscheckbox_Fieldstatuscheckbox;
+              labelCheckbox: string;
+            }
+          | {
+              __typename?: "ComponentBlocksCommentary";
+              id: string;
+              commentaryStatus: Enum_Componentblockscommentary_Commentarystatus;
+              commentaryLabel: string;
+              commentaryPlaceholder?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksCumbersome";
+              id: string;
+              cumbersomeLabel: string;
+              maxVolumeOfCumbersome?: number | null;
+              maxNumberOfCumbersome?: number | null;
+              isNumberAndVolume: boolean;
+              cumbersomeLimitMessage: string;
+            }
+          | {
+              __typename?: "ComponentBlocksDateChoice";
+              id: string;
+              fieldStatus: Enum_Componentblocksdatechoice_Fieldstatus;
+              fieldLabelDateChoice: string;
+            }
+          | {
+              __typename?: "ComponentBlocksProofOfReceipt";
+              id: string;
+              sendProofOfReceipt: boolean;
+              proofOfReceiptSubject: string;
+              proofOfReceiptHeader: string;
+            }
+          | {
+              __typename?: "ComponentBlocksQcm";
+              id: string;
+              fieldStatusQCM: Enum_Componentblocksqcm_Fieldstatusqcm;
+              fieldLabelQCM: string;
+              responses: string;
+              multipleChoice: boolean;
+            }
+          | {
+              __typename?: "ComponentBlocksQuestions";
+              id: string;
+              textStatus: Enum_Componentblocksquestions_Textstatus;
+              questionTextLabel: string;
+              questionTextPlaceholder: string;
+              height: boolean;
+            }
+          | {
+              __typename?: "ComponentBlocksUser";
+              id: string;
+              civility: Enum_Componentblocksuser_Civility;
+              fieldStatusName: Enum_Componentblocksuser_Fieldstatusname;
+              fieldStatusEmail: Enum_Componentblocksuser_Fieldstatusemail;
+              fieldStatusPhone: Enum_Componentblocksuser_Fieldstatusphone;
+              alertSms?: boolean | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+        requestAggregate?: {
+          __typename?: "RequestAggregateEntityResponse";
+          data?: {
+            __typename?: "RequestAggregateEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+        requestType?: Array<{
+          __typename?: "ComponentBlocksRequestType";
+          id: string;
+          email?: string | null;
+          isEmail?: boolean | null;
+          title: string;
+        } | null> | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetRequestsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   pagination?: InputMaybe<PaginationArg>;
@@ -14801,6 +15068,19 @@ export type UpdateRequestAggregateMutation = {
       id?: string | null;
       attributes?: { __typename?: "RequestAggregate"; name: string } | null;
     } | null;
+  } | null;
+};
+
+export type UpdateRequestByIdMutationVariables = Exact<{
+  updateRequestId: Scalars["ID"];
+  data: RequestInput;
+}>;
+
+export type UpdateRequestByIdMutation = {
+  __typename?: "Mutation";
+  updateRequest?: {
+    __typename?: "RequestEntityResponse";
+    data?: { __typename?: "RequestEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -15356,8 +15636,6 @@ export type CreatePickUpDayByIdMutation = {
         description?: string | null;
         name: string;
         updatedAt?: any | null;
-        advancedSelection: any;
-        periodicity?: Enum_Pickupday_Periodicity | null;
         flow: {
           __typename?: "FlowEntityResponse";
           data?: {
@@ -15518,8 +15796,6 @@ export type UpdatePickUpDayMutation = {
       attributes?: {
         __typename?: "PickUpDay";
         name: string;
-        advancedSelection: any;
-        periodicity?: Enum_Pickupday_Periodicity | null;
         flow: {
           __typename?: "FlowEntityResponse";
           data?: {
@@ -23691,13 +23967,6 @@ export const DeleteDropOffMapDocument = gql`
     deleteDropOffMap(id: $deleteDropOffMapId) {
       data {
         id
-        attributes {
-          createdAt
-          description
-          name
-          description
-          updatedAt
-        }
       }
     }
   }
@@ -23764,8 +24033,9 @@ export const GetDropOffMapByContractIdDocument = gql`
           name
           updatedAt
           address
-          longitude
+          BANFeatureProperties
           latitude
+          longitude
           city
           collectDropOff {
             data {
@@ -23875,8 +24145,9 @@ export const GetDropOffMapByIdDocument = gql`
             }
           }
           mustKnow
-          longitude
+          BANFeatureProperties
           latitude
+          longitude
           collectDropOff {
             data {
               id
@@ -23961,8 +24232,9 @@ export const UpdateDropOffMapDocument = gql`
         id
         attributes {
           name
-          longitude
+          BANFeatureProperties
           latitude
+          longitude
           phoneNumber
           downloadableFiles {
             id
@@ -24099,6 +24371,59 @@ export type CreateRequestAggregateMutationOptions = Apollo.BaseMutationOptions<
   CreateRequestAggregateMutation,
   CreateRequestAggregateMutationVariables
 >;
+export const CreateRequestByContractIdDocument = gql`
+  mutation createRequestByContractId($data: RequestInput!) {
+    createRequest(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type CreateRequestByContractIdMutationFn = Apollo.MutationFunction<
+  CreateRequestByContractIdMutation,
+  CreateRequestByContractIdMutationVariables
+>;
+
+/**
+ * __useCreateRequestByContractIdMutation__
+ *
+ * To run a mutation, you first call `useCreateRequestByContractIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRequestByContractIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRequestByContractIdMutation, { data, loading, error }] = useCreateRequestByContractIdMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateRequestByContractIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateRequestByContractIdMutation,
+    CreateRequestByContractIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateRequestByContractIdMutation,
+    CreateRequestByContractIdMutationVariables
+  >(CreateRequestByContractIdDocument, options);
+}
+export type CreateRequestByContractIdMutationHookResult = ReturnType<
+  typeof useCreateRequestByContractIdMutation
+>;
+export type CreateRequestByContractIdMutationResult =
+  Apollo.MutationResult<CreateRequestByContractIdMutation>;
+export type CreateRequestByContractIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateRequestByContractIdMutation,
+    CreateRequestByContractIdMutationVariables
+  >;
 export const DeleteRequestAggregateByIdDocument = gql`
   mutation deleteRequestAggregateById($deleteRequestAggregateId: ID!) {
     deleteRequestAggregate(id: $deleteRequestAggregateId) {
@@ -24290,6 +24615,185 @@ export type GetRequestAggregatesByContractIdQueryResult = Apollo.QueryResult<
   GetRequestAggregatesByContractIdQuery,
   GetRequestAggregatesByContractIdQueryVariables
 >;
+export const GetRequestByIdDocument = gql`
+  query getRequestById($requestId: ID) {
+    request(id: $requestId) {
+      data {
+        id
+        attributes {
+          name
+          description
+          blockText
+          addableBlocks {
+            ... on ComponentBlocksQuestions {
+              id
+              textStatus
+              questionTextLabel
+              questionTextPlaceholder
+              height
+            }
+            ... on ComponentBlocksQcm {
+              id
+              fieldStatusQCM
+              fieldLabelQCM
+              responses
+              multipleChoice
+            }
+            ... on ComponentBlocksUser {
+              id
+              civility
+              fieldStatusName
+              fieldStatusEmail
+              fieldStatusPhone
+              alertSms
+            }
+            ... on ComponentBlocksCheckbox {
+              id
+              fieldStatusCheckbox
+              labelCheckbox
+            }
+            ... on ComponentBlocksDateChoice {
+              id
+              fieldStatus
+              fieldLabelDateChoice
+            }
+            ... on ComponentBlocksAttachments {
+              id
+              attachmentLabel
+              renderField
+              multipleAttachments
+              attachment {
+                data {
+                  id
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    formats
+                    hash
+                    ext
+                    mime
+                    size
+                    url
+                    previewUrl
+                    provider
+                    provider_metadata
+                    related {
+                      ... on ComponentBlocksCheckbox {
+                        fieldStatusCheckbox
+                      }
+                    }
+                    createdAt
+                    updatedAt
+                  }
+                }
+              }
+            }
+            ... on ComponentBlocksAddress {
+              id
+              fieldLabelAddress
+              fixedPosition
+            }
+            ... on ComponentBlocksProofOfReceipt {
+              id
+              sendProofOfReceipt
+              proofOfReceiptSubject
+              proofOfReceiptHeader
+            }
+            ... on ComponentBlocksCommentary {
+              id
+              commentaryStatus
+              commentaryLabel
+              commentaryPlaceholder
+            }
+            ... on ComponentBlocksCumbersome {
+              id
+              cumbersomeLabel
+              maxVolumeOfCumbersome
+              maxNumberOfCumbersome
+              isNumberAndVolume
+              cumbersomeLimitMessage
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+          requestAggregate {
+            data {
+              id
+            }
+          }
+          hasSeveralRequestTypes
+          requestType {
+            id
+            email
+            isEmail
+            title
+          }
+          confirmationMessage
+          isActivated
+          hasAppointmentSlots
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRequestByIdQuery__
+ *
+ * To run a query within a React component, call `useGetRequestByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRequestByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRequestByIdQuery({
+ *   variables: {
+ *      requestId: // value for 'requestId'
+ *   },
+ * });
+ */
+export function useGetRequestByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetRequestByIdQuery,
+    GetRequestByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetRequestByIdQuery, GetRequestByIdQueryVariables>(
+    GetRequestByIdDocument,
+    options,
+  );
+}
+export function useGetRequestByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRequestByIdQuery,
+    GetRequestByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetRequestByIdQuery, GetRequestByIdQueryVariables>(
+    GetRequestByIdDocument,
+    options,
+  );
+}
+export type GetRequestByIdQueryHookResult = ReturnType<
+  typeof useGetRequestByIdQuery
+>;
+export type GetRequestByIdLazyQueryHookResult = ReturnType<
+  typeof useGetRequestByIdLazyQuery
+>;
+export type GetRequestByIdQueryResult = Apollo.QueryResult<
+  GetRequestByIdQuery,
+  GetRequestByIdQueryVariables
+>;
 export const GetRequestsByContractIdDocument = gql`
   query getRequestsByContractId(
     $contractId: ID!
@@ -24439,6 +24943,59 @@ export type UpdateRequestAggregateMutationResult =
 export type UpdateRequestAggregateMutationOptions = Apollo.BaseMutationOptions<
   UpdateRequestAggregateMutation,
   UpdateRequestAggregateMutationVariables
+>;
+export const UpdateRequestByIdDocument = gql`
+  mutation updateRequestById($updateRequestId: ID!, $data: RequestInput!) {
+    updateRequest(id: $updateRequestId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateRequestByIdMutationFn = Apollo.MutationFunction<
+  UpdateRequestByIdMutation,
+  UpdateRequestByIdMutationVariables
+>;
+
+/**
+ * __useUpdateRequestByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateRequestByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRequestByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRequestByIdMutation, { data, loading, error }] = useUpdateRequestByIdMutation({
+ *   variables: {
+ *      updateRequestId: // value for 'updateRequestId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRequestByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRequestByIdMutation,
+    UpdateRequestByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateRequestByIdMutation,
+    UpdateRequestByIdMutationVariables
+  >(UpdateRequestByIdDocument, options);
+}
+export type UpdateRequestByIdMutationHookResult = ReturnType<
+  typeof useUpdateRequestByIdMutation
+>;
+export type UpdateRequestByIdMutationResult =
+  Apollo.MutationResult<UpdateRequestByIdMutation>;
+export type UpdateRequestByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateRequestByIdMutation,
+  UpdateRequestByIdMutationVariables
 >;
 export const GetWasteFamiliesDocument = gql`
   query getWasteFamilies($contractId: ID, $sort: [String]) {
@@ -25507,8 +26064,6 @@ export const CreatePickUpDayByIdDocument = gql`
               }
             }
           }
-          advancedSelection
-          periodicity
           sectorizations {
             data {
               attributes {
@@ -25816,7 +26371,6 @@ export const UpdatePickUpDayDocument = gql`
         id
         attributes {
           name
-          advancedSelection
           flow {
             data {
               id
@@ -25835,7 +26389,6 @@ export const UpdatePickUpDayDocument = gql`
               }
             }
           }
-          periodicity
         }
       }
     }

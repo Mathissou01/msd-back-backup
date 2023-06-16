@@ -4,8 +4,9 @@ mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
       id
       attributes {
         name
-        longitude
+        BANFeatureProperties
         latitude
+        longitude
         phoneNumber
         downloadableFiles {
           id

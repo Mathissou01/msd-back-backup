@@ -24,8 +24,9 @@ query getDropOffMapById($dropOffMapId: ID!) {
           }
         }
         mustKnow
-        longitude
+        BANFeatureProperties
         latitude
+        longitude
         collectDropOff {
           data {
             id
