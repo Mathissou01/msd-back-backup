@@ -24,7 +24,7 @@ import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../../../components/Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
-import RequestAggregate from "../../../../components/Demandes/RequestAggregate";
+import RequestAggregate from "../../../../components/Request/RequestAggregate/RequestAggregate";
 import "./demandes-page.scss";
 export interface IRequestTableRow extends IDefaultTableRow {
   name: string;

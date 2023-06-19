@@ -3,6 +3,7 @@ import "./request-static-fields.scss";
 
 export interface IRequestStaticFieldsLabels {
   staticName: string;
+  staticMaxCharacters: string;
 }
 
 export type TRequestStaticFields = "name";
@@ -41,6 +42,8 @@ export default function RequestStaticFields({
               name="name"
               label={labels.staticName}
               isRequired={true}
+              maxLengthValidation={60}
+              validationLabel={`60 ${labels.staticMaxCharacters}`}
             />
           </div>
         )}

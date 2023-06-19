@@ -36,6 +36,7 @@ export type Scalars = {
   FreeContentLinkToServicesDynamicZoneInput: any;
   JSON: any;
   Long: any;
+  MwcFlowBlocksDynamicZoneInput: any;
   NewBlocksDynamicZoneInput: any;
   NewLinkToServicesDynamicZoneInput: any;
   RequestAddableBlocksDynamicZoneInput: any;
@@ -197,10 +198,12 @@ export type ActivationAndService = Activation | Service;
 
 export type AlertNotification = {
   __typename?: "AlertNotification";
+  alertMessage?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  description?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
+  scheduledAt: Scalars["Date"];
+  sendMail?: Maybe<Scalars["Boolean"]>;
+  subject?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -222,21 +225,25 @@ export type AlertNotificationEntityResponseCollection = {
 };
 
 export type AlertNotificationFiltersInput = {
+  alertMessage?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  description?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
-  name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<AlertNotificationFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  scheduledAt?: InputMaybe<DateFilterInput>;
+  sendMail?: InputMaybe<BooleanFilterInput>;
+  subject?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type AlertNotificationInput = {
-  description?: InputMaybe<Scalars["String"]>;
-  name?: InputMaybe<Scalars["String"]>;
+  alertMessage?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  scheduledAt?: InputMaybe<Scalars["Date"]>;
+  sendMail?: InputMaybe<Scalars["Boolean"]>;
+  subject?: InputMaybe<Scalars["String"]>;
 };
 
 export type AlertNotificationRelationResponseCollection = {
@@ -923,13 +930,6 @@ export type CommuneInput = {
   insee: Scalars["Int"];
 };
 
-export type ComponentBlocksAddress = {
-  __typename?: "ComponentBlocksAddress";
-  fieldLabelAddress: Scalars["String"];
-  fixedPosition: Scalars["Boolean"];
-  id: Scalars["ID"];
-};
-
 export type ComponentBlocksAttachments = {
   __typename?: "ComponentBlocksAttachments";
   attachment?: Maybe<UploadFileRelationResponseCollection>;
@@ -1086,16 +1086,6 @@ export type ComponentBlocksSubHeading = {
 
 export type ComponentBlocksTest = {
   __typename?: "ComponentBlocksTest";
-  id: Scalars["ID"];
-};
-
-export type ComponentBlocksUser = {
-  __typename?: "ComponentBlocksUser";
-  alertSms?: Maybe<Scalars["Boolean"]>;
-  civility: Enum_Componentblocksuser_Civility;
-  fieldStatusEmail: Enum_Componentblocksuser_Fieldstatusemail;
-  fieldStatusName: Enum_Componentblocksuser_Fieldstatusname;
-  fieldStatusPhone: Enum_Componentblocksuser_Fieldstatusphone;
   id: Scalars["ID"];
 };
 
@@ -2536,26 +2526,6 @@ export enum Enum_Componentblockssubheading_Subheadingtag {
   H6 = "h6",
 }
 
-export enum Enum_Componentblocksuser_Civility {
-  Cache = "Cache",
-  Visible = "Visible",
-}
-
-export enum Enum_Componentblocksuser_Fieldstatusemail {
-  Obligatoire = "Obligatoire",
-  Optionnel = "Optionnel",
-}
-
-export enum Enum_Componentblocksuser_Fieldstatusname {
-  Obligatoire = "Obligatoire",
-  Optionnel = "Optionnel",
-}
-
-export enum Enum_Componentblocksuser_Fieldstatusphone {
-  Obligatoire = "Obligatoire",
-  Optionnel = "Optionnel",
-}
-
 export enum Enum_Componentlinksdropoffmap_Pointtodisplayonthemap {
   A = "A",
   B = "B",
@@ -2636,6 +2606,16 @@ export enum Enum_Freecontent_Status {
   Archived = "archived",
   Draft = "draft",
   Published = "published",
+}
+
+export enum Enum_Mwcflow_Name {
+  HouseholdWaste = "householdWaste",
+  Packaging = "packaging",
+}
+
+export enum Enum_Mwcflow_Weighingsystem {
+  Dynamic = "Dynamic",
+  Outlet = "Outlet",
 }
 
 export enum Enum_New_Status {
@@ -3637,7 +3617,6 @@ export type GenericMorph =
   | CollectDoorToDoor
   | CollectDropOff
   | CollectVoluntary
-  | ComponentBlocksAddress
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksCommentary
@@ -3654,7 +3633,6 @@ export type GenericMorph =
   | ComponentBlocksRequestType
   | ComponentBlocksSubHeading
   | ComponentBlocksTest
-  | ComponentBlocksUser
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
@@ -3706,6 +3684,7 @@ export type GenericMorph =
   | KeyMetricsService
   | MwCounterService
   | MwcContact
+  | MwcFlow
   | MyWasteCounter
   | New
   | NewsSubService
@@ -4188,6 +4167,7 @@ export type Mutation = {
   createKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   createMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   createMwcContact?: Maybe<MwcContactEntityResponse>;
+  createMwcFlow?: Maybe<MwcFlowEntityResponse>;
   createMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   createNew?: Maybe<NewEntityResponse>;
   createNewFolder?: Maybe<RequestFolderEntity>;
@@ -4267,6 +4247,7 @@ export type Mutation = {
   deleteKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   deleteMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   deleteMwcContact?: Maybe<MwcContactEntityResponse>;
+  deleteMwcFlow?: Maybe<MwcFlowEntityResponse>;
   deleteMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   deleteNew?: Maybe<NewEntityResponse>;
   deleteNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
@@ -4316,6 +4297,7 @@ export type Mutation = {
   removeFile?: Maybe<UploadFileEntityResponse>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  sendEmail?: Maybe<Scalars["String"]>;
   servicesActivation?: Maybe<ServiceActivated>;
   setFlowIsActivated?: Maybe<FlowEntity>;
   singleUploadCustom: File;
@@ -4367,6 +4349,7 @@ export type Mutation = {
   updateKeyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   updateMwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   updateMwcContact?: Maybe<MwcContactEntityResponse>;
+  updateMwcFlow?: Maybe<MwcFlowEntityResponse>;
   updateMyWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   updateNew?: Maybe<NewEntityResponse>;
   updateNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
@@ -4633,6 +4616,10 @@ export type MutationCreateMwCounterServiceArgs = {
 
 export type MutationCreateMwcContactArgs = {
   data: MwcContactInput;
+};
+
+export type MutationCreateMwcFlowArgs = {
+  data: MwcFlowInput;
 };
 
 export type MutationCreateMyWasteCounterArgs = {
@@ -4944,6 +4931,10 @@ export type MutationDeleteMwcContactArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteMwcFlowArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteMyWasteCounterArgs = {
   id: Scalars["ID"];
 };
@@ -5114,6 +5105,13 @@ export type MutationResetPasswordArgs = {
   code: Scalars["String"];
   password: Scalars["String"];
   passwordConfirmation: Scalars["String"];
+};
+
+export type MutationSendEmailArgs = {
+  content?: InputMaybe<Scalars["String"]>;
+  recipientEmail: Scalars["String"];
+  subject?: InputMaybe<Scalars["String"]>;
+  templateId?: InputMaybe<Scalars["Int"]>;
 };
 
 export type MutationServicesActivationArgs = {
@@ -5380,6 +5378,11 @@ export type MutationUpdateMwcContactArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateMwcFlowArgs = {
+  data: MwcFlowInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateMyWasteCounterArgs = {
   data: MyWasteCounterInput;
   id: Scalars["ID"];
@@ -5569,6 +5572,7 @@ export type MwCounterService = {
   endDate?: Maybe<Scalars["Date"]>;
   isActivated: Scalars["Boolean"];
   mwcContact?: Maybe<MwcContactEntityResponse>;
+  mwcFlows?: Maybe<MwcFlowRelationResponseCollection>;
   name?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -5588,6 +5592,12 @@ export type MwCounterServiceAudience_TypesArgs = {
 
 export type MwCounterServiceCitiesArgs = {
   filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type MwCounterServiceMwcFlowsArgs = {
+  filters?: InputMaybe<MwcFlowFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -5621,6 +5631,7 @@ export type MwCounterServiceFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   isActivated?: InputMaybe<BooleanFilterInput>;
   mwcContact?: InputMaybe<MwcContactFiltersInput>;
+  mwcFlows?: InputMaybe<MwcFlowFiltersInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<MwCounterServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<MwCounterServiceFiltersInput>>>;
@@ -5637,6 +5648,7 @@ export type MwCounterServiceInput = {
   endDate?: InputMaybe<Scalars["Date"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   mwcContact?: InputMaybe<Scalars["ID"]>;
+  mwcFlows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   name?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["Date"]>;
 };
@@ -5700,6 +5712,67 @@ export type MwcContactInput = {
   postalAddress?: InputMaybe<Scalars["String"]>;
   postalCode?: InputMaybe<Scalars["String"]>;
   serviceName?: InputMaybe<Scalars["String"]>;
+};
+
+export type MwcFlow = {
+  __typename?: "MwcFlow";
+  averageProductionPerson?: Maybe<Scalars["Long"]>;
+  blocks?: Maybe<Array<Maybe<MwcFlowBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  mwCounterService?: Maybe<MwCounterServiceEntityResponse>;
+  name?: Maybe<Enum_Mwcflow_Name>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  weighingSystem?: Maybe<Enum_Mwcflow_Weighingsystem>;
+};
+
+export type MwcFlowBlocksDynamicZone =
+  | ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error;
+
+export type MwcFlowEntity = {
+  __typename?: "MwcFlowEntity";
+  attributes?: Maybe<MwcFlow>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type MwcFlowEntityResponse = {
+  __typename?: "MwcFlowEntityResponse";
+  data?: Maybe<MwcFlowEntity>;
+};
+
+export type MwcFlowEntityResponseCollection = {
+  __typename?: "MwcFlowEntityResponseCollection";
+  data: Array<MwcFlowEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type MwcFlowFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<MwcFlowFiltersInput>>>;
+  averageProductionPerson?: InputMaybe<LongFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  mwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<MwcFlowFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<MwcFlowFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  weighingSystem?: InputMaybe<StringFilterInput>;
+};
+
+export type MwcFlowInput = {
+  averageProductionPerson?: InputMaybe<Scalars["Long"]>;
+  blocks?: InputMaybe<Array<Scalars["MwcFlowBlocksDynamicZoneInput"]>>;
+  mwCounterService?: InputMaybe<Scalars["ID"]>;
+  name?: InputMaybe<Enum_Mwcflow_Name>;
+  weighingSystem?: InputMaybe<Enum_Mwcflow_Weighingsystem>;
+};
+
+export type MwcFlowRelationResponseCollection = {
+  __typename?: "MwcFlowRelationResponseCollection";
+  data: Array<MwcFlowEntity>;
 };
 
 export type MyWasteCounter = {
@@ -6258,6 +6331,8 @@ export type Query = {
   mwCounterServices?: Maybe<MwCounterServiceEntityResponseCollection>;
   mwcContact?: Maybe<MwcContactEntityResponse>;
   mwcContacts?: Maybe<MwcContactEntityResponseCollection>;
+  mwcFlow?: Maybe<MwcFlowEntityResponse>;
+  mwcFlows?: Maybe<MwcFlowEntityResponseCollection>;
   myWasteCounter?: Maybe<MyWasteCounterEntityResponse>;
   myWasteCounters?: Maybe<MyWasteCounterEntityResponseCollection>;
   new?: Maybe<NewEntityResponse>;
@@ -6830,6 +6905,16 @@ export type QueryMwcContactArgs = {
 
 export type QueryMwcContactsArgs = {
   filters?: InputMaybe<MwcContactFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryMwcFlowArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryMwcFlowsArgs = {
+  filters?: InputMaybe<MwcFlowFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -7540,9 +7625,16 @@ export type Request = {
   confirmationMessage?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
+  displayUserCivility?: Maybe<Scalars["Boolean"]>;
+  fieldAddressLabel?: Maybe<Scalars["String"]>;
+  hasAddress: Scalars["Boolean"];
   hasAppointmentSlots?: Maybe<Scalars["Boolean"]>;
   hasSeveralRequestTypes: Scalars["Boolean"];
+  hasUser: Scalars["Boolean"];
   isActivated?: Maybe<Scalars["Boolean"]>;
+  isUserEmailMandatory?: Maybe<Scalars["Boolean"]>;
+  isUserNameMandatory?: Maybe<Scalars["Boolean"]>;
+  isUserPhoneMandatory?: Maybe<Scalars["Boolean"]>;
   name?: Maybe<Scalars["String"]>;
   requestAggregate?: Maybe<RequestAggregateEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
@@ -7557,7 +7649,6 @@ export type RequestRequestTypeArgs = {
 };
 
 export type RequestAddableBlocksDynamicZone =
-  | ComponentBlocksAddress
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksCommentary
@@ -7566,7 +7657,6 @@ export type RequestAddableBlocksDynamicZone =
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
-  | ComponentBlocksUser
   | Error;
 
 export type RequestAggregate = {
@@ -7653,10 +7743,17 @@ export type RequestFiltersInput = {
   confirmationMessage?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
+  displayUserCivility?: InputMaybe<BooleanFilterInput>;
+  fieldAddressLabel?: InputMaybe<StringFilterInput>;
+  hasAddress?: InputMaybe<BooleanFilterInput>;
   hasAppointmentSlots?: InputMaybe<BooleanFilterInput>;
   hasSeveralRequestTypes?: InputMaybe<BooleanFilterInput>;
+  hasUser?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isActivated?: InputMaybe<BooleanFilterInput>;
+  isUserEmailMandatory?: InputMaybe<BooleanFilterInput>;
+  isUserNameMandatory?: InputMaybe<BooleanFilterInput>;
+  isUserPhoneMandatory?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RequestFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
@@ -7693,9 +7790,16 @@ export type RequestInput = {
   blockText?: InputMaybe<Scalars["String"]>;
   confirmationMessage?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  displayUserCivility?: InputMaybe<Scalars["Boolean"]>;
+  fieldAddressLabel?: InputMaybe<Scalars["String"]>;
+  hasAddress?: InputMaybe<Scalars["Boolean"]>;
   hasAppointmentSlots?: InputMaybe<Scalars["Boolean"]>;
   hasSeveralRequestTypes?: InputMaybe<Scalars["Boolean"]>;
+  hasUser?: InputMaybe<Scalars["Boolean"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
+  isUserEmailMandatory?: InputMaybe<Scalars["Boolean"]>;
+  isUserNameMandatory?: InputMaybe<Scalars["Boolean"]>;
+  isUserPhoneMandatory?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   requestAggregate?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
@@ -10602,7 +10706,6 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "CollectDoorToDoor" }
           | { __typename?: "CollectDropOff" }
           | { __typename?: "CollectVoluntary" }
-          | { __typename?: "ComponentBlocksAddress" }
           | { __typename?: "ComponentBlocksAttachments" }
           | { __typename?: "ComponentBlocksCheckbox" }
           | { __typename?: "ComponentBlocksCommentary" }
@@ -10619,7 +10722,6 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksRequestType" }
           | { __typename?: "ComponentBlocksSubHeading" }
           | { __typename?: "ComponentBlocksTest" }
-          | { __typename?: "ComponentBlocksUser" }
           | { __typename?: "ComponentBlocksVideo" }
           | { __typename?: "ComponentBlocksWysiwyg" }
           | { __typename?: "ComponentLinksAlertNotification" }
@@ -10671,6 +10773,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "KeyMetricsService" }
           | { __typename?: "MwCounterService" }
           | { __typename?: "MwcContact" }
+          | { __typename?: "MwcFlow" }
           | { __typename?: "MyWasteCounter" }
           | { __typename?: "New" }
           | { __typename?: "NewsSubService" }
@@ -14764,246 +14867,32 @@ export type GetRequestByIdQuery = {
         name?: string | null;
         description?: string | null;
         blockText?: string | null;
-        hasSeveralRequestTypes: boolean;
-        confirmationMessage?: string | null;
         isActivated?: boolean | null;
-        hasAppointmentSlots?: boolean | null;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        addableBlocks?: Array<
-          | {
-              __typename?: "ComponentBlocksAddress";
-              id: string;
-              fieldLabelAddress: string;
-              fixedPosition: boolean;
-            }
-          | {
-              __typename?: "ComponentBlocksAttachments";
-              id: string;
-              attachmentLabel: string;
-              renderField: boolean;
-              multipleAttachments?: boolean | null;
-              attachment?: {
-                __typename?: "UploadFileRelationResponseCollection";
-                data: Array<{
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    name: string;
-                    alternativeText?: string | null;
-                    caption?: string | null;
-                    width?: number | null;
-                    height?: number | null;
-                    formats?: any | null;
-                    hash: string;
-                    ext?: string | null;
-                    mime: string;
-                    size: number;
-                    url: string;
-                    previewUrl?: string | null;
-                    provider: string;
-                    provider_metadata?: any | null;
-                    createdAt?: any | null;
-                    updatedAt?: any | null;
-                    related?: Array<
-                      | { __typename?: "Accessibility" }
-                      | { __typename?: "AccessibilitySubService" }
-                      | { __typename?: "AlertNotification" }
-                      | { __typename?: "AlertNotificationService" }
-                      | { __typename?: "AudienceType" }
-                      | { __typename?: "Cgu" }
-                      | { __typename?: "CguSubService" }
-                      | { __typename?: "ChannelType" }
-                      | { __typename?: "City" }
-                      | { __typename?: "ClientContact" }
-                      | { __typename?: "CollectDoorToDoor" }
-                      | { __typename?: "CollectDropOff" }
-                      | { __typename?: "CollectVoluntary" }
-                      | { __typename?: "ComponentBlocksAddress" }
-                      | { __typename?: "ComponentBlocksAttachments" }
-                      | {
-                          __typename?: "ComponentBlocksCheckbox";
-                          fieldStatusCheckbox: Enum_Componentblockscheckbox_Fieldstatuscheckbox;
-                        }
-                      | { __typename?: "ComponentBlocksCommentary" }
-                      | { __typename?: "ComponentBlocksCumbersome" }
-                      | { __typename?: "ComponentBlocksDateChoice" }
-                      | { __typename?: "ComponentBlocksDownloadBlock" }
-                      | { __typename?: "ComponentBlocksFile" }
-                      | { __typename?: "ComponentBlocksHorizontalRule" }
-                      | { __typename?: "ComponentBlocksImage" }
-                      | { __typename?: "ComponentBlocksOpeningDay" }
-                      | { __typename?: "ComponentBlocksProofOfReceipt" }
-                      | { __typename?: "ComponentBlocksQcm" }
-                      | { __typename?: "ComponentBlocksQuestions" }
-                      | { __typename?: "ComponentBlocksRequestType" }
-                      | { __typename?: "ComponentBlocksSubHeading" }
-                      | { __typename?: "ComponentBlocksTest" }
-                      | { __typename?: "ComponentBlocksUser" }
-                      | { __typename?: "ComponentBlocksVideo" }
-                      | { __typename?: "ComponentBlocksWysiwyg" }
-                      | { __typename?: "ComponentLinksAlertNotification" }
-                      | { __typename?: "ComponentLinksContactUs" }
-                      | { __typename?: "ComponentLinksDropOffMap" }
-                      | { __typename?: "ComponentLinksEditoContent" }
-                      | { __typename?: "ComponentLinksEditorial" }
-                      | { __typename?: "ComponentLinksEvents" }
-                      | { __typename?: "ComponentLinksExternal" }
-                      | { __typename?: "ComponentLinksFrees" }
-                      | { __typename?: "ComponentLinksKeyMetrics" }
-                      | { __typename?: "ComponentLinksMyWasteCounter" }
-                      | { __typename?: "ComponentLinksNews" }
-                      | { __typename?: "ComponentLinksPickUpDay" }
-                      | { __typename?: "ComponentLinksQuizzes" }
-                      | { __typename?: "ComponentLinksRecyclingGuide" }
-                      | { __typename?: "ComponentLinksRequest" }
-                      | { __typename?: "ComponentLinksTips" }
-                      | { __typename?: "ComponentLinksTopContent" }
-                      | { __typename?: "Confidentiality" }
-                      | { __typename?: "ConfidentialitySubService" }
-                      | { __typename?: "ContactUs" }
-                      | { __typename?: "ContactUsSubService" }
-                      | { __typename?: "Contract" }
-                      | { __typename?: "ContractCustomization" }
-                      | { __typename?: "ContractMenu" }
-                      | { __typename?: "Cookie" }
-                      | { __typename?: "CookiesSubService" }
-                      | { __typename?: "DescriptionService" }
-                      | { __typename?: "Document" }
-                      | { __typename?: "DropOffMap" }
-                      | { __typename?: "DropOffMapService" }
-                      | { __typename?: "EditoBlock" }
-                      | { __typename?: "EditorialService" }
-                      | { __typename?: "Epci" }
-                      | { __typename?: "Event" }
-                      | { __typename?: "EventSubService" }
-                      | { __typename?: "ExportEntity" }
-                      | { __typename?: "Flow" }
-                      | { __typename?: "FlowColor" }
-                      | { __typename?: "Footer" }
-                      | { __typename?: "FreeContent" }
-                      | { __typename?: "FreeContentSubService" }
-                      | { __typename?: "Global" }
-                      | { __typename?: "Homepage" }
-                      | { __typename?: "I18NLocale" }
-                      | { __typename?: "InformationMessage" }
-                      | { __typename?: "KeyMetric" }
-                      | { __typename?: "KeyMetricsService" }
-                      | { __typename?: "MwCounterService" }
-                      | { __typename?: "MwcContact" }
-                      | { __typename?: "MyWasteCounter" }
-                      | { __typename?: "New" }
-                      | { __typename?: "NewsSubService" }
-                      | { __typename?: "PickUpDay" }
-                      | { __typename?: "PickUpDayService" }
-                      | { __typename?: "Quiz" }
-                      | { __typename?: "QuizAndTipsBlock" }
-                      | { __typename?: "QuizSubService" }
-                      | { __typename?: "RecyclingGuideBlock" }
-                      | { __typename?: "RecyclingGuideService" }
-                      | { __typename?: "Request" }
-                      | { __typename?: "RequestAggregate" }
-                      | { __typename?: "RequestService" }
-                      | { __typename?: "SearchEngineBlock" }
-                      | { __typename?: "Sectorization" }
-                      | { __typename?: "ServicesBlock" }
-                      | { __typename?: "Tag" }
-                      | { __typename?: "Territory" }
-                      | { __typename?: "TerritoryType" }
-                      | { __typename?: "Tip" }
-                      | { __typename?: "TipSubService" }
-                      | { __typename?: "TopContentBlock" }
-                      | { __typename?: "UploadFile" }
-                      | { __typename?: "UploadFolder" }
-                      | { __typename?: "UsersPermissionsPermission" }
-                      | { __typename?: "UsersPermissionsRole" }
-                      | { __typename?: "UsersPermissionsUser" }
-                      | { __typename?: "WasteFamily" }
-                      | { __typename?: "WasteForm" }
-                      | { __typename?: "YesWeScanService" }
-                      | null
-                    > | null;
-                  } | null;
-                }>;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksCheckbox";
-              id: string;
-              fieldStatusCheckbox: Enum_Componentblockscheckbox_Fieldstatuscheckbox;
-              labelCheckbox: string;
-            }
-          | {
-              __typename?: "ComponentBlocksCommentary";
-              id: string;
-              commentaryStatus: Enum_Componentblockscommentary_Commentarystatus;
-              commentaryLabel: string;
-              commentaryPlaceholder?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksCumbersome";
-              id: string;
-              cumbersomeLabel: string;
-              maxVolumeOfCumbersome?: number | null;
-              maxNumberOfCumbersome?: number | null;
-              isNumberAndVolume: boolean;
-              cumbersomeLimitMessage: string;
-            }
-          | {
-              __typename?: "ComponentBlocksDateChoice";
-              id: string;
-              fieldStatus: Enum_Componentblocksdatechoice_Fieldstatus;
-              fieldLabelDateChoice: string;
-            }
-          | {
-              __typename?: "ComponentBlocksProofOfReceipt";
-              id: string;
-              sendProofOfReceipt: boolean;
-              proofOfReceiptSubject: string;
-              proofOfReceiptHeader: string;
-            }
-          | {
-              __typename?: "ComponentBlocksQcm";
-              id: string;
-              fieldStatusQCM: Enum_Componentblocksqcm_Fieldstatusqcm;
-              fieldLabelQCM: string;
-              responses: string;
-              multipleChoice: boolean;
-            }
-          | {
-              __typename?: "ComponentBlocksQuestions";
-              id: string;
-              textStatus: Enum_Componentblocksquestions_Textstatus;
-              questionTextLabel: string;
-              questionTextPlaceholder: string;
-              height: boolean;
-            }
-          | {
-              __typename?: "ComponentBlocksUser";
-              id: string;
-              civility: Enum_Componentblocksuser_Civility;
-              fieldStatusName: Enum_Componentblocksuser_Fieldstatusname;
-              fieldStatusEmail: Enum_Componentblocksuser_Fieldstatusemail;
-              fieldStatusPhone: Enum_Componentblocksuser_Fieldstatusphone;
-              alertSms?: boolean | null;
-            }
-          | { __typename?: "Error"; code: string; message?: string | null }
-          | null
-        > | null;
+        hasSeveralRequestTypes: boolean;
+        requestService?: {
+          __typename?: "RequestServiceEntityResponse";
+          data?: {
+            __typename?: "RequestServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
         requestAggregate?: {
           __typename?: "RequestAggregateEntityResponse";
           data?: {
             __typename?: "RequestAggregateEntity";
             id?: string | null;
+            attributes?: {
+              __typename?: "RequestAggregate";
+              name: string;
+            } | null;
           } | null;
         } | null;
         requestType?: Array<{
           __typename?: "ComponentBlocksRequestType";
           id: string;
-          email?: string | null;
-          isEmail?: boolean | null;
           title: string;
+          isEmail?: boolean | null;
+          email?: string | null;
         } | null> | null;
       } | null;
     } | null;
@@ -24665,120 +24554,27 @@ export const GetRequestByIdDocument = gql`
           name
           description
           blockText
-          addableBlocks {
-            ... on ComponentBlocksQuestions {
+          isActivated
+          hasSeveralRequestTypes
+          requestService {
+            data {
               id
-              textStatus
-              questionTextLabel
-              questionTextPlaceholder
-              height
-            }
-            ... on ComponentBlocksQcm {
-              id
-              fieldStatusQCM
-              fieldLabelQCM
-              responses
-              multipleChoice
-            }
-            ... on ComponentBlocksUser {
-              id
-              civility
-              fieldStatusName
-              fieldStatusEmail
-              fieldStatusPhone
-              alertSms
-            }
-            ... on ComponentBlocksCheckbox {
-              id
-              fieldStatusCheckbox
-              labelCheckbox
-            }
-            ... on ComponentBlocksDateChoice {
-              id
-              fieldStatus
-              fieldLabelDateChoice
-            }
-            ... on ComponentBlocksAttachments {
-              id
-              attachmentLabel
-              renderField
-              multipleAttachments
-              attachment {
-                data {
-                  id
-                  attributes {
-                    name
-                    alternativeText
-                    caption
-                    width
-                    height
-                    formats
-                    hash
-                    ext
-                    mime
-                    size
-                    url
-                    previewUrl
-                    provider
-                    provider_metadata
-                    related {
-                      ... on ComponentBlocksCheckbox {
-                        fieldStatusCheckbox
-                      }
-                    }
-                    createdAt
-                    updatedAt
-                  }
-                }
-              }
-            }
-            ... on ComponentBlocksAddress {
-              id
-              fieldLabelAddress
-              fixedPosition
-            }
-            ... on ComponentBlocksProofOfReceipt {
-              id
-              sendProofOfReceipt
-              proofOfReceiptSubject
-              proofOfReceiptHeader
-            }
-            ... on ComponentBlocksCommentary {
-              id
-              commentaryStatus
-              commentaryLabel
-              commentaryPlaceholder
-            }
-            ... on ComponentBlocksCumbersome {
-              id
-              cumbersomeLabel
-              maxVolumeOfCumbersome
-              maxNumberOfCumbersome
-              isNumberAndVolume
-              cumbersomeLimitMessage
-            }
-            ... on Error {
-              code
-              message
             }
           }
           requestAggregate {
             data {
               id
+              attributes {
+                name
+              }
             }
           }
-          hasSeveralRequestTypes
           requestType {
             id
-            email
-            isEmail
             title
+            isEmail
+            email
           }
-          confirmationMessage
-          isActivated
-          hasAppointmentSlots
-          createdAt
-          updatedAt
         }
       }
     }

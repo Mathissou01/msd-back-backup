@@ -7,24 +7,24 @@ import {
   useDeleteRequestAggregateByIdMutation,
   useGetRequestAggregatesByContractIdLazyQuery,
   useUpdateRequestAggregateMutation,
-} from "../../graphql/codegen/generated-types";
-import { useContract } from "../../hooks/useContract";
+} from "../../../graphql/codegen/generated-types";
+import { useContract } from "../../../hooks/useContract";
 import {
   ICommonDataTableValidation,
   ICurrentPagination,
   IDefaultTableRow,
-} from "../../lib/common-data-table";
-import { removeNulls } from "../../lib/utilities";
+} from "../../../lib/common-data-table";
+import { removeNulls } from "../../../lib/utilities";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
-} from "../Common/CommonModalWrapper/CommonModalWrapper";
-import DataTableInput from "../Common/CommonDataTable/Inputs/DataTableInput/DataTableInput";
-import { IDataTableAction } from "../Common/CommonDataTable/DataTableActions/DataTableActions";
-import CommonLoader from "../Common/CommonLoader/CommonLoader";
-import CommonButton from "../Common/CommonButton/CommonButton";
-import CommonDataTable from "../Common/CommonDataTable/CommonDataTable";
-import DataTableForm from "../Common/CommonDataTable/DataTableForm/DataTableForm";
-import FormInput from "../Form/FormInput/FormInput";
+} from "../../Common/CommonModalWrapper/CommonModalWrapper";
+import DataTableInput from "../../Common/CommonDataTable/Inputs/DataTableInput/DataTableInput";
+import { IDataTableAction } from "../../Common/CommonDataTable/DataTableActions/DataTableActions";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
+import CommonButton from "../../Common/CommonButton/CommonButton";
+import CommonDataTable from "../../Common/CommonDataTable/CommonDataTable";
+import DataTableForm from "../../Common/CommonDataTable/DataTableForm/DataTableForm";
+import FormInput from "../../Form/FormInput/FormInput";
 import "./request-aggregate.scss";
 
 interface IRequestAggregateTableRow extends IDefaultTableRow {

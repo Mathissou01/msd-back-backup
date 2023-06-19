@@ -134,10 +134,12 @@ type Activation {
 union ActivationAndService = Activation | Service
 
 type AlertNotification {
+  alertMessage: String
   createdAt: DateTime
-  description: String
-  name: String
   publishedAt: DateTime
+  scheduledAt: Date!
+  sendMail: Boolean
+  subject: String
   updatedAt: DateTime
 }
 
@@ -156,21 +158,25 @@ type AlertNotificationEntityResponseCollection {
 }
 
 input AlertNotificationFiltersInput {
+  alertMessage: StringFilterInput
   and: [AlertNotificationFiltersInput]
   createdAt: DateTimeFilterInput
-  description: StringFilterInput
   id: IDFilterInput
-  name: StringFilterInput
   not: AlertNotificationFiltersInput
   or: [AlertNotificationFiltersInput]
   publishedAt: DateTimeFilterInput
+  scheduledAt: DateFilterInput
+  sendMail: BooleanFilterInput
+  subject: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input AlertNotificationInput {
-  description: String
-  name: String
+  alertMessage: String
   publishedAt: DateTime
+  scheduledAt: Date
+  sendMail: Boolean
+  subject: String
 }
 
 type AlertNotificationRelationResponseCollection {
@@ -788,12 +794,6 @@ input CommuneInput {
   insee: Int!
 }
 
-type ComponentBlocksAddress {
-  fieldLabelAddress: String!
-  fixedPosition: Boolean!
-  id: ID!
-}
-
 type ComponentBlocksAttachments {
   attachment(
     filters: UploadFileFiltersInput
@@ -932,15 +932,6 @@ type ComponentBlocksSubHeading {
 }
 
 type ComponentBlocksTest {
-  id: ID!
-}
-
-type ComponentBlocksUser {
-  alertSms: Boolean
-  civility: ENUM_COMPONENTBLOCKSUSER_CIVILITY!
-  fieldStatusEmail: ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSEMAIL!
-  fieldStatusName: ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSNAME!
-  fieldStatusPhone: ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSPHONE!
   id: ID!
 }
 
@@ -2244,26 +2235,6 @@ enum ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG {
   h6
 }
 
-enum ENUM_COMPONENTBLOCKSUSER_CIVILITY {
-  Cache
-  Visible
-}
-
-enum ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSEMAIL {
-  Obligatoire
-  Optionnel
-}
-
-enum ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSNAME {
-  Obligatoire
-  Optionnel
-}
-
-enum ENUM_COMPONENTBLOCKSUSER_FIELDSTATUSPHONE {
-  Obligatoire
-  Optionnel
-}
-
 enum ENUM_COMPONENTLINKSDROPOFFMAP_POINTTODISPLAYONTHEMAP {
   A
   B
@@ -2344,6 +2315,16 @@ enum ENUM_FREECONTENT_STATUS {
   archived
   draft
   published
+}
+
+enum ENUM_MWCFLOW_NAME {
+  householdWaste
+  packaging
+}
+
+enum ENUM_MWCFLOW_WEIGHINGSYSTEM {
+  Dynamic
+  Outlet
 }
 
 enum ENUM_NEW_STATUS {
@@ -3253,7 +3234,6 @@ union GenericMorph =
   | CollectDoorToDoor
   | CollectDropOff
   | CollectVoluntary
-  | ComponentBlocksAddress
   | ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksCommentary
@@ -3270,7 +3250,6 @@ union GenericMorph =
   | ComponentBlocksRequestType
   | ComponentBlocksSubHeading
   | ComponentBlocksTest
-  | ComponentBlocksUser
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
@@ -3322,6 +3301,7 @@ union GenericMorph =
   | KeyMetricsService
   | MwCounterService
   | MwcContact
+  | MwcFlow
   | MyWasteCounter
   | New
   | NewsSubService
@@ -3850,6 +3830,7 @@ type Mutation {
     data: MwCounterServiceInput!
   ): MwCounterServiceEntityResponse
   createMwcContact(data: MwcContactInput!): MwcContactEntityResponse
+  createMwcFlow(data: MwcFlowInput!): MwcFlowEntityResponse
   createMyWasteCounter(data: MyWasteCounterInput!): MyWasteCounterEntityResponse
   createNew(data: NewInput!): NewEntityResponse
   createNewFolder(
@@ -3963,6 +3944,7 @@ type Mutation {
   deleteKeyMetricsService(id: ID!): KeyMetricsServiceEntityResponse
   deleteMwCounterService(id: ID!): MwCounterServiceEntityResponse
   deleteMwcContact(id: ID!): MwcContactEntityResponse
+  deleteMwcFlow(id: ID!): MwcFlowEntityResponse
   deleteMyWasteCounter(id: ID!): MyWasteCounterEntityResponse
   deleteNew(id: ID!): NewEntityResponse
   deleteNewsSubService(id: ID!): NewsSubServiceEntityResponse
@@ -4039,6 +4021,12 @@ type Mutation {
     password: String!
     passwordConfirmation: String!
   ): UsersPermissionsLoginPayload
+  sendEmail(
+    content: String
+    recipientEmail: String!
+    subject: String
+    templateId: Int
+  ): String
   servicesActivation(
     ServiceName: String!
     contractId: ID!
@@ -4187,6 +4175,7 @@ type Mutation {
     id: ID!
   ): MwCounterServiceEntityResponse
   updateMwcContact(data: MwcContactInput!, id: ID!): MwcContactEntityResponse
+  updateMwcFlow(data: MwcFlowInput!, id: ID!): MwcFlowEntityResponse
   updateMyWasteCounter(
     data: MyWasteCounterInput!
     id: ID!
@@ -4323,6 +4312,11 @@ type MwCounterService {
   endDate: Date
   isActivated: Boolean!
   mwcContact: MwcContactEntityResponse
+  mwcFlows(
+    filters: MwcFlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwcFlowRelationResponseCollection
   name: String
   startDate: Date
   updatedAt: DateTime
@@ -4354,6 +4348,7 @@ input MwCounterServiceFiltersInput {
   id: IDFilterInput
   isActivated: BooleanFilterInput
   mwcContact: MwcContactFiltersInput
+  mwcFlows: MwcFlowFiltersInput
   name: StringFilterInput
   not: MwCounterServiceFiltersInput
   or: [MwCounterServiceFiltersInput]
@@ -4370,6 +4365,7 @@ input MwCounterServiceInput {
   endDate: Date
   isActivated: Boolean
   mwcContact: ID
+  mwcFlows: [ID]
   name: String
   startDate: Date
 }
@@ -4428,6 +4424,64 @@ input MwcContactInput {
   postalAddress: String
   postalCode: String
   serviceName: String
+}
+
+type MwcFlow {
+  averageProductionPerson: Long
+  blocks: [MwcFlowBlocksDynamicZone]
+  createdAt: DateTime
+  mwCounterService: MwCounterServiceEntityResponse
+  name: ENUM_MWCFLOW_NAME
+  updatedAt: DateTime
+  weighingSystem: ENUM_MWCFLOW_WEIGHINGSYSTEM
+}
+
+union MwcFlowBlocksDynamicZone =
+    ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar MwcFlowBlocksDynamicZoneInput
+
+type MwcFlowEntity {
+  attributes: MwcFlow
+  id: ID
+}
+
+type MwcFlowEntityResponse {
+  data: MwcFlowEntity
+}
+
+type MwcFlowEntityResponseCollection {
+  data: [MwcFlowEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input MwcFlowFiltersInput {
+  and: [MwcFlowFiltersInput]
+  averageProductionPerson: LongFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  mwCounterService: MwCounterServiceFiltersInput
+  name: StringFilterInput
+  not: MwcFlowFiltersInput
+  or: [MwcFlowFiltersInput]
+  updatedAt: DateTimeFilterInput
+  weighingSystem: StringFilterInput
+}
+
+input MwcFlowInput {
+  averageProductionPerson: Long
+  blocks: [MwcFlowBlocksDynamicZoneInput!]
+  mwCounterService: ID
+  name: ENUM_MWCFLOW_NAME
+  weighingSystem: ENUM_MWCFLOW_WEIGHINGSYSTEM
+}
+
+type MwcFlowRelationResponseCollection {
+  data: [MwcFlowEntity!]!
 }
 
 type MyWasteCounter {
@@ -5129,6 +5183,12 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): MwcContactEntityResponseCollection
+  mwcFlow(id: ID): MwcFlowEntityResponse
+  mwcFlows(
+    filters: MwcFlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwcFlowEntityResponseCollection
   myWasteCounter(id: ID): MyWasteCounterEntityResponse
   myWasteCounters(
     filters: MyWasteCounterFiltersInput
@@ -5663,9 +5723,16 @@ type Request {
   confirmationMessage: String
   createdAt: DateTime
   description: String
+  displayUserCivility: Boolean
+  fieldAddressLabel: String
+  hasAddress: Boolean!
   hasAppointmentSlots: Boolean
   hasSeveralRequestTypes: Boolean!
+  hasUser: Boolean!
   isActivated: Boolean
+  isUserEmailMandatory: Boolean
+  isUserNameMandatory: Boolean
+  isUserPhoneMandatory: Boolean
   name: String
   requestAggregate: RequestAggregateEntityResponse
   requestService: RequestServiceEntityResponse
@@ -5678,8 +5745,7 @@ type Request {
 }
 
 union RequestAddableBlocksDynamicZone =
-    ComponentBlocksAddress
-  | ComponentBlocksAttachments
+    ComponentBlocksAttachments
   | ComponentBlocksCheckbox
   | ComponentBlocksCommentary
   | ComponentBlocksCumbersome
@@ -5687,7 +5753,6 @@ union RequestAddableBlocksDynamicZone =
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
-  | ComponentBlocksUser
   | Error
 
 scalar RequestAddableBlocksDynamicZoneInput
@@ -5766,10 +5831,17 @@ input RequestFiltersInput {
   confirmationMessage: StringFilterInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
+  displayUserCivility: BooleanFilterInput
+  fieldAddressLabel: StringFilterInput
+  hasAddress: BooleanFilterInput
   hasAppointmentSlots: BooleanFilterInput
   hasSeveralRequestTypes: BooleanFilterInput
+  hasUser: BooleanFilterInput
   id: IDFilterInput
   isActivated: BooleanFilterInput
+  isUserEmailMandatory: BooleanFilterInput
+  isUserNameMandatory: BooleanFilterInput
+  isUserPhoneMandatory: BooleanFilterInput
   name: StringFilterInput
   not: RequestFiltersInput
   or: [RequestFiltersInput]
@@ -5802,9 +5874,16 @@ input RequestInput {
   blockText: String
   confirmationMessage: String
   description: String
+  displayUserCivility: Boolean
+  fieldAddressLabel: String
+  hasAddress: Boolean
   hasAppointmentSlots: Boolean
   hasSeveralRequestTypes: Boolean
+  hasUser: Boolean
   isActivated: Boolean
+  isUserEmailMandatory: Boolean
+  isUserNameMandatory: Boolean
+  isUserPhoneMandatory: Boolean
   name: String
   requestAggregate: ID
   requestService: ID
