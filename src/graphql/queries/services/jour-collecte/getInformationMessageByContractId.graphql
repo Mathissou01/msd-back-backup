@@ -1,0 +1,38 @@
+query getInformationMessageByContractId(
+  $contractId: ID!
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  informationMessages(
+    filters: {
+      pickUpDays: {
+        pickUpDayService: { contract: { id: { eq: $contractId } } }
+      }
+    }
+    pagination: $pagination
+    sort: $sort
+  ) {
+    meta {
+      pagination {
+        page
+        pageCount
+        pageSize
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        infoMessage
+        pickUpDays {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

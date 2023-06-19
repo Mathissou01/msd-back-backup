@@ -15603,22 +15603,6 @@ export type UpdateRecyclingGuideServiceMutation = {
   } | null;
 };
 
-export type GetFlowsQueryVariables = Exact<{
-  contractId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetFlowsQuery = {
-  __typename?: "Query";
-  flows?: {
-    __typename?: "FlowEntityResponseCollection";
-    data: Array<{
-      __typename?: "FlowEntity";
-      id?: string | null;
-      attributes?: { __typename?: "Flow"; name?: string | null } | null;
-    }>;
-  } | null;
-};
-
 export type CreatePickUpDayByIdMutationVariables = Exact<{
   data: PickUpDayInput;
 }>;
@@ -15683,6 +15667,63 @@ export type GetDropOffCollectTypeByContractIdQuery = {
     originalId: string;
     typeName: string;
   } | null> | null;
+};
+
+export type GetFlowsQueryVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetFlowsQuery = {
+  __typename?: "Query";
+  flows?: {
+    __typename?: "FlowEntityResponseCollection";
+    data: Array<{
+      __typename?: "FlowEntity";
+      id?: string | null;
+      attributes?: { __typename?: "Flow"; name?: string | null } | null;
+    }>;
+  } | null;
+};
+
+export type GetInformationMessageByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetInformationMessageByContractIdQuery = {
+  __typename?: "Query";
+  informationMessages?: {
+    __typename?: "InformationMessageEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageCount: number;
+        pageSize: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "InformationMessageEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "InformationMessage";
+        infoMessage: string;
+        pickUpDays?: {
+          __typename?: "PickUpDayRelationResponseCollection";
+          data: Array<{
+            __typename?: "PickUpDayEntity";
+            id?: string | null;
+            attributes?: { __typename?: "PickUpDay"; name: string } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+  } | null;
 };
 
 export type GetPickUpDayByIdQueryVariables = Exact<{
@@ -25974,69 +26015,6 @@ export type UpdateRecyclingGuideServiceMutationOptions =
     UpdateRecyclingGuideServiceMutation,
     UpdateRecyclingGuideServiceMutationVariables
   >;
-export const GetFlowsDocument = gql`
-  query getFlows($contractId: ID) {
-    flows(
-      filters: {
-        contract: { id: { eq: $contractId } }
-        isActivated: { eq: true }
-      }
-    ) {
-      data {
-        id
-        attributes {
-          name
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetFlowsQuery__
- *
- * To run a query within a React component, call `useGetFlowsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFlowsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFlowsQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetFlowsQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetFlowsQuery, GetFlowsQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetFlowsQuery, GetFlowsQueryVariables>(
-    GetFlowsDocument,
-    options,
-  );
-}
-export function useGetFlowsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFlowsQuery,
-    GetFlowsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetFlowsQuery, GetFlowsQueryVariables>(
-    GetFlowsDocument,
-    options,
-  );
-}
-export type GetFlowsQueryHookResult = ReturnType<typeof useGetFlowsQuery>;
-export type GetFlowsLazyQueryHookResult = ReturnType<
-  typeof useGetFlowsLazyQuery
->;
-export type GetFlowsQueryResult = Apollo.QueryResult<
-  GetFlowsQuery,
-  GetFlowsQueryVariables
->;
 export const CreatePickUpDayByIdDocument = gql`
   mutation CreatePickUpDayById($data: PickUpDayInput!) {
     createPickUpDay(data: $data) {
@@ -26178,6 +26156,162 @@ export type GetDropOffCollectTypeByContractIdLazyQueryHookResult = ReturnType<
 export type GetDropOffCollectTypeByContractIdQueryResult = Apollo.QueryResult<
   GetDropOffCollectTypeByContractIdQuery,
   GetDropOffCollectTypeByContractIdQueryVariables
+>;
+export const GetFlowsDocument = gql`
+  query getFlows($contractId: ID) {
+    flows(
+      filters: {
+        contract: { id: { eq: $contractId } }
+        isActivated: { eq: true }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFlowsQuery__
+ *
+ * To run a query within a React component, call `useGetFlowsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFlowsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFlowsQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetFlowsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetFlowsQuery, GetFlowsQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetFlowsQuery, GetFlowsQueryVariables>(
+    GetFlowsDocument,
+    options,
+  );
+}
+export function useGetFlowsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFlowsQuery,
+    GetFlowsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetFlowsQuery, GetFlowsQueryVariables>(
+    GetFlowsDocument,
+    options,
+  );
+}
+export type GetFlowsQueryHookResult = ReturnType<typeof useGetFlowsQuery>;
+export type GetFlowsLazyQueryHookResult = ReturnType<
+  typeof useGetFlowsLazyQuery
+>;
+export type GetFlowsQueryResult = Apollo.QueryResult<
+  GetFlowsQuery,
+  GetFlowsQueryVariables
+>;
+export const GetInformationMessageByContractIdDocument = gql`
+  query getInformationMessageByContractId(
+    $contractId: ID!
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    informationMessages(
+      filters: {
+        pickUpDays: {
+          pickUpDayService: { contract: { id: { eq: $contractId } } }
+        }
+      }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      meta {
+        pagination {
+          page
+          pageCount
+          pageSize
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          infoMessage
+          pickUpDays {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetInformationMessageByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetInformationMessageByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetInformationMessageByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetInformationMessageByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetInformationMessageByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetInformationMessageByContractIdQuery,
+    GetInformationMessageByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetInformationMessageByContractIdQuery,
+    GetInformationMessageByContractIdQueryVariables
+  >(GetInformationMessageByContractIdDocument, options);
+}
+export function useGetInformationMessageByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetInformationMessageByContractIdQuery,
+    GetInformationMessageByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetInformationMessageByContractIdQuery,
+    GetInformationMessageByContractIdQueryVariables
+  >(GetInformationMessageByContractIdDocument, options);
+}
+export type GetInformationMessageByContractIdQueryHookResult = ReturnType<
+  typeof useGetInformationMessageByContractIdQuery
+>;
+export type GetInformationMessageByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetInformationMessageByContractIdLazyQuery
+>;
+export type GetInformationMessageByContractIdQueryResult = Apollo.QueryResult<
+  GetInformationMessageByContractIdQuery,
+  GetInformationMessageByContractIdQueryVariables
 >;
 export const GetPickUpDayByIdDocument = gql`
   query getPickUpDayById($pickUpDayId: ID) {

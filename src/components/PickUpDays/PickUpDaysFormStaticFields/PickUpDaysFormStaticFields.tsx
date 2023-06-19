@@ -69,6 +69,7 @@ export default function PickUpDaysFormStaticFields({
           displayName={labels.staticFlow}
           displayMode="vertical"
           options={activeFlowOptions}
+          isRequired={true}
         />
       </div>
     </>

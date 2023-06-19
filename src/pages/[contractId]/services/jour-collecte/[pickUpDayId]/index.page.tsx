@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import router from "next/router";
-import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
-import PageTitle from "../../../../../components/PageTitle/PageTitle";
+import { useContract } from "../../../../../hooks/useContract";
+import { useNavigation } from "../../../../../hooks/useNavigation";
+import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
+import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import {
   Enum_Pickupday_Periodicity,
   GetFlowsByContractIdDocument,
@@ -11,11 +13,9 @@ import {
   useGetPickUpDayByIdQuery,
   useUpdatePickUpDayMutation,
 } from "../../../../../graphql/codegen/generated-types";
-import { useContract } from "../../../../../hooks/useContract";
-import { useNavigation } from "../../../../../hooks/useNavigation";
-import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
-import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import PickUpDaysForm from "../../../../../components/PickUpDays/PickUpDaysForm";
+import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
+import PageTitle from "../../../../../components/PageTitle/PageTitle";
 
 interface IPickUpDayIdPageProps {
   pickUpDayId: string;
@@ -34,7 +34,7 @@ export interface IPickUpDayStaticFields {
     | null;
 }
 
-export function ServicesPickUpDatePage({
+export function ServicesPickUpDayEditPage({
   pickUpDayId,
   isCreateMode,
 }: IPickUpDayIdPageProps) {
@@ -153,7 +153,7 @@ export function ServicesPickUpDatePage({
   }, [data]);
 
   return (
-    <div className="o-FormEditPage">
+    <div className="o-ServicesPickUpDayEditPage">
       <>
         <PageTitle title={title} />
         <CommonLoader isLoading={isLoading} errors={errors}>
@@ -175,7 +175,7 @@ export default function IndexPage() {
   return (
     pickUpDayId && (
       <ContractLayout>
-        <ServicesPickUpDatePage
+        <ServicesPickUpDayEditPage
           pickUpDayId={pickUpDayId}
           isCreateMode={pickUpDayId === "-1"}
         />
