@@ -21,7 +21,8 @@ export interface IRequestStaticFields extends IFormCommonFields {
   aggregate: RequestAggregateEntity | null;
   isActivated: boolean;
   blockText: string;
-  status: EStatus;
+  hasSeveralRequestTypes?: string;
+  status?: EStatus;
 }
 
 export interface IRequestFields extends IRequestStaticFields {

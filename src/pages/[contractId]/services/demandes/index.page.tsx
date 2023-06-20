@@ -19,13 +19,14 @@ import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoade
 import { TableColumn } from "react-data-table-component";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
-import { removeNulls } from "../../../../lib/utilities";
+import { formatDate, removeNulls } from "../../../../lib/utilities";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../../../components/Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
 import RequestAggregate from "../../../../components/Request/RequestAggregate/RequestAggregate";
 import "./demandes-page.scss";
+import { parseJSON } from "date-fns";
 export interface IRequestTableRow extends IDefaultTableRow {
   name: string;
   recipient: string;
@@ -121,7 +122,6 @@ export function RequestsPage() {
       id: "recipient",
       name: labels.tableLabels.columns.recipient,
       selector: (row) => row.recipient,
-      sortable: true,
     },
     {
       id: "updatedAt",
@@ -185,7 +185,6 @@ export function RequestsPage() {
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
         }),
-        sort: "updatedAt:asc",
       },
     });
   }
@@ -244,7 +243,10 @@ export function RequestsPage() {
                   : request.attributes.requestType[0]?.isEmail
                   ? request.attributes.requestType[0]?.email ?? "/"
                   : "TSMS",
-                author: `John Doe - ${request.attributes.updatedAt}` ?? "",
+                author:
+                  `John Doe - ${formatDate(
+                    parseJSON(request.attributes.updatedAt),
+                  )}` ?? "",
                 status: request.attributes.isActivated ?? false,
                 requestsType: request.attributes.hasSeveralRequestTypes
                   ? request.attributes.requestType
@@ -314,7 +316,7 @@ export function RequestsPage() {
               totalRows: pageData?.requests?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
-            defaultSortFieldId={"name"}
+            defaultSortFieldId={"id"}
             paginationOptions={{
               hasPagination: true,
               hasRowsPerPageOptions: false,

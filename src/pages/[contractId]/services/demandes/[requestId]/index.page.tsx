@@ -28,6 +28,9 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
     form: {
       staticName: "Nom de la demande",
       staticMaxCharacters: "caractères maximum",
+      staticRadioRequestType: "Type de demande",
+      oneRequestType: "Une seule demande",
+      severalRequestType: "Choix entre plusieurs types de demandes",
       staticAggregateLabel: "Dossier",
       staticAggregateInformation:
         "Le formulaire apparaitra dans le dossier sélectionné",
@@ -64,6 +67,8 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
             data: {
               requestService: contractId,
               name: submitData.name,
+              hasSeveralRequestTypes:
+                submitData.hasSeveralRequestTypes === "1" ? true : false,
               requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
@@ -80,6 +85,8 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
             updateRequestId: requestId,
             data: {
               name: submitData.name,
+              hasSeveralRequestTypes:
+                submitData.hasSeveralRequestTypes === "1" ? true : false,
               requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
@@ -122,13 +129,26 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
           aggregate: requestData.attributes.requestAggregate?.data ?? null,
           isActivated: requestData.attributes.isActivated ?? false,
           blockText: requestData.attributes.blockText ?? "",
-          status: requestData.attributes.isActivated
-            ? EStatus.Activated
-            : EStatus.Draft,
+          hasSeveralRequestTypes: requestData.attributes.hasSeveralRequestTypes
+            ? "1"
+            : "0",
           contentBlock: [],
         };
         setMappedData(mappedData);
       }
+    } else {
+      const mappedData: IRequestFields = {
+        id: "",
+        blockText: "",
+        aggregate: {},
+        contentBlock: [],
+        hasSeveralRequestTypes: "0",
+        isActivated: false,
+        name: "",
+        status: EStatus.Draft,
+      };
+
+      setMappedData(mappedData);
     }
   }, [data, router, currentRoot]);
 
