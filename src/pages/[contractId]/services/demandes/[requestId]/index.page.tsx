@@ -28,6 +28,9 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
     form: {
       staticName: "Nom de la demande",
       staticMaxCharacters: "caractères maximum",
+      staticWysiwygText: "Texte",
+      subStaticWysiwygText:
+        "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
     },
   };
 
@@ -59,6 +62,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
               requestService: contractId,
               name: submitData.name,
               isActivated: false,
+              blockText: submitData.blockText,
             },
           },
           onCompleted: (result) => {
@@ -73,6 +77,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
             data: {
               name: submitData.name,
               isActivated: false,
+              blockText: submitData.blockText,
             },
           },
           onCompleted: (result) => {
@@ -110,6 +115,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
           id: requestData.id,
           name: requestData.attributes.name ?? "",
           isActivated: requestData.attributes.isActivated ?? false,
+          blockText: requestData.attributes.blockText ?? "",
           status: requestData.attributes.isActivated
             ? EStatus.Activated
             : EStatus.Draft,

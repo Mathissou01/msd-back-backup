@@ -18,6 +18,7 @@ import { IFormCommonFields } from "../../lib/form";
 export interface IRequestStaticFields extends IFormCommonFields {
   name: string;
   isActivated: boolean;
+  blockText: string;
   status: EStatus;
 }
 

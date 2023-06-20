@@ -1,12 +1,15 @@
 import FormInput from "../../Form/FormInput/FormInput";
+import FormWysiwyg from "../../Form/FormWysiwyg/FormWysiwyg";
 import "./request-static-fields.scss";
 
 export interface IRequestStaticFieldsLabels {
   staticName: string;
   staticMaxCharacters: string;
+  staticWysiwygText: string;
+  subStaticWysiwygText: string;
 }
 
-export type TRequestStaticFields = "name";
+export type TRequestStaticFields = "name" | "blockText";
 
 interface IRequestStaticFieldsProps {
   labels: IRequestStaticFieldsLabels;
@@ -46,6 +49,14 @@ export default function RequestStaticFields({
               validationLabel={`60 ${labels.staticMaxCharacters}`}
             />
           </div>
+        )}
+        {hasFieldEnabled("blockText") && (
+          <FormWysiwyg
+            validationLabel={labels.subStaticWysiwygText}
+            name="blockText"
+            label={labels.staticWysiwygText}
+            isVisible
+          />
         )}
       </div>
     </>

@@ -165,7 +165,7 @@ export function RequestsPage() {
             {data.requestsType.map((rqt, index) => {
               return (
                 <tr key={index}>
-                  <td className="">{rqt.typeTitle}</td>
+                  <td>{rqt.typeTitle}</td>
                   <td>{rqt.typeRecipient}</td>
                 </tr>
               );
