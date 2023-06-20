@@ -15505,9 +15505,11 @@ export type CreatePickUpDayByIdMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "PickUpDay";
-        createdAt?: any | null;
-        description?: string | null;
         name: string;
+        description?: string | null;
+        periodicity?: Enum_Pickupday_Periodicity | null;
+        advancedSelection: any;
+        createdAt?: any | null;
         updatedAt?: any | null;
         flow: {
           __typename?: "FlowEntityResponse";
@@ -15629,6 +15631,8 @@ export type GetPickUpDayByIdQuery = {
       attributes?: {
         __typename?: "PickUpDay";
         name: string;
+        periodicity?: Enum_Pickupday_Periodicity | null;
+        advancedSelection: any;
         flow: {
           __typename?: "FlowEntityResponse";
           data?: {
@@ -25817,9 +25821,11 @@ export const CreatePickUpDayByIdDocument = gql`
       data {
         id
         attributes {
-          createdAt
-          description
           name
+          description
+          periodicity
+          advancedSelection
+          createdAt
           updatedAt
           flow {
             data {
@@ -26116,6 +26122,8 @@ export const GetPickUpDayByIdDocument = gql`
         id
         attributes {
           name
+          periodicity
+          advancedSelection
           flow {
             data {
               id

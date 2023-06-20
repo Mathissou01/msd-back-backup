@@ -29,7 +29,7 @@ export default function PickUpDaysFormButtons<Fields extends FieldValues>({
 
   /* Local Data */
   const {
-    formState: { isDirty },
+    formState: { isDirty, isValid },
   } = useFormContext<Fields>();
 
   const methods = useFormContext<Fields>();
@@ -45,20 +45,18 @@ export default function PickUpDaysFormButtons<Fields extends FieldValues>({
       />
 
       <CommonButton
-        type="submit"
         label={buttonLabels.save}
         style="primary"
         picto="check"
-        isDisabled={!isDirty}
+        isDisabled={!isDirty || !isValid}
         onClick={() => onSubmit(methods.getValues(), "submit")}
       />
 
       <CommonButton
-        type="submit"
         label={buttonLabels.saveAndCreate}
         style="primary"
         picto="add"
-        isDisabled={!isDirty}
+        isDisabled={!isDirty || !isValid}
         onClick={() => onSubmit(methods.getValues(), "submitAndRefresh")}
       />
     </div>

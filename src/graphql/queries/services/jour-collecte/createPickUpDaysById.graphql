@@ -3,9 +3,11 @@ mutation CreatePickUpDayById($data: PickUpDayInput!) {
     data {
       id
       attributes {
-        createdAt
-        description
         name
+        description
+        periodicity
+        advancedSelection
+        createdAt
         updatedAt
         flow {
           data {

@@ -4,6 +4,8 @@ query getPickUpDayById($pickUpDayId: ID) {
       id
       attributes {
         name
+        periodicity
+        advancedSelection
         flow {
           data {
             id

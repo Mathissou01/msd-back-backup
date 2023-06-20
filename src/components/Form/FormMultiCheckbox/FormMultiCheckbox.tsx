@@ -4,16 +4,17 @@ import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FormLabel from "../FormLabel/FormLabel";
 import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
-import "./form-radio-input.scss";
+import "./form-multicheckbox.scss";
 
 interface IOption {
-  value: string | number;
   label: string;
+  value: string;
+  defaultChecked?: boolean;
 }
 
-interface IFormRadioInputProps {
+interface IFormMultiCheckboxProps {
   name: string;
-  displayName: string;
+  label: string;
   secondaryDisplayName?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
@@ -23,9 +24,9 @@ interface IFormRadioInputProps {
   onChange?: (data: unknown) => void;
 }
 
-export default function FormRadioInput({
+export default function FormMultiCheckbox({
   name,
-  displayName,
+  label,
   secondaryDisplayName,
   isRequired = false,
   isDisabled = false,
@@ -33,23 +34,28 @@ export default function FormRadioInput({
   defaultValue,
   displayMode = "horizontal",
   onChange,
-}: IFormRadioInputProps) {
+}: IFormMultiCheckboxProps) {
   /* Static Data */
   const errorMessages = {
-    required: "Ce champ est obligatoire",
+    required: "Ce champ est obligatoire ",
   };
 
   /* Local Data */
   const {
     register,
-    setValue,
     watch,
+    setValue,
     formState: { isSubmitting, errors },
   } = useFormContext();
-  const watchChecked: string | number = watch(name);
+
+  const watchChecked: Array<string> = watch(name, []);
 
   useEffect(() => {
-    if (watchChecked === undefined && defaultValue) {
+    if (
+      Array.isArray(watchChecked) &&
+      watchChecked.length === 0 &&
+      defaultValue
+    ) {
       setValue(name, defaultValue);
     }
   }, [defaultValue, name, setValue, watchChecked]);
@@ -58,47 +64,47 @@ export default function FormRadioInput({
     if (watchChecked && onChange) {
       onChange(watchChecked);
     }
-    // eslint-disable-next-line
-  }, [watchChecked]);
+  }, [watchChecked, onChange]);
 
   return (
-    <div className="c-FormRadioInput">
+    <div className="c-FormMultiCheckbox">
       <fieldset>
         <FormLabel
-          label={displayName}
+          label={label}
           isRequired={isRequired}
           secondaryLabel={secondaryDisplayName}
           tagType="legend"
         />
         <div
-          className={classNames("c-FormRadioInput__Options", {
-            "c-FormRadioInput__Options_horizontal":
+          className={classNames("c-FormMultiCheckbox__Options", {
+            "c-FormMultiCheckbox__Options_horizontal":
               displayMode === "horizontal",
-            "c-FormRadioInput__Options_vertical": displayMode === "vertical",
+            "c-FormMultiCheckbox__Options_vertical": displayMode === "vertical",
           })}
         >
           {options.map((option, index) => (
-            <div key={name + index} className="c-FormRadioInput__Option">
+            <div key={index} className="c-FormMultiCheckbox__Option">
               <input
-                className={`c-FormRadioInput__Input ${
-                  option.value.toString() === watchChecked
-                    ? "c-FormRadioInput__Input_checked"
+                className={`c-FormMultiCheckbox__Input ${
+                  Array.isArray(watchChecked) &&
+                  watchChecked.find((item) => item === option.value)
+                    ? "c-FormMultiCheckbox__Input_checked"
                     : ""
                 }`}
+                type="checkbox"
                 {...register(name, {
                   required: {
                     value: isRequired,
                     message: errorMessages.required,
                   },
                 })}
-                type="radio"
-                id={name + index}
+                id={name}
                 value={option.value}
-                checked={option.value.toString() === watchChecked}
+                defaultChecked={option.defaultChecked}
                 disabled={isSubmitting || isDisabled}
-                data-testid={`form-radio-input_${index}`}
+                data-testid={`form-multi-checkbox_${index}`}
               />
-              <FormLabel forId={name + index} label={option.label} />
+              <FormLabel forId={name} label={option.label} />
             </div>
           ))}
         </div>

@@ -16,4 +16,19 @@
     font-size: 14px;
     line-height: 21px;
   }
+
+  &__FormFielsWrapper {
+    width: 100%;
+  }
+
+  &__FormGroup {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    > :only-child {
+      width: calc(50% - 5px);
+    }
+  }
 }
