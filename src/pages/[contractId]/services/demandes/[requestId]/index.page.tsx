@@ -28,6 +28,9 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
     form: {
       staticName: "Nom de la demande",
       staticMaxCharacters: "caractères maximum",
+      staticAggregateLabel: "Dossier",
+      staticAggregateInformation:
+        "Le formulaire apparaitra dans le dossier sélectionné",
       staticWysiwygText: "Texte",
       subStaticWysiwygText:
         "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
@@ -61,6 +64,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
             data: {
               requestService: contractId,
               name: submitData.name,
+              requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
             },
@@ -76,6 +80,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
             updateRequestId: requestId,
             data: {
               name: submitData.name,
+              requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
             },
@@ -114,6 +119,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
         const mappedData: IRequestFields = {
           id: requestData.id,
           name: requestData.attributes.name ?? "",
+          aggregate: requestData.attributes.requestAggregate?.data ?? null,
           isActivated: requestData.attributes.isActivated ?? false,
           blockText: requestData.attributes.blockText ?? "",
           status: requestData.attributes.isActivated

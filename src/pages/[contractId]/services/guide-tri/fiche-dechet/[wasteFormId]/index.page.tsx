@@ -60,7 +60,7 @@ export function ServiceGuideDuTriEditPage({
         ),
         flow: submitData.flow,
         recyclingGestureText: submitData.recyclingGestureText,
-        wasteFamily: submitData.wasteFamily.id,
+        wasteFamily: submitData.wasteFamily?.id ?? null,
         contentBlock: submitData.contentBlock?.map(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ({ id, ...rest }: IFormBlock) => rest,
@@ -172,8 +172,7 @@ export function ServiceGuideDuTriEditPage({
       if (
         wasteFormData.id &&
         wasteFormData.attributes &&
-        wasteFormData.attributes.customId &&
-        wasteFormData.attributes.wasteFamily?.data
+        wasteFormData.attributes.customId
       ) {
         const mappedData: IWasteFormFields = {
           id: wasteFormData.id,
@@ -189,7 +188,7 @@ export function ServiceGuideDuTriEditPage({
           flow: wasteFormData.attributes.flow?.data?.id ?? "0",
           recyclingGestureText:
             wasteFormData.attributes.recyclingGestureText ?? "",
-          wasteFamily: wasteFormData.attributes.wasteFamily.data,
+          wasteFamily: wasteFormData.attributes.wasteFamily?.data ?? null,
           contentBlock: remapFormBlocksDynamicZone(
             wasteFormData.attributes.contentBlock,
           ),

@@ -12,7 +12,7 @@ import DropOffMapFormButtons, {
   IDropOffMapFormButtonsLabels,
 } from "./DropOffMapFormButtons/DropOffMapFormButtons";
 import "./drop-off-map-form.scss";
-import { CollectType } from "../../graphql/codegen/generated-types";
+import { CollectEntity } from "../../graphql/codegen/generated-types";
 
 interface IDropOffMapFormProps {
   data?: IDropOffMapStaticFields;
@@ -20,7 +20,7 @@ interface IDropOffMapFormProps {
   onCancel: () => void;
   labels: IDropOffMapStaticFieldsLabels;
   buttonsLabels?: IDropOffMapFormButtonsLabels;
-  collectTypes: Array<CollectType>;
+  collectTypes: Array<CollectEntity>;
 }
 
 export default function DropOffMapForm({

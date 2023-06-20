@@ -6,7 +6,7 @@ import CommonLoader from "../../../../../../components/Common/CommonLoader/Commo
 import DropOffMapForm from "../../../../../../components/DropOffMap/DropOffMapForm";
 import { useContract } from "../../../../../../hooks/useContract";
 import {
-  CollectType,
+  CollectEntity,
   GetDropOffMapByIdDocument,
   useCreateDropOffMapMutation,
   useGetDropOffCollectTypeByContractIdQuery,
@@ -195,7 +195,7 @@ export function ServiceCartePointInteretPage({
             onCancel={onCancel}
             labels={formLabels}
             collectTypes={
-              dataDropOffCollectTypes?.getDropOffCollectType as Array<CollectType>
+              dataDropOffCollectTypes?.getDropOffCollectType as Array<CollectEntity>
             }
           />
         </CommonLoader>

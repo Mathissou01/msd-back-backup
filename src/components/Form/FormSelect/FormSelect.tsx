@@ -19,6 +19,7 @@ interface IFormSelectProps<T> {
   optionKey?: keyof T & string;
   defaultValue?: T;
   noneSelectedLabel?: string;
+  informationLabel?: string;
 }
 
 export default function FormSelect<T>({
@@ -32,6 +33,7 @@ export default function FormSelect<T>({
   optionKey,
   defaultValue,
   noneSelectedLabel,
+  informationLabel,
 }: IFormSelectProps<T>) {
   /* Static Data */
   noneSelectedLabel = noneSelectedLabel ?? "- Sélectionnez un élément -";
@@ -116,6 +118,7 @@ export default function FormSelect<T>({
         label={label}
         isRequired={isRequired}
         secondaryLabel={secondaryLabel}
+        validationLabel={informationLabel}
       />
       <div className="o-SelectWrapper">
         <select

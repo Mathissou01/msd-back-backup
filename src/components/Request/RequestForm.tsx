@@ -1,5 +1,8 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import { IFormBlock, TDynamicFieldOption } from "../../lib/dynamic-blocks";
+import { EStatus } from "../../lib/status";
+import { IFormCommonFields } from "../../lib/form";
+import { RequestAggregateEntity } from "../../graphql/codegen/generated-types";
 import FormLayout, {
   IFormlayoutOptions,
 } from "../../layouts/FormLayout/FormLayout";
@@ -12,11 +15,10 @@ import RequestSideBar from "./RequestSideBar/RequestSideBar";
 import RequestFormButtons, {
   IRequestFormButtonsLabels,
 } from "./RequestFormButtons/RequestFormButtons";
-import { EStatus } from "../../lib/status";
-import { IFormCommonFields } from "../../lib/form";
 
 export interface IRequestStaticFields extends IFormCommonFields {
   name: string;
+  aggregate: RequestAggregateEntity | null;
   isActivated: boolean;
   blockText: string;
   status: EStatus;

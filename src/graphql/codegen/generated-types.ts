@@ -866,6 +866,15 @@ export type CollectDropOffRelationResponseCollection = {
   data: Array<CollectDropOffEntity>;
 };
 
+export type CollectEntity = {
+  __typename?: "CollectEntity";
+  entityTypeName: Scalars["String"];
+  grammaticalGender: Scalars["String"];
+  name: Scalars["String"];
+  originalId: Scalars["ID"];
+  uniqueId: Scalars["String"];
+};
+
 export type CollectVoluntary = {
   __typename?: "CollectVoluntary";
   contract?: Maybe<ContractEntityResponse>;
@@ -6304,7 +6313,7 @@ export type Query = {
   getAddressCoordinates?: Maybe<Array<Maybe<SearchResultAddress>>>;
   getAllFoldersHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
-  getDropOffCollectType?: Maybe<Array<Maybe<CollectType>>>;
+  getDropOffCollectType?: Maybe<Array<Maybe<CollectEntity>>>;
   getEditoBlockDTO?: Maybe<EditoBlockDto>;
   getEditoContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
   getFilePath?: Maybe<Scalars["String"]>;
@@ -9155,14 +9164,6 @@ export type YesWeScanServiceRelationResponseCollection = {
 export type ClientName = {
   __typename?: "clientName";
   clientName?: Maybe<Scalars["String"]>;
-};
-
-export type CollectType = {
-  __typename?: "collectType";
-  grammaticalGender: Scalars["String"];
-  name: Scalars["String"];
-  originalId: Scalars["ID"];
-  typeName: Scalars["String"];
 };
 
 export type ContractStatus = {
@@ -15553,10 +15554,11 @@ export type GetDropOffCollectTypeByContractIdQueryVariables = Exact<{
 export type GetDropOffCollectTypeByContractIdQuery = {
   __typename?: "Query";
   getDropOffCollectType?: Array<{
-    __typename?: "collectType";
+    __typename?: "CollectEntity";
     name: string;
     originalId: string;
-    typeName: string;
+    entityTypeName: string;
+    uniqueId: string;
   } | null> | null;
 };
 
@@ -25904,7 +25906,8 @@ export const GetDropOffCollectTypeByContractIdDocument = gql`
     getDropOffCollectType(contractId: $contractId) {
       name
       originalId
-      typeName
+      entityTypeName
+      uniqueId
     }
   }
 `;

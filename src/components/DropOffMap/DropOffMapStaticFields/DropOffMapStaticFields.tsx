@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CollectType } from "../../../graphql/codegen/generated-types";
+import { CollectEntity } from "../../../graphql/codegen/generated-types";
 import { minimalWysiwygEditorOptions } from "../../Form/FormWysiwyg/WysiwygEditor/WysiwygEditor";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
@@ -20,7 +20,7 @@ export interface IDropOffMapStaticFieldsLabels {
 
 interface IDropOffMapStaticFieldsProps {
   labels: IDropOffMapStaticFieldsLabels;
-  collectTypes: Array<CollectType>;
+  collectTypes: Array<CollectEntity>;
 }
 export default function DropOffMapStaticFields({
   labels,
@@ -34,18 +34,18 @@ export default function DropOffMapStaticFields({
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
   const [dropOffMapCollectTypes, setDropOffMapCollectTypes] = useState<
-    Array<IOptionWrapper<CollectType>>
+    Array<IOptionWrapper<CollectEntity>>
   >([]);
 
   function dropOffMapCollectTypesSelectDisplayTransformFunction(
-    wasteFamily: CollectType,
+    wasteFamily: CollectEntity,
   ): string {
     return wasteFamily.name ?? "";
   }
 
   useEffect(() => {
     if (collectTypes) {
-      const mappedDropOffMapCollectTypes: Array<IOptionWrapper<CollectType> | null> =
+      const mappedDropOffMapCollectTypes: Array<IOptionWrapper<CollectEntity> | null> =
         collectTypes
           .map((collectType) => {
             return collectType ? { option: collectType } : null;
@@ -72,7 +72,7 @@ export default function DropOffMapStaticFields({
           />
         </div>
         <div className="c-DropOffMapStaticFields__CollectType">
-          <FormSelect<CollectType>
+          <FormSelect<CollectEntity>
             label={labels.staticCollectType}
             name="dropOffMapCollectTypeSelect"
             isRequired

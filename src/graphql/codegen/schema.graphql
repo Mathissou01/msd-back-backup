@@ -737,6 +737,14 @@ type CollectDropOffRelationResponseCollection {
   data: [CollectDropOffEntity!]!
 }
 
+type CollectEntity {
+  entityTypeName: String!
+  grammaticalGender: String!
+  name: String!
+  originalId: ID!
+  uniqueId: String!
+}
+
 type CollectVoluntary {
   contract: ContractEntityResponse
   createdAt: DateTime
@@ -5115,7 +5123,7 @@ type Query {
   getAddressCoordinates(searchTerm: String!): [SearchResultAddress]
   getAllFoldersHierarchy(path: String!): [RequestFolders]
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
-  getDropOffCollectType(contractId: ID!): [collectType]
+  getDropOffCollectType(contractId: ID!): [CollectEntity]
   getEditoBlockDTO(
     contractId: ID!
     status: ENUM_EDITOCONTENTDTO_STATUS
@@ -7113,13 +7121,6 @@ type YesWeScanServiceRelationResponseCollection {
 
 type clientName {
   clientName: String
-}
-
-type collectType {
-  grammaticalGender: String!
-  name: String!
-  originalId: ID!
-  typeName: String!
 }
 
 type contractStatus {
