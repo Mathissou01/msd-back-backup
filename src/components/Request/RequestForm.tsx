@@ -23,6 +23,12 @@ export interface IRequestStaticFields extends IFormCommonFields {
   blockText: string;
   hasSeveralRequestTypes?: string;
   status?: EStatus;
+  hasUser: boolean;
+  displayUserCivility: string;
+  isUserNameMandatory: string;
+  isUserEmailMandatory: string;
+  isUserPhoneMandatory: string;
+  userAllowSMSNotification: boolean;
 }
 
 export interface IRequestFields extends IRequestStaticFields {
@@ -67,6 +73,7 @@ export default function RequestForm({
       <RequestStaticFields
         labels={labels}
         enabledFieldsOverride={staticFieldsOverride}
+        hasUser={data?.hasUser ?? false}
       />
       <FormDynamicBlocks
         name={"contentBlock"}

@@ -27,6 +27,12 @@ query getRequestById($requestId: ID) {
           isEmail
           email
         }
+        hasUser
+        displayUserCivility
+        isUserNameMandatory
+        isUserEmailMandatory
+        isUserPhoneMandatory
+        userAllowSMSNotification
       }
     }
   }

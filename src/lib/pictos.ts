@@ -23,4 +23,5 @@ export type TPictoStyles =
   | "printer"
   | "history"
   | "edit"
-  | "polygon";
+  | "polygon"
+  | "user";

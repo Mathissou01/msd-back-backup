@@ -37,6 +37,18 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
       staticWysiwygText: "Texte",
       subStaticWysiwygText:
         "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
+      staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,
+      staticUserLabel: "Usager",
+      staticUserCivilitySelectLabel: "Civilité",
+      staticUserCivilitySelectTrueOption: "Visible",
+      staticUserCivilitySelectFalseOption: "Caché",
+      staticUserNameFieldStateSelectLabel: 'Statut du champ "Nom / prénom"',
+      staticUserEmailFieldStateSelectLabel: 'Statut du champ "Email"',
+      staticUserPhoneFieldStateSelectLabel: 'Statut du champ "Téléphone"',
+      staticMandatoryFieldStateSelectLabelTrueOption: "Obligatoire",
+      staticMandatoryFieldStateSelectLabelFalseOption: "Optionnel",
+      staticUserSMSCheckboxStateLabel:
+        "Afficher une case à cocher pour permettre aux usagers d'être alertés par SMS",
     },
   };
 
@@ -72,6 +84,12 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
               requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
+              hasUser: submitData.hasUser,
+              displayUserCivility: submitData.displayUserCivility === "true",
+              isUserNameMandatory: submitData.isUserNameMandatory === "true",
+              isUserEmailMandatory: submitData.isUserEmailMandatory === "true",
+              isUserPhoneMandatory: submitData.isUserPhoneMandatory === "true",
+              userAllowSMSNotification: submitData.userAllowSMSNotification,
             },
           },
           onCompleted: (result) => {
@@ -90,6 +108,12 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
               requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
+              hasUser: submitData.hasUser,
+              displayUserCivility: submitData.displayUserCivility === "true",
+              isUserNameMandatory: submitData.isUserNameMandatory === "true",
+              isUserEmailMandatory: submitData.isUserEmailMandatory === "true",
+              isUserPhoneMandatory: submitData.isUserPhoneMandatory === "true",
+              userAllowSMSNotification: submitData.userAllowSMSNotification,
             },
           },
           onCompleted: (result) => {
@@ -133,6 +157,24 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
             ? "1"
             : "0",
           contentBlock: [],
+          hasUser: requestData.attributes.hasUser,
+          displayUserCivility: requestData.attributes.displayUserCivility
+            ? requestData.attributes.displayUserCivility.toString()
+            : "false",
+          isUserNameMandatory: requestData.attributes.isUserNameMandatory
+            ? requestData.attributes.isUserNameMandatory.toString()
+            : "false",
+          isUserEmailMandatory: requestData.attributes.isUserEmailMandatory
+            ? requestData.attributes.isUserEmailMandatory.toString()
+            : "false",
+          isUserPhoneMandatory: requestData.attributes.isUserPhoneMandatory
+            ? requestData.attributes.isUserPhoneMandatory.toString()
+            : "false",
+          userAllowSMSNotification:
+            requestData.attributes.userAllowSMSNotification ?? false,
+          status: requestData.attributes.isActivated
+            ? EStatus.Activated
+            : EStatus.Draft,
         };
         setMappedData(mappedData);
       }
@@ -145,6 +187,12 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
         hasSeveralRequestTypes: "0",
         isActivated: false,
         name: "",
+        hasUser: false,
+        displayUserCivility: "false",
+        isUserNameMandatory: "true",
+        isUserEmailMandatory: "true",
+        isUserPhoneMandatory: "true",
+        userAllowSMSNotification: false,
         status: EStatus.Draft,
       };
 
@@ -154,24 +202,20 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
 
   return (
     <div className="o-RequestEditPage">
-      <>
-        <PageTitle
-          title={
-            requestId === "-1" ? labels.createTitle : mappedData?.name ?? ""
-          }
+      <PageTitle
+        title={requestId === "-1" ? labels.createTitle : mappedData?.name ?? ""}
+      />
+      <CommonLoader isLoading={isLoading} errors={errors}>
+        <RequestForm
+          isCreatedMode={requestId === "-1"}
+          data={mappedData}
+          onCancel={() => router.push(`${currentRoot}/services/demandes`)}
+          onSubmit={onSubmit}
+          onChangeActivated={onChangeActivated}
+          labels={labels.form}
+          dynamicFieldsOptions={[]}
         />
-        <CommonLoader isLoading={isLoading} errors={errors}>
-          <RequestForm
-            isCreatedMode={requestId === "-1"}
-            data={mappedData}
-            onCancel={() => router.push(`${currentRoot}/services/demandes`)}
-            onSubmit={onSubmit}
-            onChangeActivated={onChangeActivated}
-            labels={labels.form}
-            dynamicFieldsOptions={[]}
-          />
-        </CommonLoader>
-      </>
+      </CommonLoader>
     </div>
   );
 }

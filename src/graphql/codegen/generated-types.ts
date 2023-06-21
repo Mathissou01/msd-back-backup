@@ -1067,6 +1067,7 @@ export type ComponentBlocksRequestType = {
   email?: Maybe<Scalars["String"]>;
   id: Scalars["ID"];
   isEmail?: Maybe<Scalars["Boolean"]>;
+  isTSMS?: Maybe<Scalars["Boolean"]>;
   title: Scalars["String"];
 };
 
@@ -1074,6 +1075,7 @@ export type ComponentBlocksRequestTypeFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeFiltersInput>>>;
   email?: InputMaybe<StringFilterInput>;
   isEmail?: InputMaybe<BooleanFilterInput>;
+  isTSMS?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<ComponentBlocksRequestTypeFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeFiltersInput>>>;
   title?: InputMaybe<StringFilterInput>;
@@ -1083,6 +1085,7 @@ export type ComponentBlocksRequestTypeInput = {
   email?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["ID"]>;
   isEmail?: InputMaybe<Scalars["Boolean"]>;
+  isTSMS?: InputMaybe<Scalars["Boolean"]>;
   title?: InputMaybe<Scalars["String"]>;
 };
 
@@ -7658,6 +7661,7 @@ export type Request = {
   requestService?: Maybe<RequestServiceEntityResponse>;
   requestType?: Maybe<Array<Maybe<ComponentBlocksRequestType>>>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  userAllowSMSNotification?: Maybe<Scalars["Boolean"]>;
 };
 
 export type RequestRequestTypeArgs = {
@@ -7779,6 +7783,7 @@ export type RequestFiltersInput = {
   requestService?: InputMaybe<RequestServiceFiltersInput>;
   requestType?: InputMaybe<ComponentBlocksRequestTypeFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  userAllowSMSNotification?: InputMaybe<BooleanFilterInput>;
 };
 
 export type RequestFolder = {
@@ -7822,6 +7827,7 @@ export type RequestInput = {
   requestAggregate?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
   requestType?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeInput>>>;
+  userAllowSMSNotification?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type RequestRelationResponseCollection = {
@@ -14879,6 +14885,12 @@ export type GetRequestByIdQuery = {
         blockText?: string | null;
         isActivated?: boolean | null;
         hasSeveralRequestTypes: boolean;
+        hasUser: boolean;
+        displayUserCivility?: boolean | null;
+        isUserNameMandatory?: boolean | null;
+        isUserEmailMandatory?: boolean | null;
+        isUserPhoneMandatory?: boolean | null;
+        userAllowSMSNotification?: boolean | null;
         requestService?: {
           __typename?: "RequestServiceEntityResponse";
           data?: {
@@ -24597,6 +24609,12 @@ export const GetRequestByIdDocument = gql`
             isEmail
             email
           }
+          hasUser
+          displayUserCivility
+          isUserNameMandatory
+          isUserEmailMandatory
+          isUserPhoneMandatory
+          userAllowSMSNotification
         }
       }
     }

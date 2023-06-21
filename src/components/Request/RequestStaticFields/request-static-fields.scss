@@ -1,5 +1,6 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.shadows" as shadows;
+@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-RequestStaticFields {
   @include shadows.shadow(1);
@@ -19,5 +20,34 @@
 
   &__Aggregate {
     width: 50%;
+  }
+
+  &__UserFields {
+    margin: 0.5em 0 0 4px;
+    padding: 20px;
+    border: solid 1px colors.$black;
+  }
+
+  &__Header {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.3em;
+  }
+
+  &__Picto {
+    @include p.pictos;
+
+    width: 20px;
+    height: 20px;
+    margin-right: 14px;
+  }
+
+  &__Field:not(:last-of-type) {
+    width: 50%;
+    margin-bottom: 0.8em;
+  }
+
+  &__UserAllowSMSNotification {
+    width: 100%;
   }
 }

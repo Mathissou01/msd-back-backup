@@ -914,6 +914,7 @@ type ComponentBlocksRequestType {
   email: String
   id: ID!
   isEmail: Boolean
+  isTSMS: Boolean
   title: String!
 }
 
@@ -921,6 +922,7 @@ input ComponentBlocksRequestTypeFiltersInput {
   and: [ComponentBlocksRequestTypeFiltersInput]
   email: StringFilterInput
   isEmail: BooleanFilterInput
+  isTSMS: BooleanFilterInput
   not: ComponentBlocksRequestTypeFiltersInput
   or: [ComponentBlocksRequestTypeFiltersInput]
   title: StringFilterInput
@@ -930,6 +932,7 @@ input ComponentBlocksRequestTypeInput {
   email: String
   id: ID
   isEmail: Boolean
+  isTSMS: Boolean
   title: String
 }
 
@@ -5759,6 +5762,7 @@ type Request {
     sort: [String] = []
   ): [ComponentBlocksRequestType]
   updatedAt: DateTime
+  userAllowSMSNotification: Boolean
 }
 
 union RequestAddableBlocksDynamicZone =
@@ -5866,6 +5870,7 @@ input RequestFiltersInput {
   requestService: RequestServiceFiltersInput
   requestType: ComponentBlocksRequestTypeFiltersInput
   updatedAt: DateTimeFilterInput
+  userAllowSMSNotification: BooleanFilterInput
 }
 
 input RequestFolder {
@@ -5905,6 +5910,7 @@ input RequestInput {
   requestAggregate: ID
   requestService: ID
   requestType: [ComponentBlocksRequestTypeInput]
+  userAllowSMSNotification: Boolean
 }
 
 type RequestRelationResponseCollection {
