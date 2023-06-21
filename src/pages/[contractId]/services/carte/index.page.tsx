@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import router from "next/router";
+import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
 import {
   GetDropOffMapByContractIdDocument,
@@ -113,16 +114,18 @@ export function CartePage() {
   const [getDropOffMapsQuery, { data, loading, error }] =
     useGetDropOffMapByContractIdLazyQuery({
       variables: defaultQueryVariables,
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
     });
-
   const [
     deleteDropOffMapMutation,
     {
       loading: deleteDropOffMapMutationLoading,
       error: deleteDropOffMapMutationError,
     },
-  ] = useDeleteDropOffMapMutation();
+  ] = useDeleteDropOffMapMutation({
+    refetchQueries: ["getDropOffMapByContractId"],
+    awaitRefetchQueries: true,
+  });
 
   /* Local Data */
   const isInitialized = useRef(false);
@@ -145,7 +148,15 @@ export function CartePage() {
       id: "name",
       name: tableLabels.columns.dropoffmapTitle,
       selector: (row) => row.name,
-      cell: (row) => <div className="c-CartePage__Link">{row.name}</div>,
+
+      cell: (row) => (
+        <Link
+          href={`${currentRoot}/services/carte/point-interet/${row.id}`}
+          className="o-TablePage__Link"
+        >
+          {row.name}
+        </Link>
+      ),
       sortable: true,
       grow: 1,
     },

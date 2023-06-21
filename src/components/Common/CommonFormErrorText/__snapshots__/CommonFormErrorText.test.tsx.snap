@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CommonErrorText renders 1`] = `
+exports[`CommonFormErrorText renders 1`] = `
 <div>
   <em
-    class="c-CommonErrorMessage"
+    class="c-CommonFormErrorText"
     id="error-1"
     role="alert"
   >

@@ -1,0 +1,8 @@
+query getBanAddressesAutoComplete($searchTerm: String!) {
+  getAddressCoordinates(searchTerm: $searchTerm) {
+    name
+    latitude
+    longitude
+    banFeaturesProperties
+  }
+}

@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import Image from "next/image";
 import { IPicto, IServiceLink } from "../../../lib/service-links";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import FormLabel from "../FormLabel/FormLabel";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import FormServiceLinksList from "./FormServiceLinksList/FormServiceLinksList";
@@ -309,7 +309,7 @@ export default function FormServiceLinks({
           errors={errors}
           name={name}
           render={({ message }: { message: string }) => (
-            <CommonErrorText message={message} errorId={`${name}_error`} />
+            <CommonFormErrorText message={message} errorId={`${name}_error`} />
           )}
         />
       </div>

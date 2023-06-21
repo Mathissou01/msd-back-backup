@@ -8,18 +8,23 @@ query getDropOffMapByContractId(
     pagination: $pagination
     sort: $sort
   ) {
+    meta {
+      pagination {
+        total
+        pageSize
+        page
+        pageCount
+      }
+    }
     data {
       id
       attributes {
-        createdAt
-        description
         name
-        updatedAt
         address
         BANFeatureProperties
-        latitude
-        longitude
         city
+        createdAt
+        updatedAt
         collectDropOff {
           data {
             attributes {
@@ -35,14 +40,6 @@ query getDropOffMapByContractId(
             id
           }
         }
-      }
-    }
-    meta {
-      pagination {
-        total
-        pageSize
-        page
-        pageCount
       }
     }
   }

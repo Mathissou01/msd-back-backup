@@ -47,6 +47,9 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
         FlowColor: {
           merge: true,
         },
+        DropOffMap: {
+          merge: true,
+        },
       },
     }),
   });

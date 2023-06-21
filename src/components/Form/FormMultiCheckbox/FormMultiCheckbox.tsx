@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FormLabel from "../FormLabel/FormLabel";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import "./form-multicheckbox.scss";
 
 interface IOption {
@@ -113,7 +113,7 @@ export default function FormMultiCheckbox({
         errors={errors}
         name={name}
         render={({ message }: { message: string }) => (
-          <CommonErrorText message={message} errorId={`${name}_error`} />
+          <CommonFormErrorText message={message} errorId={`${name}_error`} />
         )}
       />
     </div>

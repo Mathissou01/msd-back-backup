@@ -1,0 +1,13 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-CommonErrors {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 15px 0;
+  color: colors.$error;
+  font-weight: bold;
+}

@@ -4,7 +4,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { Controller, useFormContext } from "react-hook-form";
 import { Editor as TinyMceEditor } from "tinymce";
 import React, { useRef } from "react";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import FormLabel from "../FormLabel/FormLabel";
 import WysiwygEditor, {
   IWysiwygEditorOptions,
@@ -88,7 +88,7 @@ export default function FormWysiwyg({
         errors={errors}
         name={name}
         render={({ message }: { message: string }) => (
-          <CommonErrorText message={message} errorId={`${name}_error`} />
+          <CommonFormErrorText message={message} errorId={`${name}_error`} />
         )}
       />
     </div>

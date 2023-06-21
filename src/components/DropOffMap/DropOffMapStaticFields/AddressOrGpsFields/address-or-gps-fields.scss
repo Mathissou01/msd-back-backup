@@ -1,20 +1,14 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
-.c-FormRadioInput {
+.c-AddressOrGpsFields {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 
-  &__Options {
+  &__Radio {
     display: flex;
-    gap: 20px;
-
-    &_vertical {
-      flex-direction: column;
-    }
-
-    &_horizontal {
-      flex-direction: row;
-    }
+    flex-direction: column;
+    gap: 5px;
   }
 
   &__Option {
@@ -44,6 +38,16 @@
       background-color: colors.$expert-blue;
       border-radius: 50%;
       content: "";
+    }
+  }
+
+  &__GpsCoordinates {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    > * {
+      flex: 1;
     }
   }
 }

@@ -1,15 +1,15 @@
 import { render } from "@testing-library/react";
-import CommonErrorText from "./CommonErrorText";
+import CommonFormErrorText from "./CommonFormErrorText";
 
 const mock = {
   message: "error message",
   errorId: "error-1",
 };
 
-describe("CommonErrorText", () => {
+describe("CommonFormErrorText", () => {
   it("renders", () => {
     const { container } = render(
-      <CommonErrorText message={mock.message} errorId={mock.errorId} />,
+      <CommonFormErrorText message={mock.message} errorId={mock.errorId} />,
     );
     expect(container).toMatchSnapshot();
   });

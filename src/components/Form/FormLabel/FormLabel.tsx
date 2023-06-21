@@ -6,7 +6,7 @@ export type LabelStyle = "default" | "table";
 
 export type ValidationStyle = "inline" | "multiline";
 
-interface IFormLabelProps {
+export interface IFormLabelProps {
   children?: React.ReactNode;
   label?: string;
   labelDescription?: string;

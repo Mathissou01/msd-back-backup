@@ -1,0 +1,10 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.inputs" as inputs;
+
+.c-CommonInput {
+  @include inputs.input;
+
+  &_invalid {
+    @include inputs.input("invalid");
+  }
+}

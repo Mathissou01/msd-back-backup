@@ -4,55 +4,16 @@ mutation createDropOffMap($data: DropOffMapInput!) {
       id
       attributes {
         name
-        description
+        address
+        latitude
+        longitude
         phoneNumber
-        downloadableFiles {
-          id
-          linkText
-          file {
-            data {
-              id
-              attributes {
-                name
-                hash
-                mime
-                size
-                url
-                provider
-                alternativeText
-              }
-            }
-          }
-        }
+        mustKnow
         dropOffMapService {
           data {
             id
-            attributes {
-              name
-              isActivated
-              startDate
-              endDate
-            }
           }
         }
-        mustKnow
-        openingHoursBlocks {
-          ... on ComponentBlocksOpeningDay {
-            id
-            weekDay
-            morningStart
-            morningEnd
-            afterNoonStart
-            afterNoonEnd
-          }
-          ... on Error {
-            code
-            message
-          }
-        }
-        address
-        longitude
-        latitude
         collectDropOff {
           data {
             id
@@ -67,6 +28,34 @@ mutation createDropOffMap($data: DropOffMapInput!) {
             attributes {
               name
             }
+          }
+        }
+        downloadableFiles {
+          id
+          linkText
+          file {
+            data {
+              id
+              attributes {
+                name
+                alternativeText
+                hash
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+        }
+        openingHoursBlocks {
+          ... on ComponentBlocksOpeningDay {
+            id
+            weekDay
+            morningStart
+            morningEnd
+            afterNoonStart
+            afterNoonEnd
           }
         }
       }

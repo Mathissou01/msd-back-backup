@@ -1,5 +1,0 @@
-query getSectorizationByCity($postalCode: Int!) {
-  sectorizationByCity(postalCode: $postalCode) {
-    GeoJson
-  }
-}

@@ -28,7 +28,7 @@ import {
 import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
 import docIcon from "./../../../../public/images/pictos/doc.svg";
 import { useContract } from "../../../hooks/useContract";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import FormLabel from "../FormLabel/FormLabel";
@@ -376,7 +376,10 @@ export default function FormFileInput({
             errors={errors}
             name={name}
             render={({ message }: { message: string }) => (
-              <CommonErrorText message={message} errorId={`${name}_error`} />
+              <CommonFormErrorText
+                message={message}
+                errorId={`${name}_error`}
+              />
             )}
           />
         )}

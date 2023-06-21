@@ -4,7 +4,32 @@ query getDropOffMapById($dropOffMapId: ID!) {
       id
       attributes {
         name
+        address
+        latitude
+        longitude
         phoneNumber
+        mustKnow
+        dropOffMapService {
+          data {
+            id
+          }
+        }
+        collectDropOff {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectVoluntary {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         downloadableFiles {
           id
           linkText
@@ -23,29 +48,14 @@ query getDropOffMapById($dropOffMapId: ID!) {
             }
           }
         }
-        mustKnow
-        BANFeatureProperties
-        latitude
-        longitude
-        collectDropOff {
-          data {
+        openingHoursBlocks {
+          ... on ComponentBlocksOpeningDay {
             id
-            attributes {
-              name
-            }
-          }
-        }
-        collectVoluntary {
-          data {
-            id
-            attributes {
-              name
-            }
-          }
-        }
-        dropOffMapService {
-          data {
-            id
+            weekDay
+            morningStart
+            morningEnd
+            afterNoonStart
+            afterNoonEnd
           }
         }
       }

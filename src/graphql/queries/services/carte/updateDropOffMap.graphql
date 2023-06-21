@@ -4,10 +4,32 @@ mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
       id
       attributes {
         name
-        BANFeatureProperties
+        address
         latitude
         longitude
         phoneNumber
+        mustKnow
+        dropOffMapService {
+          data {
+            id
+          }
+        }
+        collectDropOff {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectVoluntary {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         downloadableFiles {
           id
           linkText
@@ -16,8 +38,8 @@ mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
               id
               attributes {
                 name
-                hash
                 alternativeText
+                hash
                 mime
                 size
                 url
@@ -26,12 +48,16 @@ mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
             }
           }
         }
-        dropOffMapService {
-          data {
+        openingHoursBlocks {
+          ... on ComponentBlocksOpeningDay {
             id
+            weekDay
+            morningStart
+            morningEnd
+            afterNoonStart
+            afterNoonEnd
           }
         }
-        mustKnow
       }
     }
   }

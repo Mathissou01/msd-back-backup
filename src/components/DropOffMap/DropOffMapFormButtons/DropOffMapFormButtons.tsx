@@ -27,9 +27,18 @@ export default function DropOffMapFormButtons<Fields extends FieldValues>({
     saveAndCreate: "Enregistrer et créer un autre point d'intérêt",
   };
 
+  /* Methods */
+  function handleValidation(data: FieldValues, type?: string) {
+    trigger();
+    if (isValid) {
+      onSubmit(data, type);
+    }
+  }
+
   /* Local Data */
   const {
-    formState: { isDirty },
+    formState: { isDirty, isValid },
+    trigger,
   } = useFormContext<Fields>();
 
   const methods = useFormContext<Fields>();
@@ -40,26 +49,23 @@ export default function DropOffMapFormButtons<Fields extends FieldValues>({
         type="button"
         label={buttonLabels.cancel}
         picto="cross"
-        isDisabled={!isDirty}
         onClick={onCancel}
       />
-
       <CommonButton
-        type="submit"
         label={buttonLabels.save}
         style="primary"
         picto="check"
         isDisabled={!isDirty}
-        onClick={() => onSubmit(methods.getValues(), "submit")}
+        onClick={() => handleValidation(methods.getValues(), "submit")}
       />
-
       <CommonButton
-        type="submit"
         label={buttonLabels.saveAndCreate}
         style="primary"
         picto="check"
         isDisabled={!isDirty}
-        onClick={() => onSubmit(methods.getValues(), "submitAndRefresh")}
+        onClick={() =>
+          handleValidation(methods.getValues(), "submitAndRefresh")
+        }
       />
     </div>
   );

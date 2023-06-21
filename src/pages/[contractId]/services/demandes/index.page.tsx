@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useNavigation } from "../../../../hooks/useNavigation";
-import { ExpanderComponentProps } from "react-data-table-component";
+import {
+  ExpanderComponentProps,
+  TableColumn,
+} from "react-data-table-component";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import {
@@ -16,7 +19,6 @@ import {
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
-import { TableColumn } from "react-data-table-component";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import { formatDate, removeNulls } from "../../../../lib/utilities";
@@ -27,6 +29,7 @@ import CommonButton from "../../../../components/Common/CommonButton/CommonButto
 import RequestAggregate from "../../../../components/Request/RequestAggregate/RequestAggregate";
 import "./demandes-page.scss";
 import { parseJSON } from "date-fns";
+
 export interface IRequestTableRow extends IDefaultTableRow {
   name: string;
   recipient: string;
@@ -84,7 +87,6 @@ export function RequestsPage() {
       variables: defaultQueryVariables,
       fetchPolicy: "network-only",
     });
-
   const [
     deleteRequest,
     { loading: deleteRequestLoading, error: deleteRequestError },
@@ -197,8 +199,7 @@ export function RequestsPage() {
   }
 
   function formatEmails(emails: string): string {
-    const formatedEmail = emails.trim().replaceAll(";", "\n");
-    return formatedEmail;
+    return emails.trim().replaceAll(";", "\n");
   }
 
   function handleOpenModal(row: IRequestTableRow) {
@@ -215,7 +216,7 @@ export function RequestsPage() {
 
   function handleDeleteFromModal() {
     if (rowToBeDeleted) {
-      onDelete(rowToBeDeleted);
+      void onDelete(rowToBeDeleted);
     }
     handleCloseModal();
   }

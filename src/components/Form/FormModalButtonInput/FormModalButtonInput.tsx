@@ -8,7 +8,7 @@ import React, { ReactNode, useEffect, useRef } from "react";
 import { isTruthyObjectOrArray } from "../../../lib/utilities";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import FormLabel from "../FormLabel/FormLabel";
 import FormModal from "../FormModal/FormModal";
 import "./form-modal-button-input.scss";
@@ -120,7 +120,7 @@ export default function FormModalButtonInput<T extends FieldValues>({
           errors={errors}
           name={name}
           render={({ message }: { message: string }) => (
-            <CommonErrorText message={message} errorId={`${name}_error`} />
+            <CommonFormErrorText message={message} errorId={`${name}_error`} />
           )}
         />
       </div>

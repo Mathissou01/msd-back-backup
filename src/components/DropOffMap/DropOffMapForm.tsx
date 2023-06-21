@@ -3,6 +3,7 @@ import { FieldValues } from "react-hook-form";
 import FormLayout, {
   IFormlayoutOptions,
 } from "../../layouts/FormLayout/FormLayout";
+import { CollectEntity } from "../../graphql/codegen/generated-types";
 import { IDropOffMapStaticFields } from "../../lib/drop-off-map";
 import DropOffMapStaticFields, {
   IDropOffMapStaticFieldsLabels,
@@ -12,7 +13,6 @@ import DropOffMapFormButtons, {
   IDropOffMapFormButtonsLabels,
 } from "./DropOffMapFormButtons/DropOffMapFormButtons";
 import "./drop-off-map-form.scss";
-import { CollectEntity } from "../../graphql/codegen/generated-types";
 
 interface IDropOffMapFormProps {
   data?: IDropOffMapStaticFields;

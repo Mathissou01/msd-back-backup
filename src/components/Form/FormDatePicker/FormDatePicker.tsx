@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import FormLabel from "../FormLabel/FormLabel";
 import { ErrorMessage } from "@hookform/error-message";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 
 interface IDatePickerProps {
   name: string;
@@ -80,7 +80,7 @@ export default function FormDatePicker({
         errors={errors}
         name={name}
         render={({ message }: { message: string }) => (
-          <CommonErrorText message={message} errorId={`${name}_error`} />
+          <CommonFormErrorText message={message} errorId={`${name}_error`} />
         )}
       />
     </>

@@ -1,10 +1,9 @@
 import _ from "lodash";
 import classNames from "classnames";
 import { ErrorMessage } from "@hookform/error-message";
-import { ValidationRule } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import React from "react";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import FormLabel, { LabelStyle, ValidationStyle } from "../FormLabel/FormLabel";
 import "./form-input.scss";
 
@@ -16,9 +15,13 @@ interface IFormInputProps {
   validationLabel?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
+  isHidden?: boolean;
   minLengthValidation?: number;
   maxLengthValidation?: number;
-  patternValidation?: ValidationRule<RegExp>;
+  minNumberValidation?: number;
+  maxNumberValidation?: number;
+  step?: number;
+  patternValidation?: RegExp;
   patternValidationErrorMessage?: string;
   lengthHardValidation?: boolean;
   defaultValue?: string;
@@ -37,8 +40,12 @@ export default function FormInput({
   validationLabel,
   isRequired = false,
   isDisabled = false,
+  isHidden = false,
   minLengthValidation,
   maxLengthValidation,
+  minNumberValidation,
+  maxNumberValidation,
+  step,
   patternValidation,
   patternValidationErrorMessage = "Format incorrect",
   lengthHardValidation = true,
@@ -54,6 +61,8 @@ export default function FormInput({
     required: "Ce champ est obligatoire",
     minLength: `${minLengthValidation} caractères minimum`,
     maxLength: `${maxLengthValidation} caractères maximum`,
+    minNumber: `Valeur minimum: ${minNumberValidation}`,
+    maxNumber: `Valeur maximum: ${maxNumberValidation}`,
     pattern: patternValidationErrorMessage,
   };
   const Tag = tagType;
@@ -65,6 +74,7 @@ export default function FormInput({
   } = useFormContext();
   const inputClassNames = classNames("c-FormInput", {
     "c-FormInput_row": flexStyle === "row",
+    "c-FormInput_hidden": isHidden,
   });
 
   return (
@@ -81,7 +91,7 @@ export default function FormInput({
       >
         <Tag
           className={classNames("c-FormInput__Input", {
-            "c-FormInput__Input_invalid": _.get(errors, name),
+            "c-FormInput__Input_invalid": !!_.get(errors, name),
           })}
           {...register(name, {
             required: { value: isRequired, message: errorMessages.required },
@@ -99,15 +109,34 @@ export default function FormInput({
                     message: errorMessages.maxLength,
                   }
                 : undefined,
-            pattern: patternValidation ? patternValidation : undefined,
+            min: minNumberValidation
+              ? {
+                  value: minNumberValidation,
+                  message: errorMessages.minNumber,
+                }
+              : undefined,
+            max: maxNumberValidation
+              ? {
+                  value: maxNumberValidation,
+                  message: errorMessages.maxNumber,
+                }
+              : undefined,
+            pattern: patternValidation
+              ? {
+                  value: patternValidation,
+                  message: errorMessages.pattern,
+                }
+              : undefined,
           })}
           type={type}
           id={name}
           defaultValue={defaultValue}
           minLength={lengthHardValidation ? minLengthValidation : undefined}
           maxLength={lengthHardValidation ? maxLengthValidation : undefined}
+          step={step}
           placeholder={placeholder}
           disabled={isSubmitting || isDisabled}
+          hidden={isHidden}
           aria-invalid={!!_.get(errors, name)}
           aria-errormessage={`${name}_error`}
           data-testid="form-input"
@@ -117,7 +146,7 @@ export default function FormInput({
         errors={errors}
         name={name}
         render={({ message }: { message: string }) => (
-          <CommonErrorText message={message} errorId={`${name}_error`} />
+          <CommonFormErrorText message={message} errorId={`${name}_error`} />
         )}
       />
     </div>

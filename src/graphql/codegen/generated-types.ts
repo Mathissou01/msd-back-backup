@@ -12312,6 +12312,21 @@ export type UpdateFlowMutation = {
   } | null;
 };
 
+export type GetBanAddressesAutoCompleteQueryVariables = Exact<{
+  searchTerm: Scalars["String"];
+}>;
+
+export type GetBanAddressesAutoCompleteQuery = {
+  __typename?: "Query";
+  getAddressCoordinates?: Array<{
+    __typename?: "SearchResultAddress";
+    name?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
+    banFeaturesProperties?: any | null;
+  } | null> | null;
+};
+
 export type GetContractByIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -14481,61 +14496,18 @@ export type CreateDropOffMapMutation = {
       attributes?: {
         __typename?: "DropOffMap";
         name?: string | null;
-        description?: string | null;
+        address?: string | null;
+        latitude?: number | null;
+        longitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
-        address?: string | null;
-        longitude?: number | null;
-        latitude?: number | null;
-        downloadableFiles?: Array<{
-          __typename?: "ComponentBlocksDownloadBlock";
-          id: string;
-          linkText: string;
-          file: {
-            __typename?: "UploadFileEntityResponse";
-            data?: {
-              __typename?: "UploadFileEntity";
-              id?: string | null;
-              attributes?: {
-                __typename?: "UploadFile";
-                name: string;
-                hash: string;
-                mime: string;
-                size: number;
-                url: string;
-                provider: string;
-                alternativeText?: string | null;
-              } | null;
-            } | null;
-          };
-        } | null> | null;
         dropOffMapService?: {
           __typename?: "DropOffMapServiceEntityResponse";
           data?: {
             __typename?: "DropOffMapServiceEntity";
             id?: string | null;
-            attributes?: {
-              __typename?: "DropOffMapService";
-              name?: string | null;
-              isActivated: boolean;
-              startDate?: any | null;
-              endDate?: any | null;
-            } | null;
           } | null;
         } | null;
-        openingHoursBlocks?: Array<
-          | {
-              __typename?: "ComponentBlocksOpeningDay";
-              id: string;
-              weekDay: Enum_Componentblocksopeningday_Weekday;
-              morningStart?: any | null;
-              morningEnd?: any | null;
-              afterNoonStart?: any | null;
-              afterNoonEnd?: any | null;
-            }
-          | { __typename?: "Error"; code: string; message?: string | null }
-          | null
-        > | null;
         collectDropOff?: {
           __typename?: "CollectDropOffEntityResponse";
           data?: {
@@ -14558,6 +14530,41 @@ export type CreateDropOffMapMutation = {
             } | null;
           } | null;
         } | null;
+        downloadableFiles?: Array<{
+          __typename?: "ComponentBlocksDownloadBlock";
+          id: string;
+          linkText: string;
+          file: {
+            __typename?: "UploadFileEntityResponse";
+            data?: {
+              __typename?: "UploadFileEntity";
+              id?: string | null;
+              attributes?: {
+                __typename?: "UploadFile";
+                name: string;
+                alternativeText?: string | null;
+                hash: string;
+                mime: string;
+                size: number;
+                url: string;
+                provider: string;
+              } | null;
+            } | null;
+          };
+        } | null> | null;
+        openingHoursBlocks?: Array<
+          | {
+              __typename?: "ComponentBlocksOpeningDay";
+              id: string;
+              weekDay: Enum_Componentblocksopeningday_Weekday;
+              morningStart?: any | null;
+              morningEnd?: any | null;
+              afterNoonStart?: any | null;
+              afterNoonEnd?: any | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
       } | null;
     } | null;
   } | null;
@@ -14587,20 +14594,27 @@ export type GetDropOffMapByContractIdQuery = {
   __typename?: "Query";
   dropOffMaps?: {
     __typename?: "DropOffMapEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        total: number;
+        pageSize: number;
+        page: number;
+        pageCount: number;
+      };
+    };
     data: Array<{
       __typename?: "DropOffMapEntity";
       id?: string | null;
       attributes?: {
         __typename?: "DropOffMap";
-        createdAt?: any | null;
-        description?: string | null;
         name?: string | null;
-        updatedAt?: any | null;
         address?: string | null;
         BANFeatureProperties?: any | null;
-        latitude?: number | null;
-        longitude?: number | null;
         city?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
         collectDropOff?: {
           __typename?: "CollectDropOffEntityResponse";
           data?: {
@@ -14624,16 +14638,6 @@ export type GetDropOffMapByContractIdQuery = {
         } | null;
       } | null;
     }>;
-    meta: {
-      __typename?: "ResponseCollectionMeta";
-      pagination: {
-        __typename?: "Pagination";
-        total: number;
-        pageSize: number;
-        page: number;
-        pageCount: number;
-      };
-    };
   } | null;
 };
 
@@ -14651,33 +14655,18 @@ export type GetDropOffMapByIdQuery = {
       attributes?: {
         __typename?: "DropOffMap";
         name?: string | null;
-        phoneNumber?: string | null;
-        mustKnow?: string | null;
-        BANFeatureProperties?: any | null;
+        address?: string | null;
         latitude?: number | null;
         longitude?: number | null;
-        downloadableFiles?: Array<{
-          __typename?: "ComponentBlocksDownloadBlock";
-          id: string;
-          linkText: string;
-          file: {
-            __typename?: "UploadFileEntityResponse";
-            data?: {
-              __typename?: "UploadFileEntity";
-              id?: string | null;
-              attributes?: {
-                __typename?: "UploadFile";
-                name: string;
-                alternativeText?: string | null;
-                hash: string;
-                mime: string;
-                size: number;
-                url: string;
-                provider: string;
-              } | null;
-            } | null;
-          };
-        } | null> | null;
+        phoneNumber?: string | null;
+        mustKnow?: string | null;
+        dropOffMapService?: {
+          __typename?: "DropOffMapServiceEntityResponse";
+          data?: {
+            __typename?: "DropOffMapServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
         collectDropOff?: {
           __typename?: "CollectDropOffEntityResponse";
           data?: {
@@ -14700,13 +14689,41 @@ export type GetDropOffMapByIdQuery = {
             } | null;
           } | null;
         } | null;
-        dropOffMapService?: {
-          __typename?: "DropOffMapServiceEntityResponse";
-          data?: {
-            __typename?: "DropOffMapServiceEntity";
-            id?: string | null;
-          } | null;
-        } | null;
+        downloadableFiles?: Array<{
+          __typename?: "ComponentBlocksDownloadBlock";
+          id: string;
+          linkText: string;
+          file: {
+            __typename?: "UploadFileEntityResponse";
+            data?: {
+              __typename?: "UploadFileEntity";
+              id?: string | null;
+              attributes?: {
+                __typename?: "UploadFile";
+                name: string;
+                alternativeText?: string | null;
+                hash: string;
+                mime: string;
+                size: number;
+                url: string;
+                provider: string;
+              } | null;
+            } | null;
+          };
+        } | null> | null;
+        openingHoursBlocks?: Array<
+          | {
+              __typename?: "ComponentBlocksOpeningDay";
+              id: string;
+              weekDay: Enum_Componentblocksopeningday_Weekday;
+              morningStart?: any | null;
+              morningEnd?: any | null;
+              afterNoonStart?: any | null;
+              afterNoonEnd?: any | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
       } | null;
     } | null;
   } | null;
@@ -14727,11 +14744,40 @@ export type UpdateDropOffMapMutation = {
       attributes?: {
         __typename?: "DropOffMap";
         name?: string | null;
-        BANFeatureProperties?: any | null;
+        address?: string | null;
         latitude?: number | null;
         longitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
+        dropOffMapService?: {
+          __typename?: "DropOffMapServiceEntityResponse";
+          data?: {
+            __typename?: "DropOffMapServiceEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+        collectDropOff?: {
+          __typename?: "CollectDropOffEntityResponse";
+          data?: {
+            __typename?: "CollectDropOffEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectDropOff";
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
+        collectVoluntary?: {
+          __typename?: "CollectVoluntaryEntityResponse";
+          data?: {
+            __typename?: "CollectVoluntaryEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectVoluntary";
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
         downloadableFiles?: Array<{
           __typename?: "ComponentBlocksDownloadBlock";
           id: string;
@@ -14744,8 +14790,8 @@ export type UpdateDropOffMapMutation = {
               attributes?: {
                 __typename?: "UploadFile";
                 name: string;
-                hash: string;
                 alternativeText?: string | null;
+                hash: string;
                 mime: string;
                 size: number;
                 url: string;
@@ -14754,13 +14800,19 @@ export type UpdateDropOffMapMutation = {
             } | null;
           };
         } | null> | null;
-        dropOffMapService?: {
-          __typename?: "DropOffMapServiceEntityResponse";
-          data?: {
-            __typename?: "DropOffMapServiceEntity";
-            id?: string | null;
-          } | null;
-        } | null;
+        openingHoursBlocks?: Array<
+          | {
+              __typename?: "ComponentBlocksOpeningDay";
+              id: string;
+              weekDay: Enum_Componentblocksopeningday_Weekday;
+              morningStart?: any | null;
+              morningEnd?: any | null;
+              afterNoonStart?: any | null;
+              afterNoonEnd?: any | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
       } | null;
     } | null;
   } | null;
@@ -15579,11 +15631,11 @@ export type GetDropOffCollectTypeByContractIdQuery = {
   __typename?: "Query";
   getDropOffCollectType?: Array<{
     __typename?: "CollectEntity";
-    name: string;
-    originalId: string;
     entityTypeName: string;
     uniqueId: string;
     grammaticalGender: string;
+    name: string;
+    originalId: string;
   } | null> | null;
 };
 
@@ -20734,6 +20786,67 @@ export type UpdateFlowMutationOptions = Apollo.BaseMutationOptions<
   UpdateFlowMutation,
   UpdateFlowMutationVariables
 >;
+export const GetBanAddressesAutoCompleteDocument = gql`
+  query getBanAddressesAutoComplete($searchTerm: String!) {
+    getAddressCoordinates(searchTerm: $searchTerm) {
+      name
+      latitude
+      longitude
+      banFeaturesProperties
+    }
+  }
+`;
+
+/**
+ * __useGetBanAddressesAutoCompleteQuery__
+ *
+ * To run a query within a React component, call `useGetBanAddressesAutoCompleteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBanAddressesAutoCompleteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBanAddressesAutoCompleteQuery({
+ *   variables: {
+ *      searchTerm: // value for 'searchTerm'
+ *   },
+ * });
+ */
+export function useGetBanAddressesAutoCompleteQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetBanAddressesAutoCompleteQuery,
+    GetBanAddressesAutoCompleteQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetBanAddressesAutoCompleteQuery,
+    GetBanAddressesAutoCompleteQueryVariables
+  >(GetBanAddressesAutoCompleteDocument, options);
+}
+export function useGetBanAddressesAutoCompleteLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetBanAddressesAutoCompleteQuery,
+    GetBanAddressesAutoCompleteQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetBanAddressesAutoCompleteQuery,
+    GetBanAddressesAutoCompleteQueryVariables
+  >(GetBanAddressesAutoCompleteDocument, options);
+}
+export type GetBanAddressesAutoCompleteQueryHookResult = ReturnType<
+  typeof useGetBanAddressesAutoCompleteQuery
+>;
+export type GetBanAddressesAutoCompleteLazyQueryHookResult = ReturnType<
+  typeof useGetBanAddressesAutoCompleteLazyQuery
+>;
+export type GetBanAddressesAutoCompleteQueryResult = Apollo.QueryResult<
+  GetBanAddressesAutoCompleteQuery,
+  GetBanAddressesAutoCompleteQueryVariables
+>;
 export const GetContractByIdDocument = gql`
   query getContractById($contractId: ID!) {
     contract(id: $contractId) {
@@ -23813,55 +23926,16 @@ export const CreateDropOffMapDocument = gql`
         id
         attributes {
           name
-          description
+          address
+          latitude
+          longitude
           phoneNumber
-          downloadableFiles {
-            id
-            linkText
-            file {
-              data {
-                id
-                attributes {
-                  name
-                  hash
-                  mime
-                  size
-                  url
-                  provider
-                  alternativeText
-                }
-              }
-            }
-          }
+          mustKnow
           dropOffMapService {
             data {
               id
-              attributes {
-                name
-                isActivated
-                startDate
-                endDate
-              }
             }
           }
-          mustKnow
-          openingHoursBlocks {
-            ... on ComponentBlocksOpeningDay {
-              id
-              weekDay
-              morningStart
-              morningEnd
-              afterNoonStart
-              afterNoonEnd
-            }
-            ... on Error {
-              code
-              message
-            }
-          }
-          address
-          longitude
-          latitude
           collectDropOff {
             data {
               id
@@ -23876,6 +23950,34 @@ export const CreateDropOffMapDocument = gql`
               attributes {
                 name
               }
+            }
+          }
+          downloadableFiles {
+            id
+            linkText
+            file {
+              data {
+                id
+                attributes {
+                  name
+                  alternativeText
+                  hash
+                  mime
+                  size
+                  url
+                  provider
+                }
+              }
+            }
+          }
+          openingHoursBlocks {
+            ... on ComponentBlocksOpeningDay {
+              id
+              weekDay
+              morningStart
+              morningEnd
+              afterNoonStart
+              afterNoonEnd
             }
           }
         }
@@ -23989,18 +24091,23 @@ export const GetDropOffMapByContractIdDocument = gql`
       pagination: $pagination
       sort: $sort
     ) {
+      meta {
+        pagination {
+          total
+          pageSize
+          page
+          pageCount
+        }
+      }
       data {
         id
         attributes {
-          createdAt
-          description
           name
-          updatedAt
           address
           BANFeatureProperties
-          latitude
-          longitude
           city
+          createdAt
+          updatedAt
           collectDropOff {
             data {
               attributes {
@@ -24016,14 +24123,6 @@ export const GetDropOffMapByContractIdDocument = gql`
               id
             }
           }
-        }
-      }
-      meta {
-        pagination {
-          total
-          pageSize
-          page
-          pageCount
         }
       }
     }
@@ -24089,7 +24188,32 @@ export const GetDropOffMapByIdDocument = gql`
         id
         attributes {
           name
+          address
+          latitude
+          longitude
           phoneNumber
+          mustKnow
+          dropOffMapService {
+            data {
+              id
+            }
+          }
+          collectDropOff {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          collectVoluntary {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
           downloadableFiles {
             id
             linkText
@@ -24108,29 +24232,14 @@ export const GetDropOffMapByIdDocument = gql`
               }
             }
           }
-          mustKnow
-          BANFeatureProperties
-          latitude
-          longitude
-          collectDropOff {
-            data {
+          openingHoursBlocks {
+            ... on ComponentBlocksOpeningDay {
               id
-              attributes {
-                name
-              }
-            }
-          }
-          collectVoluntary {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-          dropOffMapService {
-            data {
-              id
+              weekDay
+              morningStart
+              morningEnd
+              afterNoonStart
+              afterNoonEnd
             }
           }
         }
@@ -24196,10 +24305,32 @@ export const UpdateDropOffMapDocument = gql`
         id
         attributes {
           name
-          BANFeatureProperties
+          address
           latitude
           longitude
           phoneNumber
+          mustKnow
+          dropOffMapService {
+            data {
+              id
+            }
+          }
+          collectDropOff {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          collectVoluntary {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
           downloadableFiles {
             id
             linkText
@@ -24208,8 +24339,8 @@ export const UpdateDropOffMapDocument = gql`
                 id
                 attributes {
                   name
-                  hash
                   alternativeText
+                  hash
                   mime
                   size
                   url
@@ -24218,12 +24349,16 @@ export const UpdateDropOffMapDocument = gql`
               }
             }
           }
-          dropOffMapService {
-            data {
+          openingHoursBlocks {
+            ... on ComponentBlocksOpeningDay {
               id
+              weekDay
+              morningStart
+              morningEnd
+              afterNoonStart
+              afterNoonEnd
             }
           }
-          mustKnow
         }
       }
     }
@@ -25941,11 +26076,11 @@ export type CreatePickUpDayByIdMutationOptions = Apollo.BaseMutationOptions<
 export const GetDropOffCollectTypeByContractIdDocument = gql`
   query getDropOffCollectTypeByContractId($contractId: ID!) {
     getDropOffCollectType(contractId: $contractId) {
-      name
-      originalId
       entityTypeName
       uniqueId
       grammaticalGender
+      name
+      originalId
     }
   }
 `;
