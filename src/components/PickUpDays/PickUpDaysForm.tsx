@@ -11,13 +11,10 @@ import PickUpDaysFormStaticFields, {
   IPickUpDaysFormStaticFieldsLabels,
 } from "./PickUpDaysFormStaticFields/PickUpDaysFormStaticFields";
 import PickUpDaysSideBar from "./PickUpDaysSideBar/PickUpDaysSideBar";
-
-interface IPickUpDaysStaticFields {
-  name: string;
-}
+import { IPickUpDayStaticMappedFields } from "../../lib/pickup-days";
 
 interface IPickUpDaysFormProps {
-  data?: IPickUpDaysStaticFields;
+  data?: IPickUpDayStaticMappedFields;
   onSubmitValid: (data: FieldValues, type?: string) => void;
   onCancel: () => void;
   labels: IPickUpDaysFormStaticFieldsLabels;
@@ -40,7 +37,7 @@ export default function PickUpDaysForm({
   );
   const fieldContent = <PickUpDaysFormStaticFields labels={labels} />;
   const sidebarContent = <PickUpDaysSideBar />;
-  const formOptions: IFormlayoutOptions<IPickUpDaysStaticFields> = {
+  const formOptions: IFormlayoutOptions<IPickUpDayStaticMappedFields> = {
     onSubmitValid,
     defaultValues: data,
   };

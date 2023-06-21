@@ -6,6 +6,9 @@ query getPickUpDayById($pickUpDayId: ID) {
         name
         periodicity
         advancedSelection
+        pickUpHours
+        includeHoliday
+        complementaryMention
         flow {
           data {
             id

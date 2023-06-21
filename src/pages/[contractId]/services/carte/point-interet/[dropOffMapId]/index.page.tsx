@@ -51,16 +51,17 @@ export function ServiceCartePointInteretPage({
         latitude: latitude,
         longitude: longitude,
         collectDropOff:
-          collectTypeSelected.typeName === "collectDropOff"
+          collectTypeSelected.entityTypeName === "CollectDropOffEntity"
             ? collectTypeSelected.originalId
             : null,
         collectVoluntary:
-          collectTypeSelected.typeName === "collectVoluntary"
+          collectTypeSelected.entityTypeName === "CollectVoluntaryEntity"
             ? collectTypeSelected.originalId
             : null,
         dropOffMapService: contract.attributes?.dropOffMapService?.data?.id,
       },
     };
+
     if (isCreateMode) {
       return createDropOffMap({
         variables,
@@ -156,7 +157,10 @@ export function ServiceCartePointInteretPage({
   const { setError } = form;
 
   useEffect(() => {
-    if (data?.dropOffMap?.data) {
+    if (
+      data?.dropOffMap?.data &&
+      dataDropOffCollectTypes?.getDropOffCollectType
+    ) {
       const dropOffMapData = data.dropOffMap.data;
 
       if (
@@ -165,24 +169,30 @@ export function ServiceCartePointInteretPage({
         dropOffMapData.attributes.name &&
         dropOffMapData.attributes.longitude &&
         dropOffMapData.attributes.latitude &&
-        dropOffMapData.attributes.collectDropOff?.data &&
-        dropOffMapData.attributes.collectVoluntary?.data
+        (dropOffMapData.attributes.collectDropOff?.data ||
+          dropOffMapData.attributes.collectVoluntary?.data)
       ) {
         const mappedData: IDropOffMapStaticFields = {
           name: dropOffMapData.attributes.name,
           phoneNumber: dropOffMapData.attributes.phoneNumber,
           mustKnow: dropOffMapData.attributes.mustKnow,
-          collectDropOff:
-            dropOffMapData.attributes.collectDropOff.data.attributes ?? {},
-          collectVoluntary:
-            dropOffMapData.attributes.collectVoluntary.data.attributes ?? {},
+          dropOffMapCollectTypeSelect:
+            dataDropOffCollectTypes?.getDropOffCollectType.find(
+              (i) =>
+                i?.name ===
+                  dropOffMapData.attributes?.collectVoluntary?.data?.attributes
+                    ?.name ||
+                i?.name ===
+                  dropOffMapData.attributes?.collectDropOff?.data?.attributes
+                    ?.name,
+            ) ?? null,
           longitude: dropOffMapData.attributes.longitude,
           latitude: dropOffMapData.attributes.latitude,
         };
         setMappedData(mappedData);
       }
     }
-  }, [data, currentRoot]);
+  }, [data, currentRoot, dataDropOffCollectTypes]);
 
   return (
     <div className="o-FormEditPage">

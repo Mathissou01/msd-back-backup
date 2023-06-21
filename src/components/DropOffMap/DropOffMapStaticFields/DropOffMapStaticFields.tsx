@@ -33,22 +33,19 @@ export default function DropOffMapStaticFields({
   };
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
+  /* Local Data */
   const [dropOffMapCollectTypes, setDropOffMapCollectTypes] = useState<
     Array<IOptionWrapper<CollectEntity>>
   >([]);
-
-  function dropOffMapCollectTypesSelectDisplayTransformFunction(
-    wasteFamily: CollectEntity,
-  ): string {
-    return wasteFamily.name ?? "";
-  }
 
   useEffect(() => {
     if (collectTypes) {
       const mappedDropOffMapCollectTypes: Array<IOptionWrapper<CollectEntity> | null> =
         collectTypes
           .map((collectType) => {
-            return collectType ? { option: collectType } : null;
+            return collectType
+              ? { option: collectType, label: collectType.name }
+              : null;
           })
           .filter(removeNulls);
       setDropOffMapCollectTypes(
@@ -77,10 +74,7 @@ export default function DropOffMapStaticFields({
             name="dropOffMapCollectTypeSelect"
             isRequired
             options={dropOffMapCollectTypes}
-            displayTransform={
-              dropOffMapCollectTypesSelectDisplayTransformFunction
-            }
-            optionKey={"originalId"}
+            optionKey={"uniqueId"}
           />
         </div>
       </div>

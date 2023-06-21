@@ -4750,13 +4750,16 @@ type PickUpDay {
   ): CityRelationResponseCollection
   collectDoorToDoor: CollectDoorToDoorEntityResponse
   collectVoluntary: CollectVoluntaryEntityResponse
+  complementaryMention: String
   createdAt: DateTime
   description: String
   flow: FlowEntityResponse!
+  includeHoliday: Boolean!
   informationMessage: InformationMessageEntityResponse
   name: String!
   periodicity: ENUM_PICKUPDAY_PERIODICITY
   pickUpDayService: PickUpDayServiceEntityResponse
+  pickUpHours: String
   sectorizations(
     filters: SectorizationFiltersInput
     pagination: PaginationArg = {}
@@ -4785,16 +4788,19 @@ input PickUpDayFiltersInput {
   cities: CityFiltersInput
   collectDoorToDoor: CollectDoorToDoorFiltersInput
   collectVoluntary: CollectVoluntaryFiltersInput
+  complementaryMention: StringFilterInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   flow: FlowFiltersInput
   id: IDFilterInput
+  includeHoliday: BooleanFilterInput
   informationMessage: InformationMessageFiltersInput
   name: StringFilterInput
   not: PickUpDayFiltersInput
   or: [PickUpDayFiltersInput]
   periodicity: StringFilterInput
   pickUpDayService: PickUpDayServiceFiltersInput
+  pickUpHours: StringFilterInput
   sectorizations: SectorizationFiltersInput
   updatedAt: DateTimeFilterInput
 }
@@ -4804,12 +4810,15 @@ input PickUpDayInput {
   cities: [ID]
   collectDoorToDoor: ID
   collectVoluntary: ID
+  complementaryMention: String
   description: String
   flow: ID
+  includeHoliday: Boolean
   informationMessage: ID
   name: String
   periodicity: ENUM_PICKUPDAY_PERIODICITY
   pickUpDayService: ID
+  pickUpHours: String
   sectorizations: [ID]
 }
 

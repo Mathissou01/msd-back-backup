@@ -28,7 +28,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           <input
             class="c-FormMultiCheckbox__Input "
             data-testid="form-multi-checkbox_0"
-            id="form-checkbox"
+            id="form-checkbox0"
             name="form-checkbox"
             type="checkbox"
             value="Lundi"
@@ -38,7 +38,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           >
             <label
               class="c-FormLabel__LabelWrapper"
-              for="form-checkbox"
+              for="form-checkbox0"
             >
               <span
                 class="c-FormLabel__Label"
@@ -54,7 +54,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           <input
             class="c-FormMultiCheckbox__Input "
             data-testid="form-multi-checkbox_1"
-            id="form-checkbox"
+            id="form-checkbox1"
             name="form-checkbox"
             type="checkbox"
             value="Mardi"
@@ -64,7 +64,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           >
             <label
               class="c-FormLabel__LabelWrapper"
-              for="form-checkbox"
+              for="form-checkbox1"
             >
               <span
                 class="c-FormLabel__Label"
@@ -80,7 +80,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           <input
             class="c-FormMultiCheckbox__Input "
             data-testid="form-multi-checkbox_2"
-            id="form-checkbox"
+            id="form-checkbox2"
             name="form-checkbox"
             type="checkbox"
             value="Mercredi"
@@ -90,7 +90,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           >
             <label
               class="c-FormLabel__LabelWrapper"
-              for="form-checkbox"
+              for="form-checkbox2"
             >
               <span
                 class="c-FormLabel__Label"
@@ -106,7 +106,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           <input
             class="c-FormMultiCheckbox__Input "
             data-testid="form-multi-checkbox_3"
-            id="form-checkbox"
+            id="form-checkbox3"
             name="form-checkbox"
             type="checkbox"
             value="Jeudi"
@@ -116,7 +116,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           >
             <label
               class="c-FormLabel__LabelWrapper"
-              for="form-checkbox"
+              for="form-checkbox3"
             >
               <span
                 class="c-FormLabel__Label"
@@ -132,7 +132,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           <input
             class="c-FormMultiCheckbox__Input "
             data-testid="form-multi-checkbox_4"
-            id="form-checkbox"
+            id="form-checkbox4"
             name="form-checkbox"
             type="checkbox"
             value="Vendredi"
@@ -142,7 +142,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           >
             <label
               class="c-FormLabel__LabelWrapper"
-              for="form-checkbox"
+              for="form-checkbox4"
             >
               <span
                 class="c-FormLabel__Label"
@@ -158,7 +158,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           <input
             class="c-FormMultiCheckbox__Input "
             data-testid="form-multi-checkbox_5"
-            id="form-checkbox"
+            id="form-checkbox5"
             name="form-checkbox"
             type="checkbox"
             value="Samedi"
@@ -168,7 +168,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           >
             <label
               class="c-FormLabel__LabelWrapper"
-              for="form-checkbox"
+              for="form-checkbox5"
             >
               <span
                 class="c-FormLabel__Label"
@@ -184,7 +184,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           <input
             class="c-FormMultiCheckbox__Input "
             data-testid="form-multi-checkbox_6"
-            id="form-checkbox"
+            id="form-checkbox6"
             name="form-checkbox"
             type="checkbox"
             value="Dimanche"
@@ -194,7 +194,7 @@ exports[`FormMultiCheckbox renders 1`] = `
           >
             <label
               class="c-FormLabel__LabelWrapper"
-              for="form-checkbox"
+              for="form-checkbox6"
             >
               <span
                 class="c-FormLabel__Label"

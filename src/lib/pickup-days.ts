@@ -32,6 +32,25 @@ interface IMensuelAdvancedSelection {
   };
 }
 
+interface IPickUpDayStaticMappedFields {
+  name: string;
+  flow:
+    | {
+        attributes: {
+          name: string | null;
+        } | null;
+      }
+    | string
+    | null;
+  periodicity: string | null | undefined;
+  choice: string | undefined;
+  daysOfTheMonth?: string | undefined;
+  days: string | number | null | undefined;
+  includeHoliday: boolean;
+  pickUpHours: string | null | undefined;
+  complementaryMention: string | null | undefined;
+}
+
 const dayOptions = [
   { label: EDaysOfTheWeek.MONDAY, value: EDaysOfTheWeek.MONDAY },
   { label: EDaysOfTheWeek.TUESDAY, value: EDaysOfTheWeek.TUESDAY },
@@ -76,4 +95,8 @@ export {
   recurrenceOptions,
   periodicityOptions,
 };
-export type { IHebdomadireAdvancedSelection, IMensuelAdvancedSelection };
+export type {
+  IHebdomadireAdvancedSelection,
+  IMensuelAdvancedSelection,
+  IPickUpDayStaticMappedFields,
+};

@@ -4,5 +4,6 @@ query getDropOffCollectTypeByContractId($contractId: ID!) {
     originalId
     entityTypeName
     uniqueId
+    grammaticalGender
   }
 }

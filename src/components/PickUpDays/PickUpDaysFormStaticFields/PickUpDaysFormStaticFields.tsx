@@ -9,6 +9,7 @@ import { ICommonSelectOption } from "../../Form/FormSingleMultiselect/FormSingle
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormMultiCheckbox from "../../Form/FormMultiCheckbox/FormMultiCheckbox";
 import { IOptionWrapper } from "../../Form/FormMultiselect/FormMultiselect";
+import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import {
   EMonthlyStatus,
   EPeriodicityStatus,
@@ -25,6 +26,9 @@ export interface IPickUpDaysFormStaticFieldsLabels {
   staticRecurrence: string;
   staticDayOfTheMonth: string;
   staticDays: string;
+  staticPickUpHours: string;
+  staticIncludeHoliday: string;
+  staticComplementaryMention: string;
 }
 
 interface IPickUpDaysFormStaticFieldsProps {
@@ -49,6 +53,7 @@ export default function PickUpDaysFormStaticFields({
   const [recurrenceStatus, setRecurrenceStatus] = useState<boolean>();
   const periodicity = watch("periodicity");
   const recurrence = watch("choice");
+  const includeHoliday = watch("pickUpHours");
   const [activeFlowOptions, setActiveFlowOptions] = useState<
     Array<ICommonSelectOption>
   >([]);
@@ -89,7 +94,7 @@ export default function PickUpDaysFormStaticFields({
           setRecurrenceStatus(true);
         else setRecurrenceStatus(false);
       }
-  }, [periodicity, recurrence]);
+  }, [periodicity, recurrence, includeHoliday]);
 
   return (
     <>
@@ -121,7 +126,7 @@ export default function PickUpDaysFormStaticFields({
       </div>
       <div className="c-PickUpDaysStaticFields">
         <div className="c-PickUpDaysStaticFields__FormFielsWrapper">
-          <div className="c-PickUpDaysStaticFields__FormGroup">
+          <div className="c-PickUpDaysStaticFields__FormGroupFlex">
             <FormSelect
               name="periodicity"
               label={labels.staticPeriodicite}
@@ -139,7 +144,7 @@ export default function PickUpDaysFormStaticFields({
               />
             )}
           </div>
-          <div className="c-PickUpDaysStaticFields__FormGroup">
+          <div className="c-PickUpDaysStaticFields__FormGroupFlex">
             {periodicityStatus && (
               <FormMultiCheckbox
                 name="days"
@@ -164,6 +169,27 @@ export default function PickUpDaysFormStaticFields({
                 isRequired={!recurrenceStatus}
               />
             )}
+          </div>
+          <div className="c-PickUpDaysStaticFields__FormGroup">
+            <FormCheckbox
+              name="includeHoliday"
+              label={labels.staticIncludeHoliday}
+            />
+          </div>
+          <div className="c-PickUpDaysStaticFields__FormGroup">
+            <FormInput
+              name="pickUpHours"
+              label={labels.staticPickUpHours}
+              type="time"
+            />
+          </div>
+          <div className="c-PickUpDaysStaticFields__FormGroup">
+            <FormInput
+              name="complementaryMention"
+              label={labels.staticComplementaryMention}
+              tagType="textarea"
+              maxLengthValidation={100}
+            />
           </div>
         </div>
       </div>

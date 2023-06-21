@@ -98,13 +98,13 @@ export default function FormMultiCheckbox({
                     message: errorMessages.required,
                   },
                 })}
-                id={name}
+                id={name + index}
                 value={option.value}
                 defaultChecked={option.defaultChecked}
                 disabled={isSubmitting || isDisabled}
                 data-testid={`form-multi-checkbox_${index}`}
               />
-              <FormLabel forId={name} label={option.label} />
+              <FormLabel forId={name + index} label={option.label} />
             </div>
           ))}
         </div>

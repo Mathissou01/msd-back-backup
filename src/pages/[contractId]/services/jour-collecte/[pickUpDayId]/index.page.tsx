@@ -22,27 +22,12 @@ import {
   EPeriodicityStatus,
   IHebdomadireAdvancedSelection,
   IMensuelAdvancedSelection,
+  IPickUpDayStaticMappedFields,
 } from "../../../../../lib/pickup-days";
 
 interface IPickUpDayIdPageProps {
   pickUpDayId: string;
   isCreateMode: boolean;
-}
-
-interface IPickUpDayStaticMappedFields {
-  name: string;
-  flow:
-    | {
-        attributes: {
-          name: string | null;
-        } | null;
-      }
-    | string
-    | null;
-  periodicity: string | null | undefined;
-  choice: string | undefined;
-  daysOfTheMonth?: string | undefined;
-  days: string | number | null | undefined;
 }
 
 interface IPickUpDayStaticVariablesFields {
@@ -55,6 +40,9 @@ interface IPickUpDayStaticVariablesFields {
     advancedSelection:
       | IHebdomadireAdvancedSelection
       | IMensuelAdvancedSelection;
+    includeHoliday: boolean;
+    pickUpHours: string;
+    complementaryMention: string;
   };
 }
 
@@ -71,6 +59,9 @@ export function ServicesPickUpDayEditPage({
     staticRecurrence: "Récurrence",
     staticDayOfTheMonth: "Jour du mois",
     staticDays: "Jours",
+    staticPickUpHours: "Heure de passage",
+    staticIncludeHoliday: "Y compris jours fériés",
+    staticComplementaryMention: "Mention Complémentaire",
   };
 
   /* Methods */
@@ -96,6 +87,9 @@ export function ServicesPickUpDayEditPage({
         pickUpDayService: contract.attributes?.pickUpDayService?.data?.id,
         periodicity: submitData.periodicity.toLowerCase(),
         advancedSelection,
+        includeHoliday: submitData.includeHoliday,
+        pickUpHours: submitData.pickUpHours,
+        complementaryMention: submitData.complementaryMention,
       },
     };
     if (isCreateMode) {
@@ -198,6 +192,9 @@ export function ServicesPickUpDayEditPage({
               ? pickUpDaysData.attributes.advancedSelection.hebdomadaire
                   .selection
               : pickUpDaysData.attributes.advancedSelection?.mensuel.selection.toString(),
+          includeHoliday: pickUpDaysData.attributes.includeHoliday,
+          pickUpHours: pickUpDaysData.attributes.pickUpHours,
+          complementaryMention: pickUpDaysData.attributes.complementaryMention,
         };
         setPickUpDaysData(mappedData);
       }

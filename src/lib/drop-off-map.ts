@@ -1,14 +1,10 @@
-import {
-  CollectDropOff,
-  CollectVoluntary,
-} from "../graphql/codegen/generated-types";
+import { CollectEntity } from "../graphql/codegen/generated-types";
 
 export interface IDropOffMapStaticFields {
   name: string;
   phoneNumber?: string | null;
   mustKnow?: string | null;
-  collectVoluntary: CollectVoluntary;
-  collectDropOff: CollectDropOff;
+  dropOffMapCollectTypeSelect: CollectEntity | null;
   longitude: number;
   latitude: number;
 }

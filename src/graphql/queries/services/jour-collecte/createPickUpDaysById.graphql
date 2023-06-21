@@ -7,6 +7,9 @@ mutation CreatePickUpDayById($data: PickUpDayInput!) {
         description
         periodicity
         advancedSelection
+        pickUpHours
+        includeHoliday
+        complementaryMention
         createdAt
         updatedAt
         flow {

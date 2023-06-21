@@ -6065,13 +6065,16 @@ export type PickUpDay = {
   cities?: Maybe<CityRelationResponseCollection>;
   collectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
   collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
+  complementaryMention?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   flow: FlowEntityResponse;
+  includeHoliday: Scalars["Boolean"];
   informationMessage?: Maybe<InformationMessageEntityResponse>;
   name: Scalars["String"];
   periodicity?: Maybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
+  pickUpHours?: Maybe<Scalars["String"]>;
   sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -6111,16 +6114,19 @@ export type PickUpDayFiltersInput = {
   cities?: InputMaybe<CityFiltersInput>;
   collectDoorToDoor?: InputMaybe<CollectDoorToDoorFiltersInput>;
   collectVoluntary?: InputMaybe<CollectVoluntaryFiltersInput>;
+  complementaryMention?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
+  includeHoliday?: InputMaybe<BooleanFilterInput>;
   informationMessage?: InputMaybe<InformationMessageFiltersInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<PickUpDayFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
   periodicity?: InputMaybe<StringFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
+  pickUpHours?: InputMaybe<StringFilterInput>;
   sectorizations?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -6130,12 +6136,15 @@ export type PickUpDayInput = {
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   collectDoorToDoor?: InputMaybe<Scalars["ID"]>;
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
+  complementaryMention?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
   flow?: InputMaybe<Scalars["ID"]>;
+  includeHoliday?: InputMaybe<Scalars["Boolean"]>;
   informationMessage?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
   periodicity?: InputMaybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
+  pickUpHours?: InputMaybe<Scalars["String"]>;
   sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -15510,6 +15519,9 @@ export type CreatePickUpDayByIdMutation = {
         description?: string | null;
         periodicity?: Enum_Pickupday_Periodicity | null;
         advancedSelection: any;
+        pickUpHours?: string | null;
+        includeHoliday: boolean;
+        complementaryMention?: string | null;
         createdAt?: any | null;
         updatedAt?: any | null;
         flow: {
@@ -15559,6 +15571,7 @@ export type GetDropOffCollectTypeByContractIdQuery = {
     originalId: string;
     entityTypeName: string;
     uniqueId: string;
+    grammaticalGender: string;
   } | null> | null;
 };
 
@@ -15635,6 +15648,9 @@ export type GetPickUpDayByIdQuery = {
         name: string;
         periodicity?: Enum_Pickupday_Periodicity | null;
         advancedSelection: any;
+        pickUpHours?: string | null;
+        includeHoliday: boolean;
+        complementaryMention?: string | null;
         flow: {
           __typename?: "FlowEntityResponse";
           data?: {
@@ -25827,6 +25843,9 @@ export const CreatePickUpDayByIdDocument = gql`
           description
           periodicity
           advancedSelection
+          pickUpHours
+          includeHoliday
+          complementaryMention
           createdAt
           updatedAt
           flow {
@@ -25908,6 +25927,7 @@ export const GetDropOffCollectTypeByContractIdDocument = gql`
       originalId
       entityTypeName
       uniqueId
+      grammaticalGender
     }
   }
 `;
@@ -26127,6 +26147,9 @@ export const GetPickUpDayByIdDocument = gql`
           name
           periodicity
           advancedSelection
+          pickUpHours
+          includeHoliday
+          complementaryMention
           flow {
             data {
               id

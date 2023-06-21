@@ -80,6 +80,22 @@ export function CartePage() {
           variables: { contractId },
         },
       ],
+      onQueryUpdated: (observableQuery) => {
+        observableQuery
+          .result()
+          .then((result) => {
+            if (!result.loading) {
+              setTableData(result?.data);
+            }
+          })
+          .catch((error) => {
+            if (error instanceof Error) {
+              return {
+                message: error,
+              };
+            }
+          });
+      },
     });
   }
 
