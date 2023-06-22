@@ -14961,6 +14961,25 @@ export type GetRequestByIdQuery = {
             } | null;
           } | null;
         } | null;
+        addableBlocks?: Array<
+          | { __typename?: "ComponentBlocksAttachments" }
+          | { __typename?: "ComponentBlocksCheckbox" }
+          | { __typename?: "ComponentBlocksCommentary" }
+          | { __typename?: "ComponentBlocksCumbersome" }
+          | { __typename?: "ComponentBlocksDateChoice" }
+          | { __typename?: "ComponentBlocksProofOfReceipt" }
+          | { __typename?: "ComponentBlocksQcm" }
+          | {
+              __typename?: "ComponentBlocksQuestions";
+              id: string;
+              height: boolean;
+              questionTextLabel: string;
+              questionTextPlaceholder: string;
+              textStatus: Enum_Componentblocksquestions_Textstatus;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
         requestType?: Array<{
           __typename?: "ComponentBlocksRequestType";
           id: string;
@@ -24736,6 +24755,15 @@ export const GetRequestByIdDocument = gql`
               attributes {
                 name
               }
+            }
+          }
+          addableBlocks {
+            ... on ComponentBlocksQuestions {
+              id
+              height
+              questionTextLabel
+              questionTextPlaceholder
+              textStatus
             }
           }
           requestType {

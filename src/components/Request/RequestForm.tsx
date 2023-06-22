@@ -32,7 +32,7 @@ export interface IRequestStaticFields extends IFormCommonFields {
 }
 
 export interface IRequestFields extends IRequestStaticFields {
-  contentBlock: Array<IFormBlock>;
+  addableBlocks: Array<IFormBlock>;
 }
 
 interface IRequestFormProps {
@@ -76,7 +76,7 @@ export default function RequestForm({
         hasUser={data?.hasUser ?? false}
       />
       <FormDynamicBlocks
-        name={"contentBlock"}
+        name={"addableBlocks"}
         blockOptions={dynamicFieldsOptions}
       />
     </>
@@ -85,7 +85,7 @@ export default function RequestForm({
   const formOptions: IFormlayoutOptions<IRequestFields> = {
     onSubmitValid: onSubmit,
     defaultValues: data,
-    nestedFieldsToFocus: ["contentBlock"],
+    nestedFieldsToFocus: ["addableBlocks"],
   };
 
   return (

@@ -1,7 +1,14 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
+import { removeNulls } from "../../../../../lib/utilities";
 import { EStatus } from "../../../../../lib/status";
+import {
+  IBlocksQuestions,
+  IFormBlock,
+  TDynamicFieldOption,
+  remapFormBlocksDynamicZone,
+} from "../../../../../lib/dynamic-blocks";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import { useNavigation } from "../../../../../hooks/useNavigation";
@@ -57,6 +64,9 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
   const [mappedData, setMappedData] = useState<IRequestFields>();
+  const dynamicFieldOptions: Array<TDynamicFieldOption> = [
+    "ComponentBlocksQuestions",
+  ];
 
   /* External data */
   const { data, loading, error } = useGetRequestByIdQuery({
@@ -71,8 +81,18 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
   const [createRequest, { loading: loadingCreate, error: errorCreate }] =
     useCreateRequestByContractIdMutation();
 
+  const isLoading = loading || loadingUpdate || loadingCreate;
+  const errors = [error, errorUpdate, errorCreate];
+
   /* Methods */
   async function onSubmit(submitData: FieldValues) {
+    const addableBlocks = submitData.addableBlocks.map(
+      // Remove automatically generated ID
+      (block: { id?: string }) => {
+        delete block.id;
+        return { ...block };
+      },
+    );
     return requestId === "-1"
       ? createRequest({
           variables: {
@@ -84,6 +104,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
               requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
+              addableBlocks: addableBlocks,
               hasUser: submitData.hasUser,
               displayUserCivility: submitData.displayUserCivility === "true",
               isUserNameMandatory: submitData.isUserNameMandatory === "true",
@@ -108,6 +129,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
               requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
+              addableBlocks: addableBlocks,
               hasUser: submitData.hasUser,
               displayUserCivility: submitData.displayUserCivility === "true",
               isUserNameMandatory: submitData.isUserNameMandatory === "true",
@@ -139,8 +161,23 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
       },
     });
   }
-  const isLoading = loading || loadingUpdate || loadingCreate;
-  const errors = [error, errorUpdate, errorCreate];
+
+  function formatComponentBlocks(blocks: IFormBlock[]): Array<IFormBlock> {
+    return (
+      blocks
+        .map((block) => {
+          if (block.__typename === "ComponentBlocksQuestions") {
+            // Radio buttons need string values but height property contains boolean, this is why we replace it here
+            const newBlock: IBlocksQuestions = block as IBlocksQuestions;
+            newBlock.height = newBlock.height ? "1" : "0";
+            return {
+              ...newBlock,
+            };
+          }
+        })
+        .filter(removeNulls) ?? []
+    );
+  }
 
   useEffect(() => {
     if (data?.request?.data) {
@@ -156,7 +193,13 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
           hasSeveralRequestTypes: requestData.attributes.hasSeveralRequestTypes
             ? "1"
             : "0",
-          contentBlock: [],
+          addableBlocks: requestData.attributes.addableBlocks
+            ? formatComponentBlocks(
+                remapFormBlocksDynamicZone(
+                  requestData.attributes.addableBlocks,
+                ),
+              )
+            : [],
           hasUser: requestData.attributes.hasUser,
           displayUserCivility: requestData.attributes.displayUserCivility
             ? requestData.attributes.displayUserCivility.toString()
@@ -183,7 +226,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
         id: "",
         blockText: "",
         aggregate: {},
-        contentBlock: [],
+        addableBlocks: [],
         hasSeveralRequestTypes: "0",
         isActivated: false,
         name: "",
@@ -213,7 +256,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
           onSubmit={onSubmit}
           onChangeActivated={onChangeActivated}
           labels={labels.form}
-          dynamicFieldsOptions={[]}
+          dynamicFieldsOptions={dynamicFieldOptions}
         />
       </CommonLoader>
     </div>

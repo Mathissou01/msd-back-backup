@@ -106,6 +106,9 @@ export default function FormDynamicBlocks({
                   onReorder={(shift) => onReorder(index, shift)}
                   isUpDisabled={index <= 0}
                   isDownDisabled={index + 1 >= fields.length}
+                  isDuplicateDisabled={
+                    blockDisplayMap[block.__typename].cannotDuplicate ?? false
+                  }
                   onDuplicate={() => onDuplicate(index)}
                   onDelete={() => onDelete(index)}
                   isOpen={blockOpenStates[index]}

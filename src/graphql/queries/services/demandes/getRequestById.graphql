@@ -21,6 +21,15 @@ query getRequestById($requestId: ID) {
             }
           }
         }
+        addableBlocks {
+          ... on ComponentBlocksQuestions {
+            id
+            height
+            questionTextLabel
+            questionTextPlaceholder
+            textStatus
+          }
+        }
         requestType {
           id
           title

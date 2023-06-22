@@ -24,4 +24,5 @@ export type TPictoStyles =
   | "history"
   | "edit"
   | "polygon"
+  | "question_text"
   | "user";

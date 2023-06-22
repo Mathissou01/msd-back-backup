@@ -1,0 +1,12 @@
+.c-QuestionsBlock {
+  display: flex;
+  flex-direction: column;
+
+  &__Field:not(:last-of-type) {
+    margin-bottom: 0.8em;
+  }
+
+  &__TextStatus {
+    width: 50%;
+  }
+}

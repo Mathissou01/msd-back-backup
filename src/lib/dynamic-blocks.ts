@@ -10,6 +10,15 @@ export type TBlocksDynamicZone =
   | "ComponentBlocksSubHeading"
   | "ComponentBlocksVideo"
   | "ComponentBlocksWysiwyg"
+  | "ComponentBlocksAttachments"
+  | "ComponentBlocksCheckbox"
+  | "ComponentBlocksCommentary"
+  | "ComponentBlocksCumbersome"
+  | "ComponentBlocksDateChoice"
+  | "ComponentBlocksProofOfReceipt"
+  | "ComponentBlocksQcm"
+  | "ComponentBlocksQuestions"
+  | "ComponentBlocksRequestType"
   | "Error";
 export type TDynamicFieldOption = Exclude<TBlocksDynamicZone, "Error">;
 
@@ -17,6 +26,7 @@ interface IBlockDisplayMap {
   label: string;
   picto: TPictoStyles;
   isEmpty?: boolean;
+  cannotDuplicate?: boolean;
 }
 
 export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
@@ -45,6 +55,43 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     label: "Texte",
     picto: "textCase",
   },
+  ComponentBlocksAttachments: {
+    label: "TO_REPLACE_Request_Attachments",
+    picto: "question_text",
+  },
+  ComponentBlocksCheckbox: {
+    label: "TO_REPLACE_Checkbox",
+    picto: "question_text",
+  },
+  ComponentBlocksCommentary: {
+    label: "TO_REPLACE_Commentary",
+    picto: "question_text",
+  },
+  ComponentBlocksCumbersome: {
+    label: "TO_REPLACE_Cumbersome",
+    picto: "question_text",
+  },
+  ComponentBlocksDateChoice: {
+    label: "TO_REPLACE_Date_Choice",
+    picto: "question_text",
+  },
+  ComponentBlocksProofOfReceipt: {
+    label: "TO_REPLACE_ProofOfReceipt",
+    picto: "question_text",
+  },
+  ComponentBlocksQcm: {
+    label: "TO_REPLACE_QCM",
+    picto: "question_text",
+  },
+  ComponentBlocksQuestions: {
+    label: "Question texte",
+    picto: "question_text",
+    cannotDuplicate: true,
+  },
+  ComponentBlocksRequestType: {
+    label: "TO_REPLACE_Request_Type",
+    picto: "question_text",
+  },
 };
 
 interface IPartialBlockDynamicZone {
@@ -64,7 +111,8 @@ export type IFormBlock =
   | IBlocksImage
   | IBlocksSubHeading
   | IBlocksVideo
-  | IBlocksWysiwyg;
+  | IBlocksWysiwyg
+  | IBlocksQuestions;
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
@@ -99,6 +147,14 @@ export interface IBlocksVideo extends IPartialBlock {
 export interface IBlocksWysiwyg extends IPartialBlock {
   __typename: "ComponentBlocksWysiwyg";
   textEditor: string;
+}
+
+export interface IBlocksQuestions extends IPartialBlock {
+  __typename: "ComponentBlocksQuestions";
+  textStatus: string;
+  questionTextLabel: string;
+  questionTextPlaceholder: string;
+  height: string;
 }
 
 /* Methods */
@@ -171,6 +227,16 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         isDecorative: undefined,
         altText: undefined,
         picture: undefined,
+      };
+    }
+    case "ComponentBlocksQuestions": {
+      return {
+        __typename,
+        id: temporaryId,
+        textStatus: "Obligatoire",
+        questionTextLabel: "",
+        questionTextPlaceholder: "",
+        height: "0",
       };
     }
     default: {
