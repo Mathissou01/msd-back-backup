@@ -15,6 +15,10 @@ import RequestSideBar from "./RequestSideBar/RequestSideBar";
 import RequestFormButtons, {
   IRequestFormButtonsLabels,
 } from "./RequestFormButtons/RequestFormButtons";
+import RequestStaticFieldsUser, {
+  IRequestStaticUserLabels,
+  TRequestStaticUser,
+} from "./RequestStaticUser/RequestStaticUser";
 
 export interface IRequestStaticFields extends IFormCommonFields {
   name: string;
@@ -39,11 +43,13 @@ interface IRequestFormProps {
   isCreatedMode: boolean;
   data?: IRequestFields;
   staticFieldsOverride?: Array<TRequestStaticFields>;
+  staticFieldsUserOverride?: Array<TRequestStaticUser>;
   dynamicFieldsOptions: Array<TDynamicFieldOption>;
   onCancel: () => void;
   onSubmit: (data: FieldValues, type?: string) => void;
   onChangeActivated: () => void;
   labels: IRequestStaticFieldsLabels;
+  labelsUser: IRequestStaticUserLabels;
   buttonLabels?: IRequestFormButtonsLabels;
 }
 
@@ -51,11 +57,13 @@ export default function RequestForm({
   isCreatedMode,
   data,
   staticFieldsOverride,
+  staticFieldsUserOverride,
   dynamicFieldsOptions,
   onCancel,
   onSubmit,
   onChangeActivated,
   labels,
+  labelsUser,
   buttonLabels,
 }: IRequestFormProps) {
   const buttonContent = (
@@ -73,11 +81,15 @@ export default function RequestForm({
       <RequestStaticFields
         labels={labels}
         enabledFieldsOverride={staticFieldsOverride}
-        hasUser={data?.hasUser ?? false}
       />
       <FormDynamicBlocks
         name={"addableBlocks"}
         blockOptions={dynamicFieldsOptions}
+      />
+      <RequestStaticFieldsUser
+        labels={labelsUser}
+        enabledFieldsOverride={staticFieldsUserOverride}
+        hasUser={data?.hasUser ?? false}
       />
     </>
   );

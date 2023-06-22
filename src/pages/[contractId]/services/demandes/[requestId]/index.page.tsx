@@ -44,6 +44,8 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
       staticWysiwygText: "Texte",
       subStaticWysiwygText:
         "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
+    },
+    formUser: {
       staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,
       staticUserLabel: "Usager",
       staticUserCivilitySelectLabel: "Civilité",
@@ -256,6 +258,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
           onSubmit={onSubmit}
           onChangeActivated={onChangeActivated}
           labels={labels.form}
+          labelsUser={labels.formUser}
           dynamicFieldsOptions={dynamicFieldOptions}
         />
       </CommonLoader>
