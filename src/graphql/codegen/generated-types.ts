@@ -198,6 +198,7 @@ export type ActivationAndService = Activation | Service;
 
 export type AlertNotification = {
   __typename?: "AlertNotification";
+  alertDescription: Scalars["String"];
   alertMessage?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   publishedAt?: Maybe<Scalars["DateTime"]>;
@@ -225,6 +226,7 @@ export type AlertNotificationEntityResponseCollection = {
 };
 
 export type AlertNotificationFiltersInput = {
+  alertDescription?: InputMaybe<StringFilterInput>;
   alertMessage?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -239,6 +241,7 @@ export type AlertNotificationFiltersInput = {
 };
 
 export type AlertNotificationInput = {
+  alertDescription?: InputMaybe<Scalars["String"]>;
   alertMessage?: InputMaybe<Scalars["String"]>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
@@ -15630,6 +15633,31 @@ export type UpdateRecyclingGuideServiceMutation = {
   } | null;
 };
 
+export type CreateInformationMessageMutationVariables = Exact<{
+  data: InformationMessageInput;
+}>;
+
+export type CreateInformationMessageMutation = {
+  __typename?: "Mutation";
+  createInformationMessage?: {
+    __typename?: "InformationMessageEntityResponse";
+    data?: {
+      __typename?: "InformationMessageEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "InformationMessage";
+        dateStart: string;
+        infoMessage: string;
+        dateEnd?: string | null;
+        pickUpDays?: {
+          __typename?: "PickUpDayRelationResponseCollection";
+          data: Array<{ __typename?: "PickUpDayEntity"; id?: string | null }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type CreatePickUpDayByIdMutationVariables = Exact<{
   data: PickUpDayInput;
 }>;
@@ -15760,6 +15788,35 @@ export type GetInformationMessageByContractIdQuery = {
   } | null;
 };
 
+export type GetInformationMessageByIdQueryVariables = Exact<{
+  informationMessageId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetInformationMessageByIdQuery = {
+  __typename?: "Query";
+  informationMessage?: {
+    __typename?: "InformationMessageEntityResponse";
+    data?: {
+      __typename?: "InformationMessageEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "InformationMessage";
+        dateStart: string;
+        dateEnd?: string | null;
+        infoMessage: string;
+        pickUpDays?: {
+          __typename?: "PickUpDayRelationResponseCollection";
+          data: Array<{
+            __typename?: "PickUpDayEntity";
+            id?: string | null;
+            attributes?: { __typename?: "PickUpDay"; name: string } | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetPickUpDayByIdQueryVariables = Exact<{
   pickUpDayId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -15858,6 +15915,36 @@ export type GetPickUpDaysByContractIdQuery = {
         total: number;
       };
     };
+  } | null;
+};
+
+export type UpdateInformationMessageByIdMutationVariables = Exact<{
+  updateInformationMessageId: Scalars["ID"];
+  data: InformationMessageInput;
+}>;
+
+export type UpdateInformationMessageByIdMutation = {
+  __typename?: "Mutation";
+  updateInformationMessage?: {
+    __typename?: "InformationMessageEntityResponse";
+    data?: {
+      __typename?: "InformationMessageEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "InformationMessage";
+        infoMessage: string;
+        dateStart: string;
+        dateEnd?: string | null;
+        pickUpDays?: {
+          __typename?: "PickUpDayRelationResponseCollection";
+          data: Array<{
+            __typename?: "PickUpDayEntity";
+            id?: string | null;
+            attributes?: { __typename?: "PickUpDay"; name: string } | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -26065,6 +26152,69 @@ export type UpdateRecyclingGuideServiceMutationOptions =
     UpdateRecyclingGuideServiceMutation,
     UpdateRecyclingGuideServiceMutationVariables
   >;
+export const CreateInformationMessageDocument = gql`
+  mutation createInformationMessage($data: InformationMessageInput!) {
+    createInformationMessage(data: $data) {
+      data {
+        id
+        attributes {
+          dateStart
+          infoMessage
+          dateEnd
+          pickUpDays {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type CreateInformationMessageMutationFn = Apollo.MutationFunction<
+  CreateInformationMessageMutation,
+  CreateInformationMessageMutationVariables
+>;
+
+/**
+ * __useCreateInformationMessageMutation__
+ *
+ * To run a mutation, you first call `useCreateInformationMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateInformationMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createInformationMessageMutation, { data, loading, error }] = useCreateInformationMessageMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateInformationMessageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateInformationMessageMutation,
+    CreateInformationMessageMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateInformationMessageMutation,
+    CreateInformationMessageMutationVariables
+  >(CreateInformationMessageDocument, options);
+}
+export type CreateInformationMessageMutationHookResult = ReturnType<
+  typeof useCreateInformationMessageMutation
+>;
+export type CreateInformationMessageMutationResult =
+  Apollo.MutationResult<CreateInformationMessageMutation>;
+export type CreateInformationMessageMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateInformationMessageMutation,
+    CreateInformationMessageMutationVariables
+  >;
 export const CreatePickUpDayByIdDocument = gql`
   mutation CreatePickUpDayById($data: PickUpDayInput!) {
     createPickUpDay(data: $data) {
@@ -26370,6 +26520,79 @@ export type GetInformationMessageByContractIdQueryResult = Apollo.QueryResult<
   GetInformationMessageByContractIdQuery,
   GetInformationMessageByContractIdQueryVariables
 >;
+export const GetInformationMessageByIdDocument = gql`
+  query getInformationMessageById($informationMessageId: ID) {
+    informationMessage(id: $informationMessageId) {
+      data {
+        id
+        attributes {
+          dateStart
+          dateEnd
+          infoMessage
+          pickUpDays {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetInformationMessageByIdQuery__
+ *
+ * To run a query within a React component, call `useGetInformationMessageByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetInformationMessageByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetInformationMessageByIdQuery({
+ *   variables: {
+ *      informationMessageId: // value for 'informationMessageId'
+ *   },
+ * });
+ */
+export function useGetInformationMessageByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetInformationMessageByIdQuery,
+    GetInformationMessageByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetInformationMessageByIdQuery,
+    GetInformationMessageByIdQueryVariables
+  >(GetInformationMessageByIdDocument, options);
+}
+export function useGetInformationMessageByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetInformationMessageByIdQuery,
+    GetInformationMessageByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetInformationMessageByIdQuery,
+    GetInformationMessageByIdQueryVariables
+  >(GetInformationMessageByIdDocument, options);
+}
+export type GetInformationMessageByIdQueryHookResult = ReturnType<
+  typeof useGetInformationMessageByIdQuery
+>;
+export type GetInformationMessageByIdLazyQueryHookResult = ReturnType<
+  typeof useGetInformationMessageByIdLazyQuery
+>;
+export type GetInformationMessageByIdQueryResult = Apollo.QueryResult<
+  GetInformationMessageByIdQuery,
+  GetInformationMessageByIdQueryVariables
+>;
 export const GetPickUpDayByIdDocument = gql`
   query getPickUpDayById($pickUpDayId: ID) {
     pickUpDay(id: $pickUpDayId) {
@@ -26560,6 +26783,76 @@ export type GetPickUpDaysByContractIdQueryResult = Apollo.QueryResult<
   GetPickUpDaysByContractIdQuery,
   GetPickUpDaysByContractIdQueryVariables
 >;
+export const UpdateInformationMessageByIdDocument = gql`
+  mutation updateInformationMessageById(
+    $updateInformationMessageId: ID!
+    $data: InformationMessageInput!
+  ) {
+    updateInformationMessage(id: $updateInformationMessageId, data: $data) {
+      data {
+        id
+        attributes {
+          infoMessage
+          dateStart
+          dateEnd
+          pickUpDays {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type UpdateInformationMessageByIdMutationFn = Apollo.MutationFunction<
+  UpdateInformationMessageByIdMutation,
+  UpdateInformationMessageByIdMutationVariables
+>;
+
+/**
+ * __useUpdateInformationMessageByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateInformationMessageByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateInformationMessageByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateInformationMessageByIdMutation, { data, loading, error }] = useUpdateInformationMessageByIdMutation({
+ *   variables: {
+ *      updateInformationMessageId: // value for 'updateInformationMessageId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateInformationMessageByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateInformationMessageByIdMutation,
+    UpdateInformationMessageByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateInformationMessageByIdMutation,
+    UpdateInformationMessageByIdMutationVariables
+  >(UpdateInformationMessageByIdDocument, options);
+}
+export type UpdateInformationMessageByIdMutationHookResult = ReturnType<
+  typeof useUpdateInformationMessageByIdMutation
+>;
+export type UpdateInformationMessageByIdMutationResult =
+  Apollo.MutationResult<UpdateInformationMessageByIdMutation>;
+export type UpdateInformationMessageByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateInformationMessageByIdMutation,
+    UpdateInformationMessageByIdMutationVariables
+  >;
 export const UpdatePickUpDayDocument = gql`
   mutation updatePickUpDay($updatePickUpDayId: ID!, $data: PickUpDayInput!) {
     updatePickUpDay(id: $updatePickUpDayId, data: $data) {

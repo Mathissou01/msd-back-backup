@@ -1,0 +1,23 @@
+mutation updateInformationMessageById(
+  $updateInformationMessageId: ID!
+  $data: InformationMessageInput!
+) {
+  updateInformationMessage(id: $updateInformationMessageId, data: $data) {
+    data {
+      id
+      attributes {
+        infoMessage
+        dateStart
+        dateEnd
+        pickUpDays {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,13 @@
+import React, { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "./form-date-picker.scss";
 import { fr } from "date-fns/locale";
 import classNames from "classnames";
-import { useState } from "react";
 import FormLabel from "../FormLabel/FormLabel";
-import { ErrorMessage } from "@hookform/error-message";
 import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
+import "react-datepicker/dist/react-datepicker.css";
+import "./form-date-picker.scss";
 
 interface IDatePickerProps {
   name: string;
@@ -16,6 +16,7 @@ interface IDatePickerProps {
   endDate?: Date;
   label: string;
   isRequired?: boolean;
+  selectsRange?: boolean;
 }
 
 export default function FormDatePicker({
@@ -24,6 +25,7 @@ export default function FormDatePicker({
   minDate,
   label,
   isRequired = false,
+  selectsRange = false,
 }: IDatePickerProps) {
   const errorMessages = {
     required: "Ce champ est obligatoire",
@@ -62,7 +64,9 @@ export default function FormDatePicker({
                 })}
               >
                 <DatePicker
-                  selected={value && new Date(value)}
+                  selected={
+                    value ? (selectsRange ? value[0] : new Date(value)) : null
+                  }
                   onChange={onChange}
                   minDate={minDate}
                   maxDate={maxDate}
@@ -70,6 +74,9 @@ export default function FormDatePicker({
                   locale={fr}
                   onCalendarOpen={toggleCalendar}
                   onCalendarClose={toggleCalendar}
+                  startDate={selectsRange ? value && value[0] : null}
+                  endDate={selectsRange ? value && value[1] : null}
+                  selectsRange={selectsRange}
                 />
               </div>
             );

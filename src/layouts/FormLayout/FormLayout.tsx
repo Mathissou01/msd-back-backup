@@ -14,8 +14,9 @@ export interface IFormlayoutOptions<Fields> {
 interface IFormLayoutProps<Fields> {
   buttonContent: ReactNode;
   formContent: ReactNode;
-  sidebarContent: ReactNode;
+  sidebarContent?: ReactNode;
   formOptions: IFormlayoutOptions<Fields>;
+  returnButton?: ReactNode;
 }
 
 export default function FormLayout<Fields extends FieldValues>({
@@ -23,6 +24,7 @@ export default function FormLayout<Fields extends FieldValues>({
   formContent,
   sidebarContent,
   formOptions,
+  returnButton,
 }: IFormLayoutProps<Fields>) {
   /* Local Data */
   const form = useForm<Fields>({
@@ -83,6 +85,7 @@ export default function FormLayout<Fields extends FieldValues>({
           className="c-FormLayout"
           onSubmit={handleSubmit(formOptions.onSubmitValid, onError)}
         >
+          <div className="c-FormLayout__ReturnButton">{returnButton}</div>
           <div className="c-FormLayout__Buttons">{buttonContent}</div>
           <div className="c-FormLayout__Form">
             <div className="c-FormLayout__Content">{formContent}</div>

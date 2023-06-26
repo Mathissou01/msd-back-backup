@@ -5,6 +5,7 @@ import InformationMessageTab from "../../../../components/TabBlock/Tabs/PickUpDa
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import CollectTab from "../../../../components/TabBlock/Tabs/PickUpDays/CollectTab/CollectTab";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
+import { useRouter } from "next/router";
 
 export function PickUpDaysPage() {
   /* Static Data */
@@ -13,6 +14,7 @@ export function PickUpDaysPage() {
   };
 
   /* Local Data */
+  const router = useRouter();
   const [tabs, setTabs] = useState<Array<ITab>>([]);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export function PickUpDaysPage() {
         isEnabled: true,
       },
       {
-        name: "messageInformation",
+        name: "informationMessage",
         title: "Message d'information",
         content: <InformationMessageTab />,
         isEnabled: true,
@@ -37,7 +39,14 @@ export function PickUpDaysPage() {
     <div className="o-PickUpDaysPage">
       <PageTitle title={label.title} />
       <CommonLoader isLoading={false}>
-        <TabBlock tabs={tabs} initialTabName={"collecte"} />
+        <TabBlock
+          tabs={tabs}
+          initialTabName={
+            router.query.tab === "informationMessage"
+              ? "informationMessage"
+              : "collecte"
+          }
+        />
       </CommonLoader>
     </div>
   );

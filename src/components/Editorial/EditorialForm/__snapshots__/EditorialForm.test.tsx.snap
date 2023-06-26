@@ -6,6 +6,9 @@ exports[`EditorialForm renders 1`] = `
     class="c-FormLayout"
   >
     <div
+      class="c-FormLayout__ReturnButton"
+    />
+    <div
       class="c-FormLayout__Buttons"
     >
       <div

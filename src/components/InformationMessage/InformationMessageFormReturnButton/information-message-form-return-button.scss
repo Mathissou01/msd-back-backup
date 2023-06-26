@@ -1,0 +1,10 @@
+.c-InformationMessageFormReturnButton {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-start;
+
+  &__ArrowImage {
+    margin-right: 10px;
+    transform: rotate(90deg);
+  }
+}

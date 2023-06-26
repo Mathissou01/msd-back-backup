@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import { useContract } from "../../../../../hooks/useContract";
+import { useNavigation } from "../../../../../hooks/useNavigation";
 import {
   GetInformationMessageByContractIdQuery,
   GetInformationMessageByContractIdQueryVariables,
@@ -14,6 +16,8 @@ import { removeNulls } from "../../../../../lib/utilities";
 import CommonDataTable from "../../../../Common/CommonDataTable/CommonDataTable";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import CommonLabel from "../../../../Common/CommonLabel/CommonLabel";
+import CommonButton from "../../../../Common/CommonButton/CommonButton";
+import { IDataTableAction } from "../../../../Common/CommonDataTable/DataTableActions/DataTableActions";
 
 interface IInformationMessageTableRow extends IDefaultTableRow {
   infoMessage: string;
@@ -22,8 +26,7 @@ interface IInformationMessageTableRow extends IDefaultTableRow {
 
 function InformationMessageTab() {
   /* Static Data */
-  //TODO: Add for the next US
-  //const addButton = "Créer un message d'information";
+  const addButton = "Créer un message d'information";
   const tableLabels = {
     title: "Liste des messages",
     columns: {
@@ -46,8 +49,7 @@ function InformationMessageTab() {
   }
 
   /* External Data */
-  //TODO: Add for the next US
-  //const { currentRoot } = useNavigation();
+  const { currentRoot } = useNavigation();
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
@@ -63,6 +65,7 @@ function InformationMessageTab() {
     });
 
   /* Local Data */
+  const router = useRouter();
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
     GetInformationMessageByContractIdQuery | undefined
@@ -97,11 +100,10 @@ function InformationMessageTab() {
       sortable: false,
     },
   ];
-
   useEffect(() => {
-    if (pageData) {
+    if (data) {
       setTableData(
-        pageData?.informationMessages?.data
+        data.informationMessages?.data
           ?.map((informationMessages) => {
             if (
               informationMessages &&
@@ -111,7 +113,7 @@ function InformationMessageTab() {
               return {
                 id: informationMessages.id,
                 editState: false,
-                infoMessage: informationMessages.attributes?.infoMessage,
+                infoMessage: informationMessages.attributes.infoMessage,
                 pickUpDays:
                   informationMessages.attributes?.pickUpDays?.data.map(
                     (pickUpDay, index) =>
@@ -128,7 +130,17 @@ function InformationMessageTab() {
           .filter(removeNulls) ?? [],
       );
     }
-  }, [pageData]);
+  }, [data, pageData]);
+
+  const actionColumn = (
+    row: IInformationMessageTableRow,
+  ): Array<IDataTableAction> => [
+    {
+      id: "edit",
+      picto: "/images/pictos/edit.svg",
+      href: `${currentRoot}/services/jour-collecte/information-message/${row.id}`,
+    },
+  ];
 
   useEffect(() => {
     if (data) {
@@ -149,6 +161,19 @@ function InformationMessageTab() {
 
   return (
     <div className="o-TablePage">
+      {" "}
+      <div>
+        <CommonButton
+          label={addButton}
+          style="primary"
+          picto="add"
+          onClick={() =>
+            router.push(
+              `${currentRoot}/services/jour-collecte/information-message/create`,
+            )
+          }
+        />
+      </div>
       <h2 className="o-TablePage__Title c-InformationMessageTab__Title">
         {tableLabels.title}
       </h2>
@@ -156,11 +181,11 @@ function InformationMessageTab() {
         <CommonLoader isLoading={!isInitialized.current} errors={errors}>
           <CommonDataTable<IInformationMessageTableRow>
             columns={tableColumns}
+            actionColumn={actionColumn}
             data={tableData}
             lazyLoadingOptions={{
               isRemote: true,
-              totalRows:
-                pageData?.informationMessages?.meta.pagination.total ?? 0,
+              totalRows: data?.informationMessages?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
             defaultSortFieldId={"infoMessage"}

@@ -134,6 +134,7 @@ type Activation {
 union ActivationAndService = Activation | Service
 
 type AlertNotification {
+  alertDescription: String!
   alertMessage: String
   createdAt: DateTime
   publishedAt: DateTime
@@ -158,6 +159,7 @@ type AlertNotificationEntityResponseCollection {
 }
 
 input AlertNotificationFiltersInput {
+  alertDescription: StringFilterInput
   alertMessage: StringFilterInput
   and: [AlertNotificationFiltersInput]
   createdAt: DateTimeFilterInput
@@ -172,6 +174,7 @@ input AlertNotificationFiltersInput {
 }
 
 input AlertNotificationInput {
+  alertDescription: String
   alertMessage: String
   publishedAt: DateTime
   scheduledAt: Date
