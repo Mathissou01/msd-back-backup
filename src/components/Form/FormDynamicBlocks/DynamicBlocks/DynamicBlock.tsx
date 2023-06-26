@@ -6,6 +6,7 @@ import SubHeadingBlock from "./SubHeadingBlock/SubHeadingBlock";
 import VideoBlock from "./VideoBlock/VideoBlock";
 import FileBlock from "./FileBlock/FileBlock";
 import ImageBlock from "./ImageBlock/ImageBlock";
+import AttachmentsBlock from "./AttachmentsBlock/AttachmentsBlock";
 import QuestionsBlock from "./QuestionsBlock/QuestionsBlock";
 
 interface IDynamicFieldsBlockWrapper {
@@ -38,6 +39,9 @@ export default function DynamicBlock({
       }
       case "ComponentBlocksImage": {
         return <ImageBlock blockName={name} />;
+      }
+      case "ComponentBlocksAttachments": {
+        return <AttachmentsBlock blockName={name} />;
       }
       case "ComponentBlocksQuestions": {
         return <QuestionsBlock blockName={name} />;

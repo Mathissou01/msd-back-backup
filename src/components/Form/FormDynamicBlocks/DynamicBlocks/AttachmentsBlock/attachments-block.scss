@@ -1,0 +1,12 @@
+.c-AttachmentsBlock {
+  display: flex;
+  flex-direction: column;
+
+  &__Field:not(:last-of-type) {
+    margin-bottom: 0.8em;
+  }
+
+  &__AttachmentLabel {
+    width: 50%;
+  }
+}

@@ -742,6 +742,7 @@ type CollectEntity {
   grammaticalGender: String!
   name: String!
   originalId: ID!
+  picto: PictoDTO!
   uniqueId: String!
 }
 
@@ -2040,6 +2041,26 @@ type DropOffMap {
   openingHoursBlocks: [DropOffMapOpeningHoursBlocksDynamicZone]
   phoneNumber: String
   updatedAt: DateTime
+}
+
+type DropOffMapDTO {
+  BANFeatureProperties: JSON
+  address: String!
+  city: String!
+  collect: CollectEntity
+  description: String
+  downloadableFiles(
+    filters: ComponentBlocksDownloadBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksDownloadBlock]
+  id: String!
+  latitude: Float!
+  longitude: Float!
+  mustKnow: String
+  name: String!
+  openingHoursBlocks: [DropOffMapOpeningHoursBlocksDynamicZone]
+  phoneNumber: String
 }
 
 type DropOffMapEntity {
@@ -4900,6 +4921,13 @@ type PickUpDayServiceRelationResponseCollection {
   data: [PickUpDayServiceEntity!]!
 }
 
+type PictoDTO {
+  alternativeText: String
+  id: String!
+  name: String!
+  url: String!
+}
+
 enum PublicationState {
   LIVE
   PREVIEW
@@ -5136,6 +5164,7 @@ type Query {
   getAllFoldersHierarchy(path: String!): [RequestFolders]
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
   getDropOffCollectType(contractId: ID!): [CollectEntity]
+  getDropOffMaps(dropOffMapServiceId: ID!): [DropOffMapDTO]
   getEditoBlockDTO(
     contractId: ID!
     status: ENUM_EDITOCONTENTDTO_STATUS

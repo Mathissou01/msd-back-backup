@@ -22,6 +22,12 @@ query getRequestById($requestId: ID) {
           }
         }
         addableBlocks {
+          ... on ComponentBlocksAttachments {
+            id
+            attachmentLabel
+            renderField
+            multipleAttachments
+          }
           ... on ComponentBlocksQuestions {
             id
             height

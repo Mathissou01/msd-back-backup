@@ -872,6 +872,7 @@ export type CollectEntity = {
   grammaticalGender: Scalars["String"];
   name: Scalars["String"];
   originalId: Scalars["ID"];
+  picto: PictoDto;
   uniqueId: Scalars["String"];
 };
 
@@ -2312,6 +2313,31 @@ export type DropOffMap = {
 };
 
 export type DropOffMapDownloadableFilesArgs = {
+  filters?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type DropOffMapDto = {
+  __typename?: "DropOffMapDTO";
+  BANFeatureProperties?: Maybe<Scalars["JSON"]>;
+  address: Scalars["String"];
+  city: Scalars["String"];
+  collect?: Maybe<CollectEntity>;
+  description?: Maybe<Scalars["String"]>;
+  downloadableFiles?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
+  id: Scalars["String"];
+  latitude: Scalars["Float"];
+  longitude: Scalars["Float"];
+  mustKnow?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  openingHoursBlocks?: Maybe<
+    Array<Maybe<DropOffMapOpeningHoursBlocksDynamicZone>>
+  >;
+  phoneNumber?: Maybe<Scalars["String"]>;
+};
+
+export type DropOffMapDtoDownloadableFilesArgs = {
   filters?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -6238,6 +6264,14 @@ export type PickUpDayServiceRelationResponseCollection = {
   data: Array<PickUpDayServiceEntity>;
 };
 
+export type PictoDto = {
+  __typename?: "PictoDTO";
+  alternativeText?: Maybe<Scalars["String"]>;
+  id: Scalars["String"];
+  name: Scalars["String"];
+  url: Scalars["String"];
+};
+
 export enum PublicationState {
   Live = "LIVE",
   Preview = "PREVIEW",
@@ -6326,6 +6360,7 @@ export type Query = {
   getAllFoldersHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
   getDropOffCollectType?: Maybe<Array<Maybe<CollectEntity>>>;
+  getDropOffMaps?: Maybe<Array<Maybe<DropOffMapDto>>>;
   getEditoBlockDTO?: Maybe<EditoBlockDto>;
   getEditoContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
   getFilePath?: Maybe<Scalars["String"]>;
@@ -6812,6 +6847,10 @@ export type QueryGetContentTypeDtOsArgs = {
 
 export type QueryGetDropOffCollectTypeArgs = {
   contractId: Scalars["ID"];
+};
+
+export type QueryGetDropOffMapsArgs = {
+  dropOffMapServiceId: Scalars["ID"];
 };
 
 export type QueryGetEditoBlockDtoArgs = {
@@ -14962,7 +15001,13 @@ export type GetRequestByIdQuery = {
           } | null;
         } | null;
         addableBlocks?: Array<
-          | { __typename?: "ComponentBlocksAttachments" }
+          | {
+              __typename?: "ComponentBlocksAttachments";
+              id: string;
+              attachmentLabel: string;
+              renderField: boolean;
+              multipleAttachments?: boolean | null;
+            }
           | { __typename?: "ComponentBlocksCheckbox" }
           | { __typename?: "ComponentBlocksCommentary" }
           | { __typename?: "ComponentBlocksCumbersome" }
@@ -24758,6 +24803,12 @@ export const GetRequestByIdDocument = gql`
             }
           }
           addableBlocks {
+            ... on ComponentBlocksAttachments {
+              id
+              attachmentLabel
+              renderField
+              multipleAttachments
+            }
             ... on ComponentBlocksQuestions {
               id
               height

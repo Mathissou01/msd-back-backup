@@ -67,6 +67,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
   const { contractId } = useContract();
   const [mappedData, setMappedData] = useState<IRequestFields>();
   const dynamicFieldOptions: Array<TDynamicFieldOption> = [
+    "ComponentBlocksAttachments",
     "ComponentBlocksQuestions",
   ];
 
@@ -174,6 +175,10 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
             newBlock.height = newBlock.height ? "1" : "0";
             return {
               ...newBlock,
+            };
+          } else {
+            return {
+              ...block,
             };
           }
         })

@@ -56,8 +56,9 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     picto: "textCase",
   },
   ComponentBlocksAttachments: {
-    label: "TO_REPLACE_Request_Attachments",
-    picto: "question_text",
+    label: "Pièces jointes",
+    picto: "attachment",
+    cannotDuplicate: true,
   },
   ComponentBlocksCheckbox: {
     label: "TO_REPLACE_Checkbox",
@@ -112,6 +113,7 @@ export type IFormBlock =
   | IBlocksSubHeading
   | IBlocksVideo
   | IBlocksWysiwyg
+  | IBlocksAttachments
   | IBlocksQuestions;
 
 export interface IBlocksFile extends IPartialBlock {
@@ -147,6 +149,13 @@ export interface IBlocksVideo extends IPartialBlock {
 export interface IBlocksWysiwyg extends IPartialBlock {
   __typename: "ComponentBlocksWysiwyg";
   textEditor: string;
+}
+
+export interface IBlocksAttachments extends IPartialBlock {
+  __typename: "ComponentBlocksAttachments";
+  attachmentLabel: string;
+  renderField: boolean;
+  multipleAttachments: boolean;
 }
 
 export interface IBlocksQuestions extends IPartialBlock {
@@ -227,6 +236,15 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         isDecorative: undefined,
         altText: undefined,
         picture: undefined,
+      };
+    }
+    case "ComponentBlocksAttachments": {
+      return {
+        __typename,
+        id: temporaryId,
+        attachmentLabel: "",
+        renderField: false,
+        multipleAttachments: false,
       };
     }
     case "ComponentBlocksQuestions": {
