@@ -7,6 +7,7 @@ import {
   GetInformationMessageByContractIdQuery,
   GetInformationMessageByContractIdQueryVariables,
   useGetInformationMessageByContractIdLazyQuery,
+  useGetPickUpDaysByContractIdLazyQuery,
 } from "../../../../../graphql/codegen/generated-types";
 import {
   ICurrentPagination,
@@ -18,10 +19,15 @@ import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import CommonLabel from "../../../../Common/CommonLabel/CommonLabel";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import { IDataTableAction } from "../../../../Common/CommonDataTable/DataTableActions/DataTableActions";
+import "./information-message-tab.scss";
 
 interface IInformationMessageTableRow extends IDefaultTableRow {
   infoMessage: string;
   pickUpDays: React.ReactNode[];
+}
+
+interface IFilters extends Record<string, unknown> {
+  pickUpDaysId?: string;
 }
 
 function InformationMessageTab() {
@@ -36,11 +42,18 @@ function InformationMessageTab() {
   };
 
   /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination) {
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
     return getInformationMessageQuery({
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
+        ...(filters?.pickUpDaysId &&
+          filters.pickUpDaysId && {
+            pickUpDaysId: filters?.pickUpDaysId,
+          }),
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
         }),
@@ -63,6 +76,10 @@ function InformationMessageTab() {
       variables: defaultQueryVariables,
       fetchPolicy: "network-only",
     });
+  const [
+    getFilterPickUpDays,
+    { data: pickUpDayData, loading: pickUpDayLoading, error: pickUpDayError },
+  ] = useGetPickUpDaysByContractIdLazyQuery();
 
   /* Local Data */
   const router = useRouter();
@@ -74,9 +91,10 @@ function InformationMessageTab() {
     Array<IInformationMessageTableRow>
   >([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
+  const [filters, setFilters] = useState<IFilters>({});
   const isLoadingMutation = isUpdatingData;
-  const isLoading = loading || isLoadingMutation;
-  const errors = [error];
+  const isLoading = loading || isLoadingMutation || pickUpDayLoading;
+  const errors = [error, pickUpDayError];
   const tableColumns: Array<TableColumn<IInformationMessageTableRow>> = [
     {
       id: "id",
@@ -100,6 +118,33 @@ function InformationMessageTab() {
       sortable: false,
     },
   ];
+  const filtersNode = (
+    <div className="c-InformationMessageTab__Filter">
+      <div className="o-SelectWrapper">
+        <select
+          className="o-SelectWrapper__Select"
+          value={filters.pickUpDaysId}
+          onChange={(e) =>
+            setFilters({ ...filters, pickUpDaysId: e.target.value })
+          }
+        >
+          <option value="">{"- Collectes -"}</option>
+          {pickUpDayData?.pickUpDays?.data
+            .map((pickUpDay, index) => {
+              if (pickUpDay && pickUpDay.id && pickUpDay.attributes) {
+                return (
+                  <option key={index} value={pickUpDay.id}>
+                    {pickUpDay.attributes.name}
+                  </option>
+                );
+              }
+            })
+            .filter(removeNulls) ?? []}
+        </select>
+      </div>
+    </div>
+  );
+
   useEffect(() => {
     if (data) {
       setTableData(
@@ -143,10 +188,8 @@ function InformationMessageTab() {
   ];
 
   useEffect(() => {
-    if (data) {
-      setPageData(data);
-    }
-  }, [data]);
+    setPageData(data);
+  }, [data, filters]);
 
   useEffect(() => {
     setIsUpdatingData(false);
@@ -156,8 +199,9 @@ function InformationMessageTab() {
     if (!isInitialized.current) {
       isInitialized.current = true;
       void getInformationMessageQuery();
+      void getFilterPickUpDays();
     }
-  }, [getInformationMessageQuery, isInitialized]);
+  }, [getInformationMessageQuery, isInitialized, getFilterPickUpDays]);
 
   return (
     <div className="o-TablePage">
@@ -189,13 +233,15 @@ function InformationMessageTab() {
             }}
             isLoading={isLoading}
             defaultSortFieldId={"infoMessage"}
+            onLazyLoad={handleLazyLoad}
+            filters={filters}
+            filtersNode={filtersNode}
             paginationOptions={{
               hasPagination: true,
               hasRowsPerPageOptions: false,
               defaultRowsPerPage,
               defaultPage,
             }}
-            onLazyLoad={handleLazyLoad}
           />
         </CommonLoader>
       </div>

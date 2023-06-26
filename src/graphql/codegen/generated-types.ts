@@ -15749,6 +15749,7 @@ export type GetFlowsQuery = {
 
 export type GetInformationMessageByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
+  pickUpDaysId?: InputMaybe<Scalars["ID"]>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
@@ -26430,6 +26431,7 @@ export type GetFlowsQueryResult = Apollo.QueryResult<
 export const GetInformationMessageByContractIdDocument = gql`
   query getInformationMessageByContractId(
     $contractId: ID!
+    $pickUpDaysId: ID
     $pagination: PaginationArg
     $sort: [String]
   ) {
@@ -26437,6 +26439,7 @@ export const GetInformationMessageByContractIdDocument = gql`
       filters: {
         pickUpDays: {
           pickUpDayService: { contract: { id: { eq: $contractId } } }
+          id: { eq: $pickUpDaysId }
         }
       }
       pagination: $pagination
@@ -26481,6 +26484,7 @@ export const GetInformationMessageByContractIdDocument = gql`
  * const { data, loading, error } = useGetInformationMessageByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      pickUpDaysId: // value for 'pickUpDaysId'
  *      pagination: // value for 'pagination'
  *      sort: // value for 'sort'
  *   },

@@ -1,5 +1,6 @@
 query getInformationMessageByContractId(
   $contractId: ID!
+  $pickUpDaysId: ID
   $pagination: PaginationArg
   $sort: [String]
 ) {
@@ -7,6 +8,7 @@ query getInformationMessageByContractId(
     filters: {
       pickUpDays: {
         pickUpDayService: { contract: { id: { eq: $contractId } } }
+        id: { eq: $pickUpDaysId }
       }
     }
     pagination: $pagination
