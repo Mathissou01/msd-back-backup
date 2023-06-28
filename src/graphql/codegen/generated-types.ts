@@ -6117,6 +6117,7 @@ export type PaginationArg = {
 export type PickUpDay = {
   __typename?: "PickUpDay";
   advancedSelection: Scalars["JSON"];
+  buttonLabel?: Maybe<Scalars["String"]>;
   cities?: Maybe<CityRelationResponseCollection>;
   collectDoorToDoor?: Maybe<CollectDoorToDoorEntityResponse>;
   collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
@@ -6168,6 +6169,7 @@ export type PickUpDayEntityResponseCollection = {
 export type PickUpDayFiltersInput = {
   advancedSelection?: InputMaybe<JsonFilterInput>;
   and?: InputMaybe<Array<InputMaybe<PickUpDayFiltersInput>>>;
+  buttonLabel?: InputMaybe<StringFilterInput>;
   cities?: InputMaybe<CityFiltersInput>;
   collectDoorToDoor?: InputMaybe<CollectDoorToDoorFiltersInput>;
   collectVoluntary?: InputMaybe<CollectVoluntaryFiltersInput>;
@@ -6192,6 +6194,7 @@ export type PickUpDayFiltersInput = {
 
 export type PickUpDayInput = {
   advancedSelection?: InputMaybe<Scalars["JSON"]>;
+  buttonLabel?: InputMaybe<Scalars["String"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   collectDoorToDoor?: InputMaybe<Scalars["ID"]>;
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
@@ -15007,6 +15010,8 @@ export type GetRequestByIdQuery = {
         blockText?: string | null;
         isActivated?: boolean | null;
         hasSeveralRequestTypes: boolean;
+        hasAddress: boolean;
+        fieldAddressLabel?: string | null;
         hasUser: boolean;
         displayUserCivility?: boolean | null;
         isUserNameMandatory?: boolean | null;
@@ -15031,6 +15036,13 @@ export type GetRequestByIdQuery = {
             } | null;
           } | null;
         } | null;
+        requestType?: Array<{
+          __typename?: "ComponentBlocksRequestType";
+          id: string;
+          title: string;
+          isEmail?: boolean | null;
+          email?: string | null;
+        } | null> | null;
         addableBlocks?: Array<
           | {
               __typename?: "ComponentBlocksAttachments";
@@ -15056,13 +15068,6 @@ export type GetRequestByIdQuery = {
           | { __typename?: "Error" }
           | null
         > | null;
-        requestType?: Array<{
-          __typename?: "ComponentBlocksRequestType";
-          id: string;
-          title: string;
-          isEmail?: boolean | null;
-          email?: string | null;
-        } | null> | null;
       } | null;
     } | null;
   } | null;
@@ -24960,6 +24965,14 @@ export const GetRequestByIdDocument = gql`
               }
             }
           }
+          requestType {
+            id
+            title
+            isEmail
+            email
+          }
+          hasAddress
+          fieldAddressLabel
           addableBlocks {
             ... on ComponentBlocksAttachments {
               id
@@ -24974,12 +24987,6 @@ export const GetRequestByIdDocument = gql`
               questionTextPlaceholder
               textStatus
             }
-          }
-          requestType {
-            id
-            title
-            isEmail
-            email
           }
           hasUser
           displayUserCivility

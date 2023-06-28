@@ -44,20 +44,24 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
       staticWysiwygText: "Texte",
       subStaticWysiwygText:
         "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
-    },
-    formUser: {
-      staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,
-      staticUserLabel: "Usager",
-      staticUserCivilitySelectLabel: "Civilité",
-      staticUserCivilitySelectTrueOption: "Visible",
-      staticUserCivilitySelectFalseOption: "Caché",
-      staticUserNameFieldStateSelectLabel: 'Statut du champ "Nom / prénom"',
-      staticUserEmailFieldStateSelectLabel: 'Statut du champ "Email"',
-      staticUserPhoneFieldStateSelectLabel: 'Statut du champ "Téléphone"',
-      staticMandatoryFieldStateSelectLabelTrueOption: "Obligatoire",
-      staticMandatoryFieldStateSelectLabelFalseOption: "Optionnel",
-      staticUserSMSCheckboxStateLabel:
-        "Afficher une case à cocher pour permettre aux usagers d'être alertés par SMS",
+      address: {
+        addressCheckboxLabel: `Activer la gestion de l'encart "Adresse"`,
+        addressLabel: `Libellé des champs d'adresse`,
+      },
+      formUser: {
+        staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,
+        staticUserLabel: "Usager",
+        staticUserCivilitySelectLabel: "Civilité",
+        staticUserCivilitySelectTrueOption: "Visible",
+        staticUserCivilitySelectFalseOption: "Caché",
+        staticUserNameFieldStateSelectLabel: 'Statut du champ "Nom / prénom"',
+        staticUserEmailFieldStateSelectLabel: 'Statut du champ "Email"',
+        staticUserPhoneFieldStateSelectLabel: 'Statut du champ "Téléphone"',
+        staticMandatoryFieldStateSelectLabelTrueOption: "Obligatoire",
+        staticMandatoryFieldStateSelectLabelFalseOption: "Optionnel",
+        staticUserSMSCheckboxStateLabel:
+          "Afficher une case à cocher pour permettre aux usagers d'être alertés par SMS",
+      },
     },
   };
 
@@ -96,7 +100,7 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
         return { ...block };
       },
     );
-    return requestId === "-1"
+    return requestId === "-1" // TODO MODIFY WITH CREATED MODE
       ? createRequest({
           variables: {
             data: {
@@ -114,6 +118,8 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
               isUserEmailMandatory: submitData.isUserEmailMandatory === "true",
               isUserPhoneMandatory: submitData.isUserPhoneMandatory === "true",
               userAllowSMSNotification: submitData.userAllowSMSNotification,
+              hasAddress: submitData.hasAddress,
+              fieldAddressLabel: submitData.fieldAddressLabel,
             },
           },
           onCompleted: (result) => {
@@ -139,6 +145,8 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
               isUserEmailMandatory: submitData.isUserEmailMandatory === "true",
               isUserPhoneMandatory: submitData.isUserPhoneMandatory === "true",
               userAllowSMSNotification: submitData.userAllowSMSNotification,
+              hasAddress: submitData.hasAddress,
+              fieldAddressLabel: submitData.fieldAddressLabel,
             },
           },
           onCompleted: (result) => {
@@ -225,6 +233,8 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
           status: requestData.attributes.isActivated
             ? EStatus.Activated
             : EStatus.Draft,
+          hasAddress: requestData.attributes.hasAddress,
+          fieldAddressLabel: requestData.attributes.fieldAddressLabel ?? "",
         };
         setMappedData(mappedData);
       }
@@ -244,6 +254,8 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
         isUserPhoneMandatory: "true",
         userAllowSMSNotification: false,
         status: EStatus.Draft,
+        hasAddress: false,
+        fieldAddressLabel: "",
       };
 
       setMappedData(mappedData);
@@ -263,7 +275,6 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
           onSubmit={onSubmit}
           onChangeActivated={onChangeActivated}
           labels={labels.form}
-          labelsUser={labels.formUser}
           dynamicFieldsOptions={dynamicFieldOptions}
         />
       </CommonLoader>

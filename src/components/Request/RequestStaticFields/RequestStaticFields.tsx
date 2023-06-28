@@ -1,5 +1,5 @@
-import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { removeNulls } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
 import {
@@ -11,6 +11,10 @@ import FormInput from "../../Form/FormInput/FormInput";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
 import { IOptionWrapper } from "../../Form/FormMultiselect/FormMultiselect";
 import FormWysiwyg from "../../Form/FormWysiwyg/FormWysiwyg";
+import RequestAddressFields, {
+  IRequestAddressFields,
+} from "../RequestAddressFields/RequestAddressFields";
+import { IRequestStaticUserLabels } from "../RequestStaticUser/RequestStaticUser";
 import "./request-static-fields.scss";
 
 export interface IRequestStaticFieldsLabels {
@@ -23,13 +27,16 @@ export interface IRequestStaticFieldsLabels {
   staticRadioRequestType: string;
   oneRequestType: string;
   severalRequestType: string;
+  address: IRequestAddressFields;
+  formUser: IRequestStaticUserLabels;
 }
 
 export type TRequestStaticFields =
   | "name"
   | "aggregate"
   | "hasSeveralRequestTypes"
-  | "blockText";
+  | "blockText"
+  | "fieldAddressLabel";
 
 interface IRequestStaticFieldsProps {
   labels: IRequestStaticFieldsLabels;
@@ -45,10 +52,13 @@ export default function RequestStaticFields({
 
   /* Local Data */
   const { contractId } = useContract();
+  const { watch } = useFormContext();
+  const severalRequestType = watch("hasSeveralRequestTypes");
   const [requestAggregateOptions, setRequestAggregateOptions] = useState<
     Array<IOptionWrapper<RequestAggregateEntity>>
   >([]);
 
+  /* External Datas */
   const { data: requestAggregatesData } =
     useGetRequestAggregatesByContractIdQuery({
       variables: { contractId, sort: "name" },
@@ -81,8 +91,7 @@ export default function RequestStaticFields({
       setRequestAggregateOptions(mappedRequestAggregates?.filter(removeNulls));
     }
   }, [requestAggregatesData]);
-  const { watch } = useFormContext();
-  const severalRequestType = watch("hasSeveralRequestTypes");
+
   return (
     <>
       <div className="c-RequestStaticFields">
@@ -108,7 +117,7 @@ export default function RequestStaticFields({
               name="aggregate"
               displayTransform={requestAggregatesSelectDisplayTransformFunction}
               options={requestAggregateOptions}
-              optionKey={"id"}
+              optionKey="id"
               informationLabel={labels.staticAggregateInformation}
               isDisabled={requestAggregateOptions.length === 0}
             />
@@ -144,6 +153,11 @@ export default function RequestStaticFields({
           <div>WIP ONE REQUEST TYPE</div>
         ) : (
           <div>WIP SEVERAL REQUEST TYPE</div>
+        )}
+      </div>
+      <div className="c-RequestStaticFields">
+        {hasFieldEnabled("fieldAddressLabel") && (
+          <RequestAddressFields labels={labels.address} />
         )}
       </div>
     </>

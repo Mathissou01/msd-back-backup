@@ -4789,6 +4789,7 @@ input PaginationArg {
 
 type PickUpDay {
   advancedSelection: JSON!
+  buttonLabel: String
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4833,6 +4834,7 @@ type PickUpDayEntityResponseCollection {
 input PickUpDayFiltersInput {
   advancedSelection: JSONFilterInput
   and: [PickUpDayFiltersInput]
+  buttonLabel: StringFilterInput
   cities: CityFiltersInput
   collectDoorToDoor: CollectDoorToDoorFiltersInput
   collectVoluntary: CollectVoluntaryFiltersInput
@@ -4857,6 +4859,7 @@ input PickUpDayFiltersInput {
 
 input PickUpDayInput {
   advancedSelection: JSON
+  buttonLabel: String
   cities: [ID]
   collectDoorToDoor: ID
   collectVoluntary: ID

@@ -16,7 +16,6 @@ import RequestFormButtons, {
   IRequestFormButtonsLabels,
 } from "./RequestFormButtons/RequestFormButtons";
 import RequestStaticFieldsUser, {
-  IRequestStaticUserLabels,
   TRequestStaticUser,
 } from "./RequestStaticUser/RequestStaticUser";
 
@@ -33,6 +32,8 @@ export interface IRequestStaticFields extends IFormCommonFields {
   isUserEmailMandatory: string;
   isUserPhoneMandatory: string;
   userAllowSMSNotification: boolean;
+  hasAddress: boolean;
+  fieldAddressLabel: string;
 }
 
 export interface IRequestFields extends IRequestStaticFields {
@@ -49,7 +50,6 @@ interface IRequestFormProps {
   onSubmit: (data: FieldValues, type?: string) => void;
   onChangeActivated: () => void;
   labels: IRequestStaticFieldsLabels;
-  labelsUser: IRequestStaticUserLabels;
   buttonLabels?: IRequestFormButtonsLabels;
 }
 
@@ -63,7 +63,6 @@ export default function RequestForm({
   onSubmit,
   onChangeActivated,
   labels,
-  labelsUser,
   buttonLabels,
 }: IRequestFormProps) {
   const buttonContent = (
@@ -87,7 +86,7 @@ export default function RequestForm({
         blockOptions={dynamicFieldsOptions}
       />
       <RequestStaticFieldsUser
-        labels={labelsUser}
+        labels={labels.formUser}
         enabledFieldsOverride={staticFieldsUserOverride}
         hasUser={data?.hasUser ?? false}
       />

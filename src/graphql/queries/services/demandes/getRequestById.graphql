@@ -21,6 +21,14 @@ query getRequestById($requestId: ID) {
             }
           }
         }
+        requestType {
+          id
+          title
+          isEmail
+          email
+        }
+        hasAddress
+        fieldAddressLabel
         addableBlocks {
           ... on ComponentBlocksAttachments {
             id
@@ -35,12 +43,6 @@ query getRequestById($requestId: ID) {
             questionTextPlaceholder
             textStatus
           }
-        }
-        requestType {
-          id
-          title
-          isEmail
-          email
         }
         hasUser
         displayUserCivility
