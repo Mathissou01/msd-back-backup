@@ -52,8 +52,9 @@ export default function FormAutoCompleteInput<T>({
   }
 
   function handleInput(value: string) {
-    if (value && value.length >= minLength) {
-      searchFunction(value).then((results) => {
+    const trimmedValue = value.trim();
+    if (trimmedValue && trimmedValue.length >= minLength) {
+      searchFunction(trimmedValue).then((results) => {
         if (results && results.length > 0) {
           setResults(results.filter(removeNulls));
         } else {

@@ -103,7 +103,7 @@ export default function AddressOrGpsFields({
         </div>
       </fieldset>
       {radioValue === "address" && (
-        <CommonErrors errors={[error]}>
+        <CommonErrors displayMode="toaster" errors={[error]}>
           <FormAutoCompleteInput<SearchResultAddress>
             name="address"
             searchFunction={searchFunction}
