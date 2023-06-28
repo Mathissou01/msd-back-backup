@@ -4,6 +4,8 @@ mutation updatePickUpDay($updatePickUpDayId: ID!, $data: PickUpDayInput!) {
       id
       attributes {
         name
+        advancedSelection
+        periodicity
         flow {
           data {
             id

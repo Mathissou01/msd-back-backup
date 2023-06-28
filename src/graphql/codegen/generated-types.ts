@@ -200,12 +200,28 @@ export type AlertNotification = {
   __typename?: "AlertNotification";
   alertDescription: Scalars["String"];
   alertMessage?: Maybe<Scalars["String"]>;
+  alertNotifService?: Maybe<AlertNotificationServiceEntityResponse>;
+  alertTitle?: Maybe<Scalars["String"]>;
+  cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
   scheduledAt: Scalars["Date"];
+  sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   sendMail?: Maybe<Scalars["Boolean"]>;
+  sendSMS?: Maybe<Scalars["Boolean"]>;
   subject?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationSectorizationsArgs = {
+  filters?: InputMaybe<SectorizationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type AlertNotificationEntity = {
@@ -228,14 +244,18 @@ export type AlertNotificationEntityResponseCollection = {
 export type AlertNotificationFiltersInput = {
   alertDescription?: InputMaybe<StringFilterInput>;
   alertMessage?: InputMaybe<StringFilterInput>;
+  alertNotifService?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  alertTitle?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
+  cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<AlertNotificationFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   scheduledAt?: InputMaybe<DateFilterInput>;
+  sectorizations?: InputMaybe<SectorizationFiltersInput>;
   sendMail?: InputMaybe<BooleanFilterInput>;
+  sendSMS?: InputMaybe<BooleanFilterInput>;
   subject?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -243,9 +263,13 @@ export type AlertNotificationFiltersInput = {
 export type AlertNotificationInput = {
   alertDescription?: InputMaybe<Scalars["String"]>;
   alertMessage?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  alertNotifService?: InputMaybe<Scalars["ID"]>;
+  alertTitle?: InputMaybe<Scalars["String"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
+  sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   sendMail?: InputMaybe<Scalars["Boolean"]>;
+  sendSMS?: InputMaybe<Scalars["Boolean"]>;
   subject?: InputMaybe<Scalars["String"]>;
 };
 
@@ -271,7 +295,6 @@ export type AlertNotificationService = {
 export type AlertNotificationServiceAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -6100,6 +6123,7 @@ export type PickUpDay = {
   complementaryMention?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
+  externalLink?: Maybe<Scalars["String"]>;
   flow: FlowEntityResponse;
   includeHoliday: Scalars["Boolean"];
   informationMessage?: Maybe<InformationMessageEntityResponse>;
@@ -6107,6 +6131,7 @@ export type PickUpDay = {
   periodicity?: Maybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   pickUpHours?: Maybe<Scalars["String"]>;
+  request?: Maybe<RequestEntityResponse>;
   sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -6149,6 +6174,7 @@ export type PickUpDayFiltersInput = {
   complementaryMention?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
+  externalLink?: InputMaybe<StringFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   includeHoliday?: InputMaybe<BooleanFilterInput>;
@@ -6159,6 +6185,7 @@ export type PickUpDayFiltersInput = {
   periodicity?: InputMaybe<StringFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   pickUpHours?: InputMaybe<StringFilterInput>;
+  request?: InputMaybe<RequestFiltersInput>;
   sectorizations?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -6170,6 +6197,7 @@ export type PickUpDayInput = {
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
   complementaryMention?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  externalLink?: InputMaybe<Scalars["String"]>;
   flow?: InputMaybe<Scalars["ID"]>;
   includeHoliday?: InputMaybe<Scalars["Boolean"]>;
   informationMessage?: InputMaybe<Scalars["ID"]>;
@@ -6177,6 +6205,7 @@ export type PickUpDayInput = {
   periodicity?: InputMaybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   pickUpHours?: InputMaybe<Scalars["String"]>;
+  request?: InputMaybe<Scalars["ID"]>;
   sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -6494,7 +6523,6 @@ export type QueryAlertNotificationServicesArgs = {
 export type QueryAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -15658,11 +15686,11 @@ export type CreateInformationMessageMutation = {
   } | null;
 };
 
-export type CreatePickUpDayByIdMutationVariables = Exact<{
+export type CreatePickUpDayMutationVariables = Exact<{
   data: PickUpDayInput;
 }>;
 
-export type CreatePickUpDayByIdMutation = {
+export type CreatePickUpDayMutation = {
   __typename?: "Mutation";
   createPickUpDay?: {
     __typename?: "PickUpDayEntityResponse";
@@ -15707,7 +15735,13 @@ export type CreatePickUpDayByIdMutation = {
           __typename?: "SectorizationRelationResponseCollection";
           data: Array<{
             __typename?: "SectorizationEntity";
-            attributes?: { __typename?: "Sectorization"; name: string } | null;
+            id?: string | null;
+            attributes?: {
+              __typename?: "Sectorization";
+              name: string;
+              description: string;
+              polygonCoordinates?: any | null;
+            } | null;
           }>;
         } | null;
       } | null;
@@ -15842,7 +15876,11 @@ export type GetPickUpDayByIdQuery = {
           data?: {
             __typename?: "FlowEntity";
             id?: string | null;
-            attributes?: { __typename?: "Flow"; name?: string | null } | null;
+            attributes?: {
+              __typename?: "Flow";
+              name?: string | null;
+              recyclingGesture: Enum_Flow_Recyclinggesture;
+            } | null;
           } | null;
         };
         sectorizations?: {
@@ -15919,6 +15957,36 @@ export type GetPickUpDaysByContractIdQuery = {
   } | null;
 };
 
+export type GetSearchCitiesQueryVariables = Exact<{
+  searchTerm: Scalars["String"];
+  contractId: Scalars["ID"];
+}>;
+
+export type GetSearchCitiesQuery = {
+  __typename?: "Query";
+  searchCities?: Array<{
+    __typename?: "CityResult";
+    id: string;
+    name?: string | null;
+  } | null> | null;
+};
+
+export type GetSectorizationsPickUpDayQueryVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetSectorizationsPickUpDayQuery = {
+  __typename?: "Query";
+  sectorizations?: {
+    __typename?: "SectorizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "SectorizationEntity";
+      id?: string | null;
+      attributes?: { __typename?: "Sectorization"; name: string } | null;
+    }>;
+  } | null;
+};
+
 export type UpdateInformationMessageByIdMutationVariables = Exact<{
   updateInformationMessageId: Scalars["ID"];
   data: InformationMessageInput;
@@ -15964,6 +16032,8 @@ export type UpdatePickUpDayMutation = {
       attributes?: {
         __typename?: "PickUpDay";
         name: string;
+        advancedSelection: any;
+        periodicity?: Enum_Pickupday_Periodicity | null;
         flow: {
           __typename?: "FlowEntityResponse";
           data?: {
@@ -26216,8 +26286,8 @@ export type CreateInformationMessageMutationOptions =
     CreateInformationMessageMutation,
     CreateInformationMessageMutationVariables
   >;
-export const CreatePickUpDayByIdDocument = gql`
-  mutation CreatePickUpDayById($data: PickUpDayInput!) {
+export const CreatePickUpDayDocument = gql`
+  mutation createPickUpDay($data: PickUpDayInput!) {
     createPickUpDay(data: $data) {
       data {
         id
@@ -26250,8 +26320,11 @@ export const CreatePickUpDayByIdDocument = gql`
           }
           sectorizations {
             data {
+              id
               attributes {
                 name
+                description
+                polygonCoordinates
               }
             }
           }
@@ -26260,48 +26333,48 @@ export const CreatePickUpDayByIdDocument = gql`
     }
   }
 `;
-export type CreatePickUpDayByIdMutationFn = Apollo.MutationFunction<
-  CreatePickUpDayByIdMutation,
-  CreatePickUpDayByIdMutationVariables
+export type CreatePickUpDayMutationFn = Apollo.MutationFunction<
+  CreatePickUpDayMutation,
+  CreatePickUpDayMutationVariables
 >;
 
 /**
- * __useCreatePickUpDayByIdMutation__
+ * __useCreatePickUpDayMutation__
  *
- * To run a mutation, you first call `useCreatePickUpDayByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePickUpDayByIdMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreatePickUpDayMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePickUpDayMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createPickUpDayByIdMutation, { data, loading, error }] = useCreatePickUpDayByIdMutation({
+ * const [createPickUpDayMutation, { data, loading, error }] = useCreatePickUpDayMutation({
  *   variables: {
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useCreatePickUpDayByIdMutation(
+export function useCreatePickUpDayMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreatePickUpDayByIdMutation,
-    CreatePickUpDayByIdMutationVariables
+    CreatePickUpDayMutation,
+    CreatePickUpDayMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    CreatePickUpDayByIdMutation,
-    CreatePickUpDayByIdMutationVariables
-  >(CreatePickUpDayByIdDocument, options);
+    CreatePickUpDayMutation,
+    CreatePickUpDayMutationVariables
+  >(CreatePickUpDayDocument, options);
 }
-export type CreatePickUpDayByIdMutationHookResult = ReturnType<
-  typeof useCreatePickUpDayByIdMutation
+export type CreatePickUpDayMutationHookResult = ReturnType<
+  typeof useCreatePickUpDayMutation
 >;
-export type CreatePickUpDayByIdMutationResult =
-  Apollo.MutationResult<CreatePickUpDayByIdMutation>;
-export type CreatePickUpDayByIdMutationOptions = Apollo.BaseMutationOptions<
-  CreatePickUpDayByIdMutation,
-  CreatePickUpDayByIdMutationVariables
+export type CreatePickUpDayMutationResult =
+  Apollo.MutationResult<CreatePickUpDayMutation>;
+export type CreatePickUpDayMutationOptions = Apollo.BaseMutationOptions<
+  CreatePickUpDayMutation,
+  CreatePickUpDayMutationVariables
 >;
 export const GetDropOffCollectTypeByContractIdDocument = gql`
   query getDropOffCollectTypeByContractId($contractId: ID!) {
@@ -26614,6 +26687,7 @@ export const GetPickUpDayByIdDocument = gql`
               id
               attributes {
                 name
+                recyclingGesture
               }
             }
           }
@@ -26787,6 +26861,132 @@ export type GetPickUpDaysByContractIdQueryResult = Apollo.QueryResult<
   GetPickUpDaysByContractIdQuery,
   GetPickUpDaysByContractIdQueryVariables
 >;
+export const GetSearchCitiesDocument = gql`
+  query getSearchCities($searchTerm: String!, $contractId: ID!) {
+    searchCities(searchTerm: $searchTerm, contractId: $contractId) {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useGetSearchCitiesQuery__
+ *
+ * To run a query within a React component, call `useGetSearchCitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSearchCitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSearchCitiesQuery({
+ *   variables: {
+ *      searchTerm: // value for 'searchTerm'
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetSearchCitiesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetSearchCitiesQuery,
+    GetSearchCitiesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetSearchCitiesQuery, GetSearchCitiesQueryVariables>(
+    GetSearchCitiesDocument,
+    options,
+  );
+}
+export function useGetSearchCitiesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSearchCitiesQuery,
+    GetSearchCitiesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSearchCitiesQuery,
+    GetSearchCitiesQueryVariables
+  >(GetSearchCitiesDocument, options);
+}
+export type GetSearchCitiesQueryHookResult = ReturnType<
+  typeof useGetSearchCitiesQuery
+>;
+export type GetSearchCitiesLazyQueryHookResult = ReturnType<
+  typeof useGetSearchCitiesLazyQuery
+>;
+export type GetSearchCitiesQueryResult = Apollo.QueryResult<
+  GetSearchCitiesQuery,
+  GetSearchCitiesQueryVariables
+>;
+export const GetSectorizationsPickUpDayDocument = gql`
+  query getSectorizationsPickUpDay($contractId: ID) {
+    sectorizations(
+      filters: { contract: { id: { eq: $contractId } } }
+      sort: "createdAt:desc"
+    ) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSectorizationsPickUpDayQuery__
+ *
+ * To run a query within a React component, call `useGetSectorizationsPickUpDayQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSectorizationsPickUpDayQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSectorizationsPickUpDayQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetSectorizationsPickUpDayQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetSectorizationsPickUpDayQuery,
+    GetSectorizationsPickUpDayQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetSectorizationsPickUpDayQuery,
+    GetSectorizationsPickUpDayQueryVariables
+  >(GetSectorizationsPickUpDayDocument, options);
+}
+export function useGetSectorizationsPickUpDayLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSectorizationsPickUpDayQuery,
+    GetSectorizationsPickUpDayQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSectorizationsPickUpDayQuery,
+    GetSectorizationsPickUpDayQueryVariables
+  >(GetSectorizationsPickUpDayDocument, options);
+}
+export type GetSectorizationsPickUpDayQueryHookResult = ReturnType<
+  typeof useGetSectorizationsPickUpDayQuery
+>;
+export type GetSectorizationsPickUpDayLazyQueryHookResult = ReturnType<
+  typeof useGetSectorizationsPickUpDayLazyQuery
+>;
+export type GetSectorizationsPickUpDayQueryResult = Apollo.QueryResult<
+  GetSectorizationsPickUpDayQuery,
+  GetSectorizationsPickUpDayQueryVariables
+>;
 export const UpdateInformationMessageByIdDocument = gql`
   mutation updateInformationMessageById(
     $updateInformationMessageId: ID!
@@ -26864,6 +27064,8 @@ export const UpdatePickUpDayDocument = gql`
         id
         attributes {
           name
+          advancedSelection
+          periodicity
           flow {
             data {
               id

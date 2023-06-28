@@ -1,15 +1,20 @@
 @use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.typography" as typo;
 @use "src/styles/02-tools/tools.shadows" as shadows;
 
 .c-PickUpDaysStaticFields {
-  @include shadows.shadow(1);
+  &__Wrapper {
+    @include shadows.shadow(1);
 
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 16px 20px 32px;
-  background-color: colors.$white;
-  border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 16px 20px 32px;
+    background-color: colors.$white;
+    border-radius: 8px;
+  }
 
   &__RequiredLabel {
     color: colors.$blue-1;
@@ -17,10 +22,14 @@
     line-height: 21px;
   }
 
-  &__FormFielsWrapper {
+  &__Place {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    gap: 18px;
+  }
+
+  &__Description {
+    @include typo.heading(4);
   }
 
   &__FormGroup {

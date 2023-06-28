@@ -3,13 +3,12 @@ import { FieldValues } from "react-hook-form";
 import FormLayout, {
   IFormlayoutOptions,
 } from "../../layouts/FormLayout/FormLayout";
-
-import PickUpDaysFormButtons, {
-  IPickUpDaysFormButtonsLabels,
-} from "./PickUpDaysFormButtons/PickUpDaysFormButtons";
 import PickUpDaysFormStaticFields, {
   IPickUpDaysFormStaticFieldsLabels,
 } from "./PickUpDaysFormStaticFields/PickUpDaysFormStaticFields";
+import PickUpDaysFormButtons, {
+  IPickUpDaysFormButtonsLabels,
+} from "./PickUpDaysFormButtons/PickUpDaysFormButtons";
 import PickUpDaysSideBar from "./PickUpDaysSideBar/PickUpDaysSideBar";
 import { IPickUpDayStaticMappedFields } from "../../lib/pickup-days";
 

@@ -1,35 +1,33 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import GeoJSON from "ol/format/GeoJSON";
+import { FormProvider, useForm } from "react-hook-form";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
   GetSectorizationByContractIdQueryVariables,
+  GetSectorizationsPickUpDayDocument,
+  useCreateSectorizationMutation,
   useGetSectorizationByContractIdQuery,
-} from "../../../graphql/codegen/generated-types";
-import CommonButton from "../../Common/CommonButton/CommonButton";
-import FormInput from "../../Form/FormInput/FormInput";
-import FormMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
-import { ISectorsTableRow } from "../../../lib/sectors";
-import "./sector-modal.scss";
+} from "../../../../graphql/codegen/generated-types";
+import GeoJSON from "ol/format/GeoJSON";
+import { useContract } from "../../../../hooks/useContract";
+import CommonButton from "../../CommonButton/CommonButton";
+import FormInput from "../../../Form/FormInput/FormInput";
+import FormMultiselect, {
+  ICommonSelectOption,
+} from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import { ISectorsTableRow } from "../../../../lib/sectors";
+import "./form-sector.scss";
+import { removeNulls } from "../../../../lib/utilities";
 
-interface ISectorModalProps {
-  onSubmitValid: (data: FieldValues) => void;
-  onSubmitAndModalRefresh: (data: FieldValues) => void;
+interface IFormSectorProps {
   handleCloseModal: () => void;
   defaultValue: ISectorsTableRow | undefined;
-  onUpdate: (data: FieldValues) => void;
-  handlePolygon: (data: GeoJSON | string) => void;
 }
 
-export default function SectorModal({
-  onSubmitValid,
-  onSubmitAndModalRefresh,
+export default function FormSector({
   handleCloseModal,
   defaultValue,
-  onUpdate,
-  handlePolygon,
-}: ISectorModalProps) {
+}: IFormSectorProps) {
   /* Static Data */
   const formLabels = {
     title: "Nom du secteur",
@@ -49,16 +47,19 @@ export default function SectorModal({
     sectorizationId: defaultValue?.id,
   };
 
-  /* Local Data */
+  /* External Data */
+  const [createSectorization] = useCreateSectorizationMutation({
+    awaitRefetchQueries: true,
+  });
   const { data } = useGetSectorizationByContractIdQuery({
     variables: defaultQueryVariables,
     fetchPolicy: "network-only",
   });
+
+  /* Local Data */
+  const { contractId } = useContract();
   const [currentSectorContents, setCurrentSectorContents] = useState<
-    {
-      value: number | string;
-      label: string;
-    }[]
+    ICommonSelectOption[]
   >([{ value: 0, label: "" }]);
 
   const polygon = data?.sectorization?.data?.attributes?.polygonCoordinates;
@@ -66,10 +67,15 @@ export default function SectorModal({
     mode: "onChange",
     defaultValues: defaultValue ?? {},
   });
-  const { handleSubmit, watch } = form;
+  const {
+    watch,
+    getValues,
+    trigger,
+    formState: { isValid },
+  } = form;
   const GoogleMap = useMemo(
     () =>
-      dynamic(() => import("../../Map/OpenlayersMap"), {
+      dynamic(() => import("../../../Map/OpenlayersMap"), {
         ssr: false,
         loading: () => <p>Loading...</p>,
       }),
@@ -86,29 +92,60 @@ export default function SectorModal({
   );
 
   const SelectedCommunes = watch("communes");
+  let polygonData: GeoJSON | string;
+
+  /* Methods */
+  function handlePolygon(polygon: GeoJSON | string) {
+    polygonData = polygon;
+  }
+
   useEffect(() => {
-    const mappedTags = postalCodes.map(
-      (commune: { value: number; name: string }) => {
+    const mappedTags = postalCodes
+      .map((commune: { value: number; name: string }) => {
         return {
           value: commune.value ?? "",
           label: commune.name ?? "",
         };
-      },
-    );
+      })
+      .filter(removeNulls);
+
     setCurrentSectorContents(mappedTags);
   }, [postalCodes]);
 
+  async function onSubmit(submitData: ISectorsTableRow) {
+    trigger();
+    if (isValid) {
+      onSubmitAndModalRefresh(submitData);
+      handleCloseModal();
+    }
+  }
+
+  async function onSubmitAndModalRefresh(submitData: ISectorsTableRow) {
+    const variables = {
+      data: {
+        name: submitData.name,
+        description: submitData.description,
+        contract: contractId,
+        polygonCoordinates: polygonData,
+      },
+    };
+    createSectorization({
+      variables,
+      refetchQueries: [
+        {
+          query: GetSectorizationsPickUpDayDocument,
+          variables: { contractId },
+        },
+      ],
+    });
+  }
+
   return (
     <FormProvider {...form}>
-      <form
-        className="c-SectorModal"
-        onSubmit={handleSubmit(defaultValue ? onUpdate : onSubmitValid)}
-      >
-        <div className="c-SectorModal__Informations">
-          <div className="c-SectorModal__InformationsTitle">
-            {formLabels.title}
-          </div>
-          <div className="c-SectorModal__InformationsSectorName">
+      <form className="c-FormSector">
+        <div className="c-FormSector__Informations">
+          <div className="c-FormSector__Title">{formLabels.title}</div>
+          <div className="c-FormSector__Name">
             <FormInput
               type="text"
               name="name"
@@ -117,7 +154,7 @@ export default function SectorModal({
               maxLengthValidation={maxCharacters}
             />
           </div>
-          <div className="c-SectorModal__InformationsSectorDescription">
+          <div className="c-FormSector__Description">
             <FormInput
               type="text"
               name="description"
@@ -127,14 +164,14 @@ export default function SectorModal({
             />
           </div>
 
-          <div className="c-SectorModal__InformationsSectorCommunes">
+          <div className="c-FormSector__Communes">
             <Image
               src={"/images/pictos/polygon.svg"}
               alt=""
               width={30}
               height={30}
             />
-            <div className="c-SectorModal__InformationsSectorCommunesInfo">
+            <div className="c-FormSector__Info">
               <p>{communesLabels.title}</p>
               {currentSectorContents && (
                 <FormMultiselect
@@ -148,23 +185,24 @@ export default function SectorModal({
             </div>
           </div>
 
-          <div className="c-SectorModal__InformationsButtons">
-            <div className="c-SectorModal__InformationsSaveButton">
+          <div className="c-FormSector__ButtonsWrapper">
+            <div className="c-FormSector__SaveButton">
               <CommonButton
-                type="submit"
+                type="button"
                 label={buttonLabels.save}
                 picto="check"
                 style="primary"
+                onClick={() => onSubmit(getValues())}
               />
             </div>
-            <div className="c-SectorModal__InformationsSavAndCancel">
+            <div className="c-FormSector__SavAndCancel">
               <CommonButton
                 type="button"
                 label={buttonLabels.saveAndCreate}
                 picto="add"
                 style="primary"
                 onClick={async () => {
-                  await handleSubmit(onSubmitAndModalRefresh)();
+                  await onSubmitAndModalRefresh(getValues());
                   form.reset();
                 }}
               />
@@ -177,7 +215,7 @@ export default function SectorModal({
             </div>
           </div>
         </div>
-        <div className="c-SectorModal__Maps">
+        <div className="c-FormSector__Maps">
           <GoogleMap
             polygon={polygon}
             communes={SelectedCommunes || []}

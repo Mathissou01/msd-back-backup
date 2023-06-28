@@ -1,4 +1,4 @@
-mutation CreatePickUpDayById($data: PickUpDayInput!) {
+mutation createPickUpDay($data: PickUpDayInput!) {
   createPickUpDay(data: $data) {
     data {
       id
@@ -31,8 +31,11 @@ mutation CreatePickUpDayById($data: PickUpDayInput!) {
         }
         sectorizations {
           data {
+            id
             attributes {
               name
+              description
+              polygonCoordinates
             }
           }
         }

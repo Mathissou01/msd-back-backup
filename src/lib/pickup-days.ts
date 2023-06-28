@@ -1,3 +1,5 @@
+import { ICommonSelectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
+
 enum EPeriodicityStatus {
   WEEKLY = "hebdomadaire",
   MONTHLY = "mensuel",
@@ -34,6 +36,9 @@ interface IMensuelAdvancedSelection {
 
 interface IPickUpDayStaticMappedFields {
   name: string;
+  sectorizationsMode: string;
+  sectorizations?: Array<ICommonSelectOption>;
+  cities?: Array<ICommonSelectOption>;
   flow:
     | {
         attributes: {

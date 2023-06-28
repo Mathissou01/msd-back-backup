@@ -27,9 +27,18 @@ export default function PickUpDaysFormButtons<Fields extends FieldValues>({
     saveAndCreate: "Enregistrer et créer un autre point de collecte",
   };
 
+  /* Methods */
+  function handleValidation(data: FieldValues, type?: string) {
+    trigger();
+    if (isValid) {
+      onSubmit(data, type);
+    }
+  }
+
   /* Local Data */
   const {
     formState: { isDirty, isValid },
+    trigger,
   } = useFormContext<Fields>();
 
   const methods = useFormContext<Fields>();
@@ -49,7 +58,7 @@ export default function PickUpDaysFormButtons<Fields extends FieldValues>({
         style="primary"
         picto="check"
         isDisabled={!isDirty || !isValid}
-        onClick={() => onSubmit(methods.getValues(), "submit")}
+        onClick={() => handleValidation(methods.getValues(), "submit")}
       />
 
       <CommonButton
@@ -57,7 +66,9 @@ export default function PickUpDaysFormButtons<Fields extends FieldValues>({
         style="primary"
         picto="add"
         isDisabled={!isDirty || !isValid}
-        onClick={() => onSubmit(methods.getValues(), "submitAndRefresh")}
+        onClick={() =>
+          handleValidation(methods.getValues(), "submitAndRefresh")
+        }
       />
     </div>
   );

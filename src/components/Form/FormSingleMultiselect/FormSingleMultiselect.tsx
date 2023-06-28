@@ -16,23 +16,27 @@ export type ICommonSelectOption = {
 interface ICommonSelectProps {
   label?: string;
   labelDescription?: string;
+  validationLabel?: string;
   name: string;
   options: Array<ICommonSelectOption>;
   isMulti: boolean;
   maxMultiSelection?: number;
   isRequired?: boolean;
   isDisabled?: boolean;
+  onInputChange?: (event: string) => void;
 }
 
 export default function FormMultiselect({
   label,
   labelDescription,
+  validationLabel,
   name,
   options,
   isMulti,
   maxMultiSelection,
   isRequired = false,
   isDisabled = false,
+  onInputChange,
 }: ICommonSelectProps) {
   /* Static Data */
   const errorMessages = {
@@ -50,6 +54,7 @@ export default function FormMultiselect({
       <FormLabel
         label={label}
         labelDescription={labelDescription}
+        validationLabel={validationLabel}
         isRequired={isRequired}
       >
         <Controller
@@ -74,6 +79,7 @@ export default function FormMultiselect({
                 placeholder=""
                 name="tags"
                 isMulti
+                onInputChange={onInputChange}
                 onChange={onChange}
                 defaultValue={value}
                 filterOption={() => !isMaxOptionsSelected}
