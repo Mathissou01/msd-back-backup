@@ -52,7 +52,8 @@ export function RequestFormPage({
         "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
       address: {
         addressCheckboxLabel: `Activer la gestion de l'encart "Adresse"`,
-        addressLabel: `Libellé des champs d'adresse`,
+        addressLabel: `Libellé du champ d'adresse`,
+        secondaryAddressLabel: `POSITION FIXE (PREMIER)`,
       },
       user: {
         staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,
