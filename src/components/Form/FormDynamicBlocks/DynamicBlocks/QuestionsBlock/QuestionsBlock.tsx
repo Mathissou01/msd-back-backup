@@ -1,5 +1,6 @@
 import React from "react";
 import { IBlocksQuestions } from "../../../../../lib/dynamic-blocks";
+import { Enum_Componentblocksquestions_Textstatus } from "../../../../../graphql/codegen/generated-types";
 import FormInput from "../../../FormInput/FormInput";
 import { IOptionWrapper } from "../../../FormMultiselect/FormMultiselect";
 import FormRadioInput from "../../../FormRadioInput/FormRadioInput";
@@ -10,14 +11,18 @@ interface IQuestionsBlock {
   blockName: string;
 }
 
-type TQuestionsOption = "Obligatoire" | "Optionnel";
+type TQuestionsOption =
+  | Enum_Componentblocksquestions_Textstatus.Obligatoire
+  | Enum_Componentblocksquestions_Textstatus.Optionnel;
 
 export default function QuestionsBlock({ blockName }: IQuestionsBlock) {
   /* Static Data */
   const labels = {
     staticStatus: 'Statut du champ "Question texte"',
-    staticStatusSelectLabelTrueOption: "Obligatoire",
-    staticStatusSelectLabelFalseOption: "Optionnel",
+    staticStatusSelectLabelTrueOption:
+      Enum_Componentblocksquestions_Textstatus.Obligatoire,
+    staticStatusSelectLabelFalseOption:
+      Enum_Componentblocksquestions_Textstatus.Optionnel,
     staticQuestionTextLabel: 'Libellé du champ "Question texte"',
     staticQuestionTextPlaceholder: 'Placeholder du champ "Question texte"',
     staticHeight: "Hauteur du champs de saisie *",
@@ -34,11 +39,11 @@ export default function QuestionsBlock({ blockName }: IQuestionsBlock) {
 
   const mandatoryFieldOptions: Array<IOptionWrapper<TQuestionsOption>> = [
     {
-      option: "Obligatoire",
+      option: Enum_Componentblocksquestions_Textstatus.Obligatoire,
       label: labels.staticStatusSelectLabelTrueOption,
     },
     {
-      option: "Optionnel",
+      option: Enum_Componentblocksquestions_Textstatus.Optionnel,
       label: labels.staticStatusSelectLabelFalseOption,
     },
   ];
@@ -68,7 +73,7 @@ export default function QuestionsBlock({ blockName }: IQuestionsBlock) {
             type="text"
             name={`${blockName}.${fieldNames.questionTextLabel}`}
             label={labels.staticQuestionTextLabel}
-            isRequired={true}
+            isRequired
             maxLengthValidation={50}
           />
         </div>

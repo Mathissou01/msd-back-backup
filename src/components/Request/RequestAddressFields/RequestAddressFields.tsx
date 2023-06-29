@@ -1,8 +1,8 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
-import "./request-address-fields.scss";
 import FormInput from "../../Form/FormInput/FormInput";
+import "./request-address-fields.scss";
 
 export interface IRequestAddressFields {
   addressCheckboxLabel: string;
@@ -19,8 +19,6 @@ export default function RequestAddressFields({ labels }: RequestAddressProps) {
   const { resetField, getValues } = useFormContext();
   const { watch } = useFormContext();
   const watchHasAddress = watch("hasAddress");
-
-  /* External Data */
 
   return (
     <div className="c-RequestAddressFields">

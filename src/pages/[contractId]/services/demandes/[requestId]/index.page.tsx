@@ -5,6 +5,7 @@ import { removeNulls } from "../../../../../lib/utilities";
 import { EStatus } from "../../../../../lib/status";
 import {
   generateMinimumBlocks,
+  IBlocksQCM,
   IBlocksQuestions,
   IFormBlock,
   remapFormBlocksDynamicZone,
@@ -81,6 +82,7 @@ export function RequestFormPage({
   const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
     { option: "ComponentBlocksAttachments" },
     { option: "ComponentBlocksQuestions" },
+    { option: "ComponentBlocksQcm" },
   ];
 
   const requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> =
@@ -218,17 +220,28 @@ export function RequestFormPage({
     return (
       blocks
         .map((block) => {
-          if (block.__typename === "ComponentBlocksQuestions") {
-            // Radio buttons need string values but height property contains boolean, this is why we replace it here
-            const newBlock: IBlocksQuestions = block as IBlocksQuestions;
-            newBlock.height = newBlock.height ? "1" : "0";
-            return {
-              ...newBlock,
-            };
-          } else {
-            return {
-              ...block,
-            };
+          switch (block.__typename) {
+            case "ComponentBlocksQuestions": {
+              // Radio buttons need string values but height property contains boolean, this is why we replace it here
+              const newBlock: IBlocksQuestions = block as IBlocksQuestions;
+              newBlock.height = newBlock.height ? "1" : "0";
+              return {
+                ...newBlock,
+              };
+            }
+            case "ComponentBlocksQcm": {
+              // Radio buttons need string values but multipleChoice property contains boolean, this is why we replace it here
+              const newBlock: IBlocksQCM = block as IBlocksQCM;
+              newBlock.multipleChoice = newBlock.multipleChoice ? "1" : "0";
+              return {
+                ...newBlock,
+              };
+            }
+            default: {
+              return {
+                ...block,
+              };
+            }
           }
         })
         .filter(removeNulls) ?? []

@@ -90,8 +90,8 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     picto: "question_text",
   },
   ComponentBlocksQcm: {
-    label: "TO_REPLACE_QCM",
-    picto: "question_text",
+    label: "Question à choix multiple",
+    picto: "arrowRectangle",
   },
   ComponentBlocksQuestions: {
     label: "Question texte",
@@ -126,6 +126,7 @@ export type IFormBlock =
   | IBlocksVideo
   | IBlocksWysiwyg
   | IBlocksAttachments
+  | IBlocksQCM
   | IBlocksQuestions
   | IBlocksDownloadableFiles
   | IBlocksRequestType;
@@ -170,6 +171,14 @@ export interface IBlocksAttachments extends IPartialBlock {
   attachmentLabel: string;
   renderField: boolean;
   multipleAttachments: boolean;
+}
+
+export interface IBlocksQCM extends IPartialBlock {
+  __typename: "ComponentBlocksQcm";
+  fieldStatusQCM: string;
+  fieldLabelQCM: string;
+  responses: string;
+  multipleChoice: string;
 }
 
 export interface IBlocksQuestions extends IPartialBlock {
@@ -273,6 +282,16 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         attachmentLabel: "",
         renderField: false,
         multipleAttachments: false,
+      };
+    }
+    case "ComponentBlocksQcm": {
+      return {
+        __typename,
+        id: temporaryId,
+        fieldStatusQCM: "Obligatoire",
+        fieldLabelQCM: "",
+        responses: "",
+        multipleChoice: "0",
       };
     }
     case "ComponentBlocksQuestions": {

@@ -30,7 +30,7 @@ export default function AttachmentsBlock({ blockName }: IAttachmentsBlock) {
             type="text"
             name={`${blockName}.${fieldNames.attachmentLabel}`}
             label={labels.staticLabel}
-            isRequired={true}
+            isRequired
           />
         </div>
         <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__RenderField">

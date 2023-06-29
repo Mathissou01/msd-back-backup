@@ -15083,7 +15083,14 @@ export type GetRequestByIdQuery = {
           | { __typename?: "ComponentBlocksCumbersome" }
           | { __typename?: "ComponentBlocksDateChoice" }
           | { __typename?: "ComponentBlocksProofOfReceipt" }
-          | { __typename?: "ComponentBlocksQcm" }
+          | {
+              __typename?: "ComponentBlocksQcm";
+              id: string;
+              fieldStatusQCM: Enum_Componentblocksqcm_Fieldstatusqcm;
+              fieldLabelQCM: string;
+              responses: string;
+              multipleChoice: boolean;
+            }
           | {
               __typename?: "ComponentBlocksQuestions";
               id: string;
@@ -25204,6 +25211,13 @@ export const GetRequestByIdDocument = gql`
               questionTextLabel
               questionTextPlaceholder
               textStatus
+            }
+            ... on ComponentBlocksQcm {
+              id
+              fieldStatusQCM
+              fieldLabelQCM
+              responses
+              multipleChoice
             }
           }
           requestType {

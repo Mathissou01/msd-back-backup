@@ -7,6 +7,7 @@ import VideoBlock from "./VideoBlock/VideoBlock";
 import FileBlock from "./FileBlock/FileBlock";
 import ImageBlock from "./ImageBlock/ImageBlock";
 import AttachmentsBlock from "./AttachmentsBlock/AttachmentsBlock";
+import QcmBlock from "./QcmBlock/QcmBlock";
 import QuestionsBlock from "./QuestionsBlock/QuestionsBlock";
 import DownloadablesFilesBlock from "./DownloadableFiles/DownloadableFilesBlock";
 import RequestTypeBlock from "./RequestTypeBlock/RequestTypeBlock";
@@ -44,6 +45,9 @@ export default function DynamicBlock({
       }
       case "ComponentBlocksAttachments": {
         return <AttachmentsBlock blockName={name} />;
+      }
+      case "ComponentBlocksQcm": {
+        return <QcmBlock blockName={name} />;
       }
       case "ComponentBlocksQuestions": {
         return <QuestionsBlock blockName={name} />;
