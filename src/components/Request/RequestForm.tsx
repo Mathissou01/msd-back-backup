@@ -1,5 +1,8 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import { IFormBlock, TDynamicFieldOption } from "../../lib/dynamic-blocks";
+import {
+  IFormBlock,
+  TDynamicFieldConfiguration,
+} from "../../lib/dynamic-blocks";
 import { EStatus } from "../../lib/status";
 import { IFormCommonFields } from "../../lib/form";
 import { RequestAggregateEntity } from "../../graphql/codegen/generated-types";
@@ -25,6 +28,7 @@ export interface IRequestStaticFields extends IFormCommonFields {
   isActivated: boolean;
   blockText: string;
   hasSeveralRequestTypes?: string;
+  requestType?: Array<IFormBlock>;
   status?: EStatus;
   hasUser: boolean;
   displayUserCivility: string;
@@ -36,16 +40,25 @@ export interface IRequestStaticFields extends IFormCommonFields {
   fieldAddressLabel: string;
 }
 
+export interface IRequestType {
+  id: string;
+  title: string;
+  isEmail?: boolean | null;
+  email?: string | null;
+  isTSMS?: boolean | null;
+}
+
 export interface IRequestFields extends IRequestStaticFields {
   addableBlocks: Array<IFormBlock>;
 }
 
 interface IRequestFormProps {
-  isCreatedMode: boolean;
+  isCreateMode: boolean;
   data?: IRequestFields;
   staticFieldsOverride?: Array<TRequestStaticFields>;
   staticFieldsUserOverride?: Array<TRequestStaticUser>;
-  dynamicFieldsOptions: Array<TDynamicFieldOption>;
+  dynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
+  requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
   onCancel: () => void;
   onSubmit: (data: FieldValues, type?: string) => void;
   onChangeActivated: () => void;
@@ -54,11 +67,12 @@ interface IRequestFormProps {
 }
 
 export default function RequestForm({
-  isCreatedMode,
+  isCreateMode,
   data,
   staticFieldsOverride,
   staticFieldsUserOverride,
-  dynamicFieldsOptions,
+  dynamicFieldConfigurations,
+  requestTypeDynamicFieldConfigurations,
   onCancel,
   onSubmit,
   onChangeActivated,
@@ -67,7 +81,7 @@ export default function RequestForm({
 }: IRequestFormProps) {
   const buttonContent = (
     <RequestFormButtons<IRequestStaticFields>
-      isCreatedMode={isCreatedMode}
+      isCreateMode={isCreateMode}
       onCancel={onCancel}
       labels={buttonLabels}
       isActivated={data ? data?.isActivated : false}
@@ -80,13 +94,17 @@ export default function RequestForm({
       <RequestStaticFields
         labels={labels}
         enabledFieldsOverride={staticFieldsOverride}
+        requestTypeDynamicFieldConfigurations={
+          requestTypeDynamicFieldConfigurations
+        }
       />
       <FormDynamicBlocks
         name={"addableBlocks"}
-        blockOptions={dynamicFieldsOptions}
+        blockConfigurations={dynamicFieldConfigurations}
+        canDuplicate={false}
       />
       <RequestStaticFieldsUser
-        labels={labels.formUser}
+        labels={labels.user}
         enabledFieldsOverride={staticFieldsUserOverride}
         hasUser={data?.hasUser ?? false}
       />
@@ -96,7 +114,7 @@ export default function RequestForm({
   const formOptions: IFormlayoutOptions<IRequestFields> = {
     onSubmitValid: onSubmit,
     defaultValues: data,
-    nestedFieldsToFocus: ["addableBlocks"],
+    nestedFieldsToFocus: ["addableBlocks", "requestType"],
   };
 
   return (

@@ -21,7 +21,13 @@
   &__Header {
     display: flex;
     flex-direction: row;
+    align-items: start;
+    width: 100%;
     margin-bottom: 1.3em;
+
+    div:last-of-type {
+      margin-left: auto;
+    }
   }
 
   &__Picto {

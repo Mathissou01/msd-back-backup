@@ -118,7 +118,7 @@ export default function FormSelect<T>({
         label={label}
         isRequired={isRequired}
         secondaryLabel={secondaryLabel}
-        validationLabel={informationLabel}
+        informationLabel={informationLabel}
       />
       <div className="o-SelectWrapper">
         <select

@@ -8,6 +8,7 @@ import "./request-static-user.scss";
 export interface IRequestStaticUserLabels {
   staticUserContainerActivationLabel: string;
   staticUserLabel: string;
+  staticUserLastBlockLabel: string;
   staticUserCivilitySelectLabel: string;
   staticUserCivilitySelectTrueOption: string;
   staticUserCivilitySelectFalseOption: string;
@@ -105,6 +106,9 @@ export default function RequestStaticFieldsUser({
                   />
                   <div className="c-RequestStaticUser__Title">
                     {labels.staticUserLabel}
+                  </div>
+                  <div className="c-RequestStaticUser__LastBlock">
+                    {labels.staticUserLastBlockLabel}
                   </div>
                 </div>
                 <div className="c-RequestStaticUser__Fields">

@@ -49,7 +49,7 @@ export default function FormRadioInput({
   const watchChecked: string | number = watch(name);
 
   useEffect(() => {
-    if (watchChecked === undefined && defaultValue) {
+    if ((watchChecked === undefined || watchChecked === null) && defaultValue) {
       setValue(name, defaultValue);
     }
   }, [defaultValue, name, setValue, watchChecked]);

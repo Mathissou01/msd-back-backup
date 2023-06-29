@@ -10,12 +10,14 @@ interface IDynamicFieldsBlockWrapper {
   onReorder: (shift: number) => void;
   isUpDisabled?: boolean;
   isDownDisabled?: boolean;
-  isDuplicateDisabled: boolean;
   onDuplicate: () => void;
   onDelete: () => void;
   isOpen: boolean;
   onOpenToggle: () => void;
   isEmpty?: boolean;
+  canReorder?: boolean;
+  canDuplicate?: boolean;
+  canDelete?: boolean;
 }
 
 export default function DynamicBlockWrapper({
@@ -25,12 +27,14 @@ export default function DynamicBlockWrapper({
   onReorder,
   isUpDisabled,
   isDownDisabled,
-  isDuplicateDisabled,
   onDuplicate,
   onDelete,
-  isOpen,
+  isOpen = true,
   onOpenToggle,
   isEmpty,
+  canReorder = true,
+  canDuplicate = true,
+  canDelete = true,
 }: IDynamicFieldsBlockWrapper) {
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -70,40 +74,46 @@ export default function DynamicBlockWrapper({
           </div>
         </div>
         <div className="c-EditoBlockWrapper__Actions">
-          <button
-            className={classNames(
-              "c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_arrowUp",
-              {
-                "c-EditoBlockWrapper__Action_disabled": isUpDisabled,
-              },
-            )}
-            type="button"
-            disabled={isUpDisabled}
-            onClick={() => onReorder(-1)}
-          />
-          <button
-            className={classNames(
-              "c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_arrowDown",
-              {
-                "c-EditoBlockWrapper__Action_disabled": isDownDisabled,
-              },
-            )}
-            type="button"
-            disabled={isDownDisabled}
-            onClick={() => onReorder(1)}
-          />
-          {!isDuplicateDisabled && (
+          {canReorder && (
+            <>
+              <button
+                className={classNames(
+                  "c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_arrowUp",
+                  {
+                    "c-EditoBlockWrapper__Action_disabled": isUpDisabled,
+                  },
+                )}
+                type="button"
+                disabled={isUpDisabled}
+                onClick={() => onReorder(-1)}
+              />
+              <button
+                className={classNames(
+                  "c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_arrowDown",
+                  {
+                    "c-EditoBlockWrapper__Action_disabled": isDownDisabled,
+                  },
+                )}
+                type="button"
+                disabled={isDownDisabled}
+                onClick={() => onReorder(1)}
+              />
+            </>
+          )}
+          {canDuplicate && (
             <button
               className="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_duplicate"
               type="button"
               onClick={onDuplicate}
             />
           )}
-          <button
-            className="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_delete"
-            type="button"
-            onClick={handleDeleteClick}
-          />
+          {canDelete && (
+            <button
+              className="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_delete"
+              type="button"
+              onClick={handleDeleteClick}
+            />
+          )}
         </div>
       </div>
       <div

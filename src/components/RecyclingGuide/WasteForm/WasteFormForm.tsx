@@ -1,5 +1,5 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import { TDynamicFieldOption } from "../../../lib/dynamic-blocks";
+import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
 import { IWasteFormFields } from "../../../lib/recycling-guide";
 import FormLayout, {
   IFormlayoutOptions,
@@ -17,7 +17,7 @@ import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
 interface IWasteFormFormProps {
   data?: IWasteFormFields;
   staticFieldsOverride?: Array<TWasteFormStaticFields>;
-  dynamicFieldsOptions: Array<TDynamicFieldOption>;
+  dynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
   onSubmitValid: (data: FieldValues) => void;
   onPublish?: () => void;
   onDepublish?: () => void;
@@ -29,7 +29,7 @@ interface IWasteFormFormProps {
 export default function WasteFormForm({
   data,
   staticFieldsOverride,
-  dynamicFieldsOptions,
+  dynamicFieldConfigurations,
   onSubmitValid,
   onPublish,
   onDepublish,
@@ -53,7 +53,7 @@ export default function WasteFormForm({
       />
       <FormDynamicBlocks
         name={"contentBlock"}
-        blockOptions={dynamicFieldsOptions}
+        blockConfigurations={dynamicFieldConfigurations}
       />
     </>
   );

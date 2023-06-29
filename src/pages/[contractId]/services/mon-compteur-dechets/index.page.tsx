@@ -3,7 +3,7 @@ import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import Flow from "../../../../components/MonCompteurDechets/MCDFlow/MCDFlow";
-import { TDynamicFieldOption } from "../../../../lib/dynamic-blocks";
+import { TDynamicFieldConfiguration } from "../../../../lib/dynamic-blocks";
 import ContactMwc from "../../../../components/MonCompteurDechets/ContactMwc/ContactMwc";
 
 export function MonCompteurDechets() {
@@ -14,18 +14,20 @@ export function MonCompteurDechets() {
 
   const [tabs, setTabs] = useState<Array<ITab>>([]);
   useEffect(() => {
-    const dynamicFieldOptions: Array<TDynamicFieldOption> = [
-      "ComponentBlocksImage",
-      "ComponentBlocksVideo",
-      "ComponentBlocksWysiwyg",
-      "ComponentBlocksSubHeading",
+    const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
+      { option: "ComponentBlocksImage" },
+      { option: "ComponentBlocksVideo" },
+      { option: "ComponentBlocksWysiwyg" },
+      { option: "ComponentBlocksSubHeading" },
     ];
 
     const tabs = [
       {
         name: "fichesDechets",
         title: "Flow",
-        content: <Flow dynamicFieldsOptions={dynamicFieldOptions} />,
+        content: (
+          <Flow dynamicFieldConfigurations={dynamicFieldConfigurations} />
+        ),
         isEnabled: true,
       },
       {

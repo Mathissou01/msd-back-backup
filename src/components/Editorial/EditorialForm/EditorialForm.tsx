@@ -1,5 +1,5 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import { TDynamicFieldOption } from "../../../lib/dynamic-blocks";
+import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
 import { IEditorialFields } from "../../../lib/editorial";
 import FormLayout from "../../../layouts/FormLayout/FormLayout";
 import FormLayoutDefaultButtons, {
@@ -15,7 +15,7 @@ import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
 interface IEditorialFormProps {
   data?: IEditorialFields;
   staticFieldsOverride?: Array<TEditorialStaticFields>;
-  dynamicFieldsOptions: Array<TDynamicFieldOption>;
+  dynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
   onSubmitValid: (data: FieldValues) => void;
   onPublish?: () => void;
   onDepublish?: () => void;
@@ -27,7 +27,7 @@ interface IEditorialFormProps {
 export default function EditorialForm({
   data,
   staticFieldsOverride,
-  dynamicFieldsOptions,
+  dynamicFieldConfigurations,
   onSubmitValid,
   onPublish,
   onDepublish,
@@ -49,7 +49,10 @@ export default function EditorialForm({
         labels={labels}
         enabledFieldsOverride={staticFieldsOverride}
       />
-      <FormDynamicBlocks name={"blocks"} blockOptions={dynamicFieldsOptions} />
+      <FormDynamicBlocks
+        name={"blocks"}
+        blockConfigurations={dynamicFieldConfigurations}
+      />
     </>
   );
   const sidebarContent = <EditorialSideBar />;

@@ -16,6 +16,7 @@ query getRequestsByContractId(
           id
           title
           isEmail
+          isTSMS
         }
         name
         isActivated

@@ -18,6 +18,10 @@
     margin-top: 20px;
     margin-bottom: 40px;
 
+    div[data-column-id="recipient"] div:first-child {
+      white-space: pre;
+    }
+
     &_expandedrow {
       padding: 15px;
       font-size: medium;
@@ -25,8 +29,7 @@
 
       table {
         width: 95%;
-        table-layout: auto;
-        row-gap: 30px;
+        table-layout: fixed;
       }
 
       td {
@@ -35,7 +38,9 @@
       }
 
       td:first-child {
+        overflow: hidden;
         font-weight: bold;
+        text-overflow: ellipsis;
       }
     }
 

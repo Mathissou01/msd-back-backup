@@ -17,7 +17,7 @@ import { IWasteFormFields } from "../../../../../../lib/recycling-guide";
 import {
   IFormBlock,
   remapFormBlocksDynamicZone,
-  TDynamicFieldOption,
+  TDynamicFieldConfiguration,
 } from "../../../../../../lib/dynamic-blocks";
 import { useRoutingQueryId } from "../../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
@@ -156,13 +156,13 @@ export function ServiceGuideDuTriEditPage({
   const isLoading = loading || updateWasteFormLoading || getContractLoading;
   const errors = [error, updateWasteFormError, getContractError];
   const [mappedData, setMappedData] = useState<IWasteFormFields>();
-  const dynamicFieldOptions: Array<TDynamicFieldOption> = [
-    "ComponentBlocksWysiwyg",
-    "ComponentBlocksSubHeading",
-    "ComponentBlocksHorizontalRule",
-    "ComponentBlocksVideo",
-    "ComponentBlocksFile",
-    "ComponentBlocksImage",
+  const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
+    { option: "ComponentBlocksWysiwyg" },
+    { option: "ComponentBlocksSubHeading" },
+    { option: "ComponentBlocksHorizontalRule" },
+    { option: "ComponentBlocksVideo" },
+    { option: "ComponentBlocksFile" },
+    { option: "ComponentBlocksImage" },
   ];
 
   useEffect(() => {
@@ -218,7 +218,7 @@ export function ServiceGuideDuTriEditPage({
           <CommonLoader isLoading={isLoading} errors={errors}>
             <WasteFormForm
               data={mappedData}
-              dynamicFieldsOptions={dynamicFieldOptions}
+              dynamicFieldConfigurations={dynamicFieldConfigurations}
               onSubmitValid={onSubmit}
               onPublish={onPublish}
               onDepublish={onDepublish}

@@ -7,7 +7,7 @@ import {
   FieldValues,
   Controller,
 } from "react-hook-form";
-import { TDynamicFieldOption } from "../../../lib/dynamic-blocks";
+import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
 // import { useContract } from "../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
@@ -23,10 +23,10 @@ interface IFlow {
 }
 
 interface IFlowProps {
-  dynamicFieldsOptions: Array<TDynamicFieldOption>;
+  dynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
   // onSubmitValid: (data: FieldValues) => void;
 }
-export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
+export default function Flow({ dynamicFieldConfigurations }: IFlowProps) {
   // Static data
   const buttonLabels = {
     save: "Enregistrer les modifications",
@@ -213,7 +213,7 @@ export default function Flow({ dynamicFieldsOptions }: IFlowProps) {
                       <FormDynamicBlocks
                         key={flow.id}
                         name={`contentBlock_${flow.id}`}
-                        blockOptions={dynamicFieldsOptions}
+                        blockConfigurations={dynamicFieldConfigurations}
                       />
                     </div>
                   </div>

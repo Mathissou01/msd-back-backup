@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import React, { ClassAttributes, ImgHTMLAttributes } from "react";
 import { IEditorialFields } from "../../../lib/editorial";
 import { valueToEStatus } from "../../../lib/status";
-import { TDynamicFieldOption } from "../../../lib/dynamic-blocks";
+import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
 import { ContractContext } from "../../../hooks/useContract";
 import { defaultMockData } from "../../../../__mocks__/editorialFormMockData";
 import { mockData } from "../../../../__mocks__/contractContextMockData";
@@ -29,7 +29,7 @@ jest.mock("next/image", () => ({
 }));
 
 const mocks: {
-  dynamicFieldOptions: Array<TDynamicFieldOption>;
+  dynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
   data: IEditorialFields;
   formLabels: {
     staticTitle: string;
@@ -42,9 +42,9 @@ const mocks: {
     staticShortDescriptionMaxCharacters: string;
   };
 } = {
-  dynamicFieldOptions: [
-    "ComponentBlocksSubHeading",
-    "ComponentBlocksHorizontalRule",
+  dynamicFieldConfigurations: [
+    { option: "ComponentBlocksSubHeading" },
+    { option: "ComponentBlocksHorizontalRule" },
   ],
   data: {
     id: "0",
@@ -116,7 +116,7 @@ describe("EditorialForm", () => {
         <MockedProvider mocks={defaultMockData}>
           <EditorialForm
             data={mocks.data}
-            dynamicFieldsOptions={mocks.dynamicFieldOptions}
+            dynamicFieldConfigurations={mocks.dynamicFieldConfigurations}
             onSubmitValid={onSubmit}
             labels={mocks.formLabels}
           />

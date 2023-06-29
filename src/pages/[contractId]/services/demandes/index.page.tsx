@@ -167,8 +167,10 @@ export function RequestsPage() {
             {data.requestsType.map((rqt, index) => {
               return (
                 <tr key={index}>
-                  <td>{rqt.typeTitle}</td>
+                  <td title={rqt.typeTitle}>{rqt.typeTitle}</td>
                   <td>{rqt.typeRecipient}</td>
+                  <td>{""}</td>
+                  <td>{""}</td>
                 </tr>
               );
             })}
@@ -221,6 +223,21 @@ export function RequestsPage() {
     handleCloseModal();
   }
 
+  function getRecipient(
+    isEmail: boolean,
+    email: string,
+    isTSMS: boolean,
+  ): string {
+    let recipient = "";
+    recipient += isEmail ? formatEmails(email) : "";
+    if (recipient !== "" && isTSMS) {
+      recipient += "\nTSMS";
+    } else if (isTSMS) {
+      recipient = "TSMS";
+    }
+    return recipient;
+  }
+
   /* useEffects */
   useEffect(() => {
     if (data) {
@@ -239,11 +256,15 @@ export function RequestsPage() {
                 expandableRow:
                   request.attributes.hasSeveralRequestTypes ?? false,
                 name: request.attributes.name ?? "",
-                recipient: request.attributes.hasSeveralRequestTypes
-                  ? ""
-                  : request.attributes.requestType[0]?.isEmail
-                  ? request.attributes.requestType[0]?.email ?? "/"
-                  : "TSMS",
+                recipient:
+                  !request.attributes.hasSeveralRequestTypes &&
+                  request.attributes.requestType
+                    ? getRecipient(
+                        request.attributes.requestType[0]?.isEmail ?? false,
+                        request.attributes.requestType[0]?.email ?? "",
+                        request.attributes.requestType[0]?.isTSMS ?? false,
+                      )
+                    : "",
                 author:
                   `John Doe - ${formatDate(
                     parseJSON(request.attributes.updatedAt),
@@ -257,9 +278,11 @@ export function RequestsPage() {
                             id: requestType.id,
                             editState: false,
                             typeTitle: requestType?.title ?? "",
-                            typeRecipient: requestType?.isEmail
-                              ? formatEmails(requestType.email ?? "")
-                              : "TSMS",
+                            typeRecipient: getRecipient(
+                              requestType.isEmail ?? false,
+                              requestType.email ?? "",
+                              requestType.isTSMS ?? false,
+                            ),
                           };
                         }
                       })
@@ -271,6 +294,7 @@ export function RequestsPage() {
           .filter(removeNulls) ?? [],
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, pageData]);
 
   useEffect(() => {

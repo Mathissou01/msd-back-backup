@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { removeNulls } from "../../../../../lib/utilities";
 import { EStatus } from "../../../../../lib/status";
 import {
   IBlocksQuestions,
   IFormBlock,
-  TDynamicFieldOption,
+  TDynamicFieldConfiguration,
+  generateMinimumBlocks,
   remapFormBlocksDynamicZone,
 } from "../../../../../lib/dynamic-blocks";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
@@ -14,8 +15,9 @@ import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useContract } from "../../../../../hooks/useContract";
 import {
+  ComponentBlocksRequestTypeInput,
   useCreateRequestByContractIdMutation,
-  useGetRequestByIdQuery,
+  useGetRequestByIdLazyQuery,
   useUpdateRequestByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
@@ -26,9 +28,13 @@ import RequestForm, {
 
 interface IRequestFormPageProps {
   requestId: string;
+  isCreateMode: boolean;
 }
 
-export function RequestFormPage({ requestId }: IRequestFormPageProps) {
+export function RequestFormPage({
+  requestId,
+  isCreateMode,
+}: IRequestFormPageProps) {
   /* Static Data */
   const labels = {
     createTitle: "Créer une demande",
@@ -48,9 +54,10 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
         addressCheckboxLabel: `Activer la gestion de l'encart "Adresse"`,
         addressLabel: `Libellé des champs d'adresse`,
       },
-      formUser: {
+      user: {
         staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,
         staticUserLabel: "Usager",
+        staticUserLastBlockLabel: "POSITION FIXE (DERNIER)",
         staticUserCivilitySelectLabel: "Civilité",
         staticUserCivilitySelectTrueOption: "Visible",
         staticUserCivilitySelectFalseOption: "Caché",
@@ -67,21 +74,35 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
 
   /* Local data */
   const router = useRouter();
-  const { currentRoot } = useNavigation();
+  const { currentRoot, currentPage } = useNavigation();
   const { contractId } = useContract();
   const [mappedData, setMappedData] = useState<IRequestFields>();
-  const dynamicFieldOptions: Array<TDynamicFieldOption> = [
-    "ComponentBlocksAttachments",
-    "ComponentBlocksQuestions",
+  const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
+    { option: "ComponentBlocksAttachments" },
+    { option: "ComponentBlocksQuestions" },
   ];
 
+  const requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> =
+    useMemo(() => {
+      return [
+        {
+          option: "ComponentBlocksRequestType",
+          props: {
+            minBlocks: 2,
+            maxBlocks: 10,
+          },
+        },
+      ];
+    }, []);
+
   /* External data */
-  const { data, loading, error } = useGetRequestByIdQuery({
-    variables: {
-      requestId: requestId,
-    },
-    fetchPolicy: "network-only",
-  });
+  const [getRequestTypeById, { data, loading, error }] =
+    useGetRequestByIdLazyQuery({
+      variables: {
+        requestId: requestId,
+      },
+      fetchPolicy: "network-only",
+    });
 
   const [updateRequest, { loading: loadingUpdate, error: errorUpdate }] =
     useUpdateRequestByIdMutation();
@@ -100,14 +121,30 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
         return { ...block };
       },
     );
-    return requestId === "-1" // TODO MODIFY WITH CREATED MODE
+    const hasSeveralRequestTypes = submitData.hasSeveralRequestTypes === "1";
+
+    const requestTypes = submitData.requestType.map(
+      (requestType: ComponentBlocksRequestTypeInput) => {
+        const requestTypeTitle = requestType.title ?? submitData.name;
+        return {
+          title: requestTypeTitle,
+          isEmail: requestType.isEmail,
+          email: requestType.email,
+          isTSMS: requestType.isTSMS,
+        };
+      },
+    );
+
+    return isCreateMode
       ? createRequest({
           variables: {
             data: {
               requestService: contractId,
               name: submitData.name,
-              hasSeveralRequestTypes:
-                submitData.hasSeveralRequestTypes === "1" ? true : false,
+              hasSeveralRequestTypes: hasSeveralRequestTypes,
+              requestType: hasSeveralRequestTypes
+                ? requestTypes
+                : [requestTypes[0]],
               requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
@@ -135,6 +172,9 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
               name: submitData.name,
               hasSeveralRequestTypes:
                 submitData.hasSeveralRequestTypes === "1" ? true : false,
+              requestType: hasSeveralRequestTypes
+                ? requestTypes
+                : [requestTypes[0]],
               requestAggregate: submitData.aggregate?.id ?? null,
               isActivated: false,
               blockText: submitData.blockText,
@@ -195,10 +235,51 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
   }
 
   useEffect(() => {
+    if (requestId) {
+      if (!mappedData && isCreateMode) {
+        const mappedData: IRequestFields = {
+          id: "-1",
+          blockText: "",
+          aggregate: {},
+          addableBlocks: [],
+          requestType: generateMinimumBlocks(
+            requestTypeDynamicFieldConfigurations,
+            [],
+          ),
+          isActivated: false,
+          name: "",
+          hasUser: false,
+          displayUserCivility: "false",
+          isUserNameMandatory: "true",
+          isUserEmailMandatory: "true",
+          isUserPhoneMandatory: "true",
+          userAllowSMSNotification: false,
+          status: EStatus.Draft,
+          hasAddress: false,
+          fieldAddressLabel: "",
+        };
+        setMappedData(mappedData);
+      } else if (requestId !== mappedData?.id) {
+        setMappedData(undefined);
+        void getRequestTypeById({ variables: { requestId: requestId } });
+      }
+    }
+  }, [
+    requestTypeDynamicFieldConfigurations,
+    getRequestTypeById,
+    isCreateMode,
+    mappedData,
+    requestId,
+  ]);
+
+  useEffect(() => {
     if (data?.request?.data) {
       const requestData = data.request.data;
-
-      if (requestData.id && requestData.attributes) {
+      if (
+        requestData.id &&
+        requestData.attributes &&
+        requestData.attributes.name
+      ) {
         const mappedData: IRequestFields = {
           id: requestData.id,
           name: requestData.attributes.name ?? "",
@@ -208,6 +289,10 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
           hasSeveralRequestTypes: requestData.attributes.hasSeveralRequestTypes
             ? "1"
             : "0",
+          requestType: generateMinimumBlocks(
+            requestTypeDynamicFieldConfigurations,
+            remapFormBlocksDynamicZone(requestData.attributes.requestType),
+          ),
           addableBlocks: requestData.attributes.addableBlocks
             ? formatComponentBlocks(
                 remapFormBlocksDynamicZone(
@@ -238,46 +323,38 @@ export function RequestFormPage({ requestId }: IRequestFormPageProps) {
         };
         setMappedData(mappedData);
       }
-    } else {
-      const mappedData: IRequestFields = {
-        id: "",
-        blockText: "",
-        aggregate: {},
-        addableBlocks: [],
-        hasSeveralRequestTypes: "0",
-        isActivated: false,
-        name: "",
-        hasUser: false,
-        displayUserCivility: "false",
-        isUserNameMandatory: "true",
-        isUserEmailMandatory: "true",
-        isUserPhoneMandatory: "true",
-        userAllowSMSNotification: false,
-        status: EStatus.Draft,
-        hasAddress: false,
-        fieldAddressLabel: "",
-      };
-
-      setMappedData(mappedData);
     }
-  }, [data, router, currentRoot]);
+  }, [
+    data,
+    router,
+    currentRoot,
+    currentPage,
+    requestTypeDynamicFieldConfigurations,
+  ]);
 
   return (
-    <div className="o-RequestEditPage">
-      <PageTitle
-        title={requestId === "-1" ? labels.createTitle : mappedData?.name ?? ""}
-      />
-      <CommonLoader isLoading={isLoading} errors={errors}>
-        <RequestForm
-          isCreatedMode={requestId === "-1"}
-          data={mappedData}
-          onCancel={() => router.push(`${currentRoot}/services/demandes`)}
-          onSubmit={onSubmit}
-          onChangeActivated={onChangeActivated}
-          labels={labels.form}
-          dynamicFieldsOptions={dynamicFieldOptions}
-        />
-      </CommonLoader>
+    <div className="o-FormEditPage">
+      {requestId && mappedData && (
+        <>
+          <PageTitle
+            title={isCreateMode ? labels.createTitle : mappedData.name}
+          />
+          <CommonLoader isLoading={isLoading} errors={errors}>
+            <RequestForm
+              isCreateMode={isCreateMode}
+              data={mappedData}
+              onCancel={() => router.push(`${currentRoot}/services/demandes`)}
+              onSubmit={onSubmit}
+              onChangeActivated={onChangeActivated}
+              labels={labels.form}
+              dynamicFieldConfigurations={dynamicFieldConfigurations}
+              requestTypeDynamicFieldConfigurations={
+                requestTypeDynamicFieldConfigurations
+              }
+            />
+          </CommonLoader>
+        </>
+      )}
     </div>
   );
 }
@@ -288,7 +365,10 @@ export default function IndexPage() {
   return (
     requestId && (
       <ContractLayout>
-        <RequestFormPage requestId={requestId} />
+        <RequestFormPage
+          requestId={requestId}
+          isCreateMode={requestId === "-1"}
+        />
       </ContractLayout>
     )
   );

@@ -22,11 +22,20 @@ export type TBlocksDynamicZone =
   | "Error";
 export type TDynamicFieldOption = Exclude<TBlocksDynamicZone, "Error">;
 
-interface IBlockDisplayMap {
+export interface IDynamicFieldProps {
+  minBlocks?: number;
+  maxBlocks?: number;
+}
+
+export type TDynamicFieldConfiguration = {
+  option: TDynamicFieldOption;
+  props?: IDynamicFieldProps;
+};
+
+interface IBlockDisplayMap extends IDynamicFieldProps {
   label: string;
   picto: TPictoStyles;
   isEmpty?: boolean;
-  cannotDuplicate?: boolean;
 }
 
 export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
@@ -58,7 +67,6 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
   ComponentBlocksAttachments: {
     label: "Pièces jointes",
     picto: "attachment",
-    cannotDuplicate: true,
   },
   ComponentBlocksCheckbox: {
     label: "TO_REPLACE_Checkbox",
@@ -87,11 +95,10 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
   ComponentBlocksQuestions: {
     label: "Question texte",
     picto: "question_text",
-    cannotDuplicate: true,
   },
   ComponentBlocksRequestType: {
-    label: "TO_REPLACE_Request_Type",
-    picto: "question_text",
+    label: "Type de demande",
+    picto: "text",
   },
 };
 
@@ -114,7 +121,8 @@ export type IFormBlock =
   | IBlocksVideo
   | IBlocksWysiwyg
   | IBlocksAttachments
-  | IBlocksQuestions;
+  | IBlocksQuestions
+  | IBlocksRequestType;
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
@@ -164,6 +172,14 @@ export interface IBlocksQuestions extends IPartialBlock {
   questionTextLabel: string;
   questionTextPlaceholder: string;
   height: string;
+}
+
+export interface IBlocksRequestType extends IPartialBlock {
+  __typename: "ComponentBlocksRequestType";
+  title?: string;
+  isEmail: boolean;
+  isTSMS: boolean;
+  email: string;
 }
 
 /* Methods */
@@ -257,8 +273,44 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         height: "0",
       };
     }
+    case "ComponentBlocksRequestType": {
+      return {
+        __typename,
+        id: temporaryId,
+        title: "",
+        isEmail: false,
+        isTSMS: false,
+        email: "",
+      };
+    }
     default: {
       return { __typename, id: temporaryId };
     }
   }
+}
+
+/**
+ * Function to use minBlock behavior (to generate missing blocks matching your blockConfigurations from your fields data)
+ * @param blockConfigurations Array<TDynamicFieldConfiguration>
+ * @param fields Array<IPartialBlock>
+ * @returns Array<IFormBlock>
+ */
+export function generateMinimumBlocks(
+  blockConfigurations: Array<TDynamicFieldConfiguration>,
+  fields: Array<IPartialBlock>,
+): Array<IFormBlock> {
+  blockConfigurations.forEach((blockConfiguration) => {
+    if (blockConfiguration.props?.minBlocks) {
+      const minBlocks = blockConfiguration.props?.minBlocks;
+      const fieldsOfTypename = fields.filter((field) => {
+        return field.__typename === blockConfiguration.option;
+      });
+      if (fieldsOfTypename.length < minBlocks) {
+        for (let i = fieldsOfTypename.length; i < minBlocks; i++) {
+          fields.push(createEmptyBlock(blockConfiguration.option));
+        }
+      }
+    }
+  });
+  return fields;
 }

@@ -12,6 +12,7 @@ export interface IFormLabelProps {
   labelDescription?: string;
   secondaryLabel?: string;
   validationLabel?: string;
+  informationLabel?: string;
   forId?: string;
   tagType?: "label" | "legend";
   isRequired?: boolean;
@@ -26,6 +27,7 @@ export default function FormLabel({
   labelDescription,
   secondaryLabel,
   validationLabel,
+  informationLabel,
   forId,
   tagType = "label",
   isRequired = false,
@@ -54,6 +56,11 @@ export default function FormLabel({
           flexStyle === "column" &&
           validationLabel && (
             <span className="c-FormLabel__Validation">{validationLabel}</span>
+          )}
+        {validationStyle === "inline" &&
+          flexStyle === "column" &&
+          informationLabel && (
+            <span className="c-FormLabel__Validation">{informationLabel}</span>
           )}
       </Tag>
       {validationStyle === "multiline" &&

@@ -11,7 +11,7 @@ export interface IRequestFormButtonsLabels {
 }
 
 interface IRequestFormButtonsProps {
-  isCreatedMode: boolean;
+  isCreateMode: boolean;
   onCancel: () => void;
   labels?: IRequestFormButtonsLabels;
   isActivated: boolean;
@@ -20,7 +20,7 @@ interface IRequestFormButtonsProps {
 }
 
 export default function RequestFormButtons<Fields extends FieldValues>({
-  isCreatedMode,
+  isCreateMode,
   onCancel,
   labels,
   isActivated = false,
@@ -54,7 +54,7 @@ export default function RequestFormButtons<Fields extends FieldValues>({
         style={isActivated ? "secondary" : "primary"}
         picto={isActivated ? "eyeClosed" : "eye"}
         onClick={onChangeActivated}
-        isDisabled={isCreatedMode}
+        isDisabled={isCreateMode}
       />
 
       <CommonButton

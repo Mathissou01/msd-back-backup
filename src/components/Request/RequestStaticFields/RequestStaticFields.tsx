@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { removeNulls } from "../../../lib/utilities";
+import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
 import { useContract } from "../../../hooks/useContract";
 import {
   RequestAggregateEntity,
@@ -15,6 +16,8 @@ import RequestAddressFields, {
   IRequestAddressFields,
 } from "../RequestAddressFields/RequestAddressFields";
 import { IRequestStaticUserLabels } from "../RequestStaticUser/RequestStaticUser";
+import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
+import RequestTypeUnique from "../RequestTypeUnique/RequestTypeUnique";
 import "./request-static-fields.scss";
 
 export interface IRequestStaticFieldsLabels {
@@ -28,7 +31,7 @@ export interface IRequestStaticFieldsLabels {
   oneRequestType: string;
   severalRequestType: string;
   address: IRequestAddressFields;
-  formUser: IRequestStaticUserLabels;
+  user: IRequestStaticUserLabels;
 }
 
 export type TRequestStaticFields =
@@ -41,19 +44,19 @@ export type TRequestStaticFields =
 interface IRequestStaticFieldsProps {
   labels: IRequestStaticFieldsLabels;
   enabledFieldsOverride?: Array<TRequestStaticFields>;
+  requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
 }
 
 export default function RequestStaticFields({
   labels,
   enabledFieldsOverride,
+  requestTypeDynamicFieldConfigurations,
 }: IRequestStaticFieldsProps) {
   /* Static Data */
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
   /* Local Data */
   const { contractId } = useContract();
-  const { watch } = useFormContext();
-  const severalRequestType = watch("hasSeveralRequestTypes");
   const [requestAggregateOptions, setRequestAggregateOptions] = useState<
     Array<IOptionWrapper<RequestAggregateEntity>>
   >([]);
@@ -64,6 +67,10 @@ export default function RequestStaticFields({
       variables: { contractId, sort: "name" },
       fetchPolicy: "network-only",
     });
+
+  /* External Data */
+  const { watch, getValues, setValue } = useFormContext();
+  const severalRequestType = watch("hasSeveralRequestTypes");
 
   /* Methods */
   function hasFieldEnabled(fieldName: TRequestStaticFields) {
@@ -77,6 +84,12 @@ export default function RequestStaticFields({
     requestAggregate: RequestAggregateEntity,
   ): string {
     return requestAggregate.attributes?.name ?? "";
+  }
+
+  function handleHasSeveralRequestTypes() {
+    if (severalRequestType === "0") {
+      setValue("requestType", [getValues("requestType")[0]]);
+    }
   }
 
   useEffect(() => {
@@ -147,12 +160,19 @@ export default function RequestStaticFields({
                 label: labels.severalRequestType,
               },
             ]}
+            defaultValue="0"
+            onChange={() => handleHasSeveralRequestTypes()}
           />
         )}
-        {severalRequestType === "0" ? (
-          <div>WIP ONE REQUEST TYPE</div>
+        {severalRequestType === null || severalRequestType === "0" ? (
+          <RequestTypeUnique />
         ) : (
-          <div>WIP SEVERAL REQUEST TYPE</div>
+          <FormDynamicBlocks
+            name="requestType"
+            blockConfigurations={requestTypeDynamicFieldConfigurations}
+            canReorder={false}
+            canDuplicate={false}
+          />
         )}
       </div>
       <div className="c-RequestStaticFields">

@@ -10,16 +10,19 @@ import {
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 import EditorialForm from "../../../components/Editorial/EditorialForm/EditorialForm";
-import { IFormBlock, TDynamicFieldOption } from "../../../lib/dynamic-blocks";
+import {
+  IFormBlock,
+  TDynamicFieldConfiguration,
+} from "../../../lib/dynamic-blocks";
 import { EStatus } from "../../../lib/status";
 
-const defaultDynamicFieldOptions: Array<TDynamicFieldOption> = [
-  "ComponentBlocksWysiwyg",
-  "ComponentBlocksSubHeading",
-  "ComponentBlocksHorizontalRule",
-  "ComponentBlocksVideo",
-  "ComponentBlocksFile",
-  "ComponentBlocksImage",
+const defaultDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
+  { option: "ComponentBlocksWysiwyg" },
+  { option: "ComponentBlocksSubHeading" },
+  { option: "ComponentBlocksHorizontalRule" },
+  { option: "ComponentBlocksVideo" },
+  { option: "ComponentBlocksFile" },
+  { option: "ComponentBlocksImage" },
 ];
 
 export interface IEditoContentLabels {
@@ -45,7 +48,7 @@ export interface ICommonUpdateMutationVariables
 export interface IEditorialFormPage {
   labels: IEditoContentLabels;
   staticFieldsOverride?: Array<TEditorialStaticFields>;
-  dynamicFieldOptions?: Array<TDynamicFieldOption>;
+  dynamicFieldConfigurations?: Array<TDynamicFieldConfiguration>;
   onCreate?: (commonMutationVariables: ICommonMutationVariables) => void;
   onUpdate: (
     updateId: string,
@@ -76,7 +79,7 @@ export default function EditorialFormPage({
 }: IEditorialFormPageProps) {
   const {
     labels,
-    dynamicFieldOptions,
+    dynamicFieldConfigurations,
     staticFieldsOverride,
     onCreate,
     onUpdate,
@@ -125,8 +128,8 @@ export default function EditorialFormPage({
           <EditorialForm
             data={mappedData}
             staticFieldsOverride={staticFieldsOverride}
-            dynamicFieldsOptions={
-              dynamicFieldOptions ?? defaultDynamicFieldOptions
+            dynamicFieldConfigurations={
+              dynamicFieldConfigurations ?? defaultDynamicFieldConfigurations
             }
             onSubmitValid={onSubmit}
             onPublish={() => onPublish(contentId)}
