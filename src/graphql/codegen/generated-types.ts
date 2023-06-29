@@ -198,13 +198,30 @@ export type ActivationAndService = Activation | Service;
 
 export type AlertNotification = {
   __typename?: "AlertNotification";
+  alertDescription: Scalars["String"];
   alertMessage?: Maybe<Scalars["String"]>;
+  alertNotifService?: Maybe<AlertNotificationServiceEntityResponse>;
+  alertTitle?: Maybe<Scalars["String"]>;
+  cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
   scheduledAt: Scalars["Date"];
+  sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   sendMail?: Maybe<Scalars["Boolean"]>;
+  sendSMS?: Maybe<Scalars["Boolean"]>;
   subject?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationSectorizationsArgs = {
+  filters?: InputMaybe<SectorizationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type AlertNotificationEntity = {
@@ -225,24 +242,34 @@ export type AlertNotificationEntityResponseCollection = {
 };
 
 export type AlertNotificationFiltersInput = {
+  alertDescription?: InputMaybe<StringFilterInput>;
   alertMessage?: InputMaybe<StringFilterInput>;
+  alertNotifService?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  alertTitle?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
+  cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<AlertNotificationFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   scheduledAt?: InputMaybe<DateFilterInput>;
+  sectorizations?: InputMaybe<SectorizationFiltersInput>;
   sendMail?: InputMaybe<BooleanFilterInput>;
+  sendSMS?: InputMaybe<BooleanFilterInput>;
   subject?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type AlertNotificationInput = {
+  alertDescription?: InputMaybe<Scalars["String"]>;
   alertMessage?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  alertNotifService?: InputMaybe<Scalars["ID"]>;
+  alertTitle?: InputMaybe<Scalars["String"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
+  sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   sendMail?: InputMaybe<Scalars["Boolean"]>;
+  sendSMS?: InputMaybe<Scalars["Boolean"]>;
   subject?: InputMaybe<Scalars["String"]>;
 };
 
@@ -268,7 +295,6 @@ export type AlertNotificationService = {
 export type AlertNotificationServiceAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -6097,6 +6123,7 @@ export type PickUpDay = {
   complementaryMention?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
+  externalLink?: Maybe<Scalars["String"]>;
   flow: FlowEntityResponse;
   includeHoliday: Scalars["Boolean"];
   informationMessage?: Maybe<InformationMessageEntityResponse>;
@@ -6104,6 +6131,7 @@ export type PickUpDay = {
   periodicity?: Maybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   pickUpHours?: Maybe<Scalars["String"]>;
+  request?: Maybe<RequestEntityResponse>;
   sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -6146,6 +6174,7 @@ export type PickUpDayFiltersInput = {
   complementaryMention?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
+  externalLink?: InputMaybe<StringFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   includeHoliday?: InputMaybe<BooleanFilterInput>;
@@ -6156,6 +6185,7 @@ export type PickUpDayFiltersInput = {
   periodicity?: InputMaybe<StringFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   pickUpHours?: InputMaybe<StringFilterInput>;
+  request?: InputMaybe<RequestFiltersInput>;
   sectorizations?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -6167,6 +6197,7 @@ export type PickUpDayInput = {
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
   complementaryMention?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  externalLink?: InputMaybe<Scalars["String"]>;
   flow?: InputMaybe<Scalars["ID"]>;
   includeHoliday?: InputMaybe<Scalars["Boolean"]>;
   informationMessage?: InputMaybe<Scalars["ID"]>;
@@ -6174,6 +6205,7 @@ export type PickUpDayInput = {
   periodicity?: InputMaybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   pickUpHours?: InputMaybe<Scalars["String"]>;
+  request?: InputMaybe<Scalars["ID"]>;
   sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -6491,7 +6523,6 @@ export type QueryAlertNotificationServicesArgs = {
 export type QueryAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -14621,65 +14652,6 @@ export type DeleteDropOffMapMutation = {
   } | null;
 };
 
-export type GetDropOffMapByContractIdQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<
-    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
-  >;
-}>;
-
-export type GetDropOffMapByContractIdQuery = {
-  __typename?: "Query";
-  dropOffMaps?: {
-    __typename?: "DropOffMapEntityResponseCollection";
-    meta: {
-      __typename?: "ResponseCollectionMeta";
-      pagination: {
-        __typename?: "Pagination";
-        total: number;
-        pageSize: number;
-        page: number;
-        pageCount: number;
-      };
-    };
-    data: Array<{
-      __typename?: "DropOffMapEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "DropOffMap";
-        name?: string | null;
-        address?: string | null;
-        BANFeatureProperties?: any | null;
-        city?: string | null;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        collectDropOff?: {
-          __typename?: "CollectDropOffEntityResponse";
-          data?: {
-            __typename?: "CollectDropOffEntity";
-            attributes?: {
-              __typename?: "CollectDropOff";
-              name?: string | null;
-            } | null;
-          } | null;
-        } | null;
-        collectVoluntary?: {
-          __typename?: "CollectVoluntaryEntityResponse";
-          data?: {
-            __typename?: "CollectVoluntaryEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "CollectVoluntary";
-              name?: string | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    }>;
-  } | null;
-};
-
 export type GetDropOffMapByIdQueryVariables = Exact<{
   dropOffMapId: Scalars["ID"];
 }>;
@@ -14765,6 +14737,91 @@ export type GetDropOffMapByIdQuery = {
         > | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetDropOffMapByDropOffMapByServiceIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetDropOffMapByDropOffMapByServiceIdQuery = {
+  __typename?: "Query";
+  dropOffMaps?: {
+    __typename?: "DropOffMapEntityResponseCollection";
+    data: Array<{
+      __typename?: "DropOffMapEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMap";
+        createdAt?: any | null;
+        description?: string | null;
+        name?: string | null;
+        updatedAt?: any | null;
+        address?: string | null;
+        latitude?: number | null;
+        longitude?: number | null;
+        city?: string | null;
+        collectDropOff?: {
+          __typename?: "CollectDropOffEntityResponse";
+          data?: {
+            __typename?: "CollectDropOffEntity";
+            attributes?: {
+              __typename?: "CollectDropOff";
+              name?: string | null;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    url: string;
+                    name: string;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+        collectVoluntary?: {
+          __typename?: "CollectVoluntaryEntityResponse";
+          data?: {
+            __typename?: "CollectVoluntaryEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "CollectVoluntary";
+              name?: string | null;
+              picto?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    url: string;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        total: number;
+        pageSize: number;
+        page: number;
+        pageCount: number;
+      };
+    };
   } | null;
 };
 
@@ -24275,107 +24332,6 @@ export type DeleteDropOffMapMutationOptions = Apollo.BaseMutationOptions<
   DeleteDropOffMapMutation,
   DeleteDropOffMapMutationVariables
 >;
-export const GetDropOffMapByContractIdDocument = gql`
-  query getDropOffMapByContractId(
-    $contractId: ID!
-    $pagination: PaginationArg
-    $sort: [String]
-  ) {
-    dropOffMaps(
-      filters: { dropOffMapService: { id: { eq: $contractId } } }
-      pagination: $pagination
-      sort: $sort
-    ) {
-      meta {
-        pagination {
-          total
-          pageSize
-          page
-          pageCount
-        }
-      }
-      data {
-        id
-        attributes {
-          name
-          address
-          BANFeatureProperties
-          city
-          createdAt
-          updatedAt
-          collectDropOff {
-            data {
-              attributes {
-                name
-              }
-            }
-          }
-          collectVoluntary {
-            data {
-              attributes {
-                name
-              }
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetDropOffMapByContractIdQuery__
- *
- * To run a query within a React component, call `useGetDropOffMapByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDropOffMapByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetDropOffMapByContractIdQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *      pagination: // value for 'pagination'
- *      sort: // value for 'sort'
- *   },
- * });
- */
-export function useGetDropOffMapByContractIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetDropOffMapByContractIdQuery,
-    GetDropOffMapByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetDropOffMapByContractIdQuery,
-    GetDropOffMapByContractIdQueryVariables
-  >(GetDropOffMapByContractIdDocument, options);
-}
-export function useGetDropOffMapByContractIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetDropOffMapByContractIdQuery,
-    GetDropOffMapByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetDropOffMapByContractIdQuery,
-    GetDropOffMapByContractIdQueryVariables
-  >(GetDropOffMapByContractIdDocument, options);
-}
-export type GetDropOffMapByContractIdQueryHookResult = ReturnType<
-  typeof useGetDropOffMapByContractIdQuery
->;
-export type GetDropOffMapByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetDropOffMapByContractIdLazyQuery
->;
-export type GetDropOffMapByContractIdQueryResult = Apollo.QueryResult<
-  GetDropOffMapByContractIdQuery,
-  GetDropOffMapByContractIdQueryVariables
->;
 export const GetDropOffMapByIdDocument = gql`
   query getDropOffMapById($dropOffMapId: ID!) {
     dropOffMap(id: $dropOffMapId) {
@@ -24493,6 +24449,127 @@ export type GetDropOffMapByIdQueryResult = Apollo.QueryResult<
   GetDropOffMapByIdQuery,
   GetDropOffMapByIdQueryVariables
 >;
+export const GetDropOffMapByDropOffMapByServiceIdDocument = gql`
+  query getDropOffMapByDropOffMapByServiceId(
+    $contractId: ID!
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    dropOffMaps(
+      filters: { dropOffMapService: { contract: { id: { eq: $contractId } } } }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      data {
+        id
+        attributes {
+          createdAt
+          description
+          name
+          updatedAt
+          address
+          latitude
+          longitude
+          city
+          collectDropOff {
+            data {
+              attributes {
+                name
+                picto {
+                  data {
+                    attributes {
+                      url
+                      name
+                    }
+                    id
+                  }
+                }
+              }
+            }
+          }
+          collectVoluntary {
+            data {
+              attributes {
+                name
+                picto {
+                  data {
+                    id
+                    attributes {
+                      name
+                      url
+                    }
+                  }
+                }
+              }
+              id
+            }
+          }
+        }
+      }
+      meta {
+        pagination {
+          total
+          pageSize
+          page
+          pageCount
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetDropOffMapByDropOffMapByServiceIdQuery__
+ *
+ * To run a query within a React component, call `useGetDropOffMapByDropOffMapByServiceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDropOffMapByDropOffMapByServiceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDropOffMapByDropOffMapByServiceIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetDropOffMapByDropOffMapByServiceIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetDropOffMapByDropOffMapByServiceIdQuery,
+    GetDropOffMapByDropOffMapByServiceIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetDropOffMapByDropOffMapByServiceIdQuery,
+    GetDropOffMapByDropOffMapByServiceIdQueryVariables
+  >(GetDropOffMapByDropOffMapByServiceIdDocument, options);
+}
+export function useGetDropOffMapByDropOffMapByServiceIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetDropOffMapByDropOffMapByServiceIdQuery,
+    GetDropOffMapByDropOffMapByServiceIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetDropOffMapByDropOffMapByServiceIdQuery,
+    GetDropOffMapByDropOffMapByServiceIdQueryVariables
+  >(GetDropOffMapByDropOffMapByServiceIdDocument, options);
+}
+export type GetDropOffMapByDropOffMapByServiceIdQueryHookResult = ReturnType<
+  typeof useGetDropOffMapByDropOffMapByServiceIdQuery
+>;
+export type GetDropOffMapByDropOffMapByServiceIdLazyQueryHookResult =
+  ReturnType<typeof useGetDropOffMapByDropOffMapByServiceIdLazyQuery>;
+export type GetDropOffMapByDropOffMapByServiceIdQueryResult =
+  Apollo.QueryResult<
+    GetDropOffMapByDropOffMapByServiceIdQuery,
+    GetDropOffMapByDropOffMapByServiceIdQueryVariables
+  >;
 export const UpdateDropOffMapDocument = gql`
   mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
     updateDropOffMap(id: $updateDropOffMapId, data: $data) {

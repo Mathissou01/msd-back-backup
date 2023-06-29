@@ -4,11 +4,11 @@ import { FieldValues } from "react-hook-form";
 import { removeNulls } from "../../../../../lib/utilities";
 import { EStatus } from "../../../../../lib/status";
 import {
+  generateMinimumBlocks,
   IBlocksQuestions,
   IFormBlock,
-  TDynamicFieldConfiguration,
-  generateMinimumBlocks,
   remapFormBlocksDynamicZone,
+  TDynamicFieldConfiguration,
 } from "../../../../../lib/dynamic-blocks";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";

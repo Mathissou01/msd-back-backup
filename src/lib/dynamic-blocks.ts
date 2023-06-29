@@ -19,6 +19,7 @@ export type TBlocksDynamicZone =
   | "ComponentBlocksQcm"
   | "ComponentBlocksQuestions"
   | "ComponentBlocksRequestType"
+  | "ComponentBlocksDownloadBlock"
   | "Error";
 export type TDynamicFieldOption = Exclude<TBlocksDynamicZone, "Error">;
 
@@ -100,6 +101,10 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     label: "Type de demande",
     picto: "text",
   },
+  ComponentBlocksDownloadBlock: {
+    label: "Fichier téléchargeable",
+    picto: "attachment",
+  },
 };
 
 interface IPartialBlockDynamicZone {
@@ -122,7 +127,9 @@ export type IFormBlock =
   | IBlocksWysiwyg
   | IBlocksAttachments
   | IBlocksQuestions
-  | IBlocksRequestType;
+  | IBlocksDownloadableFiles
+  | IBlocksQuestions
+  | IBlocksRequestType
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
@@ -172,6 +179,12 @@ export interface IBlocksQuestions extends IPartialBlock {
   questionTextLabel: string;
   questionTextPlaceholder: string;
   height: string;
+}
+
+export interface IBlocksDownloadableFiles extends IPartialBlock {
+  __typename: "ComponentBlocksDownloadBlock";
+  linkText: string;
+  file: IUploadFileEntity;
 }
 
 export interface IBlocksRequestType extends IPartialBlock {
@@ -271,6 +284,14 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         questionTextLabel: "",
         questionTextPlaceholder: "",
         height: "0",
+      };
+    }
+    case "ComponentBlocksDownloadBlock": {
+      return {
+        __typename,
+        id: temporaryId,
+        linkText: undefined,
+        file: undefined,
       };
     }
     case "ComponentBlocksRequestType": {

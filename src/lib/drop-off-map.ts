@@ -1,3 +1,5 @@
+import { IFormBlock } from "./dynamic-blocks";
+
 export interface ICollectType {
   entityTypeName: "CollectDropOffEntity" | "CollectVoluntaryEntity";
   uniqueId: string;
@@ -13,4 +15,5 @@ export interface IDropOffMapStaticFields {
   latitude: number;
   phoneNumber?: string | null;
   mustKnow?: string | null;
+  downloadableFiles: Array<IFormBlock>;
 }

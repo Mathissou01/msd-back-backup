@@ -3,11 +3,10 @@ import router from "next/router";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
 import {
-  GetDropOffMapByContractIdDocument,
-  GetDropOffMapByContractIdQuery,
-  GetSectorizationsByContractIdQueryVariables,
+  GetDropOffMapByDropOffMapByServiceIdQuery,
+  GetDropOffMapByDropOffMapByServiceIdQueryVariables,
   useDeleteDropOffMapMutation,
-  useGetDropOffMapByContractIdLazyQuery,
+  useGetDropOffMapByDropOffMapByServiceIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
@@ -70,33 +69,9 @@ export function CartePage() {
   }
 
   async function onDelete(row: ISectorsTableRow) {
-    const variables = {
-      deleteDropOffMapId: row.id,
-    };
-    deleteDropOffMapMutation({
-      variables,
-      refetchQueries: [
-        {
-          query: GetDropOffMapByContractIdDocument,
-          variables: { contractId },
-        },
-      ],
-      onQueryUpdated: (observableQuery) => {
-        observableQuery
-          .result()
-          .then((result) => {
-            if (!result.loading) {
-              setTableData(result?.data);
-            }
-          })
-          .catch((error) => {
-            if (error instanceof Error) {
-              return {
-                message: error,
-              };
-            }
-          });
-      },
+    setIsUpdatingData(true);
+    return deleteDropOffMapMutation({
+      variables: { deleteDropOffMapId: row.id },
     });
   }
 
@@ -105,14 +80,15 @@ export function CartePage() {
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
-  const defaultQueryVariables: GetSectorizationsByContractIdQueryVariables = {
-    contractId,
-    sort: "createdAt:asc",
-    pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
-  };
+  const defaultQueryVariables: GetDropOffMapByDropOffMapByServiceIdQueryVariables =
+    {
+      contractId: contractId,
+      sort: "createdAt:asc",
+      pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
+    };
 
   const [getDropOffMapsQuery, { data, loading, error }] =
-    useGetDropOffMapByContractIdLazyQuery({
+    useGetDropOffMapByDropOffMapByServiceIdLazyQuery({
       variables: defaultQueryVariables,
       fetchPolicy: "network-only",
     });
@@ -123,14 +99,14 @@ export function CartePage() {
       error: deleteDropOffMapMutationError,
     },
   ] = useDeleteDropOffMapMutation({
-    refetchQueries: ["getDropOffMapByContractId"],
+    refetchQueries: ["getDropOffMapByDropOffMapByServiceId"],
     awaitRefetchQueries: true,
   });
 
   /* Local Data */
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
-    GetDropOffMapByContractIdQuery | undefined
+    GetDropOffMapByDropOffMapByServiceIdQuery | undefined
   >(data);
   const [tableData, setTableData] = useState<Array<ISectorsTableRow>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);

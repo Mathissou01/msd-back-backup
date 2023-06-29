@@ -11,6 +11,8 @@ import AddressOrGpsFields, {
 } from "./AddressOrGpsFields/AddressOrGpsFields";
 import FormLabel from "../../Form/FormLabel/FormLabel";
 import "./drop-off-map-static-fields.scss";
+import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
+import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
 
 const validationPhoneNumber = /^[0-9]{10}$/;
 
@@ -23,6 +25,10 @@ export interface IDropOffMapStaticFieldsLabels {
   staticAddressOrGpsLabels: AddressOrGpsFieldsLabels;
   staticPhoneNumber?: string;
   staticMustKnow: string;
+  staticLink?: string;
+  staticImage?: string;
+  staticImageValidation?: string;
+  staticImagePlaceholder?: string;
 }
 
 interface IDropOffMapStaticFieldsProps {
@@ -63,6 +69,9 @@ export default function DropOffMapStaticFields({
     }
   }, [collectTypes]);
 
+  const dynamicFieldsOptions: Array<TDynamicFieldConfiguration> = [
+    { option: "ComponentBlocksDownloadBlock" },
+  ];
   return (
     <>
       <div className="c-DropOffMapStaticFields__Group">
@@ -108,6 +117,12 @@ export default function DropOffMapStaticFields({
           label={labels.staticMustKnow}
           editorOptions={minimalWysiwygEditorOptions}
           isVisible
+        />
+      </div>
+      <div className="c-DropOffMapStaticFields__Group">
+        <FormDynamicBlocks
+          name={"downloadableFiles"}
+          blockConfigurations={dynamicFieldsOptions}
         />
       </div>
     </>

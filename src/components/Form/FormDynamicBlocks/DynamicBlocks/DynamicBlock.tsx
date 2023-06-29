@@ -8,6 +8,7 @@ import FileBlock from "./FileBlock/FileBlock";
 import ImageBlock from "./ImageBlock/ImageBlock";
 import AttachmentsBlock from "./AttachmentsBlock/AttachmentsBlock";
 import QuestionsBlock from "./QuestionsBlock/QuestionsBlock";
+import DownloadablesFilesBlock from "./DownloadableFiles/DownloadableFilesBlock";
 import RequestTypeBlock from "./RequestTypeBlock/RequestTypeBlock";
 
 interface IDynamicFieldsBlockWrapper {
@@ -46,6 +47,9 @@ export default function DynamicBlock({
       }
       case "ComponentBlocksQuestions": {
         return <QuestionsBlock blockName={name} />;
+      }
+      case "ComponentBlocksDownloadBlock": {
+        return <DownloadablesFilesBlock blockName={name} />;
       }
       case "ComponentBlocksRequestType": {
         return <RequestTypeBlock blockName={name} />;

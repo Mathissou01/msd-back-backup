@@ -7,6 +7,7 @@ import DropOffMapForm from "../../../../../../components/DropOffMap/DropOffMapFo
 import { useContract } from "../../../../../../hooks/useContract";
 import {
   CollectEntity,
+  ComponentBlocksDownloadBlockInput,
   GetDropOffMapByIdDocument,
   useCreateDropOffMapMutation,
   useGetDropOffCollectTypeByContractIdQuery,
@@ -20,6 +21,7 @@ import {
   IDropOffMapStaticFields,
 } from "../../../../../../lib/drop-off-map";
 import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
+import { remapFormBlocksDynamicZone } from "../../../../../../lib/dynamic-blocks";
 
 interface TServiceCartePointInteretPageProps {
   dropOffMapId: string;
@@ -43,12 +45,24 @@ export function ServiceCartePointInteretPage({
       latitudeField: "Latitude",
       longitudeField: "Longitude",
     },
+    staticLink: "Text du lien",
     staticPhoneNumber: "Téléphone",
     staticMustKnow: "A savoir avant de venir",
   };
 
   /* Methods */
   async function onSubmit(submitData: FieldValues, submitType?: string) {
+    const downloadableFiles = submitData.downloadableFiles.map(
+      (downloadableFile: ComponentBlocksDownloadBlockInput) => {
+        return {
+          linkText: downloadableFile.linkText,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          file: downloadableFile.file?.id,
+        };
+      },
+    );
+    //
     const collectTypeSelected: ICollectType = submitData.dropOffMapCollectType;
     const variables = {
       updateDropOffMapId: dropOffMapId,
@@ -67,6 +81,7 @@ export function ServiceCartePointInteretPage({
         longitude: submitData.longitude,
         phoneNumber: submitData.phoneNumber,
         mustKnow: submitData.mustKnow,
+        downloadableFiles: downloadableFiles,
         dropOffMapService: contract.attributes?.dropOffMapService?.data?.id,
       },
     };
@@ -216,6 +231,9 @@ export function ServiceCartePointInteretPage({
           longitude: dropOffMapData.attributes.longitude,
           phoneNumber: dropOffMapData.attributes.phoneNumber,
           mustKnow: dropOffMapData.attributes.mustKnow,
+          downloadableFiles: remapFormBlocksDynamicZone(
+            dropOffMapData.attributes.downloadableFiles,
+          ),
         };
         setMappedData(mappedData);
         setIsInitialized(true);
