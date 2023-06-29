@@ -16,30 +16,30 @@
     border-radius: 8px;
   }
 
+  &__FormFieldsCollectOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
   &__RequiredLabel {
     color: colors.$blue-1;
     font-size: 14px;
     line-height: 21px;
   }
 
-  &__Place {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-
   &__Description {
     @include typo.heading(4);
-  }
-
-  &__FormGroup {
-    gap: 10px;
-    margin-bottom: 20px;
   }
 
   &__FormGroupFlex {
     display: flex;
     flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  &__FormGroup {
     gap: 10px;
     margin-bottom: 20px;
   }

@@ -23,6 +23,7 @@ import {
 import {
   EMonthlyStatus,
   EPeriodicityStatus,
+  EPickUpDayCollectType,
   IHebdomadireAdvancedSelection,
   IMensuelAdvancedSelection,
   IPickUpDayStaticMappedFields,
@@ -41,6 +42,8 @@ interface IPickUpDayStaticVariablesFields {
     sectorizations: InputMaybe<string>[] | null;
     cities: InputMaybe<string>[] | null;
     flow: string;
+    collectDoorToDoor: string;
+    collectVoluntary: string;
     periodicity: InputMaybe<Enum_Pickupday_Periodicity> | undefined;
     advancedSelection:
       | IHebdomadireAdvancedSelection
@@ -69,6 +72,7 @@ export function ServicesPickUpDayEditPage({
       citiesField: "Communes",
     },
     staticFlow: "Flux",
+    staticPickUpDay: "Elément collecté",
     staticPeriodicite: "Périodicité",
     staticRecurrence: "Récurrence",
     staticDayOfTheMonth: "Jour du mois",
@@ -78,40 +82,8 @@ export function ServicesPickUpDayEditPage({
     staticComplementaryMention: "Mention Complémentaire",
   };
 
-  /* External Data */
-  const { currentRoot } = useNavigation();
-  const { contract } = useContract();
-  const { loading, error, data } = useGetPickUpDayByIdQuery({
-    variables: { pickUpDayId },
-    fetchPolicy: "network-only",
-  });
-  const [
-    createPickUpDay,
-    { loading: createPickUpDayLoading, error: createPickUpDayError },
-  ] = useCreatePickUpDayMutation({
-    awaitRefetchQueries: true,
-    onError: (error) => {
-      setError("name", { type: "validate", message: error.message });
-    },
-  });
-  const [
-    updatePickUpDay,
-    { loading: updatePickUpDayLoading, error: updatePickUpDayError },
-  ] = useUpdatePickUpDayMutation();
-
-  /* Local data */
-  const isLoading = loading || createPickUpDayLoading || updatePickUpDayLoading;
-  const errors = [error, createPickUpDayError, updatePickUpDayError];
-  const [pickUpDaysData, setPickUpDaysData] =
-    useState<IPickUpDayStaticMappedFields>();
-  const form = useForm({
-    mode: "onChange",
-  });
-  const { setError, trigger } = form;
-
   /* Methods */
   async function onSubmit(submitData: FieldValues, submitType?: string) {
-    trigger("flow");
     const advancedSelection =
       submitData.periodicity.toLowerCase() === EPeriodicityStatus.WEEKLY
         ? { hebdomadaire: { selection: submitData.days } }
@@ -124,7 +96,6 @@ export function ServicesPickUpDayEditPage({
                   : [submitData.days],
             },
           };
-
     const variables: IPickUpDayStaticVariablesFields = {
       updatePickUpDayId: pickUpDayId,
       data: {
@@ -138,6 +109,16 @@ export function ServicesPickUpDayEditPage({
             (option: ICommonSelectOption) => option.value,
           ) ?? null,
         flow: submitData.flow,
+        collectDoorToDoor: submitData.collects.includes(
+          EPickUpDayCollectType.DOOR_TO_DOOR,
+        )
+          ? submitData.collects.replace(EPickUpDayCollectType.DOOR_TO_DOOR, "")
+          : null,
+        collectVoluntary: submitData.collects.includes(
+          EPickUpDayCollectType.VOLUNTARY,
+        )
+          ? submitData.collects.replace(EPickUpDayCollectType.VOLUNTARY, "")
+          : null,
         pickUpDayService: contract.attributes?.pickUpDayService?.data?.id,
         periodicity: submitData.periodicity.toLowerCase(),
         advancedSelection,
@@ -185,21 +166,56 @@ export function ServicesPickUpDayEditPage({
     router.push(`${currentRoot}/services/jour-collecte`);
   }
 
+  /* External Data */
+  const { currentRoot } = useNavigation();
+  const { contract } = useContract();
+  const { loading, error, data } = useGetPickUpDayByIdQuery({
+    variables: { pickUpDayId },
+    fetchPolicy: "network-only",
+  });
+  const [
+    createPickUpDay,
+    { loading: createPickUpDayLoading, error: createPickUpDayError },
+  ] = useCreatePickUpDayMutation({
+    awaitRefetchQueries: true,
+    onError: (error) => {
+      setError("name", { type: "validate", message: error.message });
+    },
+  });
+
+  const [
+    updatePickUpDay,
+    { loading: updatePickUpDayLoading, error: updatePickUpDayError },
+  ] = useUpdatePickUpDayMutation();
+
+  /* Local data */
+  const isLoading = loading || createPickUpDayLoading || updatePickUpDayLoading;
+  const errors = [error, createPickUpDayError, updatePickUpDayError];
+  const [pickUpDaysData, setPickUpDaysData] =
+    useState<IPickUpDayStaticMappedFields>();
+  const form = useForm({
+    mode: "onChange",
+  });
+  const { setError } = form;
+
   useEffect(() => {
     if (data?.pickUpDay?.data) {
       const pickUpDaysData = data?.pickUpDay?.data;
-
       if (
         pickUpDaysData.id &&
         pickUpDaysData.attributes?.name &&
         pickUpDaysData.attributes?.flow
       ) {
+        const collects = pickUpDaysData.attributes.collectDoorToDoor?.data
+          ? `${EPickUpDayCollectType.DOOR_TO_DOOR}${pickUpDaysData.attributes.collectDoorToDoor.data?.id}`
+          : `${EPickUpDayCollectType.VOLUNTARY}${pickUpDaysData.attributes.collectVoluntary?.data?.id}`;
         const mappedData: IPickUpDayStaticMappedFields = {
           sectorizationsMode:
             pickUpDaysData.attributes.sectorizations?.data.length === 0
               ? "cities"
               : "sectorizations",
           name: pickUpDaysData.attributes.name,
+          flow: pickUpDaysData.attributes.flow.data?.id ?? "0",
           sectorizations:
             pickUpDaysData.attributes.sectorizations?.data.map(
               (sectorization: SectorizationEntity) => ({
@@ -212,7 +228,7 @@ export function ServicesPickUpDayEditPage({
               value: city.id ?? "",
               label: city.attributes?.name ?? "",
             })) ?? [],
-          flow: pickUpDaysData.attributes.flow.data?.id ?? "",
+          collects: collects,
           periodicity: pickUpDaysData.attributes.periodicity,
           choice:
             EPeriodicityStatus.MONTHLY in

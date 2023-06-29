@@ -5,6 +5,11 @@ enum EPeriodicityStatus {
   MONTHLY = "mensuel",
 }
 
+enum EPickUpDayCollectType {
+  DOOR_TO_DOOR = "CollectDoorToDoor_",
+  VOLUNTARY = "CollectVoluntary_",
+}
+
 enum EMonthlyStatus {
   MONTHLY_FIRST = "le premier",
   MONTHLY_LAST = "le dernier",
@@ -41,12 +46,11 @@ interface IPickUpDayStaticMappedFields {
   cities?: Array<ICommonSelectOption>;
   flow:
     | {
-        attributes: {
-          name: string | null;
-        } | null;
+        id: string;
       }
     | string
     | null;
+  collects: string;
   periodicity: string | null | undefined;
   choice: string | undefined;
   daysOfTheMonth?: string | undefined;
@@ -96,6 +100,7 @@ export {
   EPeriodicityStatus,
   EMonthlyStatus,
   EDaysOfTheWeek,
+  EPickUpDayCollectType,
   dayOptions,
   recurrenceOptions,
   periodicityOptions,

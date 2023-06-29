@@ -18,7 +18,7 @@ interface IFormRadioInputProps {
   isRequired?: boolean;
   isDisabled?: boolean;
   options: Array<IOption>;
-  defaultValue?: string;
+  defaultValue?: string | number;
   displayMode?: "vertical" | "horizontal";
   onChange?: (data: unknown) => void;
 }

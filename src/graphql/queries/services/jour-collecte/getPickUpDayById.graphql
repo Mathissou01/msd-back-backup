@@ -36,6 +36,34 @@ query getPickUpDayById($pickUpDayId: ID) {
             }
           }
         }
+        periodicity
+        advancedSelection
+        collectDoorToDoor {
+          data {
+            id
+            attributes {
+              name
+              picto {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
+        collectVoluntary {
+          data {
+            id
+            attributes {
+              name
+              picto {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

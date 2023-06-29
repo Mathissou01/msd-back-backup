@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { useGetFlowsQuery } from "../../../graphql/codegen/generated-types";
+import {
+  useGetCollectDoorToDoorByFlowIdQuery,
+  useGetCollectVoluntariesByFlowIdQuery,
+  useGetFlowsQuery,
+} from "../../../graphql/codegen/generated-types";
+import { useContract } from "../../../hooks/useContract";
+import { removeNulls } from "../../../lib/utilities";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
-import { ICommonSelectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormMultiCheckbox from "../../Form/FormMultiCheckbox/FormMultiCheckbox";
 import { IOptionWrapper } from "../../Form/FormMultiselect/FormMultiselect";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
-import { useContract } from "../../../hooks/useContract";
-import { removeNulls } from "../../../lib/utilities";
 import SectorizationOrCityFields, {
   ISectorizationOrCityFieldsLabels,
 } from "./SectorizationOrCityFields/SectorizationOrCityFields";
+import { ICommonSelectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import {
   EMonthlyStatus,
   EPeriodicityStatus,
   dayOptions,
   periodicityOptions,
   recurrenceOptions,
+  EPickUpDayCollectType,
 } from "../../../lib/pickup-days";
 import "./pick-up-days-form-static-fields.scss";
 
@@ -28,6 +33,7 @@ export interface IPickUpDaysFormStaticFieldsLabels {
   staticPlaceDescription: string;
   staticSectorizationOrCityLabels: ISectorizationOrCityFieldsLabels;
   staticFlow: string;
+  staticPickUpDay: string;
   staticPeriodicite: string;
   staticRecurrence: string;
   staticDayOfTheMonth: string;
@@ -50,6 +56,13 @@ export default function PickUpDaysFormStaticFields({
   /* Local Data */
   const { contractId } = useContract();
   const { watch } = useFormContext();
+  const { data } = useGetFlowsQuery({
+    variables: {
+      contractId: contractId,
+    },
+    fetchPolicy: "cache-and-network",
+  });
+
   const [periodicityStatus, setPeriodicityStatus] = useState<boolean>(true);
   const [recurrenceStatus, setRecurrenceStatus] = useState<boolean>();
   const [activeFlowOptions, setActiveFlowOptions] = useState<
@@ -58,12 +71,29 @@ export default function PickUpDaysFormStaticFields({
   const periodicity = watch("periodicity");
   const recurrence = watch("choice");
   const includeHoliday = watch("pickUpHours");
-  const { data: flowsData } = useGetFlowsQuery({
-    variables: {
-      contractId: contractId,
-    },
-    fetchPolicy: "cache-and-network",
+  const flow = watch("flow");
+
+  const [collectOptions, setCollectOptions] = useState<
+    Array<ICommonSelectOption>
+  >([]);
+
+  const [collectDoorToDoorOptions, setCollectDoorToDoorOptions] = useState<
+    Array<ICommonSelectOption>
+  >([]);
+  const [CollectVoluntariesOptions, setCollectVoluntariesOptions] = useState<
+    Array<ICommonSelectOption>
+  >([]);
+
+  const { data: collectDoorToDoorData } = useGetCollectDoorToDoorByFlowIdQuery({
+    variables: { flowId: flow },
+    fetchPolicy: "network-only",
   });
+
+  const { data: collectVoluntariesData } =
+    useGetCollectVoluntariesByFlowIdQuery({
+      variables: { flowId: flow },
+      fetchPolicy: "network-only",
+    });
 
   /* Methods */
   const daysOfTheMonth = (): IOptionWrapper<string>[] => {
@@ -79,18 +109,71 @@ export default function PickUpDaysFormStaticFields({
   };
 
   useEffect(() => {
-    if (flowsData) {
+    if (data) {
       setActiveFlowOptions(
-        flowsData?.flows?.data
+        data?.flows?.data
           ?.map((flow) => {
             if (flow.id && flow.attributes?.name) {
-              return { label: flow.attributes.name, value: flow.id };
+              return {
+                label: flow.attributes.name,
+                value: flow.id,
+              };
             }
           })
           .filter(removeNulls) ?? [],
       );
     }
-  }, [flowsData]);
+  }, [data]);
+
+  useEffect(() => {
+    if (
+      collectDoorToDoorOptions.length > 0 &&
+      CollectVoluntariesOptions.length > 0
+    ) {
+      const mergedOptions = [
+        ...collectDoorToDoorOptions,
+        ...CollectVoluntariesOptions,
+      ];
+      setCollectOptions(mergedOptions);
+    }
+  }, [collectDoorToDoorOptions, CollectVoluntariesOptions]);
+
+  useEffect(() => {
+    if (collectDoorToDoorData && collectDoorToDoorData.collectDoorToDoors) {
+      setCollectDoorToDoorOptions(
+        collectDoorToDoorData.collectDoorToDoors?.data
+          ?.map((collectDoorToDoorData) => {
+            if (
+              collectDoorToDoorData.id &&
+              collectDoorToDoorData.attributes?.name
+            ) {
+              return {
+                value: `${EPickUpDayCollectType.DOOR_TO_DOOR}${collectDoorToDoorData.id}`,
+                label: collectDoorToDoorData.attributes.name,
+              };
+            }
+          })
+          .filter(removeNulls) ?? [],
+      );
+    }
+  }, [collectDoorToDoorData]);
+
+  useEffect(() => {
+    if (collectVoluntariesData && collectVoluntariesData.collectVoluntaries) {
+      setCollectVoluntariesOptions(
+        collectVoluntariesData.collectVoluntaries.data
+          .map((collectVoluntary) => {
+            if (collectVoluntary.id && collectVoluntary.attributes?.name) {
+              return {
+                value: `${EPickUpDayCollectType.VOLUNTARY}${collectVoluntary.id}`,
+                label: collectVoluntary.attributes.name,
+              };
+            }
+          })
+          .filter(removeNulls) ?? [],
+      );
+    }
+  }, [collectVoluntariesData]);
 
   useEffect(() => {
     if (periodicity !== undefined)
@@ -106,9 +189,8 @@ export default function PickUpDaysFormStaticFields({
   return (
     <div className="c-PickUpDaysStaticFields">
       <div className="c-PickUpDaysStaticFields__Wrapper">
-        <div className="c-PickUpDaysStaticFields__RequiredLabel">
-          {mandatoryFields}
-        </div>
+        {mandatoryFields}
+
         <FormInput
           type="text"
           name="name"
@@ -128,80 +210,103 @@ export default function PickUpDaysFormStaticFields({
           labels={labels.staticSectorizationOrCityLabels}
         />
       </div>
-      <div className="c-PickUpDaysStaticFields__Wrapper">
-        <FormRadioInput
-          name="flow"
-          displayName={labels.staticFlow}
-          displayMode="vertical"
-          options={activeFlowOptions}
-          isRequired={true}
-        />
+
+      <div className="c-PickUpDaysStaticFields">
+        <div className="c-PickUpDaysStaticFields__Wrapper">
+          <FormRadioInput
+            name="flow"
+            displayName={labels.staticFlow}
+            displayMode="vertical"
+            options={activeFlowOptions}
+            isRequired={true}
+          />
+        </div>
       </div>
-      <div className="c-PickUpDaysStaticFields__Wrapper">
-        <div className="c-PickUpDaysStaticFields__FormGroupFlex">
-          <FormSelect
-            name="periodicity"
-            label={labels.staticPeriodicite}
-            options={periodicityOptions}
-            defaultValue={periodicityOptions[0].option}
-            isRequired
-          />
-          {!periodicityStatus && (
+
+      <>
+        {collectOptions.length > 0 && (
+          <div className="c-PickUpDaysStaticFields">
+            <div className="c-PickUpDaysStaticFields__Wrapper">
+              <FormRadioInput
+                name="collects"
+                displayName={labels.staticPickUpDay}
+                displayMode="horizontal"
+                options={collectOptions}
+                defaultValue={collectOptions[0]?.value}
+                isRequired={true}
+              />
+            </div>
+          </div>
+        )}
+      </>
+
+      <div className="c-PickUpDaysStaticFields">
+        <div className="c-PickUpDaysStaticFields__Wrapper">
+          <div className="c-PickUpDaysStaticFields__FormGroupFlex">
             <FormSelect
-              name="choice"
-              label={labels.staticRecurrence}
-              options={recurrenceOptions}
-              isRequired={!periodicityStatus}
-              defaultValue={EMonthlyStatus.MONTHLY_FIRST}
+              name="periodicity"
+              label={labels.staticPeriodicite}
+              options={periodicityOptions}
+              defaultValue={periodicityOptions[0].option}
+              isRequired
             />
-          )}
-        </div>
-        <div className="c-PickUpDaysStaticFields__FormGroupFlex">
-          {periodicityStatus && (
-            <FormMultiCheckbox
-              name="days"
-              label={labels.staticDays}
-              options={dayOptions}
-              isRequired={periodicityStatus}
+            {!periodicityStatus && (
+              <FormSelect
+                name="choice"
+                label={labels.staticRecurrence}
+                options={recurrenceOptions}
+                isRequired={!periodicityStatus}
+                defaultValue={EMonthlyStatus.MONTHLY_FIRST}
+              />
+            )}
+          </div>
+          <div className="c-PickUpDaysStaticFields__FormGroupFlex">
+            {periodicityStatus && (
+              <FormMultiCheckbox
+                name="days"
+                label={labels.staticDays}
+                options={dayOptions}
+                isRequired={periodicityStatus}
+              />
+            )}
+            {!periodicityStatus && recurrenceStatus && (
+              <FormSelect
+                name="daysOfTheMonth"
+                label={labels.staticDayOfTheMonth}
+                options={daysOfTheMonth()}
+                defaultValue={"1"}
+              />
+            )}
+            {!periodicityStatus && !recurrenceStatus && (
+              <FormRadioInput
+                displayName={labels.staticDays}
+                name="days"
+                options={dayOptions}
+                isRequired={!recurrenceStatus}
+              />
+            )}
+          </div>
+          <div className="c-PickUpDaysStaticFields__FormGroup">
+            <FormCheckbox
+              name="includeHoliday"
+              label={labels.staticIncludeHoliday}
             />
-          )}
-          {!periodicityStatus && recurrenceStatus && (
-            <FormSelect
-              name="daysOfTheMonth"
-              label={labels.staticDayOfTheMonth}
-              options={daysOfTheMonth()}
-              defaultValue={"1"}
+          </div>
+          <div className="c-PickUpDaysStaticFields__FormGroup">
+            <FormInput
+              name="pickUpHours"
+              label={labels.staticPickUpHours}
+              type="time"
             />
-          )}
-          {!periodicityStatus && !recurrenceStatus && (
-            <FormRadioInput
-              displayName={labels.staticDays}
-              name="days"
-              options={dayOptions}
-              isRequired={!recurrenceStatus}
+          </div>
+          <div className="c-PickUpDaysStaticFields__FormGroup">
+            <FormInput
+              name="complementaryMention"
+              label={labels.staticComplementaryMention}
+              tagType="textarea"
+              maxLengthValidation={100}
             />
-          )}
-        </div>
-        <div className="c-PickUpDaysStaticFields__FormGroup">
-          <FormCheckbox
-            name="includeHoliday"
-            label={labels.staticIncludeHoliday}
-          />
-        </div>
-        <div className="c-PickUpDaysStaticFields__FormGroup">
-          <FormInput
-            name="pickUpHours"
-            label={labels.staticPickUpHours}
-            type="time"
-          />
-        </div>
-        <div className="c-PickUpDaysStaticFields__FormGroup">
-          <FormInput
-            name="complementaryMention"
-            label={labels.staticComplementaryMention}
-            tagType="textarea"
-            maxLengthValidation={100}
-          />
+          </div>
         </div>
       </div>
     </div>
