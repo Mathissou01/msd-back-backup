@@ -128,8 +128,7 @@ export type IFormBlock =
   | IBlocksAttachments
   | IBlocksQuestions
   | IBlocksDownloadableFiles
-  | IBlocksQuestions
-  | IBlocksRequestType
+  | IBlocksRequestType;
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
