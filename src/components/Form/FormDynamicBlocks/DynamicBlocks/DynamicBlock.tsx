@@ -9,6 +9,7 @@ import ImageBlock from "./ImageBlock/ImageBlock";
 import AttachmentsBlock from "./AttachmentsBlock/AttachmentsBlock";
 import QcmBlock from "./QcmBlock/QcmBlock";
 import QuestionsBlock from "./QuestionsBlock/QuestionsBlock";
+import CheckboxBlock from "./CheckboxBlock/CheckboxBlock";
 import DownloadablesFilesBlock from "./DownloadableFiles/DownloadableFilesBlock";
 import RequestTypeBlock from "./RequestTypeBlock/RequestTypeBlock";
 import RequestDateBlock from "./RequestDateBlock/RequestDateBlock";
@@ -52,6 +53,9 @@ export default function DynamicBlock({
       }
       case "ComponentBlocksQuestions": {
         return <QuestionsBlock blockName={name} />;
+      }
+      case "ComponentBlocksCheckbox": {
+        return <CheckboxBlock blockName={name} />;
       }
       case "ComponentBlocksDownloadBlock": {
         return <DownloadablesFilesBlock blockName={name} />;

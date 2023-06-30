@@ -134,24 +134,11 @@ type Activation {
 union ActivationAndService = Activation | Service
 
 type AlertNotification {
-  alertDescription: String!
   alertMessage: String
-  alertNotifService: AlertNotificationServiceEntityResponse
-  alertTitle: String
-  cities(
-    filters: CityFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): CityRelationResponseCollection
   createdAt: DateTime
+  publishedAt: DateTime
   scheduledAt: Date!
-  sectorizations(
-    filters: SectorizationFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): SectorizationRelationResponseCollection
   sendMail: Boolean
-  sendSMS: Boolean
   subject: String
   updatedAt: DateTime
 }
@@ -171,34 +158,24 @@ type AlertNotificationEntityResponseCollection {
 }
 
 input AlertNotificationFiltersInput {
-  alertDescription: StringFilterInput
   alertMessage: StringFilterInput
-  alertNotifService: AlertNotificationServiceFiltersInput
-  alertTitle: StringFilterInput
   and: [AlertNotificationFiltersInput]
-  cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
   not: AlertNotificationFiltersInput
   or: [AlertNotificationFiltersInput]
+  publishedAt: DateTimeFilterInput
   scheduledAt: DateFilterInput
-  sectorizations: SectorizationFiltersInput
   sendMail: BooleanFilterInput
-  sendSMS: BooleanFilterInput
   subject: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input AlertNotificationInput {
-  alertDescription: String
   alertMessage: String
-  alertNotifService: ID
-  alertTitle: String
-  cities: [ID]
+  publishedAt: DateTime
   scheduledAt: Date
-  sectorizations: [ID]
   sendMail: Boolean
-  sendSMS: Boolean
   subject: String
 }
 
@@ -210,6 +187,7 @@ type AlertNotificationService {
   alertNotifications(
     filters: AlertNotificationFiltersInput
     pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): AlertNotificationRelationResponseCollection
   audienceTypes(
@@ -4800,7 +4778,6 @@ type PickUpDay {
   complementaryMention: String
   createdAt: DateTime
   description: String
-  externalLink: String
   flow: FlowEntityResponse!
   includeHoliday: Boolean!
   informationMessage: InformationMessageEntityResponse
@@ -4808,7 +4785,6 @@ type PickUpDay {
   periodicity: ENUM_PICKUPDAY_PERIODICITY
   pickUpDayService: PickUpDayServiceEntityResponse
   pickUpHours: String
-  request: RequestEntityResponse
   sectorizations(
     filters: SectorizationFiltersInput
     pagination: PaginationArg = {}
@@ -4841,7 +4817,6 @@ input PickUpDayFiltersInput {
   complementaryMention: StringFilterInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
-  externalLink: StringFilterInput
   flow: FlowFiltersInput
   id: IDFilterInput
   includeHoliday: BooleanFilterInput
@@ -4852,7 +4827,6 @@ input PickUpDayFiltersInput {
   periodicity: StringFilterInput
   pickUpDayService: PickUpDayServiceFiltersInput
   pickUpHours: StringFilterInput
-  request: RequestFiltersInput
   sectorizations: SectorizationFiltersInput
   updatedAt: DateTimeFilterInput
 }
@@ -4865,7 +4839,6 @@ input PickUpDayInput {
   collectVoluntary: ID
   complementaryMention: String
   description: String
-  externalLink: String
   flow: ID
   includeHoliday: Boolean
   informationMessage: ID
@@ -4873,7 +4846,6 @@ input PickUpDayInput {
   periodicity: ENUM_PICKUPDAY_PERIODICITY
   pickUpDayService: ID
   pickUpHours: String
-  request: ID
   sectorizations: [ID]
 }
 
@@ -4987,6 +4959,7 @@ type Query {
   alertNotifications(
     filters: AlertNotificationFiltersInput
     pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): AlertNotificationEntityResponseCollection
   audienceType(id: ID): AudienceTypeEntityResponse

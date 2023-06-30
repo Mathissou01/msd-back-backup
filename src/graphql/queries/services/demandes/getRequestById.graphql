@@ -55,6 +55,11 @@ query getRequestById($requestId: ID) {
             responses
             multipleChoice
           }
+          ... on ComponentBlocksCheckbox {
+            id
+            fieldStatusCheckbox
+            labelCheckbox
+          }
         }
         requestType {
           id

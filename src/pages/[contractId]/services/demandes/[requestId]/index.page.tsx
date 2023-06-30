@@ -84,6 +84,7 @@ export function RequestFormPage({
     { option: "ComponentBlocksQuestions" },
     { option: "ComponentBlocksDateChoice" },
     { option: "ComponentBlocksQcm" },
+    { option: "ComponentBlocksCheckbox" },
   ];
 
   const requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> =

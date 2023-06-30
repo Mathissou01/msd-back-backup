@@ -198,30 +198,13 @@ export type ActivationAndService = Activation | Service;
 
 export type AlertNotification = {
   __typename?: "AlertNotification";
-  alertDescription: Scalars["String"];
   alertMessage?: Maybe<Scalars["String"]>;
-  alertNotifService?: Maybe<AlertNotificationServiceEntityResponse>;
-  alertTitle?: Maybe<Scalars["String"]>;
-  cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
   scheduledAt: Scalars["Date"];
-  sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   sendMail?: Maybe<Scalars["Boolean"]>;
-  sendSMS?: Maybe<Scalars["Boolean"]>;
   subject?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type AlertNotificationCitiesArgs = {
-  filters?: InputMaybe<CityFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type AlertNotificationSectorizationsArgs = {
-  filters?: InputMaybe<SectorizationFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type AlertNotificationEntity = {
@@ -242,34 +225,24 @@ export type AlertNotificationEntityResponseCollection = {
 };
 
 export type AlertNotificationFiltersInput = {
-  alertDescription?: InputMaybe<StringFilterInput>;
   alertMessage?: InputMaybe<StringFilterInput>;
-  alertNotifService?: InputMaybe<AlertNotificationServiceFiltersInput>;
-  alertTitle?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
-  cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<AlertNotificationFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
   scheduledAt?: InputMaybe<DateFilterInput>;
-  sectorizations?: InputMaybe<SectorizationFiltersInput>;
   sendMail?: InputMaybe<BooleanFilterInput>;
-  sendSMS?: InputMaybe<BooleanFilterInput>;
   subject?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type AlertNotificationInput = {
-  alertDescription?: InputMaybe<Scalars["String"]>;
   alertMessage?: InputMaybe<Scalars["String"]>;
-  alertNotifService?: InputMaybe<Scalars["ID"]>;
-  alertTitle?: InputMaybe<Scalars["String"]>;
-  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
-  sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   sendMail?: InputMaybe<Scalars["Boolean"]>;
-  sendSMS?: InputMaybe<Scalars["Boolean"]>;
   subject?: InputMaybe<Scalars["String"]>;
 };
 
@@ -295,6 +268,7 @@ export type AlertNotificationService = {
 export type AlertNotificationServiceAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -6124,7 +6098,6 @@ export type PickUpDay = {
   complementaryMention?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
-  externalLink?: Maybe<Scalars["String"]>;
   flow: FlowEntityResponse;
   includeHoliday: Scalars["Boolean"];
   informationMessage?: Maybe<InformationMessageEntityResponse>;
@@ -6132,7 +6105,6 @@ export type PickUpDay = {
   periodicity?: Maybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   pickUpHours?: Maybe<Scalars["String"]>;
-  request?: Maybe<RequestEntityResponse>;
   sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -6176,7 +6148,6 @@ export type PickUpDayFiltersInput = {
   complementaryMention?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
-  externalLink?: InputMaybe<StringFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   includeHoliday?: InputMaybe<BooleanFilterInput>;
@@ -6187,7 +6158,6 @@ export type PickUpDayFiltersInput = {
   periodicity?: InputMaybe<StringFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   pickUpHours?: InputMaybe<StringFilterInput>;
-  request?: InputMaybe<RequestFiltersInput>;
   sectorizations?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -6200,7 +6170,6 @@ export type PickUpDayInput = {
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
   complementaryMention?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
-  externalLink?: InputMaybe<Scalars["String"]>;
   flow?: InputMaybe<Scalars["ID"]>;
   includeHoliday?: InputMaybe<Scalars["Boolean"]>;
   informationMessage?: InputMaybe<Scalars["ID"]>;
@@ -6208,7 +6177,6 @@ export type PickUpDayInput = {
   periodicity?: InputMaybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   pickUpHours?: InputMaybe<Scalars["String"]>;
-  request?: InputMaybe<Scalars["ID"]>;
   sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -6526,6 +6494,7 @@ export type QueryAlertNotificationServicesArgs = {
 export type QueryAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -15078,7 +15047,12 @@ export type GetRequestByIdQuery = {
               renderField: boolean;
               multipleAttachments?: boolean | null;
             }
-          | { __typename?: "ComponentBlocksCheckbox" }
+          | {
+              __typename?: "ComponentBlocksCheckbox";
+              id: string;
+              fieldStatusCheckbox: Enum_Componentblockscheckbox_Fieldstatuscheckbox;
+              labelCheckbox: string;
+            }
           | { __typename?: "ComponentBlocksCommentary" }
           | { __typename?: "ComponentBlocksCumbersome" }
           | {
@@ -25209,6 +25183,11 @@ export const GetRequestByIdDocument = gql`
               fieldLabelQCM
               responses
               multipleChoice
+            }
+            ... on ComponentBlocksCheckbox {
+              id
+              fieldStatusCheckbox
+              labelCheckbox
             }
           }
           requestType {

@@ -70,8 +70,8 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     picto: "attachment",
   },
   ComponentBlocksCheckbox: {
-    label: "TO_REPLACE_Checkbox",
-    picto: "question_text",
+    label: "Case à cocher",
+    picto: "checkbox",
   },
   ComponentBlocksCommentary: {
     label: "TO_REPLACE_Commentary",
@@ -129,6 +129,7 @@ export type IFormBlock =
   | IBlocksDateChoice
   | IBlocksQCM
   | IBlocksQuestions
+  | IBlocksCheckbox
   | IBlocksDownloadableFiles
   | IBlocksRequestType;
 
@@ -188,6 +189,12 @@ export interface IBlocksQuestions extends IPartialBlock {
   questionTextLabel: string;
   questionTextPlaceholder: string;
   height: string;
+}
+
+export interface IBlocksCheckbox extends IPartialBlock {
+  __typename: "ComponentBlocksCheckbox";
+  fieldStatusCheckbox: string;
+  labelCheckbox: string;
 }
 
 export interface IBlocksDownloadableFiles extends IPartialBlock {
@@ -309,6 +316,14 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         questionTextLabel: "",
         questionTextPlaceholder: "",
         height: "0",
+      };
+    }
+    case "ComponentBlocksCheckbox": {
+      return {
+        __typename,
+        id: temporaryId,
+        fieldStatusCheckbox: "Obligatoire",
+        labelCheckbox: "",
       };
     }
     case "ComponentBlocksDownloadBlock": {
