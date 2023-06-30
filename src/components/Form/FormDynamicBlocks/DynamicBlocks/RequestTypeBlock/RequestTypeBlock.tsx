@@ -78,7 +78,7 @@ export default function RequestTypeBlock({
             name={`${blockName}.${fieldNames.title}`}
             isRequired
             label={labels.title}
-            maxLengthValidation={60}
+            maxLengthValidation={50}
           />
         </div>
       )}

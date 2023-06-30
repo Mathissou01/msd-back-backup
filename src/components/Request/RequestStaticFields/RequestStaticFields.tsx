@@ -123,8 +123,8 @@ export default function RequestStaticFields({
               name="name"
               label={labels.staticName}
               isRequired={true}
-              maxLengthValidation={60}
-              validationLabel={`60 ${labels.staticMaxCharacters}`}
+              maxLengthValidation={50}
+              validationLabel={`50 ${labels.staticMaxCharacters}`}
             />
           </div>
         )}
