@@ -100,7 +100,7 @@ export default function DropOffMapStaticFields({
         <AddressOrGpsFields labels={labels.staticAddressOrGpsLabels} />
         <div className="c-DropOffMapStaticFields__PhoneNumber">
           <FormInput
-            type="number"
+            type="tel"
             name="phoneNumber"
             label={labels.staticPhoneNumber}
             patternValidation={validationPhoneNumber}

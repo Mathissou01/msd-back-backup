@@ -8,7 +8,15 @@ import FormLabel, { LabelStyle, ValidationStyle } from "../FormLabel/FormLabel";
 import "./form-input.scss";
 
 interface IFormInputProps {
-  type?: "number" | "text" | "email" | "password" | "url" | "time" | "hidden";
+  type?:
+    | "number"
+    | "text"
+    | "email"
+    | "password"
+    | "url"
+    | "time"
+    | "tel"
+    | "hidden";
   name: string;
   label?: string;
   secondaryLabel?: string;
