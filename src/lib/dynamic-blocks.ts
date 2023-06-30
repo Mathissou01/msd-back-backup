@@ -374,7 +374,7 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
       return {
         __typename,
         id: temporaryId,
-        fieldStatus: "",
+        fieldStatus: "Obligatoire",
         fieldLabelDateChoice: "",
       };
     }
