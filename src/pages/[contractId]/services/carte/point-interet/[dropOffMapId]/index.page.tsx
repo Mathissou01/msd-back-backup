@@ -52,8 +52,8 @@ export function ServiceCartePointInteretPage({
   };
 
   /* Methods */
-  async function onSubmit(submitData: FieldValues, submitType?: string) {
-    const downloadableFiles = submitData.downloadableFiles.map(
+  async function onSubmit(submitData: FieldValues) {
+    const downloadableFiles = submitData.downloadableFiles?.map(
       (downloadableFile: ComponentBlocksDownloadBlockInput) => {
         return {
           linkText: downloadableFile.linkText,
@@ -63,7 +63,6 @@ export function ServiceCartePointInteretPage({
         };
       },
     );
-    //
     const collectTypeSelected: ICollectType = submitData.dropOffMapCollectType;
     const variables = {
       updateDropOffMapId: dropOffMapId,
@@ -93,9 +92,7 @@ export function ServiceCartePointInteretPage({
         variables,
         onCompleted: (result) => {
           if (result.createDropOffMap?.data?.id) {
-            if (submitType === "submit") {
-              router.push(`${currentRoot}/services/carte`);
-            }
+            router.push(`${currentRoot}/services/carte`);
           }
         },
       });
@@ -112,9 +109,7 @@ export function ServiceCartePointInteretPage({
         ],
         onCompleted: (result) => {
           if (result.updateDropOffMap?.data?.id) {
-            if (submitType === "submit") {
-              router.push(`${currentRoot}/services/carte`);
-            }
+            router.push(`${currentRoot}/services/carte`);
           }
         },
       });

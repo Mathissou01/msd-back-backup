@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import {
   SearchResultAddress,
@@ -29,15 +29,16 @@ export default function AddressOrGpsFields({
   labels,
 }: AddressOrGpsFieldsProps) {
   /* Methods */
-  function handleFieldSwitch(value: TRadioName) {
+  // Handle switch change and keeping the data inside the input
+  const handleFieldSwitch = (value: TRadioName) => {
     if (value === "address") {
-      resetField("latitude");
-      resetField("longitude");
+      setValue("latitude", getValues("latitude"));
+      setValue("longitude", getValues("longitude"));
     } else if (value === "gpsCoordinates") {
-      resetField("address");
+      setValue("address", getValues("address"));
     }
     setRadioValue(value);
-  }
+  };
 
   async function searchFunction(
     searchValue: string,
@@ -63,8 +64,25 @@ export default function AddressOrGpsFields({
       fetchPolicy: "network-only",
     });
   const [radioValue, setRadioValue] = useState<TRadioName>("address");
-  const { resetField, getValues } = useFormContext();
+  const { getValues, setValue } = useFormContext();
 
+  useEffect(() => {
+    // Update the radio value based on the initial values
+    const addressValue = getValues("address");
+    const latitudeValue = getValues("latitude");
+    const longitudeValue = getValues("longitude");
+
+    if (addressValue !== undefined && addressValue !== "") {
+      setRadioValue("address");
+    } else if (
+      latitudeValue !== undefined &&
+      longitudeValue !== undefined &&
+      latitudeValue !== "" &&
+      longitudeValue !== ""
+    ) {
+      setRadioValue("gpsCoordinates");
+    }
+  }, [getValues]);
   return (
     <div className="c-AddressOrGpsFields">
       <fieldset className="c-AddressOrGpsFields__Radio">
@@ -126,6 +144,7 @@ export default function AddressOrGpsFields({
             step={0.000001}
             label={labels.latitudeField}
             isRequired={true}
+            defaultValue={getValues("latitude")}
           />
           <FormInput
             type="number"
@@ -135,6 +154,7 @@ export default function AddressOrGpsFields({
             step={0.000001}
             label={labels.longitudeField}
             isRequired={true}
+            defaultValue={getValues("longitude")}
           />
         </div>
       )}

@@ -24,10 +24,12 @@ export default function DownloadablesFilesBlock({
     staticName: "Texte du lien",
     staticValidation: "Ex. : `Télécharger le plan`. 80 caractères maximum",
   };
+  const maxLenghtValidation = 80;
   const acceptedTypes: Array<TAcceptedMimeTypes> = [
     "text/csv",
     "application/pdf",
     "application/zip",
+    "application/json",
     "image/png",
     "image/jpeg",
     "application/xhtml+xml",
@@ -48,8 +50,9 @@ export default function DownloadablesFilesBlock({
         type="text"
         name={`${blockName}.${fieldNames.linkText}`}
         label={labels.staticName}
-        isRequired={true}
         validationLabel={labels.staticValidation}
+        maxLengthValidation={maxLenghtValidation}
+        isRequired
       />
       <FormFileInput
         name={`${blockName}.${fieldNames.file}`}
@@ -57,7 +60,6 @@ export default function DownloadablesFilesBlock({
         isRequired={false}
         validationLabel={labels.staticImageValidation}
         placeholder={labels.staticImagePlaceholder}
-        mimeFilterContains="image"
         acceptedMimeTypes={acceptedTypes}
       />
     </div>
