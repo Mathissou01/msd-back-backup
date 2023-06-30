@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import router from "next/router";
-import { Maybe } from "graphql/jsutils/Maybe";
 import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
@@ -12,9 +11,8 @@ import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import {
   CityEntity,
-  Enum_Pickupday_Periodicity,
+  GetActiveRequestsByContractIdDocument,
   GetFlowsByContractIdDocument,
-  InputMaybe,
   SectorizationEntity,
   useCreatePickUpDayMutation,
   useGetPickUpDayByIdQuery,
@@ -24,34 +22,13 @@ import {
   EMonthlyStatus,
   EPeriodicityStatus,
   EPickUpDayCollectType,
-  IHebdomadireAdvancedSelection,
-  IMensuelAdvancedSelection,
   IPickUpDayStaticMappedFields,
+  IPickUpDayStaticVariablesFields,
 } from "../../../../../lib/pickup-days";
 
 interface IPickUpDayIdPageProps {
   pickUpDayId: string;
   isCreateMode: boolean;
-}
-
-interface IPickUpDayStaticVariablesFields {
-  updatePickUpDayId: string;
-  data: {
-    name: string;
-    pickUpDayService: Maybe<string>;
-    sectorizations: InputMaybe<string>[] | null;
-    cities: InputMaybe<string>[] | null;
-    flow: string;
-    collectDoorToDoor: string;
-    collectVoluntary: string;
-    periodicity: InputMaybe<Enum_Pickupday_Periodicity> | undefined;
-    advancedSelection:
-      | IHebdomadireAdvancedSelection
-      | IMensuelAdvancedSelection;
-    includeHoliday: boolean;
-    pickUpHours: string;
-    complementaryMention: string;
-  };
 }
 
 export function ServicesPickUpDayEditPage({
@@ -80,7 +57,42 @@ export function ServicesPickUpDayEditPage({
     staticPickUpHours: "Heure de passage",
     staticIncludeHoliday: "Y compris jours fériés",
     staticComplementaryMention: "Mention Complémentaire",
+    staticShortCutForm: "Raccourci vers un formulaire",
+    staticLabelForm: "Libellé du raccourci",
+    staticFormRadioBtn: "Formulaire",
+    staticExternalLinkRadioBtn: "Lien externe",
   };
+
+  /* External Data */
+  const { currentRoot } = useNavigation();
+  const { contract, contractId } = useContract();
+  const { loading, error, data } = useGetPickUpDayByIdQuery({
+    variables: { pickUpDayId },
+    fetchPolicy: "network-only",
+  });
+  const [
+    createPickUpDay,
+    { loading: createPickUpDayLoading, error: createPickUpDayError },
+  ] = useCreatePickUpDayMutation({
+    awaitRefetchQueries: true,
+    onError: (error) => {
+      setError("name", { type: "validate", message: error.message });
+    },
+  });
+  const [
+    updatePickUpDay,
+    { loading: updatePickUpDayLoading, error: updatePickUpDayError },
+  ] = useUpdatePickUpDayMutation();
+
+  /* Local data */
+  const isLoading = loading || createPickUpDayLoading || updatePickUpDayLoading;
+  const errors = [error, createPickUpDayError, updatePickUpDayError];
+  const [pickUpDaysData, setPickUpDaysData] =
+    useState<IPickUpDayStaticMappedFields>();
+  const form = useForm({
+    mode: "onChange",
+  });
+  const { setError } = form;
 
   /* Methods */
   async function onSubmit(submitData: FieldValues, submitType?: string) {
@@ -125,9 +137,11 @@ export function ServicesPickUpDayEditPage({
         includeHoliday: submitData.includeHoliday,
         pickUpHours: submitData.pickUpHours,
         complementaryMention: submitData.complementaryMention,
+        buttonLabel: submitData.buttonLabel,
+        request: submitData.request?.id ?? null,
+        externalLink: submitData.externalLink ?? null,
       },
     };
-
     if (isCreateMode) {
       return createPickUpDay({
         variables,
@@ -149,6 +163,12 @@ export function ServicesPickUpDayEditPage({
               pickUpDayId,
             },
           },
+          {
+            query: GetActiveRequestsByContractIdDocument,
+            variables: {
+              contractId,
+            },
+          },
         ],
         onCompleted: (result) => {
           if (result.updatePickUpDay?.data?.id) {
@@ -166,45 +186,15 @@ export function ServicesPickUpDayEditPage({
     router.push(`${currentRoot}/services/jour-collecte`);
   }
 
-  /* External Data */
-  const { currentRoot } = useNavigation();
-  const { contract } = useContract();
-  const { loading, error, data } = useGetPickUpDayByIdQuery({
-    variables: { pickUpDayId },
-    fetchPolicy: "network-only",
-  });
-  const [
-    createPickUpDay,
-    { loading: createPickUpDayLoading, error: createPickUpDayError },
-  ] = useCreatePickUpDayMutation({
-    awaitRefetchQueries: true,
-    onError: (error) => {
-      setError("name", { type: "validate", message: error.message });
-    },
-  });
-
-  const [
-    updatePickUpDay,
-    { loading: updatePickUpDayLoading, error: updatePickUpDayError },
-  ] = useUpdatePickUpDayMutation();
-
-  /* Local data */
-  const isLoading = loading || createPickUpDayLoading || updatePickUpDayLoading;
-  const errors = [error, createPickUpDayError, updatePickUpDayError];
-  const [pickUpDaysData, setPickUpDaysData] =
-    useState<IPickUpDayStaticMappedFields>();
-  const form = useForm({
-    mode: "onChange",
-  });
-  const { setError } = form;
-
   useEffect(() => {
     if (data?.pickUpDay?.data) {
       const pickUpDaysData = data?.pickUpDay?.data;
       if (
         pickUpDaysData.id &&
         pickUpDaysData.attributes?.name &&
-        pickUpDaysData.attributes?.flow
+        pickUpDaysData.attributes?.flow &&
+        pickUpDaysData.attributes.periodicity &&
+        pickUpDaysData.attributes.advancedSelection
       ) {
         const collects = pickUpDaysData.attributes.collectDoorToDoor?.data
           ? `${EPickUpDayCollectType.DOOR_TO_DOOR}${pickUpDaysData.attributes.collectDoorToDoor.data?.id}`
@@ -249,6 +239,12 @@ export function ServicesPickUpDayEditPage({
           includeHoliday: pickUpDaysData.attributes.includeHoliday,
           pickUpHours: pickUpDaysData.attributes.pickUpHours,
           complementaryMention: pickUpDaysData.attributes.complementaryMention,
+          buttonLabel: pickUpDaysData.attributes.buttonLabel ?? undefined,
+          shortcutFormMode: pickUpDaysData.attributes.externalLink
+            ? "link"
+            : "form",
+          request: pickUpDaysData.attributes.request?.data ?? undefined,
+          externalLink: pickUpDaysData.attributes.externalLink ?? undefined,
         };
         setPickUpDaysData(mappedData);
       }

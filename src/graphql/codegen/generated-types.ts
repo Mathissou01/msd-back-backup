@@ -15753,16 +15753,18 @@ export type CreatePickUpDayMutation = {
         complementaryMention?: string | null;
         createdAt?: any | null;
         updatedAt?: any | null;
+        buttonLabel?: string | null;
+        externalLink?: string | null;
+        request?: {
+          __typename?: "RequestEntityResponse";
+          data?: { __typename?: "RequestEntity"; id?: string | null } | null;
+        } | null;
         flow: {
           __typename?: "FlowEntityResponse";
           data?: {
             __typename?: "FlowEntity";
             id?: string | null;
-            attributes?: {
-              __typename?: "Flow";
-              name?: string | null;
-              isActivated?: boolean | null;
-            } | null;
+            attributes?: { __typename?: "Flow"; name?: string | null } | null;
           } | null;
         };
         pickUpDayService?: {
@@ -15791,6 +15793,29 @@ export type CreatePickUpDayMutation = {
         } | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetActiveRequestsByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetActiveRequestsByContractIdQuery = {
+  __typename?: "Query";
+  requests?: {
+    __typename?: "RequestEntityResponseCollection";
+    data: Array<{
+      __typename?: "RequestEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Request";
+        name?: string | null;
+        isActivated?: boolean | null;
+        hasSeveralRequestTypes: boolean;
+        hasAddress: boolean;
+        hasUser: boolean;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -15954,6 +15979,12 @@ export type GetPickUpDayByIdQuery = {
         pickUpHours?: string | null;
         includeHoliday: boolean;
         complementaryMention?: string | null;
+        buttonLabel?: string | null;
+        externalLink?: string | null;
+        request?: {
+          __typename?: "RequestEntityResponse";
+          data?: { __typename?: "RequestEntity"; id?: string | null } | null;
+        } | null;
         flow: {
           __typename?: "FlowEntityResponse";
           data?: {
@@ -16187,8 +16218,18 @@ export type UpdatePickUpDayMutation = {
       attributes?: {
         __typename?: "PickUpDay";
         name: string;
-        advancedSelection: any;
+        description?: string | null;
         periodicity?: Enum_Pickupday_Periodicity | null;
+        advancedSelection: any;
+        pickUpHours?: string | null;
+        includeHoliday: boolean;
+        complementaryMention?: string | null;
+        buttonLabel?: string | null;
+        externalLink?: string | null;
+        request?: {
+          __typename?: "RequestEntityResponse";
+          data?: { __typename?: "RequestEntity"; id?: string | null } | null;
+        } | null;
         flow: {
           __typename?: "FlowEntityResponse";
           data?: {
@@ -26498,12 +26539,18 @@ export const CreatePickUpDayDocument = gql`
           complementaryMention
           createdAt
           updatedAt
+          buttonLabel
+          externalLink
+          request {
+            data {
+              id
+            }
+          }
           flow {
             data {
               id
               attributes {
                 name
-                isActivated
               }
             }
           }
@@ -26572,6 +26619,78 @@ export type CreatePickUpDayMutationResult =
 export type CreatePickUpDayMutationOptions = Apollo.BaseMutationOptions<
   CreatePickUpDayMutation,
   CreatePickUpDayMutationVariables
+>;
+export const GetActiveRequestsByContractIdDocument = gql`
+  query getActiveRequestsByContractId($contractId: ID!) {
+    requests(
+      filters: {
+        requestService: { contract: { id: { eq: $contractId } } }
+        isActivated: { eq: true }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+          isActivated
+          hasSeveralRequestTypes
+          hasAddress
+          hasUser
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetActiveRequestsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetActiveRequestsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActiveRequestsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetActiveRequestsByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetActiveRequestsByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetActiveRequestsByContractIdQuery,
+    GetActiveRequestsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetActiveRequestsByContractIdQuery,
+    GetActiveRequestsByContractIdQueryVariables
+  >(GetActiveRequestsByContractIdDocument, options);
+}
+export function useGetActiveRequestsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetActiveRequestsByContractIdQuery,
+    GetActiveRequestsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetActiveRequestsByContractIdQuery,
+    GetActiveRequestsByContractIdQueryVariables
+  >(GetActiveRequestsByContractIdDocument, options);
+}
+export type GetActiveRequestsByContractIdQueryHookResult = ReturnType<
+  typeof useGetActiveRequestsByContractIdQuery
+>;
+export type GetActiveRequestsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetActiveRequestsByContractIdLazyQuery
+>;
+export type GetActiveRequestsByContractIdQueryResult = Apollo.QueryResult<
+  GetActiveRequestsByContractIdQuery,
+  GetActiveRequestsByContractIdQueryVariables
 >;
 export const GetCollectDoorToDoorByFlowIdDocument = gql`
   query getCollectDoorToDoorByFlowId($flowId: ID) {
@@ -27005,6 +27124,13 @@ export const GetPickUpDayByIdDocument = gql`
           pickUpHours
           includeHoliday
           complementaryMention
+          buttonLabel
+          externalLink
+          request {
+            data {
+              id
+            }
+          }
           flow {
             data {
               id
@@ -27441,8 +27567,19 @@ export const UpdatePickUpDayDocument = gql`
         id
         attributes {
           name
-          advancedSelection
+          description
           periodicity
+          advancedSelection
+          pickUpHours
+          includeHoliday
+          complementaryMention
+          buttonLabel
+          externalLink
+          request {
+            data {
+              id
+            }
+          }
           flow {
             data {
               id

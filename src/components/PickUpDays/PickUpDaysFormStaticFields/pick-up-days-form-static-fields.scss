@@ -43,4 +43,34 @@
     gap: 10px;
     margin-bottom: 20px;
   }
+
+  &__Option {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__Input {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    color: colors.$expert-blue;
+    background-color: transparent;
+    border: 2px solid colors.$expert-blue;
+    border-radius: 50%;
+    cursor: pointer;
+    appearance: none;
+
+    &_checked::after {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      bottom: 3px;
+      left: 3px;
+      background-color: colors.$expert-blue;
+      border-radius: 50%;
+      content: "";
+    }
+  }
 }

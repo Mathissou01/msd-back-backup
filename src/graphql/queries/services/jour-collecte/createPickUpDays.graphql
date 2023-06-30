@@ -12,12 +12,18 @@ mutation createPickUpDay($data: PickUpDayInput!) {
         complementaryMention
         createdAt
         updatedAt
+        buttonLabel
+        externalLink
+        request {
+          data {
+            id
+          }
+        }
         flow {
           data {
             id
             attributes {
               name
-              isActivated
             }
           }
         }

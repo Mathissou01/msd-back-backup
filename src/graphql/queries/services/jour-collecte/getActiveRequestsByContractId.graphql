@@ -1,0 +1,19 @@
+query getActiveRequestsByContractId($contractId: ID!) {
+  requests(
+    filters: {
+      requestService: { contract: { id: { eq: $contractId } } }
+      isActivated: { eq: true }
+    }
+  ) {
+    data {
+      id
+      attributes {
+        name
+        isActivated
+        hasSeveralRequestTypes
+        hasAddress
+        hasUser
+      }
+    }
+  }
+}

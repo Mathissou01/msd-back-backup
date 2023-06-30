@@ -9,6 +9,13 @@ query getPickUpDayById($pickUpDayId: ID) {
         pickUpHours
         includeHoliday
         complementaryMention
+        buttonLabel
+        externalLink
+        request {
+          data {
+            id
+          }
+        }
         flow {
           data {
             id

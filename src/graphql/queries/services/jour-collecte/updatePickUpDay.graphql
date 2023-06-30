@@ -4,8 +4,19 @@ mutation updatePickUpDay($updatePickUpDayId: ID!, $data: PickUpDayInput!) {
       id
       attributes {
         name
-        advancedSelection
+        description
         periodicity
+        advancedSelection
+        pickUpHours
+        includeHoliday
+        complementaryMention
+        buttonLabel
+        externalLink
+        request {
+          data {
+            id
+          }
+        }
         flow {
           data {
             id

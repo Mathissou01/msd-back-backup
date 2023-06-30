@@ -1,3 +1,10 @@
+import { Maybe } from "graphql/jsutils/Maybe";
+import {
+  Enum_Pickupday_Periodicity,
+  InputMaybe,
+  RequestEntity,
+} from "../graphql/codegen/generated-types";
+
 import { ICommonSelectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 enum EPeriodicityStatus {
@@ -39,6 +46,29 @@ interface IMensuelAdvancedSelection {
   };
 }
 
+interface IPickUpDayStaticVariablesFields {
+  updatePickUpDayId: string;
+  data: {
+    name: string;
+    pickUpDayService: Maybe<string>;
+    sectorizations: InputMaybe<string>[] | null;
+    cities: InputMaybe<string>[] | null;
+    flow: string;
+    collectDoorToDoor: string;
+    collectVoluntary: string;
+    periodicity: InputMaybe<Enum_Pickupday_Periodicity> | undefined;
+    advancedSelection:
+      | IHebdomadireAdvancedSelection
+      | IMensuelAdvancedSelection;
+    includeHoliday: boolean;
+    pickUpHours: string;
+    complementaryMention: string;
+    buttonLabel: string;
+    request: string;
+    externalLink: string;
+  };
+}
+
 interface IPickUpDayStaticMappedFields {
   name: string;
   sectorizationsMode: string;
@@ -56,8 +86,12 @@ interface IPickUpDayStaticMappedFields {
   daysOfTheMonth?: string | undefined;
   days: string | number | null | undefined;
   includeHoliday: boolean;
-  pickUpHours: string | null | undefined;
-  complementaryMention: string | null | undefined;
+  pickUpHours?: string | null;
+  complementaryMention?: string | null;
+  buttonLabel?: string;
+  shortcutFormMode: string;
+  request?: RequestEntity;
+  externalLink?: string;
 }
 
 const dayOptions = [
@@ -108,5 +142,6 @@ export {
 export type {
   IHebdomadireAdvancedSelection,
   IMensuelAdvancedSelection,
+  IPickUpDayStaticVariablesFields,
   IPickUpDayStaticMappedFields,
 };
