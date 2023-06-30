@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { CollectEntity } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
+import AddressOrGpsFields, {
+  AddressOrGpsFieldsLabels,
+} from "./AddressOrGpsFields/AddressOrGpsFields";
 import { minimalWysiwygEditorOptions } from "../../Form/FormWysiwyg/WysiwygEditor/WysiwygEditor";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import { IOptionWrapper } from "../../Form/FormMultiselect/FormMultiselect";
 import FormWysiwyg from "../../Form/FormWysiwyg/FormWysiwyg";
-import AddressOrGpsFields, {
-  AddressOrGpsFieldsLabels,
-} from "./AddressOrGpsFields/AddressOrGpsFields";
 import FormLabel from "../../Form/FormLabel/FormLabel";
-import "./drop-off-map-static-fields.scss";
 import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
+import FormOpeningHours from "../../Form/FormOpeningHours/FormOpeningHours";
 import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
+import "./drop-off-map-static-fields.scss";
 
 const validationPhoneNumber = /^[0-9]{10}$/;
 
@@ -25,10 +26,6 @@ export interface IDropOffMapStaticFieldsLabels {
   staticAddressOrGpsLabels: AddressOrGpsFieldsLabels;
   staticPhoneNumber?: string;
   staticMustKnow: string;
-  staticLink?: string;
-  staticImage?: string;
-  staticImageValidation?: string;
-  staticImagePlaceholder?: string;
 }
 
 interface IDropOffMapStaticFieldsProps {
@@ -124,6 +121,9 @@ export default function DropOffMapStaticFields({
           name={"downloadableFiles"}
           blockConfigurations={dynamicFieldsOptions}
         />
+      </div>
+      <div className="c-DropOffMapStaticFields__Group">
+        <FormOpeningHours />
       </div>
     </>
   );

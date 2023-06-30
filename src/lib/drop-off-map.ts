@@ -1,3 +1,4 @@
+import { ComponentBlocksOpeningDay } from "../graphql/codegen/generated-types";
 import { IFormBlock } from "./dynamic-blocks";
 
 export interface ICollectType {
@@ -16,4 +17,5 @@ export interface IDropOffMapStaticFields {
   phoneNumber?: string | null;
   mustKnow?: string | null;
   downloadableFiles: Array<IFormBlock>;
+  openingHoursBlocks: ComponentBlocksOpeningDay[];
 }

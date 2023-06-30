@@ -1,0 +1,55 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FormOpeningHours {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__Title {
+    color: colors.$expert-blue;
+  }
+
+  &__Description {
+    margin-bottom: 32px;
+    line-height: 24px;
+    white-space: pre-line;
+  }
+
+  &__Container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  &__Label {
+    width: 132px;
+    color: colors.$expert-blue;
+    font-weight: 700;
+    line-height: 21px;
+  }
+
+  &__TimeBlock {
+    display: flex;
+    gap: 54px;
+  }
+
+  &__DatepickerWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__Dash {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+      width: 6px;
+      height: 1px;
+      margin: 0 20px;
+      background-color: colors.$expert-blue;
+      content: "";
+    }
+  }
+}

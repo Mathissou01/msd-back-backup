@@ -8,6 +8,7 @@ import { useContract } from "../../../../../../hooks/useContract";
 import {
   CollectEntity,
   ComponentBlocksDownloadBlockInput,
+  ComponentBlocksOpeningDay,
   GetDropOffMapByIdDocument,
   useCreateDropOffMapMutation,
   useGetDropOffCollectTypeByContractIdQuery,
@@ -83,6 +84,7 @@ export function ServiceCartePointInteretPage({
         mustKnow: submitData.mustKnow,
         downloadableFiles: downloadableFiles,
         dropOffMapService: contract.attributes?.dropOffMapService?.data?.id,
+        openingHoursBlocks: submitData.openingHoursBlocks,
       },
     };
 
@@ -215,6 +217,18 @@ export function ServiceCartePointInteretPage({
               name: collectVoluntary.attributes.name,
             }
           : null;
+
+      const openingHoursBlocks: ComponentBlocksOpeningDay[] = dropOffMapData
+        .attributes?.openingHoursBlocks
+        ? dropOffMapData.attributes?.openingHoursBlocks.filter(
+            (block): block is ComponentBlocksOpeningDay =>
+              block !== null &&
+              block.__typename === "ComponentBlocksOpeningDay" &&
+              block.id !== undefined &&
+              block.weekDay !== undefined,
+          )
+        : [];
+
       if (
         dropOffMapData.id &&
         dropOffMapData.attributes &&
@@ -234,6 +248,7 @@ export function ServiceCartePointInteretPage({
           downloadableFiles: remapFormBlocksDynamicZone(
             dropOffMapData.attributes.downloadableFiles,
           ),
+          openingHoursBlocks: openingHoursBlocks ?? [],
         };
         setMappedData(mappedData);
         setIsInitialized(true);
