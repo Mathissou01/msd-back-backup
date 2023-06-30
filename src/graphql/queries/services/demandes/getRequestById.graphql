@@ -43,6 +43,11 @@ query getRequestById($requestId: ID) {
             questionTextPlaceholder
             textStatus
           }
+          ... on ComponentBlocksDateChoice {
+            id
+            fieldStatus
+            fieldLabelDateChoice
+          }
           ... on ComponentBlocksQcm {
             id
             fieldStatusQCM

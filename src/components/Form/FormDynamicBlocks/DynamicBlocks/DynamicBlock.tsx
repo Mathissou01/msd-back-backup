@@ -11,6 +11,7 @@ import QcmBlock from "./QcmBlock/QcmBlock";
 import QuestionsBlock from "./QuestionsBlock/QuestionsBlock";
 import DownloadablesFilesBlock from "./DownloadableFiles/DownloadableFilesBlock";
 import RequestTypeBlock from "./RequestTypeBlock/RequestTypeBlock";
+import RequestDateBlock from "./RequestDateBlock/RequestDateBlock";
 
 interface IDynamicFieldsBlockWrapper {
   type: TDynamicFieldOption;
@@ -57,6 +58,9 @@ export default function DynamicBlock({
       }
       case "ComponentBlocksRequestType": {
         return <RequestTypeBlock blockName={name} />;
+      }
+      case "ComponentBlocksDateChoice": {
+        return <RequestDateBlock blockName={name} />;
       }
       default: {
         return null;

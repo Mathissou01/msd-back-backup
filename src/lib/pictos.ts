@@ -26,4 +26,5 @@ export type TPictoStyles =
   | "polygon"
   | "question_text"
   | "user"
+  | "address"
   | "arrowRectangle";

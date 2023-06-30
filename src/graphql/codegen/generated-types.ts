@@ -15081,7 +15081,12 @@ export type GetRequestByIdQuery = {
           | { __typename?: "ComponentBlocksCheckbox" }
           | { __typename?: "ComponentBlocksCommentary" }
           | { __typename?: "ComponentBlocksCumbersome" }
-          | { __typename?: "ComponentBlocksDateChoice" }
+          | {
+              __typename?: "ComponentBlocksDateChoice";
+              id: string;
+              fieldStatus: Enum_Componentblocksdatechoice_Fieldstatus;
+              fieldLabelDateChoice: string;
+            }
           | { __typename?: "ComponentBlocksProofOfReceipt" }
           | {
               __typename?: "ComponentBlocksQcm";
@@ -15808,36 +15813,6 @@ export type GetCollectDoorToDoorByFlowIdQuery = {
   } | null;
 };
 
-export type GetCollectDoorToDoorByFlowId2QueryVariables = Exact<{
-  flowId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetCollectDoorToDoorByFlowId2Query = {
-  __typename?: "Query";
-  flow?: {
-    __typename?: "FlowEntityResponse";
-    data?: {
-      __typename?: "FlowEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Flow";
-        name?: string | null;
-        collectDoorToDoors?: {
-          __typename?: "CollectDoorToDoorRelationResponseCollection";
-          data: Array<{
-            __typename?: "CollectDoorToDoorEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "CollectDoorToDoor";
-              name?: string | null;
-            } | null;
-          }>;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export type GetCollectVoluntariesByFlowIdQueryVariables = Exact<{
   flowId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -15854,36 +15829,6 @@ export type GetCollectVoluntariesByFlowIdQuery = {
         name?: string | null;
       } | null;
     }>;
-  } | null;
-};
-
-export type GetCollectVoluntariesByFlowById2QueryVariables = Exact<{
-  flowId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetCollectVoluntariesByFlowById2Query = {
-  __typename?: "Query";
-  flow?: {
-    __typename?: "FlowEntityResponse";
-    data?: {
-      __typename?: "FlowEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Flow";
-        name?: string | null;
-        collectVoluntaries?: {
-          __typename?: "CollectVoluntaryRelationResponseCollection";
-          data: Array<{
-            __typename?: "CollectVoluntaryEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "CollectVoluntary";
-              name?: string | null;
-            } | null;
-          }>;
-        } | null;
-      } | null;
-    } | null;
   } | null;
 };
 
@@ -25212,6 +25157,11 @@ export const GetRequestByIdDocument = gql`
               questionTextPlaceholder
               textStatus
             }
+            ... on ComponentBlocksDateChoice {
+              id
+              fieldStatus
+              fieldLabelDateChoice
+            }
             ... on ComponentBlocksQcm {
               id
               fieldStatusQCM
@@ -26686,77 +26636,6 @@ export type GetCollectDoorToDoorByFlowIdQueryResult = Apollo.QueryResult<
   GetCollectDoorToDoorByFlowIdQuery,
   GetCollectDoorToDoorByFlowIdQueryVariables
 >;
-export const GetCollectDoorToDoorByFlowId2Document = gql`
-  query getCollectDoorToDoorByFlowId2($flowId: ID) {
-    flow(id: $flowId) {
-      data {
-        id
-        attributes {
-          name
-          collectDoorToDoors {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetCollectDoorToDoorByFlowId2Query__
- *
- * To run a query within a React component, call `useGetCollectDoorToDoorByFlowId2Query` and pass it any options that fit your needs.
- * When your component renders, `useGetCollectDoorToDoorByFlowId2Query` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCollectDoorToDoorByFlowId2Query({
- *   variables: {
- *      flowId: // value for 'flowId'
- *   },
- * });
- */
-export function useGetCollectDoorToDoorByFlowId2Query(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetCollectDoorToDoorByFlowId2Query,
-    GetCollectDoorToDoorByFlowId2QueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetCollectDoorToDoorByFlowId2Query,
-    GetCollectDoorToDoorByFlowId2QueryVariables
-  >(GetCollectDoorToDoorByFlowId2Document, options);
-}
-export function useGetCollectDoorToDoorByFlowId2LazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCollectDoorToDoorByFlowId2Query,
-    GetCollectDoorToDoorByFlowId2QueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetCollectDoorToDoorByFlowId2Query,
-    GetCollectDoorToDoorByFlowId2QueryVariables
-  >(GetCollectDoorToDoorByFlowId2Document, options);
-}
-export type GetCollectDoorToDoorByFlowId2QueryHookResult = ReturnType<
-  typeof useGetCollectDoorToDoorByFlowId2Query
->;
-export type GetCollectDoorToDoorByFlowId2LazyQueryHookResult = ReturnType<
-  typeof useGetCollectDoorToDoorByFlowId2LazyQuery
->;
-export type GetCollectDoorToDoorByFlowId2QueryResult = Apollo.QueryResult<
-  GetCollectDoorToDoorByFlowId2Query,
-  GetCollectDoorToDoorByFlowId2QueryVariables
->;
 export const GetCollectVoluntariesByFlowIdDocument = gql`
   query getCollectVoluntariesByFlowId($flowId: ID) {
     collectVoluntaries(filters: { flows: { id: { eq: $flowId } } }) {
@@ -26819,77 +26698,6 @@ export type GetCollectVoluntariesByFlowIdLazyQueryHookResult = ReturnType<
 export type GetCollectVoluntariesByFlowIdQueryResult = Apollo.QueryResult<
   GetCollectVoluntariesByFlowIdQuery,
   GetCollectVoluntariesByFlowIdQueryVariables
->;
-export const GetCollectVoluntariesByFlowById2Document = gql`
-  query getCollectVoluntariesByFlowById2($flowId: ID) {
-    flow(id: $flowId) {
-      data {
-        id
-        attributes {
-          name
-          collectVoluntaries {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetCollectVoluntariesByFlowById2Query__
- *
- * To run a query within a React component, call `useGetCollectVoluntariesByFlowById2Query` and pass it any options that fit your needs.
- * When your component renders, `useGetCollectVoluntariesByFlowById2Query` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCollectVoluntariesByFlowById2Query({
- *   variables: {
- *      flowId: // value for 'flowId'
- *   },
- * });
- */
-export function useGetCollectVoluntariesByFlowById2Query(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetCollectVoluntariesByFlowById2Query,
-    GetCollectVoluntariesByFlowById2QueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetCollectVoluntariesByFlowById2Query,
-    GetCollectVoluntariesByFlowById2QueryVariables
-  >(GetCollectVoluntariesByFlowById2Document, options);
-}
-export function useGetCollectVoluntariesByFlowById2LazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCollectVoluntariesByFlowById2Query,
-    GetCollectVoluntariesByFlowById2QueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetCollectVoluntariesByFlowById2Query,
-    GetCollectVoluntariesByFlowById2QueryVariables
-  >(GetCollectVoluntariesByFlowById2Document, options);
-}
-export type GetCollectVoluntariesByFlowById2QueryHookResult = ReturnType<
-  typeof useGetCollectVoluntariesByFlowById2Query
->;
-export type GetCollectVoluntariesByFlowById2LazyQueryHookResult = ReturnType<
-  typeof useGetCollectVoluntariesByFlowById2LazyQuery
->;
-export type GetCollectVoluntariesByFlowById2QueryResult = Apollo.QueryResult<
-  GetCollectVoluntariesByFlowById2Query,
-  GetCollectVoluntariesByFlowById2QueryVariables
 >;
 export const GetDropOffCollectTypeByContractIdDocument = gql`
   query getDropOffCollectTypeByContractId($contractId: ID!) {

@@ -82,8 +82,8 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     picto: "question_text",
   },
   ComponentBlocksDateChoice: {
-    label: "TO_REPLACE_Date_Choice",
-    picto: "question_text",
+    label: "Choix d'une date",
+    picto: "address",
   },
   ComponentBlocksProofOfReceipt: {
     label: "TO_REPLACE_ProofOfReceipt",
@@ -126,6 +126,7 @@ export type IFormBlock =
   | IBlocksVideo
   | IBlocksWysiwyg
   | IBlocksAttachments
+  | IBlocksDateChoice
   | IBlocksQCM
   | IBlocksQuestions
   | IBlocksDownloadableFiles
@@ -201,6 +202,12 @@ export interface IBlocksRequestType extends IPartialBlock {
   isEmail: boolean;
   isTSMS: boolean;
   email: string;
+}
+
+export interface IBlocksDateChoice extends IPartialBlock {
+  __typename: "ComponentBlocksDateChoice";
+  fieldStatus: string;
+  fieldLabelDateChoice: string;
 }
 
 /* Methods */
@@ -320,6 +327,14 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         isEmail: false,
         isTSMS: false,
         email: "",
+      };
+    }
+    case "ComponentBlocksDateChoice": {
+      return {
+        __typename,
+        id: temporaryId,
+        fieldStatus: "",
+        fieldLabelDateChoice: "",
       };
     }
     default: {
