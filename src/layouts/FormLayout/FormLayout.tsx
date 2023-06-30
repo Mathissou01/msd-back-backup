@@ -76,7 +76,7 @@ export default function FormLayout<Fields extends FieldValues>({
         setCanFocus(false);
       }
     }
-  }, [form, canFocus, formOptions.nestedFieldsToFocus]);
+  }, [formOptions, form.formState.errors, canFocus]);
 
   return (
     <>

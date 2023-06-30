@@ -50,6 +50,12 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
         DropOffMap: {
           merge: true,
         },
+        Request: {
+          merge: true,
+        },
+        RequestAggregate: {
+          merge: true,
+        },
       },
     }),
   });

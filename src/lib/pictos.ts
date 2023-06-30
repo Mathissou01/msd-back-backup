@@ -25,6 +25,7 @@ export type TPictoStyles =
   | "edit"
   | "polygon"
   | "question_text"
+  | "chatBubble"
   | "checkbox"
   | "user"
   | "address"

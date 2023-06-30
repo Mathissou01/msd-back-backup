@@ -371,26 +371,6 @@ export default function RequestAggregate() {
           {tableValidation.requestAggregateName}
         </span>
       )}
-      <CommonModalWrapper ref={modalRef}>
-        <div>
-          <span className="c-RequestAggregate__ModalText">
-            {label.warningModal.text}
-          </span>
-          <div className="c-RequestAggregate__ModalButtonsContainer">
-            <CommonButton
-              label={label.warningModal.confirm}
-              picto="check"
-              style="primary"
-              onClick={handleDeleteFromModal}
-            />
-            <CommonButton
-              label={label.warningModal.cancel}
-              picto="cross"
-              onClick={handleCloseModal}
-            />
-          </div>
-        </div>
-      </CommonModalWrapper>
       <CommonLoader isLoading={false} errors={errors}>
         <CommonDataTable<IRequestAggregateTableRow>
           columns={tableColumns}
@@ -426,6 +406,26 @@ export default function RequestAggregate() {
           />
         </DataTableForm>
       </CommonLoader>
+      <CommonModalWrapper ref={modalRef}>
+        <div>
+          <span className="c-RequestAggregate__ModalText">
+            {label.warningModal.text}
+          </span>
+          <div className="c-RequestAggregate__ModalButtonsContainer">
+            <CommonButton
+              label={label.warningModal.confirm}
+              picto="check"
+              style="primary"
+              onClick={handleDeleteFromModal}
+            />
+            <CommonButton
+              label={label.warningModal.cancel}
+              picto="cross"
+              onClick={handleCloseModal}
+            />
+          </div>
+        </div>
+      </CommonModalWrapper>
     </div>
   );
 }

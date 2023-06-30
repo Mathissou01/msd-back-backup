@@ -47,7 +47,6 @@ export default function RequestFormButtons<Fields extends FieldValues>({
         picto="cross"
         onClick={onCancel}
       />
-
       <CommonButton
         type="button"
         label={isActivated ? buttonLabels.deactivate : buttonLabels.activate}
@@ -56,7 +55,6 @@ export default function RequestFormButtons<Fields extends FieldValues>({
         onClick={onChangeActivated}
         isDisabled={isCreateMode}
       />
-
       <CommonButton
         type="submit"
         label={buttonLabels.save}

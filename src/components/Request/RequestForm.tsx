@@ -27,7 +27,7 @@ export interface IRequestStaticFields extends IFormCommonFields {
   aggregate: RequestAggregateEntity | null;
   isActivated: boolean;
   blockText: string;
-  hasSeveralRequestTypes?: string;
+  hasSeveralRequestTypes?: "0" | "1";
   requestType?: Array<IFormBlock>;
   status?: EStatus;
   hasUser: boolean;
@@ -38,14 +38,6 @@ export interface IRequestStaticFields extends IFormCommonFields {
   userAllowSMSNotification: boolean;
   hasAddress: boolean;
   fieldAddressLabel: string;
-}
-
-export interface IRequestType {
-  id: string;
-  title: string;
-  isEmail?: boolean | null;
-  email?: string | null;
-  isTSMS?: boolean | null;
 }
 
 export interface IRequestFields extends IRequestStaticFields {

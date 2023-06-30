@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
-import { useNavigation } from "../../../../hooks/useNavigation";
+import { parseJSON } from "date-fns";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   ExpanderComponentProps,
   TableColumn,
 } from "react-data-table-component";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useNavigation } from "../../../../hooks/useNavigation";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import {
@@ -28,7 +30,6 @@ import CommonModalWrapper, {
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
 import RequestAggregate from "../../../../components/Request/RequestAggregate/RequestAggregate";
 import "./demandes-page.scss";
-import { parseJSON } from "date-fns";
 
 export interface IRequestTableRow extends IDefaultTableRow {
   name: string;
@@ -63,121 +64,6 @@ export function RequestsPage() {
       cancel: "Annuler",
     },
     createRequest: "Créer un nouveau formulaire de demande",
-  };
-
-  /* Local Data */
-  const [rowToBeDeleted, setRowToBeDeleted] = useState<IRequestTableRow>();
-
-  const [modalText, setModalText] = useState("");
-
-  /* External data */
-  const router = useRouter();
-  const { currentRoot } = useNavigation();
-  const { contractId } = useContract();
-  const defaultRowsPerPage = 30;
-  const defaultPage = 1;
-  const defaultQueryVariables: GetRequestsByContractIdQueryVariables = {
-    contractId: contractId,
-    sort: "updatedAt:asc",
-    pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
-  };
-
-  const [getRequests, { data, loading, error }] =
-    useGetRequestsByContractIdLazyQuery({
-      variables: defaultQueryVariables,
-      fetchPolicy: "network-only",
-    });
-  const [
-    deleteRequest,
-    { loading: deleteRequestLoading, error: deleteRequestError },
-  ] = useDeleteRequestByIdMutation({
-    refetchQueries: ["getRequestsByContractId"],
-    awaitRefetchQueries: true,
-  });
-
-  const isInitialized = useRef(false);
-  const [pageData, setPageData] = useState<
-    GetRequestsByContractIdQuery | undefined
-  >(data);
-  const [tableData, setTableData] = useState<Array<IRequestTableRow>>([]);
-  const [isUpdatingData, setIsUpdatingData] = useState(false);
-  const isLoadingMutation = deleteRequestLoading || isUpdatingData;
-  const isLoading = loading || isLoadingMutation;
-  const errors = [error, deleteRequestError];
-  const modalRef = useRef<CommonModalWrapperRef>();
-
-  const tableColumns: Array<TableColumn<IRequestTableRow>> = [
-    {
-      id: "id",
-      selector: (row) => row.id,
-      omit: true,
-    },
-    {
-      id: "name",
-      name: labels.tableLabels.columns.name,
-      selector: (row) => row.name,
-      cell: (row) => <div className="c-RequestsPage__Link">{row.name}</div>,
-      sortable: true,
-      grow: 1,
-    },
-    {
-      id: "recipient",
-      name: labels.tableLabels.columns.recipient,
-      selector: (row) => row.recipient,
-    },
-    {
-      id: "updatedAt",
-      name: labels.tableLabels.columns.author,
-      selector: (row) => row.author,
-      sortable: true,
-    },
-    {
-      id: "isActivated",
-      name: labels.tableLabels.columns.status,
-      selector: (row) => (row.status ? "Actif" : "Brouillon"),
-      sortable: true,
-    },
-  ];
-
-  const actionColumn = (row: IRequestTableRow): Array<IDataTableAction> => [
-    {
-      id: "edit",
-      picto: "/images/pictos/edit.svg",
-      href: `${currentRoot}/services/demandes/${row.id}`,
-    },
-    {
-      id: "delete",
-      picto: "/images/pictos/delete.svg",
-      confirmStateOptions: {
-        onConfirm: () => {
-          handleOpenModal(row);
-        },
-        confirmStyle: "warning",
-      },
-    },
-  ];
-
-  const expandedComponent: React.FC<
-    ExpanderComponentProps<IRequestTableRow>
-  > = ({ data }) => {
-    return (
-      <div className="c-RequestsPage__Table_expandedrow">
-        <table>
-          <tbody>
-            {data.requestsType.map((rqt, index) => {
-              return (
-                <tr key={index}>
-                  <td title={rqt.typeTitle}>{rqt.typeTitle}</td>
-                  <td>{rqt.typeRecipient}</td>
-                  <td>{""}</td>
-                  <td>{""}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    );
   };
 
   /* Methods */
@@ -238,7 +124,127 @@ export function RequestsPage() {
     return recipient;
   }
 
-  /* useEffects */
+  /* Local Data */
+  const [rowToBeDeleted, setRowToBeDeleted] = useState<IRequestTableRow>();
+  const [modalText, setModalText] = useState("");
+  const isInitialized = useRef(false);
+  const [tableData, setTableData] = useState<Array<IRequestTableRow>>([]);
+  const [isUpdatingData, setIsUpdatingData] = useState(false);
+  const modalRef = useRef<CommonModalWrapperRef>();
+  const router = useRouter();
+  const { currentRoot } = useNavigation();
+  const { contractId } = useContract();
+  const defaultRowsPerPage = 30;
+  const defaultPage = 1;
+  const defaultQueryVariables: GetRequestsByContractIdQueryVariables = {
+    contractId: contractId,
+    sort: "updatedAt:asc",
+    pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
+  };
+
+  const [getRequests, { data, loading, error }] =
+    useGetRequestsByContractIdLazyQuery({
+      variables: defaultQueryVariables,
+      fetchPolicy: "network-only",
+    });
+  const [
+    deleteRequest,
+    { loading: deleteRequestLoading, error: deleteRequestError },
+  ] = useDeleteRequestByIdMutation({
+    refetchQueries: ["getRequestsByContractId"],
+    awaitRefetchQueries: true,
+  });
+  const [pageData, setPageData] = useState<
+    GetRequestsByContractIdQuery | undefined
+  >(data);
+  const isLoadingMutation = deleteRequestLoading || isUpdatingData;
+  const isLoading = loading || isLoadingMutation;
+  const errors = [error, deleteRequestError];
+
+  const tableColumns: Array<TableColumn<IRequestTableRow>> = [
+    {
+      id: "id",
+      selector: (row) => row.id,
+      omit: true,
+    },
+    {
+      id: "name",
+      name: labels.tableLabels.columns.name,
+      selector: (row) => row.name,
+      cell: (row) => (
+        <Link
+          href={`${currentRoot}/services/demandes/${row.id}`}
+          className="o-TablePage__Link"
+        >
+          {row.name}
+        </Link>
+      ),
+      sortable: true,
+      grow: 3,
+    },
+    {
+      id: "recipient",
+      name: labels.tableLabels.columns.recipient,
+      selector: (row) => row.recipient,
+      grow: 2,
+    },
+    {
+      id: "author",
+      name: labels.tableLabels.columns.author,
+      selector: (row) => row.author,
+      sortable: true,
+      grow: 3,
+    },
+    {
+      id: "isActivated",
+      name: labels.tableLabels.columns.status,
+      selector: (row) => (row.status ? "Actif" : "Brouillon"),
+      sortable: true,
+    },
+  ];
+
+  const actionColumn = (row: IRequestTableRow): Array<IDataTableAction> => [
+    {
+      id: "edit",
+      picto: "/images/pictos/edit.svg",
+      href: `${currentRoot}/services/demandes/${row.id}`,
+    },
+    {
+      id: "delete",
+      picto: "/images/pictos/delete.svg",
+      confirmStateOptions: {
+        onConfirm: () => {
+          handleOpenModal(row);
+        },
+        confirmStyle: "warning",
+      },
+    },
+  ];
+
+  const expandedComponent: FC<ExpanderComponentProps<IRequestTableRow>> = ({
+    data,
+  }) => {
+    return (
+      <div className="c-RequestsPage__TableExpandedRow">
+        <table>
+          <tbody>
+            {data.requestsType.map((rqt, index) => {
+              return (
+                <tr key={index}>
+                  <td title={rqt.typeTitle}>{rqt.typeTitle}</td>
+                  <td>{rqt.typeRecipient}</td>
+                  <td>{""}</td>
+                  <td>{""}</td>
+                  <td>{""}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
   useEffect(() => {
     if (data) {
       setTableData(

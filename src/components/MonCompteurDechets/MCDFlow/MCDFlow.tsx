@@ -26,6 +26,7 @@ interface IFlowProps {
   dynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
   // onSubmitValid: (data: FieldValues) => void;
 }
+
 export default function Flow({ dynamicFieldConfigurations }: IFlowProps) {
   // Static data
   const buttonLabels = {

@@ -1,6 +1,12 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { FieldValues } from "react-hook-form";
+import {
+  ComponentBlocksRequestTypeInput,
+  useCreateRequestByContractIdMutation,
+  useGetRequestByIdLazyQuery,
+  useUpdateRequestByIdMutation,
+} from "../../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../../lib/utilities";
 import { EStatus } from "../../../../../lib/status";
 import {
@@ -8,19 +14,13 @@ import {
   IBlocksQCM,
   IBlocksQuestions,
   IFormBlock,
-  remapFormBlocksDynamicZone,
   TDynamicFieldConfiguration,
+  remapFormBlocksDynamicZone,
 } from "../../../../../lib/dynamic-blocks";
-import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useContract } from "../../../../../hooks/useContract";
-import {
-  ComponentBlocksRequestTypeInput,
-  useCreateRequestByContractIdMutation,
-  useGetRequestByIdLazyQuery,
-  useUpdateRequestByIdMutation,
-} from "../../../../../graphql/codegen/generated-types";
+import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import RequestForm, {
@@ -73,49 +73,6 @@ export function RequestFormPage({
       },
     },
   };
-
-  /* Local data */
-  const router = useRouter();
-  const { currentRoot, currentPage } = useNavigation();
-  const { contractId } = useContract();
-  const [mappedData, setMappedData] = useState<IRequestFields>();
-  const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
-    { option: "ComponentBlocksAttachments" },
-    { option: "ComponentBlocksQuestions" },
-    { option: "ComponentBlocksDateChoice" },
-    { option: "ComponentBlocksQcm" },
-    { option: "ComponentBlocksCheckbox" },
-  ];
-
-  const requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> =
-    useMemo(() => {
-      return [
-        {
-          option: "ComponentBlocksRequestType",
-          props: {
-            minBlocks: 2,
-            maxBlocks: 10,
-          },
-        },
-      ];
-    }, []);
-
-  /* External data */
-  const [getRequestTypeById, { data, loading, error }] =
-    useGetRequestByIdLazyQuery({
-      variables: {
-        requestId: requestId,
-      },
-      fetchPolicy: "network-only",
-    });
-
-  const [updateRequest, { loading: loadingUpdate, error: errorUpdate }] =
-    useUpdateRequestByIdMutation();
-  const [createRequest, { loading: loadingCreate, error: errorCreate }] =
-    useCreateRequestByContractIdMutation();
-
-  const isLoading = loading || loadingUpdate || loadingCreate;
-  const errors = [error, errorUpdate, errorCreate];
 
   /* Methods */
   async function onSubmit(submitData: FieldValues) {
@@ -175,8 +132,7 @@ export function RequestFormPage({
             updateRequestId: requestId,
             data: {
               name: submitData.name,
-              hasSeveralRequestTypes:
-                submitData.hasSeveralRequestTypes === "1" ? true : false,
+              hasSeveralRequestTypes: submitData.hasSeveralRequestTypes === "1",
               requestType: hasSeveralRequestTypes
                 ? requestTypes
                 : [requestTypes[0]],
@@ -250,6 +206,46 @@ export function RequestFormPage({
     );
   }
 
+  /* Local data */
+  const router = useRouter();
+  const { currentRoot, currentPage } = useNavigation();
+  const { contractId } = useContract();
+  const [mappedData, setMappedData] = useState<IRequestFields>();
+  const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
+    { option: "ComponentBlocksAttachments" },
+    { option: "ComponentBlocksCommentary" },
+    { option: "ComponentBlocksQuestions" },
+    { option: "ComponentBlocksDateChoice" },
+    { option: "ComponentBlocksQcm" },
+    { option: "ComponentBlocksCheckbox" },
+  ];
+  const requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> =
+    useMemo(() => {
+      return [
+        {
+          option: "ComponentBlocksRequestType",
+          props: {
+            minBlocks: 2,
+            maxBlocks: 10,
+          },
+        },
+      ];
+    }, []);
+
+  const [getRequestTypeById, { data, loading, error }] =
+    useGetRequestByIdLazyQuery({
+      variables: {
+        requestId: requestId,
+      },
+      fetchPolicy: "network-only",
+    });
+  const [updateRequest, { loading: loadingUpdate, error: errorUpdate }] =
+    useUpdateRequestByIdMutation();
+  const [createRequest, { loading: loadingCreate, error: errorCreate }] =
+    useCreateRequestByContractIdMutation();
+  const isLoading = loading || loadingUpdate || loadingCreate;
+  const errors = [error, errorUpdate, errorCreate];
+
   useEffect(() => {
     if (requestId) {
       if (!mappedData && isCreateMode) {
@@ -258,6 +254,7 @@ export function RequestFormPage({
           blockText: "",
           aggregate: {},
           addableBlocks: [],
+          hasSeveralRequestTypes: "0",
           requestType: generateMinimumBlocks(
             requestTypeDynamicFieldConfigurations,
             [],

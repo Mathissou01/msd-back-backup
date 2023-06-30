@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { removeNulls } from "../../../lib/utilities";
-import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
-import { useContract } from "../../../hooks/useContract";
 import {
   RequestAggregateEntity,
   useGetRequestAggregatesByContractIdQuery,
 } from "../../../graphql/codegen/generated-types";
+import { removeNulls } from "../../../lib/utilities";
+import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
+import { useContract } from "../../../hooks/useContract";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
@@ -17,7 +17,7 @@ import RequestAddressFields, {
 } from "../RequestAddressFields/RequestAddressFields";
 import { IRequestStaticUserLabels } from "../RequestStaticUser/RequestStaticUser";
 import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
-import RequestTypeUnique from "../RequestTypeUnique/RequestTypeUnique";
+import RequestTypeBlock from "../../Form/FormDynamicBlocks/DynamicBlocks/RequestTypeBlock/RequestTypeBlock";
 import "./request-static-fields.scss";
 
 export interface IRequestStaticFieldsLabels {
@@ -55,23 +55,6 @@ export default function RequestStaticFields({
   /* Static Data */
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
-  /* Local Data */
-  const { contractId } = useContract();
-  const [requestAggregateOptions, setRequestAggregateOptions] = useState<
-    Array<IOptionWrapper<RequestAggregateEntity>>
-  >([]);
-
-  /* External Datas */
-  const { data: requestAggregatesData } =
-    useGetRequestAggregatesByContractIdQuery({
-      variables: { contractId, sort: "name" },
-      fetchPolicy: "network-only",
-    });
-
-  /* External Data */
-  const { watch, getValues, setValue } = useFormContext();
-  const severalRequestType = watch("hasSeveralRequestTypes");
-
   /* Methods */
   function hasFieldEnabled(fieldName: TRequestStaticFields) {
     return (
@@ -86,11 +69,33 @@ export default function RequestStaticFields({
     return requestAggregate.attributes?.name ?? "";
   }
 
-  function handleHasSeveralRequestTypes() {
-    if (severalRequestType === "0") {
-      setValue("requestType", [getValues("requestType")[0]]);
+  function handleRequestTypesSwitch() {
+    const hasSeveralRequestTypes = getValues("hasSeveralRequestTypes");
+    if (hasSeveralRequestTypes === "0") {
+      const existingValue = getValues("requestType.0");
+      delete existingValue.title;
+      setValue("requestType", [existingValue]);
+    } else {
+      resetField("requestType");
     }
+    setIsSeveral(hasSeveralRequestTypes !== "0");
   }
+
+  /* Local Data */
+  const { contractId } = useContract();
+  const [requestAggregateOptions, setRequestAggregateOptions] = useState<
+    Array<IOptionWrapper<RequestAggregateEntity>>
+  >([]);
+  const { getValues, setValue, resetField } = useFormContext();
+  const [isSeveral, setIsSeveral] = useState<boolean>(
+    getValues("hasSeveralRequestTypes") !== "0",
+  );
+
+  const { data: requestAggregatesData } =
+    useGetRequestAggregatesByContractIdQuery({
+      variables: { contractId, sort: "name" },
+      fetchPolicy: "network-only",
+    });
 
   useEffect(() => {
     if (
@@ -161,11 +166,11 @@ export default function RequestStaticFields({
               },
             ]}
             defaultValue="0"
-            onChange={() => handleHasSeveralRequestTypes()}
+            onChange={() => handleRequestTypesSwitch()}
           />
         )}
-        {severalRequestType === null || severalRequestType === "0" ? (
-          <RequestTypeUnique />
+        {!isSeveral ? (
+          <RequestTypeBlock blockName="requestType.0" hasTitleField={false} />
         ) : (
           <FormDynamicBlocks
             name="requestType"

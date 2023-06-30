@@ -15,6 +15,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -27,6 +28,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -39,6 +41,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -51,6 +54,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -63,6 +67,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -75,6 +80,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -87,6 +93,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -99,6 +106,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -111,6 +119,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -123,6 +132,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -135,6 +145,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }
@@ -147,6 +158,7 @@ query getMenuPage($contractId: ID!) {
                     data {
                       attributes {
                         url
+                        alternativeText
                       }
                     }
                   }

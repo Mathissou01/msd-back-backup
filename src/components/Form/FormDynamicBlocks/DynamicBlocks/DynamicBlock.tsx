@@ -9,6 +9,7 @@ import ImageBlock from "./ImageBlock/ImageBlock";
 import AttachmentsBlock from "./AttachmentsBlock/AttachmentsBlock";
 import QcmBlock from "./QcmBlock/QcmBlock";
 import QuestionsBlock from "./QuestionsBlock/QuestionsBlock";
+import CommentaryBlock from "./CommentaryBlock/CommentaryBlock";
 import CheckboxBlock from "./CheckboxBlock/CheckboxBlock";
 import DownloadablesFilesBlock from "./DownloadableFiles/DownloadableFilesBlock";
 import RequestTypeBlock from "./RequestTypeBlock/RequestTypeBlock";
@@ -27,11 +28,14 @@ export default function DynamicBlock({
 }: IDynamicFieldsBlockWrapper) {
   function getBlockComponent(type: TDynamicFieldOption) {
     switch (type) {
-      case "ComponentBlocksWysiwyg": {
-        return <WysiwygBlock blockName={name} isVisible={isVisible} />;
+      case "ComponentBlocksFile": {
+        return <FileBlock blockName={name} />;
       }
       case "ComponentBlocksHorizontalRule": {
         return <HorizontalRuleBlock blockName={name} />;
+      }
+      case "ComponentBlocksImage": {
+        return <ImageBlock blockName={name} />;
       }
       case "ComponentBlocksSubHeading": {
         return <SubHeadingBlock blockName={name} />;
@@ -39,11 +43,8 @@ export default function DynamicBlock({
       case "ComponentBlocksVideo": {
         return <VideoBlock blockName={name} isVisible={isVisible} />;
       }
-      case "ComponentBlocksFile": {
-        return <FileBlock blockName={name} />;
-      }
-      case "ComponentBlocksImage": {
-        return <ImageBlock blockName={name} />;
+      case "ComponentBlocksWysiwyg": {
+        return <WysiwygBlock blockName={name} isVisible={isVisible} />;
       }
       case "ComponentBlocksAttachments": {
         return <AttachmentsBlock blockName={name} />;
@@ -53,6 +54,9 @@ export default function DynamicBlock({
       }
       case "ComponentBlocksQuestions": {
         return <QuestionsBlock blockName={name} />;
+      }
+      case "ComponentBlocksCommentary": {
+        return <CommentaryBlock blockName={name} />;
       }
       case "ComponentBlocksCheckbox": {
         return <CheckboxBlock blockName={name} />;

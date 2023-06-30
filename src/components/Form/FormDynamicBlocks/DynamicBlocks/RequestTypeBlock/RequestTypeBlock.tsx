@@ -1,17 +1,24 @@
-import { ErrorMessage } from "@hookform/error-message";
-import React, { useState } from "react";
+import _ from "lodash";
+import classNames from "classnames";
+import React, { useEffect, useState } from "react";
 import { FieldValues, useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 import { IBlocksRequestType } from "../../../../../lib/dynamic-blocks";
 import FormCheckbox from "../../../FormCheckbox/FormCheckbox";
 import FormInput from "../../../FormInput/FormInput";
 import FormLabel from "../../../FormLabel/FormLabel";
+import CommonFormErrorText from "../../../../Common/CommonFormErrorText/CommonFormErrorText";
 import "./request-type-block.scss";
 
 interface IRequestTypeProps {
   blockName: string;
+  hasTitleField?: boolean;
 }
 
-export default function RequestTypeBlock({ blockName }: IRequestTypeProps) {
+export default function RequestTypeBlock({
+  blockName,
+  hasTitleField = true,
+}: IRequestTypeProps) {
   /* Static data */
   const labels = {
     title: "Libellé du type de demande",
@@ -21,71 +28,93 @@ export default function RequestTypeBlock({ blockName }: IRequestTypeProps) {
     checkboxesErrorMessage:
       "L'une des deux options de traitement de la demande doit être sélectionnée",
   };
-
-  /* Local Data */
   const fieldNames: { [name: string]: keyof IBlocksRequestType } = {
     title: "title",
     isEmail: "isEmail",
     isTSMS: "isTSMS",
     email: "email",
   };
-  const { watch } = useFormContext();
-  const watchIsEmail = watch(`${blockName}.${fieldNames.isEmail}`);
-
-  const blockNameSplit = blockName.split(".");
-  const blockId: number = blockNameSplit.length > 1 ? +blockNameSplit[1] : 0;
-  const [areCheckboxesInError, setAreCheckboxesInError] =
-    useState<boolean>(false);
-
-  /* External Data */
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
-  register("checkboxes_" + blockId, { validate: validateCheckboxes });
 
   /* Methods */
-  function validateCheckboxes(_: unknown, formValues: FieldValues) {
-    if (!formValues.requestType[blockId]) return true;
+  function validateCheckboxes(
+    value: undefined,
+    formValues: FieldValues,
+  ): boolean | string {
+    const checkboxValues = _.get(formValues, blockName);
+    if (!checkboxValues) return true;
     else {
       const checkboxesInError =
-        !formValues.requestType[blockId].isEmail &&
-        !formValues.requestType[blockId].isTSMS;
-      setAreCheckboxesInError(checkboxesInError);
-      return !checkboxesInError;
+        !checkboxValues.isEmail && !checkboxValues.isTSMS;
+      return checkboxesInError ? labels.checkboxesErrorMessage : true;
     }
   }
 
+  /* Local Data */
+  const {
+    watch,
+    register,
+    formState: { errors },
+    trigger,
+  } = useFormContext();
+  const [checkboxesTouched, setCheckboxesTouched] = useState(false);
+  const watchIsEmail = watch(`${blockName}.${fieldNames.isEmail}`);
+  const watchIsTSMS = watch(`${blockName}.${fieldNames.isTSMS}`);
+  const checkboxesName = `${blockName}.checkboxes`;
+  register(checkboxesName, { validate: validateCheckboxes });
+
+  useEffect(() => {
+    if (!checkboxesTouched && (watchIsEmail || watchIsTSMS)) {
+      setCheckboxesTouched(true);
+    } else if (checkboxesTouched) {
+      void trigger(checkboxesName);
+    }
+  }, [checkboxesTouched, watchIsEmail, watchIsTSMS, trigger, checkboxesName]);
+
   return (
     <div className="c-RequestTypeBlock">
-      <div className="c-RequestTypeBlock__Title">
-        <FormInput
-          name={`${blockName}.${fieldNames.title}`}
-          isRequired
-          label={labels.title}
-          maxLengthValidation={60}
-        />
-      </div>
-      <FormLabel label={labels.typeRequest} />
-      <div className="c-RequestTypeBlock__GroupCheckbox">
-        <FormCheckbox
-          name={`${blockName}.${fieldNames.isEmail}`}
-          label="Email"
-        />
-        <FormCheckbox name={`${blockName}.${fieldNames.isTSMS}`} label="TSMS" />
-      </div>
-      {areCheckboxesInError && (
+      {hasTitleField && (
+        <div className="c-RequestTypeBlock__Title">
+          <FormInput
+            name={`${blockName}.${fieldNames.title}`}
+            isRequired
+            label={labels.title}
+            maxLengthValidation={60}
+          />
+        </div>
+      )}
+      <div
+        className={classNames("c-RequestTypeBlock__Checkboxes", {
+          "c-RequestTypeBlock__Checkboxes_invalid": !!_.get(
+            errors,
+            checkboxesName,
+          ),
+        })}
+        id={checkboxesName}
+        aria-invalid={!!_.get(errors, checkboxesName)}
+        aria-errormessage={`${checkboxesName}_error`}
+      >
+        <FormLabel forId={checkboxesName} label={labels.typeRequest} />
+        <div className="c-RequestTypeBlock__Group">
+          <FormCheckbox
+            name={`${blockName}.${fieldNames.isEmail}`}
+            label="Email"
+          />
+          <FormCheckbox
+            name={`${blockName}.${fieldNames.isTSMS}`}
+            label="TSMS"
+          />
+        </div>
         <ErrorMessage
           errors={errors}
-          name={`checkboxes_${blockId}`}
+          name={checkboxesName}
           render={({ message }: { message: string }) => (
-            <p className="c-RequestTypeBlock__CheckboxesError">
-              {message ?? "Error"}
-            </p>
+            <CommonFormErrorText
+              message={message}
+              errorId={`${checkboxesName}_error`}
+            />
           )}
-          message={labels.checkboxesErrorMessage}
         />
-      )}
+      </div>
       {watchIsEmail && (
         <FormInput
           name={`${blockName}.${fieldNames.email}`}

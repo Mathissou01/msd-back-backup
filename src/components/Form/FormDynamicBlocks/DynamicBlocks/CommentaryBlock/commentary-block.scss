@@ -1,9 +1,9 @@
-.c-QuestionsBlock {
+.c-CommentaryBlock {
   display: flex;
   flex-direction: column;
   gap: 24px;
 
-  &__TextStatus {
-    width: 50%;
+  &__Status {
+    width: 60%;
   }
 }

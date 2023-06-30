@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { useEffect, useState } from "react";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormSelect from "../../Form/FormSelect/FormSelect";
@@ -99,11 +98,7 @@ export default function RequestStaticFieldsUser({
             {localHasUser && (
               <div className="c-RequestStaticUser__UserContainer">
                 <div className="c-RequestStaticUser__Header">
-                  <div
-                    className={classNames("c-RequestStaticUser__Picto", {
-                      [`c-RequestStaticUser__Picto_user`]: "user",
-                    })}
-                  />
+                  <div className="c-RequestStaticUser__Picto c-RequestStaticUser__Picto_user" />
                   <div className="c-RequestStaticUser__Title">
                     {labels.staticUserLabel}
                   </div>

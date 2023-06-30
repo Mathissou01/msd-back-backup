@@ -1,6 +1,5 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.shadows" as shadows;
-@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-RequestStaticFields {
   @include shadows.shadow(1);

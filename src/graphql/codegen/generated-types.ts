@@ -13990,6 +13990,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14006,6 +14007,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14022,6 +14024,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14039,6 +14042,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14055,6 +14059,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14072,6 +14077,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14088,6 +14094,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14104,6 +14111,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14120,6 +14128,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14136,6 +14145,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14152,6 +14162,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -14168,6 +14179,7 @@ export type GetMenuPageQuery = {
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
+                          alternativeText?: string | null;
                         } | null;
                       } | null;
                     } | null;
@@ -23539,6 +23551,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23551,6 +23564,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23563,6 +23577,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23575,6 +23590,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23587,6 +23603,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23599,6 +23616,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23611,6 +23629,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23623,6 +23642,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23635,6 +23655,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23647,6 +23668,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23659,6 +23681,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }
@@ -23671,6 +23694,7 @@ export const GetMenuPageDocument = gql`
                       data {
                         attributes {
                           url
+                          alternativeText
                         }
                       }
                     }

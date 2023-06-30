@@ -14,6 +14,10 @@
     }
   }
 
+  &__Title {
+    margin-top: 38px;
+  }
+
   &__Table {
     margin-top: 20px;
     margin-bottom: 40px;
@@ -21,42 +25,58 @@
     div[data-column-id="recipient"] div:first-child {
       white-space: pre;
     }
+  }
 
-    &_expandedrow {
-      padding: 15px;
-      font-size: medium;
-      background-color: colors.$gray-100;
+  &__TableExpandedRow {
+    padding: 12px 0 12px 12px;
+    font-size: medium;
+    background-color: colors.$gray-100;
 
-      table {
-        width: 95%;
-        table-layout: fixed;
-      }
-
-      td {
-        padding-bottom: 10px;
-        white-space: pre;
-      }
-
-      td:first-child {
-        overflow: hidden;
-        font-weight: bold;
-        text-overflow: ellipsis;
-      }
-    }
-
-    &_expandedrow:last-child {
-      grid-column: 2;
+    &:last-child {
       border-bottom: 1px solid colors.$gray-250;
     }
-  }
 
-  &__Title {
-    margin-top: 38px;
-  }
+    table {
+      width: 100%;
+      table-layout: fixed;
+    }
 
-  &__Link {
-    // TODO: Use main component for styling the DataTable
-    font-weight: 500;
-    font-family: DINPro-Medium, sans-serif;
+    tr {
+      display: flex;
+      flex-direction: row;
+      align-content: stretch;
+      align-items: stretch;
+      width: 100%;
+      padding: 5px 0;
+    }
+
+    td {
+      display: flex;
+      flex: 1 0 0;
+      align-items: center;
+      min-width: 100px;
+      max-width: 100%;
+      padding: 0 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    td:first-child {
+      font-weight: bold;
+    }
+
+    td:nth-child(1),
+    td:nth-child(3) {
+      flex-grow: 3;
+    }
+
+    td:nth-child(2) {
+      flex-grow: 2;
+    }
+
+    td:last-child {
+      flex-grow: 0;
+      min-width: 140px;
+    }
   }
 }

@@ -1,7 +1,8 @@
+import { v4 as uuidv4 } from "uuid";
+import { Enum_Componentblockscommentary_Commentarystatus } from "../graphql/codegen/generated-types";
 import { TPictoStyles } from "./pictos";
 import { IUploadFileEntity } from "./media";
 import { removeNulls } from "./utilities";
-import { v4 as uuidv4 } from "uuid";
 
 export type TBlocksDynamicZone =
   | "ComponentBlocksFile"
@@ -74,8 +75,8 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     picto: "checkbox",
   },
   ComponentBlocksCommentary: {
-    label: "TO_REPLACE_Commentary",
-    picto: "question_text",
+    label: "Commentaire",
+    picto: "chatBubble",
   },
   ComponentBlocksCumbersome: {
     label: "TO_REPLACE_Cumbersome",
@@ -129,6 +130,7 @@ export type IFormBlock =
   | IBlocksDateChoice
   | IBlocksQCM
   | IBlocksQuestions
+  | IBlocksCommentary
   | IBlocksCheckbox
   | IBlocksDownloadableFiles
   | IBlocksRequestType;
@@ -189,6 +191,13 @@ export interface IBlocksQuestions extends IPartialBlock {
   questionTextLabel: string;
   questionTextPlaceholder: string;
   height: string;
+}
+
+export interface IBlocksCommentary extends IPartialBlock {
+  __typename: "ComponentBlocksCommentary";
+  commentaryStatus: Enum_Componentblockscommentary_Commentarystatus;
+  commentaryLabel: string;
+  commentaryPlaceholder: string;
 }
 
 export interface IBlocksCheckbox extends IPartialBlock {
@@ -289,13 +298,11 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         picture: undefined,
       };
     }
-    case "ComponentBlocksAttachments": {
+    case "ComponentBlocksWysiwyg": {
       return {
         __typename,
         id: temporaryId,
-        attachmentLabel: "",
-        renderField: false,
-        multipleAttachments: false,
+        textEditor: undefined,
       };
     }
     case "ComponentBlocksQcm": {
@@ -316,6 +323,25 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         questionTextLabel: "",
         questionTextPlaceholder: "",
         height: "0",
+      };
+    }
+    case "ComponentBlocksAttachments": {
+      return {
+        __typename,
+        id: temporaryId,
+        attachmentLabel: "",
+        renderField: false,
+        multipleAttachments: false,
+      };
+    }
+    case "ComponentBlocksCommentary": {
+      return {
+        __typename,
+        id: temporaryId,
+        commentaryStatus:
+          Enum_Componentblockscommentary_Commentarystatus.Facultatif,
+        commentaryLabel: undefined,
+        commentaryPlaceholder: undefined,
       };
     }
     case "ComponentBlocksCheckbox": {
