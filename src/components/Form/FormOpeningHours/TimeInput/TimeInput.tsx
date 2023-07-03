@@ -18,6 +18,9 @@ function TimeInputFunc(
   return (
     <input
       onClick={onClick}
+      onChange={
+        () => {} /* eslint-disable-line @typescript-eslint/no-empty-function */
+      }
       value={displayValue}
       ref={ref}
       className="c-TimeInput"
