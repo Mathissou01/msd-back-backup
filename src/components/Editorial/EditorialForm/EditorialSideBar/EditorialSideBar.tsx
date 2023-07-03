@@ -8,7 +8,13 @@ import VersioningCard from "../../../../layouts/FormLayout/FormLayoutSideBar/Ver
 import "./editorial-sidebar.scss";
 import { isNavigationEntity } from "../../../../lib/navigation";
 
-export default function EditorialSideBar() {
+interface IEditorialSideBar {
+  additionalPath?: string;
+}
+
+export default function EditorialSideBar({
+  additionalPath,
+}: IEditorialSideBar) {
   /* Static Data */
   const labels = {
     unpublishedDateLabel: "Date de dépublication",
@@ -61,6 +67,7 @@ export default function EditorialSideBar() {
           <VersioningCard
             customId={defaultValues.customId}
             typename={defaultValues.__typename}
+            additionalPath={additionalPath}
           />
         )}
     </>

@@ -10,11 +10,13 @@ import "./versioning-card.scss";
 interface IVersioningCardProps {
   customId: string;
   typename: TNavigationEntities;
+  additionalPath?: string;
 }
 
 export default function VersioningCard({
   customId,
   typename,
+  additionalPath,
 }: IVersioningCardProps) {
   /* Static Data */
   const label = "Gérer les versions";
@@ -32,7 +34,9 @@ export default function VersioningCard({
         label={label}
         onClick={() =>
           router.push(
-            `${currentRoot}${navigationPathMap[typename].path}/version/${customId}`,
+            `${currentRoot}${navigationPathMap[typename].path}${
+              additionalPath ? additionalPath : ""
+            }/version/${customId}`,
           )
         }
       />

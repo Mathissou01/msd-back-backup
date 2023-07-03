@@ -98,7 +98,7 @@ export const navigationPathMap: Record<
     path: "/edito/quiz",
   },
   FreeContentEntity: {
-    path: "/edito/contenu-libre/[freeContentSubServiceId]",
+    path: "/edito/contenu-libre/",
   },
   ContactUsEntity: {
     path: "/edito/contact",

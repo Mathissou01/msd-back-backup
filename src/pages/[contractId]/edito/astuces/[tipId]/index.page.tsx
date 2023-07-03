@@ -1,10 +1,13 @@
 import React from "react";
 import { useRouter } from "next/router";
+import client from "../../../../../graphql/client";
 import {
   Enum_Tip_Status,
   useGetTipByIdLazyQuery,
   useCreateTipMutation,
   useUpdateTipMutation,
+  GetTipDraftQuery,
+  GetTipDraftDocument,
 } from "../../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
@@ -15,6 +18,7 @@ import {
   IEditorialFormPage,
 } from "../../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPage";
 import EditorialFormPageLoader from "../../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPageLoader";
+import { EStatus } from "../../../../../lib/status";
 
 export default function EditoTipsEditPage() {
   /* Static Data */
@@ -60,6 +64,7 @@ export default function EditoTipsEditPage() {
   async function handleUpdate(
     tipId: string,
     commonSubmitVariables: ICommonUpdateMutationVariables,
+    status: EStatus,
   ) {
     const [updateTip] = updateTipMutation;
     return updateTip({
@@ -68,6 +73,28 @@ export default function EditoTipsEditPage() {
         data: {
           ...commonSubmitVariables,
         },
+      },
+      onCompleted: (result) => {
+        if (
+          status !== EStatus.Draft &&
+          result.updateTip?.data?.attributes?.customId
+        ) {
+          client
+            .query<GetTipDraftQuery>({
+              query: GetTipDraftDocument,
+              variables: {
+                customId: result.updateTip?.data?.attributes.customId,
+              },
+              fetchPolicy: "no-cache",
+            })
+            .then((drafts) => {
+              if (drafts.data.tips?.data[0]) {
+                router.push(
+                  `${currentRoot}/edito/astuces/${drafts.data.tips.data[0].id}`,
+                );
+              }
+            });
+        }
       },
     });
   }
@@ -78,6 +105,7 @@ export default function EditoTipsEditPage() {
       updateTipId: tipId,
       data: {
         status: Enum_Tip_Status.Published,
+        toBeUpdated: false,
       },
     };
     return updateTip({
@@ -92,6 +120,7 @@ export default function EditoTipsEditPage() {
       data: {
         status: Enum_Tip_Status.Archived,
         unpublishedDate: new Date(),
+        toBeUpdated: false,
       },
     };
     return updateTip({

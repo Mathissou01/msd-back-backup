@@ -1,21 +1,26 @@
 import React from "react";
 import { useRouter } from "next/router";
+import client from "../../../../../../graphql/client";
 import {
   useUpdateFreeContentMutation,
   Enum_Freecontent_Status,
   useGetFreeContentByIdLazyQuery,
   useCreateFreeContentMutation,
   FreeContentSubServiceEntity,
+  GetFreeContentDraftQuery,
+  GetFreeContentDraftDocument,
 } from "../../../../../../graphql/codegen/generated-types";
 import { useNavigation } from "../../../../../../hooks/useNavigation";
 import { useContract } from "../../../../../../hooks/useContract";
 import { useRoutingQueryId } from "../../../../../../hooks/useRoutingQueryId";
+import { useRoutingQueryCustomId } from "../../../../../../hooks/useRoutingQueryCustomId";
 import {
   ICommonMutationVariables,
   IEditoContentLabels,
   IEditorialFormPage,
 } from "../../../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPage";
 import EditorialFormPageLoader from "../../../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPageLoader";
+import { EStatus } from "../../../../../../lib/status";
 
 interface IEditoFreeContentEditPageProps {
   freeContentSubServiceId: string;
@@ -74,6 +79,7 @@ export function EditoFreeContentEditPage({
   async function handleUpdate(
     freeContentId: string,
     commonSubmitVariables: ICommonMutationVariables,
+    status: EStatus,
   ) {
     const [updateFreeContent] = updateFreeContentMutation;
     return updateFreeContent({
@@ -82,6 +88,28 @@ export function EditoFreeContentEditPage({
         data: {
           ...commonSubmitVariables,
         },
+      },
+      onCompleted: (result) => {
+        if (
+          status !== EStatus.Draft &&
+          result.updateFreeContent?.data?.attributes?.customId
+        ) {
+          client
+            .query<GetFreeContentDraftQuery>({
+              query: GetFreeContentDraftDocument,
+              variables: {
+                customId: result.updateFreeContent?.data?.attributes.customId,
+              },
+              fetchPolicy: "no-cache",
+            })
+            .then((drafts) => {
+              if (drafts.data.freeContents?.data[0]) {
+                router.push(
+                  `${currentRoot}/edito/contenu-libre/${freeContentServiceId}/${drafts.data.freeContents.data[0].id}`,
+                );
+              }
+            });
+        }
       },
     });
   }
@@ -92,6 +120,7 @@ export function EditoFreeContentEditPage({
       updateFreeContentId: freeContentId,
       data: {
         status: Enum_Freecontent_Status.Published,
+        toBeUpdated: false,
       },
     };
     return updateFreeContent({
@@ -106,6 +135,7 @@ export function EditoFreeContentEditPage({
       data: {
         status: Enum_Freecontent_Status.Archived,
         unpublishedDate: new Date(),
+        toBeUpdated: false,
       },
     };
     return updateFreeContent({
@@ -125,6 +155,11 @@ export function EditoFreeContentEditPage({
     }
   }
 
+  /* External data */
+  const freeContentServiceId = useRoutingQueryCustomId(
+    "freeContentSubServiceId",
+  );
+
   /* Local data */
   const router = useRouter();
   const { currentRoot } = useNavigation();
@@ -141,6 +176,7 @@ export function EditoFreeContentEditPage({
     onPublish: handlePublish,
     onDepublish: handleDepublish,
     onPreview: handlePreview,
+    subServiceId: freeContentServiceId,
   };
 
   return (

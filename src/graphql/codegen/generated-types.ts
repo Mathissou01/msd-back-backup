@@ -1089,6 +1089,31 @@ export type ComponentBlocksQuestions = {
   textStatus: Enum_Componentblocksquestions_Textstatus;
 };
 
+export type ComponentBlocksRequestSlotsExceptions = {
+  __typename?: "ComponentBlocksRequestSlotsExceptions";
+  exceptionType?: Maybe<Enum_Componentblocksrequestslotsexceptions_Exceptiontype>;
+  id: Scalars["ID"];
+  slotException?: Maybe<Scalars["JSON"]>;
+};
+
+export type ComponentBlocksRequestSlotsExceptionsFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>>
+  >;
+  exceptionType?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>>
+  >;
+  slotException?: InputMaybe<JsonFilterInput>;
+};
+
+export type ComponentBlocksRequestSlotsExceptionsInput = {
+  exceptionType?: InputMaybe<Enum_Componentblocksrequestslotsexceptions_Exceptiontype>;
+  id?: InputMaybe<Scalars["ID"]>;
+  slotException?: InputMaybe<Scalars["JSON"]>;
+};
+
 export type ComponentBlocksRequestType = {
   __typename?: "ComponentBlocksRequestType";
   email?: Maybe<Scalars["String"]>;
@@ -2582,6 +2607,11 @@ export enum Enum_Componentblocksquestions_Textstatus {
   Optionnel = "Optionnel",
 }
 
+export enum Enum_Componentblocksrequestslotsexceptions_Exceptiontype {
+  Daily = "daily",
+  DateRange = "dateRange",
+}
+
 export enum Enum_Componentblockssubheading_Subheadingtag {
   H2 = "h2",
   H3 = "h3",
@@ -3694,6 +3724,7 @@ export type GenericMorph =
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
+  | ComponentBlocksRequestSlotsExceptions
   | ComponentBlocksRequestType
   | ComponentBlocksSubHeading
   | ComponentBlocksTest
@@ -3762,6 +3793,8 @@ export type GenericMorph =
   | Request
   | RequestAggregate
   | RequestService
+  | RequestSlot
+  | RequestTaked
   | SearchEngineBlock
   | Sectorization
   | ServicesBlock
@@ -3773,6 +3806,7 @@ export type GenericMorph =
   | TopContentBlock
   | UploadFile
   | UploadFolder
+  | UserDataStorage
   | UsersPermissionsPermission
   | UsersPermissionsRole
   | UsersPermissionsUser
@@ -4247,6 +4281,8 @@ export type Mutation = {
   createRequest?: Maybe<RequestEntityResponse>;
   createRequestAggregate?: Maybe<RequestAggregateEntityResponse>;
   createRequestService?: Maybe<RequestServiceEntityResponse>;
+  createRequestSlot?: Maybe<RequestSlotEntityResponse>;
+  createRequestTaked?: Maybe<RequestTakedEntityResponse>;
   createSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   createSectorization?: Maybe<SectorizationEntityResponse>;
   createServicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -4258,6 +4294,7 @@ export type Mutation = {
   createTopContentBlock?: Maybe<TopContentBlockEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
   createUploadFolder?: Maybe<UploadFolderEntityResponse>;
+  createUserDataStorage?: Maybe<UserDataStorageEntityResponse>;
   /** Create a new role */
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
@@ -4325,6 +4362,8 @@ export type Mutation = {
   deleteRequest?: Maybe<RequestEntityResponse>;
   deleteRequestAggregate?: Maybe<RequestAggregateEntityResponse>;
   deleteRequestService?: Maybe<RequestServiceEntityResponse>;
+  deleteRequestSlot?: Maybe<RequestSlotEntityResponse>;
+  deleteRequestTaked?: Maybe<RequestTakedEntityResponse>;
   deleteSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   deleteSectorization?: Maybe<SectorizationEntityResponse>;
   deleteServicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -4336,6 +4375,7 @@ export type Mutation = {
   deleteTopContentBlock?: Maybe<TopContentBlockEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
+  deleteUserDataStorage?: Maybe<UserDataStorageEntityResponse>;
   /** Delete an existing role */
   deleteUsersPermissionsRole?: Maybe<UsersPermissionsDeleteRolePayload>;
   /** Delete an existing user */
@@ -4427,6 +4467,8 @@ export type Mutation = {
   updateRequest?: Maybe<RequestEntityResponse>;
   updateRequestAggregate?: Maybe<RequestAggregateEntityResponse>;
   updateRequestService?: Maybe<RequestServiceEntityResponse>;
+  updateRequestSlot?: Maybe<RequestSlotEntityResponse>;
+  updateRequestTaked?: Maybe<RequestTakedEntityResponse>;
   updateSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   updateSectorization?: Maybe<SectorizationEntityResponse>;
   updateServicesBlock?: Maybe<ServicesBlockEntityResponse>;
@@ -4438,6 +4480,7 @@ export type Mutation = {
   updateTopContentBlock?: Maybe<TopContentBlockEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
   updateUploadFolder?: Maybe<UploadFolderEntityResponse>;
+  updateUserDataStorage?: Maybe<UserDataStorageEntityResponse>;
   /** Update an existing role */
   updateUsersPermissionsRole?: Maybe<UsersPermissionsUpdateRolePayload>;
   /** Update an existing user */
@@ -4749,6 +4792,14 @@ export type MutationCreateRequestServiceArgs = {
   data: RequestServiceInput;
 };
 
+export type MutationCreateRequestSlotArgs = {
+  data: RequestSlotInput;
+};
+
+export type MutationCreateRequestTakedArgs = {
+  data: RequestTakedInput;
+};
+
 export type MutationCreateSearchEngineBlockArgs = {
   data: SearchEngineBlockInput;
 };
@@ -4791,6 +4842,10 @@ export type MutationCreateUploadFileArgs = {
 
 export type MutationCreateUploadFolderArgs = {
   data: UploadFolderInput;
+};
+
+export type MutationCreateUserDataStorageArgs = {
+  data: UserDataStorageInput;
 };
 
 export type MutationCreateUsersPermissionsRoleArgs = {
@@ -5051,6 +5106,14 @@ export type MutationDeleteRequestServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteRequestSlotArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteRequestTakedArgs = {
+  id: Scalars["ID"];
+};
+
 export type MutationDeleteSearchEngineBlockArgs = {
   id: Scalars["ID"];
 };
@@ -5092,6 +5155,10 @@ export type MutationDeleteUploadFileArgs = {
 };
 
 export type MutationDeleteUploadFolderArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteUserDataStorageArgs = {
   id: Scalars["ID"];
 };
 
@@ -5512,6 +5579,16 @@ export type MutationUpdateRequestServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateRequestSlotArgs = {
+  data: RequestSlotInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateRequestTakedArgs = {
+  data: RequestTakedInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateSearchEngineBlockArgs = {
   data: SearchEngineBlockInput;
   id: Scalars["ID"];
@@ -5564,6 +5641,11 @@ export type MutationUpdateUploadFileArgs = {
 
 export type MutationUpdateUploadFolderArgs = {
   data: UploadFolderInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateUserDataStorageArgs = {
+  data: UserDataStorageInput;
   id: Scalars["ID"];
 };
 
@@ -6401,6 +6483,8 @@ export type Query = {
   getFilePath?: Maybe<Scalars["String"]>;
   getFolderHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
+  getNextAvailableSlots?: Maybe<Array<Maybe<RequestSlots>>>;
+  getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   getStatusExport?: Maybe<Scalars["String"]>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
   getTopContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
@@ -6450,6 +6534,10 @@ export type Query = {
   requestAggregates?: Maybe<RequestAggregateEntityResponseCollection>;
   requestService?: Maybe<RequestServiceEntityResponse>;
   requestServices?: Maybe<RequestServiceEntityResponseCollection>;
+  requestSlot?: Maybe<RequestSlotEntityResponse>;
+  requestSlots?: Maybe<RequestSlotEntityResponseCollection>;
+  requestTaked?: Maybe<RequestTakedEntityResponse>;
+  requestTakeds?: Maybe<RequestTakedEntityResponseCollection>;
   requests?: Maybe<RequestEntityResponseCollection>;
   searchCities?: Maybe<Array<Maybe<CityResult>>>;
   searchClientsByName?: Maybe<Array<Maybe<ClientName>>>;
@@ -6476,6 +6564,8 @@ export type Query = {
   uploadFiles?: Maybe<UploadFileEntityResponseCollection>;
   uploadFolder?: Maybe<UploadFolderEntityResponse>;
   uploadFolders?: Maybe<UploadFolderEntityResponseCollection>;
+  userDataStorage?: Maybe<UserDataStorageEntityResponse>;
+  userDataStorages?: Maybe<UserDataStorageEntityResponseCollection>;
   usersPermissionsRole?: Maybe<UsersPermissionsRoleEntityResponse>;
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
@@ -6909,6 +6999,18 @@ export type QueryGetNewestTopContentsArgs = {
   contractId: Scalars["ID"];
 };
 
+export type QueryGetNextAvailableSlotsArgs = {
+  lat: Scalars["Float"];
+  long: Scalars["Float"];
+  requestId: Scalars["ID"];
+};
+
+export type QueryGetPickUpDaysByCoordinatesArgs = {
+  lat: Scalars["Float"];
+  long: Scalars["Float"];
+  pickUpDayServiceId: Scalars["ID"];
+};
+
 export type QueryGetStatusExportArgs = {
   id: Scalars["ID"];
 };
@@ -7142,6 +7244,26 @@ export type QueryRequestServicesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryRequestSlotArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryRequestSlotsArgs = {
+  filters?: InputMaybe<RequestSlotFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryRequestTakedArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryRequestTakedsArgs = {
+  filters?: InputMaybe<RequestTakedFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type QueryRequestsArgs = {
   filters?: InputMaybe<RequestFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -7267,6 +7389,16 @@ export type QueryUploadFolderArgs = {
 
 export type QueryUploadFoldersArgs = {
   filters?: InputMaybe<UploadFolderFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryUserDataStorageArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryUserDataStoragesArgs = {
+  filters?: InputMaybe<UserDataStorageFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -7725,16 +7857,26 @@ export type Request = {
   hasAppointmentSlots?: Maybe<Scalars["Boolean"]>;
   hasSeveralRequestTypes: Scalars["Boolean"];
   hasUser: Scalars["Boolean"];
+  hoursBeforeReservationIsActivated?: Maybe<Scalars["Int"]>;
   isActivated?: Maybe<Scalars["Boolean"]>;
   isUserEmailMandatory?: Maybe<Scalars["Boolean"]>;
   isUserNameMandatory?: Maybe<Scalars["Boolean"]>;
   isUserPhoneMandatory?: Maybe<Scalars["Boolean"]>;
   name?: Maybe<Scalars["String"]>;
+  numberOfRequiredSlots?: Maybe<Scalars["Int"]>;
   requestAggregate?: Maybe<RequestAggregateEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
+  requestSlots?: Maybe<RequestSlotRelationResponseCollection>;
   requestType?: Maybe<Array<Maybe<ComponentBlocksRequestType>>>;
+  slotsReservationRules?: Maybe<Scalars["JSON"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   userAllowSMSNotification?: Maybe<Scalars["Boolean"]>;
+};
+
+export type RequestRequestSlotsArgs = {
+  filters?: InputMaybe<RequestSlotFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type RequestRequestTypeArgs = {
@@ -7844,6 +7986,7 @@ export type RequestFiltersInput = {
   hasAppointmentSlots?: InputMaybe<BooleanFilterInput>;
   hasSeveralRequestTypes?: InputMaybe<BooleanFilterInput>;
   hasUser?: InputMaybe<BooleanFilterInput>;
+  hoursBeforeReservationIsActivated?: InputMaybe<IntFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isActivated?: InputMaybe<BooleanFilterInput>;
   isUserEmailMandatory?: InputMaybe<BooleanFilterInput>;
@@ -7851,10 +7994,13 @@ export type RequestFiltersInput = {
   isUserPhoneMandatory?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RequestFiltersInput>;
+  numberOfRequiredSlots?: InputMaybe<IntFilterInput>;
   or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
   requestAggregate?: InputMaybe<RequestAggregateFiltersInput>;
   requestService?: InputMaybe<RequestServiceFiltersInput>;
+  requestSlots?: InputMaybe<RequestSlotFiltersInput>;
   requestType?: InputMaybe<ComponentBlocksRequestTypeFiltersInput>;
+  slotsReservationRules?: InputMaybe<JsonFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   userAllowSMSNotification?: InputMaybe<BooleanFilterInput>;
 };
@@ -7892,14 +8038,18 @@ export type RequestInput = {
   hasAppointmentSlots?: InputMaybe<Scalars["Boolean"]>;
   hasSeveralRequestTypes?: InputMaybe<Scalars["Boolean"]>;
   hasUser?: InputMaybe<Scalars["Boolean"]>;
+  hoursBeforeReservationIsActivated?: InputMaybe<Scalars["Int"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   isUserEmailMandatory?: InputMaybe<Scalars["Boolean"]>;
   isUserNameMandatory?: InputMaybe<Scalars["Boolean"]>;
   isUserPhoneMandatory?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
+  numberOfRequiredSlots?: InputMaybe<Scalars["Int"]>;
   requestAggregate?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
+  requestSlots?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   requestType?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeInput>>>;
+  slotsReservationRules?: InputMaybe<Scalars["JSON"]>;
   userAllowSMSNotification?: InputMaybe<Scalars["Boolean"]>;
 };
 
@@ -7999,11 +8149,149 @@ export type RequestServiceRelationResponseCollection = {
   data: Array<RequestServiceEntity>;
 };
 
+export type RequestSlot = {
+  __typename?: "RequestSlot";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  noSlotMessage?: Maybe<Scalars["String"]>;
+  sectorizations?: Maybe<SectorizationRelationResponseCollection>;
+  slotMessage?: Maybe<Scalars["String"]>;
+  slotsExceptions?: Maybe<Array<Maybe<ComponentBlocksRequestSlotsExceptions>>>;
+  timeSlots?: Maybe<Scalars["JSON"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type RequestSlotSectorizationsArgs = {
+  filters?: InputMaybe<SectorizationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type RequestSlotSlotsExceptionsArgs = {
+  filters?: InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type RequestSlotEntity = {
+  __typename?: "RequestSlotEntity";
+  attributes?: Maybe<RequestSlot>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type RequestSlotEntityResponse = {
+  __typename?: "RequestSlotEntityResponse";
+  data?: Maybe<RequestSlotEntity>;
+};
+
+export type RequestSlotEntityResponseCollection = {
+  __typename?: "RequestSlotEntityResponseCollection";
+  data: Array<RequestSlotEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type RequestSlotFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<RequestSlotFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  noSlotMessage?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<RequestSlotFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<RequestSlotFiltersInput>>>;
+  sectorizations?: InputMaybe<SectorizationFiltersInput>;
+  slotMessage?: InputMaybe<StringFilterInput>;
+  slotsExceptions?: InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>;
+  timeSlots?: InputMaybe<JsonFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type RequestSlotInput = {
+  noSlotMessage?: InputMaybe<Scalars["String"]>;
+  sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  slotMessage?: InputMaybe<Scalars["String"]>;
+  slotsExceptions?: InputMaybe<
+    Array<InputMaybe<ComponentBlocksRequestSlotsExceptionsInput>>
+  >;
+  timeSlots?: InputMaybe<Scalars["JSON"]>;
+};
+
+export type RequestSlotRelationResponseCollection = {
+  __typename?: "RequestSlotRelationResponseCollection";
+  data: Array<RequestSlotEntity>;
+};
+
+export type RequestSlots = {
+  __typename?: "RequestSlots";
+  day?: Maybe<Scalars["String"]>;
+  exceptionId?: Maybe<Scalars["ID"]>;
+  requestSlotId: Scalars["ID"];
+  startTime?: Maybe<Scalars["Time"]>;
+};
+
 export type RequestTagEntity = {
   __typename?: "RequestTagEntity";
   contractId?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
+};
+
+export type RequestTaked = {
+  __typename?: "RequestTaked";
+  city?: Maybe<Scalars["String"]>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  name: Scalars["String"];
+  requestType?: Maybe<ComponentBlocksRequestType>;
+  request_slot?: Maybe<RequestSlotEntityResponse>;
+  slotDate?: Maybe<Scalars["Date"]>;
+  slotTaken?: Maybe<Scalars["JSON"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  user_data_storage?: Maybe<UserDataStorageEntityResponse>;
+};
+
+export type RequestTakedEntity = {
+  __typename?: "RequestTakedEntity";
+  attributes?: Maybe<RequestTaked>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type RequestTakedEntityResponse = {
+  __typename?: "RequestTakedEntityResponse";
+  data?: Maybe<RequestTakedEntity>;
+};
+
+export type RequestTakedEntityResponseCollection = {
+  __typename?: "RequestTakedEntityResponseCollection";
+  data: Array<RequestTakedEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type RequestTakedFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<RequestTakedFiltersInput>>>;
+  city?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<RequestTakedFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<RequestTakedFiltersInput>>>;
+  requestType?: InputMaybe<ComponentBlocksRequestTypeFiltersInput>;
+  request_slot?: InputMaybe<RequestSlotFiltersInput>;
+  slotDate?: InputMaybe<DateFilterInput>;
+  slotTaken?: InputMaybe<JsonFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user_data_storage?: InputMaybe<UserDataStorageFiltersInput>;
+};
+
+export type RequestTakedInput = {
+  city?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  requestType?: InputMaybe<ComponentBlocksRequestTypeInput>;
+  request_slot?: InputMaybe<Scalars["ID"]>;
+  slotDate?: InputMaybe<Scalars["Date"]>;
+  slotTaken?: InputMaybe<Scalars["JSON"]>;
+  user_data_storage?: InputMaybe<Scalars["ID"]>;
+};
+
+export type RequestTakedRelationResponseCollection = {
+  __typename?: "RequestTakedRelationResponseCollection";
+  data: Array<RequestTakedEntity>;
 };
 
 export type ResponseCollectionMeta = {
@@ -8818,6 +9106,62 @@ export type UploadResult = {
   id: Scalars["String"];
 };
 
+export type UserDataStorage = {
+  __typename?: "UserDataStorage";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  email: Scalars["String"];
+  firstname?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  phone?: Maybe<Scalars["String"]>;
+  request_takeds?: Maybe<RequestTakedRelationResponseCollection>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type UserDataStorageRequest_TakedsArgs = {
+  filters?: InputMaybe<RequestTakedFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type UserDataStorageEntity = {
+  __typename?: "UserDataStorageEntity";
+  attributes?: Maybe<UserDataStorage>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type UserDataStorageEntityResponse = {
+  __typename?: "UserDataStorageEntityResponse";
+  data?: Maybe<UserDataStorageEntity>;
+};
+
+export type UserDataStorageEntityResponseCollection = {
+  __typename?: "UserDataStorageEntityResponseCollection";
+  data: Array<UserDataStorageEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type UserDataStorageFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<UserDataStorageFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  email?: InputMaybe<StringFilterInput>;
+  firstname?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<UserDataStorageFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<UserDataStorageFiltersInput>>>;
+  phone?: InputMaybe<StringFilterInput>;
+  request_takeds?: InputMaybe<RequestTakedFiltersInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type UserDataStorageInput = {
+  email?: InputMaybe<Scalars["String"]>;
+  firstname?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  phone?: InputMaybe<Scalars["String"]>;
+  request_takeds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
 export type UsersPermissionsCreateRolePayload = {
   __typename?: "UsersPermissionsCreateRolePayload";
   ok: Scalars["Boolean"];
@@ -9626,6 +9970,7 @@ export type GetNewByIdQuery = {
       attributes?: {
         __typename?: "New";
         customId?: string | null;
+        draftCreationId?: string | null;
         title: string;
         shortDescription?: string | null;
         status?: Enum_New_Status | null;
@@ -10249,6 +10594,72 @@ export type DeleteTipMutation = {
   } | null;
 };
 
+export type GetAllVersionsOfTipByCustomIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  customId?: InputMaybe<Scalars["String"]>;
+  statusFilter?: InputMaybe<StringFilterInput>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetAllVersionsOfTipByCustomIdQuery = {
+  __typename?: "Query";
+  tipsCount?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  tipsCountDraft?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  tipsCountPublished?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  tipsCountArchived?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  tips?: {
+    __typename?: "TipEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "TipEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Tip";
+        versionNumber?: number | null;
+        status?: Enum_Tip_Status | null;
+        publishedDate?: any | null;
+        updatedAt?: any | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetTipByIdQueryVariables = Exact<{
   tipId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -10263,6 +10674,7 @@ export type GetTipByIdQuery = {
       attributes?: {
         __typename?: "Tip";
         customId?: string | null;
+        draftCreationId?: string | null;
         title: string;
         shortDescription?: string | null;
         status?: Enum_Tip_Status | null;
@@ -10389,6 +10801,18 @@ export type GetTipByIdQuery = {
   } | null;
 };
 
+export type GetTipDraftQueryVariables = Exact<{
+  customId: Scalars["String"];
+}>;
+
+export type GetTipDraftQuery = {
+  __typename?: "Query";
+  tips?: {
+    __typename?: "TipEntityResponseCollection";
+    data: Array<{ __typename?: "TipEntity"; id?: string | null }>;
+  } | null;
+};
+
 export type GetTipsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   statusFilter?: InputMaybe<StringFilterInput>;
@@ -10469,6 +10893,7 @@ export type UpdateTipMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "Tip";
+        customId?: string | null;
         title: string;
         shortDescription?: string | null;
         status?: Enum_Tip_Status | null;
@@ -10808,6 +11233,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksProofOfReceipt" }
           | { __typename?: "ComponentBlocksQcm" }
           | { __typename?: "ComponentBlocksQuestions" }
+          | { __typename?: "ComponentBlocksRequestSlotsExceptions" }
           | { __typename?: "ComponentBlocksRequestType" }
           | { __typename?: "ComponentBlocksSubHeading" }
           | { __typename?: "ComponentBlocksTest" }
@@ -10876,6 +11302,8 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "Request" }
           | { __typename?: "RequestAggregate" }
           | { __typename?: "RequestService" }
+          | { __typename?: "RequestSlot" }
+          | { __typename?: "RequestTaked" }
           | { __typename?: "SearchEngineBlock" }
           | { __typename?: "Sectorization" }
           | { __typename?: "ServicesBlock" }
@@ -10892,6 +11320,7 @@ export type UpdateUploadFileMutation = {
               path: string;
               pathId: number;
             }
+          | { __typename?: "UserDataStorage" }
           | { __typename?: "UsersPermissionsPermission" }
           | { __typename?: "UsersPermissionsRole" }
           | { __typename?: "UsersPermissionsUser" }
@@ -11485,6 +11914,83 @@ export type DeleteFreeContentMutation = {
   } | null;
 };
 
+export type GetAllVersionsOfFreeContentByCustomIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  customId?: InputMaybe<Scalars["String"]>;
+  freeContentSubServiceId: Scalars["ID"];
+  statusFilter?: InputMaybe<StringFilterInput>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetAllVersionsOfFreeContentByCustomIdQuery = {
+  __typename?: "Query";
+  freeContentsCount?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  freeContentsCountDraft?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  freeContentsCountPublished?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  freeContentsCountArchived?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  freeContents?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "FreeContentEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "FreeContent";
+        versionNumber?: number | null;
+        status?: Enum_Freecontent_Status | null;
+        publishedDate?: any | null;
+        updatedAt?: any | null;
+        freeContentSubService?: {
+          __typename?: "FreeContentSubServiceEntityResponse";
+          data?: {
+            __typename?: "FreeContentSubServiceEntity";
+            attributes?: {
+              __typename?: "FreeContentSubService";
+              name: string;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetFreeContentByIdQueryVariables = Exact<{
   freeContentId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -11499,6 +12005,7 @@ export type GetFreeContentByIdQuery = {
       attributes?: {
         __typename?: "FreeContent";
         customId?: string | null;
+        draftCreationId?: string | null;
         title: string;
         shortDescription?: string | null;
         status?: Enum_Freecontent_Status | null;
@@ -11625,6 +12132,18 @@ export type GetFreeContentByIdQuery = {
   } | null;
 };
 
+export type GetFreeContentDraftQueryVariables = Exact<{
+  customId: Scalars["String"];
+}>;
+
+export type GetFreeContentDraftQuery = {
+  __typename?: "Query";
+  freeContents?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    data: Array<{ __typename?: "FreeContentEntity"; id?: string | null }>;
+  } | null;
+};
+
 export type GetFreeContentSubServiceByIdQueryVariables = Exact<{
   freeContentSubServiceId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -11725,6 +12244,7 @@ export type UpdateFreeContentMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "FreeContent";
+        customId?: string | null;
         title: string;
         shortDescription?: string | null;
         status?: Enum_Freecontent_Status | null;
@@ -15301,6 +15821,72 @@ export type UpdateWasteFamilyMutation = {
   } | null;
 };
 
+export type GetAllVersionsOfWasteFormByCustomIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  customId?: InputMaybe<Scalars["String"]>;
+  statusFilter?: InputMaybe<StringFilterInput>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetAllVersionsOfWasteFormByCustomIdQuery = {
+  __typename?: "Query";
+  wasteFormsCount?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  wasteFormsCountDraft?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  wasteFormsCountPublished?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  wasteFormsCountArchived?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+  } | null;
+  wasteForms?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "WasteFormEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "WasteForm";
+        versionNumber?: number | null;
+        status?: Enum_Wasteform_Status | null;
+        publishedDate?: any | null;
+        updatedAt?: any | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetFlowsFilterByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -15483,6 +16069,18 @@ export type GetWasteFormByIdQuery = {
   } | null;
 };
 
+export type GetWasteFormDraftQueryVariables = Exact<{
+  customId: Scalars["String"];
+}>;
+
+export type GetWasteFormDraftQuery = {
+  __typename?: "Query";
+  wasteForms?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    data: Array<{ __typename?: "WasteFormEntity"; id?: string | null }>;
+  } | null;
+};
+
 export type GetWasteFormsByContractIdQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
   statusFilter?: InputMaybe<Scalars["String"]>;
@@ -15563,6 +16161,7 @@ export type UpdateWasteFormMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "WasteForm";
+        customId?: string | null;
         isHidden?: boolean | null;
       } | null;
     } | null;
@@ -16771,6 +17370,7 @@ export const GetNewByIdDocument = gql`
         id
         attributes {
           customId
+          draftCreationId
           title
           shortDescription
           newsSubService {
@@ -17599,6 +18199,159 @@ export type DeleteTipMutationOptions = Apollo.BaseMutationOptions<
   DeleteTipMutation,
   DeleteTipMutationVariables
 >;
+export const GetAllVersionsOfTipByCustomIdDocument = gql`
+  query getAllVersionsOfTipByCustomId(
+    $contractId: ID!
+    $customId: String
+    $statusFilter: StringFilterInput
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    tipsCount: tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    tipsCountDraft: tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    tipsCountPublished: tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    tipsCountArchived: tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    tips(
+      filters: {
+        tipSubService: {
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: $statusFilter
+      }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          versionNumber
+          status
+          publishedDate
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAllVersionsOfTipByCustomIdQuery__
+ *
+ * To run a query within a React component, call `useGetAllVersionsOfTipByCustomIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllVersionsOfTipByCustomIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllVersionsOfTipByCustomIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      customId: // value for 'customId'
+ *      statusFilter: // value for 'statusFilter'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetAllVersionsOfTipByCustomIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetAllVersionsOfTipByCustomIdQuery,
+    GetAllVersionsOfTipByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAllVersionsOfTipByCustomIdQuery,
+    GetAllVersionsOfTipByCustomIdQueryVariables
+  >(GetAllVersionsOfTipByCustomIdDocument, options);
+}
+export function useGetAllVersionsOfTipByCustomIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllVersionsOfTipByCustomIdQuery,
+    GetAllVersionsOfTipByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAllVersionsOfTipByCustomIdQuery,
+    GetAllVersionsOfTipByCustomIdQueryVariables
+  >(GetAllVersionsOfTipByCustomIdDocument, options);
+}
+export type GetAllVersionsOfTipByCustomIdQueryHookResult = ReturnType<
+  typeof useGetAllVersionsOfTipByCustomIdQuery
+>;
+export type GetAllVersionsOfTipByCustomIdLazyQueryHookResult = ReturnType<
+  typeof useGetAllVersionsOfTipByCustomIdLazyQuery
+>;
+export type GetAllVersionsOfTipByCustomIdQueryResult = Apollo.QueryResult<
+  GetAllVersionsOfTipByCustomIdQuery,
+  GetAllVersionsOfTipByCustomIdQueryVariables
+>;
 export const GetTipByIdDocument = gql`
   query getTipById($tipId: ID) {
     tip(id: $tipId) {
@@ -17606,6 +18359,7 @@ export const GetTipByIdDocument = gql`
         id
         attributes {
           customId
+          draftCreationId
           title
           shortDescription
           tipSubService {
@@ -17762,6 +18516,64 @@ export type GetTipByIdQueryResult = Apollo.QueryResult<
   GetTipByIdQuery,
   GetTipByIdQueryVariables
 >;
+export const GetTipDraftDocument = gql`
+  query getTipDraft($customId: String!) {
+    tips(filters: { customId: { eq: $customId }, status: { eq: "draft" } }) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTipDraftQuery__
+ *
+ * To run a query within a React component, call `useGetTipDraftQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTipDraftQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTipDraftQuery({
+ *   variables: {
+ *      customId: // value for 'customId'
+ *   },
+ * });
+ */
+export function useGetTipDraftQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTipDraftQuery,
+    GetTipDraftQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTipDraftQuery, GetTipDraftQueryVariables>(
+    GetTipDraftDocument,
+    options,
+  );
+}
+export function useGetTipDraftLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTipDraftQuery,
+    GetTipDraftQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetTipDraftQuery, GetTipDraftQueryVariables>(
+    GetTipDraftDocument,
+    options,
+  );
+}
+export type GetTipDraftQueryHookResult = ReturnType<typeof useGetTipDraftQuery>;
+export type GetTipDraftLazyQueryHookResult = ReturnType<
+  typeof useGetTipDraftLazyQuery
+>;
+export type GetTipDraftQueryResult = Apollo.QueryResult<
+  GetTipDraftQuery,
+  GetTipDraftQueryVariables
+>;
 export const GetTipsByContractIdDocument = gql`
   query getTipsByContractId(
     $contractId: ID!
@@ -17915,6 +18727,7 @@ export const UpdateTipDocument = gql`
       data {
         id
         attributes {
+          customId
           title
           shortDescription
           tipSubService {
@@ -19363,6 +20176,173 @@ export type DeleteFreeContentMutationOptions = Apollo.BaseMutationOptions<
   DeleteFreeContentMutation,
   DeleteFreeContentMutationVariables
 >;
+export const GetAllVersionsOfFreeContentByCustomIdDocument = gql`
+  query getAllVersionsOfFreeContentByCustomId(
+    $contractId: ID!
+    $customId: String
+    $freeContentSubServiceId: ID!
+    $statusFilter: StringFilterInput
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    freeContentsCount: freeContents(
+      filters: {
+        freeContentSubService: {
+          id: { eq: $freeContentSubServiceId }
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    freeContentsCountDraft: freeContents(
+      filters: {
+        freeContentSubService: {
+          id: { eq: $freeContentSubServiceId }
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    freeContentsCountPublished: freeContents(
+      filters: {
+        freeContentSubService: {
+          id: { eq: $freeContentSubServiceId }
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    freeContentsCountArchived: freeContents(
+      filters: {
+        freeContentSubService: {
+          id: { eq: $freeContentSubServiceId }
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    freeContents(
+      filters: {
+        freeContentSubService: {
+          id: { eq: $freeContentSubServiceId }
+          editorialService: { contract: { id: { eq: $contractId } } }
+        }
+        customId: { eq: $customId }
+        status: $statusFilter
+      }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          freeContentSubService {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+          versionNumber
+          status
+          publishedDate
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAllVersionsOfFreeContentByCustomIdQuery__
+ *
+ * To run a query within a React component, call `useGetAllVersionsOfFreeContentByCustomIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllVersionsOfFreeContentByCustomIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllVersionsOfFreeContentByCustomIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      customId: // value for 'customId'
+ *      freeContentSubServiceId: // value for 'freeContentSubServiceId'
+ *      statusFilter: // value for 'statusFilter'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetAllVersionsOfFreeContentByCustomIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetAllVersionsOfFreeContentByCustomIdQuery,
+    GetAllVersionsOfFreeContentByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAllVersionsOfFreeContentByCustomIdQuery,
+    GetAllVersionsOfFreeContentByCustomIdQueryVariables
+  >(GetAllVersionsOfFreeContentByCustomIdDocument, options);
+}
+export function useGetAllVersionsOfFreeContentByCustomIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllVersionsOfFreeContentByCustomIdQuery,
+    GetAllVersionsOfFreeContentByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAllVersionsOfFreeContentByCustomIdQuery,
+    GetAllVersionsOfFreeContentByCustomIdQueryVariables
+  >(GetAllVersionsOfFreeContentByCustomIdDocument, options);
+}
+export type GetAllVersionsOfFreeContentByCustomIdQueryHookResult = ReturnType<
+  typeof useGetAllVersionsOfFreeContentByCustomIdQuery
+>;
+export type GetAllVersionsOfFreeContentByCustomIdLazyQueryHookResult =
+  ReturnType<typeof useGetAllVersionsOfFreeContentByCustomIdLazyQuery>;
+export type GetAllVersionsOfFreeContentByCustomIdQueryResult =
+  Apollo.QueryResult<
+    GetAllVersionsOfFreeContentByCustomIdQuery,
+    GetAllVersionsOfFreeContentByCustomIdQueryVariables
+  >;
 export const GetFreeContentByIdDocument = gql`
   query getFreeContentById($freeContentId: ID) {
     freeContent(id: $freeContentId) {
@@ -19370,6 +20350,7 @@ export const GetFreeContentByIdDocument = gql`
         id
         attributes {
           customId
+          draftCreationId
           title
           shortDescription
           freeContentSubService {
@@ -19527,6 +20508,68 @@ export type GetFreeContentByIdLazyQueryHookResult = ReturnType<
 export type GetFreeContentByIdQueryResult = Apollo.QueryResult<
   GetFreeContentByIdQuery,
   GetFreeContentByIdQueryVariables
+>;
+export const GetFreeContentDraftDocument = gql`
+  query getFreeContentDraft($customId: String!) {
+    freeContents(
+      filters: { customId: { eq: $customId }, status: { eq: "draft" } }
+    ) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFreeContentDraftQuery__
+ *
+ * To run a query within a React component, call `useGetFreeContentDraftQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFreeContentDraftQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFreeContentDraftQuery({
+ *   variables: {
+ *      customId: // value for 'customId'
+ *   },
+ * });
+ */
+export function useGetFreeContentDraftQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFreeContentDraftQuery,
+    GetFreeContentDraftQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFreeContentDraftQuery,
+    GetFreeContentDraftQueryVariables
+  >(GetFreeContentDraftDocument, options);
+}
+export function useGetFreeContentDraftLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFreeContentDraftQuery,
+    GetFreeContentDraftQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFreeContentDraftQuery,
+    GetFreeContentDraftQueryVariables
+  >(GetFreeContentDraftDocument, options);
+}
+export type GetFreeContentDraftQueryHookResult = ReturnType<
+  typeof useGetFreeContentDraftQuery
+>;
+export type GetFreeContentDraftLazyQueryHookResult = ReturnType<
+  typeof useGetFreeContentDraftLazyQuery
+>;
+export type GetFreeContentDraftQueryResult = Apollo.QueryResult<
+  GetFreeContentDraftQuery,
+  GetFreeContentDraftQueryVariables
 >;
 export const GetFreeContentSubServiceByIdDocument = gql`
   query getFreeContentSubServiceById($freeContentSubServiceId: ID) {
@@ -19738,6 +20781,7 @@ export const UpdateFreeContentDocument = gql`
       data {
         id
         attributes {
+          customId
           title
           shortDescription
           freeContentSubService {
@@ -25757,6 +26801,149 @@ export type UpdateWasteFamilyMutationOptions = Apollo.BaseMutationOptions<
   UpdateWasteFamilyMutation,
   UpdateWasteFamilyMutationVariables
 >;
+export const GetAllVersionsOfWasteFormByCustomIdDocument = gql`
+  query getAllVersionsOfWasteFormByCustomId(
+    $contractId: ID!
+    $customId: String
+    $statusFilter: StringFilterInput
+    $sort: [String]
+    $pagination: PaginationArg
+  ) {
+    wasteFormsCount: wasteForms(
+      filters: {
+        recyclingGuideService: { contract: { id: { eq: $contractId } } }
+        customId: { eq: $customId }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    wasteFormsCountDraft: wasteForms(
+      filters: {
+        recyclingGuideService: { contract: { id: { eq: $contractId } } }
+        customId: { eq: $customId }
+        status: { eq: "draft" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    wasteFormsCountPublished: wasteForms(
+      filters: {
+        recyclingGuideService: { contract: { id: { eq: $contractId } } }
+        customId: { eq: $customId }
+        status: { eq: "published" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    wasteFormsCountArchived: wasteForms(
+      filters: {
+        recyclingGuideService: { contract: { id: { eq: $contractId } } }
+        customId: { eq: $customId }
+        status: { eq: "archived" }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    wasteForms(
+      filters: {
+        recyclingGuideService: { contract: { id: { eq: $contractId } } }
+        customId: { eq: $customId }
+        status: $statusFilter
+      }
+      sort: $sort
+      pagination: $pagination
+    ) {
+      meta {
+        pagination {
+          page
+          pageSize
+          pageCount
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          versionNumber
+          status
+          publishedDate
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAllVersionsOfWasteFormByCustomIdQuery__
+ *
+ * To run a query within a React component, call `useGetAllVersionsOfWasteFormByCustomIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllVersionsOfWasteFormByCustomIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllVersionsOfWasteFormByCustomIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      customId: // value for 'customId'
+ *      statusFilter: // value for 'statusFilter'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGetAllVersionsOfWasteFormByCustomIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetAllVersionsOfWasteFormByCustomIdQuery,
+    GetAllVersionsOfWasteFormByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAllVersionsOfWasteFormByCustomIdQuery,
+    GetAllVersionsOfWasteFormByCustomIdQueryVariables
+  >(GetAllVersionsOfWasteFormByCustomIdDocument, options);
+}
+export function useGetAllVersionsOfWasteFormByCustomIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllVersionsOfWasteFormByCustomIdQuery,
+    GetAllVersionsOfWasteFormByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAllVersionsOfWasteFormByCustomIdQuery,
+    GetAllVersionsOfWasteFormByCustomIdQueryVariables
+  >(GetAllVersionsOfWasteFormByCustomIdDocument, options);
+}
+export type GetAllVersionsOfWasteFormByCustomIdQueryHookResult = ReturnType<
+  typeof useGetAllVersionsOfWasteFormByCustomIdQuery
+>;
+export type GetAllVersionsOfWasteFormByCustomIdLazyQueryHookResult = ReturnType<
+  typeof useGetAllVersionsOfWasteFormByCustomIdLazyQuery
+>;
+export type GetAllVersionsOfWasteFormByCustomIdQueryResult = Apollo.QueryResult<
+  GetAllVersionsOfWasteFormByCustomIdQuery,
+  GetAllVersionsOfWasteFormByCustomIdQueryVariables
+>;
 export const GetFlowsFilterByContractIdDocument = gql`
   query getFlowsFilterByContractId($contractId: ID!) {
     flows(
@@ -26010,6 +27197,68 @@ export type GetWasteFormByIdQueryResult = Apollo.QueryResult<
   GetWasteFormByIdQuery,
   GetWasteFormByIdQueryVariables
 >;
+export const GetWasteFormDraftDocument = gql`
+  query getWasteFormDraft($customId: String!) {
+    wasteForms(
+      filters: { customId: { eq: $customId }, status: { eq: "draft" } }
+    ) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetWasteFormDraftQuery__
+ *
+ * To run a query within a React component, call `useGetWasteFormDraftQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWasteFormDraftQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWasteFormDraftQuery({
+ *   variables: {
+ *      customId: // value for 'customId'
+ *   },
+ * });
+ */
+export function useGetWasteFormDraftQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetWasteFormDraftQuery,
+    GetWasteFormDraftQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetWasteFormDraftQuery,
+    GetWasteFormDraftQueryVariables
+  >(GetWasteFormDraftDocument, options);
+}
+export function useGetWasteFormDraftLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetWasteFormDraftQuery,
+    GetWasteFormDraftQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetWasteFormDraftQuery,
+    GetWasteFormDraftQueryVariables
+  >(GetWasteFormDraftDocument, options);
+}
+export type GetWasteFormDraftQueryHookResult = ReturnType<
+  typeof useGetWasteFormDraftQuery
+>;
+export type GetWasteFormDraftLazyQueryHookResult = ReturnType<
+  typeof useGetWasteFormDraftLazyQuery
+>;
+export type GetWasteFormDraftQueryResult = Apollo.QueryResult<
+  GetWasteFormDraftQuery,
+  GetWasteFormDraftQueryVariables
+>;
 export const GetWasteFormsByContractIdDocument = gql`
   query getWasteFormsByContractId(
     $contractId: ID
@@ -26155,6 +27404,7 @@ export const UpdateWasteFormDocument = gql`
       data {
         id
         attributes {
+          customId
           isHidden
         }
       }

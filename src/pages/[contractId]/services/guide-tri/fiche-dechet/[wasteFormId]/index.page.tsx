@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useContract } from "../../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../../hooks/useNavigation";
+import client from "../../../../../../graphql/client";
 import { parseJSON } from "date-fns";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import {
@@ -10,8 +11,10 @@ import {
   useUpdateWasteFormMutation,
   useGetWasteFormByIdQuery,
   GetWasteFormByIdDocument,
+  GetWasteFormDraftQuery,
+  GetWasteFormDraftDocument,
 } from "../../../../../../graphql/codegen/generated-types";
-import { valueToEStatus } from "../../../../../../lib/status";
+import { EStatus, valueToEStatus } from "../../../../../../lib/status";
 import { formatDate } from "../../../../../../lib/utilities";
 import { IWasteFormFields } from "../../../../../../lib/recycling-guide";
 import {
@@ -82,6 +85,28 @@ export function ServiceGuideDuTriEditPage({
           },
         },
       ],
+      onCompleted: (result) => {
+        if (
+          variables.data.status !== EStatus.Draft &&
+          result.updateWasteForm?.data?.attributes?.customId
+        ) {
+          client
+            .query<GetWasteFormDraftQuery>({
+              query: GetWasteFormDraftDocument,
+              variables: {
+                customId: result.updateWasteForm?.data?.attributes.customId,
+              },
+              fetchPolicy: "no-cache",
+            })
+            .then((drafts) => {
+              if (drafts.data.wasteForms?.data[0]) {
+                router.push(
+                  `${currentRoot}/services/guide-tri/fiche-dechet/${drafts.data.wasteForms.data[0].id}`,
+                );
+              }
+            });
+        }
+      },
     });
   }
 
@@ -206,7 +231,7 @@ export function ServiceGuideDuTriEditPage({
         setMappedData(mappedData);
       }
     } else if (data?.wasteForm && data.wasteForm.data === null) {
-      void router.push(`${currentRoot}/edito/actualites`);
+      void router.push(`${currentRoot}/services/guide-tri`);
     }
   }, [data, router, currentRoot]);
 

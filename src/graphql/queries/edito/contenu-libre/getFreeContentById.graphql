@@ -4,6 +4,7 @@ query getFreeContentById($freeContentId: ID) {
       id
       attributes {
         customId
+        draftCreationId
         title
         shortDescription
         freeContentSubService {

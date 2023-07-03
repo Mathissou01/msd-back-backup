@@ -4,6 +4,7 @@ query getNewById($newId: ID) {
       id
       attributes {
         customId
+        draftCreationId
         title
         shortDescription
         newsSubService {

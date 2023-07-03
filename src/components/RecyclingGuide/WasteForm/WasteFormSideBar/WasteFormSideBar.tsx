@@ -5,7 +5,6 @@ import { IWasteFormFields } from "../../../../lib/recycling-guide";
 import FormDatePicker from "../../../Form/FormDatePicker/FormDatePicker";
 import InformationsCard from "../../../../layouts/FormLayout/FormLayoutSideBar/InformationsCard/InformationsCard";
 import VersioningCard from "../../../../layouts/FormLayout/FormLayoutSideBar/VersioningCard/VersioningCard";
-import { isNavigationEntity } from "../../../../lib/navigation";
 import "./waste-form-sidebar.scss";
 
 export default function WasteFormSideBar() {
@@ -52,14 +51,12 @@ export default function WasteFormSideBar() {
           updateDate={defaultValues?.updatedAt}
         />
       )}
-      {defaultValues?.customId &&
-        defaultValues?.__typename &&
-        isNavigationEntity(defaultValues.__typename) && (
-          <VersioningCard
-            customId={defaultValues.customId}
-            typename={defaultValues.__typename}
-          />
-        )}
+      {defaultValues?.customId && (
+        <VersioningCard
+          customId={defaultValues.customId}
+          typename={"WasteFormEntity"}
+        />
+      )}
     </>
   );
 }

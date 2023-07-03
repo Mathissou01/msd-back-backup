@@ -22,6 +22,7 @@ interface IEditorialFormProps {
   onPreview?: () => void;
   labels: IEditorialStaticFieldsLabels;
   buttonLabels?: IFormLayoutDefaultButtonsLabels;
+  additionalPath?: string;
 }
 
 export default function EditorialForm({
@@ -34,6 +35,7 @@ export default function EditorialForm({
   onPreview,
   labels,
   buttonLabels,
+  additionalPath,
 }: IEditorialFormProps) {
   const buttonContent = (
     <FormLayoutDefaultButtons<IEditorialFields>
@@ -55,7 +57,7 @@ export default function EditorialForm({
       />
     </>
   );
-  const sidebarContent = <EditorialSideBar />;
+  const sidebarContent = <EditorialSideBar additionalPath={additionalPath} />;
   const formOptions = {
     onSubmitValid,
     defaultValues: data,

@@ -66,7 +66,6 @@ export default function EditoActualitesEditPage() {
     commonSubmitVariables: ICommonUpdateMutationVariables,
     status: EStatus,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [updateNews] = updateNewMutation;
     return updateNews({
       variables: {

@@ -1,0 +1,86 @@
+query getAllVersionsOfWasteFormByCustomId(
+  $contractId: ID!
+  $customId: String
+  $statusFilter: StringFilterInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  wasteFormsCount: wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      customId: { eq: $customId }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsCountDraft: wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      customId: { eq: $customId }
+      status: { eq: "draft" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsCountPublished: wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      customId: { eq: $customId }
+      status: { eq: "published" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsCountArchived: wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      customId: { eq: $customId }
+      status: { eq: "archived" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      customId: { eq: $customId }
+      status: $statusFilter
+    }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        versionNumber
+        status
+        publishedDate
+        updatedAt
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ mutation updateFreeContent(
     data {
       id
       attributes {
+        customId
         title
         shortDescription
         freeContentSubService {

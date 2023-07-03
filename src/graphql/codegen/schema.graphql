@@ -933,6 +933,26 @@ type ComponentBlocksQuestions {
   textStatus: ENUM_COMPONENTBLOCKSQUESTIONS_TEXTSTATUS!
 }
 
+type ComponentBlocksRequestSlotsExceptions {
+  exceptionType: ENUM_COMPONENTBLOCKSREQUESTSLOTSEXCEPTIONS_EXCEPTIONTYPE
+  id: ID!
+  slotException: JSON
+}
+
+input ComponentBlocksRequestSlotsExceptionsFiltersInput {
+  and: [ComponentBlocksRequestSlotsExceptionsFiltersInput]
+  exceptionType: StringFilterInput
+  not: ComponentBlocksRequestSlotsExceptionsFiltersInput
+  or: [ComponentBlocksRequestSlotsExceptionsFiltersInput]
+  slotException: JSONFilterInput
+}
+
+input ComponentBlocksRequestSlotsExceptionsInput {
+  exceptionType: ENUM_COMPONENTBLOCKSREQUESTSLOTSEXCEPTIONS_EXCEPTIONTYPE
+  id: ID
+  slotException: JSON
+}
+
 type ComponentBlocksRequestType {
   email: String
   id: ID!
@@ -2281,6 +2301,11 @@ enum ENUM_COMPONENTBLOCKSQUESTIONS_TEXTSTATUS {
   Optionnel
 }
 
+enum ENUM_COMPONENTBLOCKSREQUESTSLOTSEXCEPTIONS_EXCEPTIONTYPE {
+  daily
+  dateRange
+}
+
 enum ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG {
   h2
   h3
@@ -3301,6 +3326,7 @@ union GenericMorph =
   | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
+  | ComponentBlocksRequestSlotsExceptions
   | ComponentBlocksRequestType
   | ComponentBlocksSubHeading
   | ComponentBlocksTest
@@ -3369,6 +3395,8 @@ union GenericMorph =
   | Request
   | RequestAggregate
   | RequestService
+  | RequestSlot
+  | RequestTaked
   | SearchEngineBlock
   | Sectorization
   | ServicesBlock
@@ -3380,6 +3408,7 @@ union GenericMorph =
   | TopContentBlock
   | UploadFile
   | UploadFolder
+  | UserDataStorage
   | UsersPermissionsPermission
   | UsersPermissionsRole
   | UsersPermissionsUser
@@ -3914,6 +3943,8 @@ type Mutation {
     data: RequestAggregateInput!
   ): RequestAggregateEntityResponse
   createRequestService(data: RequestServiceInput!): RequestServiceEntityResponse
+  createRequestSlot(data: RequestSlotInput!): RequestSlotEntityResponse
+  createRequestTaked(data: RequestTakedInput!): RequestTakedEntityResponse
   createSearchEngineBlock(
     data: SearchEngineBlockInput!
   ): SearchEngineBlockEntityResponse
@@ -3929,6 +3960,9 @@ type Mutation {
   ): TopContentBlockEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
+  createUserDataStorage(
+    data: UserDataStorageInput!
+  ): UserDataStorageEntityResponse
 
   """
   Create a new role
@@ -4012,6 +4046,8 @@ type Mutation {
   deleteRequest(id: ID!): RequestEntityResponse
   deleteRequestAggregate(id: ID!): RequestAggregateEntityResponse
   deleteRequestService(id: ID!): RequestServiceEntityResponse
+  deleteRequestSlot(id: ID!): RequestSlotEntityResponse
+  deleteRequestTaked(id: ID!): RequestTakedEntityResponse
   deleteSearchEngineBlock(id: ID!): SearchEngineBlockEntityResponse
   deleteSectorization(id: ID!): SectorizationEntityResponse
   deleteServicesBlock(id: ID!): ServicesBlockEntityResponse
@@ -4023,6 +4059,7 @@ type Mutation {
   deleteTopContentBlock(id: ID!): TopContentBlockEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
+  deleteUserDataStorage(id: ID!): UserDataStorageEntityResponse
 
   """
   Delete an existing role
@@ -4270,6 +4307,11 @@ type Mutation {
     data: RequestServiceInput!
     id: ID!
   ): RequestServiceEntityResponse
+  updateRequestSlot(data: RequestSlotInput!, id: ID!): RequestSlotEntityResponse
+  updateRequestTaked(
+    data: RequestTakedInput!
+    id: ID!
+  ): RequestTakedEntityResponse
   updateSearchEngineBlock(
     data: SearchEngineBlockInput!
     id: ID!
@@ -4302,6 +4344,10 @@ type Mutation {
     data: UploadFolderInput!
     id: ID!
   ): UploadFolderEntityResponse
+  updateUserDataStorage(
+    data: UserDataStorageInput!
+    id: ID!
+  ): UserDataStorageEntityResponse
 
   """
   Update an existing role
@@ -5206,6 +5252,16 @@ type Query {
   getFilePath(id: ID!): String
   getFolderHierarchy(path: String!): [RequestFolders]
   getNewestTopContents(contractId: ID!): [EventOrNews]
+  getNextAvailableSlots(
+    lat: Float!
+    long: Float!
+    requestId: ID!
+  ): [RequestSlots]
+  getPickUpDaysByCoordinates(
+    lat: Float!
+    long: Float!
+    pickUpDayServiceId: ID!
+  ): [ID]
   getStatusExport(id: ID!): String
   getTopContentBlockDTO(
     contractId: ID!
@@ -5345,6 +5401,18 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): RequestServiceEntityResponseCollection
+  requestSlot(id: ID): RequestSlotEntityResponse
+  requestSlots(
+    filters: RequestSlotFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestSlotEntityResponseCollection
+  requestTaked(id: ID): RequestTakedEntityResponse
+  requestTakeds(
+    filters: RequestTakedFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestTakedEntityResponseCollection
   requests(
     filters: RequestFiltersInput
     pagination: PaginationArg = {}
@@ -5419,6 +5487,12 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UploadFolderEntityResponseCollection
+  userDataStorage(id: ID): UserDataStorageEntityResponse
+  userDataStorages(
+    filters: UserDataStorageFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): UserDataStorageEntityResponseCollection
   usersPermissionsRole(id: ID): UsersPermissionsRoleEntityResponse
   usersPermissionsRoles(
     filters: UsersPermissionsRoleFiltersInput
@@ -5808,18 +5882,26 @@ type Request {
   hasAppointmentSlots: Boolean
   hasSeveralRequestTypes: Boolean!
   hasUser: Boolean!
+  hoursBeforeReservationIsActivated: Int
   isActivated: Boolean
   isUserEmailMandatory: Boolean
   isUserNameMandatory: Boolean
   isUserPhoneMandatory: Boolean
   name: String
+  numberOfRequiredSlots: Int
   requestAggregate: RequestAggregateEntityResponse
   requestService: RequestServiceEntityResponse
+  requestSlots(
+    filters: RequestSlotFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestSlotRelationResponseCollection
   requestType(
     filters: ComponentBlocksRequestTypeFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): [ComponentBlocksRequestType]
+  slotsReservationRules: JSON
   updatedAt: DateTime
   userAllowSMSNotification: Boolean
 }
@@ -5917,6 +5999,7 @@ input RequestFiltersInput {
   hasAppointmentSlots: BooleanFilterInput
   hasSeveralRequestTypes: BooleanFilterInput
   hasUser: BooleanFilterInput
+  hoursBeforeReservationIsActivated: IntFilterInput
   id: IDFilterInput
   isActivated: BooleanFilterInput
   isUserEmailMandatory: BooleanFilterInput
@@ -5924,10 +6007,13 @@ input RequestFiltersInput {
   isUserPhoneMandatory: BooleanFilterInput
   name: StringFilterInput
   not: RequestFiltersInput
+  numberOfRequiredSlots: IntFilterInput
   or: [RequestFiltersInput]
   requestAggregate: RequestAggregateFiltersInput
   requestService: RequestServiceFiltersInput
+  requestSlots: RequestSlotFiltersInput
   requestType: ComponentBlocksRequestTypeFiltersInput
+  slotsReservationRules: JSONFilterInput
   updatedAt: DateTimeFilterInput
   userAllowSMSNotification: BooleanFilterInput
 }
@@ -5961,14 +6047,18 @@ input RequestInput {
   hasAppointmentSlots: Boolean
   hasSeveralRequestTypes: Boolean
   hasUser: Boolean
+  hoursBeforeReservationIsActivated: Int
   isActivated: Boolean
   isUserEmailMandatory: Boolean
   isUserNameMandatory: Boolean
   isUserPhoneMandatory: Boolean
   name: String
+  numberOfRequiredSlots: Int
   requestAggregate: ID
   requestService: ID
+  requestSlots: [ID]
   requestType: [ComponentBlocksRequestTypeInput]
+  slotsReservationRules: JSON
   userAllowSMSNotification: Boolean
 }
 
@@ -6054,10 +6144,131 @@ type RequestServiceRelationResponseCollection {
   data: [RequestServiceEntity!]!
 }
 
+type RequestSlot {
+  createdAt: DateTime
+  noSlotMessage: String
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationRelationResponseCollection
+  slotMessage: String
+  slotsExceptions(
+    filters: ComponentBlocksRequestSlotsExceptionsFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksRequestSlotsExceptions]
+  timeSlots: JSON
+  updatedAt: DateTime
+}
+
+type RequestSlotEntity {
+  attributes: RequestSlot
+  id: ID
+}
+
+type RequestSlotEntityResponse {
+  data: RequestSlotEntity
+}
+
+type RequestSlotEntityResponseCollection {
+  data: [RequestSlotEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input RequestSlotFiltersInput {
+  and: [RequestSlotFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  noSlotMessage: StringFilterInput
+  not: RequestSlotFiltersInput
+  or: [RequestSlotFiltersInput]
+  sectorizations: SectorizationFiltersInput
+  slotMessage: StringFilterInput
+  slotsExceptions: ComponentBlocksRequestSlotsExceptionsFiltersInput
+  timeSlots: JSONFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input RequestSlotInput {
+  noSlotMessage: String
+  sectorizations: [ID]
+  slotMessage: String
+  slotsExceptions: [ComponentBlocksRequestSlotsExceptionsInput]
+  timeSlots: JSON
+}
+
+type RequestSlotRelationResponseCollection {
+  data: [RequestSlotEntity!]!
+}
+
+type RequestSlots {
+  day: String
+  exceptionId: ID
+  requestSlotId: ID!
+  startTime: Time
+}
+
 type RequestTagEntity {
   contractId: String
   id: ID
   name: String
+}
+
+type RequestTaked {
+  city: String
+  createdAt: DateTime
+  name: String!
+  requestType: ComponentBlocksRequestType
+  request_slot: RequestSlotEntityResponse
+  slotDate: Date
+  slotTaken: JSON
+  updatedAt: DateTime
+  user_data_storage: UserDataStorageEntityResponse
+}
+
+type RequestTakedEntity {
+  attributes: RequestTaked
+  id: ID
+}
+
+type RequestTakedEntityResponse {
+  data: RequestTakedEntity
+}
+
+type RequestTakedEntityResponseCollection {
+  data: [RequestTakedEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input RequestTakedFiltersInput {
+  and: [RequestTakedFiltersInput]
+  city: StringFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: RequestTakedFiltersInput
+  or: [RequestTakedFiltersInput]
+  requestType: ComponentBlocksRequestTypeFiltersInput
+  request_slot: RequestSlotFiltersInput
+  slotDate: DateFilterInput
+  slotTaken: JSONFilterInput
+  updatedAt: DateTimeFilterInput
+  user_data_storage: UserDataStorageFiltersInput
+}
+
+input RequestTakedInput {
+  city: String
+  name: String
+  requestType: ComponentBlocksRequestTypeInput
+  request_slot: ID
+  slotDate: Date
+  slotTaken: JSON
+  user_data_storage: ID
+}
+
+type RequestTakedRelationResponseCollection {
+  data: [RequestTakedEntity!]!
 }
 
 type ResponseCollectionMeta {
@@ -6802,6 +7013,56 @@ type UploadFolderRelationResponseCollection {
 
 type UploadResult {
   id: String!
+}
+
+type UserDataStorage {
+  createdAt: DateTime
+  email: String!
+  firstname: String
+  name: String
+  phone: String
+  request_takeds(
+    filters: RequestTakedFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestTakedRelationResponseCollection
+  updatedAt: DateTime
+}
+
+type UserDataStorageEntity {
+  attributes: UserDataStorage
+  id: ID
+}
+
+type UserDataStorageEntityResponse {
+  data: UserDataStorageEntity
+}
+
+type UserDataStorageEntityResponseCollection {
+  data: [UserDataStorageEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UserDataStorageFiltersInput {
+  and: [UserDataStorageFiltersInput]
+  createdAt: DateTimeFilterInput
+  email: StringFilterInput
+  firstname: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: UserDataStorageFiltersInput
+  or: [UserDataStorageFiltersInput]
+  phone: StringFilterInput
+  request_takeds: RequestTakedFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input UserDataStorageInput {
+  email: String
+  firstname: String
+  name: String
+  phone: String
+  request_takeds: [ID]
 }
 
 type UsersPermissionsCreateRolePayload {

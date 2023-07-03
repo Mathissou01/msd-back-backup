@@ -3,6 +3,7 @@ mutation updateTip($updateTipId: ID!, $data: TipInput!) {
     data {
       id
       attributes {
+        customId
         title
         shortDescription
         tipSubService {

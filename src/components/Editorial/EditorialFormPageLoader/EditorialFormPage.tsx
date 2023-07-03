@@ -58,6 +58,7 @@ export interface IEditorialFormPage {
   onPublish: (contentId: string) => void;
   onDepublish: (contentId: string) => void;
   onPreview: (contentId: string) => void;
+  subServiceId?: string;
 }
 
 export interface IEditorialFormPageProps {
@@ -86,6 +87,7 @@ export default function EditorialFormPage({
     onPublish,
     onDepublish,
     onPreview,
+    subServiceId,
   } = pageProps;
   const title = labels.pageTitle
     ? labels.pageTitle
@@ -136,6 +138,7 @@ export default function EditorialFormPage({
             onDepublish={() => onDepublish(contentId)}
             onPreview={() => onPreview(contentId)}
             labels={labels.form}
+            additionalPath={subServiceId}
           />
         </CommonLoader>
       </>

@@ -1,0 +1,109 @@
+query getAllVersionsOfFreeContentByCustomId(
+  $contractId: ID!
+  $customId: String
+  $freeContentSubServiceId: ID!
+  $statusFilter: StringFilterInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  freeContentsCount: freeContents(
+    filters: {
+      freeContentSubService: {
+        id: { eq: $freeContentSubServiceId }
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  freeContentsCountDraft: freeContents(
+    filters: {
+      freeContentSubService: {
+        id: { eq: $freeContentSubServiceId }
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "draft" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  freeContentsCountPublished: freeContents(
+    filters: {
+      freeContentSubService: {
+        id: { eq: $freeContentSubServiceId }
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "published" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  freeContentsCountArchived: freeContents(
+    filters: {
+      freeContentSubService: {
+        id: { eq: $freeContentSubServiceId }
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "archived" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  freeContents(
+    filters: {
+      freeContentSubService: {
+        id: { eq: $freeContentSubServiceId }
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: $statusFilter
+    }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        freeContentSubService {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+        versionNumber
+        status
+        publishedDate
+        updatedAt
+      }
+    }
+  }
+}

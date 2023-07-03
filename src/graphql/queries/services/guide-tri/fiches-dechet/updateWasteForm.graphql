@@ -3,6 +3,7 @@ mutation UpdateWasteForm($updateWasteFormId: ID!, $data: WasteFormInput!) {
     data {
       id
       attributes {
+        customId
         isHidden
       }
     }
