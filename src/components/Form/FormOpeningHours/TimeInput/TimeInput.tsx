@@ -22,6 +22,7 @@ function TimeInputFunc(
         () => {} /* eslint-disable-line @typescript-eslint/no-empty-function */
       }
       value={displayValue}
+      readOnly
       ref={ref}
       className="c-TimeInput"
     />

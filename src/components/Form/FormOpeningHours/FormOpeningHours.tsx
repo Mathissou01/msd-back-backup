@@ -5,7 +5,7 @@ import { registerLocale } from "react-datepicker";
 import { Controller, useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
-import { CustomTimeDatePicker } from "./TimeDatePicker/TimeDatePicker";
+import { TimeDatePicker } from "./TimeDatePicker/TimeDatePicker";
 import "./form-opening-hours.scss";
 
 registerLocale("fr", fr);
@@ -19,7 +19,7 @@ interface IOpeningHourBlock {
   afterNoonEnd: string | null;
 }
 
-export const FormOpeningHours: React.FC = () => {
+export const FormOpeningHours = () => {
   const {
     control,
     formState: { errors },
@@ -170,7 +170,7 @@ Exemple : 08h00 - 12h00
                   <div className="c-FormOpeningHours__TimeBlock">
                     <div className="c-FormOpeningHours__TimeSection">
                       <div className="c-FormOpeningHours__DatepickerWrapper">
-                        <CustomTimeDatePicker
+                        <TimeDatePicker
                           selected={timeStrToDate(block.morningStart)}
                           onChange={(date) => {
                             const updatedBlocks = [...value];
@@ -183,7 +183,7 @@ Exemple : 08h00 - 12h00
                         />
                         <div className="c-FormOpeningHours__Dash"></div>
 
-                        <CustomTimeDatePicker
+                        <TimeDatePicker
                           selected={timeStrToDate(block.morningEnd)}
                           onChange={(date) => {
                             const updatedBlocks = [...value];
@@ -197,7 +197,7 @@ Exemple : 08h00 - 12h00
                       </div>
                     </div>
                     <div className="c-FormOpeningHours__DatepickerWrapper">
-                      <CustomTimeDatePicker
+                      <TimeDatePicker
                         selected={timeStrToDate(block.afterNoonStart)}
                         onChange={(date) => {
                           const updatedBlocks = [...value];
@@ -210,7 +210,7 @@ Exemple : 08h00 - 12h00
                       />
                       <div className="c-FormOpeningHours__Dash"></div>
 
-                      <CustomTimeDatePicker
+                      <TimeDatePicker
                         selected={timeStrToDate(block.afterNoonEnd)}
                         onChange={(date) => {
                           const updatedBlocks = [...value];
