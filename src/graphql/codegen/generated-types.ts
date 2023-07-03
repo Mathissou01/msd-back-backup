@@ -14363,50 +14363,6 @@ export type GetFooterPageQuery = {
             attributes?: {
               __typename?: "Footer";
               accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
-              cguSubService?: {
-                __typename?: "CguSubServiceEntityResponse";
-                data?: {
-                  __typename?: "CguSubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "CguSubService";
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
-              accessibilitySubService?: {
-                __typename?: "AccessibilitySubServiceEntityResponse";
-                data?: {
-                  __typename?: "AccessibilitySubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "AccessibilitySubService";
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
-              confidentialitySubService?: {
-                __typename?: "ConfidentialitySubServiceEntityResponse";
-                data?: {
-                  __typename?: "ConfidentialitySubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "ConfidentialitySubService";
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
-              cookiesSubService?: {
-                __typename?: "CookiesSubServiceEntityResponse";
-                data?: {
-                  __typename?: "CookiesSubServiceEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "CookiesSubService";
-                    link?: string | null;
-                  } | null;
-                } | null;
-              } | null;
               contactUsSubService?: {
                 __typename?: "ContactUsSubServiceEntityResponse";
                 data?: {
@@ -14432,14 +14388,6 @@ export type UpdateFooterPageMutationVariables = Exact<{
   updateFooterData: FooterInput;
   updateContactUsSubServiceId: Scalars["ID"];
   updateContactUsSubServiceData: ContactUsSubServiceInput;
-  updateAccessibilitySubServiceId: Scalars["ID"];
-  updateAccessibilitySubServiceData: AccessibilitySubServiceInput;
-  updateCguSubServiceId: Scalars["ID"];
-  updateCguSubServiceData: CguSubServiceInput;
-  updateCookiesSubServiceId: Scalars["ID"];
-  updateCookiesSubServiceData: CookiesSubServiceInput;
-  updateConfidentialitySubServiceId: Scalars["ID"];
-  updateConfidentialitySubServiceData: ConfidentialitySubServiceInput;
 }>;
 
 export type UpdateFooterPageMutation = {
@@ -14462,46 +14410,6 @@ export type UpdateFooterPageMutation = {
       attributes?: {
         __typename?: "ContactUsSubService";
         label: string;
-        link?: string | null;
-      } | null;
-    } | null;
-  } | null;
-  updateCguSubService?: {
-    __typename?: "CguSubServiceEntityResponse";
-    data?: {
-      __typename?: "CguSubServiceEntity";
-      attributes?: {
-        __typename?: "CguSubService";
-        link?: string | null;
-      } | null;
-    } | null;
-  } | null;
-  updateAccessibilitySubService?: {
-    __typename?: "AccessibilitySubServiceEntityResponse";
-    data?: {
-      __typename?: "AccessibilitySubServiceEntity";
-      attributes?: {
-        __typename?: "AccessibilitySubService";
-        link?: string | null;
-      } | null;
-    } | null;
-  } | null;
-  updateConfidentialitySubService?: {
-    __typename?: "ConfidentialitySubServiceEntityResponse";
-    data?: {
-      __typename?: "ConfidentialitySubServiceEntity";
-      attributes?: {
-        __typename?: "ConfidentialitySubService";
-        link?: string | null;
-      } | null;
-    } | null;
-  } | null;
-  updateCookiesSubService?: {
-    __typename?: "CookiesSubServiceEntityResponse";
-    data?: {
-      __typename?: "CookiesSubServiceEntity";
-      attributes?: {
-        __typename?: "CookiesSubService";
         link?: string | null;
       } | null;
     } | null;
@@ -24410,38 +24318,6 @@ export const GetFooterPageDocument = gql`
               id
               attributes {
                 accessibilityLevel
-                cguSubService {
-                  data {
-                    id
-                    attributes {
-                      link
-                    }
-                  }
-                }
-                accessibilitySubService {
-                  data {
-                    id
-                    attributes {
-                      link
-                    }
-                  }
-                }
-                confidentialitySubService {
-                  data {
-                    id
-                    attributes {
-                      link
-                    }
-                  }
-                }
-                cookiesSubService {
-                  data {
-                    id
-                    attributes {
-                      link
-                    }
-                  }
-                }
                 contactUsSubService {
                   data {
                     id
@@ -24516,14 +24392,6 @@ export const UpdateFooterPageDocument = gql`
     $updateFooterData: FooterInput!
     $updateContactUsSubServiceId: ID!
     $updateContactUsSubServiceData: ContactUsSubServiceInput!
-    $updateAccessibilitySubServiceId: ID!
-    $updateAccessibilitySubServiceData: AccessibilitySubServiceInput!
-    $updateCguSubServiceId: ID!
-    $updateCguSubServiceData: CguSubServiceInput!
-    $updateCookiesSubServiceId: ID!
-    $updateCookiesSubServiceData: CookiesSubServiceInput!
-    $updateConfidentialitySubServiceId: ID!
-    $updateConfidentialitySubServiceData: ConfidentialitySubServiceInput!
   ) {
     updateFooter(id: $updateFooterId, data: $updateFooterData) {
       data {
@@ -24540,46 +24408,6 @@ export const UpdateFooterPageDocument = gql`
       data {
         attributes {
           label
-          link
-        }
-      }
-    }
-    updateCguSubService(
-      id: $updateCguSubServiceId
-      data: $updateCguSubServiceData
-    ) {
-      data {
-        attributes {
-          link
-        }
-      }
-    }
-    updateAccessibilitySubService(
-      id: $updateAccessibilitySubServiceId
-      data: $updateAccessibilitySubServiceData
-    ) {
-      data {
-        attributes {
-          link
-        }
-      }
-    }
-    updateConfidentialitySubService(
-      id: $updateConfidentialitySubServiceId
-      data: $updateConfidentialitySubServiceData
-    ) {
-      data {
-        attributes {
-          link
-        }
-      }
-    }
-    updateCookiesSubService(
-      id: $updateCookiesSubServiceId
-      data: $updateCookiesSubServiceData
-    ) {
-      data {
-        attributes {
           link
         }
       }
@@ -24608,14 +24436,6 @@ export type UpdateFooterPageMutationFn = Apollo.MutationFunction<
  *      updateFooterData: // value for 'updateFooterData'
  *      updateContactUsSubServiceId: // value for 'updateContactUsSubServiceId'
  *      updateContactUsSubServiceData: // value for 'updateContactUsSubServiceData'
- *      updateAccessibilitySubServiceId: // value for 'updateAccessibilitySubServiceId'
- *      updateAccessibilitySubServiceData: // value for 'updateAccessibilitySubServiceData'
- *      updateCguSubServiceId: // value for 'updateCguSubServiceId'
- *      updateCguSubServiceData: // value for 'updateCguSubServiceData'
- *      updateCookiesSubServiceId: // value for 'updateCookiesSubServiceId'
- *      updateCookiesSubServiceData: // value for 'updateCookiesSubServiceData'
- *      updateConfidentialitySubServiceId: // value for 'updateConfidentialitySubServiceId'
- *      updateConfidentialitySubServiceData: // value for 'updateConfidentialitySubServiceData'
  *   },
  * });
  */
