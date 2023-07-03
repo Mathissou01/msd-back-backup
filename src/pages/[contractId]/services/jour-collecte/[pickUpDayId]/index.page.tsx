@@ -200,6 +200,7 @@ export function ServicesPickUpDayEditPage({
           ? `${EPickUpDayCollectType.DOOR_TO_DOOR}${pickUpDaysData.attributes.collectDoorToDoor.data?.id}`
           : `${EPickUpDayCollectType.VOLUNTARY}${pickUpDaysData.attributes.collectVoluntary?.data?.id}`;
         const mappedData: IPickUpDayStaticMappedFields = {
+          pickUpId: pickUpDaysData.id,
           sectorizationsMode:
             pickUpDaysData.attributes.sectorizations?.data.length === 0
               ? "cities"

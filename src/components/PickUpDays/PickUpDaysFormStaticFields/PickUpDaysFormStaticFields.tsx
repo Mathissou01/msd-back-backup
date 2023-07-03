@@ -5,10 +5,12 @@ import {
   useGetActiveRequestsByContractIdQuery,
   useGetCollectDoorToDoorByFlowIdQuery,
   useGetCollectVoluntariesByFlowIdQuery,
+  useGetFilteredFlowsLazyQuery,
   useGetFlowsQuery,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
@@ -67,13 +69,6 @@ export default function PickUpDaysFormStaticFields({
   /* Local Data */
   const { contractId } = useContract();
   const { watch, setValue } = useFormContext();
-  const { data } = useGetFlowsQuery({
-    variables: {
-      contractId: contractId,
-    },
-    fetchPolicy: "cache-and-network",
-  });
-
   const [periodicityStatus, setPeriodicityStatus] = useState<boolean>(true);
   const [recurrenceStatus, setRecurrenceStatus] = useState<boolean>();
   const [shortcutFormStatus, setShortcutFormStatus] = useState<string>("form");
@@ -89,13 +84,21 @@ export default function PickUpDaysFormStaticFields({
   const [CollectVoluntariesOptions, setCollectVoluntariesOptions] = useState<
     Array<ICommonSelectOption>
   >([]);
+  const pickUpId = watch("pickUpId");
   const periodicity = watch("periodicity");
   const recurrence = watch("choice");
   const includeHoliday = watch("pickUpHours");
   const shortcutFormMode = watch("shortcutFormMode");
   const flow = watch("flow");
+  const sectorizations = watch("sectorizations");
 
   /* External Data */
+  const { data: flowsData } = useGetFlowsQuery({
+    variables: {
+      contractId: contractId,
+    },
+    fetchPolicy: "cache-and-network",
+  });
   const { data: activeRequestData } = useGetActiveRequestsByContractIdQuery({
     variables: {
       contractId,
@@ -110,6 +113,14 @@ export default function PickUpDaysFormStaticFields({
       variables: { flowId: flow },
       fetchPolicy: "network-only",
     });
+  const [
+    getFilteredFLows,
+    {
+      data: filteredFlowsData,
+      loading: filteredFlowsLoading,
+      error: filteredFlowsError,
+    },
+  ] = useGetFilteredFlowsLazyQuery();
 
   /* Methods */
   const daysOfTheMonth = (): IOptionWrapper<string>[] => {
@@ -125,21 +136,71 @@ export default function PickUpDaysFormStaticFields({
   };
 
   useEffect(() => {
-    if (data) {
-      setActiveFlowOptions(
-        data?.flows?.data
-          ?.map((flow) => {
-            if (flow.id && flow.attributes?.name) {
-              return {
-                label: flow.attributes.name,
-                value: flow.id,
-              };
-            }
-          })
-          .filter(removeNulls) ?? [],
-      );
+    if (flowsData) {
+      if (sectorizations && sectorizations.length > 0) {
+        getFilteredFLows({
+          variables: {
+            contractId,
+            sectorizationsId: sectorizations.map(
+              (sector: ICommonSelectOption) => sector.value,
+            ),
+          },
+        });
+        if (filteredFlowsData?.flows?.data) {
+          setActiveFlowOptions(
+            filteredFlowsData.flows.data
+              .map((flow) => {
+                if (
+                  flow.attributes?.pickUpDays?.data &&
+                  flow.attributes.pickUpDays.data.length === 0
+                ) {
+                  if (flow.id && flow.attributes?.name) {
+                    return {
+                      label: flow.attributes.name,
+                      value: flow.id,
+                    };
+                  }
+                } else if (
+                  flow.attributes?.pickUpDays?.data &&
+                  flow.attributes.pickUpDays.data.length > 0 &&
+                  flow.attributes.pickUpDays.data.find(
+                    (x) => Number(x.id) === Number(pickUpId),
+                  )
+                ) {
+                  if (flow.id && flow.attributes?.name) {
+                    return {
+                      label: flow.attributes.name,
+                      value: flow.id,
+                    };
+                  }
+                }
+              })
+              .filter(removeNulls) ?? [],
+          );
+        }
+      } else {
+        setActiveFlowOptions(
+          flowsData?.flows?.data
+            ?.map((flow) => {
+              if (flow.id && flow.attributes?.name) {
+                return {
+                  label: flow.attributes.name,
+                  value: flow.id,
+                };
+              }
+            })
+            .filter(removeNulls) ?? [],
+        );
+      }
     }
-  }, [data]);
+  }, [
+    flowsData,
+    filteredFlowsData,
+    sectorizations,
+    contractId,
+    pickUpId,
+    getFilteredFLows,
+  ]);
 
   useEffect(() => {
     if (
@@ -212,7 +273,6 @@ export default function PickUpDaysFormStaticFields({
     <div className="c-PickUpDaysStaticFields">
       <div className="c-PickUpDaysStaticFields__Wrapper">
         {mandatoryFields}
-
         <FormInput
           type="text"
           name="name"
@@ -233,13 +293,19 @@ export default function PickUpDaysFormStaticFields({
         />
       </div>
       <div className="c-PickUpDaysStaticFields__Wrapper">
-        <FormRadioInput
-          name="flow"
-          displayName={labels.staticFlow}
-          displayMode="vertical"
-          options={activeFlowOptions}
-          isRequired={true}
-        />
+        <CommonLoader
+          isLoading={filteredFlowsLoading}
+          isShowingContent={filteredFlowsLoading}
+          errors={[filteredFlowsError]}
+        >
+          <FormRadioInput
+            name="flow"
+            displayName={labels.staticFlow}
+            displayMode="vertical"
+            options={activeFlowOptions}
+            isRequired={true}
+          />
+        </CommonLoader>
       </div>
       {collectOptions.length > 0 && (
         <div className="c-PickUpDaysStaticFields__Wrapper">

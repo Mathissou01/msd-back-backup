@@ -198,13 +198,30 @@ export type ActivationAndService = Activation | Service;
 
 export type AlertNotification = {
   __typename?: "AlertNotification";
+  alertDescription: Scalars["String"];
   alertMessage?: Maybe<Scalars["String"]>;
+  alertNotifService?: Maybe<AlertNotificationServiceEntityResponse>;
+  alertTitle?: Maybe<Scalars["String"]>;
+  cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
   scheduledAt: Scalars["Date"];
+  sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   sendMail?: Maybe<Scalars["Boolean"]>;
+  sendSMS?: Maybe<Scalars["Boolean"]>;
   subject?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertNotificationSectorizationsArgs = {
+  filters?: InputMaybe<SectorizationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type AlertNotificationEntity = {
@@ -225,24 +242,34 @@ export type AlertNotificationEntityResponseCollection = {
 };
 
 export type AlertNotificationFiltersInput = {
+  alertDescription?: InputMaybe<StringFilterInput>;
   alertMessage?: InputMaybe<StringFilterInput>;
+  alertNotifService?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  alertTitle?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
+  cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<AlertNotificationFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   scheduledAt?: InputMaybe<DateFilterInput>;
+  sectorizations?: InputMaybe<SectorizationFiltersInput>;
   sendMail?: InputMaybe<BooleanFilterInput>;
+  sendSMS?: InputMaybe<BooleanFilterInput>;
   subject?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type AlertNotificationInput = {
+  alertDescription?: InputMaybe<Scalars["String"]>;
   alertMessage?: InputMaybe<Scalars["String"]>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  alertNotifService?: InputMaybe<Scalars["ID"]>;
+  alertTitle?: InputMaybe<Scalars["String"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
+  sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   sendMail?: InputMaybe<Scalars["Boolean"]>;
+  sendSMS?: InputMaybe<Scalars["Boolean"]>;
   subject?: InputMaybe<Scalars["String"]>;
 };
 
@@ -268,7 +295,6 @@ export type AlertNotificationService = {
 export type AlertNotificationServiceAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -6098,6 +6124,7 @@ export type PickUpDay = {
   complementaryMention?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
+  externalLink?: Maybe<Scalars["String"]>;
   flow: FlowEntityResponse;
   includeHoliday: Scalars["Boolean"];
   informationMessage?: Maybe<InformationMessageEntityResponse>;
@@ -6105,6 +6132,7 @@ export type PickUpDay = {
   periodicity?: Maybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
   pickUpHours?: Maybe<Scalars["String"]>;
+  request?: Maybe<RequestEntityResponse>;
   sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -6148,6 +6176,7 @@ export type PickUpDayFiltersInput = {
   complementaryMention?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
+  externalLink?: InputMaybe<StringFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   includeHoliday?: InputMaybe<BooleanFilterInput>;
@@ -6158,6 +6187,7 @@ export type PickUpDayFiltersInput = {
   periodicity?: InputMaybe<StringFilterInput>;
   pickUpDayService?: InputMaybe<PickUpDayServiceFiltersInput>;
   pickUpHours?: InputMaybe<StringFilterInput>;
+  request?: InputMaybe<RequestFiltersInput>;
   sectorizations?: InputMaybe<SectorizationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -6170,6 +6200,7 @@ export type PickUpDayInput = {
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
   complementaryMention?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  externalLink?: InputMaybe<Scalars["String"]>;
   flow?: InputMaybe<Scalars["ID"]>;
   includeHoliday?: InputMaybe<Scalars["Boolean"]>;
   informationMessage?: InputMaybe<Scalars["ID"]>;
@@ -6177,6 +6208,7 @@ export type PickUpDayInput = {
   periodicity?: InputMaybe<Enum_Pickupday_Periodicity>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
   pickUpHours?: InputMaybe<Scalars["String"]>;
+  request?: InputMaybe<Scalars["ID"]>;
   sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -6494,7 +6526,6 @@ export type QueryAlertNotificationServicesArgs = {
 export type QueryAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -15689,6 +15720,32 @@ export type UpdateRecyclingGuideServiceMutation = {
         orderExtension?: boolean | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetFilteredFlowsQueryVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+  sectorizationsId?: InputMaybe<
+    Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>
+  >;
+}>;
+
+export type GetFilteredFlowsQuery = {
+  __typename?: "Query";
+  flows?: {
+    __typename?: "FlowEntityResponseCollection";
+    data: Array<{
+      __typename?: "FlowEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Flow";
+        name?: string | null;
+        pickUpDays?: {
+          __typename?: "PickUpDayRelationResponseCollection";
+          data: Array<{ __typename?: "PickUpDayEntity"; id?: string | null }>;
+        } | null;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -26464,6 +26521,82 @@ export type UpdateRecyclingGuideServiceMutationOptions =
     UpdateRecyclingGuideServiceMutation,
     UpdateRecyclingGuideServiceMutationVariables
   >;
+export const GetFilteredFlowsDocument = gql`
+  query getFilteredFlows($contractId: ID, $sectorizationsId: [ID]) {
+    flows(
+      filters: {
+        contract: { id: { eq: $contractId } }
+        isActivated: { eq: true }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+          pickUpDays(
+            filters: { sectorizations: { id: { in: $sectorizationsId } } }
+          ) {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFilteredFlowsQuery__
+ *
+ * To run a query within a React component, call `useGetFilteredFlowsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFilteredFlowsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFilteredFlowsQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      sectorizationsId: // value for 'sectorizationsId'
+ *   },
+ * });
+ */
+export function useGetFilteredFlowsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetFilteredFlowsQuery,
+    GetFilteredFlowsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetFilteredFlowsQuery, GetFilteredFlowsQueryVariables>(
+    GetFilteredFlowsDocument,
+    options,
+  );
+}
+export function useGetFilteredFlowsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFilteredFlowsQuery,
+    GetFilteredFlowsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFilteredFlowsQuery,
+    GetFilteredFlowsQueryVariables
+  >(GetFilteredFlowsDocument, options);
+}
+export type GetFilteredFlowsQueryHookResult = ReturnType<
+  typeof useGetFilteredFlowsQuery
+>;
+export type GetFilteredFlowsLazyQueryHookResult = ReturnType<
+  typeof useGetFilteredFlowsLazyQuery
+>;
+export type GetFilteredFlowsQueryResult = Apollo.QueryResult<
+  GetFilteredFlowsQuery,
+  GetFilteredFlowsQueryVariables
+>;
 export const CreateInformationMessageDocument = gql`
   mutation createInformationMessage($data: InformationMessageInput!) {
     createInformationMessage(data: $data) {

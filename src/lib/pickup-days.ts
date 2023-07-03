@@ -70,6 +70,7 @@ interface IPickUpDayStaticVariablesFields {
 }
 
 interface IPickUpDayStaticMappedFields {
+  pickUpId: string;
   name: string;
   sectorizationsMode: string;
   sectorizations?: Array<ICommonSelectOption>;
