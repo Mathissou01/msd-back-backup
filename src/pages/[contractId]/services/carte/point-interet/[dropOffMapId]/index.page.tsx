@@ -77,8 +77,8 @@ export function ServiceCartePointInteretPage({
             ? collectTypeSelected?.originalId
             : null,
         address: submitData.address,
-        latitude: submitData.latitude,
-        longitude: submitData.longitude,
+        latitude: Number(submitData.latitude),
+        longitude: Number(submitData.longitude),
         phoneNumber: submitData.phoneNumber,
         mustKnow: submitData.mustKnow,
         downloadableFiles: downloadableFiles,
