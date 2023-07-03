@@ -36,6 +36,12 @@ query getRequestById($requestId: ID) {
             renderField
             multipleAttachments
           }
+          ... on ComponentBlocksCommentary {
+            id
+            commentaryStatus
+            commentaryLabel
+            commentaryPlaceholder
+          }
           ... on ComponentBlocksQuestions {
             id
             height

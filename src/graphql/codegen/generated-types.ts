@@ -15616,7 +15616,13 @@ export type GetRequestByIdQuery = {
               fieldStatusCheckbox: Enum_Componentblockscheckbox_Fieldstatuscheckbox;
               labelCheckbox: string;
             }
-          | { __typename?: "ComponentBlocksCommentary" }
+          | {
+              __typename?: "ComponentBlocksCommentary";
+              id: string;
+              commentaryStatus: Enum_Componentblockscommentary_Commentarystatus;
+              commentaryLabel: string;
+              commentaryPlaceholder?: string | null;
+            }
           | { __typename?: "ComponentBlocksCumbersome" }
           | {
               __typename?: "ComponentBlocksDateChoice";
@@ -26289,6 +26295,12 @@ export const GetRequestByIdDocument = gql`
               attachmentLabel
               renderField
               multipleAttachments
+            }
+            ... on ComponentBlocksCommentary {
+              id
+              commentaryStatus
+              commentaryLabel
+              commentaryPlaceholder
             }
             ... on ComponentBlocksQuestions {
               id
