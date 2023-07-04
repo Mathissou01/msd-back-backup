@@ -198,7 +198,6 @@ export default function FormColorPalette({
               name="secondaryColor"
               validationLabel={labels.colorHintText}
               defaultValue={colorPalette?.secondaryColor ?? ""}
-              minLengthValidation={hexMinLength}
               maxLengthValidation={hexMaxLength}
               patternValidation={/^#(?:[0-9a-f]{3}){1,2}$/i}
             />
