@@ -25,6 +25,7 @@ export default function RequestTypeBlock({
     typeRequest: "Traitement de la demande via *",
     email: "Email(s) de réception de la demande",
     subEmail: "Un ou plusieurs emails séparés par un point-virgule",
+    emailErrorMessage: "Merci de contrôler les adresses mails saisies",
     checkboxesErrorMessage:
       "L'une des deux options de traitement de la demande doit être sélectionnée",
   };
@@ -124,6 +125,7 @@ export default function RequestTypeBlock({
           patternValidation={
             /^(?:[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?;)*[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?$/i
           }
+          patternValidationErrorMessage={labels.emailErrorMessage}
         />
       )}
     </div>
