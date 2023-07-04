@@ -5,6 +5,7 @@ import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import Flow from "../../../../components/MonCompteurDechets/MCDFlow/MCDFlow";
 import { TDynamicFieldConfiguration } from "../../../../lib/dynamic-blocks";
 import ContactMwc from "../../../../components/MonCompteurDechets/ContactMwc/ContactMwc";
+import UserManagement from "../../../../components/MonCompteurDechets/UserManagement/UserManagement";
 
 export function MonCompteurDechets() {
   /* Static Data */
@@ -34,6 +35,12 @@ export function MonCompteurDechets() {
         name: "contactMwc",
         title: "Contact dédié",
         content: <ContactMwc />,
+        isEnabled: true,
+      },
+      {
+        name: "userManagement",
+        title: "Gestion usagers",
+        content: <UserManagement />,
         isEnabled: true,
       },
     ];
