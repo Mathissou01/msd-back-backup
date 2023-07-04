@@ -22,6 +22,7 @@ interface IFormInputProps {
   secondaryLabel?: string;
   validationLabel?: string;
   informationLabel?: string;
+  unitLabel?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
   isHidden?: boolean;
@@ -48,6 +49,7 @@ export default function FormInput({
   secondaryLabel,
   validationLabel,
   informationLabel,
+  unitLabel,
   isRequired = false,
   isDisabled = false,
   isHidden = false,
@@ -96,6 +98,7 @@ export default function FormInput({
         secondaryLabel={secondaryLabel}
         validationLabel={validationLabel}
         informationLabel={informationLabel}
+        unitLabel={unitLabel}
         flexStyle={flexStyle}
         labelStyle={labelStyle}
         validationStyle={validationStyle}

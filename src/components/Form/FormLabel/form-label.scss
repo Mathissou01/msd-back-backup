@@ -85,4 +85,14 @@
       flex-grow: 7;
     }
   }
+
+  &__ContentWithUnit {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+
+    &_data {
+      width: 95%;
+    }
+  }
 }

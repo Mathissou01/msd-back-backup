@@ -16,6 +16,7 @@ import {
   IFormBlock,
   TDynamicFieldConfiguration,
   remapFormBlocksDynamicZone,
+  IBlocksCumbersome,
 } from "../../../../../lib/dynamic-blocks";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import { useNavigation } from "../../../../../hooks/useNavigation";
@@ -79,11 +80,22 @@ export function RequestFormPage({
   async function onSubmit(submitData: FieldValues) {
     const addableBlocks = submitData.addableBlocks.map(
       // Remove automatically generated ID
-      (block: { id?: string }) => {
+      (block: { id?: string; __typename: string }) => {
         delete block.id;
+        if (block.__typename === "ComponentBlocksCumbersome") {
+          const cumbersomeBlock = block as IBlocksCumbersome;
+          cumbersomeBlock.maxVolumeOfCumbersome =
+            cumbersomeBlock.maxVolumeOfCumbersome
+              ? +cumbersomeBlock.maxVolumeOfCumbersome
+                  .toString()
+                  .replace(",", ".")
+              : undefined;
+          return { ...cumbersomeBlock };
+        }
         return { ...block };
       },
     );
+
     const hasSeveralRequestTypes = submitData.hasSeveralRequestTypes === "1";
     const hasAppointmentSlots = submitData.hasAppointmentSlots === "1";
 
