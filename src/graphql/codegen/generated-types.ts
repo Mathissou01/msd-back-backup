@@ -15531,7 +15531,15 @@ export type GetRequestByIdQuery = {
               commentaryLabel: string;
               commentaryPlaceholder?: string | null;
             }
-          | { __typename?: "ComponentBlocksCumbersome" }
+          | {
+              __typename?: "ComponentBlocksCumbersome";
+              id: string;
+              cumbersomeLabel: string;
+              maxVolumeOfCumbersome?: number | null;
+              maxNumberOfCumbersome?: number | null;
+              isNumberAndVolume: boolean;
+              cumbersomeLimitMessage: string;
+            }
           | {
               __typename?: "ComponentBlocksDateChoice";
               id: string;
@@ -26145,6 +26153,14 @@ export const GetRequestByIdDocument = gql`
               id
               fieldStatusCheckbox
               labelCheckbox
+            }
+            ... on ComponentBlocksCumbersome {
+              id
+              cumbersomeLabel
+              maxVolumeOfCumbersome
+              maxNumberOfCumbersome
+              isNumberAndVolume
+              cumbersomeLimitMessage
             }
           }
           requestType {

@@ -23,31 +23,29 @@ export default function AttachmentsBlock({ blockName }: IAttachmentsBlock) {
   };
 
   return (
-    <>
-      <div className="c-AttachmentsBlock">
-        <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__AttachmentLabel">
-          <FormInput
-            type="text"
-            name={`${blockName}.${fieldNames.attachmentLabel}`}
-            label={labels.staticLabel}
-            isRequired
-          />
-        </div>
-        <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__RenderField">
-          <FormCheckbox
-            name={`${blockName}.${fieldNames.renderField}`}
-            label={labels.staticRenderField}
-            defaultChecked={false}
-          />
-        </div>
-        <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__MultipleAttachments">
-          <FormCheckbox
-            name={`${blockName}.${fieldNames.multipleAttachments}`}
-            label={labels.staticMultipleAttachments}
-            defaultChecked={false}
-          />
-        </div>
+    <div className="c-AttachmentsBlock">
+      <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__AttachmentLabel">
+        <FormInput
+          type="text"
+          name={`${blockName}.${fieldNames.attachmentLabel}`}
+          label={labels.staticLabel}
+          isRequired
+        />
       </div>
-    </>
+      <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__RenderField">
+        <FormCheckbox
+          name={`${blockName}.${fieldNames.renderField}`}
+          label={labels.staticRenderField}
+          defaultChecked={false}
+        />
+      </div>
+      <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__MultipleAttachments">
+        <FormCheckbox
+          name={`${blockName}.${fieldNames.multipleAttachments}`}
+          label={labels.staticMultipleAttachments}
+          defaultChecked={false}
+        />
+      </div>
+    </div>
   );
 }

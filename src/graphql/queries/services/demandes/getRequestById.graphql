@@ -66,6 +66,14 @@ query getRequestById($requestId: ID) {
             fieldStatusCheckbox
             labelCheckbox
           }
+          ... on ComponentBlocksCumbersome {
+            id
+            cumbersomeLabel
+            maxVolumeOfCumbersome
+            maxNumberOfCumbersome
+            isNumberAndVolume
+            cumbersomeLimitMessage
+          }
         }
         requestType {
           id

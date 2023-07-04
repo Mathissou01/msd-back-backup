@@ -24,7 +24,7 @@ interface ICommentaryBlockProps {
 
 export default function CommentaryBlock({ blockName }: ICommentaryBlockProps) {
   const labels = {
-    status: `Status du champ "Commentaire"`,
+    status: `Statut du champ "Commentaire"`,
     label: `Libellé du champ "Commentaire"`,
     placeholder: `Placeholder du champ "Commentaire"`,
   };

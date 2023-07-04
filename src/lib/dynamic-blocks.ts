@@ -84,8 +84,8 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     picto: "chatBubble",
   },
   ComponentBlocksCumbersome: {
-    label: "TO_REPLACE_Cumbersome",
-    picto: "paragraphJustified",
+    label: "Encombrants",
+    picto: "cumbersome",
   },
   ComponentBlocksQuestions: {
     label: "Question texte",
@@ -138,7 +138,8 @@ export type IFormBlock =
   | IBlocksCommentary
   | IBlocksCheckbox
   | IBlocksDownloadableFiles
-  | IBlocksRequestType;
+  | IBlocksRequestType
+  | IBlocksCumbersome;
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
@@ -229,6 +230,11 @@ export interface IBlocksRequestType extends IPartialBlock {
   isEmail: boolean;
   isTSMS: boolean;
   email: string;
+}
+
+export interface IBlocksCumbersome extends IPartialBlock {
+  __typename: "ComponentBlocksCumbersome";
+  cumbersomeLabel: string;
 }
 
 /* Methods */
@@ -381,6 +387,13 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         id: temporaryId,
         fieldStatus: "Obligatoire",
         fieldLabelDateChoice: "",
+      };
+    }
+    case "ComponentBlocksCumbersome": {
+      return {
+        __typename,
+        id: temporaryId,
+        cumbersomeLabel: undefined,
       };
     }
     default: {

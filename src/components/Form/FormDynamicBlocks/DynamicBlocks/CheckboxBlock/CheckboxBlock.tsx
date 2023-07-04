@@ -50,26 +50,24 @@ export default function CheckboxBlock({ blockName }: ICheckboxBlock) {
       : labels.staticStatusSelectLabelFalseOption;
   }
   return (
-    <>
-      <div className="c-CheckboxBlock">
-        <div className="c-CheckboxBlock__Field c-CheckboxBlock__FieldStatusCheckbox">
-          <FormSelect<string>
-            label={labels.staticStatus}
-            name={`${blockName}.${fieldNames.fieldStatusCheckbox}`}
-            displayTransform={fieldStatusCheckboxSelectDisplayTransformFunction}
-            options={mandatoryFieldOptions}
-            isRequired
-          />
-        </div>
-        <div className="c-CheckboxBlock__Field c-CheckboxBlock__LabelCheckbox">
-          <FormInput
-            type="text"
-            name={`${blockName}.${fieldNames.labelCheckbox}`}
-            label={labels.staticCheckboxLabel}
-            isRequired
-          />
-        </div>
+    <div className="c-CheckboxBlock">
+      <div className="c-CheckboxBlock__Field c-CheckboxBlock__FieldStatusCheckbox">
+        <FormSelect<string>
+          label={labels.staticStatus}
+          name={`${blockName}.${fieldNames.fieldStatusCheckbox}`}
+          displayTransform={fieldStatusCheckboxSelectDisplayTransformFunction}
+          options={mandatoryFieldOptions}
+          isRequired
+        />
       </div>
-    </>
+      <div className="c-CheckboxBlock__Field c-CheckboxBlock__LabelCheckbox">
+        <FormInput
+          type="text"
+          name={`${blockName}.${fieldNames.labelCheckbox}`}
+          label={labels.staticCheckboxLabel}
+          isRequired
+        />
+      </div>
+    </div>
   );
 }

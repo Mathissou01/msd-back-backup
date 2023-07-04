@@ -215,9 +215,10 @@ export function RequestFormPage({
   const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
     { option: "ComponentBlocksAttachments" },
     { option: "ComponentBlocksCommentary" },
+    { option: "ComponentBlocksCumbersome" },
     { option: "ComponentBlocksQuestions" },
-    { option: "ComponentBlocksDateChoice" },
     { option: "ComponentBlocksQcm" },
+    { option: "ComponentBlocksDateChoice" },
     { option: "ComponentBlocksCheckbox" },
   ];
   const requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> =

@@ -57,51 +57,49 @@ export default function QuestionsBlock({ blockName }: IQuestionsBlock) {
       : labels.staticStatusSelectLabelFalseOption;
   }
   return (
-    <>
-      <div className="c-QuestionsBlock">
-        <div className="c-QuestionsBlock__Field c-QuestionsBlock__TextStatus">
-          <FormSelect<string>
-            label={labels.staticStatus}
-            name={`${blockName}.${fieldNames.textStatus}`}
-            displayTransform={textStatusSelectDisplayTransformFunction}
-            options={mandatoryFieldOptions}
-            isRequired
-          />
-        </div>
-        <div className="c-QuestionsBlock__Field c-QuestionsBlock__QuestionTextLabel">
-          <FormInput
-            type="text"
-            name={`${blockName}.${fieldNames.questionTextLabel}`}
-            label={labels.staticQuestionTextLabel}
-            isRequired
-            maxLengthValidation={50}
-          />
-        </div>
-        <div className="c-QuestionsBlock__Field c-QuestionsBlock__QuestionTextPlaceholder">
-          <FormInput
-            type="text"
-            name={`${blockName}.${fieldNames.questionTextPlaceholder}`}
-            label={labels.staticQuestionTextPlaceholder}
-            maxLengthValidation={100}
-          />
-        </div>
-        <div className="c-QuestionsBlock__Field c-QuestionsBlock__QuestionTextHeight">
-          <FormRadioInput
-            name={`${blockName}.${fieldNames.height}`}
-            displayName={labels.staticHeight}
-            options={[
-              {
-                value: "0",
-                label: labels.staticHeightFalseOption,
-              },
-              {
-                value: "1",
-                label: labels.staticHeightTrueOption,
-              },
-            ]}
-          />
-        </div>
+    <div className="c-QuestionsBlock">
+      <div className="c-QuestionsBlock__Field c-QuestionsBlock__TextStatus">
+        <FormSelect<string>
+          label={labels.staticStatus}
+          name={`${blockName}.${fieldNames.textStatus}`}
+          displayTransform={textStatusSelectDisplayTransformFunction}
+          options={mandatoryFieldOptions}
+          isRequired
+        />
       </div>
-    </>
+      <div className="c-QuestionsBlock__Field c-QuestionsBlock__QuestionTextLabel">
+        <FormInput
+          type="text"
+          name={`${blockName}.${fieldNames.questionTextLabel}`}
+          label={labels.staticQuestionTextLabel}
+          isRequired
+          maxLengthValidation={50}
+        />
+      </div>
+      <div className="c-QuestionsBlock__Field c-QuestionsBlock__QuestionTextPlaceholder">
+        <FormInput
+          type="text"
+          name={`${blockName}.${fieldNames.questionTextPlaceholder}`}
+          label={labels.staticQuestionTextPlaceholder}
+          maxLengthValidation={100}
+        />
+      </div>
+      <div className="c-QuestionsBlock__Field c-QuestionsBlock__QuestionTextHeight">
+        <FormRadioInput
+          name={`${blockName}.${fieldNames.height}`}
+          displayName={labels.staticHeight}
+          options={[
+            {
+              value: "0",
+              label: labels.staticHeightFalseOption,
+            },
+            {
+              value: "1",
+              label: labels.staticHeightTrueOption,
+            },
+          ]}
+        />
+      </div>
+    </div>
   );
 }

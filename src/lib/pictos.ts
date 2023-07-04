@@ -32,6 +32,7 @@ export enum EAllPictoStyles {
   "questionCircle",
   "listNumbers",
   "user",
+  "cumbersome",
   /* PUBLISH */
   "windowUpload",
   "windowCancel",
@@ -99,4 +100,5 @@ export type TBlockPictoStyles = Extract<
   | "questionCircle"
   | "listNumbers"
   | "user"
+  | "cumbersome"
 >;

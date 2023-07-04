@@ -59,51 +59,49 @@ export default function QcmBlock({ blockName }: IQcmBlock) {
       : labels.staticStatusSelectLabelFalseOption;
   }
   return (
-    <>
-      <div className="c-QcmBlock">
-        <div className="c-QcmBlock__Field c-QcmBlock__FieldStatusQCM">
-          <FormSelect<string>
-            label={labels.staticStatus}
-            name={`${blockName}.${fieldNames.fieldStatusQCM}`}
-            displayTransform={fieldStatusQCMSelectDisplayTransformFunction}
-            options={mandatoryFieldOptions}
-            isRequired
-          />
-        </div>
-        <div className="c-QcmBlock__Field c-QcmBlock__FieldLabelQCM">
-          <FormInput
-            type="text"
-            name={`${blockName}.${fieldNames.fieldLabelQCM}`}
-            label={labels.staticQcmLabel}
-            isRequired
-          />
-        </div>
-        <div className="c-QcmBlock__Field c-QcmBlock__Responses">
-          <FormInput
-            type="text"
-            name={`${blockName}.${fieldNames.responses}`}
-            label={labels.staticQcmPossibleAnswers}
-            isRequired
-            informationLabel={labels.staticQcmPossibleAnswersInformationLabel}
-          />
-        </div>
-        <div className="c-QcmBlock__Field c-QcmBlock__MultipleChoice">
-          <FormRadioInput
-            name={`${blockName}.${fieldNames.multipleChoice}`}
-            displayName={labels.staticQcmType}
-            options={[
-              {
-                value: "0",
-                label: labels.staticQcmTypeFalseOption,
-              },
-              {
-                value: "1",
-                label: labels.staticQcmTypeTrueOption,
-              },
-            ]}
-          />
-        </div>
+    <div className="c-QcmBlock">
+      <div className="c-QcmBlock__Field c-QcmBlock__FieldStatusQCM">
+        <FormSelect<string>
+          label={labels.staticStatus}
+          name={`${blockName}.${fieldNames.fieldStatusQCM}`}
+          displayTransform={fieldStatusQCMSelectDisplayTransformFunction}
+          options={mandatoryFieldOptions}
+          isRequired
+        />
       </div>
-    </>
+      <div className="c-QcmBlock__Field c-QcmBlock__FieldLabelQCM">
+        <FormInput
+          type="text"
+          name={`${blockName}.${fieldNames.fieldLabelQCM}`}
+          label={labels.staticQcmLabel}
+          isRequired
+        />
+      </div>
+      <div className="c-QcmBlock__Field c-QcmBlock__Responses">
+        <FormInput
+          type="text"
+          name={`${blockName}.${fieldNames.responses}`}
+          label={labels.staticQcmPossibleAnswers}
+          isRequired
+          informationLabel={labels.staticQcmPossibleAnswersInformationLabel}
+        />
+      </div>
+      <div className="c-QcmBlock__Field c-QcmBlock__MultipleChoice">
+        <FormRadioInput
+          name={`${blockName}.${fieldNames.multipleChoice}`}
+          displayName={labels.staticQcmType}
+          options={[
+            {
+              value: "0",
+              label: labels.staticQcmTypeFalseOption,
+            },
+            {
+              value: "1",
+              label: labels.staticQcmTypeTrueOption,
+            },
+          ]}
+        />
+      </div>
+    </div>
   );
 }

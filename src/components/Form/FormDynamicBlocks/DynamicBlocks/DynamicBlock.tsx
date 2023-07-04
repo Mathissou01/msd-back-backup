@@ -14,6 +14,7 @@ import CheckboxBlock from "./CheckboxBlock/CheckboxBlock";
 import DownloadablesFilesBlock from "./DownloadableFiles/DownloadableFilesBlock";
 import RequestTypeBlock from "./RequestTypeBlock/RequestTypeBlock";
 import RequestDateBlock from "./RequestDateBlock/RequestDateBlock";
+import CumbersomeBlock from "./CumbersomeBlock/CumbersomeBlock";
 
 interface IDynamicFieldsBlockWrapper {
   type: TDynamicFieldOption;
@@ -69,6 +70,9 @@ export default function DynamicBlock({
       }
       case "ComponentBlocksDateChoice": {
         return <RequestDateBlock blockName={name} />;
+      }
+      case "ComponentBlocksCumbersome": {
+        return <CumbersomeBlock blockName={name} />;
       }
       default: {
         return null;
