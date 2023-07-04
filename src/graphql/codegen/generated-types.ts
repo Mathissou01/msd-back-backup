@@ -15484,6 +15484,7 @@ export type GetRequestByIdQuery = {
         isUserEmailMandatory?: boolean | null;
         isUserPhoneMandatory?: boolean | null;
         userAllowSMSNotification?: boolean | null;
+        hasAppointmentSlots?: boolean | null;
         requestService?: {
           __typename?: "RequestServiceEntityResponse";
           data?: {
@@ -26176,6 +26177,7 @@ export const GetRequestByIdDocument = gql`
           isUserEmailMandatory
           isUserPhoneMandatory
           userAllowSMSNotification
+          hasAppointmentSlots
         }
       }
     }

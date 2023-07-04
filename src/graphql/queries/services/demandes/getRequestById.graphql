@@ -88,6 +88,7 @@ query getRequestById($requestId: ID) {
         isUserEmailMandatory
         isUserPhoneMandatory
         userAllowSMSNotification
+        hasAppointmentSlots
       }
     }
   }

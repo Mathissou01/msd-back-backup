@@ -9,6 +9,7 @@ import { RequestAggregateEntity } from "../../graphql/codegen/generated-types";
 import FormLayout, {
   IFormlayoutOptions,
 } from "../../layouts/FormLayout/FormLayout";
+import { ITab } from "../TabBlock/TabBlock";
 import FormDynamicBlocks from "../Form/FormDynamicBlocks/FormDynamicBlocks";
 import RequestStaticFields, {
   IRequestStaticFieldsLabels,
@@ -18,6 +19,7 @@ import RequestFormButtons, {
   IRequestFormButtonsLabels,
 } from "./RequestFormButtons/RequestFormButtons";
 import RequestStaticFieldsUser from "./RequestStaticUser/RequestStaticUser";
+import RequestAppointmentSlots from "./RequestAppointmentSlots/RequestAppointmentSlots";
 
 export interface IRequestStaticFields extends IFormCommonFields {
   name: string;
@@ -35,6 +37,7 @@ export interface IRequestStaticFields extends IFormCommonFields {
   userAllowSMSNotification: boolean;
   hasAddress: boolean;
   fieldAddressLabel: string;
+  hasAppointmentSlots: "0" | "1";
 }
 
 export interface IRequestFields extends IRequestStaticFields {
@@ -64,6 +67,10 @@ export default function RequestForm({
   labels,
   buttonLabels,
 }: IRequestFormProps) {
+  const tabLabels = {
+    requestForm: "Formulaire de demande",
+    appointmentSlots: "Créneaux",
+  };
   const buttonContent = (
     <RequestFormButtons<IRequestStaticFields>
       isCreateMode={isCreateMode}
@@ -74,25 +81,38 @@ export default function RequestForm({
       onChangeActivated={onChangeActivated}
     />
   );
-  const fieldContent = (
-    <>
-      <RequestStaticFields
-        labels={labels}
-        requestTypeDynamicFieldConfigurations={
-          requestTypeDynamicFieldConfigurations
-        }
-      />
-      <FormDynamicBlocks
-        name={"addableBlocks"}
-        blockConfigurations={dynamicFieldConfigurations}
-        canDuplicate={false}
-      />
-      <RequestStaticFieldsUser
-        labels={labels.user}
-        hasUser={data?.hasUser ?? false}
-      />
-    </>
-  );
+  const tabs: ITab[] = [
+    {
+      name: "RequestForm",
+      title: tabLabels.requestForm,
+      content: (
+        <>
+          <RequestStaticFields
+            labels={labels}
+            requestTypeDynamicFieldConfigurations={
+              requestTypeDynamicFieldConfigurations
+            }
+          />
+          <FormDynamicBlocks
+            name={"addableBlocks"}
+            blockConfigurations={dynamicFieldConfigurations}
+            canDuplicate={false}
+          />
+          <RequestStaticFieldsUser
+            labels={labels.user}
+            hasUser={data?.hasUser ?? false}
+          />
+        </>
+      ),
+      isEnabled: true,
+    },
+    {
+      name: "AppointmentSlots",
+      title: tabLabels.appointmentSlots,
+      content: <RequestAppointmentSlots />,
+      isEnabled: true,
+    },
+  ];
   const sidebarContent = <RequestSideBar />;
   const formOptions: IFormlayoutOptions<IRequestFields> = {
     onSubmitValid: onSubmit,
@@ -103,9 +123,10 @@ export default function RequestForm({
   return (
     <FormLayout<IRequestFields>
       buttonContent={buttonContent}
-      formContent={fieldContent}
       sidebarContent={sidebarContent}
       formOptions={formOptions}
+      tabs={tabs}
+      tabIndex={0}
     />
   );
 }

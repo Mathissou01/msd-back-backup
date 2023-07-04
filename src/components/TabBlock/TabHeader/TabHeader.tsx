@@ -39,6 +39,7 @@ export default function TabHeader({
               aria-controls={`panel-${tab.name}`}
               tabIndex={index === selectedTab ? 0 : -1}
               onClick={() => onClick(index)}
+              type="button"
             >
               <span>{tab.title}</span>
             </button>

@@ -3,6 +3,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
 import { ReactNode, useEffect, useState } from "react";
 import { removeNulls } from "../../lib/utilities";
+import TabBlock, { ITab } from "../../components/TabBlock/TabBlock";
 import "./form-layout.scss";
 
 export interface IFormlayoutOptions<Fields> {
@@ -13,7 +14,9 @@ export interface IFormlayoutOptions<Fields> {
 
 interface IFormLayoutProps<Fields> {
   buttonContent: ReactNode;
-  formContent: ReactNode;
+  formContent?: ReactNode;
+  tabs?: ITab[];
+  tabIndex?: number;
   sidebarContent?: ReactNode;
   formOptions: IFormlayoutOptions<Fields>;
   returnButton?: ReactNode;
@@ -22,6 +25,8 @@ interface IFormLayoutProps<Fields> {
 export default function FormLayout<Fields extends FieldValues>({
   buttonContent,
   formContent,
+  tabs,
+  tabIndex,
   sidebarContent,
   formOptions,
   returnButton,
@@ -35,6 +40,7 @@ export default function FormLayout<Fields extends FieldValues>({
   });
   const [canFocus, setCanFocus] = useState(false);
   const { handleSubmit, reset } = form;
+  const sidebar = <div className="c-FormLayout__SideBar">{sidebarContent}</div>;
 
   function onError() {
     setCanFocus(true);
@@ -88,8 +94,21 @@ export default function FormLayout<Fields extends FieldValues>({
           <div className="c-FormLayout__ReturnButton">{returnButton}</div>
           <div className="c-FormLayout__Buttons">{buttonContent}</div>
           <div className="c-FormLayout__Form">
-            <div className="c-FormLayout__Content">{formContent}</div>
-            <div className="c-FormLayout__SideBar">{sidebarContent}</div>
+            {tabs && tabIndex !== undefined && (
+              <>
+                <TabBlock
+                  tabs={tabs}
+                  initialTabName={tabs[tabIndex].name}
+                  formSidebar={sidebar}
+                />
+              </>
+            )}
+            {!tabs && (
+              <>
+                <div className="c-FormLayout__Content">{formContent}</div>
+                {sidebar}
+              </>
+            )}
           </div>
         </form>
       </FormProvider>

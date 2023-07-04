@@ -85,6 +85,7 @@ export function RequestFormPage({
       },
     );
     const hasSeveralRequestTypes = submitData.hasSeveralRequestTypes === "1";
+    const hasAppointmentSlots = submitData.hasAppointmentSlots === "1";
 
     const requestTypes = submitData.requestType.map(
       (requestType: ComponentBlocksRequestTypeInput) => {
@@ -104,7 +105,7 @@ export function RequestFormPage({
             data: {
               requestService: contractId,
               name: submitData.name,
-              hasSeveralRequestTypes: hasSeveralRequestTypes,
+              hasSeveralRequestTypes,
               requestType: hasSeveralRequestTypes
                 ? requestTypes
                 : [requestTypes[0]],
@@ -120,6 +121,7 @@ export function RequestFormPage({
               userAllowSMSNotification: submitData.userAllowSMSNotification,
               hasAddress: submitData.hasAddress,
               fieldAddressLabel: submitData.fieldAddressLabel,
+              hasAppointmentSlots,
             },
           },
           onCompleted: (result) => {
@@ -133,7 +135,7 @@ export function RequestFormPage({
             updateRequestId: requestId,
             data: {
               name: submitData.name,
-              hasSeveralRequestTypes: submitData.hasSeveralRequestTypes === "1",
+              hasSeveralRequestTypes,
               requestType: hasSeveralRequestTypes
                 ? requestTypes
                 : [requestTypes[0]],
@@ -149,6 +151,7 @@ export function RequestFormPage({
               userAllowSMSNotification: submitData.userAllowSMSNotification,
               hasAddress: submitData.hasAddress,
               fieldAddressLabel: submitData.fieldAddressLabel,
+              hasAppointmentSlots,
             },
           },
           onCompleted: (result) => {
@@ -272,6 +275,7 @@ export function RequestFormPage({
           status: EStatus.Draft,
           hasAddress: false,
           fieldAddressLabel: "",
+          hasAppointmentSlots: "0",
         };
         setMappedData(mappedData);
       } else if (requestId !== mappedData?.id) {
@@ -335,6 +339,9 @@ export function RequestFormPage({
             : EStatus.Draft,
           hasAddress: requestData.attributes.hasAddress,
           fieldAddressLabel: requestData.attributes.fieldAddressLabel ?? "",
+          hasAppointmentSlots: requestData.attributes.hasAppointmentSlots
+            ? "1"
+            : "0",
         };
         setMappedData(mappedData);
       }
