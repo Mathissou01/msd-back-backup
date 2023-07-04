@@ -35,6 +35,19 @@ variables:
     ${{ else }}:
       value: dev
 
+  - name: tag
+    ${{ if eq(variables.releaseREC, 'true') }}:
+      value: ${{ variables['Build.SourceBranchName'] }}
+    ${{ elseif eq(variables.releaseHML, 'true') }}:
+      value: $(Build.BuildNumber)
+    ${{ elseif eq(variables.releasePRD, 'true') }}:
+      value: ${{ variables['Build.SourceBranchName'] }}
+    ${{ else }}:
+      value: latest
+
+  - name: DOCKER_BUILDKIT
+    value: 1
+
 parameters:
   - name: az_env
     displayName: Instance à livrer
@@ -57,7 +70,9 @@ stages:
     jobs:
       - template: azure-pipelines/build.yml
         parameters:
+          release: ${{ or(eq(variables.releaseDEV, 'true'),eq(variables.releaseREC, 'true'),eq(variables.releaseHML, 'true'),eq(variables.releasePRD, 'true')) }}
           env: ${{ variables.env }}
+          tag: ${{ variables.tag }}
 
   - stage: Release
     displayName: Service update on Azure Cloud
@@ -69,6 +84,7 @@ stages:
       - template: azure-pipelines/release.yml
         parameters:
           env: ${{ variables.env }}
+          tag: ${{ variables.tag }}
           ${{ if eq(variables.releaseREC, 'true') }}:
             instance: ${{ parameters.az_env }}
           ${{ else }}:

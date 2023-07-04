@@ -1,0 +1,21 @@
+parameters:
+  - name: tag
+    type: string
+
+  - name: env
+    type: string
+
+  - name: action
+    type: string
+    default: build
+
+steps:
+  - task: Docker@2
+    displayName: Build The Nginx Image Routes Nextjs Static Application
+    inputs:
+      command: ${{ parameters.action }}
+      repository: msd-bowebsite
+      dockerfile: "./docker/Dockerfile"
+      buildContext: "./"
+      containerRegistry: msd-${{ parameters.env }}-acr
+      tags: ${{ parameters.tag }}

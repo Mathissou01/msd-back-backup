@@ -3,6 +3,9 @@ parameters:
   - name: env
     type: string
 
+  - name: tag
+    type: string
+
   - name: instance
     type: string
 
@@ -40,3 +43,10 @@ jobs:
                   deployment_environment: ${{ parameters.instance }}
               env:
                 azure_static_web_apps_api_token: $(bo-deployment-token)
+
+            - task: AzureWebAppContainer@1
+              displayName: Update Container in Azure WebApps
+              inputs:
+                azureSubscription: msd-${{ parameters.env }}-spn
+                appName: app-msd-${{ parameters.env }}-bowebsite
+                imageName: crmsd${{ parameters.env }}.azurecr.io/msd-bowebsite:${{ parameters.tag }}

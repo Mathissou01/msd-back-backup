@@ -1,6 +1,12 @@
 # Jobs template for static website build
 parameters:
+  - name: release
+    type: string
+
   - name: env
+    type: string
+
+  - name: tag
     type: string
 
 jobs:
@@ -33,4 +39,10 @@ jobs:
         parameters:
           env: ${{ parameters.env }}
 
+      - template: build/image.yml
+        parameters:
+          env: ${{ parameters.env }}
+          tag: ${{ parameters.tag }}
+          ${{ if eq(parameters.release, 'true') }}:
+            action: buildAndPush
       - template: build/artifact.yml
