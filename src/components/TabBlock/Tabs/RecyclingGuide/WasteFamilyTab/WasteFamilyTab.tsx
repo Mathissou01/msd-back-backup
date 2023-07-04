@@ -98,10 +98,10 @@ export default function WasteFamilyTab() {
     },
   ];
   const actionColumn = (row: IWasteFamilyTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       onClick: () => handleEdit(row),
     },
   ];

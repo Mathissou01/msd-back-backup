@@ -151,15 +151,16 @@ export function CartePage() {
   ];
 
   const actionColumn = (row: ISectorsTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/services/carte/point-interet/${row.id}`,
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",

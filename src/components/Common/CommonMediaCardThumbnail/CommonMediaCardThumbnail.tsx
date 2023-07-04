@@ -1,6 +1,4 @@
 import Image from "next/image";
-import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
-import docIcon from "./../../../../public/images/pictos/doc.svg";
 import { ILocalFile } from "../../../lib/media";
 import CommonLoader from "../CommonLoader/CommonLoader";
 import { ApolloError } from "@apollo/client";
@@ -37,13 +35,9 @@ export default function CommonCommonMediaCardThumbnailThumbnail({
           />
         </div>
       ) : media.mime.split("/")[1] === "pdf" ? (
-        <div className="c-CommonMediaCardThumbnail__Doc">
-          <Image src={pdfIcon} width={48} height={58} alt="" />
-        </div>
+        <div className="c-CommonMediaCardThumbnail__Thumbnail c-CommonMediaCardThumbnail__Thumbnail_pdf" />
       ) : (
-        <div className="c-CommonMediaCardThumbnail__Doc">
-          <Image src={docIcon} width={48} height={58} alt="" />
-        </div>
+        <div className="c-CommonMediaCardThumbnail__Thumbnail c-CommonMediaCardThumbnail__Thumbnail_doc" />
       )}
     </CommonLoader>
   );

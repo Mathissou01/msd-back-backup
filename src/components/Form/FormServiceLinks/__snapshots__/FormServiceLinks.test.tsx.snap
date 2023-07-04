@@ -32,7 +32,7 @@ exports[`FormServiceLinks renders 1`] = `
             class="c-FormServiceLinksRow__Info"
           >
             <img
-              alt=""
+              alt="Picto"
               class="c-FormServiceLinksRow__Picto"
               data-nimg="1"
               decoding="async"
@@ -50,65 +50,57 @@ exports[`FormServiceLinks renders 1`] = `
             class="c-FormServiceLinksRow__Actions"
           >
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_edit"
+              title="Modifier"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/edit.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Modifier"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Modifier
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_eye"
+              title="Cacher"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/view.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Cacher"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Cacher
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_disabled"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_arrowUp c-FormServiceLinksRow__Action_disabled"
               disabled=""
+              title="Monter"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/arrow-down.svg"
-                style="color: transparent; transform: rotate(180deg);"
-                width="16"
-              />
+              <span
+                aria-label="Monter"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Monter
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_arrowDown"
+              title="Baisser"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/arrow-down.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Baisser"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Baisser
+              </span>
             </button>
           </div>
         </li>
@@ -124,7 +116,7 @@ exports[`FormServiceLinks renders 1`] = `
             class="c-FormServiceLinksRow__Info"
           >
             <img
-              alt=""
+              alt="Picto"
               class="c-FormServiceLinksRow__Picto"
               data-nimg="1"
               decoding="async"
@@ -142,64 +134,56 @@ exports[`FormServiceLinks renders 1`] = `
             class="c-FormServiceLinksRow__Actions"
           >
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_edit"
+              title="Modifier"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/edit.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Modifier"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Modifier
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_eye"
+              title="Cacher"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/view.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Cacher"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Cacher
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_arrowUp"
+              title="Monter"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/arrow-down.svg"
-                style="color: transparent; transform: rotate(180deg);"
-                width="16"
-              />
+              <span
+                aria-label="Monter"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Monter
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_arrowDown"
+              title="Baisser"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/arrow-down.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Baisser"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Baisser
+              </span>
             </button>
           </div>
         </li>
@@ -215,7 +199,7 @@ exports[`FormServiceLinks renders 1`] = `
             class="c-FormServiceLinksRow__Info"
           >
             <img
-              alt=""
+              alt="Picto"
               class="c-FormServiceLinksRow__Picto"
               data-nimg="1"
               decoding="async"
@@ -233,65 +217,57 @@ exports[`FormServiceLinks renders 1`] = `
             class="c-FormServiceLinksRow__Actions"
           >
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_edit"
+              title="Modifier"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/edit.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Modifier"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Modifier
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_eye"
+              title="Cacher"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/view.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Cacher"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Cacher
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_arrowUp"
+              title="Monter"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/arrow-down.svg"
-                style="color: transparent; transform: rotate(180deg);"
-                width="16"
-              />
+              <span
+                aria-label="Monter"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Monter
+              </span>
             </button>
             <button
-              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_disabled"
+              class="c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_arrowDown c-FormServiceLinksRow__Action_disabled"
               disabled=""
+              title="Baisser"
               type="button"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="16"
-                loading="lazy"
-                src="/images/pictos/arrow-down.svg"
-                style="color: transparent;"
-                width="16"
-              />
+              <span
+                aria-label="Baisser"
+                class="u-VisuallyHidden"
+                role="img"
+              >
+                Baisser
+              </span>
             </button>
           </div>
         </li>

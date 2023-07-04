@@ -1,12 +1,13 @@
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
-import { TPictoStyles } from "../../../../lib/pictos";
+import { TAllPictoStyles } from "../../../../lib/pictos";
+import PseudoImageFallback from "../../../Accessibility/PseudoImageFallback/PseudoImageFallback";
 import "./dynamic-block-wrapper.scss";
 
 interface IDynamicFieldsBlockWrapper {
   children: ReactNode;
   label?: string;
-  picto?: TPictoStyles;
+  picto?: TAllPictoStyles;
   onReorder: (shift: number) => void;
   isUpDisabled?: boolean;
   isDownDisabled?: boolean;
@@ -36,6 +37,17 @@ export default function DynamicBlockWrapper({
   canDuplicate = true,
   canDelete = true,
 }: IDynamicFieldsBlockWrapper) {
+  /* Static Data */
+  const altTexts = {
+    open: "Ouvrir",
+    close: "Fermer",
+    up: "Monter",
+    down: "Descendre",
+    duplicate: "Dupliquer",
+    delete: "Supprimer",
+  };
+
+  /* Local Data */
   const [isDisabled, setIsDisabled] = useState(false);
 
   function handleDeleteClick() {
@@ -62,7 +74,12 @@ export default function DynamicBlockWrapper({
               })}
               type="button"
               onClick={onOpenToggle}
-            />
+              title={isOpen ? altTexts.close : altTexts.open}
+            >
+              <PseudoImageFallback
+                alt={isOpen ? altTexts.close : altTexts.open}
+              />
+            </button>
           )}
           <div className="c-EditoBlockWrapper__Info">
             <div
@@ -86,7 +103,10 @@ export default function DynamicBlockWrapper({
                 type="button"
                 disabled={isUpDisabled}
                 onClick={() => onReorder(-1)}
-              />
+                title={altTexts.up}
+              >
+                <PseudoImageFallback alt={altTexts.up} />
+              </button>
               <button
                 className={classNames(
                   "c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_arrowDown",
@@ -97,7 +117,10 @@ export default function DynamicBlockWrapper({
                 type="button"
                 disabled={isDownDisabled}
                 onClick={() => onReorder(1)}
-              />
+                title={altTexts.down}
+              >
+                <PseudoImageFallback alt={altTexts.down} />
+              </button>
             </>
           )}
           {canDuplicate && (
@@ -105,14 +128,20 @@ export default function DynamicBlockWrapper({
               className="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_duplicate"
               type="button"
               onClick={onDuplicate}
-            />
+              title={altTexts.duplicate}
+            >
+              <PseudoImageFallback alt={altTexts.duplicate} />
+            </button>
           )}
           {canDelete && (
             <button
               className="c-EditoBlockWrapper__Action c-EditoBlockWrapper__Action_delete"
               type="button"
               onClick={handleDeleteClick}
-            />
+              title={altTexts.delete}
+            >
+              <PseudoImageFallback alt={altTexts.delete} />
+            </button>
           )}
         </div>
       </div>

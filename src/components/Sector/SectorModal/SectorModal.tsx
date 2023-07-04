@@ -1,16 +1,15 @@
+import GeoJSON from "ol/format/GeoJSON";
 import React, { useEffect, useState, useMemo } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import GeoJSON from "ol/format/GeoJSON";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
   GetSectorizationByContractIdQueryVariables,
   useGetSectorizationByContractIdQuery,
 } from "../../../graphql/codegen/generated-types";
+import { ISectorsTableRow } from "../../../lib/sectors";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
-import { ISectorsTableRow } from "../../../lib/sectors";
 import "./sector-modal.scss";
 
 interface ISectorModalProps {
@@ -33,7 +32,7 @@ export default function SectorModal({
   /* Static Data */
   const formLabels = {
     title: "Nom du secteur",
-    descritpion: "Description du secteur",
+    description: "Description du secteur",
   };
   const buttonLabels = {
     save: "Enregistrer ce secteur",
@@ -121,19 +120,13 @@ export default function SectorModal({
             <FormInput
               type="text"
               name="description"
-              label={formLabels.descritpion}
+              label={formLabels.description}
               isRequired={true}
               maxLengthValidation={maxCharacters}
             />
           </div>
 
           <div className="c-SectorModal__InformationsSectorCommunes">
-            <Image
-              src={"/images/pictos/polygon.svg"}
-              alt=""
-              width={30}
-              height={30}
-            />
             <div className="c-SectorModal__InformationsSectorCommunesInfo">
               <p>{communesLabels.title}</p>
               {currentSectorContents && (

@@ -1,6 +1,7 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.inputs" as inputs;
 @use "src/styles/02-tools/tools.focus" as focus;
+@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-FormServiceLinksRow {
   &__Info {
@@ -19,10 +20,6 @@
   &__Action {
     transition: opacity ease 0.1s;
 
-    img {
-      filter: url("#recolor-expert-blue");
-    }
-
     &_darkened {
       opacity: 0.5;
     }
@@ -32,10 +29,19 @@
     }
   }
 
+  &__Picto {
+    filter: url("#recolor-expert-blue");
+  }
+
   &__Action {
+    @include p.picto-classes(
+      ("edit", "eye", "eyeClosed", "arrowUp", "arrowDown")
+    );
     @include focus.focus-ring;
 
     display: flex;
-    padding: 10px;
+    width: 16px;
+    height: 16px;
+    margin: 10px;
   }
 }

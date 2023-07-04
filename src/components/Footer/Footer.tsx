@@ -4,6 +4,7 @@ import Image from "next/image";
 interface IFooterProps {
   isRoot?: boolean;
 }
+
 export default function Footer({ isRoot = false }: IFooterProps) {
   return (
     <>
@@ -12,10 +13,10 @@ export default function Footer({ isRoot = false }: IFooterProps) {
           <div className="c-Footer__Content">
             <Image
               className="c-Footer__LogoSuez"
-              src="/images/logo-suez-footer.svg"
+              src="/images/suez-logo.svg"
               alt="logo_footer"
-              width={130}
-              height={70}
+              width={110}
+              height={50}
             />
           </div>
         </footer>

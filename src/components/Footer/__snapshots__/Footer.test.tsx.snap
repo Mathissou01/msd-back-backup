@@ -13,11 +13,11 @@ exports[`Footer renders a basic footer 1`] = `
         class="c-Footer__LogoSuez"
         data-nimg="1"
         decoding="async"
-        height="70"
+        height="50"
         loading="lazy"
-        src="/images/logo-suez-footer.svg"
+        src="/images/suez-logo.svg"
         style="color: transparent;"
-        width="130"
+        width="110"
       />
     </div>
   </footer>

@@ -5,13 +5,6 @@ export const removeNulls = <S>(
 ): value is Exclude<S, null> =>
   value != null && Object.keys(value).length !== 0;
 
-export function isAbsoluteOrRelativeUrl(url: string) {
-  const regex = new RegExp(
-    "^((http|https)\\/\\/(www\\.)?[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,})|((\\/)?\\S\\s?)+$",
-  );
-  return regex.test(url);
-}
-
 export function FocusFirstElement(node: Element) {
   if (node) {
     const focusableModalElements = node.querySelectorAll(

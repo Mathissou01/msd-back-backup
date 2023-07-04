@@ -182,7 +182,8 @@ function InformationMessageTab() {
   ): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/services/jour-collecte/information-message/${row.id}`,
     },
   ];
@@ -248,4 +249,5 @@ function InformationMessageTab() {
     </div>
   );
 }
+
 export default InformationMessageTab;

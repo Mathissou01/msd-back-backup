@@ -1,12 +1,26 @@
+@use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.classboardBackground" as classboardBackground;
+@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-CommonMediaCardThumbnail {
-  &__Doc {
+  &__Thumbnail {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 245px;
     height: 158px;
+
+    &_pdf {
+      @include p.get-picto(
+        "pdf",
+        colors.$pdf-thumbnail,
+        $backgroundSize: 60px 70px
+      );
+    }
+
+    &_doc {
+      @include p.get-picto("doc", colors.$blue-2, $backgroundSize: 60px 70px);
+    }
   }
 
   &__Image {

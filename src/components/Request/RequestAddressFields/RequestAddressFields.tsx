@@ -5,9 +5,10 @@ import FormInput from "../../Form/FormInput/FormInput";
 import "./request-address-fields.scss";
 
 export interface IRequestAddressFields {
-  addressCheckboxLabel: string;
-  addressLabel: string;
-  secondaryAddressLabel: string;
+  staticAddressContainerActivationLabel: string;
+  staticAddressContainerLabel: string;
+  staticAddressFirstBlockLabel: string;
+  staticAddressInputLabel: string;
 }
 
 interface RequestAddressProps {
@@ -23,18 +24,30 @@ export default function RequestAddressFields({ labels }: RequestAddressProps) {
   return (
     <div className="c-RequestAddressFields">
       <FormCheckbox
-        label={labels.addressCheckboxLabel}
+        label={labels.staticAddressContainerActivationLabel}
         name="hasAddress"
         onClick={() => resetField("fieldAddressLabel", { defaultValue: "" })}
       />
       {watchHasAddress && (
-        <FormInput
-          name="fieldAddressLabel"
-          defaultValue={getValues("fieldAddressLabel")}
-          isRequired={true}
-          label={labels.addressLabel}
-          validationLabel={labels.secondaryAddressLabel}
-        />
+        <div className="c-RequestAddressFields__AddressContainer">
+          <div className="c-RequestAddressFields__Header">
+            <div className="c-RequestAddressFields__Picto" />
+            <div className="c-RequestAddressFields__Title">
+              {labels.staticAddressContainerLabel}
+            </div>
+            <div className="c-RequestAddressFields__FirstBlock">
+              {labels.staticAddressFirstBlockLabel}
+            </div>
+          </div>
+          <div className="c-RequestAddressFields__Fields">
+            <FormInput
+              name="fieldAddressLabel"
+              defaultValue={getValues("fieldAddressLabel")}
+              isRequired={true}
+              label={labels.staticAddressInputLabel}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

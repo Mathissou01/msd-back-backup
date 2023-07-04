@@ -163,16 +163,6 @@ exports[`MemoTriTab renders loading and loaded state 2`] = `
                 class="c-FormFileInput__DragDrop"
                 id="memoFile"
               >
-                <img
-                  alt=""
-                  data-nimg="1"
-                  decoding="async"
-                  height="50"
-                  loading="lazy"
-                  src="/images/pictos/add-photo.svg"
-                  style="color: transparent;"
-                  width="50"
-                />
                 <span
                   class="c-FormFileInput__Placeholder"
                 >

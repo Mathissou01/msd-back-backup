@@ -1,11 +1,17 @@
 import PreviewButtonsFormat from "../PreviewButtonsFormat/PreviewButtonsFormat";
-import Image from "next/image";
-import Close from "../../../../public/images/pictos/close.svg";
+import PseudoImageFallback from "../../Accessibility/PseudoImageFallback/PseudoImageFallback";
 import "./preview-banner.scss";
+
 interface IEditoPreviewProps {
   onFormatting: (device: string) => void;
 }
+
 export default function PreviewBanner({ onFormatting }: IEditoPreviewProps) {
+  /* Static Data */
+  const altTexts = {
+    close: "Fermer",
+  };
+
   //TODO: add label for the printer button
   // const buttonLabels = {
   //   buttonPreview: "Imprimer",
@@ -21,13 +27,16 @@ export default function PreviewBanner({ onFormatting }: IEditoPreviewProps) {
       <PreviewButtonsFormat onFormatting={onFormatting} />
       {/*TODO: add printer button */}
       {/* <CommonButton label={buttonLabels.buttonPreview} picto="printer" /> */}
-      <button
-        className="c-PreviewBanner__Button_close"
-        type="button"
-        onClick={handleCloseClick}
-      >
-        <Image src={Close} alt="" width={15} height={15} />
-      </button>
+      <div className="c-PreviewBanner__Right">
+        <button
+          className="c-PreviewBanner__Button"
+          type="button"
+          onClick={handleCloseClick}
+          title={altTexts.close}
+        >
+          <PseudoImageFallback alt={altTexts.close} />
+        </button>
+      </div>
     </div>
   );
 }

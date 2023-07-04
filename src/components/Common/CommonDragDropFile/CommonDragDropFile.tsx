@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import Image from "next/image";
 import { TAcceptedMimeTypes } from "../../../lib/media";
 import CommonButton from "../CommonButton/CommonButton";
 import "./common-drag-drop-file.scss";
@@ -22,7 +21,6 @@ export default function CommonDragDropFile({
     uploadFile: "Parcourir les fichiers",
     cancelBtn: "Annuler",
   };
-  const mediaImage = "/images/pictos/add-photo.svg";
 
   /* Local Data */
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,7 +47,6 @@ export default function CommonDragDropFile({
           htmlFor="input-file-upload"
         >
           <div className="c-CommonDragDropFile__Drag">
-            <Image src={mediaImage} alt="" width={50} height={50} />
             <span className="c-CommonDragDropFile__LabelInfo">
               {labels.labelInfosDragDrop}
             </span>

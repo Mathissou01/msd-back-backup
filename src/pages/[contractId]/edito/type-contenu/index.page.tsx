@@ -335,7 +335,8 @@ export function EditoTypeContenuPage() {
   ): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirm: () => onConfirm(row, rowIndex),
@@ -344,7 +345,8 @@ export function EditoTypeContenuPage() {
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       isDisabled: true,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),

@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import React from "react";
-import { TPictoStyles } from "../../../lib/pictos";
+import { TAllPictoStyles } from "../../../lib/pictos";
 import "./common-button.scss";
 
 interface ICommonButtonProps {
   label?: string;
   type?: "button" | "submit" | "reset" | undefined;
-  picto?: TPictoStyles;
+  picto?: TAllPictoStyles;
   isDisabled?: boolean;
   onClick?: (event: React.MouseEvent) => void;
   formLabelId?: string;

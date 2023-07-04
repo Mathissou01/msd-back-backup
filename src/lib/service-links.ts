@@ -4,6 +4,7 @@ export interface IPicto {
   data: {
     attributes: {
       url: string;
+      alternativeText?: string;
     };
   };
 }

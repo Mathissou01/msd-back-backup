@@ -1,8 +1,5 @@
-@use "src/styles/02-tools/tools.typography" as typo;
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.shadows" as shadows;
-@use "src/styles/02-tools/tools.z-index" as index;
-@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-PersonnalisationCouleursPage {
   width: 100%;

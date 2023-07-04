@@ -1,5 +1,6 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.classboardBackground" as classboardBackground;
+@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-CommonImageCropper {
   display: flex;
@@ -17,13 +18,13 @@
     overflow: hidden;
   }
 
-  .c-CommonImageCropper__Image {
+  &__Image {
     width: auto;
     height: auto;
     object-fit: contain;
   }
 
-  .c-CommonImageCropper__NavBar {
+  &__NavBar {
     @include classboardBackground.bg;
 
     display: flex;
@@ -32,25 +33,20 @@
     justify-content: right;
     width: 100%;
     height: 52px;
+    padding: 10px;
   }
 
-  &__ButtonCross {
-    flex-direction: row;
+  &__Button {
     width: 32px;
     height: 32px;
-    margin-top: 10px;
     padding: 0;
-    background-color: colors.$white;
-    border-radius: 4px;
-  }
 
-  &__ButtonCheck {
-    flex-direction: row;
-    width: 32px;
-    height: 32px;
-    margin: 10px 10px 0 0;
-    padding: 0;
-    background-color: colors.$white;
-    border-radius: 4px;
+    &_cross {
+      @include p.get-picto("cross");
+    }
+
+    &_check {
+      @include p.get-picto("check");
+    }
   }
 }

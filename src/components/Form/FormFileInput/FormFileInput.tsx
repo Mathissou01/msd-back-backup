@@ -5,15 +5,15 @@ import { ErrorMessage } from "@hookform/error-message";
 import React, { useEffect, useRef, useState } from "react";
 import NextImage from "next/image";
 import {
-  isTypename,
-  removeNulls,
-  removeQuotesInString,
-} from "../../../lib/utilities";
-import {
   GetFilesPaginationByPathIdDocument,
   useGetAllFoldersHierarchyQuery,
   useUpdateUploadFileMutation,
 } from "../../../graphql/codegen/generated-types";
+import {
+  isTypename,
+  removeNulls,
+  removeQuotesInString,
+} from "../../../lib/utilities";
 import {
   fileSizeLimitationOptions,
   ILocalFile,
@@ -25,8 +25,6 @@ import {
   TAcceptedMimeTypes,
   updateUploadedFile,
 } from "../../../lib/media";
-import pdfIcon from "./../../../../public/images/pictos/pdf.svg";
-import docIcon from "./../../../../public/images/pictos/doc.svg";
 import { useContract } from "../../../hooks/useContract";
 import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -75,7 +73,6 @@ export default function FormFileInput({
     formNameLabel: "Nom Du fichier",
     formDescLabel: "Description de l'image",
   };
-  const addImagePicto = "/images/pictos/add-photo.svg";
 
   /* Methods */
   const onClickDragDrop = (): void => modalRef.current?.toggleModal(true);
@@ -148,7 +145,7 @@ export default function FormFileInput({
       );
 
       if (response === 200) {
-        UpdateUploadFileDocument({
+        void UpdateUploadFileDocument({
           variables: {
             updateUploadFileId: file?.id,
             data: {
@@ -314,7 +311,6 @@ export default function FormFileInput({
                 aria-invalid={!!_.get(errors, name)}
                 aria-errormessage={`${name}_error`}
               >
-                <NextImage src={addImagePicto} alt="" width={50} height={50} />
                 <span className="c-FormFileInput__Placeholder">
                   {placeholder}
                 </span>
@@ -347,13 +343,9 @@ export default function FormFileInput({
                     </CommonLoader>
                   </div>
                 ) : selectedFile.mime?.split("/")[1] === "pdf" ? (
-                  <div className="c-FormFileInput__Doc">
-                    <NextImage src={pdfIcon} width={48} height={58} alt="" />
-                  </div>
+                  <div className="c-FormFileInput__Picto c-FormFileInput__Picto_pdf" />
                 ) : (
-                  <div className="c-FormFileInput__Doc">
-                    <NextImage src={docIcon} width={48} height={58} alt="" />
-                  </div>
+                  <div className="c-FormFileInput__Picto c-FormFileInput__Picto_doc" />
                 )}
                 <div className="c-FormFileInput__ButtonsWrapper">
                   <button

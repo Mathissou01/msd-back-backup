@@ -50,17 +50,13 @@ export default function NavigationList() {
   return (
     <ul className="c-NavigationList">
       <li className="c-NavigationList__Item">
-        <NavigationListMenu
-          path={"/"}
-          activeMenu={activeMenu}
-          pictoUrl="/images/pictos-temp/homepage.svg"
-        />
+        <NavigationListMenu path={"/"} activeMenu={activeMenu} picto="house" />
       </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
           path={"/edito/"}
           activeMenu={activeMenu}
-          pictoUrl="/images/pictos-temp/edito.svg"
+          picto="file"
           onClick={handleClickMenu}
         >
           {services.news.isActivated && (
@@ -107,7 +103,7 @@ export default function NavigationList() {
         <NavigationListMenu
           path={"/services/"}
           activeMenu={activeMenu}
-          pictoUrl="/images/pictos-temp/services.svg"
+          picto="dashboard"
           onClick={handleClickMenu}
         >
           <NavigationListLink path={"/services/carte"} />
@@ -123,7 +119,7 @@ export default function NavigationList() {
         <NavigationListMenu
           path={"/personnalisation/"}
           activeMenu={activeMenu}
-          pictoUrl="/images/pictos-temp/personnalisation.svg"
+          picto="appWindowSettings"
           onClick={handleClickMenu}
         >
           <NavigationListLink path={"/personnalisation/couleurs"} />
@@ -138,7 +134,7 @@ export default function NavigationList() {
         <NavigationListMenu
           path={"/secteurs-usagers/"}
           activeMenu={activeMenu}
-          pictoUrl="/images/pictos-temp/sectorsAndUsers.svg"
+          picto="pin"
           onClick={handleClickMenu}
         >
           <NavigationListLink path={"/secteurs-usagers/secteurs"} />
@@ -148,7 +144,7 @@ export default function NavigationList() {
         <NavigationListMenu
           path={"/gestion/"}
           activeMenu={activeMenu}
-          pictoUrl="/images/pictos-temp/administration.svg"
+          picto="bank"
           onClick={handleClickMenu}
         >
           <NavigationListLink path={"/gestion/informations"} />
@@ -159,7 +155,7 @@ export default function NavigationList() {
       {/*  <NavigationListMenu*/}
       {/*    activeMenu={activeMenu}*/}
       {/*    path={"/corbeille/"}*/}
-      {/*    pictoUrl="/images/pictos-temp/bin.svg"*/}
+      {/*    picto="trash"*/}
       {/*  />*/}
       {/*</li>*/}
     </ul>

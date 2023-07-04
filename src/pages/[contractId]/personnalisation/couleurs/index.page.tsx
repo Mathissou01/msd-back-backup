@@ -12,6 +12,12 @@ import {
   IUploadFileEntity,
   fileSizeLimitationOptions,
 } from "../../../../lib/media";
+import {
+  defaultColorPalette,
+  IColorPalette,
+  makeDarkerColor,
+  makeLighterColor,
+} from "../../../../lib/color";
 import { useContract } from "../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
@@ -21,16 +27,6 @@ import FormFileInput from "../../../../components/Form/FormFileInput/FormFileInp
 import FormColorPalette from "../../../../components/Form/FormColorPalette/FormColorPalette";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import "./personnalisation-couleurs-page.scss";
-
-interface IColorPalette {
-  contrastText?: string;
-  primaryColor?: string;
-  primaryColorDark?: string;
-  primaryColorLight?: string;
-  secondaryColor?: string;
-  secondaryColorDark?: string;
-  secondaryColorLight?: string;
-}
 
 interface IPersonnalisationCouleursPage {
   colorMode: string;
@@ -69,8 +65,6 @@ export function PersonnalisationCouleursPage() {
   const [colorMode, setColorMode] = useState<boolean>(true);
   const [primaryErrorMsg, setPrimaryErrorMsg] = useState<boolean>(false);
   const [colorPalette, setColorPalette] = useState<IColorPalette>();
-  const [defaultColorPalette, setDefaultColorPalette] =
-    useState<IColorPalette>();
   const form = useForm<FieldValues>({
     mode: "onChange",
     defaultValues: contractCustomizationsData,
@@ -124,21 +118,21 @@ export function PersonnalisationCouleursPage() {
           contractCustomizationsData?.contractCustomizationId,
         data: {
           primaryColor: colorMode
-            ? defaultColorPalette?.primaryColor
+            ? defaultColorPalette.primaryColor
             : colorPalette?.primaryColor
             ? chroma(colorPalette?.primaryColor).hex()
-            : defaultColorPalette?.primaryColor,
+            : defaultColorPalette.primaryColor,
           secondaryColor:
             colorMode || colorPalette?.secondaryColor === ""
-              ? defaultColorPalette?.secondaryColor
+              ? defaultColorPalette.secondaryColor
               : colorPalette?.secondaryColor
               ? chroma(colorPalette?.secondaryColor).hex()
-              : defaultColorPalette?.secondaryColor,
+              : defaultColorPalette.secondaryColor,
           textContrast: colorMode
-            ? defaultColorPalette?.contrastText
+            ? defaultColorPalette.contrastText
             : colorPalette?.contrastText
             ? colorPalette?.contrastText
-            : defaultColorPalette?.contrastText,
+            : defaultColorPalette.contrastText,
         },
       };
       return updateContractCustomizationMutation({
@@ -157,39 +151,7 @@ export function PersonnalisationCouleursPage() {
     form.reset();
   }
 
-  function makeDarkerColor(color: string): string {
-    return chroma(color).darken().hex();
-  }
-
-  function makeLighterColor(color: string): string {
-    return chroma(color).alpha(0.1).hex();
-  }
-
   useEffect(() => {
-    const contrastText = process.env.NEXT_PUBLIC_CONTRAST_TEXT || "#030f40";
-    const primaryColor =
-      process.env.NEXT_PUBLIC_COLOR_BRAND_PRIMARY || "#9bcd41";
-    const primaryColorDark = makeDarkerColor(primaryColor);
-    const primaryColorLight = makeLighterColor(primaryColor);
-    const secondaryColor =
-      process.env.NEXT_PUBLIC_COLOR_BRAND_SECONDARY ||
-      process.env.NEXT_PUBLIC_COLOR_BRAND_PRIMARY ||
-      "#ffc229";
-    const secondaryColorDark = makeDarkerColor(secondaryColor);
-    const secondaryColorLight = makeLighterColor(secondaryColor);
-
-    const defaultColorPalette: IColorPalette = {
-      contrastText,
-      primaryColor,
-      primaryColorDark,
-      primaryColorLight,
-      secondaryColor,
-      secondaryColorDark,
-      secondaryColorLight,
-    };
-
-    setDefaultColorPalette(defaultColorPalette);
-
     if (data) {
       const contract = data.contract?.data;
       if (contract?.id && contract.attributes?.logo) {
@@ -244,7 +206,6 @@ export function PersonnalisationCouleursPage() {
             secondaryColorDark,
             secondaryColorLight,
           };
-
           setColorPalette(colorPalette);
         }
         setContractCustomizationsData(mappedData);
@@ -303,7 +264,6 @@ export function PersonnalisationCouleursPage() {
                 <div className="c-PersonnalisationCouleursPage__SubGroup">
                   <FormColorPalette
                     colorPalette={colorPalette}
-                    defaultColorPalette={defaultColorPalette}
                     colorMode={colorMode}
                     primaryErrorMsg={primaryErrorMsg}
                     setColorPalette={setColorPalette}

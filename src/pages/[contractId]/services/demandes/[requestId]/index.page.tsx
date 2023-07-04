@@ -52,9 +52,10 @@ export function RequestFormPage({
       subStaticWysiwygText:
         "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
       address: {
-        addressCheckboxLabel: `Activer la gestion de l'encart "Adresse"`,
-        addressLabel: `Libellé du champ d'adresse`,
-        secondaryAddressLabel: `POSITION FIXE (PREMIER)`,
+        staticAddressContainerActivationLabel: `Activer la gestion de l'encart "Adresse"`,
+        staticAddressContainerLabel: "Adresse",
+        staticAddressFirstBlockLabel: `POSITION FIXE (PREMIER)`,
+        staticAddressInputLabel: `Libellé du champ d'adresse`,
       },
       user: {
         staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,

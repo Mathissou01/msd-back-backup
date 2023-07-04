@@ -31,7 +31,7 @@
   }
 
   &__Picto {
-    @include p.pictos;
+    @include p.get-picto("user");
 
     width: 20px;
     height: 20px;

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { Enum_Componentblockscommentary_Commentarystatus } from "../graphql/codegen/generated-types";
-import { TPictoStyles } from "./pictos";
+import { TBlockPictoStyles } from "./pictos";
 import { IUploadFileEntity } from "./media";
 import { removeNulls } from "./utilities";
 
@@ -11,17 +11,20 @@ export type TBlocksDynamicZone =
   | "ComponentBlocksSubHeading"
   | "ComponentBlocksVideo"
   | "ComponentBlocksWysiwyg"
+  | "Error"
+  // DropOffMap Blocks
+  | "ComponentBlocksDownloadBlock"
+  // Request Blocks
   | "ComponentBlocksAttachments"
-  | "ComponentBlocksCheckbox"
   | "ComponentBlocksCommentary"
   | "ComponentBlocksCumbersome"
-  | "ComponentBlocksDateChoice"
-  | "ComponentBlocksProofOfReceipt"
-  | "ComponentBlocksQcm"
   | "ComponentBlocksQuestions"
-  | "ComponentBlocksRequestType"
-  | "ComponentBlocksDownloadBlock"
-  | "Error";
+  | "ComponentBlocksQcm"
+  | "ComponentBlocksDateChoice"
+  | "ComponentBlocksCheckbox"
+  | "ComponentBlocksProofOfReceipt"
+  | "ComponentBlocksRequestType";
+
 export type TDynamicFieldOption = Exclude<TBlocksDynamicZone, "Error">;
 
 export interface IDynamicFieldProps {
@@ -36,7 +39,7 @@ export type TDynamicFieldConfiguration = {
 
 interface IBlockDisplayMap extends IDynamicFieldProps {
   label: string;
-  picto: TPictoStyles;
+  picto: TBlockPictoStyles;
   isEmpty?: boolean;
 }
 
@@ -66,13 +69,15 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     label: "Texte",
     picto: "textCase",
   },
+  // DropOffMap Blocks
+  ComponentBlocksDownloadBlock: {
+    label: "Fichier téléchargeable",
+    picto: "attachment",
+  },
+  // Request Blocks
   ComponentBlocksAttachments: {
     label: "Pièces jointes",
     picto: "attachment",
-  },
-  ComponentBlocksCheckbox: {
-    label: "Case à cocher",
-    picto: "checkbox",
   },
   ComponentBlocksCommentary: {
     label: "Commentaire",
@@ -80,31 +85,31 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
   },
   ComponentBlocksCumbersome: {
     label: "TO_REPLACE_Cumbersome",
-    picto: "question_text",
+    picto: "paragraphJustified",
   },
-  ComponentBlocksDateChoice: {
-    label: "Choix d'une date",
-    picto: "address",
-  },
-  ComponentBlocksProofOfReceipt: {
-    label: "TO_REPLACE_ProofOfReceipt",
-    picto: "question_text",
+  ComponentBlocksQuestions: {
+    label: "Question texte",
+    picto: "paragraphJustified",
   },
   ComponentBlocksQcm: {
     label: "Question à choix multiple",
     picto: "arrowRectangle",
   },
-  ComponentBlocksQuestions: {
-    label: "Question texte",
-    picto: "question_text",
+  ComponentBlocksDateChoice: {
+    label: "Choix d'une date",
+    picto: "calendar",
+  },
+  ComponentBlocksCheckbox: {
+    label: "Case à cocher",
+    picto: "checkboxIcon",
+  },
+  ComponentBlocksProofOfReceipt: {
+    label: "TO_REPLACE_ProofOfReceipt",
+    picto: "paragraphJustified",
   },
   ComponentBlocksRequestType: {
     label: "Type de demande",
     picto: "text",
-  },
-  ComponentBlocksDownloadBlock: {
-    label: "Fichier téléchargeable",
-    picto: "attachment",
   },
 };
 
@@ -170,6 +175,12 @@ export interface IBlocksWysiwyg extends IPartialBlock {
   textEditor: string;
 }
 
+export interface IBlocksDownloadableFiles extends IPartialBlock {
+  __typename: "ComponentBlocksDownloadBlock";
+  linkText: string;
+  file: IUploadFileEntity;
+}
+
 export interface IBlocksAttachments extends IPartialBlock {
   __typename: "ComponentBlocksAttachments";
   attachmentLabel: string;
@@ -206,10 +217,10 @@ export interface IBlocksCheckbox extends IPartialBlock {
   labelCheckbox: string;
 }
 
-export interface IBlocksDownloadableFiles extends IPartialBlock {
-  __typename: "ComponentBlocksDownloadBlock";
-  linkText: string;
-  file: IUploadFileEntity;
+export interface IBlocksDateChoice extends IPartialBlock {
+  __typename: "ComponentBlocksDateChoice";
+  fieldStatus: string;
+  fieldLabelDateChoice: string;
 }
 
 export interface IBlocksRequestType extends IPartialBlock {
@@ -218,12 +229,6 @@ export interface IBlocksRequestType extends IPartialBlock {
   isEmail: boolean;
   isTSMS: boolean;
   email: string;
-}
-
-export interface IBlocksDateChoice extends IPartialBlock {
-  __typename: "ComponentBlocksDateChoice";
-  fieldStatus: string;
-  fieldLabelDateChoice: string;
 }
 
 /* Methods */

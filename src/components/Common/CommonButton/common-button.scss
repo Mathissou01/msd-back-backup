@@ -42,7 +42,7 @@
   }
 
   &__Picto {
-    @include p.pictos;
+    @include p.picto-classes;
 
     width: 24px;
     height: 24px;

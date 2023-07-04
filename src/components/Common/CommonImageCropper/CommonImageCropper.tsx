@@ -12,6 +12,7 @@ import { useDebounceEffect } from "./canvasPreview/useDebounceEffect";
 import "react-image-crop/src/ReactCrop.scss";
 import "./common-image-cropper.scss";
 import { ILocalFile } from "../../../lib/media";
+import PseudoImageFallback from "../../Accessibility/PseudoImageFallback/PseudoImageFallback";
 
 interface ICommonImageCropperProps {
   fileToEdit: ILocalFile;
@@ -55,6 +56,13 @@ export default function CommonImageCropper({
   onCropCompleted,
   onCropCanceled,
 }: ICommonImageCropperProps) {
+  /* Static Data */
+  const altTexts = {
+    confirm: "Confirmer",
+    cancel: "Annuler",
+  };
+
+  /* Local Data */
   const imgRef = useRef<HTMLImageElement>(null);
   const [crop, setCrop] = useState<Crop>();
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -169,28 +177,20 @@ export default function CommonImageCropper({
         <>
           <div className="c-CommonImageCropper__NavBar">
             <button
-              className="c-CommonImageCropper__ButtonCross"
+              className="c-CommonImageCropper__Button c-CommonImageCropper__Button_cross"
               type="button"
               onClick={() => onCropCanceled()}
+              title={altTexts.cancel}
             >
-              <Image
-                src={"/images/pictos/cross.svg"}
-                alt={""}
-                width={30}
-                height={30}
-              />
+              <PseudoImageFallback alt={altTexts.cancel} />
             </button>
             <button
-              className="c-CommonImageCropper__ButtonCheck"
+              className="c-CommonImageCropper__Button c-CommonImageCropper__Button_check"
               type="button"
               onClick={handleCrop}
+              title={altTexts.confirm}
             >
-              <Image
-                src={"/images/pictos/check.svg"}
-                alt={""}
-                width={25}
-                height={25}
-              />
+              <PseudoImageFallback alt={altTexts.confirm} />
             </button>
           </div>
           {!!fileToEdit.url && (

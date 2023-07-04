@@ -20,16 +20,6 @@ exports[`CommonDragDropFile renders component 1`] = `
       <div
         class="c-CommonDragDropFile__Drag"
       >
-        <img
-          alt=""
-          data-nimg="1"
-          decoding="async"
-          height="50"
-          loading="lazy"
-          src="/images/pictos/add-photo.svg"
-          style="color: transparent;"
-          width="50"
-        />
         <span
           class="c-CommonDragDropFile__LabelInfo"
         >

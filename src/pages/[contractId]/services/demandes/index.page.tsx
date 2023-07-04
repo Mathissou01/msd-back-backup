@@ -206,12 +206,14 @@ export function RequestsPage() {
   const actionColumn = (row: IRequestTableRow): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/services/demandes/${row.id}`,
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => {
           handleOpenModal(row);

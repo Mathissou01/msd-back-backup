@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useNavigation } from "../../../hooks/useNavigation";
 import "./information-message-form-return-button.scss";
@@ -9,12 +8,10 @@ export interface IInformationMessageFormReturnButtonLabels {
 
 export default function InformationMessageFormReturnButton() {
   /* Static Data */
-  const returnButtonLabels = "Retour";
+  const returnButtonLabel = "Retour";
 
   /* Local Data */
   const router = useRouter();
-
-  /* External Data */
   const { currentRoot } = useNavigation();
 
   return (
@@ -29,14 +26,7 @@ export default function InformationMessageFormReturnButton() {
           })
         }
       >
-        <Image
-          className="c-InformationMessageFormReturnButton__ArrowImage"
-          src={"/images/pictos/arrow-down.svg"}
-          alt={""}
-          width={16}
-          height={16}
-        />
-        <label>{returnButtonLabels}</label>
+        <span>{returnButtonLabel}</span>
       </button>
     </div>
   );

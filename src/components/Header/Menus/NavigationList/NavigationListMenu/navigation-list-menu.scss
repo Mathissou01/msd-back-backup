@@ -1,5 +1,6 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.focus" as focus;
+@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-NavigationListMenu {
   $self: &;
@@ -52,9 +53,24 @@
   }
 
   &__Picto {
+    @include p.picto-classes(
+      (
+        "house",
+        "file",
+        "dashboard",
+        "appWindowSettings",
+        "pin",
+        "bank",
+        "trash"
+      ),
+      colors.$blue-1
+    );
+
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 18px;
+    height: 18px;
 
     #{$self}_open:not(#{$self}_menu) & {
       filter: url("#recolor-blue-default");

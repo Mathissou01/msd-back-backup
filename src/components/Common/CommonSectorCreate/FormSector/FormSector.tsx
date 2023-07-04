@@ -1,6 +1,6 @@
+import GeoJSON from "ol/format/GeoJSON";
 import React, { useEffect, useState, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
   GetSectorizationByContractIdQueryVariables,
@@ -8,16 +8,15 @@ import {
   useCreateSectorizationMutation,
   useGetSectorizationByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
-import GeoJSON from "ol/format/GeoJSON";
+import { ISectorsTableRow } from "../../../../lib/sectors";
+import { removeNulls } from "../../../../lib/utilities";
 import { useContract } from "../../../../hooks/useContract";
 import CommonButton from "../../CommonButton/CommonButton";
 import FormInput from "../../../Form/FormInput/FormInput";
 import FormMultiselect, {
   ICommonSelectOption,
 } from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
-import { ISectorsTableRow } from "../../../../lib/sectors";
 import "./form-sector.scss";
-import { removeNulls } from "../../../../lib/utilities";
 
 interface IFormSectorProps {
   handleCloseModal: () => void;
@@ -108,14 +107,13 @@ export default function FormSector({
         };
       })
       .filter(removeNulls);
-
     setCurrentSectorContents(mappedTags);
   }, [postalCodes]);
 
   async function onSubmit(submitData: ISectorsTableRow) {
-    trigger();
+    void trigger();
     if (isValid) {
-      onSubmitAndModalRefresh(submitData);
+      void onSubmitAndModalRefresh(submitData);
       handleCloseModal();
     }
   }
@@ -129,7 +127,7 @@ export default function FormSector({
         polygonCoordinates: polygonData,
       },
     };
-    createSectorization({
+    void createSectorization({
       variables,
       refetchQueries: [
         {
@@ -165,12 +163,6 @@ export default function FormSector({
           </div>
 
           <div className="c-FormSector__Communes">
-            <Image
-              src={"/images/pictos/polygon.svg"}
-              alt=""
-              width={30}
-              height={30}
-            />
             <div className="c-FormSector__Info">
               <p>{communesLabels.title}</p>
               {currentSectorContents && (

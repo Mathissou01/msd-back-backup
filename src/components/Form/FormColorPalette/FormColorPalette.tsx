@@ -1,25 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
 import chroma from "chroma-js";
+import React, { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
+import Link from "next/link";
+import { defaultColorPalette, IColorPalette } from "../../../lib/color";
 import FormRadioInput from "../FormRadioInput/FormRadioInput";
 import FormInput from "../FormInput/FormInput";
 import CommonSvg from "../../Common/CommonSvg/CommonSvg";
 import "./form-color-palette.scss";
 
-interface IColorPalette {
-  contrastText?: string;
-  primaryColor?: string;
-  primaryColorDark?: string;
-  primaryColorLight?: string;
-  secondaryColor?: string;
-  secondaryColorDark?: string;
-  secondaryColorLight?: string;
-}
-
 interface IFormColorPaletteProps {
   colorPalette: IColorPalette | undefined;
-  defaultColorPalette: IColorPalette | undefined;
   colorMode: boolean;
   primaryErrorMsg: boolean;
   setColorPalette: (
@@ -31,7 +21,6 @@ interface IFormColorPaletteProps {
 
 export default function FormColorPalette({
   colorPalette,
-  defaultColorPalette,
   colorMode,
   primaryErrorMsg,
   setColorPalette,
@@ -52,9 +41,25 @@ export default function FormColorPalette({
     exampleCardTitleElement: "Point de collecte",
     exampleDateElement: "8 juin 2022",
   };
-  const alertPicto = "/images/pictos/alert.svg";
-  const contractTextLight = "#FAF8F4";
-  const contractTextDark = "#030F40";
+  const accessibilityMessage = {
+    title: "Accessibilité",
+    message: `La couleur principale que vous avez choisie ne permet pas d'atteindre un contraste suffisant. Le contraste doit être de 4,5 minimum avec du texte clair (${defaultColorPalette.contrastDefaultLight}) ou du texte foncé (${defaultColorPalette.contrastDefaultDark}). Vous pouvez saisir une autre couleur de votre choix.`,
+    toolText: "Pour vous aider, vous pouvez utiliser l'outil ",
+    toolLink: "https://contrast-finder.tanaguru.com/",
+    toolLinkText: "tanagaru contrast finder",
+    findLight: "Trouver une couleur contrastée avec un texte clair",
+    findLightLink: `https://contrast-finder.tanaguru.com/result.html?foreground=${defaultColorPalette.contrastDefaultLight.replace(
+      "#",
+      "%23",
+    )}&background=%2340875F&ratio=4.5&isBackgroundTested=true&algo=Rgb&distanceSort=asc`,
+    findDark: "Trouver une couleur contrastée avec un texte foncé",
+    findDarkLink: `https://contrast-finder.tanaguru.com/result.html?foreground=${defaultColorPalette.contrastDefaultDark.replace(
+      "#",
+      "%23",
+    )}&background=%2340875F&ratio=4.5&isBackgroundTested=true&algo=Rgb&distanceSort=asc`,
+  };
+  const hexMinLength = 4;
+  const hexMaxLength = 7;
 
   /* Local Data */
   const { watch } = useFormContext();
@@ -92,16 +97,24 @@ export default function FormColorPalette({
           colorPaletteInstance.primaryColorLight =
             makeLighterColor(primaryColorWatch);
 
-          if (chroma.contrast(primaryColorWatch, contractTextDark) >= 4.5) {
-            colorPaletteInstance.contrastText = contractTextDark;
-
+          if (
+            chroma.contrast(
+              primaryColorWatch,
+              defaultColorPalette.contrastDefaultDark,
+            ) >= 4.5
+          ) {
+            colorPaletteInstance.contrastText =
+              defaultColorPalette.contrastDefaultDark;
             setColorPalette(colorPaletteInstance);
             primaryColorWatchRef.current = primaryColorWatch;
           } else if (
-            chroma.contrast(primaryColorWatch, contractTextLight) >= 4.5
+            chroma.contrast(
+              primaryColorWatch,
+              defaultColorPalette.contrastDefaultLight,
+            ) >= 4.5
           ) {
-            colorPaletteInstance.contrastText = contractTextLight;
-
+            colorPaletteInstance.contrastText =
+              defaultColorPalette.contrastDefaultLight;
             setColorPalette(colorPaletteInstance);
             primaryColorWatchRef.current = primaryColorWatch;
           } else {
@@ -122,7 +135,6 @@ export default function FormColorPalette({
             makeDarkerColor(secondaryColorWatch);
           colorPaletteInstance.secondaryColorLight =
             makeLighterColor(secondaryColorWatch);
-
           setColorPalette(colorPaletteInstance);
           secondaryColorWatchRef.current = secondaryColorWatch;
         }
@@ -156,20 +168,14 @@ export default function FormColorPalette({
               name="defaultPrimaryColor"
               validationLabel={labels.colorHintText}
               isDisabled
-              defaultValue={
-                process.env.NEXT_PUBLIC_COLOR_BRAND_PRIMARY || "#9bcd41"
-              }
+              defaultValue={defaultColorPalette.primaryColor}
             />
             <FormInput
               label={labels.secondaryColor}
               name="defaultSecondaryColor"
               validationLabel={labels.colorHintText}
               isDisabled
-              defaultValue={
-                process.env.NEXT_PUBLIC_COLOR_BRAND_SECONDARY ||
-                process.env.NEXT_PUBLIC_COLOR_BRAND_PRIMARY ||
-                "#ffc229"
-              }
+              defaultValue={defaultColorPalette.secondaryColor}
             />
           </div>
         </>
@@ -183,8 +189,8 @@ export default function FormColorPalette({
               validationLabel={labels.colorHintText}
               defaultValue={colorPalette?.primaryColor ?? ""}
               isRequired
-              minLengthValidation={4}
-              maxLengthValidation={7}
+              minLengthValidation={hexMinLength}
+              maxLengthValidation={hexMaxLength}
               patternValidation={/^#(?:[0-9a-f]{3}){1,2}$/i}
             />
             <FormInput
@@ -192,31 +198,29 @@ export default function FormColorPalette({
               name="secondaryColor"
               validationLabel={labels.colorHintText}
               defaultValue={colorPalette?.secondaryColor ?? ""}
-              // minLengthValidation={4}
-              maxLengthValidation={7}
+              minLengthValidation={hexMinLength}
+              maxLengthValidation={hexMaxLength}
               patternValidation={/^#(?:[0-9a-f]{3}){1,2}$/i}
             />
           </div>
           {primaryErrorMsg && (
             <div className="c-FormColorPalette__AccessibilityErrorMsg">
-              <Image
-                src={alertPicto}
-                width={15}
-                height={15}
-                alt=""
-                className="c-FormColorPalette__AlertPicto"
-              />
-              <h6>Accessibilité</h6>
+              <h6>{accessibilityMessage.title}</h6>
               <p>
-                La couleur principale que vous avez choisie ne permet pas
-                d&#39;atteindre un contraste suffisant. Le contraste doit être
-                de 4,5 minimum avec du texte clair (#FAF8F4) ou du texte foncé
-                (#030F40). Vous pouvez saisir une autre couleur de votre choix.{" "}
-                <br /> Pour vous aider, vous pouvez utiliser l&#39;outil{" "}
-                <u>tanagaru contrast finder</u>. <br />
-                <u>Trouver une couleur contrastée avec un texte clair</u>
+                {accessibilityMessage.message}
                 <br />
-                <u>Trouver une couleur contrastée avec un texte foncé</u>
+                {accessibilityMessage.toolText}
+                <Link href={accessibilityMessage.toolLink}>
+                  {accessibilityMessage.toolLinkText}
+                </Link>
+                <br />
+                <Link href={accessibilityMessage.findLightLink}>
+                  {accessibilityMessage.findLight}
+                </Link>
+                <br />
+                <Link href={accessibilityMessage.findDarkLink}>
+                  {accessibilityMessage.findDark}
+                </Link>
               </p>
             </div>
           )}
@@ -234,7 +238,7 @@ export default function FormColorPalette({
                 }}
               >
                 {((colorPalette?.primaryColor &&
-                  colorPalette?.primaryColor.length > 4) ||
+                  colorPalette?.primaryColor.length > hexMinLength) ||
                   defaultColorPalette?.primaryColor) && (
                   <span className="c-FormColorPalette__DisplayColor">
                     {colorPalette?.primaryColor ??
@@ -268,7 +272,7 @@ export default function FormColorPalette({
                 }}
               >
                 {((colorPalette?.secondaryColor &&
-                  colorPalette?.secondaryColor.length > 4) ||
+                  colorPalette?.secondaryColor.length > hexMinLength) ||
                   defaultColorPalette?.secondaryColor) && (
                   <span className="c-FormColorPalette__DisplayColor">
                     {colorPalette?.secondaryColor ??

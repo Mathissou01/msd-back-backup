@@ -140,15 +140,16 @@ export function SectorsPage() {
   ];
 
   const actionColumn = (row: ISectorsTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       onClick: () => onEdit(row),
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
@@ -174,6 +175,7 @@ export function SectorsPage() {
       },
     });
   }
+
   function handlePolygon(polygon: GeoJSON | string) {
     polygonData = polygon;
   }

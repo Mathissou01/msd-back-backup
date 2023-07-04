@@ -32,6 +32,7 @@ interface INewsTableRow extends IDefaultTableRow {
   publishedDate: string;
   updatedAt: string;
 }
+
 interface IFilters extends Record<string, unknown> {
   status?: string;
 }
@@ -126,10 +127,10 @@ export function EditoActualitesVersionPage({ customId }: { customId: string }) {
     },
   ];
   const actionColumn = (row: INewsTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/edito/actualites/${row.id}`,
     },
   ];

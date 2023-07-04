@@ -143,10 +143,10 @@ export function EditoAstucesVersionPage({ customId }: { customId: string }) {
     },
   ];
   const actionColumn = (row: ITipsTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/edito/astuces/${row.id}`,
     },
   ];

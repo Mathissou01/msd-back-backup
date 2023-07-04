@@ -29,7 +29,6 @@ export type TRequestStaticUser =
 
 interface IRequestStaticUserProps {
   labels: IRequestStaticUserLabels;
-  enabledFieldsOverride?: Array<TRequestStaticUser>;
   hasUser: boolean;
 }
 
@@ -37,17 +36,9 @@ type TUserFieldsOption = "true" | "false";
 
 export default function RequestStaticFieldsUser({
   labels,
-  enabledFieldsOverride,
   hasUser,
 }: IRequestStaticUserProps) {
   /* Methods */
-  function hasFieldEnabled(fieldName: TRequestStaticUser) {
-    return (
-      !enabledFieldsOverride ||
-      enabledFieldsOverride?.find((field) => field === fieldName)
-    );
-  }
-
   function requestDisplayCivilitySelectDisplayTransformFunction(
     displayUserCivility: string,
   ): string {
@@ -86,83 +77,79 @@ export default function RequestStaticFieldsUser({
   return (
     <>
       <div className="c-RequestStaticUser">
-        {hasFieldEnabled("hasUser") && (
-          <div className="c-RequestStaticUser__HasUser">
-            <FormCheckbox
-              name={"hasUser"}
-              label={labels.staticUserContainerActivationLabel}
-              defaultChecked={false}
-              onClick={() => setLocalHasUser(!localHasUser)}
-            />
-
-            {localHasUser && (
-              <div className="c-RequestStaticUser__UserContainer">
-                <div className="c-RequestStaticUser__Header">
-                  <div className="c-RequestStaticUser__Picto c-RequestStaticUser__Picto_user" />
-                  <div className="c-RequestStaticUser__Title">
-                    {labels.staticUserLabel}
-                  </div>
-                  <div className="c-RequestStaticUser__LastBlock">
-                    {labels.staticUserLastBlockLabel}
-                  </div>
+        <div className="c-RequestStaticUser__HasUser">
+          <FormCheckbox
+            name={"hasUser"}
+            label={labels.staticUserContainerActivationLabel}
+            onClick={() => setLocalHasUser(!localHasUser)}
+          />
+          {localHasUser && (
+            <div className="c-RequestStaticUser__UserContainer">
+              <div className="c-RequestStaticUser__Header">
+                <div className="c-RequestStaticUser__Picto" />
+                <div className="c-RequestStaticUser__Title">
+                  {labels.staticUserLabel}
                 </div>
-                <div className="c-RequestStaticUser__Fields">
-                  <div className="c-RequestStaticUser__Field c-RequestStaticUser__DisplayUserCivility">
-                    <FormSelect<string>
-                      label={labels.staticUserCivilitySelectLabel}
-                      name="displayUserCivility"
-                      displayTransform={
-                        requestDisplayCivilitySelectDisplayTransformFunction
-                      }
-                      options={displayUserCivilityOptions}
-                      isRequired
-                    />
-                  </div>
-                  <div className="c-RequestStaticUser__Field c-RequestStaticUser__IsUserNameMandatory">
-                    <FormSelect<string>
-                      label={labels.staticUserNameFieldStateSelectLabel}
-                      name="isUserNameMandatory"
-                      displayTransform={
-                        requestMandatoryFieldsSelectDisplayTransformFunction
-                      }
-                      options={mandatoryFieldOptions}
-                      isRequired
-                    />
-                  </div>
-                  <div className="c-RequestStaticUser__Field c-RequestStaticUser__IsUserEmailMandatory">
-                    <FormSelect<string>
-                      label={labels.staticUserEmailFieldStateSelectLabel}
-                      name="isUserEmailMandatory"
-                      displayTransform={
-                        requestMandatoryFieldsSelectDisplayTransformFunction
-                      }
-                      options={mandatoryFieldOptions}
-                      isRequired
-                    />
-                  </div>
-                  <div className="c-RequestStaticUser__Field c-RequestStaticUser__IsUserPhoneMandatory">
-                    <FormSelect<string>
-                      label={labels.staticUserPhoneFieldStateSelectLabel}
-                      name="isUserPhoneMandatory"
-                      displayTransform={
-                        requestMandatoryFieldsSelectDisplayTransformFunction
-                      }
-                      options={mandatoryFieldOptions}
-                      isRequired
-                    />
-                  </div>
-                  <div className="c-RequestStaticUser__Field c-RequestStaticUser__UserAllowSMSNotification">
-                    <FormCheckbox
-                      name={"userAllowSMSNotification"}
-                      label={labels.staticUserSMSCheckboxStateLabel}
-                      defaultChecked={false}
-                    />
-                  </div>
+                <div className="c-RequestStaticUser__LastBlock">
+                  {labels.staticUserLastBlockLabel}
                 </div>
               </div>
-            )}
-          </div>
-        )}
+              <div className="c-RequestStaticUser__Fields">
+                <div className="c-RequestStaticUser__Field c-RequestStaticUser__DisplayUserCivility">
+                  <FormSelect<string>
+                    label={labels.staticUserCivilitySelectLabel}
+                    name="displayUserCivility"
+                    displayTransform={
+                      requestDisplayCivilitySelectDisplayTransformFunction
+                    }
+                    options={displayUserCivilityOptions}
+                    isRequired
+                  />
+                </div>
+                <div className="c-RequestStaticUser__Field c-RequestStaticUser__IsUserNameMandatory">
+                  <FormSelect<string>
+                    label={labels.staticUserNameFieldStateSelectLabel}
+                    name="isUserNameMandatory"
+                    displayTransform={
+                      requestMandatoryFieldsSelectDisplayTransformFunction
+                    }
+                    options={mandatoryFieldOptions}
+                    isRequired
+                  />
+                </div>
+                <div className="c-RequestStaticUser__Field c-RequestStaticUser__IsUserEmailMandatory">
+                  <FormSelect<string>
+                    label={labels.staticUserEmailFieldStateSelectLabel}
+                    name="isUserEmailMandatory"
+                    displayTransform={
+                      requestMandatoryFieldsSelectDisplayTransformFunction
+                    }
+                    options={mandatoryFieldOptions}
+                    isRequired
+                  />
+                </div>
+                <div className="c-RequestStaticUser__Field c-RequestStaticUser__IsUserPhoneMandatory">
+                  <FormSelect<string>
+                    label={labels.staticUserPhoneFieldStateSelectLabel}
+                    name="isUserPhoneMandatory"
+                    displayTransform={
+                      requestMandatoryFieldsSelectDisplayTransformFunction
+                    }
+                    options={mandatoryFieldOptions}
+                    isRequired
+                  />
+                </div>
+                <div className="c-RequestStaticUser__Field c-RequestStaticUser__UserAllowSMSNotification">
+                  <FormCheckbox
+                    name={"userAllowSMSNotification"}
+                    label={labels.staticUserSMSCheckboxStateLabel}
+                    defaultChecked={false}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

@@ -34,35 +34,19 @@ export interface IRequestStaticFieldsLabels {
   user: IRequestStaticUserLabels;
 }
 
-export type TRequestStaticFields =
-  | "name"
-  | "aggregate"
-  | "hasSeveralRequestTypes"
-  | "blockText"
-  | "fieldAddressLabel";
-
 interface IRequestStaticFieldsProps {
   labels: IRequestStaticFieldsLabels;
-  enabledFieldsOverride?: Array<TRequestStaticFields>;
   requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration>;
 }
 
 export default function RequestStaticFields({
   labels,
-  enabledFieldsOverride,
   requestTypeDynamicFieldConfigurations,
 }: IRequestStaticFieldsProps) {
   /* Static Data */
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
   /* Methods */
-  function hasFieldEnabled(fieldName: TRequestStaticFields) {
-    return (
-      !enabledFieldsOverride ||
-      enabledFieldsOverride?.find((field) => field === fieldName)
-    );
-  }
-
   function requestAggregatesSelectDisplayTransformFunction(
     requestAggregate: RequestAggregateEntity,
   ): string {
@@ -116,59 +100,51 @@ export default function RequestStaticFields({
         <span className="c-RequestStaticFields__RequiredLabel">
           {mandatoryFields}
         </span>
-        {hasFieldEnabled("name") && (
-          <div className="c-RequestStaticFields__Name">
-            <FormInput
-              type="text"
-              name="name"
-              label={labels.staticName}
-              isRequired={true}
-              maxLengthValidation={50}
-              validationLabel={`50 ${labels.staticMaxCharacters}`}
-            />
-          </div>
-        )}
-        {hasFieldEnabled("aggregate") && (
-          <div className="c-RequestStaticFields__Aggregate">
-            <FormSelect<RequestAggregateEntity>
-              label={labels.staticAggregateLabel}
-              name="aggregate"
-              displayTransform={requestAggregatesSelectDisplayTransformFunction}
-              options={requestAggregateOptions}
-              optionKey="id"
-              informationLabel={labels.staticAggregateInformation}
-              isDisabled={requestAggregateOptions.length === 0}
-            />
-          </div>
-        )}
-        {hasFieldEnabled("blockText") && (
-          <FormWysiwyg
-            validationLabel={labels.subStaticWysiwygText}
-            name="blockText"
-            label={labels.staticWysiwygText}
-            isVisible
+        <div className="c-RequestStaticFields__Name">
+          <FormInput
+            type="text"
+            name="name"
+            label={labels.staticName}
+            isRequired={true}
+            maxLengthValidation={50}
+            validationLabel={`50 ${labels.staticMaxCharacters}`}
           />
-        )}
+        </div>
+        <div className="c-RequestStaticFields__Aggregate">
+          <FormSelect<RequestAggregateEntity>
+            label={labels.staticAggregateLabel}
+            name="aggregate"
+            displayTransform={requestAggregatesSelectDisplayTransformFunction}
+            options={requestAggregateOptions}
+            optionKey="id"
+            informationLabel={labels.staticAggregateInformation}
+            isDisabled={requestAggregateOptions.length === 0}
+          />
+        </div>
+        <FormWysiwyg
+          validationLabel={labels.subStaticWysiwygText}
+          name="blockText"
+          label={labels.staticWysiwygText}
+          isVisible
+        />
       </div>
       <div className="c-RequestStaticFields">
-        {hasFieldEnabled("hasSeveralRequestTypes") && (
-          <FormRadioInput
-            name="hasSeveralRequestTypes"
-            displayName={labels.staticRadioRequestType}
-            options={[
-              {
-                value: "0",
-                label: labels.oneRequestType,
-              },
-              {
-                value: "1",
-                label: labels.severalRequestType,
-              },
-            ]}
-            defaultValue="0"
-            onChange={() => handleRequestTypesSwitch()}
-          />
-        )}
+        <FormRadioInput
+          name="hasSeveralRequestTypes"
+          displayName={labels.staticRadioRequestType}
+          options={[
+            {
+              value: "0",
+              label: labels.oneRequestType,
+            },
+            {
+              value: "1",
+              label: labels.severalRequestType,
+            },
+          ]}
+          defaultValue="0"
+          onChange={() => handleRequestTypesSwitch()}
+        />
         {!isSeveral ? (
           <RequestTypeBlock blockName="requestType.0" hasTitleField={false} />
         ) : (
@@ -181,9 +157,7 @@ export default function RequestStaticFields({
         )}
       </div>
       <div className="c-RequestStaticFields">
-        {hasFieldEnabled("fieldAddressLabel") && (
-          <RequestAddressFields labels={labels.address} />
-        )}
+        <RequestAddressFields labels={labels.address} />
       </div>
     </>
   );

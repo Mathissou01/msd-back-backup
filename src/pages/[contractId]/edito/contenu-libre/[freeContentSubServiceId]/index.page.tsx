@@ -43,6 +43,7 @@ interface IFreeContentTableRow extends IDefaultTableRow {
 interface IEditoFreeContentSubServicePage {
   freeContentSubServiceId: string;
 }
+
 interface IFilters extends Record<string, unknown> {
   status?: string;
 }
@@ -272,20 +273,22 @@ export function EditoFreeContentSubServicePage({
     },
   ];
   const actionColumn = (row: IFreeContentTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/edito/contenu-libre/${freeContentSubServiceId}/${row.id}`,
     },
     {
       id: "duplicate",
-      picto: "/images/pictos/duplicate.svg",
+      picto: "fileDouble",
+      alt: "Dupliquer",
       onClick: () => onDuplicate(row),
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",

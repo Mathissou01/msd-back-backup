@@ -1,53 +1,34 @@
 @use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-RequestAddressFields {
   display: flex;
   flex-direction: column;
   gap: 8px;
 
-  &__Radio {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  &__AddressContainer {
+    margin: 0.5em 0 0 4px;
+    padding: 20px;
+    border: solid 1px colors.$black;
   }
 
-  &__Option {
+  &__Header {
     display: flex;
     flex-direction: row;
-    gap: 8px;
-    align-items: center;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 1.3em;
+
+    div:last-of-type {
+      margin-left: auto;
+    }
   }
 
-  &__Input {
-    position: relative;
+  &__Picto {
+    @include p.get-picto("pin");
+
     width: 20px;
     height: 20px;
-    color: colors.$expert-blue;
-    background-color: transparent;
-    border: 2px solid colors.$expert-blue;
-    border-radius: 50%;
-    cursor: pointer;
-    appearance: none;
-
-    &_checked::after {
-      position: absolute;
-      top: 3px;
-      right: 3px;
-      bottom: 3px;
-      left: 3px;
-      background-color: colors.$expert-blue;
-      border-radius: 50%;
-      content: "";
-    }
-  }
-
-  &__GpsCoordinates {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-
-    > * {
-      flex: 1;
-    }
+    margin-right: 14px;
   }
 }

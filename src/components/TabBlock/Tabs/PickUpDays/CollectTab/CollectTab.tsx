@@ -122,7 +122,8 @@ export function PickUpDaysPage() {
   const actionColumn = (row: IPickUpTableRow): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/services/jour-collecte/${row.id}`,
     },
   ];

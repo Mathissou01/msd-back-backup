@@ -225,7 +225,8 @@ export function EditoThematiquesPage() {
   ): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirmValidation: () => confirmValidation(row, rowIndex),
@@ -235,7 +236,8 @@ export function EditoThematiquesPage() {
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       isDisabled: row.count !== 0,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),

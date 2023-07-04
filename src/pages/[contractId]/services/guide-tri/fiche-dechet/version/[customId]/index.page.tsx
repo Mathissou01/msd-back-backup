@@ -148,10 +148,10 @@ export function EditoFicheDechetVersionPage({
     },
   ];
   const actionColumn = (row: IWasteFormTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/services/guide-tri/fiche-dechet/${row.id}`,
     },
   ];

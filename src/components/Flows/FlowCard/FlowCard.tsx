@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useState } from "react";
 import {
   useUpdateFlowMutation,
@@ -6,6 +5,7 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { IFlow } from "../../../lib/flows";
 import CommonToggle from "../../Common/CommonToggle/CommonToggle";
+import PseudoImageFallback from "../../Accessibility/PseudoImageFallback/PseudoImageFallback";
 import "./flow-card.scss";
 
 interface IFlowCardProps {
@@ -14,6 +14,11 @@ interface IFlowCardProps {
 }
 
 export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
+  /* Static Data */
+  const accessibilityLabels = {
+    edit: "Modifier",
+  };
+
   /* Methods */
   const onChangeHandler = (isToggleActiveUpdated: boolean) => {
     if (isToggleActiveUpdated) {
@@ -53,16 +58,14 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
     <div className="c-FlowCard">
       <div className="c-FlowCard__Name">{flow.name}</div>
       <div className="c-FlowCard__Modifications">
-        <div className="c-FlowCard__Edit">
-          <button type="button" onClick={() => onOpenFlow(flow)}>
-            <Image
-              src={"/images/pictos/edit.svg"}
-              alt={""}
-              width={16}
-              height={16}
-            />
-          </button>
-        </div>
+        <button
+          className="c-FlowCard__Edit"
+          type="button"
+          onClick={() => onOpenFlow(flow)}
+          title={accessibilityLabels.edit}
+        >
+          <PseudoImageFallback alt={accessibilityLabels.edit} />
+        </button>
         <div className="c-FlowCard__ToogleActivation">
           <CommonToggle
             onChange={(isToggleActiveUpdated) =>

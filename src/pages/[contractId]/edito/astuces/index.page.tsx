@@ -204,20 +204,22 @@ export function EditoAstucesPage() {
     },
   ];
   const actionColumn = (row: ITipsTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/edito/astuces/${row.id}`,
     },
     {
       id: "duplicate",
-      picto: "/images/pictos/duplicate.svg",
+      picto: "fileDouble",
+      alt: "Dupliquer",
       onClick: () => onDuplicate(row),
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",

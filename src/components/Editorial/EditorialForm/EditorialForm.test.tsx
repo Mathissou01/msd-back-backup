@@ -4,6 +4,7 @@ import React, { ClassAttributes, ImgHTMLAttributes } from "react";
 import { IEditorialFields } from "../../../lib/editorial";
 import { valueToEStatus } from "../../../lib/status";
 import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
+import { removeUnstableHtmlPropertiesForTesting } from "../../../lib/testing";
 import { ContractContext } from "../../../hooks/useContract";
 import { defaultMockData } from "../../../../__mocks__/editorialFormMockData";
 import { mockData } from "../../../../__mocks__/contractContextMockData";
@@ -96,12 +97,7 @@ const mocks: {
   },
 };
 
-beforeEach(() => {
-  jest.spyOn(global.Math, "random").mockReturnValue(0.12345);
-});
-
 describe("EditorialForm", () => {
-  // mockRandomForEach([0.12345]);
   it("renders", async () => {
     const onSubmit = jest.fn();
     const { container } = render(
@@ -128,6 +124,11 @@ describe("EditorialForm", () => {
     expect(
       screen.getByDisplayValue("this is a subHeadingText value"),
     ).toBeInTheDocument();
-    expect(await container).toMatchSnapshot();
+    expect(
+      removeUnstableHtmlPropertiesForTesting(
+        await container,
+        "data-flipper-id",
+      ),
+    ).toMatchSnapshot();
   });
 });

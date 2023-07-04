@@ -99,19 +99,8 @@ exports[`Header renders 1`] = `
             href="null/"
           >
             <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/homepage.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_house"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >
@@ -130,19 +119,8 @@ exports[`Header renders 1`] = `
             class="c-NavigationListMenu__Button"
           >
             <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/edito.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_file"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >
@@ -205,19 +183,8 @@ exports[`Header renders 1`] = `
             class="c-NavigationListMenu__Button"
           >
             <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/services.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_dashboard"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >
@@ -290,19 +257,8 @@ exports[`Header renders 1`] = `
             class="c-NavigationListMenu__Button"
           >
             <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/personnalisation.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_appWindowSettings"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >
@@ -365,19 +321,8 @@ exports[`Header renders 1`] = `
             class="c-NavigationListMenu__Button"
           >
             <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/sectorsAndUsers.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_pin"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >
@@ -410,19 +355,8 @@ exports[`Header renders 1`] = `
             class="c-NavigationListMenu__Button"
           >
             <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/administration.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_bank"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >

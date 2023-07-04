@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { IServiceLink } from "../../../../lib/service-links";
 import "./form-service-links-row.scss";
+import PseudoImageFallback from "../../../Accessibility/PseudoImageFallback/PseudoImageFallback";
 
 interface IFormServiceLinksRowProps {
   serviceLink: IServiceLink;
@@ -29,6 +30,16 @@ export default function FormServiceLinksRow({
   isUpDisabled,
   isDownDisabled,
 }: IFormServiceLinksRowProps) {
+  /* Static Data */
+  const altTexts = {
+    picto: "Picto",
+    edit: "Modifier",
+    show: "Afficher",
+    hide: "Cacher",
+    up: "Monter",
+    down: "Baisser",
+  };
+
   return (
     <>
       <div className="c-FormServiceLinksRow__Info">
@@ -40,7 +51,10 @@ export default function FormServiceLinksRow({
             serviceLink.picto?.data?.attributes?.url ??
             "/images/pictos/default.svg"
           }
-          alt={""}
+          alt={
+            serviceLink.picto?.data?.attributes.alternativeText ??
+            altTexts.picto
+          }
           width={24}
           height={24}
         />
@@ -48,73 +62,65 @@ export default function FormServiceLinksRow({
       </div>
       <div className="c-FormServiceLinksRow__Actions">
         <button
-          className={classNames("c-FormServiceLinksRow__Action", {
-            "c-FormServiceLinksRow__Action_darkened": isDisabled,
-            "c-FormServiceLinksRow__Action_disabled": isEditDisabled,
-          })}
+          className={classNames(
+            "c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_edit",
+            {
+              "c-FormServiceLinksRow__Action_darkened": isDisabled,
+              "c-FormServiceLinksRow__Action_disabled": isEditDisabled,
+            },
+          )}
           type="button"
           onClick={onEdit}
           ref={buttonRef}
+          title={altTexts.edit}
         >
-          <Image
-            src={"/images/pictos/edit.svg"}
-            alt={""}
-            width={16}
-            height={16}
-          />
+          <PseudoImageFallback alt={altTexts.edit} />
         </button>
         <button
           className={classNames("c-FormServiceLinksRow__Action", {
+            "c-FormServiceLinksRow__Action_eyeClosed": isDisabled,
+            "c-FormServiceLinksRow__Action_eye": !isDisabled,
             "c-FormServiceLinksRow__Action_darkened": isDisabled,
             "c-FormServiceLinksRow__Action_disabled": isToggleDisplayDisabled,
           })}
           type="button"
           disabled={isToggleDisplayDisabled}
           onClick={onToggleDisplay}
+          title={isDisabled ? altTexts.show : altTexts.hide}
         >
-          <Image
-            src={
-              isToggleDisplayDisabled
-                ? "/images/pictos/view-off.svg"
-                : "/images/pictos/view.svg"
-            }
-            alt={""}
-            width={16}
-            height={16}
+          <PseudoImageFallback
+            alt={isDisabled ? altTexts.show : altTexts.hide}
           />
         </button>
         <button
-          className={classNames("c-FormServiceLinksRow__Action", {
-            "c-FormServiceLinksRow__Action_darkened": isDisabled,
-            "c-FormServiceLinksRow__Action_disabled": isUpDisabled,
-          })}
+          className={classNames(
+            "c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_arrowUp",
+            {
+              "c-FormServiceLinksRow__Action_darkened": isDisabled,
+              "c-FormServiceLinksRow__Action_disabled": isUpDisabled,
+            },
+          )}
           type="button"
           disabled={isUpDisabled}
           onClick={() => onReorder(-1)}
+          title={altTexts.up}
         >
-          <Image
-            style={{ transform: "rotate(180deg)" }}
-            src={"/images/pictos/arrow-down.svg"}
-            alt={""}
-            width={16}
-            height={16}
-          />
+          <PseudoImageFallback alt={altTexts.up} />
         </button>
         <button
-          className={classNames("c-FormServiceLinksRow__Action", {
-            "c-FormServiceLinksRow__Action_darkened": isDisabled,
-            "c-FormServiceLinksRow__Action_disabled": isDownDisabled,
-          })}
+          className={classNames(
+            "c-FormServiceLinksRow__Action c-FormServiceLinksRow__Action_arrowDown",
+            {
+              "c-FormServiceLinksRow__Action_darkened": isDisabled,
+              "c-FormServiceLinksRow__Action_disabled": isDownDisabled,
+            },
+          )}
           type="button"
           disabled={isDownDisabled}
           onClick={() => onReorder(1)}
+          title={altTexts.down}
         >
-          <Image
-            src={"/images/pictos/arrow-down.svg"}
-            alt={""}
-            width={16}
-            height={16}
-          />
+          <PseudoImageFallback alt={altTexts.down} />
         </button>
       </div>
     </>

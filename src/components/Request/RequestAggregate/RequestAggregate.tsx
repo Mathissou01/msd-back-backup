@@ -297,7 +297,8 @@ export default function RequestAggregate() {
   ): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirmValidation: () => confirmValidation(row, rowIndex),
@@ -307,7 +308,8 @@ export default function RequestAggregate() {
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => {
           !row.hasAssociatedRequest ? onDelete(row) : handleOpenModal(row);

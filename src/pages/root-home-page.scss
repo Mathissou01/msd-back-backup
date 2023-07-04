@@ -1,3 +1,4 @@
+@use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.inputs" as input;
 
 .c-RootHomePage {
@@ -22,11 +23,11 @@
     @include input.input;
 
     width: 404px;
-    color: #3d466c;
-    border: 1px solid #d5d6de;
+    color: colors.$blue-1;
+    border: 1px solid colors.$blue-4;
 
     &::placeholder {
-      color: #3d466c;
+      color: colors.$blue-1;
     }
   }
 }

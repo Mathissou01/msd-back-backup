@@ -40,7 +40,25 @@
   }
 
   &__Picto {
-    @include p.pictos;
+    // Partial list of picto names, corresponds to type 'TBlockPictoStyles' in 'lib/pictos.ts'
+    @include p.picto-classes(
+      (
+        "expandVertical",
+        "picture",
+        "text",
+        "video",
+        "textCase",
+        "attachment",
+        "chatBubble",
+        "taskList",
+        "paragraphJustified",
+        "arrowRectangle",
+        "calendar",
+        "checkboxIcon",
+        "questionCircle",
+        "listNumbers"
+      )
+    );
 
     width: 20px;
     height: 20px;

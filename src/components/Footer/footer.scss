@@ -8,9 +8,10 @@
   &__Content {
     display: flex;
     justify-content: right;
+    height: 72px;
   }
 
   &__LogoSuez {
-    margin: 0;
+    margin: auto 30px auto 0;
   }
 }

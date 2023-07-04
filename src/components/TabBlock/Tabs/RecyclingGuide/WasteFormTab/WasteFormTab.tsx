@@ -127,14 +127,14 @@ export default function WasteFormTab() {
   const actionColumn = (row: IWastesTableRow): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       href: `${currentRoot}/services/guide-tri/fiche-dechet/${row.id}`,
     },
     {
       id: "hide",
-      picto: row.isHidden
-        ? "/images/pictos/view-off.svg"
-        : "/images/pictos/view.svg",
+      picto: row.isHidden ? "eyeClosed" : "eye",
+      alt: row.isHidden ? "Afficher" : "Cacher",
       onClick: () => onHideRow(row),
     },
   ];
