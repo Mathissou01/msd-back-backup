@@ -5,7 +5,7 @@ import {
   GetFilesPaginationByPathIdDocument,
   GetFilesPaginationByPathIdQueryVariables,
   useGetAllFoldersHierarchyQuery,
-  useGetFilesPaginationByPathIdQuery,
+  useGetFilesPaginationByPathIdLazyQuery,
   useGetFolderAndChildrenByIdQuery,
   useGetFolderBreadcrumbQuery,
   useUpdateUploadFileMutation,
@@ -183,13 +183,11 @@ export default function CommonBibliothequeMedia({
     variables: { filters: { pathId: { eq: activePathId } } },
     fetchPolicy: "network-only",
   });
-  const {
-    data: filesData,
-    loading: filesDataLoading,
-    error: filesDataError,
-  } = useGetFilesPaginationByPathIdQuery({
+  const [
+    getFilesPaginationByPathId,
+    { data: filesData, loading: filesDataLoading, error: filesDataError },
+  ] = useGetFilesPaginationByPathIdLazyQuery({
     variables: defaultQueryVariables,
-    fetchPolicy: "network-only",
   });
   const {
     data: foldersBreadcrumb,
@@ -298,6 +296,19 @@ export default function CommonBibliothequeMedia({
   }, [foldersData, filesData, activePathId]);
 
   useEffect(() => {
+    getFilesPaginationByPathId({
+      variables: {
+        ...defaultQueryVariables,
+        pagination: {
+          page: currentPagination.page,
+          pageSize: currentPagination.rowsPerPage,
+        },
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPagination]);
+
+  useEffect(() => {
     if (foldersBreadcrumb) {
       const mappedBreadcrumb: Array<IMediaBreadcrumb> =
         foldersBreadcrumb?.libraryBreadcrumbTrail
@@ -318,6 +329,7 @@ export default function CommonBibliothequeMedia({
     // TODO: optimize useEffect
   }, [foldersBreadcrumb]);
   /*eslint-enable */
+  const rowCount = filesData?.uploadFiles?.meta.pagination.total;
 
   return (
     <CommonLoader
@@ -398,7 +410,7 @@ export default function CommonBibliothequeMedia({
         {/* TODO: setup lazy loading once media cards are displayed, see CommonDataTable implementation */}
         <CommonPagination
           currentPage={currentPagination.page}
-          rowCount={0}
+          rowCount={rowCount ?? 0}
           onChangePage={(currentPage) => {
             if (currentPage !== currentPagination.page) {
               setCurrentPagination({
@@ -415,7 +427,7 @@ export default function CommonBibliothequeMedia({
               });
             }
           }}
-          rowsPerPage={10}
+          rowsPerPage={currentPagination.rowsPerPage}
         />
       </div>
       <FormModal

@@ -1063,14 +1063,6 @@ export type ComponentBlocksOpeningDay = {
   weekDay: Enum_Componentblocksopeningday_Weekday;
 };
 
-export type ComponentBlocksProofOfReceipt = {
-  __typename?: "ComponentBlocksProofOfReceipt";
-  id: Scalars["ID"];
-  proofOfReceiptHeader: Scalars["String"];
-  proofOfReceiptSubject: Scalars["String"];
-  sendProofOfReceipt: Scalars["Boolean"];
-};
-
 export type ComponentBlocksQcm = {
   __typename?: "ComponentBlocksQcm";
   fieldLabelQCM: Scalars["String"];
@@ -3721,7 +3713,6 @@ export type GenericMorph =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksOpeningDay
-  | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
   | ComponentBlocksRequestSlotsExceptions
@@ -7864,10 +7855,13 @@ export type Request = {
   isUserPhoneMandatory?: Maybe<Scalars["Boolean"]>;
   name?: Maybe<Scalars["String"]>;
   numberOfRequiredSlots?: Maybe<Scalars["Int"]>;
+  proofOfReceiptHeader?: Maybe<Scalars["String"]>;
+  proofOfReceiptSubject?: Maybe<Scalars["String"]>;
   requestAggregate?: Maybe<RequestAggregateEntityResponse>;
   requestService?: Maybe<RequestServiceEntityResponse>;
   requestSlots?: Maybe<RequestSlotRelationResponseCollection>;
   requestType?: Maybe<Array<Maybe<ComponentBlocksRequestType>>>;
+  sendProofOfReceipt?: Maybe<Scalars["Boolean"]>;
   slotsReservationRules?: Maybe<Scalars["JSON"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   userAllowSMSNotification?: Maybe<Scalars["Boolean"]>;
@@ -7891,7 +7885,6 @@ export type RequestAddableBlocksDynamicZone =
   | ComponentBlocksCommentary
   | ComponentBlocksCumbersome
   | ComponentBlocksDateChoice
-  | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
   | Error;
@@ -7996,10 +7989,13 @@ export type RequestFiltersInput = {
   not?: InputMaybe<RequestFiltersInput>;
   numberOfRequiredSlots?: InputMaybe<IntFilterInput>;
   or?: InputMaybe<Array<InputMaybe<RequestFiltersInput>>>;
+  proofOfReceiptHeader?: InputMaybe<StringFilterInput>;
+  proofOfReceiptSubject?: InputMaybe<StringFilterInput>;
   requestAggregate?: InputMaybe<RequestAggregateFiltersInput>;
   requestService?: InputMaybe<RequestServiceFiltersInput>;
   requestSlots?: InputMaybe<RequestSlotFiltersInput>;
   requestType?: InputMaybe<ComponentBlocksRequestTypeFiltersInput>;
+  sendProofOfReceipt?: InputMaybe<BooleanFilterInput>;
   slotsReservationRules?: InputMaybe<JsonFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   userAllowSMSNotification?: InputMaybe<BooleanFilterInput>;
@@ -8045,10 +8041,13 @@ export type RequestInput = {
   isUserPhoneMandatory?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   numberOfRequiredSlots?: InputMaybe<Scalars["Int"]>;
+  proofOfReceiptHeader?: InputMaybe<Scalars["String"]>;
+  proofOfReceiptSubject?: InputMaybe<Scalars["String"]>;
   requestAggregate?: InputMaybe<Scalars["ID"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
   requestSlots?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   requestType?: InputMaybe<Array<InputMaybe<ComponentBlocksRequestTypeInput>>>;
+  sendProofOfReceipt?: InputMaybe<Scalars["Boolean"]>;
   slotsReservationRules?: InputMaybe<Scalars["JSON"]>;
   userAllowSMSNotification?: InputMaybe<Scalars["Boolean"]>;
 };
@@ -11230,7 +11229,6 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "ComponentBlocksHorizontalRule" }
           | { __typename?: "ComponentBlocksImage" }
           | { __typename?: "ComponentBlocksOpeningDay" }
-          | { __typename?: "ComponentBlocksProofOfReceipt" }
           | { __typename?: "ComponentBlocksQcm" }
           | { __typename?: "ComponentBlocksQuestions" }
           | { __typename?: "ComponentBlocksRequestSlotsExceptions" }
@@ -15547,7 +15545,6 @@ export type GetRequestByIdQuery = {
               fieldStatus: Enum_Componentblocksdatechoice_Fieldstatus;
               fieldLabelDateChoice: string;
             }
-          | { __typename?: "ComponentBlocksProofOfReceipt" }
           | {
               __typename?: "ComponentBlocksQcm";
               id: string;

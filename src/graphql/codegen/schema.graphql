@@ -910,13 +910,6 @@ type ComponentBlocksOpeningDay {
   weekDay: ENUM_COMPONENTBLOCKSOPENINGDAY_WEEKDAY!
 }
 
-type ComponentBlocksProofOfReceipt {
-  id: ID!
-  proofOfReceiptHeader: String!
-  proofOfReceiptSubject: String!
-  sendProofOfReceipt: Boolean!
-}
-
 type ComponentBlocksQcm {
   fieldLabelQCM: String!
   fieldStatusQCM: ENUM_COMPONENTBLOCKSQCM_FIELDSTATUSQCM!
@@ -3323,7 +3316,6 @@ union GenericMorph =
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
   | ComponentBlocksOpeningDay
-  | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
   | ComponentBlocksRequestSlotsExceptions
@@ -5889,6 +5881,8 @@ type Request {
   isUserPhoneMandatory: Boolean
   name: String
   numberOfRequiredSlots: Int
+  proofOfReceiptHeader: String
+  proofOfReceiptSubject: String
   requestAggregate: RequestAggregateEntityResponse
   requestService: RequestServiceEntityResponse
   requestSlots(
@@ -5901,6 +5895,7 @@ type Request {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): [ComponentBlocksRequestType]
+  sendProofOfReceipt: Boolean
   slotsReservationRules: JSON
   updatedAt: DateTime
   userAllowSMSNotification: Boolean
@@ -5912,7 +5907,6 @@ union RequestAddableBlocksDynamicZone =
   | ComponentBlocksCommentary
   | ComponentBlocksCumbersome
   | ComponentBlocksDateChoice
-  | ComponentBlocksProofOfReceipt
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
   | Error
@@ -6009,10 +6003,13 @@ input RequestFiltersInput {
   not: RequestFiltersInput
   numberOfRequiredSlots: IntFilterInput
   or: [RequestFiltersInput]
+  proofOfReceiptHeader: StringFilterInput
+  proofOfReceiptSubject: StringFilterInput
   requestAggregate: RequestAggregateFiltersInput
   requestService: RequestServiceFiltersInput
   requestSlots: RequestSlotFiltersInput
   requestType: ComponentBlocksRequestTypeFiltersInput
+  sendProofOfReceipt: BooleanFilterInput
   slotsReservationRules: JSONFilterInput
   updatedAt: DateTimeFilterInput
   userAllowSMSNotification: BooleanFilterInput
@@ -6054,10 +6051,13 @@ input RequestInput {
   isUserPhoneMandatory: Boolean
   name: String
   numberOfRequiredSlots: Int
+  proofOfReceiptHeader: String
+  proofOfReceiptSubject: String
   requestAggregate: ID
   requestService: ID
   requestSlots: [ID]
   requestType: [ComponentBlocksRequestTypeInput]
+  sendProofOfReceipt: Boolean
   slotsReservationRules: JSON
   userAllowSMSNotification: Boolean
 }

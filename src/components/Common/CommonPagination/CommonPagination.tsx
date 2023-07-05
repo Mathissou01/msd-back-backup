@@ -40,7 +40,7 @@ export default function CommonPagination({
 
   return (
     <>
-      {pageCount > 1 && (
+      {pageCount >= 1 && (
         <div className={paginationClassNames}>
           {!noRowsPerPage && (
             <div className="c-CommonPagination__RowsPerPage">
