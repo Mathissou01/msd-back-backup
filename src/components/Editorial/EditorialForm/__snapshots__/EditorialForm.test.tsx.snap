@@ -51,10 +51,10 @@ exports[`EditorialForm renders 1`] = `
         [33mclass[39m=[32m"c-FormLayout__Content"[39m
       [36m>[39m
         [36m<div[39m
-          [33mclass[39m=[32m"c-EditorialStaticFields"[39m
+          [33mclass[39m=[32m"o-Form__Group"[39m
         [36m>[39m
           [36m<span[39m
-            [33mclass[39m=[32m"c-EditorialStaticFields__RequiredLabel"[39m
+            [33mclass[39m=[32m"o-Form__RequiredLabel"[39m
           [36m>[39m
             [0mTous les champs marqués d'une * sont obligatoires.[0m
           [36m</span>[39m
@@ -91,197 +91,185 @@ exports[`EditorialForm renders 1`] = `
             [36m</div>[39m
           [36m</div>[39m
           [36m<div[39m
-            [33mclass[39m=[32m"c-EditorialStaticFields__Tags"[39m
+            [33mclass[39m=[32m"c-FormLabel"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mclass[39m=[32m"c-FormLabel__LabelWrapper"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"c-FormLabel__Label"[39m
+              [36m>[39m
+                [0mThématique[0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"c-FormLabel__LabelDescription"[39m
+                [36m>[39m
+                  [0m(Tags)[0m
+                [36m</span>[39m
+              [36m</span>[39m
+            [36m</label>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"c-FormLabel__Content"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"c-FormSingleMultiselect__Input css-b62m3t-container"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"css-1f43avz-a11yText-A11yText"[39m
+                  [33mid[39m=[32m"react-select-2-live-region"[39m
+                [36m/>[39m
+                [36m<span[39m
+                  [33maria-atomic[39m=[32m"false"[39m
+                  [33maria-live[39m=[32m"polite"[39m
+                  [33maria-relevant[39m=[32m"additions text"[39m
+                  [33mclass[39m=[32m"css-1f43avz-a11yText-A11yText"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"form-single-multiselect__control css-13cymwt-control"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"form-single-multiselect__value-container form-single-multiselect__value-container--is-multi css-1fdsijx-ValueContainer"[39m
+                  [36m>[39m
+                    [36m<div[39m
+                      [33mclass[39m=[32m"form-single-multiselect__placeholder css-1jqq78o-placeholder"[39m
+                      [33mid[39m=[32m"react-select-2-placeholder"[39m
+                    [36m/>[39m
+                    [36m<div[39m
+                      [33mclass[39m=[32m"form-single-multiselect__input-container css-qbdosj-Input"[39m
+                      [33mdata-value[39m=[32m""[39m
+                    [36m>[39m
+                      [36m<input[39m
+                        [33maria-autocomplete[39m=[32m"list"[39m
+                        [33maria-describedby[39m=[32m"react-select-2-placeholder"[39m
+                        [33maria-errormessage[39m=[32m"tags_error"[39m
+                        [33maria-expanded[39m=[32m"false"[39m
+                        [33maria-haspopup[39m=[32m"true"[39m
+                        [33maria-invalid[39m=[32m"false"[39m
+                        [33mautocapitalize[39m=[32m"none"[39m
+                        [33mautocomplete[39m=[32m"off"[39m
+                        [33mautocorrect[39m=[32m"off"[39m
+                        [33mclass[39m=[32m"form-single-multiselect__input"[39m
+                        [33mid[39m=[32m"react-select-2-input"[39m
+                        [33mrole[39m=[32m"combobox"[39m
+                        [33mspellcheck[39m=[32m"false"[39m
+                        [33mstyle[39m=[32m"opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"[39m
+                        [33mtabindex[39m=[32m"0"[39m
+                        [33mtype[39m=[32m"text"[39m
+                        [33mvalue[39m=[32m""[39m
+                      [36m/>[39m
+                    [36m</div>[39m
+                  [36m</div>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"form-single-multiselect__indicators css-1hb7zxy-IndicatorsContainer"[39m
+                  [36m>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"form-single-multiselect__indicator-separator css-1u9des2-indicatorSeparator"[39m
+                    [36m/>[39m
+                    [36m<div[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mclass[39m=[32m"form-single-multiselect__indicator form-single-multiselect__dropdown-indicator css-1xc3v61-indicatorContainer"[39m
+                    [36m>[39m
+                      [36m<svg[39m
+                        [33maria-hidden[39m=[32m"true"[39m
+                        [33mclass[39m=[32m"css-tj5bde-Svg"[39m
+                        [33mfocusable[39m=[32m"false"[39m
+                        [33mheight[39m=[32m"20"[39m
+                        [33mviewBox[39m=[32m"0 0 20 20"[39m
+                        [33mwidth[39m=[32m"20"[39m
+                      [36m>[39m
+                        [36m<path[39m
+                          [33md[39m=[32m"M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"[39m
+                        [36m/>[39m
+                      [36m</svg>[39m
+                    [36m</div>[39m
+                  [36m</div>[39m
+                [36m</div>[39m
+                [36m<div>[39m
+                  [36m<input[39m
+                    [33mname[39m=[32m"tags"[39m
+                    [33mtype[39m=[32m"hidden"[39m
+                    [33mvalue[39m=[32m""[39m
+                  [36m/>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"c-FormFileInput"[39m
           [36m>[39m
             [36m<div[39m
               [33mclass[39m=[32m"c-FormLabel"[39m
             [36m>[39m
               [36m<label[39m
                 [33mclass[39m=[32m"c-FormLabel__LabelWrapper"[39m
+                [33mfor[39m=[32m"image"[39m
               [36m>[39m
                 [36m<span[39m
                   [33mclass[39m=[32m"c-FormLabel__Label"[39m
                 [36m>[39m
-                  [0mThématique[0m
-                  [36m<span[39m
-                    [33mclass[39m=[32m"c-FormLabel__LabelDescription"[39m
-                  [36m>[39m
-                    [0m(Tags)[0m
-                  [36m</span>[39m
+                  [0mVignette *[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"c-FormLabel__Validation"[39m
+                [36m>[39m
+                  [0mFormat carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum[0m
+                [36m</span>[39m
+              [36m</label>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"c-FormLabel__LabelWrapper"[39m
+                [33mfor[39m=[32m"image"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"FormLabel__Secondary"[39m
+                [36m>[39m
+                  [0mEco-conception: pensez à réduire la taille et le poids de vos images. Utilisez des logiciels ou des outils en ligne pour optimiser vos images (www.iloveimg.com par exemple).[0m
                 [36m</span>[39m
               [36m</label>[39m
               [36m<div[39m
                 [33mclass[39m=[32m"c-FormLabel__Content"[39m
               [36m>[39m
-                [36m<div[39m
-                  [33mclass[39m=[32m"c-FormSingleMultiselect__Input css-b62m3t-container"[39m
-                [36m>[39m
-                  [36m<span[39m
-                    [33mclass[39m=[32m"css-1f43avz-a11yText-A11yText"[39m
-                    [33mid[39m=[32m"react-select-2-live-region"[39m
-                  [36m/>[39m
-                  [36m<span[39m
-                    [33maria-atomic[39m=[32m"false"[39m
-                    [33maria-live[39m=[32m"polite"[39m
-                    [33maria-relevant[39m=[32m"additions text"[39m
-                    [33mclass[39m=[32m"css-1f43avz-a11yText-A11yText"[39m
-                  [36m/>[39m
-                  [36m<div[39m
-                    [33mclass[39m=[32m"form-single-multiselect__control css-13cymwt-control"[39m
-                  [36m>[39m
-                    [36m<div[39m
-                      [33mclass[39m=[32m"form-single-multiselect__value-container form-single-multiselect__value-container--is-multi css-1fdsijx-ValueContainer"[39m
-                    [36m>[39m
-                      [36m<div[39m
-                        [33mclass[39m=[32m"form-single-multiselect__placeholder css-1jqq78o-placeholder"[39m
-                        [33mid[39m=[32m"react-select-2-placeholder"[39m
-                      [36m/>[39m
-                      [36m<div[39m
-                        [33mclass[39m=[32m"form-single-multiselect__input-container css-qbdosj-Input"[39m
-                        [33mdata-value[39m=[32m""[39m
-                      [36m>[39m
-                        [36m<input[39m
-                          [33maria-autocomplete[39m=[32m"list"[39m
-                          [33maria-describedby[39m=[32m"react-select-2-placeholder"[39m
-                          [33maria-errormessage[39m=[32m"tags_error"[39m
-                          [33maria-expanded[39m=[32m"false"[39m
-                          [33maria-haspopup[39m=[32m"true"[39m
-                          [33maria-invalid[39m=[32m"false"[39m
-                          [33mautocapitalize[39m=[32m"none"[39m
-                          [33mautocomplete[39m=[32m"off"[39m
-                          [33mautocorrect[39m=[32m"off"[39m
-                          [33mclass[39m=[32m"form-single-multiselect__input"[39m
-                          [33mid[39m=[32m"react-select-2-input"[39m
-                          [33mrole[39m=[32m"combobox"[39m
-                          [33mspellcheck[39m=[32m"false"[39m
-                          [33mstyle[39m=[32m"opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"[39m
-                          [33mtabindex[39m=[32m"0"[39m
-                          [33mtype[39m=[32m"text"[39m
-                          [33mvalue[39m=[32m""[39m
-                        [36m/>[39m
-                      [36m</div>[39m
-                    [36m</div>[39m
-                    [36m<div[39m
-                      [33mclass[39m=[32m"form-single-multiselect__indicators css-1hb7zxy-IndicatorsContainer"[39m
-                    [36m>[39m
-                      [36m<span[39m
-                        [33mclass[39m=[32m"form-single-multiselect__indicator-separator css-1u9des2-indicatorSeparator"[39m
-                      [36m/>[39m
-                      [36m<div[39m
-                        [33maria-hidden[39m=[32m"true"[39m
-                        [33mclass[39m=[32m"form-single-multiselect__indicator form-single-multiselect__dropdown-indicator css-1xc3v61-indicatorContainer"[39m
-                      [36m>[39m
-                        [36m<svg[39m
-                          [33maria-hidden[39m=[32m"true"[39m
-                          [33mclass[39m=[32m"css-tj5bde-Svg"[39m
-                          [33mfocusable[39m=[32m"false"[39m
-                          [33mheight[39m=[32m"20"[39m
-                          [33mviewBox[39m=[32m"0 0 20 20"[39m
-                          [33mwidth[39m=[32m"20"[39m
-                        [36m>[39m
-                          [36m<path[39m
-                            [33md[39m=[32m"M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"[39m
-                          [36m/>[39m
-                        [36m</svg>[39m
-                      [36m</div>[39m
-                    [36m</div>[39m
-                  [36m</div>[39m
-                  [36m<div>[39m
-                    [36m<input[39m
-                      [33mname[39m=[32m"tags"[39m
-                      [33mtype[39m=[32m"hidden"[39m
-                      [33mvalue[39m=[32m""[39m
-                    [36m/>[39m
-                  [36m</div>[39m
-                [36m</div>[39m
+                [36m<input[39m
+                  [33maria-invalid[39m=[32m"false"[39m
+                  [33mname[39m=[32m"image"[39m
+                  [33mtype[39m=[32m"hidden"[39m
+                  [33mvalue[39m=[32m"[object Object]"[39m
+                [36m/>[39m
               [36m</div>[39m
             [36m</div>[39m
           [36m</div>[39m
           [36m<div[39m
-            [33mclass[39m=[32m"c-EditoDynamicFields__Image"[39m
+            [33mclass[39m=[32m"c-FormInput"[39m
           [36m>[39m
             [36m<div[39m
-              [33mclass[39m=[32m"c-FormFileInput"[39m
+              [33mclass[39m=[32m"c-FormLabel"[39m
             [36m>[39m
-              [36m<div[39m
-                [33mclass[39m=[32m"c-FormLabel"[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"c-FormLabel__LabelWrapper"[39m
+                [33mfor[39m=[32m"shortDescription"[39m
               [36m>[39m
-                [36m<label[39m
-                  [33mclass[39m=[32m"c-FormLabel__LabelWrapper"[39m
-                  [33mfor[39m=[32m"image"[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"c-FormLabel__Label"[39m
                 [36m>[39m
-                  [36m<span[39m
-                    [33mclass[39m=[32m"c-FormLabel__Label"[39m
-                  [36m>[39m
-                    [0mVignette *[0m
-                  [36m</span>[39m
-                  [36m<span[39m
-                    [33mclass[39m=[32m"c-FormLabel__Validation"[39m
-                  [36m>[39m
-                    [0mFormat carré, format .gif, .svg, .png ou .jpg, 30 Mo maximum[0m
-                  [36m</span>[39m
-                [36m</label>[39m
-                [36m<label[39m
-                  [33mclass[39m=[32m"c-FormLabel__LabelWrapper"[39m
-                  [33mfor[39m=[32m"image"[39m
+                  [0mDescription courte *[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"c-FormLabel__Validation"[39m
                 [36m>[39m
-                  [36m<span[39m
-                    [33mclass[39m=[32m"FormLabel__Secondary"[39m
-                  [36m>[39m
-                    [0mEco-conception: pensez à réduire la taille et le poids de vos images. Utilisez des logiciels ou des outils en ligne pour optimiser vos images (www.iloveimg.com par exemple).[0m
-                  [36m</span>[39m
-                [36m</label>[39m
-                [36m<div[39m
-                  [33mclass[39m=[32m"c-FormLabel__Content"[39m
-                [36m>[39m
-                  [36m<input[39m
-                    [33maria-invalid[39m=[32m"false"[39m
-                    [33mname[39m=[32m"image"[39m
-                    [33mtype[39m=[32m"hidden"[39m
-                    [33mvalue[39m=[32m"[object Object]"[39m
-                  [36m/>[39m
-                [36m</div>[39m
-              [36m</div>[39m
-            [36m</div>[39m
-          [36m</div>[39m
-          [36m<div[39m
-            [33mclass[39m=[32m"c-EditorialStaticFields__DescriptionInput"[39m
-          [36m>[39m
-            [36m<div[39m
-              [33mclass[39m=[32m"c-FormInput"[39m
-            [36m>[39m
+                  [0m80 caractères maximum, affichés dans l'aperçu de l'actualité[0m
+                [36m</span>[39m
+              [36m</label>[39m
               [36m<div[39m
-                [33mclass[39m=[32m"c-FormLabel"[39m
+                [33mclass[39m=[32m"c-FormLabel__Content"[39m
               [36m>[39m
-                [36m<label[39m
-                  [33mclass[39m=[32m"c-FormLabel__LabelWrapper"[39m
-                  [33mfor[39m=[32m"shortDescription"[39m
-                [36m>[39m
-                  [36m<span[39m
-                    [33mclass[39m=[32m"c-FormLabel__Label"[39m
-                  [36m>[39m
-                    [0mDescription courte *[0m
-                  [36m</span>[39m
-                  [36m<span[39m
-                    [33mclass[39m=[32m"c-FormLabel__Validation"[39m
-                  [36m>[39m
-                    [0m80 caractères maximum, affichés dans l'aperçu de l'actualité[0m
-                  [36m</span>[39m
-                [36m</label>[39m
-                [36m<div[39m
-                  [33mclass[39m=[32m"c-FormLabel__Content"[39m
-                [36m>[39m
-                  [36m<textarea[39m
-                    [33maria-errormessage[39m=[32m"shortDescription_error"[39m
-                    [33maria-invalid[39m=[32m"false"[39m
-                    [33mclass[39m=[32m"c-FormInput__Input"[39m
-                    [33mdata-testid[39m=[32m"form-input"[39m
-                    [33mid[39m=[32m"shortDescription"[39m
-                    [33mmaxlength[39m=[32m"80"[39m
-                    [33mname[39m=[32m"shortDescription"[39m
-                    [33mtype[39m=[32m"text"[39m
-                  [36m/>[39m
-                [36m</div>[39m
+                [36m<textarea[39m
+                  [33maria-errormessage[39m=[32m"shortDescription_error"[39m
+                  [33maria-invalid[39m=[32m"false"[39m
+                  [33mclass[39m=[32m"c-FormInput__Input"[39m
+                  [33mdata-testid[39m=[32m"form-input"[39m
+                  [33mid[39m=[32m"shortDescription"[39m
+                  [33mmaxlength[39m=[32m"80"[39m
+                  [33mname[39m=[32m"shortDescription"[39m
+                  [33mtype[39m=[32m"text"[39m
+                [36m/>[39m
               [36m</div>[39m
             [36m</div>[39m
           [36m</div>[39m

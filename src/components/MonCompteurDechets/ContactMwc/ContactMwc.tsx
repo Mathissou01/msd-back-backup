@@ -124,7 +124,7 @@ const ContactForm: React.FC = () => {
 
   return (
     <>
-      <div className="c-ContactFormPage">
+      <div className="c-ContactFormPage o-Form__Group">
         <h2 className="c-ContactFormPage__Title">{LABEL.title}</h2>
         <FormProvider {...form}>
           <form

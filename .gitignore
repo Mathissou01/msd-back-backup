@@ -67,6 +67,7 @@ sketch
 ### TinyMCE ###
 public/assets/libs/tinymce/*
 !public/assets/libs/tinymce/langs
+!public/assets/libs/tinymce/skins/ui/oxide-custom
 
 ### Sass ###
 .sass-cache/

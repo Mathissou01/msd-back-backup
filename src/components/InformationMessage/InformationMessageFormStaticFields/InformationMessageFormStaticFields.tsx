@@ -22,6 +22,7 @@ export interface IInformationMessageFormStaticFieldsLabels {
 interface IInformationMessageFormStaticFieldsProps {
   labels: IInformationMessageFormStaticFieldsLabels;
 }
+
 export default function InformationMessageFormStaticFields({
   labels,
 }: IInformationMessageFormStaticFieldsProps) {
@@ -62,24 +63,20 @@ export default function InformationMessageFormStaticFields({
 
   return (
     <>
-      <div className="c-InformationMessageStaticFields">
-        <div className="c-InformationMessageStaticFields__RequiredLabel">
-          {mandatoryFields}
-        </div>
+      <div className="o-Form__Group">
+        <div className="o-Form__RequiredLabel">{mandatoryFields}</div>
         <FormInput
           type="text"
           name="infoMessage"
           label={labels.staticName}
           isRequired={true}
         />
-        <div className="c-InformationMessageStaticFields__InformationMessages">
-          <FormSingleMultiselect
-            label={labels.staticPickUpDays}
-            name="pickUpDays"
-            options={sortedOptions}
-            isMulti
-          />
-        </div>
+        <FormSingleMultiselect
+          label={labels.staticPickUpDays}
+          name="pickUpDays"
+          options={sortedOptions}
+          isMulti
+        />
         <div className="c-InformationMessageStaticFields__DatePicker">
           <FormDatePicker
             name="date"

@@ -183,7 +183,7 @@ export function ServicesPickUpDayEditPage({
 
   function onCancel() {
     form.reset();
-    router.push(`${currentRoot}/services/jour-collecte`);
+    void router.push(`${currentRoot}/services/jour-collecte`);
   }
 
   useEffect(() => {
@@ -253,18 +253,16 @@ export function ServicesPickUpDayEditPage({
   }, [data]);
 
   return (
-    <div className="o-ServicesPickUpDayEditPage">
-      <>
-        <PageTitle title={title} />
-        <CommonLoader isLoading={isLoading} errors={errors}>
-          <PickUpDaysForm
-            data={pickUpDaysData}
-            onSubmitValid={onSubmit}
-            onCancel={onCancel}
-            labels={formLabels}
-          />
-        </CommonLoader>
-      </>
+    <div className="o-FormEditPage">
+      <PageTitle title={title} />
+      <CommonLoader isLoading={isLoading} errors={errors}>
+        <PickUpDaysForm
+          data={pickUpDaysData}
+          onSubmitValid={onSubmit}
+          onCancel={onCancel}
+          labels={formLabels}
+        />
+      </CommonLoader>
     </div>
   );
 }

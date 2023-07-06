@@ -1,13 +1,15 @@
 @use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
 
 .c-GestionInformationsPage {
   &__Table {
+    @include shadows.shadow(1);
+
     width: 100%;
     margin-top: 18px;
     margin-bottom: 50px;
     background-color: colors.$white;
     border-radius: 8px;
-    box-shadow: 0 0 1px rgb(17 95 251 / 5%), 0 1px 3px rgb(17 95 251 / 10%);
 
     th,
     td {

@@ -1,21 +1,23 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
-import FormInput from "../../Form/FormInput/FormInput";
-import "./request-address-fields.scss";
+import FormCheckbox from "../../../Form/FormCheckbox/FormCheckbox";
+import FormInput from "../../../Form/FormInput/FormInput";
+import "./request-static-address.scss";
 
-export interface IRequestAddressFields {
+export interface IRequestStaticAddressLabels {
   staticAddressContainerActivationLabel: string;
   staticAddressContainerLabel: string;
   staticAddressFirstBlockLabel: string;
   staticAddressInputLabel: string;
 }
 
-interface RequestAddressProps {
-  labels: IRequestAddressFields;
+interface IRequestStaticAddressProps {
+  labels: IRequestStaticAddressLabels;
 }
 
-export default function RequestAddressFields({ labels }: RequestAddressProps) {
+export default function RequestStaticAddress({
+  labels,
+}: IRequestStaticAddressProps) {
   /* Local Data */
   const { resetField, getValues } = useFormContext();
   const { watch } = useFormContext();

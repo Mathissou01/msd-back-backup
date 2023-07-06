@@ -233,14 +233,12 @@ export function PersonnalisationCouleursPage() {
             onSubmit={handleSubmit(onSubmitValid)}
             ref={useFocusFirstElement()}
           >
-            <div className="c-PersonnalisationCouleursPage__Content">
+            <div className="o-Form__Group">
               <div className="c-PersonnalisationCouleursPage__Group">
                 <h2 className="c-PersonnalisationCouleursPage__Title">
                   {labels.title}
                 </h2>
-                <span className="c-PersonnalisationCouleursPage__RequiredLabel">
-                  {mandatoryFields}
-                </span>
+                <span className="o-Form__RequiredLabel">{mandatoryFields}</span>
                 <div className="c-PersonnalisationCouleursPage__SubGroup">
                   <FormFileInput
                     name="logo"
@@ -256,7 +254,7 @@ export function PersonnalisationCouleursPage() {
                 </div>
               </div>
             </div>
-            <div className="c-PersonnalisationCouleursPage__Content">
+            <div className="o-Form__Group">
               <div className="c-PersonnalisationCouleursPage__Group">
                 <h2 className="c-PersonnalisationCouleursPage__Title">
                   {labels.colorInputLabel}

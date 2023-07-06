@@ -55,6 +55,7 @@ export interface IPickUpDaysFormStaticFieldsLabels {
 interface IPickUpDaysFormStaticFieldsProps {
   labels: IPickUpDaysFormStaticFieldsLabels;
 }
+
 export default function PickUpDaysFormStaticFields({
   labels,
 }: IPickUpDaysFormStaticFieldsProps) {
@@ -270,8 +271,8 @@ export default function PickUpDaysFormStaticFields({
   }, [periodicity, recurrence, includeHoliday]);
 
   return (
-    <div className="c-PickUpDaysStaticFields">
-      <div className="c-PickUpDaysStaticFields__Wrapper">
+    <>
+      <div className="o-Form__Group">
         {mandatoryFields}
         <FormInput
           type="text"
@@ -281,7 +282,7 @@ export default function PickUpDaysFormStaticFields({
           maxLengthValidation={maxCharacters}
         />
       </div>
-      <div className="c-PickUpDaysStaticFields__Wrapper">
+      <div className="o-Form__Group">
         <div className="c-PickUpDaysStaticFields__Label">
           {labels.staticPlace}
         </div>
@@ -292,7 +293,7 @@ export default function PickUpDaysFormStaticFields({
           labels={labels.staticSectorizationOrCityLabels}
         />
       </div>
-      <div className="c-PickUpDaysStaticFields__Wrapper">
+      <div className="o-Form__Group">
         <CommonLoader
           isLoading={filteredFlowsLoading}
           isShowingContent={filteredFlowsLoading}
@@ -308,7 +309,7 @@ export default function PickUpDaysFormStaticFields({
         </CommonLoader>
       </div>
       {collectOptions.length > 0 && (
-        <div className="c-PickUpDaysStaticFields__Wrapper">
+        <div className="o-Form__Group">
           <FormRadioInput
             name="collects"
             displayName={labels.staticPickUpDay}
@@ -319,7 +320,7 @@ export default function PickUpDaysFormStaticFields({
           />
         </div>
       )}
-      <div className="c-PickUpDaysStaticFields__Wrapper">
+      <div className="o-Form__Group">
         <div className="c-PickUpDaysStaticFields__FormGroupFlex">
           <FormSelect
             name="periodicity"
@@ -386,7 +387,7 @@ export default function PickUpDaysFormStaticFields({
           />
         </div>
       </div>
-      <div className="c-PickUpDaysStaticFields__Wrapper">
+      <div className="o-Form__Group">
         <div className="c-PickUpDaysStaticFields__Title">
           {labels.staticShortCutForm}
         </div>
@@ -455,6 +456,6 @@ export default function PickUpDaysFormStaticFields({
           />
         )}
       </div>
-    </div>
+    </>
   );
 }

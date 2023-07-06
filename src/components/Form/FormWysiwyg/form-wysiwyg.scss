@@ -10,11 +10,10 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 300px;
 
     &:empty {
       background: colors.$gray-100;
-      border: 2px solid rgb(238 238 238);
+      border: 1px solid colors.$blue-3;
       border-radius: 10px;
     }
 
@@ -38,6 +37,20 @@
 
       &:focus-visible {
         outline-color: colors.$error;
+      }
+    }
+
+    &_disabled {
+      &::before {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background: colors.$gray-200;
+        border: 1px solid colors.$blue-4;
+        border-radius: 10px;
+        content: "";
+        pointer-events: none;
       }
     }
 

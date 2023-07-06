@@ -15534,6 +15534,10 @@ export type GetRequestByIdQuery = {
         isUserEmailMandatory?: boolean | null;
         isUserPhoneMandatory?: boolean | null;
         userAllowSMSNotification?: boolean | null;
+        confirmationMessage?: string | null;
+        sendProofOfReceipt?: boolean | null;
+        proofOfReceiptSubject?: string | null;
+        proofOfReceiptHeader?: string | null;
         hasAppointmentSlots?: boolean | null;
         requestService?: {
           __typename?: "RequestServiceEntityResponse";
@@ -26283,12 +26287,12 @@ export const GetRequestByIdDocument = gql`
           description
           blockText
           isActivated
-          hasSeveralRequestTypes
           requestService {
             data {
               id
             }
           }
+          hasSeveralRequestTypes
           requestAggregate {
             data {
               id
@@ -26302,6 +26306,7 @@ export const GetRequestByIdDocument = gql`
             title
             isEmail
             email
+            isTSMS
           }
           hasAddress
           fieldAddressLabel
@@ -26351,19 +26356,16 @@ export const GetRequestByIdDocument = gql`
               cumbersomeLimitMessage
             }
           }
-          requestType {
-            id
-            title
-            isEmail
-            email
-            isTSMS
-          }
           hasUser
           displayUserCivility
           isUserNameMandatory
           isUserEmailMandatory
           isUserPhoneMandatory
           userAllowSMSNotification
+          confirmationMessage
+          sendProofOfReceipt
+          proofOfReceiptSubject
+          proofOfReceiptHeader
           hasAppointmentSlots
         }
       }

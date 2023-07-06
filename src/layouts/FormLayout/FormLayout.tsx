@@ -4,6 +4,7 @@ import { DefaultValues, FormProvider, useForm } from "react-hook-form";
 import { ReactNode, useEffect, useState } from "react";
 import { removeNulls } from "../../lib/utilities";
 import TabBlock, { ITab } from "../../components/TabBlock/TabBlock";
+import { useLeavePageConfirm } from "../../hooks/useLeavePageConfirm";
 import "./form-layout.scss";
 
 export interface IFormlayoutOptions<Fields> {
@@ -38,6 +39,7 @@ export default function FormLayout<Fields extends FieldValues>({
     defaultValues: formOptions.defaultValues as DefaultValues<Fields>,
     shouldFocusError: false,
   });
+  useLeavePageConfirm(form.formState.isDirty);
   const [canFocus, setCanFocus] = useState(false);
   const { handleSubmit, reset } = form;
   const sidebar = <div className="c-FormLayout__SideBar">{sidebarContent}</div>;

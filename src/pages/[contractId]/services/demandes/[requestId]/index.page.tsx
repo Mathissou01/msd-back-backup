@@ -27,6 +27,7 @@ import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLo
 import RequestForm, {
   IRequestFields,
 } from "../../../../../components/Request/RequestForm";
+import { defaultRequestConfirmationMessage } from "../../../../../components/Request/RequestStaticFieldsBottom/RequestStaticConfirmationMessage/RequestStaticConfirmationMessage";
 
 interface IRequestFormPageProps {
   requestId: string;
@@ -41,37 +42,57 @@ export function RequestFormPage({
   const labels = {
     createTitle: "Créer une demande",
     form: {
-      staticName: "Nom de la demande",
-      staticMaxCharacters: "caractères maximum",
-      staticRadioRequestType: "Type de demande",
-      oneRequestType: "Une seule demande",
-      severalRequestType: "Choix entre plusieurs types de demandes",
-      staticAggregateLabel: "Dossier",
-      staticAggregateInformation:
-        "Le formulaire apparaitra dans le dossier sélectionné",
-      staticWysiwygText: "Texte",
-      subStaticWysiwygText:
-        "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
-      address: {
-        staticAddressContainerActivationLabel: `Activer la gestion de l'encart "Adresse"`,
-        staticAddressContainerLabel: "Adresse",
-        staticAddressFirstBlockLabel: `POSITION FIXE (PREMIER)`,
-        staticAddressInputLabel: `Libellé du champ d'adresse`,
+      top: {
+        staticName: "Nom de la demande",
+        staticMaxCharacters: "caractères maximum",
+        staticAggregateLabel: "Dossier",
+        staticAggregateInformation:
+          "Le formulaire apparaitra dans le dossier sélectionné",
+        staticWysiwygText: "Texte",
+        subStaticWysiwygText:
+          "Accessibilité : utilisez les niveaux de titre de façon cohérente sans sauter de niveau",
+        requestTypes: {
+          staticRadioRequestType: "Type de demande",
+          staticOneRequestType: "Une seule demande",
+          staticSeveralRequestType: "Choix entre plusieurs types de demandes",
+        },
+        address: {
+          staticAddressContainerActivationLabel: `Activer la gestion de l'encart "Adresse"`,
+          staticAddressContainerLabel: "Adresse",
+          staticAddressFirstBlockLabel: `POSITION FIXE (PREMIER)`,
+          staticAddressInputLabel: `Libellé du champ d'adresse`,
+        },
       },
-      user: {
-        staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,
-        staticUserLabel: "Usager",
-        staticUserLastBlockLabel: "POSITION FIXE (DERNIER)",
-        staticUserCivilitySelectLabel: "Civilité",
-        staticUserCivilitySelectTrueOption: "Visible",
-        staticUserCivilitySelectFalseOption: "Caché",
-        staticUserNameFieldStateSelectLabel: 'Statut du champ "Nom / prénom"',
-        staticUserEmailFieldStateSelectLabel: 'Statut du champ "Email"',
-        staticUserPhoneFieldStateSelectLabel: 'Statut du champ "Téléphone"',
-        staticMandatoryFieldStateSelectLabelTrueOption: "Obligatoire",
-        staticMandatoryFieldStateSelectLabelFalseOption: "Optionnel",
-        staticUserSMSCheckboxStateLabel:
-          "Afficher une case à cocher pour permettre aux usagers d'être alertés par SMS",
+      bottom: {
+        user: {
+          staticUserContainerActivationLabel: `Activer la gestion de l'encart "Usager"`,
+          staticUserLabel: "Usager",
+          staticUserLastBlockLabel: "POSITION FIXE (DERNIER)",
+          staticUserCivilitySelectLabel: "Civilité",
+          staticUserCivilitySelectTrueOption: "Visible",
+          staticUserCivilitySelectFalseOption: "Caché",
+          staticUserNameFieldStateSelectLabel: 'Statut du champ "Nom / prénom"',
+          staticUserEmailFieldStateSelectLabel: 'Statut du champ "Email"',
+          staticUserPhoneFieldStateSelectLabel: 'Statut du champ "Téléphone"',
+          staticMandatoryFieldStateSelectLabelTrueOption: "Obligatoire",
+          staticMandatoryFieldStateSelectLabelFalseOption: "Optionnel",
+          staticUserSMSCheckboxStateLabel:
+            "Afficher une case à cocher pour permettre aux usagers d'être alertés par SMS",
+        },
+        confirmationMessage: {
+          staticConfirmationMessageLabel: "Message de confirmation",
+          staticConfirmationMessageInfo:
+            "(Message affiché à l'écran suite à la validation du formulaire par l'usager)",
+        },
+        proofOfReceipt: {
+          staticTitle: "Accusé de réception",
+          staticSendProofOfReceiptLabel:
+            "Envoyer un accusé de réception à l'usager",
+          staticProofOfReceiptSubjectLabel:
+            "Sujet de l'accusé de réception pour l'usager",
+          staticProofOfReceiptHeaderLabel:
+            "Entête de l'accusé de réception pour l'usager",
+        },
       },
     },
   };
@@ -100,10 +121,8 @@ export function RequestFormPage({
         return { ...block };
       },
     );
-
     const hasSeveralRequestTypes = submitData.hasSeveralRequestTypes === "1";
     const hasAppointmentSlots = submitData.hasAppointmentSlots === "1";
-
     const requestTypes = submitData.requestType.map(
       (requestType: ComponentBlocksRequestTypeInput) => {
         const requestTypeTitle = requestType.title ?? submitData.name;
@@ -116,29 +135,35 @@ export function RequestFormPage({
       },
     );
 
+    const commonVariables = {
+      name: submitData.name,
+      isActivated: false,
+      blockText: submitData.blockText,
+      hasSeveralRequestTypes,
+      requestAggregate: submitData.aggregate?.id ?? null,
+      requestType: hasSeveralRequestTypes ? requestTypes : [requestTypes[0]],
+      hasAddress: submitData.hasAddress,
+      fieldAddressLabel: submitData.fieldAddressLabel,
+      addableBlocks: addableBlocks,
+      hasUser: submitData.hasUser,
+      displayUserCivility: submitData.displayUserCivility === "true",
+      isUserNameMandatory: submitData.isUserNameMandatory === "true",
+      isUserEmailMandatory: submitData.isUserEmailMandatory === "true",
+      isUserPhoneMandatory: submitData.isUserPhoneMandatory === "true",
+      userAllowSMSNotification: submitData.userAllowSMSNotification,
+      confirmationMessage: submitData.confirmationMessage,
+      sendProofOfReceipt: submitData.sendProofOfReceipt,
+      proofOfReceiptSubject: submitData.proofOfReceiptSubject,
+      proofOfReceiptHeader: submitData.proofOfReceiptHeader,
+      hasAppointmentSlots,
+    };
+
     return isCreateMode
       ? createRequest({
           variables: {
             data: {
               requestService: contractId,
-              name: submitData.name,
-              hasSeveralRequestTypes,
-              requestType: hasSeveralRequestTypes
-                ? requestTypes
-                : [requestTypes[0]],
-              requestAggregate: submitData.aggregate?.id ?? null,
-              isActivated: false,
-              blockText: submitData.blockText,
-              addableBlocks: addableBlocks,
-              hasUser: submitData.hasUser,
-              displayUserCivility: submitData.displayUserCivility === "true",
-              isUserNameMandatory: submitData.isUserNameMandatory === "true",
-              isUserEmailMandatory: submitData.isUserEmailMandatory === "true",
-              isUserPhoneMandatory: submitData.isUserPhoneMandatory === "true",
-              userAllowSMSNotification: submitData.userAllowSMSNotification,
-              hasAddress: submitData.hasAddress,
-              fieldAddressLabel: submitData.fieldAddressLabel,
-              hasAppointmentSlots,
+              ...commonVariables,
             },
           },
           onCompleted: (result) => {
@@ -151,24 +176,7 @@ export function RequestFormPage({
           variables: {
             updateRequestId: requestId,
             data: {
-              name: submitData.name,
-              hasSeveralRequestTypes,
-              requestType: hasSeveralRequestTypes
-                ? requestTypes
-                : [requestTypes[0]],
-              requestAggregate: submitData.aggregate?.id ?? null,
-              isActivated: false,
-              blockText: submitData.blockText,
-              addableBlocks: addableBlocks,
-              hasUser: submitData.hasUser,
-              displayUserCivility: submitData.displayUserCivility === "true",
-              isUserNameMandatory: submitData.isUserNameMandatory === "true",
-              isUserEmailMandatory: submitData.isUserEmailMandatory === "true",
-              isUserPhoneMandatory: submitData.isUserPhoneMandatory === "true",
-              userAllowSMSNotification: submitData.userAllowSMSNotification,
-              hasAddress: submitData.hasAddress,
-              fieldAddressLabel: submitData.fieldAddressLabel,
-              hasAppointmentSlots,
+              ...commonVariables,
             },
           },
           onCompleted: (result) => {
@@ -273,9 +281,15 @@ export function RequestFormPage({
       fetchPolicy: "network-only",
     });
   const [updateRequest, { loading: loadingUpdate, error: errorUpdate }] =
-    useUpdateRequestByIdMutation();
+    useUpdateRequestByIdMutation({
+      refetchQueries: ["getRequestById"],
+      awaitRefetchQueries: true,
+    });
   const [createRequest, { loading: loadingCreate, error: errorCreate }] =
-    useCreateRequestByContractIdMutation();
+    useCreateRequestByContractIdMutation({
+      refetchQueries: ["getRequestById"],
+      awaitRefetchQueries: true,
+    });
   const isLoading = loading || loadingUpdate || loadingCreate;
   const errors = [error, errorUpdate, errorCreate];
 
@@ -284,25 +298,29 @@ export function RequestFormPage({
       if (!mappedData && isCreateMode) {
         const mappedData: IRequestFields = {
           id: "-1",
+          status: EStatus.Draft,
+          name: "",
           blockText: "",
-          aggregate: {},
-          addableBlocks: [],
+          isActivated: false,
           hasSeveralRequestTypes: "0",
+          aggregate: {},
           requestType: generateMinimumBlocks(
             requestTypeDynamicFieldConfigurations,
             [],
           ),
-          isActivated: false,
-          name: "",
+          hasAddress: false,
+          fieldAddressLabel: "",
+          addableBlocks: [],
           hasUser: false,
           displayUserCivility: "false",
           isUserNameMandatory: "true",
           isUserEmailMandatory: "true",
           isUserPhoneMandatory: "true",
           userAllowSMSNotification: false,
-          status: EStatus.Draft,
-          hasAddress: false,
-          fieldAddressLabel: "",
+          confirmationMessage: defaultRequestConfirmationMessage,
+          sendProofOfReceipt: false,
+          proofOfReceiptSubject: "",
+          proofOfReceiptHeader: "",
           hasAppointmentSlots: "0",
         };
         setMappedData(mappedData);
@@ -329,17 +347,22 @@ export function RequestFormPage({
       ) {
         const mappedData: IRequestFields = {
           id: requestData.id,
+          status: requestData.attributes.isActivated
+            ? EStatus.Activated
+            : EStatus.Draft,
           name: requestData.attributes.name ?? "",
-          aggregate: requestData.attributes.requestAggregate?.data ?? null,
-          isActivated: requestData.attributes.isActivated ?? false,
           blockText: requestData.attributes.blockText ?? "",
+          isActivated: requestData.attributes.isActivated ?? false,
           hasSeveralRequestTypes: requestData.attributes.hasSeveralRequestTypes
             ? "1"
             : "0",
+          aggregate: requestData.attributes.requestAggregate?.data ?? null,
           requestType: generateMinimumBlocks(
             requestTypeDynamicFieldConfigurations,
             remapFormBlocksDynamicZone(requestData.attributes.requestType),
           ),
+          hasAddress: requestData.attributes.hasAddress,
+          fieldAddressLabel: requestData.attributes.fieldAddressLabel ?? "",
           addableBlocks: requestData.attributes.addableBlocks
             ? formatComponentBlocks(
                 remapFormBlocksDynamicZone(
@@ -362,11 +385,15 @@ export function RequestFormPage({
             : "false",
           userAllowSMSNotification:
             requestData.attributes.userAllowSMSNotification ?? false,
-          status: requestData.attributes.isActivated
-            ? EStatus.Activated
-            : EStatus.Draft,
-          hasAddress: requestData.attributes.hasAddress,
-          fieldAddressLabel: requestData.attributes.fieldAddressLabel ?? "",
+          confirmationMessage:
+            requestData.attributes.confirmationMessage ??
+            defaultRequestConfirmationMessage,
+          sendProofOfReceipt:
+            requestData.attributes.sendProofOfReceipt ?? false,
+          proofOfReceiptSubject:
+            requestData.attributes.proofOfReceiptSubject ?? "",
+          proofOfReceiptHeader:
+            requestData.attributes.proofOfReceiptHeader ?? "",
           hasAppointmentSlots: requestData.attributes.hasAppointmentSlots
             ? "1"
             : "0",

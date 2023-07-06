@@ -56,6 +56,9 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
         RequestAggregate: {
           merge: true,
         },
+        CollectVoluntary: {
+          merge: true,
+        },
       },
     }),
   });

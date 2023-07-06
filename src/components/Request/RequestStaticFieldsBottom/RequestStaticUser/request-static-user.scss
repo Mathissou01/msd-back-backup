@@ -3,15 +3,6 @@
 @use "src/styles/02-tools/tools.pictos" as p;
 
 .c-RequestStaticUser {
-  @include shadows.shadow(1);
-
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 16px 20px 32px;
-  background-color: colors.$white;
-  border-radius: 8px;
-
   &__UserContainer {
     margin: 0.5em 0 0 4px;
     padding: 20px;

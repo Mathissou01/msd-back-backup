@@ -7,12 +7,12 @@ query getRequestById($requestId: ID) {
         description
         blockText
         isActivated
-        hasSeveralRequestTypes
         requestService {
           data {
             id
           }
         }
+        hasSeveralRequestTypes
         requestAggregate {
           data {
             id
@@ -26,6 +26,7 @@ query getRequestById($requestId: ID) {
           title
           isEmail
           email
+          isTSMS
         }
         hasAddress
         fieldAddressLabel
@@ -75,19 +76,16 @@ query getRequestById($requestId: ID) {
             cumbersomeLimitMessage
           }
         }
-        requestType {
-          id
-          title
-          isEmail
-          email
-          isTSMS
-        }
         hasUser
         displayUserCivility
         isUserNameMandatory
         isUserEmailMandatory
         isUserPhoneMandatory
         userAllowSMSNotification
+        confirmationMessage
+        sendProofOfReceipt
+        proofOfReceiptSubject
+        proofOfReceiptHeader
         hasAppointmentSlots
       }
     }

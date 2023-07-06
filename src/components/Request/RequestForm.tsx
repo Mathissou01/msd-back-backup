@@ -1,47 +1,58 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
+import { RequestAggregateEntity } from "../../graphql/codegen/generated-types";
 import {
   IFormBlock,
   TDynamicFieldConfiguration,
 } from "../../lib/dynamic-blocks";
 import { EStatus } from "../../lib/status";
 import { IFormCommonFields } from "../../lib/form";
-import { RequestAggregateEntity } from "../../graphql/codegen/generated-types";
 import FormLayout, {
   IFormlayoutOptions,
 } from "../../layouts/FormLayout/FormLayout";
 import { ITab } from "../TabBlock/TabBlock";
 import FormDynamicBlocks from "../Form/FormDynamicBlocks/FormDynamicBlocks";
-import RequestStaticFields, {
-  IRequestStaticFieldsLabels,
-} from "./RequestStaticFields/RequestStaticFields";
 import RequestSideBar from "./RequestSideBar/RequestSideBar";
 import RequestFormButtons, {
   IRequestFormButtonsLabels,
 } from "./RequestFormButtons/RequestFormButtons";
-import RequestStaticFieldsUser from "./RequestStaticUser/RequestStaticUser";
 import RequestAppointmentSlots from "./RequestAppointmentSlots/RequestAppointmentSlots";
+import RequestStaticFieldsBottom, {
+  IRequestStaticFieldsBottomLabels,
+} from "./RequestStaticFieldsBottom/RequestStaticFieldsBottom";
+import RequestStaticFieldsTop, {
+  IRequestStaticFieldsTopLabels,
+} from "./RequestStaticFieldsTop/RequestStaticFieldsTop";
 
 export interface IRequestStaticFields extends IFormCommonFields {
-  name: string;
-  aggregate: RequestAggregateEntity | null;
-  isActivated: boolean;
-  blockText: string;
-  hasSeveralRequestTypes?: "0" | "1";
-  requestType?: Array<IFormBlock>;
   status?: EStatus;
+  name: string;
+  blockText: string;
+  isActivated: boolean;
+  hasSeveralRequestTypes?: "0" | "1";
+  aggregate: RequestAggregateEntity | null;
+  requestType?: Array<IFormBlock>;
+  hasAddress: boolean;
+  fieldAddressLabel: string;
   hasUser: boolean;
   displayUserCivility: string;
   isUserNameMandatory: string;
   isUserEmailMandatory: string;
   isUserPhoneMandatory: string;
   userAllowSMSNotification: boolean;
-  hasAddress: boolean;
-  fieldAddressLabel: string;
+  confirmationMessage: string;
+  sendProofOfReceipt: boolean;
+  proofOfReceiptSubject: string;
+  proofOfReceiptHeader: string;
   hasAppointmentSlots: "0" | "1";
 }
 
 export interface IRequestFields extends IRequestStaticFields {
   addableBlocks: Array<IFormBlock>;
+}
+
+interface IRequestStaticFieldsLabels {
+  top: IRequestStaticFieldsTopLabels;
+  bottom: IRequestStaticFieldsBottomLabels;
 }
 
 interface IRequestFormProps {
@@ -87,8 +98,8 @@ export default function RequestForm({
       title: tabLabels.requestForm,
       content: (
         <>
-          <RequestStaticFields
-            labels={labels}
+          <RequestStaticFieldsTop
+            labels={labels.top}
             requestTypeDynamicFieldConfigurations={
               requestTypeDynamicFieldConfigurations
             }
@@ -98,8 +109,8 @@ export default function RequestForm({
             blockConfigurations={dynamicFieldConfigurations}
             canDuplicate={false}
           />
-          <RequestStaticFieldsUser
-            labels={labels.user}
+          <RequestStaticFieldsBottom
+            labels={labels.bottom}
             hasUser={data?.hasUser ?? false}
           />
         </>

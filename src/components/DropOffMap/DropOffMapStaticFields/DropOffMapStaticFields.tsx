@@ -13,7 +13,6 @@ import FormLabel from "../../Form/FormLabel/FormLabel";
 import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
 import FormOpeningHours from "../../Form/FormOpeningHours/FormOpeningHours";
 import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
-import "./drop-off-map-static-fields.scss";
 
 const validationPhoneNumber = /^[0-9]{10}$/;
 
@@ -71,10 +70,8 @@ export default function DropOffMapStaticFields({
   ];
   return (
     <>
-      <div className="c-DropOffMapStaticFields__Group">
-        <span className="c-DropOffMapStaticFields__RequiredLabel">
-          {mandatoryFields}
-        </span>
+      <div className="o-Form__Group">
+        <span className="o-Form__RequiredLabel">{mandatoryFields}</span>
         <FormInput
           type="text"
           name="name"
@@ -92,23 +89,21 @@ export default function DropOffMapStaticFields({
           optionKey={"uniqueId"}
         />
       </div>
-      <div className="c-DropOffMapStaticFields__Group">
+      <div className="o-Form__Group">
         <FormLabel
           label={labels.staticPosition}
           validationLabel={labels.staticPositionDescription}
         />
         <AddressOrGpsFields labels={labels.staticAddressOrGpsLabels} />
-        <div className="c-DropOffMapStaticFields__PhoneNumber">
-          <FormInput
-            type="tel"
-            name="phoneNumber"
-            label={labels.staticPhoneNumber}
-            patternValidation={validationPhoneNumber}
-            patternValidationErrorMessage={validationErrorMessage}
-          />
-        </div>
+        <FormInput
+          type="tel"
+          name="phoneNumber"
+          label={labels.staticPhoneNumber}
+          patternValidation={validationPhoneNumber}
+          patternValidationErrorMessage={validationErrorMessage}
+        />
       </div>
-      <div className="c-DropOffMapStaticFields__Group">
+      <div className="o-Form__Group">
         <FormWysiwyg
           name="mustKnow"
           label={labels.staticMustKnow}
@@ -116,13 +111,13 @@ export default function DropOffMapStaticFields({
           isVisible
         />
       </div>
-      <div className="c-DropOffMapStaticFields__Group">
+      <div className="o-Form__Group">
         <FormDynamicBlocks
           name={"downloadableFiles"}
           blockConfigurations={dynamicFieldsOptions}
         />
       </div>
-      <div className="c-DropOffMapStaticFields__Group">
+      <div className="o-Form__Group">
         <FormOpeningHours />
       </div>
     </>

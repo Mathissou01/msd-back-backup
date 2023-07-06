@@ -3,31 +3,6 @@
 @use "src/styles/02-tools/tools.shadows" as shadows;
 
 .c-PickUpDaysStaticFields {
-  &__Wrapper {
-    @include shadows.shadow(1);
-
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 16px 20px 32px;
-    background-color: colors.$white;
-    border-radius: 8px;
-  }
-
-  &__FormFieldsCollectOptions {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  &__RequiredLabel {
-    color: colors.$blue-1;
-    font-size: 14px;
-    line-height: 21px;
-  }
-
   &__Description {
     @include typo.heading(4);
   }

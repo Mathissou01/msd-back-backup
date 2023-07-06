@@ -1,5 +1,5 @@
 import React, { MutableRefObject, useEffect, useState } from "react";
-import { Editor as TinyMceEditor } from "tinymce";
+import { Editor as TinyMceEditor, EditorEvent } from "tinymce";
 import { Editor } from "@tinymce/tinymce-react";
 
 export interface IWysiwygEditorOptions {
@@ -11,13 +11,15 @@ export interface IWysiwygEditorOptions {
     [key: string]: { inline: string; classes: string };
   };
   blockFormats?: string;
+  elementPath: boolean;
 }
 
 const defaultWysiwygEditorOptions: IWysiwygEditorOptions = {
   height: 400,
   plugins:
     "lists table link " +
-    "charmap insertdatetime searchreplace quickbars autolink autosave wordcount visualchars visualblocks help",
+    "charmap insertdatetime searchreplace quickbars autolink autosave wordcount visualchars visualblocks help " +
+    "importcss",
   menubar: "file edit view insert table help",
   toolbar: [
     { name: "history", items: ["undo", "redo"] },
@@ -38,11 +40,12 @@ const defaultWysiwygEditorOptions: IWysiwygEditorOptions = {
     div: { inline: "", classes: "" },
   },
   blockFormats: "Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4",
+  elementPath: true,
 };
 
 export const minimalWysiwygEditorOptions: IWysiwygEditorOptions = {
   height: 300,
-  plugins: "autosave wordcount",
+  plugins: "autosave wordcount " + "importcss",
   menubar: false,
   toolbar: false,
   formats: {
@@ -57,6 +60,7 @@ export const minimalWysiwygEditorOptions: IWysiwygEditorOptions = {
     bold: { inline: "", classes: "" },
     italic: { inline: "", classes: "" },
   },
+  elementPath: false,
 };
 
 interface IWysiwygEditorProps {
@@ -64,9 +68,9 @@ interface IWysiwygEditorProps {
   forwardedRef: MutableRefObject<TinyMceEditor | null>;
   onEditorChange: (a: string, editor: TinyMceEditor) => void;
   editorOptions?: IWysiwygEditorOptions;
-  initialValue?: string;
   value?: string;
   isDisabled?: boolean;
+  maxCharacterLength?: number;
 }
 
 export default function WysiwygEditor({
@@ -74,15 +78,49 @@ export default function WysiwygEditor({
   forwardedRef,
   onEditorChange,
   editorOptions = defaultWysiwygEditorOptions,
-  initialValue,
   value,
   isDisabled,
+  maxCharacterLength,
 }: IWysiwygEditorProps) {
   /* Static Data */
   // TODO AllowedKeys
   //const allowedKeys = ["Backspace", "Delete", "Tab", "Escape", "Enter"];
   const [isInitialized, setIsInitialized] = useState(false);
 
+  /* Methods */
+  function getCharCount(editor: TinyMceEditor) {
+    const textContent = editor.getContent({ format: "text" });
+    const convertedString = textContent.replace(/(\r\n|\n|\r)/gm, "");
+    return convertedString.length;
+  }
+
+  function handleInit(evt: EditorEvent<unknown>, editor: TinyMceEditor) {
+    forwardedRef.current = editor;
+  }
+
+  function handleUpdate(value: string, editor: TinyMceEditor) {
+    if (maxCharacterLength) {
+      const cCount = getCharCount(editor);
+      if (cCount <= maxCharacterLength) {
+        onEditorChange(value, editor);
+      }
+    } else {
+      onEditorChange(value, editor);
+    }
+  }
+
+  function handleBeforeAddUndo(
+    evt: EditorEvent<unknown>,
+    editor: TinyMceEditor,
+  ) {
+    if (maxCharacterLength) {
+      if (getCharCount(editor) > maxCharacterLength) {
+        evt.preventDefault();
+      }
+    }
+  }
+
+  /* Local Data */
   useEffect(() => {
     // forces tinyMCE to properly load without bug of duplicating instances
     setTimeout(() => {
@@ -96,13 +134,12 @@ export default function WysiwygEditor({
         <Editor
           id={`wysiwyg-editor-${id}`}
           tinymceScriptSrc={"/assets/libs/tinymce/tinymce.min.js"}
-          initialValue={initialValue}
           value={value}
-          onEditorChange={onEditorChange}
+          // onEditorChange={onEditorChange}
+          onEditorChange={handleUpdate}
+          onBeforeAddUndo={handleBeforeAddUndo}
           disabled={isDisabled}
-          onInit={(evt, editor) => {
-            forwardedRef.current = editor;
-          }}
+          onInit={handleInit}
           init={{
             height: editorOptions.height,
             min_height: editorOptions.height,
@@ -111,32 +148,9 @@ export default function WysiwygEditor({
             //     text: "My Custom Button",
             //     onAction: () => alert("button clicked!"),
             //   });
-            // TODO Add or remove validation max length character
-            //   const maxlength = maxLengthValidation;
-            //   maxlength &&
-            //     editor.on("keydown", (event: KeyboardEvent) => {
-            //       const key = event.key;
-            //       const lenghtCharacter = editor.getContent({
-            //         format: "text",
-            //       }).length;
-
-            //       if (
-            //         allowedKeys.includes(key) ||
-            //         ((key === "a" || key === "A") && event.ctrlKey === true) ||
-            //         key.startsWith("Arrow") ||
-            //         key === "Home" ||
-            //         key === "End"
-            //       ) {
-            //         return;
-            //       }
-
-            //       if (lenghtCharacter >= maxlength) {
-            //         event.preventDefault();
-            //         event.stopPropagation();
-            //       }
-            //     });
             // },
             plugins: editorOptions?.plugins,
+            autosave_ask_before_unload: false,
             language: "fr_FR",
             /* MENUBAR */
             menubar: editorOptions.menubar,
@@ -175,6 +189,7 @@ export default function WysiwygEditor({
             toolbar: editorOptions?.toolbar,
             formats: editorOptions?.formats,
             block_formats: editorOptions?.blockFormats,
+            elementpath: editorOptions?.elementPath,
             /* QUICKBARS */
             quickbars_insert_toolbar: false,
             quickbars_selection_toolbar: false,
@@ -191,8 +206,10 @@ export default function WysiwygEditor({
             //  style/colors need to be the one of THIS contract (custom colors that will be shown on the FO, etc)
             //  typography and sizes need to match de style guide
             //  allow color change but ONLY the contract color palette
-            // import_css: "my-styles.css",
+            // import_css: "wysiwyg-editor.scss",
+            // content_css: "/assets/wysiwyg-editor.css",
             // importcss_append: true,
+            skin: "oxide-custom",
           }}
         />
       )}

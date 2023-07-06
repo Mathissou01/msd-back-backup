@@ -16,7 +16,7 @@ import FormInput from "../../../Form/FormInput/FormInput";
 import FormSelect from "../../../Form/FormSelect/FormSelect";
 import FormFileInput from "../../../Form/FormFileInput/FormFileInput";
 import FormRadioInput from "../../../Form/FormRadioInput/FormRadioInput";
-import "./waste-form-static-fields.scss";
+import CommonLoader from "../../../Common/CommonLoader/CommonLoader";
 
 export interface IWasteFormStaticFieldsLabels {
   staticTitle: string;
@@ -57,6 +57,7 @@ export default function WasteFormStaticFields({
     "image/ico",
     "image/dvu",
   ];
+  const flowErrorMessage = "Erreur: Aucun Flux activé";
 
   /* Methods */
   function wasteFamilySelectDisplayTransformFunction(
@@ -78,19 +79,31 @@ export default function WasteFormStaticFields({
   const [wasteFamilyOptions, setWasteFamilyOptions] = useState<
     Array<IOptionWrapper<WasteFamilyEntity>>
   >([]);
-  const [activeFlowOptions, setactiveFlowOptions] = useState<
+  const [activeFlowOptions, setActiveFlowOptions] = useState<
     { label: string; value: string }[]
   >([]);
 
-  const { data: tagsData } = useGetTagsByContractIdQuery({
+  const {
+    data: tagsData,
+    loading: tagsLoading,
+    error: tagsError,
+  } = useGetTagsByContractIdQuery({
     variables: { contractId },
     fetchPolicy: "network-only",
   });
-  const { data: wasteFamiliesData } = useGetWasteFamiliesByContractIdQuery({
+  const {
+    data: wasteFamiliesData,
+    loading: wasteFamiliesLoading,
+    error: wasteFamiliesError,
+  } = useGetWasteFamiliesByContractIdQuery({
     variables: { contractId },
     fetchPolicy: "network-only",
   });
-  const { data: activeFlowData } = useGetFlowsByContractIdQuery({
+  const {
+    data: activeFlowData,
+    loading: activeFlowLoading,
+    error: activeFlowError,
+  } = useGetFlowsByContractIdQuery({
     variables: {
       filters: {
         contract: {
@@ -105,6 +118,8 @@ export default function WasteFormStaticFields({
     },
     fetchPolicy: "network-only",
   });
+  const isLoading = tagsLoading || wasteFamiliesLoading || activeFlowLoading;
+  const errors = [tagsError, wasteFamiliesError, activeFlowError];
 
   useEffect(() => {
     if (tagsData) {
@@ -144,83 +159,70 @@ export default function WasteFormStaticFields({
             }
           })
           .filter(removeNulls);
-      setactiveFlowOptions(mappedActiveFlow);
+      setActiveFlowOptions(mappedActiveFlow);
     }
   }, [tagsData, wasteFamiliesData, activeFlowData]);
 
   return (
-    <>
-      <div className="c-WasteFormStaticFields">
-        <span className="c-WasteFormStaticFields__RequiredLabel">
-          {mandatoryFields}
-        </span>
+    <CommonLoader isLoading={isLoading} errors={errors}>
+      <div className="o-Form__Group">
+        <span className="o-Form__RequiredLabel">{mandatoryFields}</span>
         {hasFieldEnabled("name") && (
-          <div className="c-WasteFormStaticFields__Name">
-            <FormInput
-              type="text"
-              name="name"
-              label={labels.staticTitle}
-              isRequired={true}
-            />
-          </div>
-        )}
-        {hasFieldEnabled("wasteFamily") && (
-          <div className="c-WasteFormStaticFields__WasteFamily">
-            <FormSelect<WasteFamilyEntity>
-              label={labels.staticWasteFamily}
-              name="wasteFamily"
-              displayTransform={wasteFamilySelectDisplayTransformFunction}
-              options={wasteFamilyOptions}
-              optionKey={"id"}
-            />
-          </div>
-        )}
-        {hasFieldEnabled("tags") && (
-          <div className="c-WasteFormStaticFields__Tags">
-            <FormSingleMultiselect
-              label={labels.staticTags}
-              labelDescription="(Tags)"
-              name="tags"
-              options={tagOptions}
-              isMulti
-              maxMultiSelection={5}
-            />
-          </div>
-        )}
-        {hasFieldEnabled("picto") && (
-          <div className="c-WasteFormStaticFields__Picto">
-            <FormFileInput
-              name="picto"
-              label={labels.staticPicto}
-              isRequired={true}
-              isPriority={true}
-              validationLabel={labels.staticImageValidation}
-              placeholder={labels.staticImagePlaceholder}
-              acceptedMimeTypes={acceptedTypes}
-              mimeFilterContains="image"
-            />
-          </div>
-        )}
-      </div>
-      <div className="c-WasteFormStaticFields">
-        <div className="c-WasteFormStaticFields__Flow">
-          <FormRadioInput
-            name="flow"
-            displayName={labels.staticFlow}
-            options={activeFlowOptions}
-            displayMode="vertical"
-          />
-        </div>
-      </div>
-      <div className="c-WasteFormStaticFields">
-        <div className="c-WasteFormStaticFields__GesteDeTri">
           <FormInput
             type="text"
-            name="recyclingGestureText"
-            label={labels.staticRecyclingGestureText}
+            name="name"
+            label={labels.staticTitle}
+            isRequired={true}
           />
-        </div>
+        )}
+        {hasFieldEnabled("wasteFamily") && (
+          <FormSelect<WasteFamilyEntity>
+            label={labels.staticWasteFamily}
+            name="wasteFamily"
+            displayTransform={wasteFamilySelectDisplayTransformFunction}
+            options={wasteFamilyOptions}
+            optionKey={"id"}
+          />
+        )}
+        {hasFieldEnabled("tags") && (
+          <FormSingleMultiselect
+            label={labels.staticTags}
+            labelDescription="(Tags)"
+            name="tags"
+            options={tagOptions}
+            isMulti
+            maxMultiSelection={5}
+          />
+        )}
+        {hasFieldEnabled("picto") && (
+          <FormFileInput
+            name="picto"
+            label={labels.staticPicto}
+            isRequired={true}
+            isPriority={true}
+            validationLabel={labels.staticImageValidation}
+            placeholder={labels.staticImagePlaceholder}
+            acceptedMimeTypes={acceptedTypes}
+            mimeFilterContains="image"
+          />
+        )}
       </div>
-    </>
+      <div className="o-Form__Group">
+        <FormRadioInput
+          name="flow"
+          displayName={labels.staticFlow}
+          emptyLabel={flowErrorMessage}
+          options={activeFlowOptions}
+          displayMode="vertical"
+        />
+      </div>
+      <div className="o-Form__Group">
+        <FormInput
+          type="text"
+          name="recyclingGestureText"
+          label={labels.staticRecyclingGestureText}
+        />
+      </div>
+    </CommonLoader>
   );
 }

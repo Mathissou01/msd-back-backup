@@ -1,4 +1,5 @@
 @use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
 
 .c-Flow {
   width: 100%;
@@ -34,6 +35,8 @@
   }
 
   &__ListFlows {
+    @include shadows.shadow(1);
+
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -41,7 +44,6 @@
     padding: 24px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 0 1px rgb(17 95 251 / 5%), 0 1px 3px rgb(17 95 251 / 10%);
   }
 
   &__ListFlowsHead {

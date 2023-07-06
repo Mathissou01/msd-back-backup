@@ -6,7 +6,6 @@ import FormInput from "../../../Form/FormInput/FormInput";
 import FormSingleMultiselect from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import FormFileInput from "../../../Form/FormFileInput/FormFileInput";
 import { TAcceptedMimeTypes } from "../../../../lib/media";
-import "./editorial-static-fields.scss";
 
 export interface IEditorialStaticFieldsLabels {
   staticTitle: string;
@@ -79,10 +78,8 @@ export default function EditorialStaticFields({
 
   return (
     <>
-      <div className="c-EditorialStaticFields">
-        <span className="c-EditorialStaticFields__RequiredLabel">
-          {mandatoryFields}
-        </span>
+      <div className="o-Form__Group">
+        <span className="o-Form__RequiredLabel">{mandatoryFields}</span>
         {hasFieldEnabled("title") && (
           <FormInput
             type="text"
@@ -92,44 +89,38 @@ export default function EditorialStaticFields({
           />
         )}
         {hasFieldEnabled("tags") && (
-          <div className="c-EditorialStaticFields__Tags">
-            <FormSingleMultiselect
-              name="tags"
-              label={labels.staticTags}
-              labelDescription={labels.staticTagsDescription}
-              options={tagOptions}
-              isMulti
-              maxMultiSelection={5}
-            />
-          </div>
+          <FormSingleMultiselect
+            name="tags"
+            label={labels.staticTags}
+            labelDescription={labels.staticTagsDescription}
+            options={tagOptions}
+            isMulti
+            maxMultiSelection={5}
+          />
         )}
         {hasFieldEnabled("image") && (
-          <div className="c-EditoDynamicFields__Image">
-            <FormFileInput
-              name="image"
-              label={labels.staticImage}
-              validationLabel={labels.staticImageValidation}
-              placeholder={labels.staticImagePlaceholder}
-              isRequired={true}
-              acceptedMimeTypes={acceptedTypes}
-              mimeFilterContains="image"
-              hasEcoConceptionMessage
-              isPriority={true}
-            />
-          </div>
+          <FormFileInput
+            name="image"
+            label={labels.staticImage}
+            validationLabel={labels.staticImageValidation}
+            placeholder={labels.staticImagePlaceholder}
+            isRequired={true}
+            acceptedMimeTypes={acceptedTypes}
+            mimeFilterContains="image"
+            hasEcoConceptionMessage
+            isPriority={true}
+          />
         )}
         {hasFieldEnabled("shortDescription") && (
-          <div className="c-EditorialStaticFields__DescriptionInput">
-            <FormInput
-              type="text"
-              name="shortDescription"
-              label={labels.staticShortDescription}
-              maxLengthValidation={maxCharacters}
-              validationLabel={`${maxCharacters} ${labels.staticShortDescriptionMaxCharacters}`}
-              isRequired
-              tagType="textarea"
-            />
-          </div>
+          <FormInput
+            type="text"
+            name="shortDescription"
+            label={labels.staticShortDescription}
+            maxLengthValidation={maxCharacters}
+            validationLabel={`${maxCharacters} ${labels.staticShortDescriptionMaxCharacters}`}
+            isRequired
+            tagType="textarea"
+          />
         )}
       </div>
     </>

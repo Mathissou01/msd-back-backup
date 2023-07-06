@@ -1,0 +1,13 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-RequestStaticProofOfReceipt {
+  &__Title {
+    color: colors.$expert-blue;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: DINPro-Bold, sans-serif;
+    line-height: 25px;
+  }
+}

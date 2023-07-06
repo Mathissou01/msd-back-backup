@@ -7,6 +7,7 @@
   &__Options {
     display: flex;
     gap: 20px;
+    padding: 4px;
 
     &_vertical {
       flex-direction: column;
@@ -45,5 +46,11 @@
       border-radius: 50%;
       content: "";
     }
+  }
+
+  &__Empty {
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
   }
 }
