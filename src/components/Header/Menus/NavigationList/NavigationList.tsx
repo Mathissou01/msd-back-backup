@@ -112,7 +112,7 @@ export default function NavigationList() {
           <NavigationListLink path={"/services/jour-collecte"} />
           <NavigationListLink path={"/services/demandes"} />
           {/*    <NavigationListLink path={"/services/yeswescan"} />*/}
-          {/*    <NavigationListLink path={"/services/alertes"} />*/}
+          <NavigationListLink path={"/services/alertes"} />
         </NavigationListMenu>
       </li>
       <li className="c-NavigationList__Item">

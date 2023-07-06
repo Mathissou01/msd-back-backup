@@ -1,0 +1,7 @@
+mutation deleteAlertNotificationsById($deleteAlertNotificationId: ID!) {
+  deleteAlertNotification(id: $deleteAlertNotificationId) {
+    data {
+      id
+    }
+  }
+}

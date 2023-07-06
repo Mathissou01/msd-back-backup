@@ -1,0 +1,30 @@
+query getAlertNotificationsByContractId(
+  $contractId: ID!
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  alertNotifications(
+    filters: { alertNotifService: { contract: { id: { eq: $contractId } } } }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      attributes {
+        sendMail
+        sendSMS
+        scheduledAt
+        alertMessage
+        alertDescription
+      }
+      id
+    }
+  }
+}

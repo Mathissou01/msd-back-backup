@@ -244,6 +244,16 @@ exports[`Header renders 1`] = `
                 Demandes
               </span>
             </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/services/alertes"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Alertes
+              </span>
+            </a>
           </div>
         </div>
       </li>
