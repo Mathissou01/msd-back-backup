@@ -3,11 +3,25 @@
   flex-direction: column;
   gap: 24px;
 
+  &__CumbersomeLabel {
+    margin-bottom: 1em;
+  }
+
   &__MaxVolumeOfCumbersome {
     width: 55%;
   }
 
   &__MaxNumberOfCumbersome {
     width: calc(55% - 34px);
+  }
+
+  &__IsNumberAndVolume {
+    .c-FormLabel legend {
+      margin-bottom: 1em;
+    }
+
+    .c-FormRadioInput__Options {
+      gap: 10px;
+    }
   }
 }

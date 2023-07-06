@@ -90,6 +90,11 @@ export function RequestFormPage({
                   .toString()
                   .replace(",", ".")
               : undefined;
+          cumbersomeBlock.maxNumberOfCumbersome =
+            cumbersomeBlock.maxNumberOfCumbersome &&
+            cumbersomeBlock.maxNumberOfCumbersome.toString().length > 0
+              ? +cumbersomeBlock.maxNumberOfCumbersome
+              : undefined;
           return { ...cumbersomeBlock };
         }
         return { ...block };
@@ -211,6 +216,16 @@ export function RequestFormPage({
                 ...newBlock,
               };
             }
+            case "ComponentBlocksCumbersome": {
+              // Radio buttons need string values but isNumberAndVolume property contains boolean, this is why we replace it here
+              const newBlock: IBlocksCumbersome = block as IBlocksCumbersome;
+              newBlock.isNumberAndVolume = newBlock.isNumberAndVolume
+                ? "1"
+                : "0";
+              return {
+                ...newBlock,
+              };
+            }
             default: {
               return {
                 ...block,
@@ -230,7 +245,8 @@ export function RequestFormPage({
   const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
     { option: "ComponentBlocksAttachments" },
     { option: "ComponentBlocksCommentary" },
-    { option: "ComponentBlocksCumbersome" },
+    // TODO : Reactivate block when Cumbersome subject is well defined
+    // { option: "ComponentBlocksCumbersome" },
     { option: "ComponentBlocksQuestions" },
     { option: "ComponentBlocksQcm" },
     { option: "ComponentBlocksDateChoice" },

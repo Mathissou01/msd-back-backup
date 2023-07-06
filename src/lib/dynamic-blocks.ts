@@ -236,6 +236,9 @@ export interface IBlocksCumbersome extends IPartialBlock {
   __typename: "ComponentBlocksCumbersome";
   cumbersomeLabel: string;
   maxVolumeOfCumbersome?: number;
+  maxNumberOfCumbersome?: number;
+  isNumberAndVolume: string;
+  cumbersomeLimitMessage: string;
 }
 
 /* Methods */
@@ -396,6 +399,9 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         id: temporaryId,
         cumbersomeLabel: undefined,
         maxVolumeOfCumbersome: undefined,
+        maxNumberOfCumbersome: undefined,
+        isNumberAndVolume: "1",
+        cumbersomeLimitMessage: undefined,
       };
     }
     default: {
