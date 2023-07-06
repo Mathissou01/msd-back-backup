@@ -145,6 +145,7 @@ type AlertNotification {
   ): CityRelationResponseCollection
   createdAt: DateTime
   scheduledAt: Date!
+  scheduledAtTime: String!
   sectorizations(
     filters: SectorizationFiltersInput
     pagination: PaginationArg = {}
@@ -182,6 +183,7 @@ input AlertNotificationFiltersInput {
   not: AlertNotificationFiltersInput
   or: [AlertNotificationFiltersInput]
   scheduledAt: DateFilterInput
+  scheduledAtTime: StringFilterInput
   sectorizations: SectorizationFiltersInput
   sendMail: BooleanFilterInput
   sendSMS: BooleanFilterInput
@@ -196,6 +198,7 @@ input AlertNotificationInput {
   alertTitle: String
   cities: [ID]
   scheduledAt: Date
+  scheduledAtTime: String
   sectorizations: [ID]
   sendMail: Boolean
   sendSMS: Boolean

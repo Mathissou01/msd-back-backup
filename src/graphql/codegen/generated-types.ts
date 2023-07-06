@@ -205,6 +205,7 @@ export type AlertNotification = {
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   scheduledAt: Scalars["Date"];
+  scheduledAtTime: Scalars["String"];
   sectorizations?: Maybe<SectorizationRelationResponseCollection>;
   sendMail?: Maybe<Scalars["Boolean"]>;
   sendSMS?: Maybe<Scalars["Boolean"]>;
@@ -253,6 +254,7 @@ export type AlertNotificationFiltersInput = {
   not?: InputMaybe<AlertNotificationFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
   scheduledAt?: InputMaybe<DateFilterInput>;
+  scheduledAtTime?: InputMaybe<StringFilterInput>;
   sectorizations?: InputMaybe<SectorizationFiltersInput>;
   sendMail?: InputMaybe<BooleanFilterInput>;
   sendSMS?: InputMaybe<BooleanFilterInput>;
@@ -267,6 +269,7 @@ export type AlertNotificationInput = {
   alertTitle?: InputMaybe<Scalars["String"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
+  scheduledAtTime?: InputMaybe<Scalars["String"]>;
   sectorizations?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   sendMail?: InputMaybe<Scalars["Boolean"]>;
   sendSMS?: InputMaybe<Scalars["Boolean"]>;
