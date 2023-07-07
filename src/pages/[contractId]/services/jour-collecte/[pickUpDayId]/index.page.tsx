@@ -24,6 +24,7 @@ import {
   EPickUpDayCollectType,
   IPickUpDayStaticMappedFields,
   IPickUpDayStaticVariablesFields,
+  periodicityOptions,
 } from "../../../../../lib/pickup-days";
 
 interface IPickUpDayIdPageProps {
@@ -36,7 +37,9 @@ export function ServicesPickUpDayEditPage({
   isCreateMode,
 }: IPickUpDayIdPageProps) {
   /* Static Data */
-  const title = "Créer une collecte";
+  const labels = {
+    createTitle: "Créer une collecte",
+  };
   const formLabels = {
     staticName: "Nom de la collecte",
     staticPlace: "Secteurs ou Communes *",
@@ -87,8 +90,8 @@ export function ServicesPickUpDayEditPage({
   /* Local data */
   const isLoading = loading || createPickUpDayLoading || updatePickUpDayLoading;
   const errors = [error, createPickUpDayError, updatePickUpDayError];
-  const [pickUpDaysData, setPickUpDaysData] =
-    useState<IPickUpDayStaticMappedFields>();
+  const [mappedData, setMappedData] = useState<IPickUpDayStaticMappedFields>();
+
   const form = useForm({
     mode: "onChange",
   });
@@ -187,6 +190,26 @@ export function ServicesPickUpDayEditPage({
   }
 
   useEffect(() => {
+    if (pickUpDayId) {
+      if (!mappedData && isCreateMode) {
+        const mappedData: IPickUpDayStaticMappedFields = {
+          pickUpId: "-1",
+          sectorizationsMode: "sectorizations",
+          name: "",
+          flow: "",
+          collects: "",
+          periodicity: periodicityOptions[0].option,
+          choice: undefined,
+          days: undefined,
+          includeHoliday: false,
+          shortcutFormMode: "form",
+        };
+        setMappedData(mappedData);
+      }
+    }
+  }, [pickUpDayId, mappedData, isCreateMode]);
+
+  useEffect(() => {
     if (data?.pickUpDay?.data) {
       const pickUpDaysData = data?.pickUpDay?.data;
       if (
@@ -247,22 +270,28 @@ export function ServicesPickUpDayEditPage({
           request: pickUpDaysData.attributes.request?.data ?? undefined,
           externalLink: pickUpDaysData.attributes.externalLink ?? undefined,
         };
-        setPickUpDaysData(mappedData);
+        setMappedData(mappedData);
       }
     }
   }, [data]);
 
   return (
-    <div className="o-FormEditPage">
-      <PageTitle title={title} />
-      <CommonLoader isLoading={isLoading} errors={errors}>
-        <PickUpDaysForm
-          data={pickUpDaysData}
-          onSubmitValid={onSubmit}
-          onCancel={onCancel}
-          labels={formLabels}
-        />
-      </CommonLoader>
+    <div className="o-ServicesPickUpDayEditPage">
+      {pickUpDayId && mappedData && (
+        <>
+          <PageTitle
+            title={isCreateMode ? labels.createTitle : mappedData.name}
+          />
+          <CommonLoader isLoading={isLoading} errors={errors}>
+            <PickUpDaysForm
+              data={mappedData}
+              onSubmitValid={onSubmit}
+              onCancel={onCancel}
+              labels={formLabels}
+            />
+          </CommonLoader>
+        </>
+      )}
     </div>
   );
 }

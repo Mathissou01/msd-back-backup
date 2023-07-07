@@ -44,7 +44,6 @@ export function AlertsPage() {
     title: "Alertes",
     addButton: "Créer une alerte",
   };
-
   const tableLabels = {
     title: "Liste des alertes",
     columns: {

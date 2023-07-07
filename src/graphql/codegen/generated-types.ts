@@ -14996,6 +14996,33 @@ export type UpdateSectorizationMutation = {
   } | null;
 };
 
+export type CreateAlertNotificationMutationVariables = Exact<{
+  data: AlertNotificationInput;
+}>;
+
+export type CreateAlertNotificationMutation = {
+  __typename?: "Mutation";
+  createAlertNotification?: {
+    __typename?: "AlertNotificationEntityResponse";
+    data?: {
+      __typename?: "AlertNotificationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "AlertNotification";
+        alertDescription: string;
+        scheduledAt: any;
+        sectorizations?: {
+          __typename?: "SectorizationRelationResponseCollection";
+          data: Array<{
+            __typename?: "SectorizationEntity";
+            id?: string | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type DeleteAlertNotificationsByIdMutationVariables = Exact<{
   deleteAlertNotificationId: Scalars["ID"];
 }>;
@@ -25369,6 +25396,67 @@ export type UpdateSectorizationMutationResult =
 export type UpdateSectorizationMutationOptions = Apollo.BaseMutationOptions<
   UpdateSectorizationMutation,
   UpdateSectorizationMutationVariables
+>;
+export const CreateAlertNotificationDocument = gql`
+  mutation createAlertNotification($data: AlertNotificationInput!) {
+    createAlertNotification(data: $data) {
+      data {
+        id
+        attributes {
+          alertDescription
+          scheduledAt
+          sectorizations {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export type CreateAlertNotificationMutationFn = Apollo.MutationFunction<
+  CreateAlertNotificationMutation,
+  CreateAlertNotificationMutationVariables
+>;
+
+/**
+ * __useCreateAlertNotificationMutation__
+ *
+ * To run a mutation, you first call `useCreateAlertNotificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAlertNotificationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAlertNotificationMutation, { data, loading, error }] = useCreateAlertNotificationMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateAlertNotificationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateAlertNotificationMutation,
+    CreateAlertNotificationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateAlertNotificationMutation,
+    CreateAlertNotificationMutationVariables
+  >(CreateAlertNotificationDocument, options);
+}
+export type CreateAlertNotificationMutationHookResult = ReturnType<
+  typeof useCreateAlertNotificationMutation
+>;
+export type CreateAlertNotificationMutationResult =
+  Apollo.MutationResult<CreateAlertNotificationMutation>;
+export type CreateAlertNotificationMutationOptions = Apollo.BaseMutationOptions<
+  CreateAlertNotificationMutation,
+  CreateAlertNotificationMutationVariables
 >;
 export const DeleteAlertNotificationsByIdDocument = gql`
   mutation deleteAlertNotificationsById($deleteAlertNotificationId: ID!) {
