@@ -44,8 +44,7 @@
       background-color: colors.$blue-4;
       border-color: transparent;
     }
-  }
-  @if $type == "secondary" {
+  } @else if $type == "secondary" {
     &:hover {
       background-color: colors.$blue-light;
     }
@@ -58,6 +57,21 @@
     &:disabled {
       background-color: inherit;
       border-color: colors.$blue-3;
+    }
+  } @else if $type == "tertiary" {
+    border-color: transparent;
+
+    &:hover {
+      background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+    }
+
+    &:active,
+    &:focus {
+      background-color: color.adjust(colors.$gray-800, $alpha: -0.9);
+    }
+
+    &:disabled {
+      background-color: inherit;
     }
   }
 }

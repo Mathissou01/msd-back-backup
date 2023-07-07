@@ -1,13 +1,22 @@
 import Link from "next/link";
-import "./header-top-bar.scss";
 import Image from "next/image";
 import { useContract } from "../../../hooks/useContract";
+import CommonButton from "../../Common/CommonButton/CommonButton";
+import "./header-top-bar.scss";
 
 interface IHeaderTopBarProps {
   isRoot?: boolean;
+  hasChangeContractsButton?: boolean;
 }
 
-export default function HeaderTopBar({ isRoot = false }: IHeaderTopBarProps) {
+export default function HeaderTopBar({
+  isRoot = false,
+  hasChangeContractsButton,
+}: IHeaderTopBarProps) {
+  /* Static Data */
+  const changeContractLabel = "Changer de client";
+
+  /* Local Data */
   const { contract } = useContract();
 
   return (
@@ -40,12 +49,18 @@ export default function HeaderTopBar({ isRoot = false }: IHeaderTopBarProps) {
           <>
             {!isRoot ? (
               <>
-                <li
-                  className="c-HeaderTopBar__Item"
-                  style={{ minWidth: "151px" }}
-                >
-                  <Link href={"/"}>[Client]</Link>
-                </li>
+                {hasChangeContractsButton && (
+                  <li className="c-HeaderTopBar__Item">
+                    <Link href={"/"}>
+                      <CommonButton
+                        label={changeContractLabel}
+                        style={"tertiary"}
+                        picto="refreshArrows"
+                        pictoPosition="right"
+                      />
+                    </Link>
+                  </li>
+                )}
                 <div className="c-HeaderTopBar__Filler" aria-hidden={true} />
                 <li
                   className="c-HeaderTopBar__Item"

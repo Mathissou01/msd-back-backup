@@ -28,16 +28,6 @@ exports[`Header renders 1`] = `
     <ul
       class="c-HeaderTopBar__List"
     >
-      <li
-        class="c-HeaderTopBar__Item"
-        style="min-width: 151px;"
-      >
-        <a
-          href="/"
-        >
-          [Client]
-        </a>
-      </li>
       <div
         aria-hidden="true"
         class="c-HeaderTopBar__Filler"
@@ -401,12 +391,22 @@ exports[`Header renders 1`] = `
       </li>
     </ul>
     <div
-      class="c-HeaderSideBar__Logo"
+      class="c-HeaderSideBar__LogoContainer"
     >
       <a
-        href="/"
+        href="https://www.monservicedechets.com/"
       >
-        [Logo MSD]
+        <img
+          alt="Aller sur https://www.monservicedechets.com/"
+          class="c-HeaderSideBar__LogoSuez"
+          data-nimg="1"
+          decoding="async"
+          height="72"
+          loading="lazy"
+          src="/images/monservicedechets-logo.svg"
+          style="color: transparent;"
+          width="150"
+        />
       </a>
     </div>
   </nav>

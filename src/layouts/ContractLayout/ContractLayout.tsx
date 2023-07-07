@@ -2,8 +2,12 @@ import { ReactNode, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { useRouter } from "next/router";
-import { useGetContractByIdLazyQuery } from "../../graphql/codegen/generated-types";
+import {
+  useGetContractByIdLazyQuery,
+  useGetContractsLazyQuery,
+} from "../../graphql/codegen/generated-types";
 import { isStringOfNumber } from "../../lib/utilities";
+import { useUser } from "../../hooks/useUser";
 import { useContract } from "../../hooks/useContract";
 import {
   containsNavigationPath,
@@ -26,6 +30,13 @@ export default function ContractLayout(props: IContractLayoutProps) {
     useNavigation();
   const currentRootRef = useRef(currentRoot);
   const currentPageRef = useRef(currentPage);
+  const { hasOtherContracts, setHasOtherContracts } = useUser();
+  const [
+    getContracts,
+    { data: contractsData, loading: contractsLoading, error: contractsError },
+  ] = useGetContractsLazyQuery();
+  const isLoading = loading || contractsLoading;
+  const errors = [error, contractsError];
 
   useEffect(() => {
     if (currentRoot) {
@@ -65,10 +76,22 @@ export default function ContractLayout(props: IContractLayoutProps) {
           setCurrentPage(realMatchingSlug);
         }
       }
+
+      if (hasOtherContracts === undefined) {
+        getContracts();
+      }
     } else if (localContractId === false) {
       router.push("/404");
     }
-  }, [router, getContractById, currentRoot, setCurrentRoot, setCurrentPage]);
+  }, [
+    router,
+    getContractById,
+    currentRoot,
+    setCurrentRoot,
+    setCurrentPage,
+    hasOtherContracts,
+    getContracts,
+  ]);
 
   useEffect(() => {
     if (data !== undefined) {
@@ -82,20 +105,32 @@ export default function ContractLayout(props: IContractLayoutProps) {
     }
   }, [data, setContract, setContractId, router]);
 
+  useEffect(() => {
+    if (contractsData !== undefined) {
+      const hasOther =
+        contractsData.contracts?.data &&
+        contractsData.contracts.data.length > 1;
+      setHasOtherContracts(hasOther ?? false);
+    }
+  }, [contractsData, setHasOtherContracts]);
+
   return (
-    <CommonLoader isLoading={loading} errors={[error]}>
-      {contract && contractId !== "0" && currentPage && (
-        <>
-          <Header />
-          <div className="o-Page__Container">
-            <div className="o-Page__SvgTopRightAngle" />
-            <main role="main" className="o-Page__Main">
-              {props.children}
-            </main>
-            <Footer />
-          </div>
-        </>
-      )}
+    <CommonLoader isLoading={isLoading} errors={errors}>
+      {contract &&
+        contractId !== "0" &&
+        currentPage &&
+        hasOtherContracts !== undefined && (
+          <>
+            <Header hasChangeContractsButton={hasOtherContracts} />
+            <div className="o-Page__Container">
+              <div className="o-Page__SvgTopRightAngle" />
+              <main role="main" className="o-Page__Main">
+                {props.children}
+              </main>
+              <Footer />
+            </div>
+          </>
+        )}
     </CommonLoader>
   );
 }

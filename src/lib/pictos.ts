@@ -58,6 +58,7 @@ export enum EAllPictoStyles {
   "search",
   "history",
   "polygon",
+  "refreshArrows",
 }
 
 /* Full list of pictos, correspond to '$picto-names' in '_settings.pictos.scss' */
