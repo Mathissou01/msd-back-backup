@@ -125,7 +125,8 @@ export function RequestFormPage({
     const hasAppointmentSlots = submitData.hasAppointmentSlots === "1";
     const requestTypes = submitData.requestType.map(
       (requestType: ComponentBlocksRequestTypeInput) => {
-        const requestTypeTitle = requestType.title ?? submitData.name;
+        const requestTypeTitle =
+          requestType.title !== "" ? requestType.title : submitData.name;
         return {
           title: requestTypeTitle,
           isEmail: requestType.isEmail,
