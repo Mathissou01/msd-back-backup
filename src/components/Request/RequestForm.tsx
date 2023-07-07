@@ -9,7 +9,7 @@ import { IFormCommonFields } from "../../lib/form";
 import FormLayout, {
   IFormlayoutOptions,
 } from "../../layouts/FormLayout/FormLayout";
-import { ITab } from "../TabBlock/TabBlock";
+import { IFormLayoutTab } from "../../layouts/FormLayout/FormLayoutTabBlock/FormLayoutTabBlock";
 import FormDynamicBlocks from "../Form/FormDynamicBlocks/FormDynamicBlocks";
 import RequestSideBar from "./RequestSideBar/RequestSideBar";
 import RequestFormButtons, {
@@ -44,6 +44,9 @@ export interface IRequestStaticFields extends IFormCommonFields {
   proofOfReceiptSubject: string;
   proofOfReceiptHeader: string;
   hasAppointmentSlots: "0" | "1";
+  numberOfRequiredSlots: number;
+  hoursBeforeReservationIsActivated?: number;
+  slotsReservationRules?: Array<number>;
 }
 
 export interface IRequestFields extends IRequestStaticFields {
@@ -78,10 +81,13 @@ export default function RequestForm({
   labels,
   buttonLabels,
 }: IRequestFormProps) {
+  /* Static data */
   const tabLabels = {
     requestForm: "Formulaire de demande",
     appointmentSlots: "Créneaux",
   };
+
+  /* Local data */
   const buttonContent = (
     <RequestFormButtons<IRequestStaticFields>
       isCreateMode={isCreateMode}
@@ -92,7 +98,7 @@ export default function RequestForm({
       onChangeActivated={onChangeActivated}
     />
   );
-  const tabs: ITab[] = [
+  const tabs: IFormLayoutTab[] = [
     {
       name: "RequestForm",
       title: tabLabels.requestForm,
@@ -115,12 +121,22 @@ export default function RequestForm({
           />
         </>
       ),
+      // fieldsToFocus is useful for tabs errors management, add only required fields from each tab
+      fieldsToFocus: [
+        "name",
+        "requestType",
+        "fieldAddressLabel",
+        "addableBlocks",
+        "proofOfReceiptSubject",
+        "proofOfReceiptHeader",
+      ],
       isEnabled: true,
     },
     {
       name: "AppointmentSlots",
       title: tabLabels.appointmentSlots,
       content: <RequestAppointmentSlots />,
+      fieldsToFocus: ["numberOfRequiredSlots", "slotsReservationRules"],
       isEnabled: true,
     },
   ];
@@ -128,7 +144,11 @@ export default function RequestForm({
   const formOptions: IFormlayoutOptions<IRequestFields> = {
     onSubmitValid: onSubmit,
     defaultValues: data,
-    nestedFieldsToFocus: ["addableBlocks", "requestType"],
+    nestedFieldsToFocus: [
+      "addableBlocks",
+      "requestType",
+      "slotsReservationRules",
+    ],
   };
 
   return (
@@ -137,7 +157,7 @@ export default function RequestForm({
       sidebarContent={sidebarContent}
       formOptions={formOptions}
       tabs={tabs}
-      tabIndex={0}
+      defaultTab={0}
     />
   );
 }

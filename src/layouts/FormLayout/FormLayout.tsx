@@ -3,8 +3,10 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
 import { ReactNode, useEffect, useState } from "react";
 import { removeNulls } from "../../lib/utilities";
-import TabBlock, { ITab } from "../../components/TabBlock/TabBlock";
 import { useLeavePageConfirm } from "../../hooks/useLeavePageConfirm";
+import FormLayoutTabBlock, {
+  IFormLayoutTab,
+} from "./FormLayoutTabBlock/FormLayoutTabBlock";
 import "./form-layout.scss";
 
 export interface IFormlayoutOptions<Fields> {
@@ -16,8 +18,8 @@ export interface IFormlayoutOptions<Fields> {
 interface IFormLayoutProps<Fields> {
   buttonContent: ReactNode;
   formContent?: ReactNode;
-  tabs?: ITab[];
-  tabIndex?: number;
+  tabs?: IFormLayoutTab[];
+  defaultTab?: number;
   sidebarContent?: ReactNode;
   formOptions: IFormlayoutOptions<Fields>;
   returnButton?: ReactNode;
@@ -27,7 +29,7 @@ export default function FormLayout<Fields extends FieldValues>({
   buttonContent,
   formContent,
   tabs,
-  tabIndex,
+  defaultTab = 0,
   sidebarContent,
   formOptions,
   returnButton,
@@ -41,6 +43,8 @@ export default function FormLayout<Fields extends FieldValues>({
   });
   useLeavePageConfirm(form.formState.isDirty);
   const [canFocus, setCanFocus] = useState(false);
+  const [tabsInError, setTabsInError] = useState<Array<number>>([]);
+  const [activeTab, setActiveTab] = useState<number>(defaultTab);
   const { handleSubmit, reset } = form;
   const sidebar = <div className="c-FormLayout__SideBar">{sidebarContent}</div>;
 
@@ -55,16 +59,39 @@ export default function FormLayout<Fields extends FieldValues>({
   useEffect(() => {
     if (formOptions.nestedFieldsToFocus && form.formState.errors && canFocus) {
       const errors = form.formState.errors;
-      const elements = Object.keys(errors)
+      const errorsKeys = Object.keys(errors);
+      const tabsContainingError: Array<number> = [];
+      if (tabs) {
+        errorsKeys.forEach((errorsKey) => {
+          tabs.forEach((tab, tabIndex) => {
+            if (
+              tab.fieldsToFocus.includes(errorsKey) &&
+              tabsContainingError.indexOf(tabIndex) === -1
+            ) {
+              tabsContainingError.push(tabIndex);
+            }
+          });
+        });
+        setTabsInError(tabsContainingError);
+      }
+      let elements = errorsKeys
         .map((name) => {
           if (formOptions.nestedFieldsToFocus?.includes(name) && errors[name]) {
             const blocksErrors = { ...errors[name] };
             return Object.keys(blocksErrors)
               .map((block) => {
                 const blockErrors = _.get(blocksErrors, block);
-                return Object.keys(blockErrors).map((field) =>
-                  document.getElementById(`${name}.${block}.${field}`),
-                );
+                if (
+                  "message" in blockErrors &&
+                  "type" in blockErrors &&
+                  "ref" in blockErrors
+                ) {
+                  return document.getElementById(`${name}.${block}`);
+                } else {
+                  return Object.keys(blockErrors).map((field) =>
+                    document.getElementById(`${name}.${block}.${field}`),
+                  );
+                }
               })
               .flat();
           }
@@ -72,6 +99,27 @@ export default function FormLayout<Fields extends FieldValues>({
         })
         .flat()
         .filter(removeNulls);
+      if (tabs && tabsContainingError.includes(activeTab)) {
+        const newElements = [...elements];
+        const activeTabData = tabs.filter(
+          (_, tabIndex) => tabIndex === activeTab,
+        )[0];
+        const fieldsIndexesToRemove: Array<number> = [];
+        elements.forEach((element, elementIndex) => {
+          const fieldMustBeRemoved = activeTabData.fieldsToFocus.every(
+            (fieldToFocus) => {
+              return !element.id.includes(fieldToFocus);
+            },
+          );
+          if (fieldMustBeRemoved) {
+            fieldsIndexesToRemove.push(elementIndex);
+          }
+        });
+        fieldsIndexesToRemove.forEach((fieldsIndexToRemove) => {
+          delete newElements[fieldsIndexToRemove];
+        });
+        elements = newElements;
+      }
       elements.sort(
         (a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top,
       );
@@ -84,7 +132,14 @@ export default function FormLayout<Fields extends FieldValues>({
         setCanFocus(false);
       }
     }
-  }, [formOptions, form.formState.errors, canFocus]);
+  }, [
+    formOptions,
+    form.formState.errors,
+    canFocus,
+    tabs,
+    tabsInError,
+    activeTab,
+  ]);
 
   return (
     <>
@@ -96,12 +151,14 @@ export default function FormLayout<Fields extends FieldValues>({
           <div className="c-FormLayout__ReturnButton">{returnButton}</div>
           <div className="c-FormLayout__Buttons">{buttonContent}</div>
           <div className="c-FormLayout__Form">
-            {tabs && tabIndex !== undefined && (
+            {tabs && defaultTab !== undefined && (
               <>
-                <TabBlock
+                <FormLayoutTabBlock
                   tabs={tabs}
-                  initialTabName={tabs[tabIndex].name}
+                  initialTabName={tabs[defaultTab].name}
                   formSidebar={sidebar}
+                  tabsInError={tabsInError}
+                  onTabChange={(tabIndex: number) => setActiveTab(tabIndex)}
                 />
               </>
             )}

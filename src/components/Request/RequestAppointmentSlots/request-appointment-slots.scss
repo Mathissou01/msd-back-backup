@@ -1,7 +1,7 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.shadows" as shadows;
 
-.c-RequestAppointmentSlots {
+.c-RequestAppointmentSlotsFieldsGroup {
   @include shadows.shadow(1);
 
   display: flex;
@@ -10,4 +10,44 @@
   padding: 16px 20px 32px;
   background-color: colors.$white;
   border-radius: 8px;
+
+  &__NumberAndRules {
+    &_numberOfRequiredSlots {
+      width: calc(41% - 38px);
+    }
+
+    &_hoursBeforeReservationIsActivated {
+      width: 75%;
+
+      .c-FormLabel__ContentWithSuffix_data {
+        width: 50%;
+      }
+    }
+
+    &_slotsReservationRulesTitle {
+      display: block;
+      margin-bottom: 12px;
+      color: colors.$blue-2;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    &_slotsReservationRulesLine {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .c-FormSelect {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .c-FormLabel {
+        min-width: 320px;
+      }
+    }
+  }
 }

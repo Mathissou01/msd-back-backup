@@ -10,14 +10,12 @@ interface ITabBlockProps {
   tabs: Array<ITab>;
   initialTabName: string;
   isAlignLeftMediaLibrary?: boolean;
-  formSidebar?: JSX.Element;
 }
 
 export default function TabBlock({
   tabs,
   initialTabName,
   isAlignLeftMediaLibrary = false,
-  formSidebar,
 }: ITabBlockProps) {
   function clickTab(tabIndex: number) {
     setActiveTab(tabIndex);
@@ -50,26 +48,7 @@ export default function TabBlock({
         isAlignStart={isAlignLeftMediaLibrary}
       />
       <div className="c-TabBlock__Content">
-        {formSidebar && (
-          <div className="c-TabBlock__Content_withSidebar">
-            {tabs.map((tab, tabIndex) => {
-              return (
-                <div
-                  key={tabIndex}
-                  className={`c-FormLayout__Content ${
-                    activeTab === tabIndex
-                      ? ""
-                      : "c-FormLayout__Content_invisible"
-                  }`}
-                >
-                  {tab.content}
-                </div>
-              );
-            })}
-            {formSidebar}
-          </div>
-        )}
-        {!formSidebar && <CurrentTabComponent />}
+        <CurrentTabComponent />
       </div>
     </div>
   );

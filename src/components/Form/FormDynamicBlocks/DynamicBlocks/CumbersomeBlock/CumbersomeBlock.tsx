@@ -57,7 +57,7 @@ export default function CumbersomeBlock({ blockName }: ICumbersomeBlock) {
           type="text"
           name={`${blockName}.${fieldNames.maxVolumeOfCumbersome}`}
           label={labels.staticVolumeLabel}
-          unitLabel={labels.staticVolumeUnit}
+          suffixLabel={labels.staticVolumeUnit}
           patternValidation={/^\d+([.,]\d){0,1}$/}
           patternValidationErrorMessage={labels.staticVolumeErrorMessage}
         />

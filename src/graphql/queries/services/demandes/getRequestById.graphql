@@ -87,6 +87,9 @@ query getRequestById($requestId: ID) {
         proofOfReceiptSubject
         proofOfReceiptHeader
         hasAppointmentSlots
+        numberOfRequiredSlots
+        hoursBeforeReservationIsActivated
+        slotsReservationRules
       }
     }
   }

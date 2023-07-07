@@ -13,7 +13,7 @@ export interface IFormLabelProps {
   secondaryLabel?: string;
   validationLabel?: string;
   informationLabel?: string;
-  unitLabel?: string;
+  suffixLabel?: string;
   forId?: string;
   tagType?: "label" | "legend";
   isRequired?: boolean;
@@ -29,7 +29,7 @@ export default function FormLabel({
   secondaryLabel,
   validationLabel,
   informationLabel,
-  unitLabel,
+  suffixLabel,
   forId,
   tagType = "label",
   isRequired = false,
@@ -77,14 +77,14 @@ export default function FormLabel({
           <span className="FormLabel__Secondary">{secondaryLabel}</span>
         </Tag>
       )}
-      {children && !unitLabel && (
+      {children && !suffixLabel && (
         <div className="c-FormLabel__Content">{children}</div>
       )}
-      {children && unitLabel && (
-        <div className="c-FormLabel__ContentWithUnit">
-          <div className="c-FormLabel__ContentWithUnit_data">{children}</div>
+      {children && suffixLabel && (
+        <div className="c-FormLabel__ContentWithSuffix">
+          <div className="c-FormLabel__ContentWithSuffix_data">{children}</div>
           <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
-            <span className="c-FormLabel__Unit">{unitLabel}</span>
+            <span className="c-FormLabel__Suffix">{suffixLabel}</span>
           </Tag>
         </div>
       )}

@@ -12,6 +12,11 @@
     margin-bottom: 55px;
   }
 
+  &__TabError {
+    position: absolute;
+    color: colors.$error;
+  }
+
   &__Form {
     display: flex;
     flex-direction: row;

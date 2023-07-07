@@ -317,6 +317,13 @@ type AudienceTypeRelationResponseCollection {
   data: [AudienceTypeEntity!]!
 }
 
+type AvailableSlot {
+  day: String
+  exceptionId: ID
+  openingTime: String
+  slotId: ID!
+}
+
 input BooleanFilterInput {
   and: [Boolean]
   between: [Boolean]
@@ -4092,6 +4099,17 @@ type Mutation {
     ref: String
     refId: ID
   ): [UploadFileEntityResponse]!
+  programmedSend(
+    alertMessage: String
+    isEmail: Boolean
+    isImmediate: Boolean
+    isSMS: Boolean
+    mailSubject: String
+    recipientEmail: String
+    scheduledAt: Date
+    smsTitle: String
+    time: String
+  ): String
 
   """
   Register a user
@@ -4381,6 +4399,7 @@ type Mutation {
     refId: ID
   ): Boolean
   urlUploader(imageName: String!, url: String!): Boolean
+  validateRequest(requestJSON: JSON): Boolean
   ywsActivation(contractId: ID!): Boolean
   ywsDeactivation(contractId: ID!): Boolean
 }
@@ -5251,7 +5270,7 @@ type Query {
     lat: Float!
     long: Float!
     requestId: ID!
-  ): [RequestSlots]
+  ): [AvailableSlot]
   getPickUpDaysByCoordinates(
     lat: Float!
     long: Float!
@@ -6150,6 +6169,11 @@ type RequestServiceRelationResponseCollection {
 type RequestSlot {
   createdAt: DateTime
   noSlotMessage: String
+  requestTakeds(
+    filters: RequestTakedFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestTakedRelationResponseCollection
   sectorizations(
     filters: SectorizationFiltersInput
     pagination: PaginationArg = {}
@@ -6186,6 +6210,7 @@ input RequestSlotFiltersInput {
   noSlotMessage: StringFilterInput
   not: RequestSlotFiltersInput
   or: [RequestSlotFiltersInput]
+  requestTakeds: RequestTakedFiltersInput
   sectorizations: SectorizationFiltersInput
   slotMessage: StringFilterInput
   slotsExceptions: ComponentBlocksRequestSlotsExceptionsFiltersInput
@@ -6195,6 +6220,7 @@ input RequestSlotFiltersInput {
 
 input RequestSlotInput {
   noSlotMessage: String
+  requestTakeds: [ID]
   sectorizations: [ID]
   slotMessage: String
   slotsExceptions: [ComponentBlocksRequestSlotsExceptionsInput]
@@ -6203,13 +6229,6 @@ input RequestSlotInput {
 
 type RequestSlotRelationResponseCollection {
   data: [RequestSlotEntity!]!
-}
-
-type RequestSlots {
-  day: String
-  exceptionId: ID
-  requestSlotId: ID!
-  startTime: Time
 }
 
 type RequestTagEntity {
@@ -6222,12 +6241,11 @@ type RequestTaked {
   city: String
   createdAt: DateTime
   name: String!
+  requestSlot: RequestSlotEntityResponse
   requestType: ComponentBlocksRequestType
-  request_slot: RequestSlotEntityResponse
-  slotDate: Date
   slotTaken: JSON
   updatedAt: DateTime
-  user_data_storage: UserDataStorageEntityResponse
+  userDataStorage: UserDataStorageEntityResponse
 }
 
 type RequestTakedEntity {
@@ -6252,22 +6270,20 @@ input RequestTakedFiltersInput {
   name: StringFilterInput
   not: RequestTakedFiltersInput
   or: [RequestTakedFiltersInput]
+  requestSlot: RequestSlotFiltersInput
   requestType: ComponentBlocksRequestTypeFiltersInput
-  request_slot: RequestSlotFiltersInput
-  slotDate: DateFilterInput
   slotTaken: JSONFilterInput
   updatedAt: DateTimeFilterInput
-  user_data_storage: UserDataStorageFiltersInput
+  userDataStorage: UserDataStorageFiltersInput
 }
 
 input RequestTakedInput {
   city: String
   name: String
+  requestSlot: ID
   requestType: ComponentBlocksRequestTypeInput
-  request_slot: ID
-  slotDate: Date
   slotTaken: JSON
-  user_data_storage: ID
+  userDataStorage: ID
 }
 
 type RequestTakedRelationResponseCollection {
@@ -7024,7 +7040,7 @@ type UserDataStorage {
   firstname: String
   name: String
   phone: String
-  request_takeds(
+  requestTakeds(
     filters: RequestTakedFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
@@ -7056,7 +7072,7 @@ input UserDataStorageFiltersInput {
   not: UserDataStorageFiltersInput
   or: [UserDataStorageFiltersInput]
   phone: StringFilterInput
-  request_takeds: RequestTakedFiltersInput
+  requestTakeds: RequestTakedFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -7065,7 +7081,7 @@ input UserDataStorageInput {
   firstname: String
   name: String
   phone: String
-  request_takeds: [ID]
+  requestTakeds: [ID]
 }
 
 type UsersPermissionsCreateRolePayload {

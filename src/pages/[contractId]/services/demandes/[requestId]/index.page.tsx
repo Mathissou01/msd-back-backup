@@ -156,6 +156,10 @@ export function RequestFormPage({
       proofOfReceiptSubject: submitData.proofOfReceiptSubject,
       proofOfReceiptHeader: submitData.proofOfReceiptHeader,
       hasAppointmentSlots,
+      numberOfRequiredSlots: +submitData.numberOfRequiredSlots,
+      hoursBeforeReservationIsActivated:
+        +submitData.hoursBeforeReservationIsActivated,
+      slotsReservationRules: submitData.slotsReservationRules,
     };
 
     return isCreateMode
@@ -322,6 +326,8 @@ export function RequestFormPage({
           proofOfReceiptSubject: "",
           proofOfReceiptHeader: "",
           hasAppointmentSlots: "0",
+          numberOfRequiredSlots: 1,
+          slotsReservationRules: undefined,
         };
         setMappedData(mappedData);
       } else if (requestId !== mappedData?.id) {
@@ -397,6 +403,14 @@ export function RequestFormPage({
           hasAppointmentSlots: requestData.attributes.hasAppointmentSlots
             ? "1"
             : "0",
+          numberOfRequiredSlots:
+            requestData.attributes.numberOfRequiredSlots ?? 1,
+          hoursBeforeReservationIsActivated:
+            !requestData.attributes.hoursBeforeReservationIsActivated ||
+            requestData.attributes.hoursBeforeReservationIsActivated === 0
+              ? undefined
+              : requestData.attributes.hoursBeforeReservationIsActivated,
+          slotsReservationRules: requestData.attributes.slotsReservationRules,
         };
         setMappedData(mappedData);
       }
