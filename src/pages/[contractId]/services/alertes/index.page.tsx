@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
@@ -22,12 +22,22 @@ import CommonButton from "../../../../components/Common/CommonButton/CommonButto
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
+import CommonButtonGroup, {
+  ICommonButtonGroupSingle,
+} from "../../../../components/Common/CommonButtonGroup/CommonButtonGroup";
+import "./alertes-page.scss";
 
 export interface IAlertsTableRow extends IDefaultTableRow {
   alertDescription: string;
   canal: string;
   scheduledAt: Date;
+  scheduledAtTime: string;
 }
+
+interface IFilters extends Record<string, unknown> {
+  scheduledAt?: string;
+}
+
 export function AlertsPage() {
   /* Static Data */
   const labels = {
@@ -44,12 +54,30 @@ export function AlertsPage() {
     },
   };
 
+  const currentDate = useMemo(() => new Date(), []);
+  const currentDateString = useMemo(
+    () => format(currentDate, "yyyy-MM-dd"),
+    [currentDate],
+  );
   /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination) {
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
     return getAlertNotifications({
       variables: {
         contractId: contractId,
+        today: currentDateString,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
+
+        scheduledAtFilter:
+          filters?.scheduledAt === "past"
+            ? {
+                lt: currentDateString,
+              }
+            : {
+                gte: currentDateString,
+              },
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
         }),
@@ -70,12 +98,14 @@ export function AlertsPage() {
   const router = useRouter();
   const isInitialized = useRef(false);
   const [tableData, setTableData] = useState<Array<IAlertsTableRow>>([]);
+  const [filters, setFilters] = useState<IFilters>({});
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
   const defaultQueryVariables: GetAlertNotificationsByContractIdQueryVariables =
     {
       contractId: contractId,
+      today: currentDateString,
       sort: "scheduledAt:asc",
       pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
     };
@@ -90,7 +120,7 @@ export function AlertsPage() {
     deleteAlertMutation,
     { loading: deleteAlertMutationLoading, error: deleteAlertMutationError },
   ] = useDeleteAlertNotificationsByIdMutation({
-    refetchQueries: ["GetAlertNotificationsByContractId"],
+    refetchQueries: ["getAlertNotificationsByContractId"],
     awaitRefetchQueries: true,
   });
 
@@ -132,14 +162,14 @@ export function AlertsPage() {
     {
       id: "scheduledAt",
       name: tableLabels.columns.ScheduledAt,
-      selector: (row) => format(row.scheduledAt, "dd-MM-yyyy"),
+      selector: (row) =>
+        `${format(row.scheduledAt, "dd-MM-yyyy")} ${row.scheduledAtTime}`,
       sortable: true,
       grow: 3,
     },
   ];
 
   const actionColumn = (row: IAlertsTableRow): Array<IDataTableAction> => {
-    const currentDate = new Date();
     const scheduledDate = row.scheduledAt;
     const isAlertSent = isBefore(scheduledDate, currentDate);
     const actions: Array<IDataTableAction> = [];
@@ -164,6 +194,20 @@ export function AlertsPage() {
 
     return actions;
   };
+
+  const [filterButtonGroup, setFilterButtonGroup] =
+    useState<Array<ICommonButtonGroupSingle>>();
+
+  const filtersNode = (
+    <>
+      <CommonButtonGroup
+        buttons={filterButtonGroup ?? []}
+        onChange={(button) =>
+          setFilters({ ...filters, scheduledAt: button.value })
+        }
+      />
+    </>
+  );
 
   useEffect(() => {
     if (data) {
@@ -192,14 +236,26 @@ export function AlertsPage() {
 
                 scheduledAt: alertNotification.attributes?.scheduledAt
                   ? parseISO(alertNotification.attributes.scheduledAt)
-                  : new Date(),
+                  : currentDate,
+                scheduledAtTime:
+                  alertNotification.attributes.scheduledAtTime ?? "",
               };
             }
           })
           .filter(removeNulls) ?? [],
       );
+      setFilterButtonGroup([
+        {
+          label: `A venir (${pageData?.notSentCount?.meta.pagination.total})`,
+          value: "future",
+        },
+        {
+          label: `Passées (${pageData?.sentCount?.meta.pagination.total})`,
+          value: "past",
+        },
+      ]);
     }
-  }, [data, pageData]);
+  }, [currentDate, data, pageData]);
 
   useEffect(() => {
     setIsUpdatingData(false);
@@ -217,7 +273,7 @@ export function AlertsPage() {
   }, [getAlertNotifications, isInitialized]);
 
   return (
-    <div className="o-AlertsPage">
+    <div className="c-AlertsPage">
       <PageTitle title={labels.title} />
       <div>
         <CommonButton
@@ -227,8 +283,8 @@ export function AlertsPage() {
           onClick={() => router.push(`${currentRoot}/services/alertes/create`)}
         />
       </div>
-      <h2 className="o-TablePage__Title">{tableLabels.title}</h2>
-      <div className="o-TablePage__Table ">
+      <h2 className="c-AlertsPage__Title">{tableLabels.title}</h2>
+      <div className="c-AlertsPage__Table ">
         <CommonLoader
           isLoading={!isInitialized.current}
           isShowingContent={isLoadingMutation}
@@ -244,6 +300,8 @@ export function AlertsPage() {
                 pageData?.alertNotifications?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
+            filters={filters}
+            filtersNode={filtersNode}
             defaultSortFieldId={"id"}
             paginationOptions={{
               hasPagination: true,

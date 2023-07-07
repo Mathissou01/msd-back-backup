@@ -15013,6 +15013,8 @@ export type DeleteAlertNotificationsByIdMutation = {
 
 export type GetAlertNotificationsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
+  today: Scalars["Date"];
+  scheduledAtFilter?: InputMaybe<DateFilterInput>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
   >;
@@ -15021,6 +15023,46 @@ export type GetAlertNotificationsByContractIdQueryVariables = Exact<{
 
 export type GetAlertNotificationsByContractIdQuery = {
   __typename?: "Query";
+  sentCount?: {
+    __typename?: "AlertNotificationEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+    data: Array<{
+      __typename?: "AlertNotificationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "AlertNotification";
+        sendMail?: boolean | null;
+        sendSMS?: boolean | null;
+        scheduledAt: any;
+        alertMessage?: string | null;
+        alertDescription: string;
+        scheduledAtTime: string;
+      } | null;
+    }>;
+  } | null;
+  notSentCount?: {
+    __typename?: "AlertNotificationEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: { __typename?: "Pagination"; total: number };
+    };
+    data: Array<{
+      __typename?: "AlertNotificationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "AlertNotification";
+        sendMail?: boolean | null;
+        sendSMS?: boolean | null;
+        scheduledAt: any;
+        alertMessage?: string | null;
+        alertDescription: string;
+        scheduledAtTime: string;
+      } | null;
+    }>;
+  } | null;
   alertNotifications?: {
     __typename?: "AlertNotificationEntityResponseCollection";
     meta: {
@@ -15043,6 +15085,7 @@ export type GetAlertNotificationsByContractIdQuery = {
         scheduledAt: any;
         alertMessage?: string | null;
         alertDescription: string;
+        scheduledAtTime: string;
       } | null;
     }>;
   } | null;
@@ -25383,11 +25426,62 @@ export type DeleteAlertNotificationsByIdMutationOptions =
 export const GetAlertNotificationsByContractIdDocument = gql`
   query getAlertNotificationsByContractId(
     $contractId: ID!
+    $today: Date!
+    $scheduledAtFilter: DateFilterInput
     $sort: [String]
     $pagination: PaginationArg
   ) {
+    sentCount: alertNotifications(
+      filters: {
+        alertNotifService: { contract: { id: { eq: $contractId } } }
+        scheduledAt: { lt: $today }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+      data {
+        attributes {
+          sendMail
+          sendSMS
+          scheduledAt
+          alertMessage
+          alertDescription
+          scheduledAtTime
+        }
+        id
+      }
+    }
+    notSentCount: alertNotifications(
+      filters: {
+        alertNotifService: { contract: { id: { eq: $contractId } } }
+        scheduledAt: { gte: $today }
+      }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+      data {
+        attributes {
+          sendMail
+          sendSMS
+          scheduledAt
+          alertMessage
+          alertDescription
+          scheduledAtTime
+        }
+        id
+      }
+    }
     alertNotifications(
-      filters: { alertNotifService: { contract: { id: { eq: $contractId } } } }
+      filters: {
+        alertNotifService: { contract: { id: { eq: $contractId } } }
+        scheduledAt: $scheduledAtFilter
+      }
       sort: $sort
       pagination: $pagination
     ) {
@@ -25406,6 +25500,7 @@ export const GetAlertNotificationsByContractIdDocument = gql`
           scheduledAt
           alertMessage
           alertDescription
+          scheduledAtTime
         }
         id
       }
@@ -25426,6 +25521,8 @@ export const GetAlertNotificationsByContractIdDocument = gql`
  * const { data, loading, error } = useGetAlertNotificationsByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      today: // value for 'today'
+ *      scheduledAtFilter: // value for 'scheduledAtFilter'
  *      sort: // value for 'sort'
  *      pagination: // value for 'pagination'
  *   },
