@@ -4405,6 +4405,7 @@ export type Mutation = {
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
   sendEmail?: Maybe<Scalars["String"]>;
+  sendSMS?: Maybe<Scalars["String"]>;
   servicesActivation?: Maybe<ServiceActivated>;
   setFlowIsActivated?: Maybe<FlowEntity>;
   singleUploadCustom: File;
@@ -5259,6 +5260,13 @@ export type MutationSendEmailArgs = {
   recipientEmail: Scalars["String"];
   subject?: InputMaybe<Scalars["String"]>;
   templateId?: InputMaybe<Scalars["Int"]>;
+};
+
+export type MutationSendSmsArgs = {
+  content: Scalars["String"];
+  phoneNumber: Array<InputMaybe<Scalars["String"]>>;
+  scheduledAt?: InputMaybe<Scalars["String"]>;
+  sendMultiple?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type MutationServicesActivationArgs = {
@@ -14924,6 +14932,35 @@ export type DeleteSectorizationMutation = {
         updatedAt?: any | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetCitiesQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetCitiesQuery = {
+  __typename?: "Query";
+  territories?: {
+    __typename?: "TerritoryEntityResponseCollection";
+    data: Array<{
+      __typename?: "TerritoryEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Territory";
+        cities?: {
+          __typename?: "CityRelationResponseCollection";
+          data: Array<{
+            __typename?: "CityEntity";
+            attributes?: {
+              __typename?: "City";
+              postalCode?: any | null;
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -25154,6 +25191,71 @@ export type DeleteSectorizationMutationResult =
 export type DeleteSectorizationMutationOptions = Apollo.BaseMutationOptions<
   DeleteSectorizationMutation,
   DeleteSectorizationMutationVariables
+>;
+export const GetCitiesDocument = gql`
+  query getCities($contractId: ID!) {
+    territories(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          cities {
+            data {
+              attributes {
+                postalCode
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCitiesQuery__
+ *
+ * To run a query within a React component, call `useGetCitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCitiesQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetCitiesQuery(
+  baseOptions: Apollo.QueryHookOptions<GetCitiesQuery, GetCitiesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCitiesQuery, GetCitiesQueryVariables>(
+    GetCitiesDocument,
+    options,
+  );
+}
+export function useGetCitiesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCitiesQuery,
+    GetCitiesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCitiesQuery, GetCitiesQueryVariables>(
+    GetCitiesDocument,
+    options,
+  );
+}
+export type GetCitiesQueryHookResult = ReturnType<typeof useGetCitiesQuery>;
+export type GetCitiesLazyQueryHookResult = ReturnType<
+  typeof useGetCitiesLazyQuery
+>;
+export type GetCitiesQueryResult = Apollo.QueryResult<
+  GetCitiesQuery,
+  GetCitiesQueryVariables
 >;
 export const GetSectorizationByCityDocument = gql`
   query getSectorizationByCity($postalCode: Int!) {

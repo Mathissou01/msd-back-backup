@@ -4131,6 +4131,12 @@ type Mutation {
     subject: String
     templateId: Int
   ): String
+  sendSMS(
+    content: String!
+    phoneNumber: [String]!
+    scheduledAt: String
+    sendMultiple: Boolean
+  ): String
   servicesActivation(
     ServiceName: String!
     contractId: ID!

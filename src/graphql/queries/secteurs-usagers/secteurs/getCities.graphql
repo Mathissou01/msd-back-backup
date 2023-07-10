@@ -1,0 +1,17 @@
+query getCities($contractId: ID!) {
+  territories(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      id
+      attributes {
+        cities {
+          data {
+            attributes {
+              postalCode
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

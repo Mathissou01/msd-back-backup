@@ -3,10 +3,13 @@ import React, { useEffect, useState, useMemo } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import {
+  CityEntity,
   GetSectorizationByContractIdQueryVariables,
+  useGetCitiesQuery,
   useGetSectorizationByContractIdQuery,
 } from "../../../graphql/codegen/generated-types";
 import { ISectorsTableRow } from "../../../lib/sectors";
+import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
@@ -49,13 +52,20 @@ export default function SectorModal({
   };
 
   /* Local Data */
+  const { contractId } = useContract();
   const { data } = useGetSectorizationByContractIdQuery({
     variables: defaultQueryVariables,
     fetchPolicy: "network-only",
   });
+  const { data: cities } = useGetCitiesQuery({
+    variables: {
+      contractId: contractId,
+    },
+    fetchPolicy: "network-only",
+  });
   const [currentSectorContents, setCurrentSectorContents] = useState<
     {
-      value: number | string;
+      value: number;
       label: string;
     }[]
   >([{ value: 0, label: "" }]);
@@ -74,28 +84,33 @@ export default function SectorModal({
       }),
     [],
   );
-  const postalCodes = useMemo(
-    () => [
-      { value: 69500, name: "lyon-1" },
-      { value: 69400, name: "lyon-2" },
-      { value: 69100, name: "lyon-3" },
-      { value: 69200, name: "lyon-4" },
-    ],
-    [],
-  );
 
   const SelectedCommunes = watch("communes");
+
   useEffect(() => {
-    const mappedTags = postalCodes.map(
-      (commune: { value: number; name: string }) => {
-        return {
-          value: commune.value ?? "",
-          label: commune.name ?? "",
-        };
-      },
-    );
-    setCurrentSectorContents(mappedTags);
-  }, [postalCodes]);
+    const mappedTags =
+      cities?.territories?.data[0]?.attributes?.cities?.data.reduce(
+        (result: { value: number; label: string }[], city: CityEntity) => {
+          if (
+            city.attributes &&
+            city.attributes.postalCode !== undefined &&
+            city.attributes.postalCode !== null &&
+            city.attributes.name !== undefined &&
+            city.attributes.name !== null
+          ) {
+            result.push({
+              value: city.attributes.postalCode,
+              label: city.attributes.name,
+            });
+          }
+
+          return result;
+        },
+        [],
+      );
+
+    setCurrentSectorContents(mappedTags || []);
+  }, [cities]);
 
   return (
     <FormProvider {...form}>
