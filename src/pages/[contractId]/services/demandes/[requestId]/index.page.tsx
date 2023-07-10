@@ -159,7 +159,9 @@ export function RequestFormPage({
       proofOfReceiptSubject: submitData.proofOfReceiptSubject,
       proofOfReceiptHeader: submitData.proofOfReceiptHeader,
       hasAppointmentSlots,
-      numberOfRequiredSlots: +submitData.numberOfRequiredSlots,
+      numberOfRequiredSlots: !hasAppointmentSlots
+        ? null
+        : +submitData.numberOfRequiredSlots,
       hoursBeforeReservationIsActivated:
         +submitData.hoursBeforeReservationIsActivated,
       slotsReservationRules: submitData.slotsReservationRules,
