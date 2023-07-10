@@ -126,7 +126,9 @@ export function RequestFormPage({
     const requestTypes = submitData.requestType.map(
       (requestType: ComponentBlocksRequestTypeInput) => {
         const requestTypeTitle =
-          requestType.title !== "" ? requestType.title : submitData.name;
+          requestType.title && requestType.title !== ""
+            ? requestType.title
+            : submitData.name;
         return {
           title: requestTypeTitle,
           isEmail: requestType.isEmail,
