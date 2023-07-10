@@ -22,6 +22,12 @@ export default function RequestAppointmentSlotsFieldsGroup() {
       ", l'usager peut réserver à partir de",
   };
 
+  function registerAppointmentSlotsFields() {
+    register("numberOfRequiredSlots", { value: null });
+    register("hoursBeforeReservationIsActivated", { value: null });
+    register("slotsReservationRules", { value: null });
+  }
+
   /* Methods */
   function unregisterAppointmentSlotsFields() {
     unregister("numberOfRequiredSlots");
@@ -30,7 +36,7 @@ export default function RequestAppointmentSlotsFieldsGroup() {
   }
 
   /* Local data */
-  const { getValues, unregister, resetField } = useFormContext();
+  const { getValues, register, unregister } = useFormContext();
   const numberOfRequiredSlotsOptions: Array<IOptionWrapper<number>> = [];
   for (let i = 1; i < 11; i++) {
     numberOfRequiredSlotsOptions.push({ label: i.toString(), option: i });
@@ -73,7 +79,7 @@ export default function RequestAppointmentSlotsFieldsGroup() {
             onChange={(value) => {
               value === "0"
                 ? unregisterAppointmentSlotsFields()
-                : resetField("numberOfRequiredSlots", { defaultValue: 1 });
+                : registerAppointmentSlotsFields();
             }}
           />
         </div>
@@ -85,6 +91,7 @@ export default function RequestAppointmentSlotsFieldsGroup() {
               label={labels.staticNumberOfRequiredSlots}
               name="numberOfRequiredSlots"
               options={numberOfRequiredSlotsOptions}
+              defaultValue={1}
               isRequired
             />
           </div>
