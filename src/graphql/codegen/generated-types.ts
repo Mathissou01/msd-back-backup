@@ -15035,6 +15035,7 @@ export type CreateAlertNotificationMutation = {
         __typename?: "AlertNotification";
         alertDescription: string;
         scheduledAt: any;
+        scheduledAtTime: string;
         sectorizations?: {
           __typename?: "SectorizationRelationResponseCollection";
           data: Array<{
@@ -25432,6 +25433,7 @@ export const CreateAlertNotificationDocument = gql`
         attributes {
           alertDescription
           scheduledAt
+          scheduledAtTime
           sectorizations {
             data {
               id

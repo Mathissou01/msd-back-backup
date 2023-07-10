@@ -1,5 +1,6 @@
 import router from "next/router";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import { format } from "date-fns";
 import { useCreateAlertNotificationMutation } from "../../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
@@ -10,6 +11,8 @@ import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../../../../../components/Common/CommonButton/CommonButton";
 import FormInput from "../../../../../components/Form/FormInput/FormInput";
+import FormDatePicker from "../../../../../components/Form/FormDatePicker/FormDatePicker";
+import FormCheckbox from "../../../../../components/Form/FormCheckbox/FormCheckbox";
 import "./alert-page.scss";
 
 interface IAlertFormPageProps {
@@ -23,11 +26,15 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
     createTitle: "Créer une alerte",
     smsTitle: "SMS",
     emailTitle: "Email",
+    sendingScheduleTitle: "Programmation de l'envoi",
   };
   const formLabels = {
-    description: "Description de l'alert",
-    submitButtonLabel: "Enregistrer l'alert",
+    description: "Description de l'alerte",
+    submitButtonLabel: "Enregistrer l'alerte",
     cancelButtonLabel: "Annuler",
+    scheduledDate: "Date",
+    scheduledHour: "Heure",
+    sendNow: "Envoyer immédiatement",
   };
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
@@ -45,7 +52,8 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
   });
   const {
     handleSubmit,
-    formState: { isDirty, isValid },
+    formState: { isValid },
+    watch,
   } = form;
   const isLoading = createAlertLoading;
   const errors = [errorAlert];
@@ -58,9 +66,14 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
             data: {
               alertNotifService: contractId,
               alertDescription: submitData.alertDescription,
-              // The Mock data, it's gonna be updated in the next US
-              scheduledAt: "2023-07-04",
+              scheduledAt: format(
+                submitData.sendNow ? new Date() : submitData.scheduledAt,
+                "yyyy-MM-dd",
+              ),
               sectorizations: ["1"],
+              scheduledAtTime: submitData.sendNow
+                ? format(new Date(), "HH:mm")
+                : submitData.scheduledAtTime,
             },
           },
           onCompleted: (result) => {
@@ -106,7 +119,26 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
                     isRequired
                   />
                 </div>
+                <div className="c-ServicesAlertFormPage__Wrapper">
+                  <div className="c-ServicesAlertFormPage__Title">
+                    {labels.sendingScheduleTitle}
+                  </div>
+                  <FormDatePicker
+                    name="scheduledAt"
+                    minDate={new Date()}
+                    label={formLabels.scheduledDate}
+                    isDisabled={watch("sendNow")}
+                  />
+                  <FormInput
+                    name="scheduledAtTime"
+                    label={formLabels.scheduledHour}
+                    type="time"
+                    isDisabled={watch("sendNow")}
+                  />
+                  <FormCheckbox name="sendNow" label={formLabels.sendNow} />
+                </div>
               </div>
+
               <div className="c-ServicesAlertFormPage__Columns">
                 <div className="c-ServicesAlertFormPage__Wrapper">
                   <div className="c-ServicesAlertFormPage__Title">
@@ -133,7 +165,6 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
                 label={formLabels.cancelButtonLabel}
                 picto="cross"
                 onClick={onCancel}
-                isDisabled={!isDirty}
               />
             </div>
           </form>

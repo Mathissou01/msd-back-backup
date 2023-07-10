@@ -5,6 +5,7 @@ mutation createAlertNotification($data: AlertNotificationInput!) {
       attributes {
         alertDescription
         scheduledAt
+        scheduledAtTime
         sectorizations {
           data {
             id

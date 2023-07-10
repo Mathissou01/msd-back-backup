@@ -222,7 +222,7 @@ export function AlertsPage() {
                 id: alertNotification.id,
                 editState: false,
                 alertDescription:
-                  alertNotification.attributes.alertMessage ?? "",
+                  alertNotification.attributes.alertDescription ?? "",
                 canal:
                   alertNotification.attributes?.sendSMS === true &&
                   alertNotification.attributes?.sendMail === true

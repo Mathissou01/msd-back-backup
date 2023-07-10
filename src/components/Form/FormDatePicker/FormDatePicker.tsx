@@ -15,6 +15,7 @@ interface IDatePickerProps {
   maxDate?: Date;
   endDate?: Date;
   label: string;
+  isDisabled?: boolean;
   isRequired?: boolean;
   selectsRange?: boolean;
 }
@@ -24,6 +25,7 @@ export default function FormDatePicker({
   maxDate,
   minDate,
   label,
+  isDisabled = false,
   isRequired = false,
   selectsRange = false,
 }: IDatePickerProps) {
@@ -77,6 +79,7 @@ export default function FormDatePicker({
                   startDate={selectsRange ? value && value[0] : null}
                   endDate={selectsRange ? value && value[1] : null}
                   selectsRange={selectsRange}
+                  disabled={isDisabled}
                 />
               </div>
             );
