@@ -1,6 +1,8 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
 .c-RequestsList {
+  width: 100%;
+
   &__ModalText {
     display: block;
     margin-bottom: 18px;
