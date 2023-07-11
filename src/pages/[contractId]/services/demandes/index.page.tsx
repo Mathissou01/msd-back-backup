@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
@@ -14,6 +15,7 @@ export function RequestsPage() {
   };
 
   /* Local Data */
+  const router = useRouter();
   const tabs: ITab[] = [
     {
       name: "requestList",
@@ -33,7 +35,12 @@ export function RequestsPage() {
   return (
     <div className="c-RequestsPage">
       <PageTitle title={labels.title} />
-      <TabBlock initialTabName="requestsList" tabs={tabs} />
+      <TabBlock
+        initialTabName={
+          router.query.tab ? router.query.tab.toString() : "requestList"
+        }
+        tabs={tabs}
+      />
     </div>
   );
 }

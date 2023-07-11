@@ -1,12 +1,17 @@
 import { useRouter } from "next/router";
+import { ParsedUrlQueryInput } from "querystring";
 import { useNavigation } from "../../../hooks/useNavigation";
 import "./information-message-form-return-button.scss";
 
-export interface IInformationMessageFormReturnButtonLabels {
-  return: string;
+interface IInformationMessageFormReturnButtonProps {
+  path: string;
+  query?: ParsedUrlQueryInput;
 }
 
-export default function InformationMessageFormReturnButton() {
+export default function InformationMessageFormReturnButton({
+  path,
+  query,
+}: IInformationMessageFormReturnButtonProps) {
   /* Static Data */
   const returnButtonLabel = "Retour";
 
@@ -21,8 +26,8 @@ export default function InformationMessageFormReturnButton() {
         type="button"
         onClick={() =>
           router.push({
-            pathname: `${currentRoot}/services/jour-collecte`,
-            query: { tab: "informationMessage" },
+            pathname: `${currentRoot}${path}`,
+            query,
           })
         }
       >

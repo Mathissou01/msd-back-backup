@@ -102,9 +102,7 @@ export default function AppointmentManagement() {
       id: "see",
       picto: "eye",
       alt: "Voir",
-      // TODO : In US #3623 show detailBlock instead of appointment management list and vice versa
-      // on "Back" button from detailBlock show this appointment management list instead of detail
-      onClick: () => console.warn(row.id),
+      href: `${currentRoot}/services/demandes/gestion-rendez-vous/${row.id}`,
     },
   ];
 

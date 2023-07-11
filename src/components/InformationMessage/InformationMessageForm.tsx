@@ -32,7 +32,12 @@ export default function InformationMessageForm({
   labels,
   buttonsLabels,
 }: IInformationMessageFormProps) {
-  const returnButton = <InformationMessageFormReturnButton />;
+  const returnButton = (
+    <InformationMessageFormReturnButton
+      path="/services/jour-collecte"
+      query={{ tab: "informationMessage" }}
+    />
+  );
   const contentButton = (
     <InformationMessageFormButtons
       onCancel={onCancel}
