@@ -18,6 +18,7 @@ interface IDatePickerProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   selectsRange?: boolean;
+  onChange?: () => void;
 }
 
 export default function FormDatePicker({
@@ -25,6 +26,7 @@ export default function FormDatePicker({
   maxDate,
   minDate,
   label,
+  onChange,
   isDisabled = false,
   isRequired = false,
   selectsRange = false,
@@ -55,7 +57,7 @@ export default function FormDatePicker({
               message: errorMessages.required,
             },
           }}
-          render={({ field: { onChange, value } }) => {
+          render={({ field: { onChange: onChangeField, value } }) => {
             return (
               <div
                 className={classNames("c-CommonDatePicker", {
@@ -69,7 +71,12 @@ export default function FormDatePicker({
                   selected={
                     value ? (selectsRange ? value[0] : new Date(value)) : null
                   }
-                  onChange={onChange}
+                  onChange={(value) => {
+                    onChangeField(value);
+                    if (onChange) {
+                      onChange();
+                    }
+                  }}
                   minDate={minDate}
                   maxDate={maxDate}
                   dateFormat="dd-MM-yyyy"

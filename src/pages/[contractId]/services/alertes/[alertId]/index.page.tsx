@@ -1,7 +1,13 @@
-import router from "next/router";
+import { useEffect } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import { format } from "date-fns";
-import { useCreateAlertNotificationMutation } from "../../../../../graphql/codegen/generated-types";
+import router from "next/router";
+import { add, format, isAfter } from "date-fns";
+import {
+  useCreateAlertNotificationMutation,
+  useUpdateAlertNotificationByIdMutation,
+  GetAlertNotificationsByContractIdDocument,
+  useGetAlertNotificationByIdQuery,
+} from "../../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
@@ -15,12 +21,22 @@ import FormDatePicker from "../../../../../components/Form/FormDatePicker/FormDa
 import FormCheckbox from "../../../../../components/Form/FormCheckbox/FormCheckbox";
 import "./alert-page.scss";
 
-interface IAlertFormPageProps {
-  alertId: string;
+interface IAlertNotificationFormPageProps {
+  alertNotificationId: string;
   isCreateMode: boolean;
 }
 
-export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
+export interface IAlertsNotificationsMappedFields {
+  alertDescription: string;
+  canal: string;
+  scheduledAt: Date;
+  scheduledAtTime: string;
+}
+
+export function ServicesAlertFormPage({
+  alertNotificationId,
+  isCreateMode,
+}: IAlertNotificationFormPageProps) {
   /* Static Data */
   const labels = {
     createTitle: "Créer une alerte",
@@ -41,10 +57,22 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
   /* External Data */
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
+  const { data } = useGetAlertNotificationByIdQuery({
+    variables: { alertNotificationId },
+    fetchPolicy: "cache-and-network",
+  });
   const [
     createAlertNotificationMutation,
-    { loading: createAlertLoading, error: errorAlert },
+    { loading: createAlertLoading, error: createAlertError },
   ] = useCreateAlertNotificationMutation();
+
+  const [
+    updateAlertNotification,
+    {
+      loading: updateAlertNotificationLoading,
+      error: errorAlertNotificationError,
+    },
+  ] = useUpdateAlertNotificationByIdMutation();
 
   /* Local data */
   const form = useForm<FieldValues>({
@@ -54,36 +82,96 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
     handleSubmit,
     formState: { isValid },
     watch,
+    reset,
+    resetField,
   } = form;
-  const isLoading = createAlertLoading;
-  const errors = [errorAlert];
+  const isLoading = createAlertLoading || updateAlertNotificationLoading;
+  const errors = [createAlertError, errorAlertNotificationError];
 
   /* Methods */
   async function onSubmit(submitData: FieldValues) {
-    return isCreateMode
-      ? createAlertNotificationMutation({
-          variables: {
-            data: {
-              alertNotifService: contractId,
-              alertDescription: submitData.alertDescription,
-              scheduledAt: format(
-                submitData.sendNow ? new Date() : submitData.scheduledAt,
-                "yyyy-MM-dd",
-              ),
-              sectorizations: ["1"],
-              scheduledAtTime: submitData.sendNow
-                ? format(new Date(), "HH:mm")
-                : submitData.scheduledAtTime,
+    const variables = {
+      updateAlertNotificationId: alertNotificationId,
+      data: {
+        alertNotifService: contractId,
+        alertDescription: submitData.alertDescription,
+        scheduledAt: format(
+          submitData.sendNow ? new Date() : submitData.scheduledAt,
+          "yyyy-MM-dd",
+        ),
+        //TODO: mocked data for the next US
+        sectorizations: ["1"],
+        scheduledAtTime: submitData.sendNow
+          ? format(new Date(), "HH:mm")
+          : submitData.scheduledAtTime,
+      },
+    };
+
+    if (isCreateMode) {
+      return createAlertNotificationMutation({
+        variables,
+        onCompleted: (result) => {
+          if (result.createAlertNotification?.data?.id) {
+            router.push(`${currentRoot}/services/alertes`);
+          }
+        },
+      });
+    } else {
+      return updateAlertNotification({
+        variables,
+        refetchQueries: [
+          {
+            query: GetAlertNotificationsByContractIdDocument,
+            variables: {
+              alertNotificationId,
             },
           },
-          onCompleted: (result) => {
-            if (result.createAlertNotification?.data?.id) {
-              router.push(`${currentRoot}/services/alertes`);
-            }
-          },
-        })
-      : // it's gonna be updated in the updating US
-        "";
+        ],
+        onCompleted: (result) => {
+          if (result.updateAlertNotification?.data?.id) {
+            router.push(`${currentRoot}/services/alertes`);
+          }
+        },
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (data?.alertNotification?.data) {
+      const alertNotificationData = data.alertNotification.data;
+
+      if (alertNotificationData.id && alertNotificationData.attributes) {
+        reset({
+          alertDescription: alertNotificationData.attributes.alertDescription,
+          canal:
+            alertNotificationData.attributes?.sendSMS === true &&
+            alertNotificationData.attributes?.sendMail === true
+              ? "SMS/Mail"
+              : alertNotificationData.attributes?.sendSMS === true
+              ? "SMS"
+              : alertNotificationData.attributes?.sendMail === true
+              ? "Mail"
+              : "",
+          scheduledAt: alertNotificationData.attributes.scheduledAt,
+          scheduledAtTime: alertNotificationData.attributes.scheduledAtTime,
+        });
+      }
+    }
+  }, [data, reset]);
+
+  function getMinTime(): string {
+    const dateIn5Hours = add(new Date(), { hours: 5 });
+
+    const isSelectedDateAfterDateIn5Hours = isAfter(
+      watch("scheduledAt"),
+      dateIn5Hours,
+    );
+
+    if (isSelectedDateAfterDateIn5Hours) {
+      return "";
+    }
+
+    return format(dateIn5Hours, "HH:mm");
   }
 
   function onCancel() {
@@ -99,8 +187,11 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
         hasDelay={isLoading}
         errors={errors}
       >
-        {/** it's gonna be updated in the updating US */}
-        <PageTitle title={isCreateMode ? labels.createTitle : ""}></PageTitle>
+        <PageTitle
+          title={
+            isCreateMode ? labels.createTitle : watch("alertDescription") ?? ""
+          }
+        ></PageTitle>
         <FormProvider {...form}>
           <form
             className="c-ServicesAlertFormPage__Form"
@@ -125,15 +216,21 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
                   </div>
                   <FormDatePicker
                     name="scheduledAt"
-                    minDate={new Date()}
+                    minDate={add(new Date(), { hours: 5 })}
                     label={formLabels.scheduledDate}
                     isDisabled={watch("sendNow")}
+                    isRequired={!watch("sendNow")}
+                    onChange={() => {
+                      resetField("scheduledAtTime", { defaultValue: "" });
+                    }}
                   />
                   <FormInput
                     name="scheduledAtTime"
                     label={formLabels.scheduledHour}
                     type="time"
                     isDisabled={watch("sendNow")}
+                    isRequired={!watch("sendNow")}
+                    minStringValidation={getMinTime()}
                   />
                   <FormCheckbox name="sendNow" label={formLabels.sendNow} />
                 </div>
@@ -175,14 +272,14 @@ export function ServicesAlertFormPage({ isCreateMode }: IAlertFormPageProps) {
 }
 
 export default function IndexPage() {
-  const alertId = useRoutingQueryId("alertId", "create");
+  const alertNotificationId = useRoutingQueryId("alertId", "create");
 
   return (
-    alertId && (
+    alertNotificationId && (
       <ContractLayout>
         <ServicesAlertFormPage
-          alertId={alertId}
-          isCreateMode={alertId === "-1"}
+          alertNotificationId={alertNotificationId}
+          isCreateMode={alertNotificationId === "-1"}
         />
       </ContractLayout>
     )

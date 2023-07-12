@@ -72,10 +72,10 @@ export function AlertsPage() {
         scheduledAtFilter:
           filters?.scheduledAt === "past"
             ? {
-                lt: currentDateString,
+                lte: currentDateString,
               }
             : {
-                gte: currentDateString,
+                gt: currentDateString,
               },
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
@@ -187,7 +187,7 @@ export function AlertsPage() {
       actions.push({
         id: "edit",
         picto: "edit",
-        href: `${currentRoot}/edito/alertes/${row.id}`,
+        href: `${currentRoot}/services/alertes/${row.id}`,
       });
     }
 

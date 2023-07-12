@@ -30,6 +30,7 @@ interface IFormInputProps {
   maxLengthValidation?: number;
   minNumberValidation?: number;
   maxNumberValidation?: number;
+  minStringValidation?: string;
   step?: number;
   patternValidation?: RegExp;
   patternValidationErrorMessage?: string;
@@ -40,6 +41,7 @@ interface IFormInputProps {
   labelStyle?: LabelStyle;
   validationStyle?: ValidationStyle;
   tagType?: "input" | "textarea";
+  min?: string;
 }
 
 export default function FormInput({
@@ -57,6 +59,7 @@ export default function FormInput({
   maxLengthValidation,
   minNumberValidation,
   maxNumberValidation,
+  minStringValidation,
   step,
   patternValidation,
   patternValidationErrorMessage = "Format incorrect",
@@ -75,6 +78,7 @@ export default function FormInput({
     maxLength: `${maxLengthValidation} caractères maximum`,
     minNumber: `Valeur minimum: ${minNumberValidation}`,
     maxNumber: `Valeur maximum: ${maxNumberValidation}`,
+    minString: `Valeur minimum: ${minStringValidation}`,
     pattern: patternValidationErrorMessage,
   };
   const Tag = tagType;
@@ -127,6 +131,11 @@ export default function FormInput({
               ? {
                   value: minNumberValidation,
                   message: errorMessages.minNumber,
+                }
+              : minStringValidation
+              ? {
+                  value: minStringValidation,
+                  message: errorMessages.minString,
                 }
               : undefined,
             max: maxNumberValidation

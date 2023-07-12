@@ -15100,6 +15100,32 @@ export type DeleteAlertNotificationsByIdMutation = {
   } | null;
 };
 
+export type GetAlertNotificationByIdQueryVariables = Exact<{
+  alertNotificationId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetAlertNotificationByIdQuery = {
+  __typename?: "Query";
+  alertNotification?: {
+    __typename?: "AlertNotificationEntityResponse";
+    data?: {
+      __typename?: "AlertNotificationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "AlertNotification";
+        alertDescription: string;
+        alertMessage?: string | null;
+        alertTitle?: string | null;
+        scheduledAt: any;
+        scheduledAtTime: string;
+        subject?: string | null;
+        sendSMS?: boolean | null;
+        sendMail?: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetAlertNotificationsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   today: Scalars["Date"];
@@ -15177,6 +15203,32 @@ export type GetAlertNotificationsByContractIdQuery = {
         scheduledAtTime: string;
       } | null;
     }>;
+  } | null;
+};
+
+export type UpdateAlertNotificationByIdMutationVariables = Exact<{
+  updateAlertNotificationId: Scalars["ID"];
+  data: AlertNotificationInput;
+}>;
+
+export type UpdateAlertNotificationByIdMutation = {
+  __typename?: "Mutation";
+  updateAlertNotification?: {
+    __typename?: "AlertNotificationEntityResponse";
+    data?: {
+      __typename?: "AlertNotificationEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "AlertNotification";
+        alertDescription: string;
+        alertMessage?: string | null;
+        scheduledAt: any;
+        scheduledAtTime: string;
+        sendSMS?: boolean | null;
+        sendMail?: boolean | null;
+        subject?: string | null;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -25642,6 +25694,76 @@ export type DeleteAlertNotificationsByIdMutationOptions =
     DeleteAlertNotificationsByIdMutation,
     DeleteAlertNotificationsByIdMutationVariables
   >;
+export const GetAlertNotificationByIdDocument = gql`
+  query getAlertNotificationById($alertNotificationId: ID) {
+    alertNotification(id: $alertNotificationId) {
+      data {
+        id
+        attributes {
+          alertDescription
+          alertMessage
+          alertTitle
+          scheduledAt
+          scheduledAtTime
+          subject
+          sendSMS
+          sendMail
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAlertNotificationByIdQuery__
+ *
+ * To run a query within a React component, call `useGetAlertNotificationByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAlertNotificationByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAlertNotificationByIdQuery({
+ *   variables: {
+ *      alertNotificationId: // value for 'alertNotificationId'
+ *   },
+ * });
+ */
+export function useGetAlertNotificationByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAlertNotificationByIdQuery,
+    GetAlertNotificationByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAlertNotificationByIdQuery,
+    GetAlertNotificationByIdQueryVariables
+  >(GetAlertNotificationByIdDocument, options);
+}
+export function useGetAlertNotificationByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAlertNotificationByIdQuery,
+    GetAlertNotificationByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAlertNotificationByIdQuery,
+    GetAlertNotificationByIdQueryVariables
+  >(GetAlertNotificationByIdDocument, options);
+}
+export type GetAlertNotificationByIdQueryHookResult = ReturnType<
+  typeof useGetAlertNotificationByIdQuery
+>;
+export type GetAlertNotificationByIdLazyQueryHookResult = ReturnType<
+  typeof useGetAlertNotificationByIdLazyQuery
+>;
+export type GetAlertNotificationByIdQueryResult = Apollo.QueryResult<
+  GetAlertNotificationByIdQuery,
+  GetAlertNotificationByIdQueryVariables
+>;
 export const GetAlertNotificationsByContractIdDocument = gql`
   query getAlertNotificationsByContractId(
     $contractId: ID!
@@ -25781,6 +25903,72 @@ export type GetAlertNotificationsByContractIdQueryResult = Apollo.QueryResult<
   GetAlertNotificationsByContractIdQuery,
   GetAlertNotificationsByContractIdQueryVariables
 >;
+export const UpdateAlertNotificationByIdDocument = gql`
+  mutation updateAlertNotificationById(
+    $updateAlertNotificationId: ID!
+    $data: AlertNotificationInput!
+  ) {
+    updateAlertNotification(id: $updateAlertNotificationId, data: $data) {
+      data {
+        id
+        attributes {
+          alertDescription
+          alertMessage
+          scheduledAt
+          scheduledAtTime
+          sendSMS
+          sendMail
+          subject
+        }
+      }
+    }
+  }
+`;
+export type UpdateAlertNotificationByIdMutationFn = Apollo.MutationFunction<
+  UpdateAlertNotificationByIdMutation,
+  UpdateAlertNotificationByIdMutationVariables
+>;
+
+/**
+ * __useUpdateAlertNotificationByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateAlertNotificationByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAlertNotificationByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAlertNotificationByIdMutation, { data, loading, error }] = useUpdateAlertNotificationByIdMutation({
+ *   variables: {
+ *      updateAlertNotificationId: // value for 'updateAlertNotificationId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateAlertNotificationByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateAlertNotificationByIdMutation,
+    UpdateAlertNotificationByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateAlertNotificationByIdMutation,
+    UpdateAlertNotificationByIdMutationVariables
+  >(UpdateAlertNotificationByIdDocument, options);
+}
+export type UpdateAlertNotificationByIdMutationHookResult = ReturnType<
+  typeof useUpdateAlertNotificationByIdMutation
+>;
+export type UpdateAlertNotificationByIdMutationResult =
+  Apollo.MutationResult<UpdateAlertNotificationByIdMutation>;
+export type UpdateAlertNotificationByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateAlertNotificationByIdMutation,
+    UpdateAlertNotificationByIdMutationVariables
+  >;
 export const CreateDropOffMapDocument = gql`
   mutation createDropOffMap($data: DropOffMapInput!) {
     createDropOffMap(data: $data) {

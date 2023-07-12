@@ -1,0 +1,17 @@
+query getAlertNotificationById($alertNotificationId: ID) {
+  alertNotification(id: $alertNotificationId) {
+    data {
+      id
+      attributes {
+        alertDescription
+        alertMessage
+        alertTitle
+        scheduledAt
+        scheduledAtTime
+        subject
+        sendSMS
+        sendMail
+      }
+    }
+  }
+}
