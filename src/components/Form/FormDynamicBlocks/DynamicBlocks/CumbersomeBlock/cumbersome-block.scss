@@ -4,11 +4,21 @@
   gap: 24px;
 
   &__CumbersomeLabel {
-    margin-bottom: 1em;
+    > span {
+      display: block;
+      margin-bottom: 12px;
+    }
   }
 
   &__MaxVolumeOfCumbersome {
-    width: 55%;
+    > span {
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    &_input {
+      width: 55%;
+    }
   }
 
   &__MaxNumberOfCumbersome {

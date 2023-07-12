@@ -41,8 +41,8 @@ export default function CumbersomeBlock({ blockName }: ICumbersomeBlock) {
 
   return (
     <div className="c-CumbersomeBlock">
-      <span>{labels.staticTrick}</span>
       <div className="c-CumbersomeBlock__CumbersomeLabel">
+        <span>{labels.staticTrick}</span>
         <FormInput
           type="text"
           name={`${blockName}.${fieldNames.cumbersomeLabel}`}
@@ -51,16 +51,18 @@ export default function CumbersomeBlock({ blockName }: ICumbersomeBlock) {
           maxLengthValidation={50}
         />
       </div>
-      <span>{labels.staticInformation}</span>
       <div className="c-CumbersomeBlock__MaxVolumeOfCumbersome">
-        <FormInput
-          type="text"
-          name={`${blockName}.${fieldNames.maxVolumeOfCumbersome}`}
-          label={labels.staticVolumeLabel}
-          suffixLabel={labels.staticVolumeUnit}
-          patternValidation={/^\d+([.,]\d){0,1}$/}
-          patternValidationErrorMessage={labels.staticVolumeErrorMessage}
-        />
+        <span>{labels.staticInformation}</span>
+        <div className="c-CumbersomeBlock__MaxVolumeOfCumbersome_input">
+          <FormInput
+            type="text"
+            name={`${blockName}.${fieldNames.maxVolumeOfCumbersome}`}
+            label={labels.staticVolumeLabel}
+            suffixLabel={labels.staticVolumeUnit}
+            patternValidation={/^\d+([.,]\d){0,1}$/}
+            patternValidationErrorMessage={labels.staticVolumeErrorMessage}
+          />
+        </div>
       </div>
       <div className="c-CumbersomeBlock__MaxNumberOfCumbersome">
         <FormInput

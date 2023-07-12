@@ -262,8 +262,7 @@ export function RequestFormPage({
   const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
     { option: "ComponentBlocksAttachments" },
     { option: "ComponentBlocksCommentary" },
-    // TODO : Reactivate block when Cumbersome subject is well defined
-    // { option: "ComponentBlocksCumbersome" },
+    { option: "ComponentBlocksCumbersome", props: { maxBlocks: 1 } },
     { option: "ComponentBlocksQuestions" },
     { option: "ComponentBlocksQcm" },
     { option: "ComponentBlocksDateChoice" },
