@@ -1,0 +1,25 @@
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-RequestsHistory {
+  width: 100%;
+
+  &__Link {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    text-decoration: underline;
+
+    &_downloadPicto {
+      @include p.get-picto("download");
+
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 0.5em;
+    }
+
+    &_downloadText {
+      font-size: 16px;
+    }
+  }
+}

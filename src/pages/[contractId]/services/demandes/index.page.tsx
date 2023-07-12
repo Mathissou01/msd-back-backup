@@ -10,6 +10,7 @@ export function RequestsPage() {
     title: "Demandes",
     tabs: {
       requestsList: "Formulaires de demande",
+      requestsHistory: "Historique des demandes",
       appointmentManagement: "Gestion des rendez-vous",
     },
   };
@@ -23,6 +24,13 @@ export function RequestsPage() {
       isEnabled: true,
       title: labels.tabs.requestsList,
     },
+    // TODO : Uncomment when Back End will be available for this tab component
+    /*{
+      name: "requestHistory",
+      content: <RequestsHistory />,
+      isEnabled: true,
+      title: labels.tabs.requestsHistory,
+    },*/
     // TODO : Uncomment when Back End will be available for this tab component
     /*{
       name: "appointmentManagement",
