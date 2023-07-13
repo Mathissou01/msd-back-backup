@@ -58,25 +58,18 @@ export function AlertsPage() {
     () => format(currentDate, "yyyy-MM-dd"),
     [currentDate],
   );
+
+  const currentTimeString = useMemo(
+    () => format(currentDate, "HH:mm"),
+    [currentDate],
+  );
+
   /* Methods */
-  async function handleLazyLoad(
-    params: ICurrentPagination,
-    filters?: IFilters,
-  ) {
+  async function handleLazyLoad(params: ICurrentPagination) {
     return getAlertNotifications({
       variables: {
-        contractId: contractId,
-        today: currentDateString,
+        ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
-
-        scheduledAtFilter:
-          filters?.scheduledAt === "past"
-            ? {
-                lte: currentDateString,
-              }
-            : {
-                gt: currentDateString,
-              },
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
         }),
@@ -101,11 +94,53 @@ export function AlertsPage() {
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
+  const contractFilter = {
+    alertNotifService: {
+      contract: {
+        id: {
+          eq: contractId,
+        },
+      },
+    },
+  };
+  const pastAlertsFilter = {
+    or: [
+      {
+        and: [
+          { scheduledAt: { eq: currentDateString } },
+          { scheduledAtTime: { lte: currentTimeString } },
+        ],
+      },
+      { scheduledAt: { lt: currentDateString } },
+    ],
+  };
+  const futureAlertsFilter = {
+    or: [
+      { and: [{ scheduledAt: { gt: currentDateString } }] },
+      {
+        and: [
+          { scheduledAt: { eq: currentDateString } },
+          { scheduledAtTime: { gt: currentTimeString } },
+        ],
+      },
+    ],
+  };
   const defaultQueryVariables: GetAlertNotificationsByContractIdQueryVariables =
     {
       contractId: contractId,
-      today: currentDateString,
+      nowDate: currentDateString,
+      nowTime: currentTimeString,
       sort: "scheduledAt:asc",
+      filters:
+        filters?.scheduledAt === "past"
+          ? {
+              ...contractFilter,
+              ...pastAlertsFilter,
+            }
+          : {
+              ...contractFilter,
+              ...futureAlertsFilter,
+            },
       pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
     };
 

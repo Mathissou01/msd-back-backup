@@ -1,14 +1,23 @@
 query getAlertNotificationsByContractId(
   $contractId: ID!
-  $today: Date!
-  $scheduledAtFilter: DateFilterInput
+  $nowDate: Date!
+  $nowTime: String!
+  $filters: AlertNotificationFiltersInput!
   $sort: [String]
   $pagination: PaginationArg
 ) {
   sentCount: alertNotifications(
     filters: {
       alertNotifService: { contract: { id: { eq: $contractId } } }
-      scheduledAt: { lt: $today }
+      or: [
+        {
+          and: [
+            { scheduledAt: { eq: $nowDate } }
+            { scheduledAtTime: { lte: $nowTime } }
+          ]
+        }
+        { scheduledAt: { lt: $nowDate } }
+      ]
     }
   ) {
     meta {
@@ -31,7 +40,15 @@ query getAlertNotificationsByContractId(
   notSentCount: alertNotifications(
     filters: {
       alertNotifService: { contract: { id: { eq: $contractId } } }
-      scheduledAt: { gte: $today }
+      or: [
+        { and: [{ scheduledAt: { gt: $nowDate } }] }
+        {
+          and: [
+            { scheduledAt: { eq: $nowDate } }
+            { scheduledAtTime: { gt: $nowTime } }
+          ]
+        }
+      ]
     }
   ) {
     meta {
@@ -51,14 +68,7 @@ query getAlertNotificationsByContractId(
       id
     }
   }
-  alertNotifications(
-    filters: {
-      alertNotifService: { contract: { id: { eq: $contractId } } }
-      scheduledAt: $scheduledAtFilter
-    }
-    sort: $sort
-    pagination: $pagination
-  ) {
+  alertNotifications(filters: $filters, sort: $sort, pagination: $pagination) {
     meta {
       pagination {
         page

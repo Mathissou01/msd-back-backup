@@ -5,7 +5,7 @@ mutation UpdateContactMwc(
   $city: String
   $contactEmail: String
   $phoneNumber: String
-  $contractId: Int
+  $contractId: ID!
 ) {
   updateContactMwc(
     serviceName: $serviceName
