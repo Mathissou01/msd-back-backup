@@ -358,6 +358,18 @@ export type AlertNotificationServiceInput = {
   startDate?: InputMaybe<Scalars["Date"]>;
 };
 
+export type Appointment = {
+  __typename?: "Appointment";
+  sectorNames?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  timeSlotsWithUsers?: Maybe<Array<Maybe<TimeSlotWithUser>>>;
+};
+
+export type AppointmentDetails = {
+  __typename?: "AppointmentDetails";
+  appointments?: Maybe<Array<Maybe<Appointment>>>;
+  title?: Maybe<Scalars["String"]>;
+};
+
 export type AudienceType = {
   __typename?: "AudienceType";
   MwCounter?: Maybe<MwCounterServiceEntityResponse>;
@@ -6367,6 +6379,7 @@ export type Query = {
   freeContents?: Maybe<FreeContentEntityResponseCollection>;
   getAddressCoordinates?: Maybe<Array<Maybe<SearchResultAddress>>>;
   getAllFoldersHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
+  getAppointmentsDetails?: Maybe<AppointmentDetails>;
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
   getDropOffCollectType?: Maybe<Array<Maybe<CollectEntity>>>;
   getDropOffMaps?: Maybe<Array<Maybe<DropOffMapDto>>>;
@@ -6851,6 +6864,10 @@ export type QueryGetAddressCoordinatesArgs = {
 
 export type QueryGetAllFoldersHierarchyArgs = {
   path: Scalars["String"];
+};
+
+export type QueryGetAppointmentsDetailsArgs = {
+  requestId: Scalars["ID"];
 };
 
 export type QueryGetContentTypeDtOsArgs = {
@@ -8549,6 +8566,15 @@ export type TerritoryTypeInput = {
   territoryType?: InputMaybe<Scalars["String"]>;
 };
 
+export type TimeSlotWithUser = {
+  __typename?: "TimeSlotWithUser";
+  date?: Maybe<Scalars["String"]>;
+  dynamic?: Maybe<Scalars["String"]>;
+  fixed?: Maybe<Scalars["String"]>;
+  slot?: Maybe<Scalars["String"]>;
+  users?: Maybe<Array<Maybe<User>>>;
+};
+
 export type Tip = {
   __typename?: "Tip";
   blocks?: Maybe<Array<Maybe<TipBlocksDynamicZone>>>;
@@ -8978,6 +9004,15 @@ export type UploadFolderRelationResponseCollection = {
 export type UploadResult = {
   __typename?: "UploadResult";
   id: Scalars["String"];
+};
+
+export type User = {
+  __typename?: "User";
+  email?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  phone?: Maybe<Scalars["String"]>;
+  surname?: Maybe<Scalars["String"]>;
 };
 
 export type UserDataStorage = {

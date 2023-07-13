@@ -276,6 +276,16 @@ input AlertNotificationServiceInput {
   startDate: Date
 }
 
+type Appointment {
+  sectorNames: [String]
+  timeSlotsWithUsers: [TimeSlotWithUser]
+}
+
+type AppointmentDetails {
+  appointments: [Appointment]
+  title: String
+}
+
 type AudienceType {
   MwCounter: MwCounterServiceEntityResponse
   createdAt: DateTime
@@ -5156,6 +5166,7 @@ type Query {
   ): FreeContentEntityResponseCollection
   getAddressCoordinates(searchTerm: String!): [SearchResultAddress]
   getAllFoldersHierarchy(path: String!): [RequestFolders]
+  getAppointmentsDetails(requestId: ID!): AppointmentDetails
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
   getDropOffCollectType(contractId: ID!): [CollectEntity]
   getDropOffMaps(dropOffMapServiceId: ID!): [DropOffMapDTO]
@@ -6531,6 +6542,14 @@ A time string with format HH:mm:ss.SSS
 """
 scalar Time
 
+type TimeSlotWithUser {
+  date: String
+  dynamic: String
+  fixed: String
+  slot: String
+  users: [User]
+}
+
 type Tip {
   blocks: [TipBlocksDynamicZone]
   createdAt: DateTime
@@ -6924,6 +6943,14 @@ type UploadFolderRelationResponseCollection {
 
 type UploadResult {
   id: String!
+}
+
+type User {
+  email: String
+  id: String
+  name: String
+  phone: String
+  surname: String
 }
 
 type UserDataStorage {

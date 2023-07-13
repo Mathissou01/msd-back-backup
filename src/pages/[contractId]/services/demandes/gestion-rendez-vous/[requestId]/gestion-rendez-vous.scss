@@ -1,5 +1,7 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
 .c-AppointmentManagementPage {
-  margin-top: 43px;
+  margin: 40px 0;
 
   .c-PageTitle:first-of-type {
     margin-top: 10px;
@@ -9,5 +11,50 @@
   .c-PageTitle:nth-of-type(2) {
     margin-top: 0;
     padding-top: 10px;
+  }
+
+  &__Appointment {
+    display: block;
+    margin-top: 20px;
+
+    &:not(:first-of-type) {
+      margin-top: 50px;
+    }
+
+    &_sectors {
+      display: block;
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    &_accordionContent {
+      display: flex;
+      width: 100%;
+
+      span {
+        width: 33%;
+      }
+
+      &_reservationNotAvailable {
+        color: colors.$error;
+      }
+    }
+
+    &_accordionExpandedContent {
+      width: 100%;
+    }
+
+    &_loadMoreTimeSlots,
+    &_loadMoreAppointments {
+      display: block;
+      margin-top: 14px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    &_loadMoreAppointments {
+      margin-top: 70px;
+    }
   }
 }
