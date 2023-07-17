@@ -2,7 +2,7 @@
 @use "src/styles/02-tools/tools.shadows" as shadows;
 @use "src/styles/02-tools/tools.typography" as typo;
 
-.c-EditoDynamicFields {
+.c-FormDynamicBlocks {
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -10,7 +10,8 @@
   padding: 0;
   list-style: none;
 
-  &__Options {
+  &__Options,
+  &__SingleOption {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -19,9 +20,15 @@
     border-radius: 8px;
   }
 
+  &__SingleOption {
+    border-style: dashed;
+    border-width: 2px;
+  }
+
   &__OptionsTitle {
     color: colors.$blue-2;
     font-weight: 700;
+    font-size: 18px;
   }
 
   &__OptionsList {

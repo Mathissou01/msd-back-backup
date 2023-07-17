@@ -5,7 +5,7 @@ import {
   RequestEntity,
 } from "../graphql/codegen/generated-types";
 
-import { ICommonSelectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
+import { IFormSingleMultiselectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 enum EPeriodicityStatus {
   WEEKLY = "hebdomadaire",
@@ -73,8 +73,8 @@ interface IPickUpDayStaticMappedFields {
   pickUpId: string;
   name: string;
   sectorizationsMode: string;
-  sectorizations?: Array<ICommonSelectOption>;
-  cities?: Array<ICommonSelectOption>;
+  sectorizations?: Array<IFormSingleMultiselectOption>;
+  cities?: Array<IFormSingleMultiselectOption>;
   flow:
     | {
         id: string;

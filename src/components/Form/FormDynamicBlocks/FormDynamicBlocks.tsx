@@ -17,9 +17,15 @@ import DynamicBlockWrapper from "./DynamicBlockWrapper/DynamicBlockWrapper";
 import DynamicBlock from "./DynamicBlocks/DynamicBlock";
 import "./form-dynamic-blocks.scss";
 
-interface IEditoDynamicFieldsProps {
+export interface IFormDynamicBlocksLabels {
+  titleField: string;
+}
+
+interface IFormDynamicBlocksProps {
   name: string;
   blockConfigurations: Array<TDynamicFieldConfiguration>;
+  isSingleBlockDisplay?: boolean;
+  labels?: IFormDynamicBlocksLabels;
   canReorder?: boolean;
   canDuplicate?: boolean;
 }
@@ -27,11 +33,13 @@ interface IEditoDynamicFieldsProps {
 export default function FormDynamicBlocks({
   name,
   blockConfigurations,
+  isSingleBlockDisplay = false,
+  labels,
   canReorder = true,
   canDuplicate = true,
-}: IEditoDynamicFieldsProps) {
+}: IFormDynamicBlocksProps) {
   /* StaticData */
-  const formLabels = {
+  const formLabels = labels ?? {
     titleField: "Ajouter un bloc",
   };
 
@@ -71,6 +79,14 @@ export default function FormDynamicBlocks({
     const newStates = [...blockOpenStates];
     newStates.push(true);
     setBlockOpenStates(newStates);
+  }
+
+  function changeLabelOverride(i: number, newLabel: string) {
+    if (newLabel !== labelOverrides[i]) {
+      const newOverrides = [...labelOverrides];
+      newOverrides[i] = newLabel;
+      setLabelOverrides(newOverrides);
+    }
   }
 
   function getCurrentBlockConfiguration(typename: TDynamicFieldOption) {
@@ -144,6 +160,9 @@ export default function FormDynamicBlocks({
   const [blockOpenStates, setBlockOpenStates] = useState<Array<boolean>>(
     Array.from({ length: fields.length }, () => true),
   );
+  const [labelOverrides, setLabelOverrides] = useState<
+    Array<string | undefined>
+  >(Array.from({ length: fields.length }, () => undefined));
   const isInitialized = useRef<boolean>(false);
 
   useEffect(() => {
@@ -176,16 +195,19 @@ export default function FormDynamicBlocks({
   return (
     <>
       {fields.length > 0 && (
-        <Flipper className="c-EditoDynamicFields" flipKey={fields} element="ul">
+        <Flipper className="c-FormDynamicBlocks" flipKey={fields} element="ul">
           {fields.map((block, index) => (
             <Flipped
               key={block.formId}
               flipId={block.id}
               shouldFlip={() => isAnimating}
             >
-              <div className="c-EditoDynamicFields__Block">
+              <div className="c-FormDynamicBlocks__Block">
                 <DynamicBlockWrapper
-                  label={blockDisplayMap[block.__typename].label}
+                  label={
+                    labelOverrides[index] ??
+                    blockDisplayMap[block.__typename].label
+                  }
                   picto={blockDisplayMap[block.__typename].picto}
                   onReorder={(shift) => onReorder(index, shift)}
                   isUpDisabled={index <= 0}
@@ -204,6 +226,9 @@ export default function FormDynamicBlocks({
                     type={block.__typename}
                     name={`${name}.${index}`}
                     isVisible={blockOpenStates[index]}
+                    onChangeBlockTitle={(value) =>
+                      changeLabelOverride(index, value)
+                    }
                   />
                 </DynamicBlockWrapper>
               </div>
@@ -211,25 +236,37 @@ export default function FormDynamicBlocks({
           ))}
         </Flipper>
       )}
-      <div className="c-EditoDynamicFields__Options">
-        <span className="c-EditoDynamicFields__OptionsTitle">
-          {formLabels.titleField}
-        </span>
-        <div className="c-EditoDynamicFields__OptionsList">
-          {blockConfigurations.map((configuration, index) => {
-            return (
-              <CommonButton
-                key={index}
-                type="button"
-                label={blockDisplayMap[configuration.option].label}
-                picto={blockDisplayMap[configuration.option].picto}
-                onClick={() => addNewBlock(configuration.option)}
-                isDisabled={getIsDisabledOption(configuration.option)}
-              />
-            );
-          })}
+      {isSingleBlockDisplay && blockConfigurations.length === 1 ? (
+        <button
+          className="c-FormDynamicBlocks__SingleOption"
+          type="button"
+          onClick={() => addNewBlock(blockConfigurations[0].option)}
+        >
+          <span className="c-FormDynamicBlocks__OptionsTitle">
+            {formLabels.titleField}
+          </span>
+        </button>
+      ) : (
+        <div className="c-FormDynamicBlocks__Options">
+          <span className="c-FormDynamicBlocks__OptionsTitle">
+            {formLabels.titleField}
+          </span>
+          <div className="c-FormDynamicBlocks__OptionsList">
+            {blockConfigurations.map((configuration, index) => {
+              return (
+                <CommonButton
+                  key={index}
+                  type="button"
+                  label={blockDisplayMap[configuration.option].label}
+                  picto={blockDisplayMap[configuration.option].picto}
+                  onClick={() => addNewBlock(configuration.option)}
+                  isDisabled={getIsDisabledOption(configuration.option)}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

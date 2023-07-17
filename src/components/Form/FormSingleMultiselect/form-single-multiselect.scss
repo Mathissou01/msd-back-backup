@@ -9,7 +9,7 @@
 
     // stylelint-disable selector-class-pattern
     .form-single-multiselect__control {
-      height: 48px;
+      min-height: 48px;
       border: 1px solid colors.$blue-3;
       box-shadow: none;
 

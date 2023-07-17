@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { TDynamicFieldConfiguration } from "../../../../lib/dynamic-blocks";
 import FormRadioInput from "../../../Form/FormRadioInput/FormRadioInput";
-import RequestTypeBlock from "../../../Form/FormDynamicBlocks/DynamicBlocks/RequestTypeBlock/RequestTypeBlock";
 import FormDynamicBlocks from "../../../Form/FormDynamicBlocks/FormDynamicBlocks";
+import RequestTypeBlock from "../../../Form/FormDynamicBlocks/DynamicBlocks/Request/RequestTypeBlock/RequestTypeBlock";
 
 export interface IRequestStaticRequestTypesLabels {
   staticRadioRequestType: string;

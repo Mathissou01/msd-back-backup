@@ -275,11 +275,11 @@ exports[`EditorialForm renders 1`] = `
           [36m</div>[39m
         [36m</div>[39m
         [36m<ul[39m
-          [33mclass[39m=[32m"c-EditoDynamicFields"[39m
+          [33mclass[39m=[32m"c-FormDynamicBlocks"[39m
           [33m[39m
         [36m>[39m
           [36m<div[39m
-            [33mclass[39m=[32m"c-EditoDynamicFields__Block"[39m
+            [33mclass[39m=[32m"c-FormDynamicBlocks__Block"[39m
             [33mdata-flip-config[39m=[32m"{\\"translate\\":true,\\"scale\\":true,\\"opacity\\":true}"[39m
             [33mdata-flip-id[39m=[32m"140"[39m
             [33mdata-portal-key[39m=[32m"portal"[39m
@@ -493,7 +493,7 @@ exports[`EditorialForm renders 1`] = `
             [36m</div>[39m
           [36m</div>[39m
           [36m<div[39m
-            [33mclass[39m=[32m"c-EditoDynamicFields__Block"[39m
+            [33mclass[39m=[32m"c-FormDynamicBlocks__Block"[39m
             [33mdata-flip-config[39m=[32m"{\\"translate\\":true,\\"scale\\":true,\\"opacity\\":true}"[39m
             [33mdata-flip-id[39m=[32m"136"[39m
             [33mdata-portal-key[39m=[32m"portal"[39m
@@ -591,15 +591,15 @@ exports[`EditorialForm renders 1`] = `
           [36m</div>[39m
         [36m</ul>[39m
         [36m<div[39m
-          [33mclass[39m=[32m"c-EditoDynamicFields__Options"[39m
+          [33mclass[39m=[32m"c-FormDynamicBlocks__Options"[39m
         [36m>[39m
           [36m<span[39m
-            [33mclass[39m=[32m"c-EditoDynamicFields__OptionsTitle"[39m
+            [33mclass[39m=[32m"c-FormDynamicBlocks__OptionsTitle"[39m
           [36m>[39m
             [0mAjouter un bloc[0m
           [36m</span>[39m
           [36m<div[39m
-            [33mclass[39m=[32m"c-EditoDynamicFields__OptionsList"[39m
+            [33mclass[39m=[32m"c-FormDynamicBlocks__OptionsList"[39m
           [36m>[39m
             [36m<button[39m
               [33mclass[39m=[32m"c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"[39m

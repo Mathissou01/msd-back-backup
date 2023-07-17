@@ -102,4 +102,5 @@ export type TBlockPictoStyles = Extract<
   | "listNumbers"
   | "user"
   | "cumbersome"
+  | "polygon"
 >;

@@ -125,7 +125,6 @@ export type AccessibilityRelationResponseCollection = {
 export type AccessibilitySubService = {
   __typename?: "AccessibilitySubService";
   accessibilities?: Maybe<AccessibilityRelationResponseCollection>;
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
@@ -136,12 +135,6 @@ export type AccessibilitySubService = {
 
 export type AccessibilitySubServiceAccessibilitiesArgs = {
   filters?: InputMaybe<AccessibilityFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type AccessibilitySubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -166,7 +159,6 @@ export type AccessibilitySubServiceEntityResponseCollection = {
 export type AccessibilitySubServiceFiltersInput = {
   accessibilities?: InputMaybe<AccessibilityFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AccessibilitySubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
@@ -180,7 +172,6 @@ export type AccessibilitySubServiceFiltersInput = {
 
 export type AccessibilitySubServiceInput = {
   accessibilities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   link?: InputMaybe<Scalars["String"]>;
@@ -284,7 +275,7 @@ export type AlertNotificationRelationResponseCollection = {
 export type AlertNotificationService = {
   __typename?: "AlertNotificationService";
   alertNotifications?: Maybe<AlertNotificationRelationResponseCollection>;
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -301,8 +292,8 @@ export type AlertNotificationServiceAlertNotificationsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type AlertNotificationServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+export type AlertNotificationServiceAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -333,7 +324,7 @@ export type AlertNotificationServiceEntityResponseCollection = {
 export type AlertNotificationServiceFiltersInput = {
   alertNotifications?: InputMaybe<AlertNotificationFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -349,7 +340,7 @@ export type AlertNotificationServiceFiltersInput = {
 
 export type AlertNotificationServiceInput = {
   alertNotifications?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -370,50 +361,50 @@ export type AppointmentDetails = {
   title?: Maybe<Scalars["String"]>;
 };
 
-export type AudienceType = {
-  __typename?: "AudienceType";
-  MwCounter?: Maybe<MwCounterServiceEntityResponse>;
+export type Audience = {
+  __typename?: "Audience";
   createdAt?: Maybe<Scalars["DateTime"]>;
-  type?: Maybe<Scalars["String"]>;
+  isActive: Scalars["Boolean"];
+  type: Enum_Audience_Type;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type AudienceTypeEntity = {
-  __typename?: "AudienceTypeEntity";
-  attributes?: Maybe<AudienceType>;
+export type AudienceEntity = {
+  __typename?: "AudienceEntity";
+  attributes?: Maybe<Audience>;
   id?: Maybe<Scalars["ID"]>;
 };
 
-export type AudienceTypeEntityResponse = {
-  __typename?: "AudienceTypeEntityResponse";
-  data?: Maybe<AudienceTypeEntity>;
+export type AudienceEntityResponse = {
+  __typename?: "AudienceEntityResponse";
+  data?: Maybe<AudienceEntity>;
 };
 
-export type AudienceTypeEntityResponseCollection = {
-  __typename?: "AudienceTypeEntityResponseCollection";
-  data: Array<AudienceTypeEntity>;
+export type AudienceEntityResponseCollection = {
+  __typename?: "AudienceEntityResponseCollection";
+  data: Array<AudienceEntity>;
   meta: ResponseCollectionMeta;
 };
 
-export type AudienceTypeFiltersInput = {
-  MwCounter?: InputMaybe<MwCounterServiceFiltersInput>;
-  and?: InputMaybe<Array<InputMaybe<AudienceTypeFiltersInput>>>;
+export type AudienceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AudienceFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
-  not?: InputMaybe<AudienceTypeFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<AudienceTypeFiltersInput>>>;
+  isActive?: InputMaybe<BooleanFilterInput>;
+  not?: InputMaybe<AudienceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AudienceFiltersInput>>>;
   type?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
-export type AudienceTypeInput = {
-  MwCounter?: InputMaybe<Scalars["ID"]>;
-  type?: InputMaybe<Scalars["String"]>;
+export type AudienceInput = {
+  isActive?: InputMaybe<Scalars["Boolean"]>;
+  type?: InputMaybe<Enum_Audience_Type>;
 };
 
-export type AudienceTypeRelationResponseCollection = {
-  __typename?: "AudienceTypeRelationResponseCollection";
-  data: Array<AudienceTypeEntity>;
+export type AudienceRelationResponseCollection = {
+  __typename?: "AudienceRelationResponseCollection";
+  data: Array<AudienceEntity>;
 };
 
 export type AvailableSlot = {
@@ -526,7 +517,6 @@ export type CguRelationResponseCollection = {
 
 export type CguSubService = {
   __typename?: "CguSubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   cgus?: Maybe<CguRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -534,12 +524,6 @@ export type CguSubService = {
   link?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type CguSubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CguSubServiceCgusArgs = {
@@ -567,7 +551,6 @@ export type CguSubServiceEntityResponseCollection = {
 
 export type CguSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CguSubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   cgus?: InputMaybe<CguFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -581,7 +564,6 @@ export type CguSubServiceFiltersInput = {
 };
 
 export type CguSubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cgus?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -1485,7 +1467,6 @@ export type ConfidentialityRelationResponseCollection = {
 
 export type ConfidentialitySubService = {
   __typename?: "ConfidentialitySubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   confidentialities?: Maybe<ConfidentialityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -1493,12 +1474,6 @@ export type ConfidentialitySubService = {
   link?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type ConfidentialitySubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type ConfidentialitySubServiceConfidentialitiesArgs = {
@@ -1526,7 +1501,6 @@ export type ConfidentialitySubServiceEntityResponseCollection = {
 
 export type ConfidentialitySubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ConfidentialitySubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   confidentialities?: InputMaybe<ConfidentialityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -1540,7 +1514,6 @@ export type ConfidentialitySubServiceFiltersInput = {
 };
 
 export type ConfidentialitySubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   confidentialities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -1647,7 +1620,6 @@ export type ContactUsRelationResponseCollection = {
 
 export type ContactUsSubService = {
   __typename?: "ContactUsSubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   contactUses?: Maybe<ContactUsRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -1659,12 +1631,6 @@ export type ContactUsSubService = {
   name: Scalars["String"];
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type ContactUsSubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type ContactUsSubServiceContactUsesArgs = {
@@ -1692,7 +1658,6 @@ export type ContactUsSubServiceEntityResponseCollection = {
 
 export type ContactUsSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ContactUsSubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   contactUses?: InputMaybe<ContactUsFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -1710,7 +1675,6 @@ export type ContactUsSubServiceFiltersInput = {
 };
 
 export type ContactUsSubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contactUses?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -2136,7 +2100,6 @@ export type CookieRelationResponseCollection = {
 
 export type CookiesSubService = {
   __typename?: "CookiesSubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   cookies?: Maybe<CookieRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -2144,12 +2107,6 @@ export type CookiesSubService = {
   link?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type CookiesSubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CookiesSubServiceCookiesArgs = {
@@ -2177,7 +2134,6 @@ export type CookiesSubServiceEntityResponseCollection = {
 
 export type CookiesSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CookiesSubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   cookies?: InputMaybe<CookieFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -2191,7 +2147,6 @@ export type CookiesSubServiceFiltersInput = {
 };
 
 export type CookiesSubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cookies?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -2262,14 +2217,14 @@ export type DeletedMessage = {
 
 export type DescriptionService = {
   __typename?: "DescriptionService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   name?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type DescriptionServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+export type DescriptionServiceAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -2293,7 +2248,7 @@ export type DescriptionServiceEntityResponseCollection = {
 
 export type DescriptionServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<DescriptionServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
@@ -2303,7 +2258,7 @@ export type DescriptionServiceFiltersInput = {
 };
 
 export type DescriptionServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   name?: InputMaybe<Scalars["String"]>;
 };
 
@@ -2479,7 +2434,7 @@ export type DropOffMapRelationResponseCollection = {
 
 export type DropOffMapService = {
   __typename?: "DropOffMapService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -2491,8 +2446,8 @@ export type DropOffMapService = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type DropOffMapServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+export type DropOffMapServiceAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -2528,7 +2483,7 @@ export type DropOffMapServiceEntityResponseCollection = {
 
 export type DropOffMapServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<DropOffMapServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -2544,7 +2499,7 @@ export type DropOffMapServiceFiltersInput = {
 };
 
 export type DropOffMapServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   dropOffMaps?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -2563,6 +2518,12 @@ export enum Enum_Accessibility_Status {
   Archived = "archived",
   Draft = "draft",
   Published = "published",
+}
+
+export enum Enum_Audience_Type {
+  Bailleurs = "Bailleurs",
+  Particuliers = "Particuliers",
+  Professionnels = "Professionnels",
 }
 
 export enum Enum_Cgu_Status {
@@ -3116,7 +3077,6 @@ export type EventRelationResponseCollection = {
 
 export type EventSubService = {
   __typename?: "EventSubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -3127,12 +3087,6 @@ export type EventSubService = {
   name: Scalars["String"];
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type EventSubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type EventSubServiceCitiesArgs = {
@@ -3166,7 +3120,6 @@ export type EventSubServiceEntityResponseCollection = {
 
 export type EventSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<EventSubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -3183,7 +3136,6 @@ export type EventSubServiceFiltersInput = {
 };
 
 export type EventSubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -3626,7 +3578,6 @@ export type FreeContentRelationResponseCollection = {
 
 export type FreeContentSubService = {
   __typename?: "FreeContentSubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -3637,12 +3588,6 @@ export type FreeContentSubService = {
   name: Scalars["String"];
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type FreeContentSubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type FreeContentSubServiceCitiesArgs = {
@@ -3676,7 +3621,6 @@ export type FreeContentSubServiceEntityResponseCollection = {
 
 export type FreeContentSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<FreeContentSubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -3693,7 +3637,6 @@ export type FreeContentSubServiceFiltersInput = {
 };
 
 export type FreeContentSubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -3714,7 +3657,7 @@ export type GenericMorph =
   | AccessibilitySubService
   | AlertNotification
   | AlertNotificationService
-  | AudienceType
+  | Audience
   | Cgu
   | CguSubService
   | ChannelType
@@ -4114,7 +4057,7 @@ export type KeyMetricRelationResponseCollection = {
 
 export type KeyMetricsService = {
   __typename?: "KeyMetricsService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -4126,8 +4069,8 @@ export type KeyMetricsService = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type KeyMetricsServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+export type KeyMetricsServiceAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -4164,7 +4107,7 @@ export type KeyMetricsServiceEntityResponseCollection = {
 
 export type KeyMetricsServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<KeyMetricsServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -4180,7 +4123,7 @@ export type KeyMetricsServiceFiltersInput = {
 };
 
 export type KeyMetricsServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -4233,7 +4176,7 @@ export type Mutation = {
   createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   createAlertNotification?: Maybe<AlertNotificationEntityResponse>;
   createAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
-  createAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  createAudience?: Maybe<AudienceEntityResponse>;
   createCgu?: Maybe<CguEntityResponse>;
   createCguSubService?: Maybe<CguSubServiceEntityResponse>;
   createChannelType?: Maybe<ChannelTypeEntityResponse>;
@@ -4314,7 +4257,7 @@ export type Mutation = {
   deleteAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   deleteAlertNotification?: Maybe<AlertNotificationEntityResponse>;
   deleteAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
-  deleteAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  deleteAudience?: Maybe<AudienceEntityResponse>;
   deleteCgu?: Maybe<CguEntityResponse>;
   deleteCguSubService?: Maybe<CguSubServiceEntityResponse>;
   deleteChannelType?: Maybe<ChannelTypeEntityResponse>;
@@ -4416,7 +4359,7 @@ export type Mutation = {
   updateAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   updateAlertNotification?: Maybe<AlertNotificationEntityResponse>;
   updateAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
-  updateAudienceType?: Maybe<AudienceTypeEntityResponse>;
+  updateAudience?: Maybe<AudienceEntityResponse>;
   updateCgu?: Maybe<CguEntityResponse>;
   updateCguSubService?: Maybe<CguSubServiceEntityResponse>;
   updateChannelType?: Maybe<ChannelTypeEntityResponse>;
@@ -4555,8 +4498,8 @@ export type MutationCreateAlertNotificationServiceArgs = {
   data: AlertNotificationServiceInput;
 };
 
-export type MutationCreateAudienceTypeArgs = {
-  data: AudienceTypeInput;
+export type MutationCreateAudienceArgs = {
+  data: AudienceInput;
 };
 
 export type MutationCreateCguArgs = {
@@ -4887,7 +4830,7 @@ export type MutationDeleteAlertNotificationServiceArgs = {
   id: Scalars["ID"];
 };
 
-export type MutationDeleteAudienceTypeArgs = {
+export type MutationDeleteAudienceArgs = {
   id: Scalars["ID"];
 };
 
@@ -5293,8 +5236,8 @@ export type MutationUpdateAlertNotificationServiceArgs = {
   id: Scalars["ID"];
 };
 
-export type MutationUpdateAudienceTypeArgs = {
-  data: AudienceTypeInput;
+export type MutationUpdateAudienceArgs = {
+  data: AudienceInput;
   id: Scalars["ID"];
 };
 
@@ -5712,7 +5655,6 @@ export type MutationYwsDeactivationArgs = {
 
 export type MwCounterService = {
   __typename?: "MwCounterService";
-  audience_types?: Maybe<AudienceTypeRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   city?: Maybe<Scalars["String"]>;
   contactEmail?: Maybe<Scalars["String"]>;
@@ -5729,12 +5671,6 @@ export type MwCounterService = {
   serviceName?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type MwCounterServiceAudience_TypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type MwCounterServiceCitiesArgs = {
@@ -5768,7 +5704,6 @@ export type MwCounterServiceEntityResponseCollection = {
 
 export type MwCounterServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<MwCounterServiceFiltersInput>>>;
-  audience_types?: InputMaybe<AudienceTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   city?: InputMaybe<StringFilterInput>;
   contactEmail?: InputMaybe<StringFilterInput>;
@@ -5791,7 +5726,6 @@ export type MwCounterServiceFiltersInput = {
 };
 
 export type MwCounterServiceInput = {
-  audience_types?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   city?: InputMaybe<Scalars["String"]>;
   contactEmail?: InputMaybe<Scalars["String"]>;
@@ -5876,7 +5810,7 @@ export type MwcFlowRelationResponseCollection = {
 
 export type New = {
   __typename?: "New";
-  audiences?: Maybe<AudienceTypeRelationResponseCollection>;
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   blocks?: Maybe<Array<Maybe<NewBlocksDynamicZone>>>;
   channels?: Maybe<ChannelTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -5898,7 +5832,7 @@ export type New = {
 };
 
 export type NewAudiencesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -5943,7 +5877,7 @@ export type NewEntityResponseCollection = {
 
 export type NewFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<NewFiltersInput>>>;
-  audiences?: InputMaybe<AudienceTypeFiltersInput>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   channels?: InputMaybe<ChannelTypeFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   customId?: InputMaybe<StringFilterInput>;
@@ -6002,7 +5936,6 @@ export type NewRelationResponseCollection = {
 
 export type NewsSubService = {
   __typename?: "NewsSubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -6013,12 +5946,6 @@ export type NewsSubService = {
   news?: Maybe<NewRelationResponseCollection>;
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type NewsSubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type NewsSubServiceCitiesArgs = {
@@ -6052,7 +5979,6 @@ export type NewsSubServiceEntityResponseCollection = {
 
 export type NewsSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<NewsSubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -6069,7 +5995,6 @@ export type NewsSubServiceFiltersInput = {
 };
 
 export type NewsSubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -6205,7 +6130,7 @@ export type PickUpDayRelationResponseCollection = {
 
 export type PickUpDayService = {
   __typename?: "PickUpDayService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -6217,8 +6142,8 @@ export type PickUpDayService = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type PickUpDayServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+export type PickUpDayServiceAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -6254,7 +6179,7 @@ export type PickUpDayServiceEntityResponseCollection = {
 
 export type PickUpDayServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<PickUpDayServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -6270,7 +6195,7 @@ export type PickUpDayServiceFiltersInput = {
 };
 
 export type PickUpDayServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -6308,8 +6233,8 @@ export type Query = {
   alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   alertNotificationServices?: Maybe<AlertNotificationServiceEntityResponseCollection>;
   alertNotifications?: Maybe<AlertNotificationEntityResponseCollection>;
-  audienceType?: Maybe<AudienceTypeEntityResponse>;
-  audienceTypes?: Maybe<AudienceTypeEntityResponseCollection>;
+  audience?: Maybe<AudienceEntityResponse>;
+  audiences?: Maybe<AudienceEntityResponseCollection>;
   cgu?: Maybe<CguEntityResponse>;
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   cguSubServices?: Maybe<CguSubServiceEntityResponseCollection>;
@@ -6520,12 +6445,12 @@ export type QueryAlertNotificationsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type QueryAudienceTypeArgs = {
+export type QueryAudienceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
-export type QueryAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+export type QueryAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -7488,7 +7413,6 @@ export type QuizRelationResponseCollection = {
 
 export type QuizSubService = {
   __typename?: "QuizSubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -7499,12 +7423,6 @@ export type QuizSubService = {
   quizzes?: Maybe<QuizRelationResponseCollection>;
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type QuizSubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type QuizSubServiceCitiesArgs = {
@@ -7538,7 +7456,6 @@ export type QuizSubServiceEntityResponseCollection = {
 
 export type QuizSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<QuizSubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -7555,7 +7472,6 @@ export type QuizSubServiceFiltersInput = {
 };
 
 export type QuizSubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -7629,7 +7545,7 @@ export type RecyclingGuideBlockInput = {
 
 export type RecyclingGuideService = {
   __typename?: "RecyclingGuideService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -7646,8 +7562,8 @@ export type RecyclingGuideService = {
   wasteForms?: Maybe<WasteFormRelationResponseCollection>;
 };
 
-export type RecyclingGuideServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+export type RecyclingGuideServiceAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -7689,7 +7605,7 @@ export type RecyclingGuideServiceEntityResponseCollection = {
 
 export type RecyclingGuideServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<RecyclingGuideServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -7709,7 +7625,7 @@ export type RecyclingGuideServiceFiltersInput = {
 };
 
 export type RecyclingGuideServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -7953,7 +7869,7 @@ export type RequestRelationResponseCollection = {
 
 export type RequestService = {
   __typename?: "RequestService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -7966,8 +7882,8 @@ export type RequestService = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
-export type RequestServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
+export type RequestServiceAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -8009,7 +7925,7 @@ export type RequestServiceEntityResponseCollection = {
 
 export type RequestServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<RequestServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -8026,7 +7942,7 @@ export type RequestServiceFiltersInput = {
 };
 
 export type RequestServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
@@ -8183,6 +8099,14 @@ export type RequestTakedInput = {
 export type RequestTakedRelationResponseCollection = {
   __typename?: "RequestTakedRelationResponseCollection";
   data: Array<RequestTakedEntity>;
+};
+
+export type RequestTakeds = {
+  __typename?: "RequestTakeds";
+  city?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  user?: Maybe<User>;
 };
 
 export type ResponseCollectionMeta = {
@@ -8571,8 +8495,8 @@ export type TimeSlotWithUser = {
   date?: Maybe<Scalars["String"]>;
   dynamic?: Maybe<Scalars["String"]>;
   fixed?: Maybe<Scalars["String"]>;
+  requestTakeds?: Maybe<Array<Maybe<RequestTakeds>>>;
   slot?: Maybe<Scalars["String"]>;
-  users?: Maybe<Array<Maybe<User>>>;
 };
 
 export type Tip = {
@@ -8693,7 +8617,6 @@ export type TipRelationResponseCollection = {
 
 export type TipSubService = {
   __typename?: "TipSubService";
-  audienceTypes?: Maybe<AudienceTypeRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
@@ -8704,12 +8627,6 @@ export type TipSubService = {
   startDate?: Maybe<Scalars["Date"]>;
   tips?: Maybe<TipRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type TipSubServiceAudienceTypesArgs = {
-  filters?: InputMaybe<AudienceTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type TipSubServiceCitiesArgs = {
@@ -8743,7 +8660,6 @@ export type TipSubServiceEntityResponseCollection = {
 
 export type TipSubServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<TipSubServiceFiltersInput>>>;
-  audienceTypes?: InputMaybe<AudienceTypeFiltersInput>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -8760,7 +8676,6 @@ export type TipSubServiceFiltersInput = {
 };
 
 export type TipSubServiceInput = {
-  audienceTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   description?: InputMaybe<Scalars["String"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
@@ -11120,7 +11035,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "AccessibilitySubService" }
           | { __typename?: "AlertNotification" }
           | { __typename?: "AlertNotificationService" }
-          | { __typename?: "AudienceType" }
+          | { __typename?: "Audience" }
           | { __typename?: "Cgu" }
           | { __typename?: "CguSubService" }
           | { __typename?: "ChannelType" }

@@ -1,32 +1,33 @@
 import _ from "lodash";
 import classNames from "classnames";
 import React from "react";
-import Select from "react-select";
+import Select, { MultiValue } from "react-select";
 import { Controller, useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FormLabel from "../FormLabel/FormLabel";
 import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import "./form-single-multiselect.scss";
 
-export type ICommonSelectOption = {
+export type IFormSingleMultiselectOption = {
   value: string | number;
   label: string;
 };
 
-interface ICommonSelectProps {
+interface IFormSingleMultiselectProps {
   label?: string;
   labelDescription?: string;
   validationLabel?: string;
   name: string;
-  options: Array<ICommonSelectOption>;
+  options: Array<IFormSingleMultiselectOption>;
   isMulti: boolean;
   maxMultiSelection?: number;
   isRequired?: boolean;
   isDisabled?: boolean;
-  onInputChange?: (event: string) => void;
+  onInputChange?: (value: string) => void;
+  onSelectChange?: (value: MultiValue<IFormSingleMultiselectOption>) => void;
 }
 
-export default function FormMultiselect({
+export default function FormSingleMultiselect({
   label,
   labelDescription,
   validationLabel,
@@ -37,7 +38,8 @@ export default function FormMultiselect({
   isRequired = false,
   isDisabled = false,
   onInputChange,
-}: ICommonSelectProps) {
+  onSelectChange,
+}: IFormSingleMultiselectProps) {
   /* Static Data */
   const errorMessages = {
     required: "Ce champ est obligatoire",
@@ -80,7 +82,10 @@ export default function FormMultiselect({
                 name="tags"
                 isMulti
                 onInputChange={onInputChange}
-                onChange={onChange}
+                onChange={(value) => {
+                  onChange(value);
+                  onSelectChange?.(value);
+                }}
                 defaultValue={value}
                 filterOption={() => !isMaxOptionsSelected}
                 noOptionsMessage={() =>

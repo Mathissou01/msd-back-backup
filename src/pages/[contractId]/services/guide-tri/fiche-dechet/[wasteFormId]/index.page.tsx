@@ -26,7 +26,7 @@ import { useRoutingQueryId } from "../../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
-import { ICommonSelectOption } from "../../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
+import { IFormSingleMultiselectOption } from "../../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import WasteFormForm from "../../../../../../components/RecyclingGuide/WasteForm/WasteFormForm";
 
 interface IServiceGuideDuTriEditPageProps {
@@ -59,7 +59,7 @@ export function ServiceGuideDuTriEditPage({
         name: submitData.name,
         picto: submitData.picto.id,
         tags: submitData.tags.map(
-          (option: ICommonSelectOption) => option.value,
+          (option: IFormSingleMultiselectOption) => option.value,
         ),
         flow: submitData.flow,
         recyclingGestureText: submitData.recyclingGestureText,

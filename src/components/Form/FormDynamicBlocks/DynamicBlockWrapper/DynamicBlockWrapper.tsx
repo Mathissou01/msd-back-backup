@@ -82,11 +82,13 @@ export default function DynamicBlockWrapper({
             </button>
           )}
           <div className="c-EditoBlockWrapper__Info">
-            <div
-              className={classNames("c-EditoBlockWrapper__Picto", {
-                [`c-EditoBlockWrapper__Picto_${picto}`]: picto,
-              })}
-            />
+            {picto && (
+              <div
+                className={classNames("c-EditoBlockWrapper__Picto", {
+                  [`c-EditoBlockWrapper__Picto_${picto}`]: picto,
+                })}
+              />
+            )}
             <div className="c-EditoBlockWrapper__Title">{label}</div>
           </div>
         </div>

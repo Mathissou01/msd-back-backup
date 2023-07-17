@@ -1,34 +1,40 @@
 import { useFormContext } from "react-hook-form";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
+import RequestAppointmentSlotsBySector, {
+  IRequestAppointmentSlotsBySectorLabels,
+} from "./RequestAppointmentSlotsBySector/RequestAppointmentSlotsBySector";
 import { IOptionWrapper } from "../../Form/FormMultiselect/FormMultiselect";
-import FormSelect from "../../Form/FormSelect/FormSelect";
 import FormInput from "../../Form/FormInput/FormInput";
+import FormSelect from "../../Form/FormSelect/FormSelect";
 import "./request-appointment-slots.scss";
 
-export default function RequestAppointmentSlotsFieldsGroup() {
-  /* Static Data */
-  const labels = {
-    staticHasAppointmentSlotsLabel: "Afficher des créneaux de rendez-vous",
-    staticHasAppointmentSlotsTrueOption: "Oui",
-    staticHasAppointmentSlotsFalseOption: "Non",
-    staticNumberOfRequiredSlots: "Nombre de créneaux requis",
-    staticHoursBeforeReservation:
-      "Les usagers ne peuvent pas réserver moins de",
-    staticHoursBeforeReservationErrorMessage:
-      "Ce champ n'accepte que des nombres entiers",
-    staticHoursBeforeReservationSuffix: "heure(s) avant le début du créneau",
-    staticSlotsReservationRulesTitle: "Règles de réservation des créneaux",
-    staticSlotsReservationRulesFielLabel:
-      ", l'usager peut réserver à partir de",
-  };
+export interface IRequestAppointmentSlotsLabels {
+  staticHasAppointmentSlotsLabel: string;
+  staticHasAppointmentSlotsTrueOption: string;
+  staticHasAppointmentSlotsFalseOption: string;
+  staticNumberOfRequiredSlots: string;
+  staticHoursBeforeReservation: string;
+  staticHoursBeforeReservationSuffix: string;
+  staticHoursBeforeReservationErrorMessage: string;
+  staticSlotsReservationRulesTitle: string;
+  staticSlotsReservationRulesFieldLabel: string;
+  appointmentSlotsBySector: IRequestAppointmentSlotsBySectorLabels;
+}
 
+interface IRequestAppointmentSlotsProps {
+  labels: IRequestAppointmentSlotsLabels;
+}
+
+export default function RequestAppointmentSlots({
+  labels,
+}: IRequestAppointmentSlotsProps) {
+  /* Methods */
   function registerAppointmentSlotsFields() {
     register("numberOfRequiredSlots", { value: null });
     register("hoursBeforeReservationIsActivated", { value: null });
     register("slotsReservationRules", { value: null });
   }
 
-  /* Methods */
   function unregisterAppointmentSlotsFields() {
     unregister("numberOfRequiredSlots");
     unregister("hoursBeforeReservationIsActivated");
@@ -37,6 +43,7 @@ export default function RequestAppointmentSlotsFieldsGroup() {
 
   /* Local data */
   const { getValues, register, unregister } = useFormContext();
+  const hasAppointmentSlots = getValues("hasAppointmentSlots") === "1";
   const numberOfRequiredSlotsOptions: Array<IOptionWrapper<number>> = [];
   for (let i = 1; i < 11; i++) {
     numberOfRequiredSlotsOptions.push({ label: i.toString(), option: i });
@@ -61,71 +68,76 @@ export default function RequestAppointmentSlotsFieldsGroup() {
 
   return (
     <>
-      <div className="c-RequestAppointmentSlotsFieldsGroup">
-        <div className="c-RequestAppointmentSlotsFieldsGroup__HasAppointmentSlots">
-          <FormRadioInput
-            name="hasAppointmentSlots"
-            displayName={labels.staticHasAppointmentSlotsLabel}
-            options={[
-              {
-                value: "1",
-                label: labels.staticHasAppointmentSlotsTrueOption,
-              },
-              {
-                value: "0",
-                label: labels.staticHasAppointmentSlotsFalseOption,
-              },
-            ]}
-            onChange={(value) => {
-              value === "0"
-                ? unregisterAppointmentSlotsFields()
-                : registerAppointmentSlotsFields();
-            }}
-          />
-        </div>
+      <div className="o-Form__Group">
+        <FormRadioInput
+          name="hasAppointmentSlots"
+          displayName={labels.staticHasAppointmentSlotsLabel}
+          options={[
+            {
+              value: "1",
+              label: labels.staticHasAppointmentSlotsTrueOption,
+            },
+            {
+              value: "0",
+              label: labels.staticHasAppointmentSlotsFalseOption,
+            },
+          ]}
+          onChange={(value) => {
+            value === "0"
+              ? unregisterAppointmentSlotsFields()
+              : registerAppointmentSlotsFields();
+          }}
+        />
       </div>
-      {getValues("hasAppointmentSlots") === "1" && (
-        <div className="c-RequestAppointmentSlotsFieldsGroup">
-          <div className="c-RequestAppointmentSlotsFieldsGroup__NumberAndRules_numberOfRequiredSlots">
-            <FormSelect<number>
-              label={labels.staticNumberOfRequiredSlots}
-              name="numberOfRequiredSlots"
-              options={numberOfRequiredSlotsOptions}
-              defaultValue={1}
-              isRequired
-            />
-          </div>
-          <div className="c-RequestAppointmentSlotsFieldsGroup__NumberAndRules_hoursBeforeReservationIsActivated">
-            <FormInput
-              type="text"
-              name="hoursBeforeReservationIsActivated"
-              label={labels.staticHoursBeforeReservation}
-              patternValidation={/^\d+$/}
-              patternValidationErrorMessage={
-                labels.staticHoursBeforeReservationErrorMessage
-              }
-              suffixLabel={labels.staticHoursBeforeReservationSuffix}
-            />
-          </div>
-          <div>
-            <span className="c-RequestAppointmentSlotsFieldsGroup__NumberAndRules_slotsReservationRulesTitle">
-              {labels.staticSlotsReservationRulesTitle}
-            </span>
-            <div className="c-RequestAppointmentSlotsFieldsGroup__NumberAndRules_slotsReservationRulesLine">
-              {days.map((day) => {
-                return (
-                  <FormSelect<string>
-                    key={day.index}
-                    label={`${day.name}${labels.staticSlotsReservationRulesFielLabel}`}
-                    name={`slotsReservationRules.${day.index}`}
-                    options={slotsReservationRulesOptions}
-                    isRequired
-                  />
-                );
-              })}
+      {hasAppointmentSlots && (
+        <>
+          <div className="o-Form__Group">
+            <div className="c-RequestAppointmentSlots__RequiredSlots">
+              <FormSelect<number>
+                label={labels.staticNumberOfRequiredSlots}
+                name="numberOfRequiredSlots"
+                options={numberOfRequiredSlotsOptions}
+                defaultValue={1}
+                isRequired
+              />
+            </div>
+            <div className="c-RequestAppointmentSlots__Hours">
+              <FormInput
+                type="text"
+                name="hoursBeforeReservationIsActivated"
+                label={labels.staticHoursBeforeReservation}
+                patternValidation={/^\d+$/}
+                patternValidationErrorMessage={
+                  labels.staticHoursBeforeReservationErrorMessage
+                }
+                suffixLabel={labels.staticHoursBeforeReservationSuffix}
+              />
+            </div>
+            <div>
+              <span className="c-RequestAppointmentSlots__SlotsTitle">
+                {labels.staticSlotsReservationRulesTitle}
+              </span>
+              <div className="c-RequestAppointmentSlots__SlotsLine">
+                {days.map((day) => {
+                  return (
+                    <FormSelect<string>
+                      key={day.index}
+                      label={`${day.name}${labels.staticSlotsReservationRulesFieldLabel}`}
+                      name={`slotsReservationRules.${day.index}`}
+                      options={slotsReservationRulesOptions}
+                      isRequired
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
+          <div className="o-Form__Group">
+            <RequestAppointmentSlotsBySector
+              labels={labels.appointmentSlotsBySector}
+            />
+          </div>
+        </>
       )}
     </>
   );

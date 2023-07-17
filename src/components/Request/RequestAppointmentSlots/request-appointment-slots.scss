@@ -1,53 +1,39 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.shadows" as shadows;
 
-.c-RequestAppointmentSlotsFieldsGroup {
-  @include shadows.shadow(1);
+.c-RequestAppointmentSlots {
+  &__RequiredSlots {
+    width: 50%;
+  }
 
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 16px 20px 32px;
-  background-color: colors.$white;
-  border-radius: 8px;
-
-  &__NumberAndRules {
-    &_numberOfRequiredSlots {
-      width: calc(41% - 38px);
+  &__Hours {
+    .c-FormLabel__SuffixData {
+      width: 50%;
     }
+  }
 
-    &_hoursBeforeReservationIsActivated {
-      width: 75%;
+  &__SlotsTitle {
+    display: block;
+    margin-bottom: 12px;
+    color: colors.$blue-2;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 24px;
+  }
 
-      .c-FormLabel__ContentWithSuffix_data {
-        width: 50%;
-      }
-    }
+  &__SlotsLine {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
-    &_slotsReservationRulesTitle {
-      display: block;
-      margin-bottom: 12px;
-      color: colors.$blue-2;
-      font-weight: bold;
-      font-size: 18px;
-      line-height: 24px;
-    }
-
-    &_slotsReservationRulesLine {
-      display: flex;
-      flex-direction: column;
+    .c-FormSelect {
+      flex-direction: row;
       gap: 12px;
+      align-items: center;
+    }
 
-      .c-FormSelect {
-        display: flex;
-        flex-direction: row;
-        gap: 12px;
-        align-items: center;
-      }
-
-      .c-FormLabel {
-        min-width: 330px;
-      }
+    .c-FormLabel {
+      min-width: 330px;
     }
   }
 }

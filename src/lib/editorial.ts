@@ -1,7 +1,7 @@
 import { IUploadFileEntity } from "./media";
 import { IFormBlock } from "./dynamic-blocks";
 import { IFormVersioningFields } from "./form";
-import { ICommonSelectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
+import { IFormSingleMultiselectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 export type TEditorialContentTypes =
   | "quiz"
@@ -13,7 +13,7 @@ export type TEditorialContentTypes =
 export interface IEditorialStaticFields extends IFormVersioningFields {
   title: string;
   image?: IUploadFileEntity | null;
-  tags?: Array<ICommonSelectOption>;
+  tags?: Array<IFormSingleMultiselectOption>;
   shortDescription?: string | null;
 }
 

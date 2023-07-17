@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGetTagsByContractIdQuery } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
-import { ICommonSelectOption } from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import { IFormSingleMultiselectOption } from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import FormInput from "../../../Form/FormInput/FormInput";
 import FormSingleMultiselect from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import FormFileInput from "../../../Form/FormFileInput/FormFileInput";
@@ -56,7 +56,9 @@ export default function EditorialStaticFields({
   }
 
   /* Local Data */
-  const [tagOptions, setTagOptions] = useState<Array<ICommonSelectOption>>([]);
+  const [tagOptions, setTagOptions] = useState<
+    Array<IFormSingleMultiselectOption>
+  >([]);
   const { contractId } = useContract();
   const { data: tagsData } = useGetTagsByContractIdQuery({
     variables: { contractId },
@@ -65,7 +67,7 @@ export default function EditorialStaticFields({
 
   useEffect(() => {
     if (tagsData) {
-      const mappedTags: Array<ICommonSelectOption> =
+      const mappedTags: Array<IFormSingleMultiselectOption> =
         tagsData.tags?.data?.map((tag) => {
           return {
             value: tag.id ?? "",

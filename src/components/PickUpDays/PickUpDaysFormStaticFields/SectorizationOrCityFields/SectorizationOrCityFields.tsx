@@ -6,7 +6,7 @@ import {
   useGetSectorizationsPickUpDayQuery,
 } from "../../../../graphql/codegen/generated-types";
 import FormSingleMultiselect, {
-  ICommonSelectOption,
+  IFormSingleMultiselectOption,
 } from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import FormLabel from "../../../Form/FormLabel/FormLabel";
 import { removeNulls } from "../../../../lib/utilities";
@@ -34,10 +34,10 @@ export default function SectorizationOrCityFields({
     useState<string>("sectorizations");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sectorizationOptions, setSectorizationOptions] = useState<
-    Array<ICommonSelectOption>
+    Array<IFormSingleMultiselectOption>
   >([]);
   const [citiesOptions, setCitiesOptions] = useState<
-    Array<ICommonSelectOption>
+    Array<IFormSingleMultiselectOption>
   >([]);
   const radioBtnStatusWatch = watch("sectorizationsMode");
 
@@ -58,7 +58,7 @@ export default function SectorizationOrCityFields({
 
   useEffect(() => {
     if (sectorizationsData) {
-      const mappedSectorizations: Array<ICommonSelectOption> =
+      const mappedSectorizations: Array<IFormSingleMultiselectOption> =
         sectorizationsData.sectorizations?.data
           .map((sectorization) => {
             return {
@@ -73,7 +73,7 @@ export default function SectorizationOrCityFields({
 
   useEffect(() => {
     if (searchCitiesData) {
-      const mappedCities: Array<ICommonSelectOption> =
+      const mappedCities: Array<IFormSingleMultiselectOption> =
         searchCitiesData.searchCities
           ?.map((city) => {
             return {

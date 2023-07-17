@@ -94,6 +94,27 @@ export function RequestFormPage({
             "Entête de l'accusé de réception pour l'usager",
         },
       },
+      appointmentSlots: {
+        staticHasAppointmentSlotsLabel: "Afficher des créneaux de rendez-vous",
+        staticHasAppointmentSlotsTrueOption: "Oui",
+        staticHasAppointmentSlotsFalseOption: "Non",
+        staticNumberOfRequiredSlots: "Nombre de créneaux requis",
+        staticHoursBeforeReservation:
+          "Les usagers ne peuvent pas réserver moins de",
+        staticHoursBeforeReservationSuffix:
+          "heure(s) avant le début du créneau",
+        staticHoursBeforeReservationErrorMessage:
+          "Ce champ n'accepte que des nombres entiers",
+        staticSlotsReservationRulesTitle: "Règles de réservation des créneaux",
+        staticSlotsReservationRulesFieldLabel:
+          ", l'usager peut réserver à partir de",
+        appointmentSlotsBySector: {
+          staticTitle: "Gestion des créneaux par secteur",
+          dynamicSectors: {
+            titleField: "Ajout d'un encart Créneaux par secteur(s)",
+          },
+        },
+      },
     },
   };
 

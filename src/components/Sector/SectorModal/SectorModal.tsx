@@ -12,7 +12,7 @@ import { ISectorsTableRow } from "../../../lib/sectors";
 import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
-import FormMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import FormSingleMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import "./sector-modal.scss";
 
 interface ISectorModalProps {
@@ -145,7 +145,7 @@ export default function SectorModal({
             <div className="c-SectorModal__InformationsSectorCommunesInfo">
               <p>{communesLabels.title}</p>
               {currentSectorContents && (
-                <FormMultiselect
+                <FormSingleMultiselect
                   name="communes"
                   label="communes"
                   options={currentSectorContents}

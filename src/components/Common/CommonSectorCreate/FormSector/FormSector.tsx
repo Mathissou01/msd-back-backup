@@ -13,8 +13,8 @@ import { removeNulls } from "../../../../lib/utilities";
 import { useContract } from "../../../../hooks/useContract";
 import CommonButton from "../../CommonButton/CommonButton";
 import FormInput from "../../../Form/FormInput/FormInput";
-import FormMultiselect, {
-  ICommonSelectOption,
+import FormSingleMultiselect, {
+  IFormSingleMultiselectOption,
 } from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import "./form-sector.scss";
 
@@ -58,7 +58,7 @@ export default function FormSector({
   /* Local Data */
   const { contractId } = useContract();
   const [currentSectorContents, setCurrentSectorContents] = useState<
-    ICommonSelectOption[]
+    IFormSingleMultiselectOption[]
   >([{ value: 0, label: "" }]);
 
   const polygon = data?.sectorization?.data?.attributes?.polygonCoordinates;
@@ -166,7 +166,7 @@ export default function FormSector({
             <div className="c-FormSector__Info">
               <p>{communesLabels.title}</p>
               {currentSectorContents && (
-                <FormMultiselect
+                <FormSingleMultiselect
                   name="communes"
                   label="communes"
                   options={currentSectorContents}

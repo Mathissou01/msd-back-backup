@@ -2,7 +2,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import { ApolloError } from "@apollo/client";
 import React from "react";
 import { IEditorialFields } from "../../../lib/editorial";
-import { ICommonSelectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import { IFormSingleMultiselectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import {
   IEditorialStaticFieldsLabels,
   TEditorialStaticFields,
@@ -99,7 +99,9 @@ export default function EditorialFormPage({
   async function onSubmit(submitData: FieldValues) {
     const commonMutationVariables = {
       title: submitData.title,
-      tags: submitData.tags?.map((option: ICommonSelectOption) => option.value),
+      tags: submitData.tags?.map(
+        (option: IFormSingleMultiselectOption) => option.value,
+      ),
       image: submitData.image.id,
       shortDescription: submitData.shortDescription,
       blocks: submitData.blocks?.map(

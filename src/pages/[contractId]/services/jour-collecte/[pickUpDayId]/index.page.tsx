@@ -8,7 +8,7 @@ import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout
 import PickUpDaysForm from "../../../../../components/PickUpDays/PickUpDaysForm";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
-import { ICommonSelectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
+import { IFormSingleMultiselectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import {
   CityEntity,
   GetActiveRequestsByContractIdDocument,
@@ -117,11 +117,11 @@ export function ServicesPickUpDayEditPage({
         name: submitData.name,
         sectorizations:
           submitData.sectorizations?.map(
-            (option: ICommonSelectOption) => option.value,
+            (option: IFormSingleMultiselectOption) => option.value,
           ) ?? null,
         cities:
           submitData.cities?.map(
-            (option: ICommonSelectOption) => option.value,
+            (option: IFormSingleMultiselectOption) => option.value,
           ) ?? null,
         flow: submitData.flow,
         collectDoorToDoor: submitData.collects.includes(

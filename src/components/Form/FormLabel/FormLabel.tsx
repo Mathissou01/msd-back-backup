@@ -82,7 +82,7 @@ export default function FormLabel({
       )}
       {children && suffixLabel && (
         <div className="c-FormLabel__ContentWithSuffix">
-          <div className="c-FormLabel__ContentWithSuffix_data">{children}</div>
+          <div className="c-FormLabel__SuffixData">{children}</div>
           <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
             <span className="c-FormLabel__Suffix">{suffixLabel}</span>
           </Tag>

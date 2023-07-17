@@ -9,7 +9,7 @@ import { removeNulls } from "../../../lib/utilities";
 import FormDatePicker from "../../Form/FormDatePicker/FormDatePicker";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormSingleMultiselect, {
-  ICommonSelectOption,
+  IFormSingleMultiselectOption,
 } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import "./information-message-form-static-fields.scss";
 
@@ -32,7 +32,7 @@ export default function InformationMessageFormStaticFields({
   /*Local Data */
   const { contractId } = useContract();
   const [informationMessagesOptions, setInformationMessagesOptions] = useState<
-    Array<ICommonSelectOption>
+    Array<IFormSingleMultiselectOption>
   >([]);
   const defaultQueryVariables: GetPickUpDaysByContractIdQueryVariables = {
     contractId,
@@ -43,7 +43,7 @@ export default function InformationMessageFormStaticFields({
 
   useEffect(() => {
     if (informationMessagesData) {
-      const mappedTags: Array<ICommonSelectOption> =
+      const mappedTags: Array<IFormSingleMultiselectOption> =
         informationMessagesData.pickUpDays?.data
           .map((informationMessage) => {
             if (informationMessage.id && informationMessage.attributes?.name)

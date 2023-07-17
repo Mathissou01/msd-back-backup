@@ -23,8 +23,8 @@ export default function RequestStaticProofOfReceipt({
   const validationLabel = "50 caractères maximum";
 
   /* Local Data */
-  const { watch, resetField } = useFormContext();
-  const isSendProofOfReceipt = watch("sendProofOfReceipt");
+  const { getValues, resetField } = useFormContext();
+  const isSendProofOfReceipt = getValues("sendProofOfReceipt");
 
   return (
     <>

@@ -10,7 +10,7 @@ import { TAcceptedMimeTypes } from "../../../../lib/media";
 import { useContract } from "../../../../hooks/useContract";
 import { IOptionWrapper } from "../../../Form/FormMultiselect/FormMultiselect";
 import FormSingleMultiselect, {
-  ICommonSelectOption,
+  IFormSingleMultiselectOption,
 } from "../../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import FormInput from "../../../Form/FormInput/FormInput";
 import FormSelect from "../../../Form/FormSelect/FormSelect";
@@ -75,7 +75,9 @@ export default function WasteFormStaticFields({
 
   /* Local Data */
   const { contractId } = useContract();
-  const [tagOptions, setTagOptions] = useState<Array<ICommonSelectOption>>([]);
+  const [tagOptions, setTagOptions] = useState<
+    Array<IFormSingleMultiselectOption>
+  >([]);
   const [wasteFamilyOptions, setWasteFamilyOptions] = useState<
     Array<IOptionWrapper<WasteFamilyEntity>>
   >([]);
@@ -123,7 +125,7 @@ export default function WasteFormStaticFields({
 
   useEffect(() => {
     if (tagsData) {
-      const mappedTags: Array<ICommonSelectOption> =
+      const mappedTags: Array<IFormSingleMultiselectOption> =
         tagsData.tags?.data
           ?.map((tag) => {
             if (tag?.id && tag.attributes?.name) {

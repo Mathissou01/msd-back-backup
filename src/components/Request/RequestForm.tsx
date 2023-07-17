@@ -15,7 +15,9 @@ import RequestSideBar from "./RequestSideBar/RequestSideBar";
 import RequestFormButtons, {
   IRequestFormButtonsLabels,
 } from "./RequestFormButtons/RequestFormButtons";
-import RequestAppointmentSlots from "./RequestAppointmentSlots/RequestAppointmentSlots";
+import RequestAppointmentSlots, {
+  IRequestAppointmentSlotsLabels,
+} from "./RequestAppointmentSlots/RequestAppointmentSlots";
 import RequestStaticFieldsBottom, {
   IRequestStaticFieldsBottomLabels,
 } from "./RequestStaticFieldsBottom/RequestStaticFieldsBottom";
@@ -56,6 +58,7 @@ export interface IRequestFields extends IRequestStaticFields {
 interface IRequestStaticFieldsLabels {
   top: IRequestStaticFieldsTopLabels;
   bottom: IRequestStaticFieldsBottomLabels;
+  appointmentSlots: IRequestAppointmentSlotsLabels;
 }
 
 interface IRequestFormProps {
@@ -135,7 +138,7 @@ export default function RequestForm({
     {
       name: "AppointmentSlots",
       title: tabLabels.appointmentSlots,
-      content: <RequestAppointmentSlots />,
+      content: <RequestAppointmentSlots labels={labels.appointmentSlots} />,
       fieldsToFocus: ["numberOfRequiredSlots", "slotsReservationRules"],
       isEnabled: true,
     },

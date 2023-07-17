@@ -20,7 +20,7 @@ import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import SectorizationOrCityFields, {
   ISectorizationOrCityFieldsLabels,
 } from "./SectorizationOrCityFields/SectorizationOrCityFields";
-import { ICommonSelectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import { IFormSingleMultiselectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import {
   EMonthlyStatus,
   EPeriodicityStatus,
@@ -74,16 +74,16 @@ export default function PickUpDaysFormStaticFields({
   const [recurrenceStatus, setRecurrenceStatus] = useState<boolean>();
   const [shortcutFormStatus, setShortcutFormStatus] = useState<string>("form");
   const [activeFlowOptions, setActiveFlowOptions] = useState<
-    Array<ICommonSelectOption>
+    Array<IFormSingleMultiselectOption>
   >([]);
   const [collectOptions, setCollectOptions] = useState<
-    Array<ICommonSelectOption>
+    Array<IFormSingleMultiselectOption>
   >([]);
   const [collectDoorToDoorOptions, setCollectDoorToDoorOptions] = useState<
-    Array<ICommonSelectOption>
+    Array<IFormSingleMultiselectOption>
   >([]);
   const [CollectVoluntariesOptions, setCollectVoluntariesOptions] = useState<
-    Array<ICommonSelectOption>
+    Array<IFormSingleMultiselectOption>
   >([]);
   const pickUpId = watch("pickUpId");
   const periodicity = watch("periodicity");
@@ -143,7 +143,7 @@ export default function PickUpDaysFormStaticFields({
           variables: {
             contractId,
             sectorizationsId: sectorizations.map(
-              (sector: ICommonSelectOption) => sector.value,
+              (sector: IFormSingleMultiselectOption) => sector.value,
             ),
           },
         });

@@ -5,13 +5,13 @@ import { IUploadFileEntity } from "./media";
 import { removeNulls } from "./utilities";
 
 export type TBlocksDynamicZone =
+  // Editorial Blocks
   | "ComponentBlocksFile"
   | "ComponentBlocksHorizontalRule"
   | "ComponentBlocksImage"
   | "ComponentBlocksSubHeading"
   | "ComponentBlocksVideo"
   | "ComponentBlocksWysiwyg"
-  | "Error"
   // DropOffMap Blocks
   | "ComponentBlocksDownloadBlock"
   // Request Blocks
@@ -23,7 +23,10 @@ export type TBlocksDynamicZone =
   | "ComponentBlocksDateChoice"
   | "ComponentBlocksCheckbox"
   | "ComponentBlocksProofOfReceipt"
-  | "ComponentBlocksRequestType";
+  | "ComponentBlocksRequestType"
+  | "ComponentBlocksAppointmentSlotsBySector"
+  // Other
+  | "Error";
 
 export type TDynamicFieldOption = Exclude<TBlocksDynamicZone, "Error">;
 
@@ -39,7 +42,7 @@ export type TDynamicFieldConfiguration = {
 
 interface IBlockDisplayMap extends IDynamicFieldProps {
   label: string;
-  picto: TBlockPictoStyles;
+  picto?: TBlockPictoStyles;
   isEmpty?: boolean;
 }
 
@@ -111,6 +114,9 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     label: "Type de demande",
     picto: "text",
   },
+  ComponentBlocksAppointmentSlotsBySector: {
+    label: "Créneaux par secteur(s)",
+  },
 };
 
 interface IPartialBlockDynamicZone {
@@ -138,8 +144,9 @@ export type IFormBlock =
   | IBlocksCommentary
   | IBlocksCheckbox
   | IBlocksDownloadableFiles
+  | IBlocksCumbersome
   | IBlocksRequestType
-  | IBlocksCumbersome;
+  | IBlocksAppointmentSlotsBySector;
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
@@ -239,6 +246,12 @@ export interface IBlocksCumbersome extends IPartialBlock {
   maxNumberOfCumbersome?: number;
   isNumberAndVolume: string;
   cumbersomeLimitMessage: string;
+}
+
+export interface IBlocksAppointmentSlotsBySector extends IPartialBlock {
+  __typename: "ComponentBlocksRequestType";
+  // TODO: WIP
+  sectors: Array<unknown>;
 }
 
 /* Methods */
@@ -375,16 +388,6 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         file: undefined,
       };
     }
-    case "ComponentBlocksRequestType": {
-      return {
-        __typename,
-        id: temporaryId,
-        title: "",
-        isEmail: false,
-        isTSMS: false,
-        email: "",
-      };
-    }
     case "ComponentBlocksDateChoice": {
       return {
         __typename,
@@ -402,6 +405,22 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         maxNumberOfCumbersome: undefined,
         isNumberAndVolume: "1",
         cumbersomeLimitMessage: undefined,
+      };
+    }
+    case "ComponentBlocksRequestType": {
+      return {
+        __typename,
+        id: temporaryId,
+        title: "",
+        isEmail: false,
+        isTSMS: false,
+        email: "",
+      };
+    }
+    case "ComponentBlocksAppointmentSlotsBySector": {
+      return {
+        __typename,
+        id: temporaryId,
       };
     }
     default: {
