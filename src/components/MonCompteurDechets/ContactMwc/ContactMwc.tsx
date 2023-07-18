@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from "react";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
   UpdateContactMwcDocument,
@@ -7,6 +7,7 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../../components/Common/CommonButton/CommonButton";
+import FormInput from "../../Form/FormInput/FormInput";
 import "./ContactMwc.scss";
 
 interface ContactFormData {
@@ -19,27 +20,22 @@ interface ContactFormData {
 }
 
 export type ContactMwc = {
-  id?: string | null;
-  attributes?: {
-    mwcContact?: {
-      data?: {
-        attributes?: {
-          serviceName?: string | null;
-          postalAddress?: string | null;
-          postalCode?: string | null;
-          city?: string | null;
-          contactEmail?: string | null;
-          phoneNumber?: string | null;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
+  serviceName?: string;
+  postalAddress?: string;
+  postalCode?: string;
+  city?: string;
+  contactEmail?: string;
+  phoneNumber?: string;
 };
 
 const ERROR_MESSAGES = {
-  invalidPostalCode: "Veuillez saisir un code postal valide",
+  maxLengthServiceName: "Le Nom du service ne doit pas dépasser 50 caractères",
+  maxLengthAddress: "L'adresse ne doit pas dépasser 150 caractères",
+  invalidPostalCode: "Le code postal ne doit pas dépasser 5 chiffres",
   invalidEmail: "Veuillez saisir un email valide",
-  invalidPhoneNumber: "Veuillez saisir un numéro de téléphone valide",
+  invalidPhoneNumber:
+    "Le numéro de téléphone ne doit pas dépasser 30 caractères",
+  invalidCity: "La ville ne doit pas dépasser 100 caractères",
 };
 
 const LABEL = {
@@ -52,16 +48,19 @@ const LABEL = {
   phoneNumber: "N° de téléphone",
 };
 
-const ContactForm: React.FC = () => {
-  const form = useForm<ContactFormData>();
+const PLACEHOLDER = {
+  serviceName: "ex : Service de gestion des déchets",
+  address: "ex : 1, nom de la voie",
+  postalCode: "ex : 82000",
+  city: "Nom de la ville",
+  email: "ex : contact@example.com",
+  phoneNumber: "ex : 0123456789",
+};
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-    setValue,
-    register,
-  } = form;
+export default function ContactMwc() {
+  const form = useForm<ContactFormData>({ mode: "onChange" });
+
+  const { handleSubmit, setValue } = form;
 
   const { contractId } = useContract();
 
@@ -80,27 +79,30 @@ const ContactForm: React.FC = () => {
   });
 
   const setDefaultValues = useCallback(
-    (contactMwc: ContactMwc) => {
-      const attributes = contactMwc?.attributes?.mwcContact?.data?.attributes;
-      setValue("serviceName", attributes?.serviceName ?? "");
-      setValue("address", attributes?.postalAddress ?? "");
-      setValue("postalCode", attributes?.postalCode ?? "");
-      setValue("city", attributes?.city ?? "");
-      setValue("email", attributes?.contactEmail ?? "");
-      setValue("phoneNumber", attributes?.phoneNumber ?? "");
+    (data: ContactMwc) => {
+      setValue("serviceName", data.serviceName ?? "");
+      setValue("address", data?.postalAddress ?? "");
+      setValue("postalCode", data?.postalCode ?? "");
+      setValue("city", data?.city ?? "");
+      setValue("email", data?.contactEmail ?? "");
+      setValue("phoneNumber", data?.phoneNumber ?? "");
     },
     [setValue],
   );
 
   useEffect(() => {
     if (data?.mwCounterServices?.data) {
-      setDefaultValues(data?.mwCounterServices?.data[0]);
+      setDefaultValues(
+        data?.mwCounterServices?.data[0]?.attributes as ContactMwc,
+      );
     }
   }, [data, setDefaultValues]);
 
   const handleCancel = () => {
     if (data?.mwCounterServices?.data) {
-      setDefaultValues(data?.mwCounterServices?.data[0]);
+      setDefaultValues(
+        data?.mwCounterServices?.data[0]?.attributes as ContactMwc,
+      );
     }
   };
 
@@ -118,7 +120,7 @@ const ContactForm: React.FC = () => {
         },
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -132,215 +134,86 @@ const ContactForm: React.FC = () => {
             onSubmit={handleSubmit(handleSave)}
           >
             <div className="c-ContactFormPage__BlockFieldAndInput">
-              <label
-                className="c-ContactFormPage__LabelWrapper"
-                htmlFor="serviceName"
-              >
-                <span className="c-ContactFormPage__Label">
-                  {LABEL.serviceName}
-                </span>
-              </label>
-              <div className="c-ContactFormPage__InputContent">
-                <Controller
-                  control={control}
-                  {...register("serviceName")}
-                  rules={{
-                    maxLength: {
-                      value: 50,
-                      message:
-                        "Le Nom du service ne doit pas dépasser 50 caractères",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      type="text"
-                      placeholder="ex : Service de gestion des déchets"
-                    />
-                  )}
-                />
-              </div>
-
-              {errors.serviceName && (
-                <p className="c-ContactFormPage__ErrorMessage">
-                  {errors?.serviceName?.message as string}
-                </p>
-              )}
+              <FormInput
+                name="serviceName"
+                isRequired
+                type="text"
+                placeholder={PLACEHOLDER.serviceName}
+                maxLengthValidation={50}
+                lengthHardValidation={false}
+                maxLengthValidationErrorMessage={
+                  ERROR_MESSAGES.maxLengthServiceName
+                }
+                label={LABEL.serviceName}
+              />
             </div>
             <div className="c-ContactFormPage__BlockFieldAndInput">
-              <label
-                className="c-ContactFormPage__LabelWrapper"
-                htmlFor="address"
-              >
-                <span className="c-ContactFormPage__Label">
-                  {LABEL.address}
-                </span>
-              </label>
-              <div className="c-ContactFormPage__InputContent">
-                <Controller
-                  control={control}
-                  {...register("address")}
-                  rules={{
-                    maxLength: {
-                      value: 150,
-                      message: "L'adresse' ne doit pas dépasser 150 caractères",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      type="text"
-                      placeholder="ex : 1, nom de la voie"
-                    />
-                  )}
-                />
-              </div>
-
-              {errors.address && (
-                <p className="c-ContactFormPage__ErrorMessage">
-                  {errors?.address?.message as string}
-                </p>
-              )}
+              <FormInput
+                name="address"
+                isRequired
+                type="text"
+                placeholder={PLACEHOLDER.address}
+                maxLengthValidation={150}
+                lengthHardValidation={false}
+                maxLengthValidationErrorMessage={
+                  ERROR_MESSAGES.maxLengthAddress
+                }
+                label={LABEL.address}
+              />
             </div>
             <div className="c-ContactFormPage__BlockFieldAndInputCol2">
               <div className="c-ContactFormPage__BlockFieldAndInput">
-                <label
-                  className="c-ContactFormPage__LabelWrapper"
-                  htmlFor="postalCode"
-                >
-                  <span className="c-ContactFormPage__Label">
-                    {LABEL.postalCode}
-                  </span>
-                </label>
-                <div className="c-ContactFormPage__InputContent">
-                  <Controller
-                    control={control}
-                    {...register("postalCode")}
-                    rules={{
-                      maxLength: {
-                        value: 5,
-                        message:
-                          "Le code postal ne doit pas dépasser 5 chiffres",
-                      },
-                      pattern: {
-                        value: /^[\d+]+$/,
-                        message: ERROR_MESSAGES.invalidPostalCode,
-                      },
-                    }}
-                    render={({ field }) => (
-                      <input {...field} type="text" placeholder="ex : 82000" />
-                    )}
-                  />
-                </div>
-                {errors.postalCode && (
-                  <p className="c-ContactFormPage__ErrorMessage">
-                    {errors?.postalCode?.message as string}
-                  </p>
-                )}
+                <FormInput
+                  name="postalCode"
+                  type="text"
+                  placeholder={PLACEHOLDER.postalCode}
+                  maxLengthValidation={5}
+                  patternValidation={/^[\d+]+$/}
+                  lengthHardValidation={false}
+                  maxLengthValidationErrorMessage={
+                    ERROR_MESSAGES.invalidPostalCode
+                  }
+                  label={LABEL.postalCode}
+                />
               </div>
               <div className="c-ContactFormPage__BlockFieldAndInput">
-                <label
-                  className="c-ContactFormPage__LabelWrapper"
-                  htmlFor="city"
-                >
-                  <span className="c-ContactFormPage__Label">{LABEL.city}</span>
-                </label>
-                <div className="c-ContactFormPage__InputContent">
-                  <Controller
-                    control={control}
-                    {...register("city")}
-                    rules={{
-                      maxLength: {
-                        value: 100,
-                        message: "La ville ne doit pas dépasser 100 caractères",
-                      },
-                    }}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        type="text"
-                        placeholder="Nom de la ville"
-                      />
-                    )}
-                  />
-                </div>
-                {errors.city && (
-                  <p className="c-ContactFormPage__ErrorMessage">
-                    {errors?.city?.message as string}
-                  </p>
-                )}
+                <FormInput
+                  name="city"
+                  isRequired
+                  type="text"
+                  placeholder={PLACEHOLDER.city}
+                  maxLengthValidation={100}
+                  lengthHardValidation={false}
+                  maxLengthValidationErrorMessage={ERROR_MESSAGES.invalidCity}
+                  label={LABEL.city}
+                />
               </div>
             </div>
             <div className="c-ContactFormPage__BlockFieldAndInput">
-              <label
-                className="c-ContactFormPage__LabelWrapper"
-                htmlFor="email"
-              >
-                <span className="c-ContactFormPage__Label">{LABEL.email}</span>
-              </label>
-              <div className="c-ContactFormPage__InputContent">
-                <Controller
-                  control={control}
-                  {...register("email")}
-                  rules={{
-                    pattern: {
-                      value: /^\S+@\S+\.\S+$/,
-                      message: ERROR_MESSAGES.invalidEmail,
-                    },
-                  }}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      type="email"
-                      placeholder="ex : contact@example.com"
-                    />
-                  )}
-                />
-              </div>
-              {errors.email && (
-                <p className="c-ContactFormPage__ErrorMessage">
-                  {errors?.email?.message as string}
-                </p>
-              )}
+              <FormInput
+                name="email"
+                isRequired
+                type="email"
+                placeholder={PLACEHOLDER.email}
+                patternValidation={/^\S+@\S+\.\S+$/}
+                lengthHardValidation={false}
+                patternValidationErrorMessage={ERROR_MESSAGES.invalidEmail}
+                label={LABEL.email}
+              />
             </div>
             <div className="c-ContactFormPage__BlockFieldAndInput">
-              <label
-                className="c-ContactFormPage__LabelWrapper"
-                htmlFor="phoneNumber"
-              >
-                <span className="c-ContactFormPage__Label">
-                  {LABEL.phoneNumber}
-                </span>
-              </label>
-              <div className="c-ContactFormPage__InputContent">
-                <Controller
-                  control={control}
-                  {...register("phoneNumber")}
-                  rules={{
-                    maxLength: {
-                      value: 30,
-                      message:
-                        "Le numéro de téléphone ne doit pas dépasser 30 caractères",
-                    },
-                    pattern: {
-                      value: /^\d+$/,
-                      message: ERROR_MESSAGES.invalidPhoneNumber,
-                    },
-                  }}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      type="text"
-                      placeholder="ex : 0123456789"
-                    />
-                  )}
-                />
-              </div>
-              {errors.phoneNumber && (
-                <p className="c-ContactFormPage__ErrorMessage">
-                  {errors?.phoneNumber?.message as string}
-                </p>
-              )}
+              <FormInput
+                name="phoneNumber"
+                type="text"
+                placeholder={PLACEHOLDER.phoneNumber}
+                maxLengthValidation={30}
+                patternValidation={/^\d+$/}
+                lengthHardValidation={false}
+                maxLengthValidationErrorMessage={
+                  ERROR_MESSAGES.invalidPhoneNumber
+                }
+                label={LABEL.phoneNumber}
+              />
             </div>
           </form>
         </FormProvider>
@@ -362,8 +235,4 @@ const ContactForm: React.FC = () => {
       </div>
     </>
   );
-};
-
-export default function IndexPage() {
-  return <ContactForm />;
 }

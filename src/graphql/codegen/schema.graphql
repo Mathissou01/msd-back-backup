@@ -4419,6 +4419,7 @@ type MwCounterService {
   createdAt: DateTime
   description: String
   endDate: Date
+  hasTips: Boolean
   isActivated: Boolean!
   mwcFlows(
     filters: MwcFlowFiltersInput
@@ -4426,9 +4427,9 @@ type MwCounterService {
     sort: [String] = []
   ): MwcFlowRelationResponseCollection
   name: String
-  phoneNumber: Long
+  phoneNumber: String
   postalAddress: String
-  postalCode: Long
+  postalCode: String
   serviceName: String
   startDate: Date
   updatedAt: DateTime
@@ -4459,15 +4460,16 @@ input MwCounterServiceFiltersInput {
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   endDate: DateFilterInput
+  hasTips: BooleanFilterInput
   id: IDFilterInput
   isActivated: BooleanFilterInput
   mwcFlows: MwcFlowFiltersInput
   name: StringFilterInput
   not: MwCounterServiceFiltersInput
   or: [MwCounterServiceFiltersInput]
-  phoneNumber: LongFilterInput
+  phoneNumber: StringFilterInput
   postalAddress: StringFilterInput
-  postalCode: LongFilterInput
+  postalCode: StringFilterInput
   serviceName: StringFilterInput
   startDate: DateFilterInput
   updatedAt: DateTimeFilterInput
@@ -4482,12 +4484,13 @@ input MwCounterServiceInput {
   contract: ID
   description: String
   endDate: Date
+  hasTips: Boolean
   isActivated: Boolean
   mwcFlows: [ID]
   name: String
-  phoneNumber: Long
+  phoneNumber: String
   postalAddress: String
-  postalCode: Long
+  postalCode: String
   serviceName: String
   startDate: Date
 }

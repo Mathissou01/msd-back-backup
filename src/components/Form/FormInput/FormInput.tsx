@@ -28,6 +28,7 @@ interface IFormInputProps {
   isHidden?: boolean;
   minLengthValidation?: number;
   maxLengthValidation?: number;
+  maxLengthValidationErrorMessage?: string;
   minNumberValidation?: number;
   maxNumberValidation?: number;
   minStringValidation?: string;
@@ -57,6 +58,7 @@ export default function FormInput({
   isHidden = false,
   minLengthValidation,
   maxLengthValidation,
+  maxLengthValidationErrorMessage = "",
   minNumberValidation,
   maxNumberValidation,
   minStringValidation,
@@ -75,7 +77,10 @@ export default function FormInput({
   const errorMessages = {
     required: "Ce champ est obligatoire",
     minLength: `${minLengthValidation} caractères minimum`,
-    maxLength: `${maxLengthValidation} caractères maximum`,
+    maxLength:
+      maxLengthValidationErrorMessage !== ""
+        ? maxLengthValidationErrorMessage
+        : `${maxLengthValidation} caractères maximum`,
     minNumber: `Valeur minimum: ${minNumberValidation}`,
     maxNumber: `Valeur maximum: ${maxNumberValidation}`,
     minString: `Valeur minimum: ${minStringValidation}`,

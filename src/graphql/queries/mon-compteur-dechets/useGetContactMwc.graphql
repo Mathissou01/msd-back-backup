@@ -1,7 +1,14 @@
-query GetContactMwc($filters: MwCounterServiceFiltersInput) {
+query getContactMwc($filters: MwCounterServiceFiltersInput) {
   mwCounterServices(filters: $filters) {
     data {
-      id
+      attributes {
+        serviceName
+        contactEmail
+        phoneNumber
+        postalAddress
+        postalCode
+        city
+      }
     }
   }
 }

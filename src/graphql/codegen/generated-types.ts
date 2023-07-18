@@ -5715,12 +5715,13 @@ export type MwCounterService = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   description?: Maybe<Scalars["String"]>;
   endDate?: Maybe<Scalars["Date"]>;
+  hasTips?: Maybe<Scalars["Boolean"]>;
   isActivated: Scalars["Boolean"];
   mwcFlows?: Maybe<MwcFlowRelationResponseCollection>;
   name?: Maybe<Scalars["String"]>;
-  phoneNumber?: Maybe<Scalars["Long"]>;
+  phoneNumber?: Maybe<Scalars["String"]>;
   postalAddress?: Maybe<Scalars["String"]>;
-  postalCode?: Maybe<Scalars["Long"]>;
+  postalCode?: Maybe<Scalars["String"]>;
   serviceName?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -5772,15 +5773,16 @@ export type MwCounterServiceFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   endDate?: InputMaybe<DateFilterInput>;
+  hasTips?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isActivated?: InputMaybe<BooleanFilterInput>;
   mwcFlows?: InputMaybe<MwcFlowFiltersInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<MwCounterServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<MwCounterServiceFiltersInput>>>;
-  phoneNumber?: InputMaybe<LongFilterInput>;
+  phoneNumber?: InputMaybe<StringFilterInput>;
   postalAddress?: InputMaybe<StringFilterInput>;
-  postalCode?: InputMaybe<LongFilterInput>;
+  postalCode?: InputMaybe<StringFilterInput>;
   serviceName?: InputMaybe<StringFilterInput>;
   startDate?: InputMaybe<DateFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -5795,12 +5797,13 @@ export type MwCounterServiceInput = {
   contract?: InputMaybe<Scalars["ID"]>;
   description?: InputMaybe<Scalars["String"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
+  hasTips?: InputMaybe<Scalars["Boolean"]>;
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   mwcFlows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   name?: InputMaybe<Scalars["String"]>;
-  phoneNumber?: InputMaybe<Scalars["Long"]>;
+  phoneNumber?: InputMaybe<Scalars["String"]>;
   postalAddress?: InputMaybe<Scalars["String"]>;
-  postalCode?: InputMaybe<Scalars["Long"]>;
+  postalCode?: InputMaybe<Scalars["String"]>;
   serviceName?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["Date"]>;
 };
@@ -13191,13 +13194,13 @@ export type GetServicesActiveQuery = {
 };
 
 export type UpdateContactMwcMutationVariables = Exact<{
+  contractId: Scalars["ID"];
   serviceName?: InputMaybe<Scalars["String"]>;
   postalAddress?: InputMaybe<Scalars["String"]>;
   postalCode?: InputMaybe<Scalars["String"]>;
   city?: InputMaybe<Scalars["String"]>;
   contactEmail?: InputMaybe<Scalars["String"]>;
   phoneNumber?: InputMaybe<Scalars["String"]>;
-  contractId: Scalars["ID"];
 }>;
 
 export type UpdateContactMwcMutation = {
@@ -13206,8 +13209,8 @@ export type UpdateContactMwcMutation = {
     __typename?: "ContactResponse";
     serviceName?: string | null;
     postalAddress?: string | null;
-    city?: string | null;
     postalCode?: string | null;
+    city?: string | null;
     contactEmail?: string | null;
     phoneNumber?: string | null;
   } | null;
@@ -13221,7 +13224,18 @@ export type GetContactMwcQuery = {
   __typename?: "Query";
   mwCounterServices?: {
     __typename?: "MwCounterServiceEntityResponseCollection";
-    data: Array<{ __typename?: "MwCounterServiceEntity"; id?: string | null }>;
+    data: Array<{
+      __typename?: "MwCounterServiceEntity";
+      attributes?: {
+        __typename?: "MwCounterService";
+        serviceName?: string | null;
+        contactEmail?: string | null;
+        phoneNumber?: string | null;
+        postalAddress?: string | null;
+        postalCode?: string | null;
+        city?: string | null;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -14977,7 +14991,6 @@ export type GetAlertNotificationByIdQuery = {
       __typename?: "AlertNotificationEntity";
       id?: string | null;
       attributes?: {
-        sectorization: string;
         __typename?: "AlertNotification";
         alertDescription: string;
         alertMessage?: string | null;
@@ -22845,27 +22858,27 @@ export type GetServicesActiveQueryResult = Apollo.QueryResult<
 >;
 export const UpdateContactMwcDocument = gql`
   mutation UpdateContactMwc(
+    $contractId: ID!
     $serviceName: String
     $postalAddress: String
     $postalCode: String
     $city: String
     $contactEmail: String
     $phoneNumber: String
-    $contractId: ID!
   ) {
     updateContactMwc(
+      contractId: $contractId
       serviceName: $serviceName
       postalAddress: $postalAddress
       postalCode: $postalCode
       city: $city
       contactEmail: $contactEmail
       phoneNumber: $phoneNumber
-      contractId: $contractId
     ) {
       serviceName
       postalAddress
-      city
       postalCode
+      city
       contactEmail
       phoneNumber
     }
@@ -22889,13 +22902,13 @@ export type UpdateContactMwcMutationFn = Apollo.MutationFunction<
  * @example
  * const [updateContactMwcMutation, { data, loading, error }] = useUpdateContactMwcMutation({
  *   variables: {
+ *      contractId: // value for 'contractId'
  *      serviceName: // value for 'serviceName'
  *      postalAddress: // value for 'postalAddress'
  *      postalCode: // value for 'postalCode'
  *      city: // value for 'city'
  *      contactEmail: // value for 'contactEmail'
  *      phoneNumber: // value for 'phoneNumber'
- *      contractId: // value for 'contractId'
  *   },
  * });
  */
@@ -22921,10 +22934,17 @@ export type UpdateContactMwcMutationOptions = Apollo.BaseMutationOptions<
   UpdateContactMwcMutationVariables
 >;
 export const GetContactMwcDocument = gql`
-  query GetContactMwc($filters: MwCounterServiceFiltersInput) {
+  query getContactMwc($filters: MwCounterServiceFiltersInput) {
     mwCounterServices(filters: $filters) {
       data {
-        id
+        attributes {
+          serviceName
+          contactEmail
+          phoneNumber
+          postalAddress
+          postalCode
+          city
+        }
       }
     }
   }

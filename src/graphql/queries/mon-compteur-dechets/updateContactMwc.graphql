@@ -1,25 +1,25 @@
 mutation UpdateContactMwc(
+  $contractId: ID!
   $serviceName: String
   $postalAddress: String
   $postalCode: String
   $city: String
   $contactEmail: String
   $phoneNumber: String
-  $contractId: ID!
 ) {
   updateContactMwc(
+    contractId: $contractId
     serviceName: $serviceName
     postalAddress: $postalAddress
     postalCode: $postalCode
     city: $city
     contactEmail: $contactEmail
     phoneNumber: $phoneNumber
-    contractId: $contractId
   ) {
     serviceName
     postalAddress
-    city
     postalCode
+    city
     contactEmail
     phoneNumber
   }
