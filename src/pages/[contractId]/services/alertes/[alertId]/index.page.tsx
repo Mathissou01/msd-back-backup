@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import router from "next/router";
-import { add, format, isAfter } from "date-fns";
+import { add, format, isAfter, parse } from "date-fns";
 import {
   useCreateAlertNotificationMutation,
   useUpdateAlertNotificationByIdMutation,
@@ -152,7 +152,11 @@ export function ServicesAlertFormPage({
               : alertNotificationData.attributes?.sendMail === true
               ? "Mail"
               : "",
-          scheduledAt: alertNotificationData.attributes.scheduledAt,
+          scheduledAt: parse(
+            alertNotificationData.attributes.scheduledAt,
+            "yyyy-MM-dd",
+            new Date(),
+          ),
           scheduledAtTime: alertNotificationData.attributes.scheduledAtTime,
         });
       }

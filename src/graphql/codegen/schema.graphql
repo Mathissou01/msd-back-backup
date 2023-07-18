@@ -280,6 +280,8 @@ type AppointmentDetails {
 }
 
 type Audience {
+  MwCounter: MwCounterServiceEntityResponse
+  contract: ContractEntityResponse
   createdAt: DateTime
   isActive: Boolean!
   type: ENUM_AUDIENCE_TYPE!
@@ -301,7 +303,9 @@ type AudienceEntityResponseCollection {
 }
 
 input AudienceFiltersInput {
+  MwCounter: MwCounterServiceFiltersInput
   and: [AudienceFiltersInput]
+  contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
   isActive: BooleanFilterInput
@@ -312,6 +316,8 @@ input AudienceFiltersInput {
 }
 
 input AudienceInput {
+  MwCounter: ID
+  contract: ID
   isActive: Boolean
   type: ENUM_AUDIENCE_TYPE
 }
@@ -1317,6 +1323,11 @@ type ContactResponse {
 }
 
 type ContactUs {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   blocks: [ContactUsBlocksDynamicZone]
   createdAt: DateTime
   customId: String
@@ -1363,6 +1374,7 @@ type ContactUsEntityResponseCollection {
 
 input ContactUsFiltersInput {
   and: [ContactUsFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
   draftCreationId: StringFilterInput
@@ -1381,6 +1393,7 @@ input ContactUsFiltersInput {
 }
 
 input ContactUsInput {
+  audiences: [ID]
   blocks: [ContactUsBlocksDynamicZoneInput!]
   customId: String
   draftCreationId: String
@@ -1474,6 +1487,11 @@ type ContentTypeDTO {
 type Contract {
   MwCounterService: MwCounterServiceEntityResponse
   alertNotificationService: AlertNotificationServiceEntityResponse
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   ccap: Long
   channelType: ChannelTypeEntityResponse
   cities(
@@ -1630,6 +1648,7 @@ input ContractFiltersInput {
   MwCounterService: MwCounterServiceFiltersInput
   alertNotificationService: AlertNotificationServiceFiltersInput
   and: [ContractFiltersInput]
+  audiences: AudienceFiltersInput
   ccap: LongFilterInput
   channelType: ChannelTypeFiltersInput
   cities: CityFiltersInput
@@ -1674,6 +1693,7 @@ input ContractFiltersInput {
 input ContractInput {
   MwCounterService: ID
   alertNotificationService: ID
+  audiences: [ID]
   ccap: Long
   channelType: ID
   cities: [ID]
@@ -2042,6 +2062,11 @@ type DocumentRelationResponseCollection {
 type DropOffMap {
   BANFeatureProperties: JSON
   address: String
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   city: String
   collectDropOff: CollectDropOffEntityResponse
   collectVoluntary: CollectVoluntaryEntityResponse
@@ -2100,6 +2125,7 @@ input DropOffMapFiltersInput {
   BANFeatureProperties: JSONFilterInput
   address: StringFilterInput
   and: [DropOffMapFiltersInput]
+  audiences: AudienceFiltersInput
   city: StringFilterInput
   collectDropOff: CollectDropOffFiltersInput
   collectVoluntary: CollectVoluntaryFiltersInput
@@ -2121,6 +2147,7 @@ input DropOffMapFiltersInput {
 input DropOffMapInput {
   BANFeatureProperties: JSON
   address: String
+  audiences: [ID]
   city: String
   collectDropOff: ID
   collectVoluntary: ID
@@ -2223,7 +2250,7 @@ enum ENUM_ACCESSIBILITY_STATUS {
 }
 
 enum ENUM_AUDIENCE_TYPE {
-  Bailleurs
+  Collectif
   Particuliers
   Professionnels
 }
@@ -2616,6 +2643,11 @@ type Error {
 }
 
 type Event {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   blocks: [EventBlocksDynamicZone]
   createdAt: DateTime
   customId: String
@@ -2676,6 +2708,7 @@ type EventEntityResponseCollection {
 
 input EventFiltersInput {
   and: [EventFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
   documents: DocumentFiltersInput
@@ -2698,6 +2731,7 @@ input EventFiltersInput {
 }
 
 input EventInput {
+  audiences: [ID]
   blocks: [EventBlocksDynamicZoneInput!]
   customId: String
   documents: [ID]
@@ -3097,6 +3131,11 @@ input FooterInput {
 }
 
 type FreeContent {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   blocks: [FreeContentBlocksDynamicZone]
   createdAt: DateTime
   customId: String
@@ -3147,6 +3186,7 @@ type FreeContentEntityResponseCollection {
 
 input FreeContentFiltersInput {
   and: [FreeContentFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
   draftCreationId: StringFilterInput
@@ -3167,6 +3207,7 @@ input FreeContentFiltersInput {
 }
 
 input FreeContentInput {
+  audiences: [ID]
   blocks: [FreeContentBlocksDynamicZoneInput!]
   customId: String
   draftCreationId: String
@@ -4361,6 +4402,12 @@ type Mutation {
 }
 
 type MwCounterService {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
+  barometerParams: JSON
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4403,6 +4450,8 @@ type MwCounterServiceEntityResponseCollection {
 
 input MwCounterServiceFiltersInput {
   and: [MwCounterServiceFiltersInput]
+  audiences: AudienceFiltersInput
+  barometerParams: JSONFilterInput
   cities: CityFiltersInput
   city: StringFilterInput
   contactEmail: StringFilterInput
@@ -4425,6 +4474,8 @@ input MwCounterServiceFiltersInput {
 }
 
 input MwCounterServiceInput {
+  audiences: [ID]
+  barometerParams: JSON
   cities: [ID]
   city: String
   contactEmail: String
@@ -4703,6 +4754,11 @@ input PaginationArg {
 
 type PickUpDay {
   advancedSelection: JSON!
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   buttonLabel: String
   cities(
     filters: CityFiltersInput
@@ -4748,6 +4804,7 @@ type PickUpDayEntityResponseCollection {
 input PickUpDayFiltersInput {
   advancedSelection: JSONFilterInput
   and: [PickUpDayFiltersInput]
+  audiences: AudienceFiltersInput
   buttonLabel: StringFilterInput
   cities: CityFiltersInput
   collectDoorToDoor: CollectDoorToDoorFiltersInput
@@ -4773,6 +4830,7 @@ input PickUpDayFiltersInput {
 
 input PickUpDayInput {
   advancedSelection: JSON
+  audiences: [ID]
   buttonLabel: String
   cities: [ID]
   collectDoorToDoor: ID
@@ -5120,6 +5178,7 @@ type Query {
   ): [EditoContentDTO]
   getFilePath(id: ID!): String
   getFolderHierarchy(path: String!): [RequestFolders]
+  getMwcAverageProduction(contractId: ID): Int
   getNewestTopContents(contractId: ID!): [EventOrNews]
   getNextAvailableSlots(
     lat: Float!
@@ -5384,6 +5443,11 @@ type Query {
 }
 
 type Quiz {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   createdAt: DateTime
   customId: String
   draftCreationId: String
@@ -5476,6 +5540,7 @@ type QuizEntityResponseCollection {
 
 input QuizFiltersInput {
   and: [QuizFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
   draftCreationId: StringFilterInput
@@ -5496,6 +5561,7 @@ input QuizFiltersInput {
 }
 
 input QuizInput {
+  audiences: [ID]
   customId: String
   draftCreationId: String
   hasDraft: Boolean
@@ -6077,6 +6143,7 @@ type RequestTaked {
   city: String
   createdAt: DateTime
   name: String!
+  requestServiceId: Int
   requestSlot: RequestSlotEntityResponse
   requestType: ComponentBlocksRequestType
   slotTaken: JSON
@@ -6106,6 +6173,7 @@ input RequestTakedFiltersInput {
   name: StringFilterInput
   not: RequestTakedFiltersInput
   or: [RequestTakedFiltersInput]
+  requestServiceId: IntFilterInput
   requestSlot: RequestSlotFiltersInput
   requestType: ComponentBlocksRequestTypeFiltersInput
   slotTaken: JSONFilterInput
@@ -6116,6 +6184,7 @@ input RequestTakedFiltersInput {
 input RequestTakedInput {
   city: String
   name: String
+  requestServiceId: Int
   requestSlot: ID
   requestType: ComponentBlocksRequestTypeInput
   slotTaken: JSON
@@ -6491,6 +6560,11 @@ type TimeSlotWithUser {
 }
 
 type Tip {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   blocks: [TipBlocksDynamicZone]
   createdAt: DateTime
   customId: String
@@ -6543,6 +6617,7 @@ type TipEntityResponseCollection {
 
 input TipFiltersInput {
   and: [TipFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
   draftCreationId: StringFilterInput
@@ -6566,6 +6641,7 @@ input TipFiltersInput {
 }
 
 input TipInput {
+  audiences: [ID]
   blocks: [TipBlocksDynamicZoneInput!]
   customId: String
   draftCreationId: String
