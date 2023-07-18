@@ -1,0 +1,23 @@
+query GetAppointmentsDetails($requestId: ID!) {
+  getAppointmentsDetails(requestId: $requestId) {
+    title
+    appointments {
+      sectorNames
+      timeSlotsWithUsers {
+        date
+        dynamic
+        fixed
+        slot
+        requestTakeds {
+          id
+          user {
+            name
+            surname
+            phone
+            email
+          }
+        }
+      }
+    }
+  }
+}

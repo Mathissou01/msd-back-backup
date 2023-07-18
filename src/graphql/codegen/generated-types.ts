@@ -15525,6 +15525,52 @@ export type DeleteRequestByIdMutation = {
   } | null;
 };
 
+export type DeleteRequestTakedMutationVariables = Exact<{
+  deleteRequestTakedId: Scalars["ID"];
+}>;
+
+export type DeleteRequestTakedMutation = {
+  __typename?: "Mutation";
+  deleteRequestTaked?: {
+    __typename?: "RequestTakedEntityResponse";
+    data?: { __typename?: "RequestTakedEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type GetAppointmentsDetailsQueryVariables = Exact<{
+  requestId: Scalars["ID"];
+}>;
+
+export type GetAppointmentsDetailsQuery = {
+  __typename?: "Query";
+  getAppointmentsDetails?: {
+    __typename?: "AppointmentDetails";
+    title?: string | null;
+    appointments?: Array<{
+      __typename?: "Appointment";
+      sectorNames?: Array<string | null> | null;
+      timeSlotsWithUsers?: Array<{
+        __typename?: "TimeSlotWithUser";
+        date?: string | null;
+        dynamic?: string | null;
+        fixed?: string | null;
+        slot?: string | null;
+        requestTakeds?: Array<{
+          __typename?: "RequestTakeds";
+          id?: string | null;
+          user?: {
+            __typename?: "User";
+            name?: string | null;
+            surname?: string | null;
+            phone?: string | null;
+            email?: string | null;
+          } | null;
+        } | null> | null;
+      } | null> | null;
+    } | null> | null;
+  } | null;
+};
+
 export type GetRequestAggregatesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   pagination?: InputMaybe<PaginationArg>;
@@ -26565,6 +26611,134 @@ export type DeleteRequestByIdMutationResult =
 export type DeleteRequestByIdMutationOptions = Apollo.BaseMutationOptions<
   DeleteRequestByIdMutation,
   DeleteRequestByIdMutationVariables
+>;
+export const DeleteRequestTakedDocument = gql`
+  mutation DeleteRequestTaked($deleteRequestTakedId: ID!) {
+    deleteRequestTaked(id: $deleteRequestTakedId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteRequestTakedMutationFn = Apollo.MutationFunction<
+  DeleteRequestTakedMutation,
+  DeleteRequestTakedMutationVariables
+>;
+
+/**
+ * __useDeleteRequestTakedMutation__
+ *
+ * To run a mutation, you first call `useDeleteRequestTakedMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRequestTakedMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRequestTakedMutation, { data, loading, error }] = useDeleteRequestTakedMutation({
+ *   variables: {
+ *      deleteRequestTakedId: // value for 'deleteRequestTakedId'
+ *   },
+ * });
+ */
+export function useDeleteRequestTakedMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRequestTakedMutation,
+    DeleteRequestTakedMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteRequestTakedMutation,
+    DeleteRequestTakedMutationVariables
+  >(DeleteRequestTakedDocument, options);
+}
+export type DeleteRequestTakedMutationHookResult = ReturnType<
+  typeof useDeleteRequestTakedMutation
+>;
+export type DeleteRequestTakedMutationResult =
+  Apollo.MutationResult<DeleteRequestTakedMutation>;
+export type DeleteRequestTakedMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRequestTakedMutation,
+  DeleteRequestTakedMutationVariables
+>;
+export const GetAppointmentsDetailsDocument = gql`
+  query GetAppointmentsDetails($requestId: ID!) {
+    getAppointmentsDetails(requestId: $requestId) {
+      title
+      appointments {
+        sectorNames
+        timeSlotsWithUsers {
+          date
+          dynamic
+          fixed
+          slot
+          requestTakeds {
+            id
+            user {
+              name
+              surname
+              phone
+              email
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAppointmentsDetailsQuery__
+ *
+ * To run a query within a React component, call `useGetAppointmentsDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAppointmentsDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAppointmentsDetailsQuery({
+ *   variables: {
+ *      requestId: // value for 'requestId'
+ *   },
+ * });
+ */
+export function useGetAppointmentsDetailsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetAppointmentsDetailsQuery,
+    GetAppointmentsDetailsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAppointmentsDetailsQuery,
+    GetAppointmentsDetailsQueryVariables
+  >(GetAppointmentsDetailsDocument, options);
+}
+export function useGetAppointmentsDetailsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAppointmentsDetailsQuery,
+    GetAppointmentsDetailsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAppointmentsDetailsQuery,
+    GetAppointmentsDetailsQueryVariables
+  >(GetAppointmentsDetailsDocument, options);
+}
+export type GetAppointmentsDetailsQueryHookResult = ReturnType<
+  typeof useGetAppointmentsDetailsQuery
+>;
+export type GetAppointmentsDetailsLazyQueryHookResult = ReturnType<
+  typeof useGetAppointmentsDetailsLazyQuery
+>;
+export type GetAppointmentsDetailsQueryResult = Apollo.QueryResult<
+  GetAppointmentsDetailsQuery,
+  GetAppointmentsDetailsQueryVariables
 >;
 export const GetRequestAggregatesByContractIdDocument = gql`
   query getRequestAggregatesByContractId(

@@ -1,40 +1,51 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TableColumn } from "react-data-table-component";
 import classNames from "classnames";
 import { IDefaultTableRow } from "../../../../../../lib/common-data-table";
+import { removeNulls } from "../../../../../../lib/utilities";
 import { useRoutingQueryId } from "../../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
+import {
+  useDeleteRequestTakedMutation,
+  useGetAppointmentsDetailsLazyQuery,
+} from "../../../../../../graphql/codegen/generated-types";
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
 import { IDataTableAction } from "../../../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonDataTable from "../../../../../../components/Common/CommonDataTable/CommonDataTable";
 import InformationMessageFormReturnButton from "../../../../../../components/InformationMessage/InformationMessageFormReturnButton/InformationMessageFormReturnButton";
 import PageTitle from "../../../../../../components/PageTitle/PageTitle";
 import CommonAccordion from "../../../../../../components/Common/CommonAccordion/CommonAccordion";
-import { appointmentManagementMockedGraphQLData } from "./mockedGraphQLData";
 import "./gestion-rendez-vous.scss";
 
 interface IAppointments {
   sectorNames: string;
-  timeSlotsWithUsers: Array<IAppointment>;
+  timeSlotsWithUsers: Array<IAppointment | null>;
 }
 
 interface IAppointment {
+  dateFromQuery: string;
   date: string;
+  slotFromQuery: string;
   slot: string;
   reservationsAndAvailabilities: string;
-  users?: Array<IAppointmentReservationDetailTableRow>;
+  requestTakeds?: Array<IAppointmentReservationDetailTableRow>;
 }
 
 interface IAppointmentReservationDetailTableRow extends IDefaultTableRow {
-  id: string;
-  surname: string;
-  name: string;
-  phone: string;
-  email: string;
+  user: {
+    surname: string;
+    name: string;
+    phone: string;
+    email: string;
+  };
 }
 
 interface IAppointmentManagementPageProps {
   requestId: string;
+}
+
+interface IAppointmentManagementListProps {
+  appointments: Array<IAppointments>;
 }
 
 export function AppointmentManagementPage({
@@ -58,11 +69,94 @@ export function AppointmentManagementPage({
   };
 
   /* Methods */
+  function AppointmentManagementList({
+    appointments,
+  }: IAppointmentManagementListProps) {
+    return (
+      <>
+        {appointments
+          .slice(0, nbAppointmentsDisplayed)
+          .map((appointmentData, appointmentDataIndex) => {
+            const appointmentRows = appointmentData.timeSlotsWithUsers.map(
+              (timeSlotWithUser, timeSlotWithUserIndex) => {
+                if (!timeSlotWithUser) {
+                  return;
+                }
+                const noReservation =
+                  !timeSlotWithUser.requestTakeds ||
+                  timeSlotWithUser.requestTakeds.length === 0;
+                return (
+                  <CommonAccordion
+                    key={timeSlotWithUserIndex}
+                    content={
+                      <AppointmentManagementRowContent
+                        date={timeSlotWithUser.date}
+                        reservationsAndAvailabilities={
+                          timeSlotWithUser.reservationsAndAvailabilities
+                        }
+                        slot={timeSlotWithUser.slot}
+                      />
+                    }
+                    expanderLabel={labels.expanderLabel}
+                    expandedContent={
+                      noReservation ? (
+                        <></>
+                      ) : (
+                        <AppointmentManagementRowExpandedContent
+                          requestTakeds={timeSlotWithUser.requestTakeds ?? []}
+                        />
+                      )
+                    }
+                    expanderNotAvailable={noReservation}
+                  />
+                );
+              },
+            );
+
+            return (
+              <div
+                key={appointmentDataIndex}
+                className="c-AppointmentManagementPage__Appointment"
+              >
+                <span className="c-AppointmentManagementPage__Appointment_sectors">
+                  {appointmentData.sectorNames}
+                </span>
+                {appointmentRows.slice(
+                  0,
+                  nbTimeSlotsDisplayed[appointmentDataIndex],
+                )}
+                {appointmentRows.length >
+                  nbTimeSlotsDisplayed[appointmentDataIndex] && (
+                  <span
+                    className="c-AppointmentManagementPage__Appointment_loadMoreTimeSlots"
+                    onClick={() => loadMoreTimeSlots(appointmentDataIndex)}
+                  >
+                    {labels.loadMoreTimeSlots}
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        {appointments.length > nbAppointmentsDisplayed && (
+          <span
+            className="c-AppointmentManagementPage__Appointment_loadMoreAppointments"
+            onClick={() => loadMoreAppointments()}
+          >
+            {labels.loadMoreAppointments}
+          </span>
+        )}
+      </>
+    );
+  }
+
   function AppointmentManagementRowContent({
     date,
     reservationsAndAvailabilities,
     slot,
-  }: IAppointment) {
+  }: Partial<IAppointment>) {
+    if (!reservationsAndAvailabilities) {
+      return <></>;
+    }
     return (
       <div className="c-AppointmentManagementPage__Appointment_accordionContent">
         <span>{date}</span>
@@ -82,9 +176,9 @@ export function AppointmentManagementPage({
   }
 
   function AppointmentManagementRowExpandedContent({
-    users,
+    requestTakeds,
   }: Partial<IAppointment>) {
-    if (!users) {
+    if (!requestTakeds) {
       return <></>;
     }
 
@@ -99,25 +193,25 @@ export function AppointmentManagementPage({
       {
         id: "surname",
         name: labels.expandedContentLabel.surname,
-        selector: (row) => row.surname,
+        selector: (row) => row.user.surname,
         grow: 1.1,
       },
       {
         id: "name",
         name: labels.expandedContentLabel.name,
-        selector: (row) => row.name,
+        selector: (row) => row.user.name,
         grow: 1.1,
       },
       {
         id: "phone",
         name: labels.expandedContentLabel.phone,
-        selector: (row) => row.phone,
+        selector: (row) => row.user.phone,
         grow: 1.3,
       },
       {
         id: "email",
         name: labels.expandedContentLabel.email,
-        selector: (row) => row.email,
+        selector: (row) => row.user.email,
       },
     ];
 
@@ -129,10 +223,7 @@ export function AppointmentManagementPage({
         picto: "trash",
         alt: "Supprimer",
         confirmStateOptions: {
-          onConfirm: () => {
-            // TODO : Replace with GraphQL remove call when it will be available
-            console.log(`Reservation ${row.id} removed`);
-          },
+          onConfirm: () => onDelete(row),
           confirmStyle: "warning",
         },
       },
@@ -143,12 +234,18 @@ export function AppointmentManagementPage({
         <CommonDataTable<IAppointmentReservationDetailTableRow>
           columns={tableColumns}
           actionColumn={actionColumn}
-          data={users}
+          data={requestTakeds}
           isLoading={isLoading}
           defaultSortFieldId="id"
         />
       </div>
     );
+  }
+
+  async function onDelete(row: IAppointmentReservationDetailTableRow) {
+    return deleteRequestTaked({
+      variables: { deleteRequestTakedId: row.id },
+    });
   }
 
   function loadMoreTimeSlots(appointmentId: number) {
@@ -163,130 +260,125 @@ export function AppointmentManagementPage({
   }
 
   /* Local Data */
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const isInitialized = useRef<boolean>(false);
+  const [requestFormTitle, setRequestFormTitle] = useState<string>("");
+  const [appointmentsData, setAppointmentsData] = useState<
+    Array<IAppointments>
+  >([]);
   const [nbTimeSlotsDisplayed, setNbTimeSlotsDisplayed] = useState<
     Array<number>
   >([]);
   const [nbAppointmentsDisplayed, setNbAppointmentsDisplayed] =
     useState<number>(6);
-  // TODO : Replace with GraphQL call when it will be available
-  const graphQLData = appointmentManagementMockedGraphQLData;
-  // TODO : Set title Title and Map graphQLData in useEffect when GraphQL call will be available
-  const requestFormTitle = graphQLData.title;
-  const appointmentsData: Array<IAppointments> = graphQLData.appointments.map(
-    (appointment) => {
-      return {
-        sectorNames: appointment.sectorNames.join(", "),
-        timeSlotsWithUsers: appointment.timeSlotsWithUsers.map(
-          (timeSlotWithUsers) => {
-            const slotHoursStart = timeSlotWithUsers.slot.slice(0, 2);
-            const slotMinutesStart = timeSlotWithUsers.slot.slice(2, 4);
-            const slotHoursEnd = timeSlotWithUsers.slot.slice(5, 7);
-            const slotMinutesEnd = timeSlotWithUsers.slot.slice(7, 9);
-            const reservations =
-              timeSlotWithUsers.fixed - timeSlotWithUsers.dynamic;
-            return {
-              date: new Date(timeSlotWithUsers.date).toLocaleDateString(
-                undefined,
-                {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                },
-              ),
-              slot: `${slotHoursStart}h${slotMinutesStart} - ${slotHoursEnd}h${slotMinutesEnd}`,
-              reservationsAndAvailabilities: `${reservations} ${
-                labels.reservation
-              }${reservations < 2 ? "" : "s"} - ${timeSlotWithUsers.dynamic} ${
-                labels.availability
-              }${timeSlotWithUsers.dynamic < 2 ? "" : "s"}`,
-              users: timeSlotWithUsers.users.map((user) => {
-                return {
-                  id: user.id,
-                  editState: false,
-                  surname: user.surname,
-                  name: user.name,
-                  phone: user.phone,
-                  email: user.email,
-                };
-              }),
-            };
-          },
-        ),
-      };
+  const [getAppointmentsDetails, { data, loading, error }] =
+    useGetAppointmentsDetailsLazyQuery({
+      variables: {
+        requestId,
+      },
+      fetchPolicy: "network-only",
+    });
+  const [
+    deleteRequestTaked,
+    {
+      loading: deleteRequestTakedLoading,
+      error: deleteRequestTakedRequestError,
     },
-  );
-  // TODO : Replace with graphQL isLoading and errors values
-  const isLoading = false;
-  const errors: [] = [];
-
-  const appointments = appointmentsData.map(
-    (appointmentData, appointmentDataIndex) => {
-      const appointmentRows = appointmentData.timeSlotsWithUsers.map(
-        (timeSlotWithUser, timeSlotWithUserIndex) => {
-          const noReservation =
-            !timeSlotWithUser.users || timeSlotWithUser.users.length === 0;
-          return (
-            <CommonAccordion
-              key={timeSlotWithUserIndex}
-              content={
-                <AppointmentManagementRowContent
-                  date={timeSlotWithUser.date}
-                  reservationsAndAvailabilities={
-                    timeSlotWithUser.reservationsAndAvailabilities
-                  }
-                  slot={timeSlotWithUser.slot}
-                />
-              }
-              expanderLabel={labels.expanderLabel}
-              expandedContent={
-                noReservation ? (
-                  <></>
-                ) : (
-                  <AppointmentManagementRowExpandedContent
-                    users={timeSlotWithUser.users ?? []}
-                  />
-                )
-              }
-              expanderNotAvailable={noReservation}
-            />
-          );
-        },
-      );
-
-      return (
-        <div
-          key={appointmentDataIndex}
-          className="c-AppointmentManagementPage__Appointment"
-        >
-          <span className="c-AppointmentManagementPage__Appointment_sectors">
-            {appointmentData.sectorNames}
-          </span>
-          {appointmentRows.slice(0, nbTimeSlotsDisplayed[appointmentDataIndex])}
-          {appointmentRows.length >
-            nbTimeSlotsDisplayed[appointmentDataIndex] && (
-            <span
-              className="c-AppointmentManagementPage__Appointment_loadMoreTimeSlots"
-              onClick={() => loadMoreTimeSlots(appointmentDataIndex)}
-            >
-              {labels.loadMoreTimeSlots}
-            </span>
-          )}
-        </div>
-      );
-    },
-  );
+  ] = useDeleteRequestTakedMutation({
+    refetchQueries: ["GetAppointmentsDetails"],
+    awaitRefetchQueries: true,
+  });
+  const isLoading = loading || deleteRequestTakedLoading;
+  const errors = [error, deleteRequestTakedRequestError];
 
   useEffect(() => {
-    if (!isInitialized && appointmentsData) {
-      for (const i of appointmentsData.keys()) {
+    if (data) {
+      setRequestFormTitle(data.getAppointmentsDetails?.title ?? "");
+      const nbAppointments =
+        data.getAppointmentsDetails?.appointments?.length ?? 0;
+      for (let i = 0; i < nbAppointments; i++) {
         const newSliceNb = nbTimeSlotsDisplayed;
         newSliceNb[i] = 5;
         setNbTimeSlotsDisplayed(newSliceNb);
       }
-      setIsInitialized(true);
+      setAppointmentsData(
+        data.getAppointmentsDetails?.appointments
+          ?.map((appointment) => {
+            if (!appointment?.sectorNames || !appointment.timeSlotsWithUsers) {
+              return;
+            }
+            return {
+              sectorNames: appointment.sectorNames.join(", "),
+              timeSlotsWithUsers: appointment.timeSlotsWithUsers.map(
+                (timeSlotWithUsers) => {
+                  if (
+                    !timeSlotWithUsers?.slot ||
+                    !timeSlotWithUsers.fixed ||
+                    !timeSlotWithUsers.dynamic ||
+                    !timeSlotWithUsers.date
+                  ) {
+                    return null;
+                  }
+                  const slotHoursStart = timeSlotWithUsers.slot.slice(0, 2);
+                  const slotMinutesStart = timeSlotWithUsers.slot.slice(2, 4);
+                  const slotHoursEnd = timeSlotWithUsers.slot.slice(5, 7);
+                  const slotMinutesEnd = timeSlotWithUsers.slot.slice(7, 9);
+                  const reservations =
+                    +timeSlotWithUsers.fixed - +timeSlotWithUsers.dynamic;
+                  return {
+                    dateFromQuery: timeSlotWithUsers.date,
+                    date: new Date(timeSlotWithUsers.date).toLocaleDateString(
+                      undefined,
+                      {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      },
+                    ),
+                    slotFromQuery: timeSlotWithUsers.slot,
+                    slot: `${slotHoursStart}h${slotMinutesStart} - ${slotHoursEnd}h${slotMinutesEnd}`,
+                    reservationsAndAvailabilities: `${reservations} ${
+                      labels.reservation
+                    }${
+                      reservations < 2 ? "" : "s"
+                    } - ${+timeSlotWithUsers.dynamic} ${labels.availability}${
+                      +timeSlotWithUsers.dynamic < 2 ? "" : "s"
+                    }`,
+                    requestTakeds:
+                      timeSlotWithUsers.requestTakeds
+                        ?.map((requestTaked) => {
+                          if (!requestTaked?.id) {
+                            return null;
+                          }
+                          const user = requestTaked.user;
+                          return {
+                            id: requestTaked.id,
+                            editState: false,
+                            user: {
+                              surname: user?.surname ?? "",
+                              name: user?.name ?? "",
+                              phone: user?.phone ?? "",
+                              email: user?.email ?? "",
+                            },
+                          };
+                        })
+                        .filter(removeNulls) ?? [],
+                  };
+                },
+              ),
+            };
+          })
+          .filter(removeNulls) ?? [],
+      );
     }
-  }, [isInitialized, appointmentsData, nbTimeSlotsDisplayed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  useEffect(() => {
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      void getAppointmentsDetails();
+    }
+  }, [getAppointmentsDetails, isInitialized]);
 
   return (
     <div className="c-AppointmentManagementPage">
@@ -297,17 +389,9 @@ export function AppointmentManagementPage({
             query={{ tab: "appointmentManagement" }}
           />
           <PageTitle title={labels.title} />
-          <CommonLoader isLoading={isLoading} errors={errors}>
+          <CommonLoader isLoading={!isInitialized.current} errors={errors}>
             <PageTitle title={requestFormTitle} />
-            {appointments.slice(0, nbAppointmentsDisplayed)}
-            {appointments.length > nbAppointmentsDisplayed && (
-              <span
-                className="c-AppointmentManagementPage__Appointment_loadMoreAppointments"
-                onClick={() => loadMoreAppointments()}
-              >
-                {labels.loadMoreAppointments}
-              </span>
-            )}
+            <AppointmentManagementList appointments={appointmentsData} />
           </CommonLoader>
         </>
       )}
