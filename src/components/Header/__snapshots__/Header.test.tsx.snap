@@ -342,6 +342,16 @@ exports[`Header renders 1`] = `
                 Secteurs
               </span>
             </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/secteurs-usagers/usagers"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Usagers
+              </span>
+            </a>
           </div>
         </div>
       </li>

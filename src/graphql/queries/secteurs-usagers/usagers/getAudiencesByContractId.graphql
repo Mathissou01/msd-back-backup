@@ -1,0 +1,11 @@
+query getAudiencesByContractId($filters: AudienceFiltersInput) {
+  audiences(filters: $filters) {
+    data {
+      id
+      attributes {
+        isActive
+        type
+      }
+    }
+  }
+}

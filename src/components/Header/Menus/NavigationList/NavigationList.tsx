@@ -138,6 +138,7 @@ export default function NavigationList() {
           onClick={handleClickMenu}
         >
           <NavigationListLink path={"/secteurs-usagers/secteurs"} />
+          <NavigationListLink path={"/secteurs-usagers/usagers"} />
         </NavigationListMenu>
       </li>
       <li className="c-NavigationList__Item">

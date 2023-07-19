@@ -363,7 +363,6 @@ export type AppointmentDetails = {
 
 export type Audience = {
   __typename?: "Audience";
-  MwCounter?: Maybe<MwCounterServiceEntityResponse>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   isActive: Scalars["Boolean"];
@@ -389,7 +388,6 @@ export type AudienceEntityResponseCollection = {
 };
 
 export type AudienceFiltersInput = {
-  MwCounter?: InputMaybe<MwCounterServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AudienceFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -402,7 +400,6 @@ export type AudienceFiltersInput = {
 };
 
 export type AudienceInput = {
-  MwCounter?: InputMaybe<Scalars["ID"]>;
   contract?: InputMaybe<Scalars["ID"]>;
   isActive?: InputMaybe<Scalars["Boolean"]>;
   type?: InputMaybe<Enum_Audience_Type>;
@@ -2554,7 +2551,7 @@ export enum Enum_Accessibility_Status {
 }
 
 export enum Enum_Audience_Type {
-  Collectif = "Collectif",
+  Bailleurs = "Bailleurs",
   Particuliers = "Particuliers",
   Professionnels = "Professionnels",
 }
@@ -5706,7 +5703,6 @@ export type MutationYwsDeactivationArgs = {
 
 export type MwCounterService = {
   __typename?: "MwCounterService";
-  audiences?: Maybe<AudienceRelationResponseCollection>;
   barometerParams?: Maybe<Scalars["JSON"]>;
   cities?: Maybe<CityRelationResponseCollection>;
   city?: Maybe<Scalars["String"]>;
@@ -5725,12 +5721,6 @@ export type MwCounterService = {
   serviceName?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["Date"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type MwCounterServiceAudiencesArgs = {
-  filters?: InputMaybe<AudienceFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type MwCounterServiceCitiesArgs = {
@@ -5764,7 +5754,6 @@ export type MwCounterServiceEntityResponseCollection = {
 
 export type MwCounterServiceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<MwCounterServiceFiltersInput>>>;
-  audiences?: InputMaybe<AudienceFiltersInput>;
   barometerParams?: InputMaybe<JsonFilterInput>;
   cities?: InputMaybe<CityFiltersInput>;
   city?: InputMaybe<StringFilterInput>;
@@ -5789,7 +5778,6 @@ export type MwCounterServiceFiltersInput = {
 };
 
 export type MwCounterServiceInput = {
-  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   barometerParams?: InputMaybe<Scalars["JSON"]>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   city?: InputMaybe<Scalars["String"]>;
@@ -6074,6 +6062,13 @@ export type NewsSubServiceInput = {
 export type NewsSubServiceRelationResponseCollection = {
   __typename?: "NewsSubServiceRelationResponseCollection";
   data: Array<NewsSubServiceEntity>;
+};
+
+export type NextAvailableSlots = {
+  __typename?: "NextAvailableSlots";
+  nextAvailableSlots?: Maybe<Array<Maybe<AvailableSlot>>>;
+  noSlotMessage?: Maybe<Scalars["String"]>;
+  slotMessage?: Maybe<Scalars["String"]>;
 };
 
 export type Pagination = {
@@ -6389,7 +6384,7 @@ export type Query = {
   getFolderHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getMwcAverageProduction?: Maybe<Scalars["Int"]>;
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
-  getNextAvailableSlots?: Maybe<Array<Maybe<AvailableSlot>>>;
+  getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   getStatusExport?: Maybe<Scalars["String"]>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
@@ -15207,6 +15202,43 @@ export type UpdateSectorizationMutation = {
         updatedAt?: any | null;
         createdAt?: any | null;
       } | null;
+    } | null;
+  } | null;
+};
+
+export type GetAudiencesByContractIdQueryVariables = Exact<{
+  filters?: InputMaybe<AudienceFiltersInput>;
+}>;
+
+export type GetAudiencesByContractIdQuery = {
+  __typename?: "Query";
+  audiences?: {
+    __typename?: "AudienceEntityResponseCollection";
+    data: Array<{
+      __typename?: "AudienceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Audience";
+        isActive: boolean;
+        type: Enum_Audience_Type;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateAudienceMutationVariables = Exact<{
+  updateAudienceId: Scalars["ID"];
+  data: AudienceInput;
+}>;
+
+export type UpdateAudienceMutation = {
+  __typename?: "Mutation";
+  updateAudience?: {
+    __typename?: "AudienceEntityResponse";
+    data?: {
+      __typename?: "AudienceEntity";
+      id?: string | null;
+      attributes?: { __typename?: "Audience"; isActive: boolean } | null;
     } | null;
   } | null;
 };
@@ -26309,6 +26341,126 @@ export type UpdateSectorizationMutationResult =
 export type UpdateSectorizationMutationOptions = Apollo.BaseMutationOptions<
   UpdateSectorizationMutation,
   UpdateSectorizationMutationVariables
+>;
+export const GetAudiencesByContractIdDocument = gql`
+  query getAudiencesByContractId($filters: AudienceFiltersInput) {
+    audiences(filters: $filters) {
+      data {
+        id
+        attributes {
+          isActive
+          type
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAudiencesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetAudiencesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAudiencesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAudiencesByContractIdQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetAudiencesByContractIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAudiencesByContractIdQuery,
+    GetAudiencesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAudiencesByContractIdQuery,
+    GetAudiencesByContractIdQueryVariables
+  >(GetAudiencesByContractIdDocument, options);
+}
+export function useGetAudiencesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAudiencesByContractIdQuery,
+    GetAudiencesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAudiencesByContractIdQuery,
+    GetAudiencesByContractIdQueryVariables
+  >(GetAudiencesByContractIdDocument, options);
+}
+export type GetAudiencesByContractIdQueryHookResult = ReturnType<
+  typeof useGetAudiencesByContractIdQuery
+>;
+export type GetAudiencesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetAudiencesByContractIdLazyQuery
+>;
+export type GetAudiencesByContractIdQueryResult = Apollo.QueryResult<
+  GetAudiencesByContractIdQuery,
+  GetAudiencesByContractIdQueryVariables
+>;
+export const UpdateAudienceDocument = gql`
+  mutation updateAudience($updateAudienceId: ID!, $data: AudienceInput!) {
+    updateAudience(id: $updateAudienceId, data: $data) {
+      data {
+        id
+        attributes {
+          isActive
+        }
+      }
+    }
+  }
+`;
+export type UpdateAudienceMutationFn = Apollo.MutationFunction<
+  UpdateAudienceMutation,
+  UpdateAudienceMutationVariables
+>;
+
+/**
+ * __useUpdateAudienceMutation__
+ *
+ * To run a mutation, you first call `useUpdateAudienceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAudienceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAudienceMutation, { data, loading, error }] = useUpdateAudienceMutation({
+ *   variables: {
+ *      updateAudienceId: // value for 'updateAudienceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateAudienceMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateAudienceMutation,
+    UpdateAudienceMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateAudienceMutation,
+    UpdateAudienceMutationVariables
+  >(UpdateAudienceDocument, options);
+}
+export type UpdateAudienceMutationHookResult = ReturnType<
+  typeof useUpdateAudienceMutation
+>;
+export type UpdateAudienceMutationResult =
+  Apollo.MutationResult<UpdateAudienceMutation>;
+export type UpdateAudienceMutationOptions = Apollo.BaseMutationOptions<
+  UpdateAudienceMutation,
+  UpdateAudienceMutationVariables
 >;
 export const CreateAlertNotificationDocument = gql`
   mutation createAlertNotification($data: AlertNotificationInput!) {

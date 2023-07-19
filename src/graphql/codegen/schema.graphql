@@ -280,7 +280,6 @@ type AppointmentDetails {
 }
 
 type Audience {
-  MwCounter: MwCounterServiceEntityResponse
   contract: ContractEntityResponse
   createdAt: DateTime
   isActive: Boolean!
@@ -303,7 +302,6 @@ type AudienceEntityResponseCollection {
 }
 
 input AudienceFiltersInput {
-  MwCounter: MwCounterServiceFiltersInput
   and: [AudienceFiltersInput]
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -316,7 +314,6 @@ input AudienceFiltersInput {
 }
 
 input AudienceInput {
-  MwCounter: ID
   contract: ID
   isActive: Boolean
   type: ENUM_AUDIENCE_TYPE
@@ -2250,7 +2247,7 @@ enum ENUM_ACCESSIBILITY_STATUS {
 }
 
 enum ENUM_AUDIENCE_TYPE {
-  Collectif
+  Bailleurs
   Particuliers
   Professionnels
 }
@@ -4402,11 +4399,6 @@ type Mutation {
 }
 
 type MwCounterService {
-  audiences(
-    filters: AudienceFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceRelationResponseCollection
   barometerParams: JSON
   cities(
     filters: CityFiltersInput
@@ -4451,7 +4443,6 @@ type MwCounterServiceEntityResponseCollection {
 
 input MwCounterServiceFiltersInput {
   and: [MwCounterServiceFiltersInput]
-  audiences: AudienceFiltersInput
   barometerParams: JSONFilterInput
   cities: CityFiltersInput
   city: StringFilterInput
@@ -4476,7 +4467,6 @@ input MwCounterServiceFiltersInput {
 }
 
 input MwCounterServiceInput {
-  audiences: [ID]
   barometerParams: JSON
   cities: [ID]
   city: String
@@ -4739,6 +4729,12 @@ input NewsSubServiceInput {
 
 type NewsSubServiceRelationResponseCollection {
   data: [NewsSubServiceEntity!]!
+}
+
+type NextAvailableSlots {
+  nextAvailableSlots: [AvailableSlot]
+  noSlotMessage: String
+  slotMessage: String
 }
 
 type Pagination {
@@ -5187,7 +5183,7 @@ type Query {
     lat: Float!
     long: Float!
     requestId: ID!
-  ): [AvailableSlot]
+  ): NextAvailableSlots
   getPickUpDaysByCoordinates(
     lat: Float!
     long: Float!
