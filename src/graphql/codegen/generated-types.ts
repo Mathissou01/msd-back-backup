@@ -2907,6 +2907,14 @@ export type EditorialServiceInput = {
   tipSubService?: InputMaybe<Scalars["ID"]>;
 };
 
+export type EnrichRequest = {
+  __typename?: "EnrichRequest";
+  dynamicAppointments?: Maybe<Scalars["Int"]>;
+  fixedAppointments?: Maybe<Scalars["Int"]>;
+  requestId?: Maybe<Scalars["ID"]>;
+  requestName?: Maybe<Scalars["String"]>;
+};
+
 export type Epci = {
   __typename?: "Epci";
   cities?: Maybe<CityEntityResponse>;
@@ -6380,6 +6388,7 @@ export type Query = {
   getDropOffMaps?: Maybe<Array<Maybe<DropOffMapDto>>>;
   getEditoBlockDTO?: Maybe<EditoBlockDto>;
   getEditoContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
+  getEnrichRequests?: Maybe<Array<Maybe<EnrichRequest>>>;
   getFilePath?: Maybe<Scalars["String"]>;
   getFolderHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getMwcAverageProduction?: Maybe<Scalars["Int"]>;
@@ -6886,6 +6895,10 @@ export type QueryGetEditoBlockDtoArgs = {
 export type QueryGetEditoContentDtOsArgs = {
   contractId: Scalars["ID"];
   status?: InputMaybe<Enum_Editocontentdto_Status>;
+};
+
+export type QueryGetEnrichRequestsArgs = {
+  requestServiceId: Scalars["ID"];
 };
 
 export type QueryGetFilePathArgs = {
@@ -15889,6 +15902,20 @@ export type GetAppointmentsDetailsQuery = {
       } | null> | null;
     } | null> | null;
   } | null;
+};
+
+export type GetEnrichRequestsQueryVariables = Exact<{
+  requestServiceId: Scalars["ID"];
+}>;
+
+export type GetEnrichRequestsQuery = {
+  __typename?: "Query";
+  getEnrichRequests?: Array<{
+    __typename?: "EnrichRequest";
+    requestName?: string | null;
+    requestId?: string | null;
+    dynamicAppointments?: number | null;
+  } | null> | null;
 };
 
 export type GetRequestAggregatesByContractIdQueryVariables = Exact<{
@@ -27723,6 +27750,66 @@ export type GetAppointmentsDetailsLazyQueryHookResult = ReturnType<
 export type GetAppointmentsDetailsQueryResult = Apollo.QueryResult<
   GetAppointmentsDetailsQuery,
   GetAppointmentsDetailsQueryVariables
+>;
+export const GetEnrichRequestsDocument = gql`
+  query getEnrichRequests($requestServiceId: ID!) {
+    getEnrichRequests(requestServiceId: $requestServiceId) {
+      requestName
+      requestId
+      dynamicAppointments
+    }
+  }
+`;
+
+/**
+ * __useGetEnrichRequestsQuery__
+ *
+ * To run a query within a React component, call `useGetEnrichRequestsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEnrichRequestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEnrichRequestsQuery({
+ *   variables: {
+ *      requestServiceId: // value for 'requestServiceId'
+ *   },
+ * });
+ */
+export function useGetEnrichRequestsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetEnrichRequestsQuery,
+    GetEnrichRequestsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetEnrichRequestsQuery,
+    GetEnrichRequestsQueryVariables
+  >(GetEnrichRequestsDocument, options);
+}
+export function useGetEnrichRequestsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetEnrichRequestsQuery,
+    GetEnrichRequestsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetEnrichRequestsQuery,
+    GetEnrichRequestsQueryVariables
+  >(GetEnrichRequestsDocument, options);
+}
+export type GetEnrichRequestsQueryHookResult = ReturnType<
+  typeof useGetEnrichRequestsQuery
+>;
+export type GetEnrichRequestsLazyQueryHookResult = ReturnType<
+  typeof useGetEnrichRequestsLazyQuery
+>;
+export type GetEnrichRequestsQueryResult = Apollo.QueryResult<
+  GetEnrichRequestsQuery,
+  GetEnrichRequestsQueryVariables
 >;
 export const GetRequestAggregatesByContractIdDocument = gql`
   query getRequestAggregatesByContractId(

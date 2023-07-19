@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
 import { IDefaultTableRow } from "../../../lib/common-data-table";
+import { removeNulls } from "../../../lib/utilities";
 import { useNavigation } from "../../../hooks/useNavigation";
+import { useContract } from "../../../hooks/useContract";
+import { useGetEnrichRequestsLazyQuery } from "../../../graphql/codegen/generated-types";
 import { IDataTableAction } from "../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../Common/CommonDataTable/CommonDataTable";
@@ -16,54 +19,36 @@ export interface IAppointmentManagementTableRow extends IDefaultTableRow {
 export default function AppointmentManagement() {
   /* Static Data */
   const labels = {
-    tableLabels: {
-      title: "Liste des formulaires avec prise de rendez-vous",
-      columns: {
-        name: "Formulaire",
-        remainingSlotsNumber: "Nb de créneaux réservés",
-      },
+    title: "Liste des formulaires avec prise de rendez-vous",
+    columns: {
+      name: "Formulaire",
+      remainingSlotsNumber: "Nb de créneaux restants",
     },
-  };
-  const tableDataMocked = [
-    {
-      id: "1",
-      editState: false,
-      name: "Formulaire de demande 1",
-      remainingSlotsNumber: 120,
-    },
-    {
-      id: "2",
-      editState: false,
-      name: "Formulaire de demande 2",
-      remainingSlotsNumber: 87,
-    },
-    {
-      id: "3",
-      editState: false,
-      name: "Formulaire de demande 3",
-      remainingSlotsNumber: 150,
-    },
-  ];
-  const pageData = {
-    requests: {
-      meta: {
-        pagination: {
-          total: 3,
-        },
-      },
-    },
+    loadMore: "Afficher plus",
   };
 
+  /* Methods */
+  function loadMoreRequests() {
+    setNbRequestsDisplayed(nbRequestsDisplayed + 30);
+  }
+
   /* Local Data */
-  // TODO : Replace with data from GraphQL query
-  const [tableData] =
-    useState<Array<IAppointmentManagementTableRow>>(tableDataMocked);
   const { currentRoot } = useNavigation();
-  const defaultRowsPerPage = 30;
-  const defaultPage = 1;
-  // TODO : Replace with loading and errors from GraphQL query
-  const isLoading = false;
-  const errors: [] = [];
+  const { contractId } = useContract();
+  const isInitialized = useRef<boolean>(false);
+  const [tableData, setTableData] = useState<
+    Array<IAppointmentManagementTableRow>
+  >([]);
+  const [nbRequestsDisplayed, setNbRequestsDisplayed] = useState<number>(30);
+  const [getEnrichRequests, { data, loading, error }] =
+    useGetEnrichRequestsLazyQuery({
+      variables: {
+        requestServiceId: contractId,
+      },
+      fetchPolicy: "network-only",
+    });
+  const isLoading = loading;
+  const errors = [error];
 
   const tableColumns: Array<TableColumn<IAppointmentManagementTableRow>> = [
     {
@@ -73,7 +58,7 @@ export default function AppointmentManagement() {
     },
     {
       id: "name",
-      name: labels.tableLabels.columns.name,
+      name: labels.columns.name,
       selector: (row) => row.name,
       cell: (row) => (
         <Link
@@ -88,7 +73,7 @@ export default function AppointmentManagement() {
     },
     {
       id: "remainingSlotsNumber",
-      name: labels.tableLabels.columns.remainingSlotsNumber,
+      name: labels.columns.remainingSlotsNumber,
       selector: (row) => row.remainingSlotsNumber,
       sortable: true,
       grow: 2,
@@ -106,30 +91,53 @@ export default function AppointmentManagement() {
     },
   ];
 
+  useEffect(() => {
+    if (data) {
+      setTableData(
+        data.getEnrichRequests
+          ?.map((request) => {
+            if (!request?.requestId) {
+              return null;
+            }
+            return {
+              id: request.requestId,
+              editState: false,
+              name: request.requestName ?? "",
+              remainingSlotsNumber: request.dynamicAppointments ?? 0,
+            };
+          })
+          .filter(removeNulls) ?? [],
+      );
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      void getEnrichRequests();
+    }
+  }, [getEnrichRequests, isInitialized]);
+
   return (
     <div className="c-AppointmentManagement">
-      <h2 className="c-AppointmentManagement__Title">
-        {labels.tableLabels.title}
-      </h2>
+      <h2 className="c-AppointmentManagement__Title">{labels.title}</h2>
       <div className="c-AppointmentManagement__Table">
         <CommonLoader isLoading={isLoading} errors={errors}>
           <CommonDataTable<IAppointmentManagementTableRow>
             columns={tableColumns}
             actionColumn={actionColumn}
-            data={tableData}
-            lazyLoadingOptions={{
-              isRemote: true,
-              totalRows: pageData?.requests?.meta.pagination.total ?? 0,
-            }}
+            data={tableData.slice(0, nbRequestsDisplayed)}
             isLoading={isLoading}
             defaultSortFieldId="id"
-            paginationOptions={{
-              hasPagination: true,
-              hasRowsPerPageOptions: false,
-              defaultRowsPerPage,
-              defaultPage,
-            }}
           />
+          {tableData.length > nbRequestsDisplayed && (
+            <span
+              className="c-AppointmentManagement__LoadMore"
+              onClick={() => loadMoreRequests()}
+            >
+              {labels.loadMore}
+            </span>
+          )}
         </CommonLoader>
       </div>
     </div>

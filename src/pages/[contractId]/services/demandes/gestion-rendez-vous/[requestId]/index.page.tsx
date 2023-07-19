@@ -195,12 +195,14 @@ export function AppointmentManagementPage({
         name: labels.expandedContentLabel.surname,
         selector: (row) => row.user.surname,
         grow: 1.1,
+        sortable: true,
       },
       {
         id: "name",
         name: labels.expandedContentLabel.name,
         selector: (row) => row.user.name,
         grow: 1.1,
+        sortable: true,
       },
       {
         id: "phone",
@@ -212,6 +214,7 @@ export function AppointmentManagementPage({
         id: "email",
         name: labels.expandedContentLabel.email,
         selector: (row) => row.user.email,
+        sortable: true,
       },
     ];
 
