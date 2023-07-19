@@ -46,3 +46,18 @@ $error-dark: #800e21;
 
 // Other
 $pdf-thumbnail: #d9822f;
+
+// Graph
+$graph-low: #4bc068;
+$graph-medium: #f5c500;
+$graph-hot: #ff8363;
+$graph-veryhot: #eb4a65;
+
+:root {
+  --graph-low: #{$graph-low};
+  --graph-medium: #{$graph-medium};
+  --graph-hot: #{$graph-hot};
+  --graph-veryhot: #{$graph-veryhot};
+
+  /* Autres variables de couleur */
+}

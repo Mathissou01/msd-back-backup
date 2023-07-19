@@ -1,0 +1,12 @@
+mutation updateBarometerParams(
+  $updateMwCounterServiceId: ID!
+  $data: MwCounterServiceInput!
+) {
+  updateMwCounterService(id: $updateMwCounterServiceId, data: $data) {
+    data {
+      attributes {
+        barometerParams
+      }
+    }
+  }
+}

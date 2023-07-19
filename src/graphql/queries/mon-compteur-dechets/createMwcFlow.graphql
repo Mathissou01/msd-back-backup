@@ -1,0 +1,50 @@
+mutation createMwcFlow($data: MwcFlowInput!) {
+  createMwcFlow(data: $data) {
+    data {
+      attributes {
+        mwCounterService {
+          data {
+            id
+          }
+        }
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksVideo {
+            id
+            videoLink
+            transcriptText
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                attributes {
+                  name
+                }
+              }
+            }
+            isDecorative
+            altText
+          }
+        }
+        flow {
+          data {
+            id
+          }
+        }
+        weightSystem
+        averageProductionPerson
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

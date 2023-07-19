@@ -6,6 +6,7 @@ import Flow from "../../../../components/MonCompteurDechets/MCDFlow/MCDFlow";
 import { TDynamicFieldConfiguration } from "../../../../lib/dynamic-blocks";
 import ContactMwc from "../../../../components/MonCompteurDechets/ContactMwc/ContactMwc";
 import UserManagement from "../../../../components/MonCompteurDechets/UserManagement/UserManagement";
+import BarometerManagement from "../../../../components/MonCompteurDechets/BarometerManagement/BarometerManagement";
 
 export function MonCompteurDechets() {
   /* Static Data */
@@ -29,6 +30,12 @@ export function MonCompteurDechets() {
         content: (
           <Flow dynamicFieldConfigurations={dynamicFieldConfigurations} />
         ),
+        isEnabled: true,
+      },
+      {
+        name: "barometer",
+        title: "Baromètre",
+        content: <BarometerManagement />,
         isEnabled: true,
       },
       {

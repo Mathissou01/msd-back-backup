@@ -1,0 +1,13 @@
+query getActivatedFlowsByContractId($filters: FlowFiltersInput) {
+  flows(filters: $filters) {
+    data {
+      id
+      attributes {
+        name
+        isActivated
+        code
+        createdAt
+      }
+    }
+  }
+}
