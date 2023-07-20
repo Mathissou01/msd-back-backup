@@ -6,8 +6,9 @@ import GeoJSON from "ol/format/GeoJSON";
 interface IHookAddPolygonProps {
   map?: Map;
   source?: VectorSource;
-  polygon?: GeoJSON;
+  polygon?: string;
 }
+
 export const useAddPolygonToSource = ({
   map,
   source,

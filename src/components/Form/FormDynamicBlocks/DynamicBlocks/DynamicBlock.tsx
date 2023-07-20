@@ -15,7 +15,7 @@ import DownloadableFilesBlock from "./DropOffMap/DownloadableFilesBlock/Download
 import RequestTypeBlock from "./Request/RequestTypeBlock/RequestTypeBlock";
 import DateChoiceBlock from "./Request/DateChoiceBlock/DateChoiceBlock";
 import CumbersomeBlock from "./Request/CumbersomeBlock/CumbersomeBlock";
-import AppointmentSlotsBySectorBlock from "./Request/AppointmentSlotsBySectorBlock/AppointmentSlotsBySectorBlock";
+import RequestSlotBlock from "./Request/RequestSlotBlock/RequestSlotBlock";
 
 interface IDynamicFieldsBlockWrapper {
   type: TDynamicFieldOption;
@@ -77,9 +77,9 @@ export default function DynamicBlock({
       case "ComponentBlocksCumbersome": {
         return <CumbersomeBlock blockName={name} />;
       }
-      case "ComponentBlocksAppointmentSlotsBySector": {
+      case "RequestSlot": {
         return (
-          <AppointmentSlotsBySectorBlock
+          <RequestSlotBlock
             blockName={name}
             onChangeTitle={onChangeBlockTitle}
           />

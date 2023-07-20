@@ -3,7 +3,6 @@ import Map from "ol/Map";
 import VectorSource from "ol/source/Vector";
 import CommonButton from "../Common/CommonButton/CommonButton";
 import Feature from "ol/Feature";
-import GeoJSON from "ol/format/GeoJSON";
 import { useInitializeMap } from "../../hooks/Map/useInitializeMap";
 import { useAddPolygonToSource } from "../../hooks/Map/Controller/useAddPolygonToSource";
 import { useAddCommunesToSource } from "../../hooks/Map/Controller/useAddCommunesToSource";
@@ -17,10 +16,11 @@ type Commune = {
   value: number;
   label: string;
 };
+
 interface GeoJSONProps {
-  polygon: GeoJSON;
-  communes: Commune[];
-  handlePolygon: (polygon: GeoJSON | string) => void;
+  polygon: string;
+  communes: Array<Commune>;
+  handlePolygon: (polygon: string) => void;
 }
 
 const OpenLayersMap: React.FC<GeoJSONProps> = ({
@@ -28,7 +28,10 @@ const OpenLayersMap: React.FC<GeoJSONProps> = ({
   communes,
   handlePolygon,
 }) => {
+  /* Static Data */
   const googleAPIKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY?.toString();
+
+  /* Local Data */
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<Map>();
   const [source, setSource] = useState<VectorSource>();

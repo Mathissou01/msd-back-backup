@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import GeoJSON from "ol/format/GeoJSON";
 import { TableColumn } from "react-data-table-component";
 import {
   useGetSectorizationsByContractIdLazyQuery,
@@ -11,10 +10,8 @@ import {
   useUpdateSectorizationMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
-import {
-  IDefaultTableRow,
-  ICurrentPagination,
-} from "../../../../lib/common-data-table";
+import { ICurrentPagination } from "../../../../lib/common-data-table";
+import { ISectorsTableRow } from "../../../../lib/sectors";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
@@ -26,21 +23,11 @@ import CommonModalWrapper, {
   ICommonModalWrapperSize,
 } from "../../../../components/Common/CommonModalWrapper/CommonModalWrapper";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
-import SectorModal from "../../../../components/Sector/SectorModal/SectorModal";
+import SectorForm from "../../../../components/Sector/SectorForm/SectorForm";
 import "./secteurs.scss";
-
-export interface ISectorsTableRow extends IDefaultTableRow {
-  name: string;
-  description: string;
-}
 
 interface IFilters extends Record<string, unknown> {
   status?: string;
-}
-
-export interface ISectorPolygon {
-  polygon: GeoJSON;
-  handlePolygon: (polygon: GeoJSON | string) => void;
 }
 
 export function SectorsPage() {
@@ -111,7 +98,6 @@ export function SectorsPage() {
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const [secteurDefaultValue, setSecteurDefaultValue] =
     useState<ISectorsTableRow>();
-  let polygonData: GeoJSON | string;
 
   const tableColumns: Array<TableColumn<ISectorsTableRow>> = [
     {
@@ -176,10 +162,6 @@ export function SectorsPage() {
     });
   }
 
-  function handlePolygon(polygon: GeoJSON | string) {
-    polygonData = polygon;
-  }
-
   async function onSubmit(submitData: ISectorsTableRow) {
     onSubmitAndModalRefresh(submitData);
     modalRef.current?.toggleModal(false);
@@ -191,10 +173,10 @@ export function SectorsPage() {
         name: submitData.name,
         description: submitData.description,
         contract: contractId,
-        polygonCoordinates: polygonData,
+        polygonCoordinates: submitData.polygonData,
       },
     };
-    createSectorization({
+    void createSectorization({
       variables,
       refetchQueries: [
         {
@@ -237,7 +219,7 @@ export function SectorsPage() {
     const variables = {
       deleteSectorizationId: row.id,
     };
-    deleteSectorizationMutation({
+    void deleteSectorizationMutation({
       variables,
       refetchQueries: [
         {
@@ -276,11 +258,10 @@ export function SectorsPage() {
         name: submitData.name,
         description: submitData.description,
         contract: contractId,
-        polygonCoordinates: polygonData,
+        polygonCoordinates: submitData.polygonData,
       },
     };
-
-    updateSectorizationMutation({
+    void updateSectorizationMutation({
       variables,
       refetchQueries: [
         {
@@ -319,6 +300,7 @@ export function SectorsPage() {
                 id: sectorization.id,
                 editState: false,
                 name: sectorization.attributes.name,
+                polygonData: sectorization.attributes.polygonCoordinates,
                 description: sectorization.attributes.description,
                 createdAt: sectorization.attributes.createdAt,
                 updatedAt: sectorization.attributes.updatedAt,
@@ -361,7 +343,7 @@ export function SectorsPage() {
           size={ICommonModalWrapperSize.LARGE}
           ref={modalRef}
         >
-          <SectorModal
+          <SectorForm
             onSubmitValid={(data) => onSubmit(data as ISectorsTableRow)}
             onSubmitAndModalRefresh={(data) =>
               onSubmitAndModalRefresh(data as ISectorsTableRow)
@@ -369,7 +351,6 @@ export function SectorsPage() {
             defaultValue={secteurDefaultValue}
             onUpdate={(data) => handleUpdate(data as ISectorsTableRow)}
             handleCloseModal={handleCloseModal}
-            handlePolygon={handlePolygon}
           />
         </CommonModalWrapper>
       </div>

@@ -13,7 +13,7 @@ interface IHookInitializeMapProps {
   mapRef: React.RefObject<HTMLDivElement>;
   setMap: React.Dispatch<React.SetStateAction<Map | undefined>>;
   setSource: React.Dispatch<React.SetStateAction<VectorSource | undefined>>;
-  handlePolygon: (polygon: GeoJSON | string) => void;
+  handlePolygon: (polygon: string) => void;
   googleAPIKey: string | undefined;
 }
 

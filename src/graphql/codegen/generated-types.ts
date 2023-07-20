@@ -2910,7 +2910,6 @@ export type EditorialServiceInput = {
 export type EnrichRequest = {
   __typename?: "EnrichRequest";
   dynamicAppointments?: Maybe<Scalars["Int"]>;
-  fixedAppointments?: Maybe<Scalars["Int"]>;
   requestId?: Maybe<Scalars["ID"]>;
   requestName?: Maybe<Scalars["String"]>;
 };
@@ -3962,6 +3961,18 @@ export type IdFilterInput = {
   null?: InputMaybe<Scalars["Boolean"]>;
   or?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   startsWith?: InputMaybe<Scalars["ID"]>;
+};
+
+export type Image = {
+  __typename?: "Image";
+  alternativeText?: Maybe<Scalars["String"]>;
+  hash?: Maybe<Scalars["String"]>;
+  height?: Maybe<Scalars["String"]>;
+  mime?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  size?: Maybe<Scalars["String"]>;
+  url?: Maybe<Scalars["String"]>;
+  width?: Maybe<Scalars["String"]>;
 };
 
 export type InformationMessage = {
@@ -6396,6 +6407,7 @@ export type Query = {
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   getStatusExport?: Maybe<Scalars["String"]>;
+  getThreeRandomTips?: Maybe<Array<Maybe<Tips>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
   getTopContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
   global?: Maybe<GlobalEntityResponse>;
@@ -6931,6 +6943,10 @@ export type QueryGetPickUpDaysByCoordinatesArgs = {
 
 export type QueryGetStatusExportArgs = {
   id: Scalars["ID"];
+};
+
+export type QueryGetThreeRandomTipsArgs = {
+  contractId: Scalars["ID"];
 };
 
 export type QueryGetTopContentBlockDtoArgs = {
@@ -8798,6 +8814,15 @@ export type TipSubServiceInput = {
 export type TipSubServiceRelationResponseCollection = {
   __typename?: "TipSubServiceRelationResponseCollection";
   data: Array<TipSubServiceEntity>;
+};
+
+export type Tips = {
+  __typename?: "Tips";
+  image?: Maybe<Image>;
+  originalId: Scalars["ID"];
+  shortDescription?: Maybe<Scalars["String"]>;
+  tags?: Maybe<Array<Maybe<Tag>>>;
+  title: Scalars["String"];
 };
 
 export type TopContentBlock = {
@@ -16070,6 +16095,37 @@ export type GetRequestByIdQuery = {
           | { __typename?: "Error" }
           | null
         > | null;
+        requestSlots?: {
+          __typename?: "RequestSlotRelationResponseCollection";
+          data: Array<{
+            __typename?: "RequestSlotEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "RequestSlot";
+              timeSlots?: any | null;
+              slotMessage?: string | null;
+              noSlotMessage?: string | null;
+              sectorizations?: {
+                __typename?: "SectorizationRelationResponseCollection";
+                data: Array<{
+                  __typename?: "SectorizationEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "Sectorization";
+                    name: string;
+                    polygonCoordinates?: any | null;
+                  } | null;
+                }>;
+              } | null;
+              slotsExceptions?: Array<{
+                __typename?: "ComponentBlocksRequestSlotsExceptions";
+                exceptionType?: Enum_Componentblocksrequestslotsexceptions_Exceptiontype | null;
+                id: string;
+                slotException?: any | null;
+              } | null> | null;
+            } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -27990,6 +28046,30 @@ export const GetRequestByIdDocument = gql`
           numberOfRequiredSlots
           hoursBeforeReservationIsActivated
           slotsReservationRules
+          requestSlots {
+            data {
+              id
+              attributes {
+                sectorizations {
+                  data {
+                    id
+                    attributes {
+                      name
+                      polygonCoordinates
+                    }
+                  }
+                }
+                timeSlots
+                slotsExceptions {
+                  exceptionType
+                  id
+                  slotException
+                }
+                slotMessage
+                noSlotMessage
+              }
+            }
+          }
         }
       }
     }

@@ -90,6 +90,30 @@ query getRequestById($requestId: ID) {
         numberOfRequiredSlots
         hoursBeforeReservationIsActivated
         slotsReservationRules
+        requestSlots {
+          data {
+            id
+            attributes {
+              sectorizations {
+                data {
+                  id
+                  attributes {
+                    name
+                    polygonCoordinates
+                  }
+                }
+              }
+              timeSlots
+              slotsExceptions {
+                exceptionType
+                id
+                slotException
+              }
+              slotMessage
+              noSlotMessage
+            }
+          }
+        }
       }
     }
   }

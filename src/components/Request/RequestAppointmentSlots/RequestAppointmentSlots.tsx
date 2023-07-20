@@ -35,6 +35,7 @@ export default function RequestAppointmentSlots({
     register("slotsReservationRules", { value: null });
   }
 
+  /* Methods */
   function unregisterAppointmentSlotsFields() {
     unregister("numberOfRequiredSlots");
     unregister("hoursBeforeReservationIsActivated");

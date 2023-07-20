@@ -21,10 +21,8 @@ export default function RequestAppointmentSlotsBySector({
         {labels.staticTitle}
       </div>
       <FormDynamicBlocks
-        name={"TEMP_appointmentSlotsBySector"}
-        blockConfigurations={[
-          { option: "ComponentBlocksAppointmentSlotsBySector" },
-        ]}
+        name={"requestSlots"}
+        blockConfigurations={[{ option: "RequestSlot" }]}
         isSingleBlockDisplay={true}
         labels={labels.dynamicSectors}
         canReorder={false}

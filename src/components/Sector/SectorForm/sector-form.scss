@@ -1,7 +1,7 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.pictos" as p;
 
-.c-SectorModal {
+.c-SectorForm {
   display: flex;
 
   &__Informations {
@@ -45,15 +45,9 @@
     gap: 16px;
   }
 
-  &__InformationsSavAndCancel {
+  &__InformationsSaveAndCancel {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-  }
-
-  &__Maps {
-    width: 65%;
-    margin: 0 36px;
-    background-color: colors.$blue-4;
   }
 }

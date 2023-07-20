@@ -1,7 +1,5 @@
-import GeoJSON from "ol/format/GeoJSON";
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import dynamic from "next/dynamic";
 import {
   CityEntity,
   GetSectorizationByContractIdQueryVariables,
@@ -10,28 +8,28 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { ISectorsTableRow } from "../../../lib/sectors";
 import { useContract } from "../../../hooks/useContract";
+import { usePreventAndStop } from "../../../hooks/usePreventAndStop";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormSingleMultiselect from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
-import "./sector-modal.scss";
+import SectorFormMap from "./SectorFormMap/SectorFormMap";
+import "./sector-form.scss";
 
-interface ISectorModalProps {
+interface ISectorFormProps {
   onSubmitValid: (data: FieldValues) => void;
   onSubmitAndModalRefresh: (data: FieldValues) => void;
   handleCloseModal: () => void;
   defaultValue: ISectorsTableRow | undefined;
   onUpdate: (data: FieldValues) => void;
-  handlePolygon: (data: GeoJSON | string) => void;
 }
 
-export default function SectorModal({
+export default function SectorForm({
   onSubmitValid,
   onSubmitAndModalRefresh,
   handleCloseModal,
   defaultValue,
   onUpdate,
-  handlePolygon,
-}: ISectorModalProps) {
+}: ISectorFormProps) {
   /* Static Data */
   const formLabels = {
     title: "Nom du secteur",
@@ -70,22 +68,14 @@ export default function SectorModal({
     }[]
   >([{ value: 0, label: "" }]);
 
-  const polygon = data?.sectorization?.data?.attributes?.polygonCoordinates;
   const form = useForm({
     mode: "onChange",
     defaultValues: defaultValue ?? {},
   });
-  const { handleSubmit, watch } = form;
-  const GoogleMap = useMemo(
-    () =>
-      dynamic(() => import("../../Map/OpenlayersMap"), {
-        ssr: false,
-        loading: () => <p>Loading...</p>,
-      }),
-    [],
-  );
-
-  const SelectedCommunes = watch("communes");
+  const { register, handleSubmit } = form;
+  const initialPolygon =
+    data?.sectorization?.data?.attributes?.polygonCoordinates;
+  register("polygonData", { value: initialPolygon });
 
   useEffect(() => {
     const mappedTags =
@@ -103,26 +93,26 @@ export default function SectorModal({
               label: city.attributes.name,
             });
           }
-
           return result;
         },
         [],
       );
-
     setCurrentSectorContents(mappedTags || []);
   }, [cities]);
 
   return (
     <FormProvider {...form}>
       <form
-        className="c-SectorModal"
-        onSubmit={handleSubmit(defaultValue ? onUpdate : onSubmitValid)}
+        className="c-SectorForm"
+        onSubmit={usePreventAndStop(
+          handleSubmit(defaultValue ? onUpdate : onSubmitValid),
+        )}
       >
-        <div className="c-SectorModal__Informations">
-          <div className="c-SectorModal__InformationsTitle">
+        <div className="c-SectorForm__Informations">
+          <div className="c-SectorForm__InformationsTitle">
             {formLabels.title}
           </div>
-          <div className="c-SectorModal__InformationsSectorName">
+          <div className="c-SectorForm__InformationsSectorName">
             <FormInput
               type="text"
               name="name"
@@ -131,7 +121,7 @@ export default function SectorModal({
               maxLengthValidation={maxCharacters}
             />
           </div>
-          <div className="c-SectorModal__InformationsSectorDescription">
+          <div className="c-SectorForm__InformationsSectorDescription">
             <FormInput
               type="text"
               name="description"
@@ -140,9 +130,8 @@ export default function SectorModal({
               maxLengthValidation={maxCharacters}
             />
           </div>
-
-          <div className="c-SectorModal__InformationsSectorCommunes">
-            <div className="c-SectorModal__InformationsSectorCommunesInfo">
+          <div className="c-SectorForm__InformationsSectorCommunes">
+            <div className="c-SectorForm__InformationsSectorCommunesInfo">
               <p>{communesLabels.title}</p>
               {currentSectorContents && (
                 <FormSingleMultiselect
@@ -155,9 +144,8 @@ export default function SectorModal({
               )}
             </div>
           </div>
-
-          <div className="c-SectorModal__InformationsButtons">
-            <div className="c-SectorModal__InformationsSaveButton">
+          <div className="c-SectorForm__InformationsButtons">
+            <div className="c-SectorForm__InformationsSaveButton">
               <CommonButton
                 type="submit"
                 label={buttonLabels.save}
@@ -165,18 +153,19 @@ export default function SectorModal({
                 style="primary"
               />
             </div>
-            <div className="c-SectorModal__InformationsSavAndCancel">
+            <div className="c-SectorForm__InformationsSaveAndCancel">
               <CommonButton
                 type="button"
                 label={buttonLabels.saveAndCreate}
                 picto="add"
                 style="primary"
-                onClick={async () => {
-                  await handleSubmit(onSubmitAndModalRefresh)();
-                  form.reset();
-                }}
+                onClick={() =>
+                  handleSubmit((data) => {
+                    form.reset();
+                    onSubmitAndModalRefresh(data);
+                  })()
+                }
               />
-
               <CommonButton
                 label={buttonLabels.cancel}
                 picto="cross"
@@ -185,13 +174,7 @@ export default function SectorModal({
             </div>
           </div>
         </div>
-        <div className="c-SectorModal__Maps">
-          <GoogleMap
-            polygon={polygon}
-            communes={SelectedCommunes || []}
-            handlePolygon={handlePolygon}
-          />
-        </div>
+        <SectorFormMap initialPolygon={initialPolygon} />
       </form>
     </FormProvider>
   );

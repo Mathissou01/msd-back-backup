@@ -1,0 +1,9 @@
+.c-RequestSlotBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__CreateButton {
+    margin-top: 10px;
+  }
+}

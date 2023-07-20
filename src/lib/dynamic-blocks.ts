@@ -1,8 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import { Enum_Componentblockscommentary_Commentarystatus } from "../graphql/codegen/generated-types";
+import {
+  ComponentBlocksRequestSlotsExceptions,
+  Enum_Componentblockscommentary_Commentarystatus,
+} from "../graphql/codegen/generated-types";
 import { TBlockPictoStyles } from "./pictos";
 import { IUploadFileEntity } from "./media";
 import { removeNulls } from "./utilities";
+import { IFormSingleMultiselectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 export type TBlocksDynamicZone =
   // Editorial Blocks
@@ -24,7 +28,7 @@ export type TBlocksDynamicZone =
   | "ComponentBlocksCheckbox"
   | "ComponentBlocksProofOfReceipt"
   | "ComponentBlocksRequestType"
-  | "ComponentBlocksAppointmentSlotsBySector"
+  | "RequestSlot"
   // Other
   | "Error";
 
@@ -114,7 +118,7 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     label: "Type de demande",
     picto: "text",
   },
-  ComponentBlocksAppointmentSlotsBySector: {
+  RequestSlot: {
     label: "Créneaux par secteur(s)",
   },
 };
@@ -146,7 +150,7 @@ export type IFormBlock =
   | IBlocksDownloadableFiles
   | IBlocksCumbersome
   | IBlocksRequestType
-  | IBlocksAppointmentSlotsBySector;
+  | IBlocksRequestSlot;
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
@@ -248,10 +252,13 @@ export interface IBlocksCumbersome extends IPartialBlock {
   cumbersomeLimitMessage: string;
 }
 
-export interface IBlocksAppointmentSlotsBySector extends IPartialBlock {
-  __typename: "ComponentBlocksRequestType";
-  // TODO: WIP
-  sectors: Array<unknown>;
+export interface IBlocksRequestSlot extends IPartialBlock {
+  __typename: "RequestSlot";
+  sectorizations?: Array<IFormSingleMultiselectOption>;
+  timeSlots?: string;
+  slotsExceptions?: Array<ComponentBlocksRequestSlotsExceptions>;
+  slotMessage?: string;
+  noSlotMessage?: string;
 }
 
 /* Methods */
@@ -417,10 +424,15 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         email: "",
       };
     }
-    case "ComponentBlocksAppointmentSlotsBySector": {
+    case "RequestSlot": {
       return {
         __typename,
         id: temporaryId,
+        sectorizations: [],
+        timeSlots: "",
+        slotsExceptions: [],
+        slotMessage: "",
+        noSlotMessage: "",
       };
     }
     default: {

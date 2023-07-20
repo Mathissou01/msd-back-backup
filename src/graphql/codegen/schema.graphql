@@ -2588,7 +2588,6 @@ input EditorialServiceInput {
 
 type EnrichRequest {
   dynamicAppointments: Int
-  fixedAppointments: Int
   requestId: ID
   requestName: String
 }
@@ -3554,6 +3553,17 @@ input IDFilterInput {
   null: Boolean
   or: [ID]
   startsWith: ID
+}
+
+type Image {
+  alternativeText: String
+  hash: String
+  height: String
+  mime: String
+  name: String
+  size: String
+  url: String
+  width: String
 }
 
 type InformationMessage {
@@ -5198,6 +5208,7 @@ type Query {
     pickUpDayServiceId: ID!
   ): [ID]
   getStatusExport(id: ID!): String
+  getThreeRandomTips(contractId: ID!): [Tips]
   getTopContentBlockDTO(
     contractId: ID!
     status: ENUM_TOPCONTENTDTO_STATUS
@@ -6749,6 +6760,14 @@ input TipSubServiceInput {
 
 type TipSubServiceRelationResponseCollection {
   data: [TipSubServiceEntity!]!
+}
+
+type Tips {
+  image: Image
+  originalId: ID!
+  shortDescription: String
+  tags: [Tag]
+  title: String!
 }
 
 type TopContentBlock {
