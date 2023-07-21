@@ -12,13 +12,13 @@ export default function AttachmentsBlock({ blockName }: IAttachmentsBlock) {
   /* Static Data */
   const labels = {
     staticLabel: 'Libellé sur champ "Pièce jointe"',
-    staticRenderField: 'Rendre le champ "Pièce jointe" obligatoire',
+    staticIsMandatory: 'Rendre le champ "Pièce jointe" obligatoire',
     staticMultipleAttachments: "Pièces jointes multiples",
   };
 
   const fieldNames: { [name: string]: keyof IBlocksAttachments } = {
     attachmentLabel: "attachmentLabel",
-    renderField: "renderField",
+    isMandatory: "isMandatory",
     multipleAttachments: "multipleAttachments",
   };
 
@@ -32,10 +32,10 @@ export default function AttachmentsBlock({ blockName }: IAttachmentsBlock) {
           isRequired
         />
       </div>
-      <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__RenderField">
+      <div className="c-AttachmentsBlock__Field c-AttachmentsBlock__isMandatory">
         <FormCheckbox
-          name={`${blockName}.${fieldNames.renderField}`}
-          label={labels.staticRenderField}
+          name={`${blockName}.${fieldNames.isMandatory}`}
+          label={labels.staticIsMandatory}
           defaultChecked={false}
         />
       </div>

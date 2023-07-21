@@ -196,7 +196,7 @@ export interface IBlocksDownloadableFiles extends IPartialBlock {
 export interface IBlocksAttachments extends IPartialBlock {
   __typename: "ComponentBlocksAttachments";
   attachmentLabel: string;
-  renderField: boolean;
+  isMandatory: boolean;
   multipleAttachments: boolean;
 }
 
@@ -365,7 +365,7 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         __typename,
         id: temporaryId,
         attachmentLabel: "",
-        renderField: false,
+        isMandatory: false,
         multipleAttachments: false,
       };
     }

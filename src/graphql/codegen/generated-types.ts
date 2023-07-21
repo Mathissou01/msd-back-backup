@@ -979,8 +979,8 @@ export type ComponentBlocksAttachments = {
   attachment?: Maybe<UploadFileRelationResponseCollection>;
   attachmentLabel: Scalars["String"];
   id: Scalars["ID"];
+  isMandatory: Scalars["Boolean"];
   multipleAttachments?: Maybe<Scalars["Boolean"]>;
-  renderField: Scalars["Boolean"];
 };
 
 export type ComponentBlocksAttachmentsAttachmentArgs = {
@@ -2551,7 +2551,7 @@ export enum Enum_Accessibility_Status {
 }
 
 export enum Enum_Audience_Type {
-  Bailleurs = "Bailleurs",
+  Collectifs = "Collectifs",
   Particuliers = "Particuliers",
   Professionnels = "Professionnels",
 }
@@ -16045,7 +16045,7 @@ export type GetRequestByIdQuery = {
               __typename?: "ComponentBlocksAttachments";
               id: string;
               attachmentLabel: string;
-              renderField: boolean;
+              isMandatory: boolean;
               multipleAttachments?: boolean | null;
             }
           | {
@@ -27990,7 +27990,7 @@ export const GetRequestByIdDocument = gql`
             ... on ComponentBlocksAttachments {
               id
               attachmentLabel
-              renderField
+              isMandatory
               multipleAttachments
             }
             ... on ComponentBlocksCommentary {

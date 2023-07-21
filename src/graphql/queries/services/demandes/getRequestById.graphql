@@ -34,7 +34,7 @@ query getRequestById($requestId: ID) {
           ... on ComponentBlocksAttachments {
             id
             attachmentLabel
-            renderField
+            isMandatory
             multipleAttachments
           }
           ... on ComponentBlocksCommentary {

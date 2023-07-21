@@ -842,8 +842,8 @@ type ComponentBlocksAttachments {
   ): UploadFileRelationResponseCollection
   attachmentLabel: String!
   id: ID!
+  isMandatory: Boolean!
   multipleAttachments: Boolean
-  renderField: Boolean!
 }
 
 type ComponentBlocksCheckbox {
@@ -2247,7 +2247,7 @@ enum ENUM_ACCESSIBILITY_STATUS {
 }
 
 enum ENUM_AUDIENCE_TYPE {
-  Bailleurs
+  Collectifs
   Particuliers
   Professionnels
 }
