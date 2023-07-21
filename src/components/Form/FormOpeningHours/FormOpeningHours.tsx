@@ -103,6 +103,15 @@ Exemple : 08h00 - 12h00
       ) {
         return `Dans l'après-midi du ${block.weekDay}, l'heure de fin doit être après l'heure de début.`;
       }
+      if (
+        block.morningEnd &&
+        block.afterNoonStart &&
+        morningEnd &&
+        afternoonStart &&
+        morningEnd > afternoonStart
+      ) {
+        return `Dans le ${block.weekDay}, l'heure de début de l'après-midi doit être après la fin de la matinée.`;
+      }
     }
     return true;
   };

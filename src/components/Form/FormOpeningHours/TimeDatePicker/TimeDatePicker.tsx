@@ -12,8 +12,6 @@ interface ITimeDatePickerProps {
 export const TimeDatePicker = ({
   selected,
   onChange,
-  minTime,
-  maxTime,
 }: ITimeDatePickerProps) => {
   return (
     <DatePicker
@@ -21,12 +19,10 @@ export const TimeDatePicker = ({
       onChange={onChange}
       showTimeSelect
       showTimeSelectOnly
-      timeIntervals={15}
+      timeIntervals={1}
       timeFormat="HH:mm"
       locale="fr"
       dateFormat="HH:mm"
-      minTime={minTime}
-      maxTime={maxTime}
       isClearable={true}
       customInput={<TimeInput />}
     />
