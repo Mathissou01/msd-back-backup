@@ -7,6 +7,7 @@ import { TDynamicFieldConfiguration } from "../../../../lib/dynamic-blocks";
 import ContactMwc from "../../../../components/MonCompteurDechets/ContactMwc/ContactMwc";
 import UserManagement from "../../../../components/MonCompteurDechets/UserManagement/UserManagement";
 import BarometerManagement from "../../../../components/MonCompteurDechets/BarometerManagement/BarometerManagement";
+import HasTipsManagement from "../../../../components/MonCompteurDechets/HasTipsManagement/HasTipsManagement";
 
 export function MonCompteurDechets() {
   /* Static Data */
@@ -42,6 +43,12 @@ export function MonCompteurDechets() {
         name: "contactMwc",
         title: "Contact dédié",
         content: <ContactMwc />,
+        isEnabled: true,
+      },
+      {
+        name: "tips",
+        title: "Astuces",
+        content: <HasTipsManagement />,
         isEnabled: true,
       },
       {

@@ -1,0 +1,9 @@
+mutation updateHasTips($contractId: ID!, $data: MwCounterServiceInput!) {
+  updateMwCounterService(id: $contractId, data: $data) {
+    data {
+      attributes {
+        hasTips
+      }
+    }
+  }
+}
