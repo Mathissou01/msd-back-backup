@@ -71,6 +71,15 @@ query getPickUpDayById($pickUpDayId: ID) {
             }
           }
         }
+        audiences {
+          data {
+            id
+            attributes {
+              type
+              isActive
+            }
+          }
+        }
       }
     }
   }

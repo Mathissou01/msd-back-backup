@@ -111,6 +111,7 @@ export function ServicesPickUpDayEditPage({
                   : [submitData.days],
             },
           };
+
     const variables: IPickUpDayStaticVariablesFields = {
       updatePickUpDayId: pickUpDayId,
       data: {
@@ -143,6 +144,9 @@ export function ServicesPickUpDayEditPage({
         buttonLabel: submitData.buttonLabel,
         request: submitData.request?.id ?? null,
         externalLink: submitData.externalLink ?? null,
+        audiences: submitData.audiences.map(
+          (user: IFormSingleMultiselectOption) => user.value.toString(),
+        ),
       },
     };
     if (isCreateMode) {
@@ -203,6 +207,7 @@ export function ServicesPickUpDayEditPage({
           days: undefined,
           includeHoliday: false,
           shortcutFormMode: "form",
+          audiences: undefined,
         };
         setMappedData(mappedData);
       }
@@ -269,6 +274,12 @@ export function ServicesPickUpDayEditPage({
             : "form",
           request: pickUpDaysData.attributes.request?.data ?? undefined,
           externalLink: pickUpDaysData.attributes.externalLink ?? undefined,
+          audiences: pickUpDaysData.attributes.audiences?.data.map((user) => {
+            return {
+              label: user.attributes?.type ?? "",
+              value: user.id ?? "",
+            };
+          }),
         };
         setMappedData(mappedData);
       }

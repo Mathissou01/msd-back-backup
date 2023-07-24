@@ -45,6 +45,11 @@ mutation createPickUpDay($data: PickUpDayInput!) {
             }
           }
         }
+        audiences {
+          data {
+            id
+          }
+        }
       }
     }
   }

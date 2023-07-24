@@ -56,7 +56,7 @@ interface IPickUpDayStaticVariablesFields {
     flow: string;
     collectDoorToDoor: string;
     collectVoluntary: string;
-    periodicity: InputMaybe<Enum_Pickupday_Periodicity> | undefined;
+    periodicity?: InputMaybe<Enum_Pickupday_Periodicity>;
     advancedSelection:
       | IHebdomadireAdvancedSelection
       | IMensuelAdvancedSelection;
@@ -66,6 +66,7 @@ interface IPickUpDayStaticVariablesFields {
     buttonLabel: string;
     request: string;
     externalLink: string;
+    audiences: Array<string>;
   };
 }
 
@@ -82,10 +83,10 @@ interface IPickUpDayStaticMappedFields {
     | string
     | null;
   collects: string;
-  periodicity: string | null | undefined;
-  choice: string | undefined;
-  daysOfTheMonth?: string | undefined;
-  days: string | number | null | undefined;
+  periodicity?: string | null;
+  choice?: string;
+  daysOfTheMonth?: string;
+  days?: string | number | null;
   includeHoliday: boolean;
   pickUpHours?: string | null;
   complementaryMention?: string | null;
@@ -93,6 +94,7 @@ interface IPickUpDayStaticMappedFields {
   shortcutFormMode: string;
   request?: RequestEntity;
   externalLink?: string;
+  audiences?: Array<IFormSingleMultiselectOption>;
 }
 
 const dayOptions = [

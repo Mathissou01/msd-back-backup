@@ -13072,6 +13072,18 @@ export type GetContractByIdQuery = {
             } | null;
           } | null;
         } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{
+            __typename?: "AudienceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Audience";
+              type: Enum_Audience_Type;
+              isActive: boolean;
+            } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -16915,6 +16927,10 @@ export type CreatePickUpDayMutation = {
             } | null;
           }>;
         } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -17178,6 +17194,18 @@ export type GetPickUpDayByIdQuery = {
             } | null;
           } | null;
         } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{
+            __typename?: "AudienceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Audience";
+              type: Enum_Audience_Type;
+              isActive: boolean;
+            } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -17374,6 +17402,10 @@ export type UpdatePickUpDayMutation = {
               polygonCoordinates?: any | null;
             } | null;
           }>;
+        } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
         } | null;
       } | null;
     } | null;
@@ -22979,6 +23011,15 @@ export const GetContractByIdDocument = gql`
               attributes {
                 name
                 isActivated
+              }
+            }
+          }
+          audiences(filters: { isActive: { eq: true } }) {
+            data {
+              id
+              attributes {
+                type
+                isActive
               }
             }
           }
@@ -29700,6 +29741,11 @@ export const CreatePickUpDayDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+            }
+          }
         }
       }
     }
@@ -30314,6 +30360,15 @@ export const GetPickUpDayByIdDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+              attributes {
+                type
+                isActive
+              }
+            }
+          }
         }
       }
     }
@@ -30724,6 +30779,11 @@ export const UpdatePickUpDayDocument = gql`
                 description
                 polygonCoordinates
               }
+            }
+          }
+          audiences {
+            data {
+              id
             }
           }
         }
