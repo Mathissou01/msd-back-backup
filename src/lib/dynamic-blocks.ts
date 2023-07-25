@@ -28,7 +28,7 @@ export type TBlocksDynamicZone =
   | "ComponentBlocksCheckbox"
   | "ComponentBlocksProofOfReceipt"
   | "ComponentBlocksRequestType"
-  | "RequestSlot"
+  | "RequestSlotEntity"
   // Other
   | "Error";
 
@@ -118,7 +118,7 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     label: "Type de demande",
     picto: "text",
   },
-  RequestSlot: {
+  RequestSlotEntity: {
     label: "Créneaux par secteur(s)",
   },
 };
@@ -150,7 +150,7 @@ export type IFormBlock =
   | IBlocksDownloadableFiles
   | IBlocksCumbersome
   | IBlocksRequestType
-  | IBlocksRequestSlot;
+  | IBlocksRequestSlotEntity;
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
@@ -252,8 +252,8 @@ export interface IBlocksCumbersome extends IPartialBlock {
   cumbersomeLimitMessage: string;
 }
 
-export interface IBlocksRequestSlot extends IPartialBlock {
-  __typename: "RequestSlot";
+export interface IBlocksRequestSlotEntity extends IPartialBlock {
+  __typename: "RequestSlotEntity";
   sectorizations?: Array<IFormSingleMultiselectOption>;
   timeSlots?: string;
   slotsExceptions?: Array<ComponentBlocksRequestSlotsExceptions>;
@@ -424,7 +424,7 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         email: "",
       };
     }
-    case "RequestSlot": {
+    case "RequestSlotEntity": {
       return {
         __typename,
         id: temporaryId,

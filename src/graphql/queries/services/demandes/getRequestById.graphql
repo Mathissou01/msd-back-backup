@@ -99,6 +99,7 @@ query getRequestById($requestId: ID) {
                   id
                   attributes {
                     name
+                    description
                     polygonCoordinates
                   }
                 }

@@ -9,7 +9,7 @@ import {
   useCreateSectorizationMutation,
   useGetSectorizationsByContractIdQuery,
 } from "../../../../../../graphql/codegen/generated-types";
-import { IBlocksRequestSlot } from "../../../../../../lib/dynamic-blocks";
+import { IBlocksRequestSlotEntity } from "../../../../../../lib/dynamic-blocks";
 import { removeNulls } from "../../../../../../lib/utilities";
 import { ISectorsTableRow } from "../../../../../../lib/sectors";
 import { useContract } from "../../../../../../hooks/useContract";
@@ -20,24 +20,30 @@ import CommonModalWrapper, {
   ICommonModalWrapperSize,
 } from "../../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import SectorModal from "../../../../../Sector/SectorForm/SectorForm";
+import FormWysiwyg from "../../../../FormWysiwyg/FormWysiwyg";
+import { minimalWysiwygEditorOptions } from "../../../../FormWysiwyg/WysiwygEditor/WysiwygEditor";
 import "./request-slot-block.scss";
 
-interface IRequestSlotBlockProps {
+interface IRequestSlotEntityBlockProps {
   blockName: string;
   onChangeTitle: (newTitle: string) => void;
 }
 
-export default function RequestSlotBlock({
+export default function RequestSlotEntityBlock({
   blockName,
   onChangeTitle,
-}: IRequestSlotBlockProps) {
+}: IRequestSlotEntityBlockProps) {
   /* Static Data */
   const defaultTitle = "Nouvel encart créneaux par secteur(s)";
   const labels = {
     sectorizations: "Secteur(s)",
     createSector: "Créer un secteur",
+    timeSlots: "Créneaux",
+    modifySlots: "Modifier les créneaux",
+    slotMessage: "Message affiché sous les créneaux",
+    noSlotMessage: "Message affiché en cas d'absence de créneaux",
   };
-  const fieldNames: { [name: string]: keyof IBlocksRequestSlot } = {
+  const fieldNames: { [name: string]: keyof IBlocksRequestSlotEntity } = {
     sectorizations: "sectorizations",
     timeSlots: "timeSlots",
     slotsExceptions: "slotsExceptions",
@@ -108,7 +114,7 @@ export default function RequestSlotBlock({
   const { getValues, setValue } = useFormContext();
   const sectorizationsFieldName = `${blockName}.${fieldNames.sectorizations}`;
   const alreadyUsedSectorIds = (
-    getValues(blockName.split(".")[0]) as Array<IBlocksRequestSlot>
+    getValues(blockName.split(".")[0]) as Array<IBlocksRequestSlotEntity>
   ).flatMap((slot) => slot.sectorizations?.map((sector) => sector.value));
   const sectorizationOptions: Array<IFormSingleMultiselectOption> =
     data?.sectorizations?.data
@@ -133,14 +139,15 @@ export default function RequestSlotBlock({
   });
 
   return (
-    <div className="c-RequestSlotBlock">
+    <div className="c-RequestSlotEntityBlock">
       <div>
         <CommonLoader isLoading={isLoading} errors={errors}>
           <FormSingleMultiselect
             name={`${blockName}.${fieldNames.sectorizations}`}
             label={labels.sectorizations}
             options={sectorizationOptions}
-            isMulti={true}
+            isMulti
+            isRequired
             onSelectChange={onSectorsChange}
           />
           <div className="c-RequestSlotBlock__CreateButton">
@@ -151,9 +158,19 @@ export default function RequestSlotBlock({
           </div>
         </CommonLoader>
       </div>
-      <span>Créneaux</span>
-      <span>Message affichés sous les créneaux</span>
-      <span>Message affiché en cas d’absence de créneaux</span>
+      <span>[{labels.timeSlots}]</span>
+      <FormWysiwyg
+        name={`${blockName}.${fieldNames.slotMessage}`}
+        label={labels.slotMessage}
+        maxCharacterLength={300}
+        editorOptions={{ ...minimalWysiwygEditorOptions, height: 150 }}
+      />
+      <FormWysiwyg
+        name={`${blockName}.${fieldNames.noSlotMessage}`}
+        label={labels.noSlotMessage}
+        maxCharacterLength={300}
+        editorOptions={{ ...minimalWysiwygEditorOptions, height: 150 }}
+      />
       {/* SECTORIZATION MODAL */}
       <CommonModalWrapper ref={modalRef} size={ICommonModalWrapperSize.LARGE}>
         <SectorModal

@@ -59,6 +59,9 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
         CollectVoluntary: {
           merge: true,
         },
+        Sectorization: {
+          merge: true,
+        },
       },
     }),
   });

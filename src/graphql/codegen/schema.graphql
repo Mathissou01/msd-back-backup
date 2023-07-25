@@ -7282,6 +7282,11 @@ type WasteFamilyRelationResponseCollection {
 }
 
 type WasteForm {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   contentBlock: [WasteFormContentBlockDynamicZone]
   createdAt: DateTime
   customId: String
@@ -7334,6 +7339,7 @@ type WasteFormEntityResponseCollection {
 
 input WasteFormFiltersInput {
   and: [WasteFormFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
   draftCreationId: StringFilterInput
@@ -7357,6 +7363,7 @@ input WasteFormFiltersInput {
 }
 
 input WasteFormInput {
+  audiences: [ID]
   contentBlock: [WasteFormContentBlockDynamicZoneInput!]
   customId: String
   draftCreationId: String

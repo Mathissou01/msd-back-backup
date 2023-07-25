@@ -95,6 +95,7 @@ exports[`EditorialForm renders 1`] = `
           [36m>[39m
             [36m<label[39m
               [33mclass[39m=[32m"c-FormLabel__LabelWrapper"[39m
+              [33mfor[39m=[32m"tags"[39m
             [36m>[39m
               [36m<span[39m
                 [33mclass[39m=[32m"c-FormLabel__Label"[39m
@@ -112,6 +113,7 @@ exports[`EditorialForm renders 1`] = `
             [36m>[39m
               [36m<div[39m
                 [33mclass[39m=[32m"c-FormSingleMultiselect__Input css-b62m3t-container"[39m
+                [33mid[39m=[32m"tags"[39m
               [36m>[39m
                 [36m<span[39m
                   [33mclass[39m=[32m"css-1f43avz-a11yText-A11yText"[39m

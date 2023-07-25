@@ -22,7 +22,7 @@ export default function RequestAppointmentSlotsBySector({
       </div>
       <FormDynamicBlocks
         name={"requestSlots"}
-        blockConfigurations={[{ option: "RequestSlot" }]}
+        blockConfigurations={[{ option: "RequestSlotEntity" }]}
         isSingleBlockDisplay={true}
         labels={labels.dynamicSectors}
         canReorder={false}

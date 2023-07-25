@@ -9395,6 +9395,7 @@ export type WasteFamilyRelationResponseCollection = {
 
 export type WasteForm = {
   __typename?: "WasteForm";
+  audiences?: Maybe<AudienceRelationResponseCollection>;
   contentBlock?: Maybe<Array<Maybe<WasteFormContentBlockDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   customId?: Maybe<Scalars["String"]>;
@@ -9414,6 +9415,12 @@ export type WasteForm = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
   versionNumber?: Maybe<Scalars["Int"]>;
   wasteFamily?: Maybe<WasteFamilyEntityResponse>;
+};
+
+export type WasteFormAudiencesArgs = {
+  filters?: InputMaybe<AudienceFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type WasteFormTagsArgs = {
@@ -9450,6 +9457,7 @@ export type WasteFormEntityResponseCollection = {
 
 export type WasteFormFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<WasteFormFiltersInput>>>;
+  audiences?: InputMaybe<AudienceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   customId?: InputMaybe<StringFilterInput>;
   draftCreationId?: InputMaybe<StringFilterInput>;
@@ -9473,6 +9481,7 @@ export type WasteFormFiltersInput = {
 };
 
 export type WasteFormInput = {
+  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contentBlock?: InputMaybe<
     Array<Scalars["WasteFormContentBlockDynamicZoneInput"]>
   >;
@@ -16162,6 +16171,7 @@ export type GetRequestByIdQuery = {
                   attributes?: {
                     __typename?: "Sectorization";
                     name: string;
+                    description: string;
                     polygonCoordinates?: any | null;
                   } | null;
                 }>;
@@ -16222,6 +16232,91 @@ export type GetRequestsByContractIdQuery = {
         total: number;
       };
     };
+  } | null;
+};
+
+export type CreateRequestSlotMutationVariables = Exact<{
+  data: RequestSlotInput;
+}>;
+
+export type CreateRequestSlotMutation = {
+  __typename?: "Mutation";
+  createRequestSlot?: {
+    __typename?: "RequestSlotEntityResponse";
+    data?: {
+      __typename?: "RequestSlotEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RequestSlot";
+        timeSlots?: any | null;
+        slotMessage?: string | null;
+        noSlotMessage?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        sectorizations?: {
+          __typename?: "SectorizationRelationResponseCollection";
+          data: Array<{
+            __typename?: "SectorizationEntity";
+            id?: string | null;
+          }>;
+        } | null;
+        slotsExceptions?: Array<{
+          __typename?: "ComponentBlocksRequestSlotsExceptions";
+          id: string;
+          slotException?: any | null;
+          exceptionType?: Enum_Componentblocksrequestslotsexceptions_Exceptiontype | null;
+        } | null> | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type DeleteRequestSlotMutationVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type DeleteRequestSlotMutation = {
+  __typename?: "Mutation";
+  deleteRequestSlot?: {
+    __typename?: "RequestSlotEntityResponse";
+    data?: { __typename?: "RequestSlotEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateRequestSlotMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: RequestSlotInput;
+}>;
+
+export type UpdateRequestSlotMutation = {
+  __typename?: "Mutation";
+  updateRequestSlot?: {
+    __typename?: "RequestSlotEntityResponse";
+    data?: {
+      __typename?: "RequestSlotEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RequestSlot";
+        timeSlots?: any | null;
+        slotMessage?: string | null;
+        noSlotMessage?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        sectorizations?: {
+          __typename?: "SectorizationRelationResponseCollection";
+          data: Array<{
+            __typename?: "SectorizationEntity";
+            id?: string | null;
+          }>;
+        } | null;
+        slotsExceptions?: Array<{
+          __typename?: "ComponentBlocksRequestSlotsExceptions";
+          id: string;
+          slotException?: any | null;
+          exceptionType?: Enum_Componentblocksrequestslotsexceptions_Exceptiontype | null;
+        } | null> | null;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -28248,6 +28343,7 @@ export const GetRequestByIdDocument = gql`
                     id
                     attributes {
                       name
+                      description
                       polygonCoordinates
                     }
                   }
@@ -28410,6 +28506,197 @@ export type GetRequestsByContractIdLazyQueryHookResult = ReturnType<
 export type GetRequestsByContractIdQueryResult = Apollo.QueryResult<
   GetRequestsByContractIdQuery,
   GetRequestsByContractIdQueryVariables
+>;
+export const CreateRequestSlotDocument = gql`
+  mutation createRequestSlot($data: RequestSlotInput!) {
+    createRequestSlot(data: $data) {
+      data {
+        id
+        attributes {
+          sectorizations {
+            data {
+              id
+            }
+          }
+          timeSlots
+          slotsExceptions {
+            id
+            slotException
+            exceptionType
+          }
+          slotMessage
+          noSlotMessage
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export type CreateRequestSlotMutationFn = Apollo.MutationFunction<
+  CreateRequestSlotMutation,
+  CreateRequestSlotMutationVariables
+>;
+
+/**
+ * __useCreateRequestSlotMutation__
+ *
+ * To run a mutation, you first call `useCreateRequestSlotMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRequestSlotMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRequestSlotMutation, { data, loading, error }] = useCreateRequestSlotMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateRequestSlotMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateRequestSlotMutation,
+    CreateRequestSlotMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateRequestSlotMutation,
+    CreateRequestSlotMutationVariables
+  >(CreateRequestSlotDocument, options);
+}
+export type CreateRequestSlotMutationHookResult = ReturnType<
+  typeof useCreateRequestSlotMutation
+>;
+export type CreateRequestSlotMutationResult =
+  Apollo.MutationResult<CreateRequestSlotMutation>;
+export type CreateRequestSlotMutationOptions = Apollo.BaseMutationOptions<
+  CreateRequestSlotMutation,
+  CreateRequestSlotMutationVariables
+>;
+export const DeleteRequestSlotDocument = gql`
+  mutation deleteRequestSlot($id: ID!) {
+    deleteRequestSlot(id: $id) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteRequestSlotMutationFn = Apollo.MutationFunction<
+  DeleteRequestSlotMutation,
+  DeleteRequestSlotMutationVariables
+>;
+
+/**
+ * __useDeleteRequestSlotMutation__
+ *
+ * To run a mutation, you first call `useDeleteRequestSlotMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRequestSlotMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRequestSlotMutation, { data, loading, error }] = useDeleteRequestSlotMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRequestSlotMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRequestSlotMutation,
+    DeleteRequestSlotMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteRequestSlotMutation,
+    DeleteRequestSlotMutationVariables
+  >(DeleteRequestSlotDocument, options);
+}
+export type DeleteRequestSlotMutationHookResult = ReturnType<
+  typeof useDeleteRequestSlotMutation
+>;
+export type DeleteRequestSlotMutationResult =
+  Apollo.MutationResult<DeleteRequestSlotMutation>;
+export type DeleteRequestSlotMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRequestSlotMutation,
+  DeleteRequestSlotMutationVariables
+>;
+export const UpdateRequestSlotDocument = gql`
+  mutation updateRequestSlot($id: ID!, $data: RequestSlotInput!) {
+    updateRequestSlot(id: $id, data: $data) {
+      data {
+        id
+        attributes {
+          sectorizations {
+            data {
+              id
+            }
+          }
+          timeSlots
+          slotsExceptions {
+            id
+            slotException
+            exceptionType
+          }
+          slotMessage
+          noSlotMessage
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+export type UpdateRequestSlotMutationFn = Apollo.MutationFunction<
+  UpdateRequestSlotMutation,
+  UpdateRequestSlotMutationVariables
+>;
+
+/**
+ * __useUpdateRequestSlotMutation__
+ *
+ * To run a mutation, you first call `useUpdateRequestSlotMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRequestSlotMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRequestSlotMutation, { data, loading, error }] = useUpdateRequestSlotMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRequestSlotMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRequestSlotMutation,
+    UpdateRequestSlotMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateRequestSlotMutation,
+    UpdateRequestSlotMutationVariables
+  >(UpdateRequestSlotDocument, options);
+}
+export type UpdateRequestSlotMutationHookResult = ReturnType<
+  typeof useUpdateRequestSlotMutation
+>;
+export type UpdateRequestSlotMutationResult =
+  Apollo.MutationResult<UpdateRequestSlotMutation>;
+export type UpdateRequestSlotMutationOptions = Apollo.BaseMutationOptions<
+  UpdateRequestSlotMutation,
+  UpdateRequestSlotMutationVariables
 >;
 export const UpdateRequestAggregateDocument = gql`
   mutation updateRequestAggregate(

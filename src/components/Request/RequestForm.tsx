@@ -1,6 +1,7 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import { RequestAggregateEntity } from "../../graphql/codegen/generated-types";
 import {
+  IBlocksRequestSlotEntity,
   IFormBlock,
   TDynamicFieldConfiguration,
 } from "../../lib/dynamic-blocks";
@@ -49,6 +50,7 @@ export interface IRequestStaticFields extends IFormCommonFields {
   numberOfRequiredSlots: number;
   hoursBeforeReservationIsActivated?: number;
   slotsReservationRules?: Array<number>;
+  requestSlots?: Array<IBlocksRequestSlotEntity>;
 }
 
 export interface IRequestFields extends IRequestStaticFields {
@@ -151,6 +153,7 @@ export default function RequestForm({
       "addableBlocks",
       "requestType",
       "slotsReservationRules",
+      "requestSlots",
     ],
   };
 

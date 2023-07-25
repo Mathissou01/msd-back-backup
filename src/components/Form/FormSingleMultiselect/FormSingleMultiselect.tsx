@@ -54,10 +54,11 @@ export default function FormSingleMultiselect({
   return (
     <>
       <FormLabel
+        forId={name}
         label={label}
+        isRequired={isRequired}
         labelDescription={labelDescription}
         validationLabel={validationLabel}
-        isRequired={isRequired}
       >
         <Controller
           control={control}
@@ -76,6 +77,7 @@ export default function FormSingleMultiselect({
                 className={classNames("c-FormSingleMultiselect__Input", {
                   "c-FormSingleMultiselect__Input_invalid": _.get(errors, name),
                 })}
+                id={name}
                 options={options}
                 value={value}
                 placeholder=""

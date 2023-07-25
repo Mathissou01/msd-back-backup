@@ -3,9 +3,13 @@ import { useEffect, useMemo, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import {
   ComponentBlocksRequestTypeInput,
+  RequestInput,
   useCreateRequestByContractIdMutation,
+  useCreateRequestSlotMutation,
+  useDeleteRequestSlotMutation,
   useGetRequestByIdLazyQuery,
   useUpdateRequestByIdMutation,
+  useUpdateRequestSlotMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../../lib/utilities";
 import { EStatus } from "../../../../../lib/status";
@@ -17,7 +21,9 @@ import {
   TDynamicFieldConfiguration,
   remapFormBlocksDynamicZone,
   IBlocksCumbersome,
+  IBlocksRequestSlotEntity,
 } from "../../../../../lib/dynamic-blocks";
+import { remapRequestSlotsToBlocks } from "../../../../../lib/requests";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useContract } from "../../../../../hooks/useContract";
@@ -120,6 +126,78 @@ export function RequestFormPage({
 
   /* Methods */
   async function onSubmit(submitData: FieldValues) {
+    // If the Request has any RequestSlots, create or update them in a loop and return all results
+    let requestSlotIds: Array<string> = [];
+    const existingRequestSlots = mappedData?.requestSlots;
+    if (submitData.requestSlots && submitData.requestSlots.length > 0) {
+      const requestSlots: Array<IBlocksRequestSlotEntity> =
+        submitData.requestSlots;
+
+      const requestSlotResults = await Promise.all(
+        requestSlots.map(async (requestSlot) => {
+          const commonVariables = {
+            sectorizations:
+              requestSlot.sectorizations
+                ?.map((sector) => sector.value.toString())
+                .filter(removeNulls) ?? [],
+            timeSlots: requestSlot.timeSlots,
+            slotsExceptions: requestSlot.slotsExceptions,
+            slotMessage: requestSlot.slotMessage,
+            noSlotMessage: requestSlot.noSlotMessage,
+          };
+          if (
+            existingRequestSlots?.map((r) => r.id).includes(requestSlot.id) &&
+            requestSlot.id
+          ) {
+            const { data } = await updateRequestSlot({
+              variables: { id: requestSlot.id, data: commonVariables },
+            });
+            return data;
+          } else if (
+            !existingRequestSlots?.map((r) => r.id).includes(requestSlot.id)
+          ) {
+            const { data } = await createRequestSlot({
+              variables: { data: commonVariables },
+            });
+            return data;
+          }
+        }),
+      );
+      requestSlotIds = requestSlotResults
+        .map((result) => {
+          if (result) {
+            if (
+              "createRequestSlot" in result &&
+              result.createRequestSlot?.data?.id
+            ) {
+              return result.createRequestSlot.data.id;
+            } else if (
+              "updateRequestSlot" in result &&
+              result.updateRequestSlot?.data?.id
+            ) {
+              return result.updateRequestSlot.data.id;
+            }
+          }
+        })
+        .filter(removeNulls);
+    }
+    // If any RequestSlot was present initially but is gone in submit, delete it
+    const requestSlotsToDelete =
+      existingRequestSlots
+        ?.filter((v) => !requestSlotIds?.find((id) => id === v.id))
+        .map((requestSlot) => requestSlot.id) ?? [];
+    if (requestSlotsToDelete.length > 0) {
+      await Promise.all(
+        requestSlotsToDelete.map(async (id) => {
+          const { data } = await deleteRequestSlot({
+            variables: { id },
+          });
+          return data;
+        }),
+      );
+    }
+
+    // Variables for mutations
     const addableBlocks = submitData.addableBlocks.map(
       // Remove automatically generated ID
       (block: { id?: string; __typename: string }) => {
@@ -158,8 +236,7 @@ export function RequestFormPage({
         };
       },
     );
-
-    const commonVariables = {
+    const commonVariables: RequestInput = {
       name: submitData.name,
       isActivated: false,
       blockText: submitData.blockText,
@@ -186,10 +263,11 @@ export function RequestFormPage({
       hoursBeforeReservationIsActivated:
         +submitData.hoursBeforeReservationIsActivated,
       slotsReservationRules: submitData.slotsReservationRules,
+      requestSlots: requestSlotIds,
     };
 
-    return isCreateMode
-      ? createRequest({
+    isCreateMode
+      ? void createRequest({
           variables: {
             data: {
               requestService: contractId,
@@ -202,7 +280,7 @@ export function RequestFormPage({
             }
           },
         })
-      : updateRequest({
+      : void updateRequest({
           variables: {
             updateRequestId: requestId,
             data: {
@@ -319,8 +397,33 @@ export function RequestFormPage({
       refetchQueries: ["getRequestById"],
       awaitRefetchQueries: true,
     });
-  const isLoading = loading || loadingUpdate || loadingCreate;
-  const errors = [error, errorUpdate, errorCreate];
+  const [
+    createRequestSlot,
+    { loading: loadingCreateSlot, error: errorCreateSlot },
+  ] = useCreateRequestSlotMutation();
+  const [
+    updateRequestSlot,
+    { loading: loadingUpdateSlot, error: errorUpdateSlot },
+  ] = useUpdateRequestSlotMutation();
+  const [
+    deleteRequestSlot,
+    { loading: loadingDeleteSlot, error: errorDeleteSlot },
+  ] = useDeleteRequestSlotMutation();
+  const isLoading =
+    loading ||
+    loadingUpdate ||
+    loadingCreate ||
+    loadingCreateSlot ||
+    loadingUpdateSlot ||
+    loadingDeleteSlot;
+  const errors = [
+    error,
+    errorUpdate,
+    errorCreate,
+    errorCreateSlot,
+    errorUpdateSlot,
+    errorDeleteSlot,
+  ];
 
   useEffect(() => {
     if (requestId) {
@@ -353,6 +456,7 @@ export function RequestFormPage({
           hasAppointmentSlots: "0",
           numberOfRequiredSlots: 1,
           slotsReservationRules: undefined,
+          requestSlots: [],
         };
         setMappedData(mappedData);
       } else if (requestId !== mappedData?.id) {
@@ -436,6 +540,9 @@ export function RequestFormPage({
               ? undefined
               : requestData.attributes.hoursBeforeReservationIsActivated,
           slotsReservationRules: requestData.attributes.slotsReservationRules,
+          requestSlots: remapRequestSlotsToBlocks(
+            requestData.attributes.requestSlots?.data,
+          ),
         };
         setMappedData(mappedData);
       }
