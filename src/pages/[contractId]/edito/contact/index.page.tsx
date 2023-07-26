@@ -2,6 +2,7 @@ import { parseJSON } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
+  AudienceEntity,
   Enum_Contactus_Status,
   TagEntity,
   useGetContactUsByIdQuery,
@@ -142,6 +143,14 @@ export function EditoContactEditPage() {
           updatedAt: formatDate(
             parseJSON(editoData.attributes.updatedAt),
             "dd/MM/yyyy HH:mm",
+          ),
+          audiences: editoData.attributes.audiences?.data?.map(
+            (audience: AudienceEntity) => {
+              return {
+                label: audience?.attributes?.type ?? "",
+                value: audience?.id ?? "",
+              };
+            },
           ),
         };
         setMappedData(mappedData);

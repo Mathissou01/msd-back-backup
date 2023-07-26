@@ -42,6 +42,11 @@ mutation updateTip($updateTipId: ID!, $data: TipInput!) {
             }
           }
         }
+        audiences {
+          data {
+            id
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id

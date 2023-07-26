@@ -41,6 +41,11 @@ mutation createFreeContent($data: FreeContentInput!) {
             }
           }
         }
+        audiences {
+          data {
+            id
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id

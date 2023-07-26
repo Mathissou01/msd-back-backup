@@ -1,20 +1,20 @@
+import React from "react";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import { ApolloError } from "@apollo/client";
-import React from "react";
 import { IEditorialFields } from "../../../lib/editorial";
-import { IFormSingleMultiselectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
-import {
-  IEditorialStaticFieldsLabels,
-  TEditorialStaticFields,
-} from "../EditorialForm/EditorialStaticFields/EditorialStaticFields";
-import PageTitle from "../../../components/PageTitle/PageTitle";
-import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
-import EditorialForm from "../../../components/Editorial/EditorialForm/EditorialForm";
 import {
   IFormBlock,
   TDynamicFieldConfiguration,
 } from "../../../lib/dynamic-blocks";
 import { EStatus } from "../../../lib/status";
+import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
+import EditorialForm from "../../../components/Editorial/EditorialForm/EditorialForm";
+import PageTitle from "../../../components/PageTitle/PageTitle";
+import { IFormSingleMultiselectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import {
+  IEditorialStaticFieldsLabels,
+  TEditorialStaticFields,
+} from "../EditorialForm/EditorialStaticFields/EditorialStaticFields";
 
 const defaultDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
   { option: "ComponentBlocksWysiwyg" },
@@ -109,6 +109,9 @@ export default function EditorialFormPage({
         ({ id, ...rest }: IFormBlock) => rest,
       ),
       unpublishedDate: submitData.unpublishedDate,
+      audiences: submitData.audiences.map(
+        (user: IFormSingleMultiselectOption) => user.value.toString(),
+      ),
     };
     if (isCreateMode && onCreate) {
       onCreate(commonMutationVariables);

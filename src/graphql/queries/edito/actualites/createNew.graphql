@@ -42,6 +42,11 @@ mutation createNew($data: NewInput!) {
             }
           }
         }
+        audiences {
+          data {
+            id
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id

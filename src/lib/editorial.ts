@@ -19,4 +19,5 @@ export interface IEditorialStaticFields extends IFormVersioningFields {
 
 export interface IEditorialFields extends IEditorialStaticFields {
   blocks: Array<IFormBlock>;
+  audiences?: Array<IFormSingleMultiselectOption>;
 }

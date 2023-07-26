@@ -43,6 +43,15 @@ query getTipById($tipId: ID) {
             }
           }
         }
+        audiences {
+          data {
+            id
+            attributes {
+              type
+              isActive
+            }
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id

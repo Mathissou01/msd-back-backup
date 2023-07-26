@@ -41,6 +41,11 @@ mutation createTip($data: TipInput!) {
             }
           }
         }
+        audiences {
+          data {
+            id
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id

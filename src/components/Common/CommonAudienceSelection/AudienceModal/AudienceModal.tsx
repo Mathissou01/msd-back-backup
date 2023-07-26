@@ -41,6 +41,7 @@ export default function AudienceModal({
   function handleValidation() {
     onValidate(audiencesWatch);
     modalRef.current?.toggleModal(false);
+    setValue("audiences", audiencesWatch, { shouldDirty: true });
   }
 
   /* Local Data */

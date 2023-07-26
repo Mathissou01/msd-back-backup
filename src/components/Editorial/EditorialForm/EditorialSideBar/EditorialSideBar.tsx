@@ -2,11 +2,12 @@ import classNames from "classnames";
 import { useFormContext } from "react-hook-form";
 import { statusLabels } from "../../../../lib/status";
 import { IEditorialFields } from "../../../../lib/editorial";
-import FormDatePicker from "../../../Form/FormDatePicker/FormDatePicker";
-import InformationsCard from "../../../../layouts/FormLayout/FormLayoutSideBar/InformationsCard/InformationsCard";
-import VersioningCard from "../../../../layouts/FormLayout/FormLayoutSideBar/VersioningCard/VersioningCard";
-import "./editorial-sidebar.scss";
 import { isNavigationEntity } from "../../../../lib/navigation";
+import VersioningCard from "../../../../layouts/FormLayout/FormLayoutSideBar/VersioningCard/VersioningCard";
+import InformationsCard from "../../../../layouts/FormLayout/FormLayoutSideBar/InformationsCard/InformationsCard";
+import CommonAudienceSelection from "../../../Common/CommonAudienceSelection/CommonAudienceSelection";
+import FormDatePicker from "../../../Form/FormDatePicker/FormDatePicker";
+import "./editorial-sidebar.scss";
 
 interface IEditorialSideBar {
   additionalPath?: string;
@@ -55,6 +56,9 @@ export default function EditorialSideBar({
           </p>
         </div>
       )}
+      <div className="c-EditorialSideBar__Users">
+        <CommonAudienceSelection />
+      </div>
       {defaultValues?.createdAt && defaultValues?.updatedAt && (
         <InformationsCard
           creationDate={defaultValues?.createdAt}

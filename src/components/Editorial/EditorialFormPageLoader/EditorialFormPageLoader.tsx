@@ -1,12 +1,15 @@
-import { parseJSON } from "date-fns";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
   LazyQueryResultTuple,
   MutationTuple,
   OperationVariables,
 } from "@apollo/client";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { TagEntity } from "../../../graphql/codegen/generated-types";
+import { parseJSON } from "date-fns";
+import {
+  AudienceEntity,
+  TagEntity,
+} from "../../../graphql/codegen/generated-types";
 import { IEditorialFields } from "../../../lib/editorial";
 import { EStatus, valueToEStatus } from "../../../lib/status";
 import { commonDateStringFormat, formatDate } from "../../../lib/utilities";
@@ -56,6 +59,7 @@ export default function EditorialFormPageLoader({
           title: "",
           image: null,
           blocks: [],
+          audiences: undefined,
         };
         setMappedData(mappedData);
       } else if (contentId !== mappedData?.id) {
@@ -96,6 +100,14 @@ export default function EditorialFormPageLoader({
           updatedAt: formatDate(
             parseJSON(editoData.attributes.updatedAt),
             commonDateStringFormat,
+          ),
+          audiences: editoData.attributes.audiences?.data.map(
+            (user: AudienceEntity) => {
+              return {
+                label: user.attributes?.type ?? "",
+                value: user.id ?? "",
+              };
+            },
           ),
         };
         setMappedData(mappedData);

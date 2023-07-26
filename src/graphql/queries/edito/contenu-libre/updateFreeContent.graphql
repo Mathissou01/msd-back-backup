@@ -45,6 +45,11 @@ mutation updateFreeContent(
             }
           }
         }
+        audiences {
+          data {
+            id
+          }
+        }
         blocks {
           ... on ComponentBlocksSubHeading {
             id

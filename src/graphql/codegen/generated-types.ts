@@ -9604,6 +9604,10 @@ export type CreateNewMutation = {
             } | null;
           } | null;
         } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -9951,6 +9955,18 @@ export type GetNewByIdQuery = {
             } | null;
           } | null;
         } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{
+            __typename?: "AudienceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Audience";
+              type: Enum_Audience_Type;
+              isActive: boolean;
+            } | null;
+          }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -10170,6 +10186,10 @@ export type UpdateNewMutation = {
             } | null;
           } | null;
         } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -10309,6 +10329,10 @@ export type CreateTipMutation = {
             } | null;
           } | null;
         };
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -10655,6 +10679,18 @@ export type GetTipByIdQuery = {
             } | null;
           } | null;
         };
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{
+            __typename?: "AudienceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Audience";
+              type: Enum_Audience_Type;
+              isActive: boolean;
+            } | null;
+          }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -10874,6 +10910,10 @@ export type UpdateTipMutation = {
             } | null;
           } | null;
         };
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -11349,6 +11389,18 @@ export type GetContactUsByIdQuery = {
             attributes?: { __typename?: "Tag"; name: string } | null;
           }>;
         } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{
+            __typename?: "AudienceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Audience";
+              type: Enum_Audience_Type;
+              isActive: boolean;
+            } | null;
+          }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -11481,6 +11533,10 @@ export type UpdateContactUsMutation = {
             id?: string | null;
             attributes?: { __typename?: "Tag"; name: string } | null;
           }>;
+        } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
         } | null;
         blocks?: Array<
           | {
@@ -11621,6 +11677,10 @@ export type CreateFreeContentMutation = {
             } | null;
           } | null;
         };
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -11978,6 +12038,18 @@ export type GetFreeContentByIdQuery = {
             } | null;
           } | null;
         };
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{
+            __typename?: "AudienceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Audience";
+              type: Enum_Audience_Type;
+              isActive: boolean;
+            } | null;
+          }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -12217,6 +12289,10 @@ export type UpdateFreeContentMutation = {
             } | null;
           } | null;
         };
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -17566,6 +17642,11 @@ export const CreateNewDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+            }
+          }
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -18032,6 +18113,15 @@ export const GetNewByIdDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+              attributes {
+                type
+                isActive
+              }
+            }
+          }
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -18400,6 +18490,11 @@ export const UpdateNewDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+            }
+          }
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -18554,6 +18649,11 @@ export const CreateTipDocument = gql`
                 width
                 createdAt
               }
+            }
+          }
+          audiences {
+            data {
+              id
             }
           }
           blocks {
@@ -19021,6 +19121,15 @@ export const GetTipByIdDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+              attributes {
+                type
+                isActive
+              }
+            }
+          }
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -19387,6 +19496,11 @@ export const UpdateTipDocument = gql`
                 width
                 createdAt
               }
+            }
+          }
+          audiences {
+            data {
+              id
             }
           }
           blocks {
@@ -20160,6 +20274,15 @@ export const GetContactUsByIdDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+              attributes {
+                type
+                isActive
+              }
+            }
+          }
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -20369,6 +20492,11 @@ export const UpdateContactUsDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+            }
+          }
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -20524,6 +20652,11 @@ export const CreateFreeContentDocument = gql`
                 width
                 createdAt
               }
+            }
+          }
+          audiences {
+            data {
+              id
             }
           }
           blocks {
@@ -21007,6 +21140,15 @@ export const GetFreeContentByIdDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+              attributes {
+                type
+                isActive
+              }
+            }
+          }
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -21436,6 +21578,11 @@ export const UpdateFreeContentDocument = gql`
                 width
                 createdAt
               }
+            }
+          }
+          audiences {
+            data {
+              id
             }
           }
           blocks {

@@ -681,6 +681,25 @@ exports[`EditorialForm renders 1`] = `
             [0mA la date de dépublication, l’actualité est masquée sur le site mais conservée dans le back-office à l’état archivé.[0m
           [36m</p>[39m
         [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"c-EditorialSideBar__Users"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"c-CommonAudienceSelection__Label"[39m
+          [36m>[39m
+            [0mUsagers *[0m
+          [36m</div>[39m
+          [36m<ul[39m
+            [33mclass[39m=[32m"c-CommonAudienceSelection__List"[39m
+          [36m/>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"[39m
+            [33mdisabled[39m=[32m""[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mSélectionner les usagers[0m
+          [36m</button>[39m
+        [36m</div>[39m
       [36m</div>[39m
     [36m</div>[39m
   [36m</form>[39m

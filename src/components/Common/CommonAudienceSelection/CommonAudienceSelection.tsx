@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 import { useContract } from "../../../hooks/useContract";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
-import CommonButton from "../CommonButton/CommonButton";
 import { IFormSingleMultiselectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import CommonButton from "../CommonButton/CommonButton";
+import CommonFormErrorText from "../CommonFormErrorText/CommonFormErrorText";
 import AudienceModal from "./AudienceModal/AudienceModal";
 import "./common-audience-selection.scss";
 
@@ -14,6 +16,7 @@ export default function CommonAudienceSelection() {
     modalOpenningBtn: "Sélectionner les usagers",
     allAudiences: "Tous",
   };
+  const requiredMessage = "Ce champ est obligatoire";
 
   /* Methods */
   const handleStartModal = () => {
@@ -21,51 +24,56 @@ export default function CommonAudienceSelection() {
   };
 
   function setAudiences(audiences: Array<IFormSingleMultiselectOption>) {
-    setValue("audiences", audiences);
     setSelectedAudiences(audiences);
   }
 
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const { contract } = useContract();
-  const { watch, setValue, register } = useFormContext();
+  const {
+    watch,
+    setValue,
+    register,
+    formState: { defaultValues, errors },
+  } = useFormContext();
   const [selectedAudiences, setSelectedAudiences] =
     useState<Array<IFormSingleMultiselectOption>>();
   const audiencesNumberFromContract =
     contract?.attributes?.audiences?.data?.length ?? 0;
-  const isInitialized = useRef<boolean>(false);
   const audiencesWatch = watch("audiences");
   register("audiences", {
-    required: !audiencesWatch,
+    required: {
+      value: true,
+      message: requiredMessage,
+    },
   });
 
   useEffect(() => {
-    if (!isInitialized.current) {
+    if (
+      audiencesNumberFromContract === 1 &&
+      contract?.attributes?.audiences?.data
+    ) {
+      const uniqueAssignedAudience = contract.attributes.audiences.data[0];
       if (
-        audiencesNumberFromContract === 1 &&
-        contract?.attributes?.audiences?.data
+        uniqueAssignedAudience?.id &&
+        uniqueAssignedAudience.attributes?.type
       ) {
-        const uniqueAssignedAudience = contract.attributes.audiences.data[0];
-        if (
-          uniqueAssignedAudience?.id &&
-          uniqueAssignedAudience.attributes?.type
-        ) {
-          setSelectedAudiences([
-            {
-              label: uniqueAssignedAudience.attributes.type,
-              value: uniqueAssignedAudience.id,
-            },
-          ]);
-          setValue("audiences", uniqueAssignedAudience?.id);
-        }
-      } else {
-        setSelectedAudiences(audiencesWatch);
+        setSelectedAudiences([
+          {
+            label: uniqueAssignedAudience.attributes.type,
+            value: uniqueAssignedAudience.id,
+          },
+        ]);
+        setValue("audiences", uniqueAssignedAudience?.id);
+      }
+    } else {
+      if (defaultValues) {
+        setSelectedAudiences(defaultValues.audiences);
       }
     }
-    isInitialized.current = true;
   }, [
     audiencesNumberFromContract,
-    audiencesWatch,
+    defaultValues,
     contract.attributes?.audiences?.data,
     setValue,
   ]);
@@ -73,7 +81,10 @@ export default function CommonAudienceSelection() {
   useEffect(() => {
     if (audiencesWatch === undefined) {
       register("audiences", {
-        required: !audiencesWatch,
+        required: {
+          value: true,
+          message: requiredMessage,
+        },
       });
     }
   }, [audiencesWatch, register]);
@@ -103,6 +114,13 @@ export default function CommonAudienceSelection() {
         style="secondary"
         isDisabled={audiencesNumberFromContract <= 1}
         onClick={() => handleStartModal()}
+      />
+      <ErrorMessage
+        errors={errors}
+        name="audiences"
+        render={({ message }: { message: string }) => (
+          <CommonFormErrorText message={message} errorId={`audiences_error`} />
+        )}
       />
       <AudienceModal
         modalRef={modalRef}
