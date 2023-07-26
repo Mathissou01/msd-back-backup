@@ -61,7 +61,9 @@ export function EditoContactEditPage() {
     const variables = {
       updateContactUsId: contactUsId,
       data: {
-        status: Enum_Contactus_Status.Archived,
+        // TODO: temporarily fix contactUS query, why codegen works
+        //status: Enum_Contactus_Status.Archived,
+        status: Enum_Contactus_Status.Draft,
         unpublishedDate: new Date(),
       },
     };
@@ -118,12 +120,12 @@ export function EditoContactEditPage() {
       if (
         editoData.id &&
         editoData.attributes &&
-        editoData.attributes.customId &&
+        //editoData.attributes.customId &&
         editoData.attributes.title
       ) {
         const mappedData: IEditorialFields = {
           id: editoData.id,
-          customId: editoData.attributes.customId,
+          //customId: editoData.attributes.customId,
           status: valueToEStatus(editoData.attributes.status),
           title: editoData.attributes.title,
           tags:
@@ -132,7 +134,7 @@ export function EditoContactEditPage() {
               label: tag.attributes?.name ?? "",
             })) ?? [],
           blocks: remapFormBlocksDynamicZone(editoData.attributes.blocks),
-          unpublishedDate: editoData.attributes.unpublishedDate,
+          //unpublishedDate: editoData.attributes.unpublishedDate,
           createdAt: formatDate(
             parseJSON(editoData.attributes.createdAt),
             "dd/MM/yyyy HH:mm",

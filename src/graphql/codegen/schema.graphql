@@ -1320,17 +1320,13 @@ type ContactResponse {
 }
 
 type ContactUs {
-  audiences(
-    filters: AudienceFiltersInput
+  blocks: [ContactUsBlocksDynamicZone]
+  channelTypes(
+    filters: ChannelTypeFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceRelationResponseCollection
-  blocks: [ContactUsBlocksDynamicZone]
+  ): ChannelTypeRelationResponseCollection
   createdAt: DateTime
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
   status: ENUM_CONTACTUS_STATUS
   tags(
     filters: TagFiltersInput
@@ -1338,10 +1334,7 @@ type ContactUs {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
-  toBeUpdated: Boolean
-  unpublishedDate: DateTime
   updatedAt: DateTime
-  versionNumber: Int
 }
 
 union ContactUsBlocksDynamicZone =
@@ -1371,37 +1364,23 @@ type ContactUsEntityResponseCollection {
 
 input ContactUsFiltersInput {
   and: [ContactUsFiltersInput]
-  audiences: AudienceFiltersInput
+  channelTypes: ChannelTypeFiltersInput
   createdAt: DateTimeFilterInput
-  customId: StringFilterInput
-  draftCreationId: StringFilterInput
-  hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: ContactUsFiltersInput
   or: [ContactUsFiltersInput]
-  publishedDate: DateTimeFilterInput
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
-  toBeUpdated: BooleanFilterInput
-  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
-  versionNumber: IntFilterInput
 }
 
 input ContactUsInput {
-  audiences: [ID]
   blocks: [ContactUsBlocksDynamicZoneInput!]
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
+  channelTypes: [ID]
   status: ENUM_CONTACTUS_STATUS
   tags: [ID]
   title: String
-  toBeUpdated: Boolean
-  unpublishedDate: DateTime
-  versionNumber: Int
 }
 
 type ContactUsRelationResponseCollection {
@@ -1786,21 +1765,18 @@ scalar ContractMenuServiceLinksDynamicZoneInput
 type Cookie {
   blocks: [CookieBlocksDynamicZone]
   createdAt: DateTime
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
+  hasMobile: Boolean!
   status: ENUM_COOKIE_STATUS
   title: String!
-  toBeUpdated: Boolean
   updatedAt: DateTime
-  versionNumber: Int
 }
 
 union CookieBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
 
@@ -1823,30 +1799,20 @@ type CookieEntityResponseCollection {
 input CookieFiltersInput {
   and: [CookieFiltersInput]
   createdAt: DateTimeFilterInput
-  customId: StringFilterInput
-  draftCreationId: StringFilterInput
-  hasDraft: BooleanFilterInput
+  hasMobile: BooleanFilterInput
   id: IDFilterInput
   not: CookieFiltersInput
   or: [CookieFiltersInput]
-  publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
-  toBeUpdated: BooleanFilterInput
   updatedAt: DateTimeFilterInput
-  versionNumber: IntFilterInput
 }
 
 input CookieInput {
   blocks: [CookieBlocksDynamicZoneInput!]
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
+  hasMobile: Boolean
   status: ENUM_COOKIE_STATUS
   title: String
-  toBeUpdated: Boolean
-  versionNumber: Int
 }
 
 type CookieRelationResponseCollection {
@@ -2344,7 +2310,6 @@ enum ENUM_CONFIDENTIALITY_STATUS {
 }
 
 enum ENUM_CONTACTUS_STATUS {
-  archived
   draft
   published
 }
@@ -4072,6 +4037,7 @@ type Mutation {
   deleteTip(id: ID!): TipEntityResponse
   deleteTipSubService(id: ID!): TipSubServiceEntityResponse
   deleteTopContentBlock(id: ID!): TopContentBlockEntityResponse
+  deleteUnusedSectors(id: ID!): Sectorization
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
   deleteUserDataStorage(id: ID!): UserDataStorageEntityResponse

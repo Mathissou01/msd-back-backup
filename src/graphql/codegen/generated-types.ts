@@ -1536,24 +1536,17 @@ export type ContactResponse = {
 
 export type ContactUs = {
   __typename?: "ContactUs";
-  audiences?: Maybe<AudienceRelationResponseCollection>;
   blocks?: Maybe<Array<Maybe<ContactUsBlocksDynamicZone>>>;
+  channelTypes?: Maybe<ChannelTypeRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  customId?: Maybe<Scalars["String"]>;
-  draftCreationId?: Maybe<Scalars["String"]>;
-  hasDraft?: Maybe<Scalars["Boolean"]>;
-  publishedDate?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Contactus_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
-  toBeUpdated?: Maybe<Scalars["Boolean"]>;
-  unpublishedDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
-export type ContactUsAudiencesArgs = {
-  filters?: InputMaybe<AudienceFiltersInput>;
+export type ContactUsChannelTypesArgs = {
+  filters?: InputMaybe<ChannelTypeFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -1592,37 +1585,23 @@ export type ContactUsEntityResponseCollection = {
 
 export type ContactUsFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
-  audiences?: InputMaybe<AudienceFiltersInput>;
+  channelTypes?: InputMaybe<ChannelTypeFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  customId?: InputMaybe<StringFilterInput>;
-  draftCreationId?: InputMaybe<StringFilterInput>;
-  hasDraft?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ContactUsFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
-  publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
-  toBeUpdated?: InputMaybe<BooleanFilterInput>;
-  unpublishedDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type ContactUsInput = {
-  audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   blocks?: InputMaybe<Array<Scalars["ContactUsBlocksDynamicZoneInput"]>>;
-  customId?: InputMaybe<Scalars["String"]>;
-  draftCreationId?: InputMaybe<Scalars["String"]>;
-  hasDraft?: InputMaybe<Scalars["Boolean"]>;
-  publishedDate?: InputMaybe<Scalars["DateTime"]>;
+  channelTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   status?: InputMaybe<Enum_Contactus_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
-  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
-  unpublishedDate?: InputMaybe<Scalars["DateTime"]>;
-  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type ContactUsRelationResponseCollection = {
@@ -2050,21 +2029,18 @@ export type Cookie = {
   __typename?: "Cookie";
   blocks?: Maybe<Array<Maybe<CookieBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  customId?: Maybe<Scalars["String"]>;
-  draftCreationId?: Maybe<Scalars["String"]>;
-  hasDraft?: Maybe<Scalars["Boolean"]>;
-  publishedDate?: Maybe<Scalars["DateTime"]>;
+  hasMobile: Scalars["Boolean"];
   status?: Maybe<Enum_Cookie_Status>;
   title: Scalars["String"];
-  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type CookieBlocksDynamicZone =
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
 
@@ -2088,30 +2064,20 @@ export type CookieEntityResponseCollection = {
 export type CookieFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  customId?: InputMaybe<StringFilterInput>;
-  draftCreationId?: InputMaybe<StringFilterInput>;
-  hasDraft?: InputMaybe<BooleanFilterInput>;
+  hasMobile?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<CookieFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
-  publishedDate?: InputMaybe<DateTimeFilterInput>;
   status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type CookieInput = {
   blocks?: InputMaybe<Array<Scalars["CookieBlocksDynamicZoneInput"]>>;
-  customId?: InputMaybe<Scalars["String"]>;
-  draftCreationId?: InputMaybe<Scalars["String"]>;
-  hasDraft?: InputMaybe<Scalars["Boolean"]>;
-  publishedDate?: InputMaybe<Scalars["DateTime"]>;
+  hasMobile?: InputMaybe<Scalars["Boolean"]>;
   status?: InputMaybe<Enum_Cookie_Status>;
   title?: InputMaybe<Scalars["String"]>;
-  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
-  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type CookieRelationResponseCollection = {
@@ -2648,7 +2614,6 @@ export enum Enum_Confidentiality_Status {
 }
 
 export enum Enum_Contactus_Status {
-  Archived = "archived",
   Draft = "draft",
   Published = "published",
 }
@@ -4388,6 +4353,7 @@ export type Mutation = {
   deleteTip?: Maybe<TipEntityResponse>;
   deleteTipSubService?: Maybe<TipSubServiceEntityResponse>;
   deleteTopContentBlock?: Maybe<TopContentBlockEntityResponse>;
+  deleteUnusedSectors?: Maybe<Sectorization>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
   deleteUserDataStorage?: Maybe<UserDataStorageEntityResponse>;
@@ -5147,6 +5113,10 @@ export type MutationDeleteTipSubServiceArgs = {
 };
 
 export type MutationDeleteTopContentBlockArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteUnusedSectorsArgs = {
   id: Scalars["ID"];
 };
 
@@ -11367,11 +11337,8 @@ export type GetContactUsByIdQuery = {
       id?: string | null;
       attributes?: {
         __typename?: "ContactUs";
-        customId?: string | null;
         title: string;
         status?: Enum_Contactus_Status | null;
-        publishedDate?: any | null;
-        unpublishedDate?: any | null;
         createdAt?: any | null;
         updatedAt?: any | null;
         tags?: {
@@ -11505,8 +11472,6 @@ export type UpdateContactUsMutation = {
         __typename?: "ContactUs";
         title: string;
         status?: Enum_Contactus_Status | null;
-        publishedDate?: any | null;
-        unpublishedDate?: any | null;
         createdAt?: any | null;
         updatedAt?: any | null;
         tags?: {
@@ -20171,11 +20136,8 @@ export const GetContactUsByIdDocument = gql`
       data {
         id
         attributes {
-          customId
           title
           status
-          publishedDate
-          unpublishedDate
           createdAt
           updatedAt
           tags {
@@ -20385,8 +20347,6 @@ export const UpdateContactUsDocument = gql`
         attributes {
           title
           status
-          publishedDate
-          unpublishedDate
           createdAt
           updatedAt
           tags {

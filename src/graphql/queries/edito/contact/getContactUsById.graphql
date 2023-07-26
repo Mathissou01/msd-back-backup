@@ -3,11 +3,8 @@ query getContactUsById($contactUsId: ID) {
     data {
       id
       attributes {
-        customId
         title
         status
-        publishedDate
-        unpublishedDate
         createdAt
         updatedAt
         tags {

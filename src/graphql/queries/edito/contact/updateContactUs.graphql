@@ -5,8 +5,6 @@ mutation UpdateContactUs($updateContactUsId: ID!, $data: ContactUsInput!) {
       attributes {
         title
         status
-        publishedDate
-        unpublishedDate
         createdAt
         updatedAt
         tags {
