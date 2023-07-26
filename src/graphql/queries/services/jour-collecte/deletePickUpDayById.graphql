@@ -1,0 +1,7 @@
+mutation deletePickUpDayById($deletePickUpDayId: ID!) {
+  deletePickUpDay(id: $deletePickUpDayId) {
+    data {
+      id
+    }
+  }
+}

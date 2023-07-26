@@ -10,6 +10,7 @@ import {
 import {
   GetPickUpDaysByContractIdQuery,
   GetPickUpDaysByContractIdQueryVariables,
+  useDeletePickUpDayByIdMutation,
   useGetPickUpDaysByContractIdLazyQuery,
 } from "../../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../../hooks/useContract";
@@ -53,6 +54,13 @@ export function PickUpDaysPage() {
     });
   }
 
+  async function handleDelete(row: IPickUpTableRow) {
+    setIsUpdatingData(true);
+    return deletePickUpDayByIdMutation({
+      variables: { deletePickUpDayId: row.id },
+    });
+  }
+
   /* External Data */
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
@@ -68,6 +76,13 @@ export function PickUpDaysPage() {
       variables: defaultQueryVariables,
       fetchPolicy: "cache-and-network",
     });
+  const [
+    deletePickUpDayByIdMutation,
+    { loading: deletePickUpDayLoading, error: deletePickUpDayError },
+  ] = useDeletePickUpDayByIdMutation({
+    refetchQueries: ["getPickUpDaysByContractId"],
+    awaitRefetchQueries: true,
+  });
 
   /* Local Data */
   const router = useRouter();
@@ -78,9 +93,9 @@ export function PickUpDaysPage() {
   const [tableData, setTableData] = useState<Array<IPickUpTableRow>>([]);
 
   const [isUpdatingData, setIsUpdatingData] = useState(false);
-  const isLoadingMutation = isUpdatingData;
+  const isLoadingMutation = isUpdatingData || deletePickUpDayLoading;
   const isLoading = loading || isLoadingMutation;
-  const errors = [error];
+  const errors = [error, deletePickUpDayError];
 
   const tableColumns: Array<TableColumn<IPickUpTableRow>> = [
     {
@@ -125,6 +140,17 @@ export function PickUpDaysPage() {
       picto: "edit",
       alt: "Modifier",
       href: `${currentRoot}/services/jour-collecte/${row.id}`,
+    },
+    {
+      id: "delete",
+      picto: "trash",
+      alt: "Supprimer",
+      confirmStateOptions: {
+        onConfirm: () => {
+          handleDelete(row);
+        },
+        confirmStyle: "warning",
+      },
     },
   ];
 

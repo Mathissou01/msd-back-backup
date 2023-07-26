@@ -17033,6 +17033,18 @@ export type CreatePickUpDayMutation = {
   } | null;
 };
 
+export type DeletePickUpDayByIdMutationVariables = Exact<{
+  deletePickUpDayId: Scalars["ID"];
+}>;
+
+export type DeletePickUpDayByIdMutation = {
+  __typename?: "Mutation";
+  deletePickUpDay?: {
+    __typename?: "PickUpDayEntityResponse";
+    data?: { __typename?: "PickUpDayEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type GetActiveRequestsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -30192,6 +30204,58 @@ export type CreatePickUpDayMutationResult =
 export type CreatePickUpDayMutationOptions = Apollo.BaseMutationOptions<
   CreatePickUpDayMutation,
   CreatePickUpDayMutationVariables
+>;
+export const DeletePickUpDayByIdDocument = gql`
+  mutation deletePickUpDayById($deletePickUpDayId: ID!) {
+    deletePickUpDay(id: $deletePickUpDayId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeletePickUpDayByIdMutationFn = Apollo.MutationFunction<
+  DeletePickUpDayByIdMutation,
+  DeletePickUpDayByIdMutationVariables
+>;
+
+/**
+ * __useDeletePickUpDayByIdMutation__
+ *
+ * To run a mutation, you first call `useDeletePickUpDayByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePickUpDayByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePickUpDayByIdMutation, { data, loading, error }] = useDeletePickUpDayByIdMutation({
+ *   variables: {
+ *      deletePickUpDayId: // value for 'deletePickUpDayId'
+ *   },
+ * });
+ */
+export function useDeletePickUpDayByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeletePickUpDayByIdMutation,
+    DeletePickUpDayByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeletePickUpDayByIdMutation,
+    DeletePickUpDayByIdMutationVariables
+  >(DeletePickUpDayByIdDocument, options);
+}
+export type DeletePickUpDayByIdMutationHookResult = ReturnType<
+  typeof useDeletePickUpDayByIdMutation
+>;
+export type DeletePickUpDayByIdMutationResult =
+  Apollo.MutationResult<DeletePickUpDayByIdMutation>;
+export type DeletePickUpDayByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeletePickUpDayByIdMutation,
+  DeletePickUpDayByIdMutationVariables
 >;
 export const GetActiveRequestsByContractIdDocument = gql`
   query getActiveRequestsByContractId($contractId: ID!) {
