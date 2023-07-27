@@ -62,27 +62,30 @@ export default function HeaderTopBar({
                   </li>
                 )}
                 <div className="c-HeaderTopBar__Filler" aria-hidden={true} />
+                {/* TODO comments this for to fix US 5331 remove parasitic elements
                 <li
                   className="c-HeaderTopBar__Item"
                   style={{ minWidth: "316px" }}
                 >
                   <Link href={"/"}>[Recherche]</Link>
-                </li>
+                </li> */}
                 <div className="c-HeaderTopBar__Filler" aria-hidden={true} />
+                {/* TODO comments this for to fix US 5331 remove parasitic elements
                 <li
                   className="c-HeaderTopBar__Item"
                   style={{ minWidth: "115px" }}
                 >
                   <Link href={"/"}>[Site]</Link>
-                </li>
+                </li> */}
               </>
             ) : (
               <div className="c-HeaderTopBar__Filler" />
             )}
             <div className="c-HeaderTopBar__Separator" aria-hidden={true} />
+            {/* TODO comments this for to fix US 5333 remove parasitic elements
             <li className="c-HeaderTopBar__Item">
               <Link href={"/"}>[Us]</Link>
-            </li>
+            </li> */}
           </>
         </ul>
       </header>
