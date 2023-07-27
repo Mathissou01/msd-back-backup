@@ -3,6 +3,7 @@ import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import RequestsList from "../../../../components/Request/RequestsList/RequestsList";
+import AppointmentManagement from "../../../../components/Request/AppointmentManagement/AppointmentManagement";
 
 export function RequestsPage() {
   /* Static Data */
@@ -32,14 +33,12 @@ export function RequestsPage() {
       title: labels.tabs.requestsHistory,
     },
     */
-    /* TODO : Uncomment after Sprint 12 demo
     {
       name: "appointmentManagement",
       content: <AppointmentManagement />,
       isEnabled: true,
       title: labels.tabs.appointmentManagement,
     },
-    */
   ];
 
   return (
