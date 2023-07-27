@@ -1,0 +1,76 @@
+query getCookieById($cookieId: ID) {
+  cookie(id: $cookieId) {
+    data {
+      id
+      attributes {
+        title
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksHorizontalRule {
+            id
+            hr
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
+                }
+              }
+            }
+          }
+          ... on Error {
+            code
+            message
+          }
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                id
+                attributes {
+                  name
+                  alternativeText
+                  mime
+                  size
+                  url
+                  provider
+                  hash
+                }
+              }
+            }
+            isDecorative
+            altText
+          }
+          ... on ComponentBlocksVideo {
+            id
+            videoLink
+            transcriptText
+          }
+        }
+        hasMobile
+        isActivated
+      }
+    }
+  }
+}

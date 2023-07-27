@@ -94,7 +94,7 @@ export default function NavigationList() {
           <NavigationListLink path={"/edito/type-contenu"} />
           {/*<NavigationListLink path={"/edito/accessibilite"} />*/}
           {/*<NavigationListLink path={"/edito/conditions-generales"} />*/}
-          {/*<NavigationListLink path={"/edito/politique-cookies"} />*/}
+          <NavigationListLink path={"/edito/politique-cookies"} />
           {/*<NavigationListLink path={"/edito/confidentialite"} />*/}
           <NavigationListLink path={"/edito/contact"} />
         </NavigationListMenu>

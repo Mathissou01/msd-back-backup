@@ -193,6 +193,7 @@ export type AlertNotification = {
   alertMessage?: Maybe<Scalars["String"]>;
   alertNotifService?: Maybe<AlertNotificationServiceEntityResponse>;
   alertTitle?: Maybe<Scalars["String"]>;
+  alertUserStorages?: Maybe<AlertUserStorageRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   scheduledAt: Scalars["Date"];
@@ -202,6 +203,12 @@ export type AlertNotification = {
   sendSMS?: Maybe<Scalars["Boolean"]>;
   subject?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertNotificationAlertUserStoragesArgs = {
+  filters?: InputMaybe<AlertUserStorageFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type AlertNotificationCitiesArgs = {
@@ -238,6 +245,7 @@ export type AlertNotificationFiltersInput = {
   alertMessage?: InputMaybe<StringFilterInput>;
   alertNotifService?: InputMaybe<AlertNotificationServiceFiltersInput>;
   alertTitle?: InputMaybe<StringFilterInput>;
+  alertUserStorages?: InputMaybe<AlertUserStorageFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
   cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -258,6 +266,7 @@ export type AlertNotificationInput = {
   alertMessage?: InputMaybe<Scalars["String"]>;
   alertNotifService?: InputMaybe<Scalars["ID"]>;
   alertTitle?: InputMaybe<Scalars["String"]>;
+  alertUserStorages?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
   scheduledAtTime?: InputMaybe<Scalars["String"]>;
@@ -347,6 +356,76 @@ export type AlertNotificationServiceInput = {
   isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["Date"]>;
+};
+
+export type AlertUserStorage = {
+  __typename?: "AlertUserStorage";
+  alertNotificationServiceId: Scalars["String"];
+  alertNotifications?: Maybe<AlertNotificationRelationResponseCollection>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  email?: Maybe<Scalars["String"]>;
+  isEmail: Scalars["Boolean"];
+  isSMS: Scalars["Boolean"];
+  latitude?: Maybe<Scalars["String"]>;
+  longitude?: Maybe<Scalars["String"]>;
+  phoneNumber?: Maybe<Scalars["String"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type AlertUserStorageAlertNotificationsArgs = {
+  filters?: InputMaybe<AlertNotificationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type AlertUserStorageEntity = {
+  __typename?: "AlertUserStorageEntity";
+  attributes?: Maybe<AlertUserStorage>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type AlertUserStorageEntityResponse = {
+  __typename?: "AlertUserStorageEntityResponse";
+  data?: Maybe<AlertUserStorageEntity>;
+};
+
+export type AlertUserStorageEntityResponseCollection = {
+  __typename?: "AlertUserStorageEntityResponseCollection";
+  data: Array<AlertUserStorageEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type AlertUserStorageFiltersInput = {
+  alertNotificationServiceId?: InputMaybe<StringFilterInput>;
+  alertNotifications?: InputMaybe<AlertNotificationFiltersInput>;
+  and?: InputMaybe<Array<InputMaybe<AlertUserStorageFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  email?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isEmail?: InputMaybe<BooleanFilterInput>;
+  isSMS?: InputMaybe<BooleanFilterInput>;
+  latitude?: InputMaybe<StringFilterInput>;
+  longitude?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<AlertUserStorageFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AlertUserStorageFiltersInput>>>;
+  phoneNumber?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type AlertUserStorageInput = {
+  alertNotificationServiceId?: InputMaybe<Scalars["String"]>;
+  alertNotifications?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  email?: InputMaybe<Scalars["String"]>;
+  isEmail?: InputMaybe<Scalars["Boolean"]>;
+  isSMS?: InputMaybe<Scalars["Boolean"]>;
+  latitude?: InputMaybe<Scalars["String"]>;
+  longitude?: InputMaybe<Scalars["String"]>;
+  phoneNumber?: InputMaybe<Scalars["String"]>;
+};
+
+export type AlertUserStorageRelationResponseCollection = {
+  __typename?: "AlertUserStorageRelationResponseCollection";
+  data: Array<AlertUserStorageEntity>;
 };
 
 export type Appointment = {
@@ -454,15 +533,10 @@ export type Cgu = {
   blocks?: Maybe<Array<Maybe<CguBlocksDynamicZone>>>;
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  customId?: Maybe<Scalars["String"]>;
-  draftCreationId?: Maybe<Scalars["String"]>;
-  hasDraft?: Maybe<Scalars["Boolean"]>;
-  publishedDate?: Maybe<Scalars["DateTime"]>;
-  status?: Maybe<Enum_Cgu_Status>;
+  hasMobile?: Maybe<Scalars["Boolean"]>;
+  isActivated?: Maybe<Scalars["Boolean"]>;
   title: Scalars["String"];
-  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type CguBlocksDynamicZone =
@@ -493,31 +567,21 @@ export type CguFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
   cguSubService?: InputMaybe<CguSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  customId?: InputMaybe<StringFilterInput>;
-  draftCreationId?: InputMaybe<StringFilterInput>;
-  hasDraft?: InputMaybe<BooleanFilterInput>;
+  hasMobile?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<CguFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CguFiltersInput>>>;
-  publishedDate?: InputMaybe<DateTimeFilterInput>;
-  status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type CguInput = {
   blocks?: InputMaybe<Array<Scalars["CguBlocksDynamicZoneInput"]>>;
   cguSubService?: InputMaybe<Scalars["ID"]>;
-  customId?: InputMaybe<Scalars["String"]>;
-  draftCreationId?: InputMaybe<Scalars["String"]>;
-  hasDraft?: InputMaybe<Scalars["Boolean"]>;
-  publishedDate?: InputMaybe<Scalars["DateTime"]>;
-  status?: InputMaybe<Enum_Cgu_Status>;
+  hasMobile?: InputMaybe<Scalars["Boolean"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
   title?: InputMaybe<Scalars["String"]>;
-  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
-  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type CguRelationResponseCollection = {
@@ -632,6 +696,7 @@ export type ChannelTypeRelationResponseCollection = {
 
 export type City = {
   __typename?: "City";
+  GeoJSON?: Maybe<Scalars["JSON"]>;
   MwCounter?: Maybe<MwCounterServiceEntityResponse>;
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -677,6 +742,7 @@ export type CityEntityResponseCollection = {
 };
 
 export type CityFiltersInput = {
+  GeoJSON?: InputMaybe<JsonFilterInput>;
   MwCounter?: InputMaybe<MwCounterServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
   contract?: InputMaybe<ContractFiltersInput>;
@@ -697,6 +763,7 @@ export type CityFiltersInput = {
 };
 
 export type CityInput = {
+  GeoJSON?: InputMaybe<Scalars["JSON"]>;
   MwCounter?: InputMaybe<Scalars["ID"]>;
   contract?: InputMaybe<Scalars["ID"]>;
   department?: InputMaybe<Scalars["String"]>;
@@ -1404,15 +1471,10 @@ export type Confidentiality = {
   blocks?: Maybe<Array<Maybe<ConfidentialityBlocksDynamicZone>>>;
   confidentialitySubService?: Maybe<ConfidentialitySubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  customId?: Maybe<Scalars["String"]>;
-  draftCreationId?: Maybe<Scalars["String"]>;
-  hasDraft?: Maybe<Scalars["Boolean"]>;
-  publishedDate?: Maybe<Scalars["DateTime"]>;
-  status?: Maybe<Enum_Confidentiality_Status>;
+  hasMobile?: Maybe<Scalars["Boolean"]>;
+  isActivated?: Maybe<Scalars["Boolean"]>;
   title: Scalars["String"];
-  toBeUpdated?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-  versionNumber?: Maybe<Scalars["Int"]>;
 };
 
 export type ConfidentialityBlocksDynamicZone =
@@ -1443,31 +1505,21 @@ export type ConfidentialityFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ConfidentialityFiltersInput>>>;
   confidentialitySubService?: InputMaybe<ConfidentialitySubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  customId?: InputMaybe<StringFilterInput>;
-  draftCreationId?: InputMaybe<StringFilterInput>;
-  hasDraft?: InputMaybe<BooleanFilterInput>;
+  hasMobile?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<ConfidentialityFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ConfidentialityFiltersInput>>>;
-  publishedDate?: InputMaybe<DateTimeFilterInput>;
-  status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  toBeUpdated?: InputMaybe<BooleanFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  versionNumber?: InputMaybe<IntFilterInput>;
 };
 
 export type ConfidentialityInput = {
   blocks?: InputMaybe<Array<Scalars["ConfidentialityBlocksDynamicZoneInput"]>>;
   confidentialitySubService?: InputMaybe<Scalars["ID"]>;
-  customId?: InputMaybe<Scalars["String"]>;
-  draftCreationId?: InputMaybe<Scalars["String"]>;
-  hasDraft?: InputMaybe<Scalars["Boolean"]>;
-  publishedDate?: InputMaybe<Scalars["DateTime"]>;
-  status?: InputMaybe<Enum_Confidentiality_Status>;
+  hasMobile?: InputMaybe<Scalars["Boolean"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
   title?: InputMaybe<Scalars["String"]>;
-  toBeUpdated?: InputMaybe<Scalars["Boolean"]>;
-  versionNumber?: InputMaybe<Scalars["Int"]>;
 };
 
 export type ConfidentialityRelationResponseCollection = {
@@ -1545,6 +1597,7 @@ export type ContactUs = {
   __typename?: "ContactUs";
   blocks?: Maybe<Array<Maybe<ContactUsBlocksDynamicZone>>>;
   channelTypes?: Maybe<ChannelTypeRelationResponseCollection>;
+  contactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   status?: Maybe<Enum_Contactus_Status>;
   tags?: Maybe<TagRelationResponseCollection>;
@@ -1593,6 +1646,7 @@ export type ContactUsEntityResponseCollection = {
 export type ContactUsFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
   channelTypes?: InputMaybe<ChannelTypeFiltersInput>;
+  contactUsSubService?: InputMaybe<ContactUsSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ContactUsFiltersInput>;
@@ -1606,6 +1660,7 @@ export type ContactUsFiltersInput = {
 export type ContactUsInput = {
   blocks?: InputMaybe<Array<Scalars["ContactUsBlocksDynamicZoneInput"]>>;
   channelTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  contactUsSubService?: InputMaybe<Scalars["ID"]>;
   status?: InputMaybe<Enum_Contactus_Status>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
@@ -2037,7 +2092,7 @@ export type Cookie = {
   blocks?: Maybe<Array<Maybe<CookieBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   hasMobile: Scalars["Boolean"];
-  status?: Maybe<Enum_Cookie_Status>;
+  isActivated?: Maybe<Scalars["Boolean"]>;
   title: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -2073,9 +2128,9 @@ export type CookieFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   hasMobile?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<CookieFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CookieFiltersInput>>>;
-  status?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -2083,7 +2138,7 @@ export type CookieFiltersInput = {
 export type CookieInput = {
   blocks?: InputMaybe<Array<Scalars["CookieBlocksDynamicZoneInput"]>>;
   hasMobile?: InputMaybe<Scalars["Boolean"]>;
-  status?: InputMaybe<Enum_Cookie_Status>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
   title?: InputMaybe<Scalars["String"]>;
 };
 
@@ -2530,12 +2585,6 @@ export enum Enum_Audience_Type {
   Professionnels = "Professionnels",
 }
 
-export enum Enum_Cgu_Status {
-  Archived = "archived",
-  Draft = "draft",
-  Published = "published",
-}
-
 export enum Enum_Collectdoortodoor_Grammaticalgender {
   Feminin = "feminin",
   Masculin = "masculin",
@@ -2615,12 +2664,6 @@ export enum Enum_Componentlinksrequest_Demand {
   E = "E",
 }
 
-export enum Enum_Confidentiality_Status {
-  Archived = "archived",
-  Draft = "draft",
-  Published = "published",
-}
-
 export enum Enum_Contactus_Status {
   Draft = "draft",
   Published = "published",
@@ -2636,12 +2679,6 @@ export enum Enum_Contract_Contractstatus {
   Actif = "Actif",
   EnCours = "En_cours",
   Initialisation = "Initialisation",
-}
-
-export enum Enum_Cookie_Status {
-  Archived = "archived",
-  Draft = "draft",
-  Published = "published",
 }
 
 export enum Enum_Editocontentdto_Status {
@@ -3685,6 +3722,7 @@ export type GenericMorph =
   | AccessibilitySubService
   | AlertNotification
   | AlertNotificationService
+  | AlertUserStorage
   | Audience
   | Cgu
   | CguSubService
@@ -4216,6 +4254,7 @@ export type Mutation = {
   createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   createAlertNotification?: Maybe<AlertNotificationEntityResponse>;
   createAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
+  createAlertUserStorage?: Maybe<AlertUserStorageEntityResponse>;
   createAudience?: Maybe<AudienceEntityResponse>;
   createCgu?: Maybe<CguEntityResponse>;
   createCguSubService?: Maybe<CguSubServiceEntityResponse>;
@@ -4297,6 +4336,7 @@ export type Mutation = {
   deleteAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   deleteAlertNotification?: Maybe<AlertNotificationEntityResponse>;
   deleteAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
+  deleteAlertUserStorage?: Maybe<AlertUserStorageEntityResponse>;
   deleteAudience?: Maybe<AudienceEntityResponse>;
   deleteCgu?: Maybe<CguEntityResponse>;
   deleteCguSubService?: Maybe<CguSubServiceEntityResponse>;
@@ -4400,6 +4440,7 @@ export type Mutation = {
   updateAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   updateAlertNotification?: Maybe<AlertNotificationEntityResponse>;
   updateAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
+  updateAlertUserStorage?: Maybe<AlertUserStorageEntityResponse>;
   updateAudience?: Maybe<AudienceEntityResponse>;
   updateCgu?: Maybe<CguEntityResponse>;
   updateCguSubService?: Maybe<CguSubServiceEntityResponse>;
@@ -4537,6 +4578,10 @@ export type MutationCreateAlertNotificationArgs = {
 
 export type MutationCreateAlertNotificationServiceArgs = {
   data: AlertNotificationServiceInput;
+};
+
+export type MutationCreateAlertUserStorageArgs = {
+  data: AlertUserStorageInput;
 };
 
 export type MutationCreateAudienceArgs = {
@@ -4868,6 +4913,10 @@ export type MutationDeleteAlertNotificationArgs = {
 };
 
 export type MutationDeleteAlertNotificationServiceArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteAlertUserStorageArgs = {
   id: Scalars["ID"];
 };
 
@@ -5278,6 +5327,11 @@ export type MutationUpdateAlertNotificationArgs = {
 
 export type MutationUpdateAlertNotificationServiceArgs = {
   data: AlertNotificationServiceInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateAlertUserStorageArgs = {
+  data: AlertUserStorageInput;
   id: Scalars["ID"];
 };
 
@@ -6300,6 +6354,8 @@ export type Query = {
   alertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   alertNotificationServices?: Maybe<AlertNotificationServiceEntityResponseCollection>;
   alertNotifications?: Maybe<AlertNotificationEntityResponseCollection>;
+  alertUserStorage?: Maybe<AlertUserStorageEntityResponse>;
+  alertUserStorages?: Maybe<AlertUserStorageEntityResponseCollection>;
   audience?: Maybe<AudienceEntityResponse>;
   audiences?: Maybe<AudienceEntityResponseCollection>;
   cgu?: Maybe<CguEntityResponse>;
@@ -6511,6 +6567,16 @@ export type QueryAlertNotificationServicesArgs = {
 
 export type QueryAlertNotificationsArgs = {
   filters?: InputMaybe<AlertNotificationFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryAlertUserStorageArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryAlertUserStoragesArgs = {
+  filters?: InputMaybe<AlertUserStorageFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -6874,7 +6940,7 @@ export type QueryGetDropOffCollectTypeArgs = {
 };
 
 export type QueryGetDropOffMapsArgs = {
-  audienceId: Scalars["String"];
+  audienceId: Scalars["ID"];
   dropOffMapServiceId: Scalars["ID"];
 };
 
@@ -8139,6 +8205,7 @@ export type RequestTaked = {
   __typename?: "RequestTaked";
   city?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  isActivated?: Maybe<Scalars["Boolean"]>;
   name: Scalars["String"];
   requestServiceId?: Maybe<Scalars["Int"]>;
   requestSlot?: Maybe<RequestSlotEntityResponse>;
@@ -8170,6 +8237,7 @@ export type RequestTakedFiltersInput = {
   city?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RequestTakedFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestTakedFiltersInput>>>;
@@ -8183,6 +8251,7 @@ export type RequestTakedFiltersInput = {
 
 export type RequestTakedInput = {
   city?: InputMaybe<Scalars["String"]>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
   name?: InputMaybe<Scalars["String"]>;
   requestServiceId?: InputMaybe<Scalars["Int"]>;
   requestSlot?: InputMaybe<Scalars["ID"]>;
@@ -11197,6 +11266,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "AccessibilitySubService" }
           | { __typename?: "AlertNotification" }
           | { __typename?: "AlertNotificationService" }
+          | { __typename?: "AlertUserStorage" }
           | { __typename?: "Audience" }
           | { __typename?: "Cgu" }
           | { __typename?: "CguSubService" }
@@ -12356,6 +12426,202 @@ export type UpdateFreeContentMutation = {
               videoLink?: string | null;
               transcriptText?: string | null;
             }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error" }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetCookieByIdQueryVariables = Exact<{
+  cookieId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetCookieByIdQuery = {
+  __typename?: "Query";
+  cookie?: {
+    __typename?: "CookieEntityResponse";
+    data?: {
+      __typename?: "CookieEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Cookie";
+        title: string;
+        hasMobile: boolean;
+        isActivated?: boolean | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksImage";
+              id: string;
+              isDecorative?: boolean | null;
+              altText?: string | null;
+              picture?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    name: string;
+                    alternativeText?: string | null;
+                    mime: string;
+                    size: number;
+                    url: string;
+                    provider: string;
+                    hash: string;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | {
+              __typename?: "ComponentBlocksVideo";
+              id: string;
+              videoLink?: string | null;
+              transcriptText?: string | null;
+            }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetCookiesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetCookiesByContractIdQuery = {
+  __typename?: "Query";
+  cookiesSubServices?: {
+    __typename?: "CookiesSubServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "CookiesSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CookiesSubService";
+        name: string;
+        cookies?: {
+          __typename?: "CookieRelationResponseCollection";
+          data: Array<{
+            __typename?: "CookieEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Cookie";
+              title: string;
+              hasMobile: boolean;
+              isActivated?: boolean | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateCookieByIdMutationVariables = Exact<{
+  updateCookieId: Scalars["ID"];
+  data: CookieInput;
+}>;
+
+export type UpdateCookieByIdMutation = {
+  __typename?: "Mutation";
+  updateCookie?: {
+    __typename?: "CookieEntityResponse";
+    data?: {
+      __typename?: "CookieEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Cookie";
+        title: string;
+        hasMobile: boolean;
+        isActivated?: boolean | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                    ext?: string | null;
+                    height?: number | null;
+                    width?: number | null;
+                    createdAt?: any | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | {
+              __typename?: "ComponentBlocksHorizontalRule";
+              id: string;
+              hr?: string | null;
+            }
+          | { __typename?: "ComponentBlocksImage" }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | { __typename?: "ComponentBlocksVideo" }
           | {
               __typename?: "ComponentBlocksWysiwyg";
               id: string;
@@ -21712,6 +21978,304 @@ export type UpdateFreeContentMutationResult =
 export type UpdateFreeContentMutationOptions = Apollo.BaseMutationOptions<
   UpdateFreeContentMutation,
   UpdateFreeContentMutationVariables
+>;
+export const GetCookieByIdDocument = gql`
+  query getCookieById($cookieId: ID) {
+    cookie(id: $cookieId) {
+      data {
+        id
+        attributes {
+          title
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  id
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+            ... on ComponentBlocksImage {
+              id
+              picture {
+                data {
+                  id
+                  attributes {
+                    name
+                    alternativeText
+                    mime
+                    size
+                    url
+                    provider
+                    hash
+                  }
+                }
+              }
+              isDecorative
+              altText
+            }
+            ... on ComponentBlocksVideo {
+              id
+              videoLink
+              transcriptText
+            }
+          }
+          hasMobile
+          isActivated
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCookieByIdQuery__
+ *
+ * To run a query within a React component, call `useGetCookieByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCookieByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCookieByIdQuery({
+ *   variables: {
+ *      cookieId: // value for 'cookieId'
+ *   },
+ * });
+ */
+export function useGetCookieByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetCookieByIdQuery,
+    GetCookieByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCookieByIdQuery, GetCookieByIdQueryVariables>(
+    GetCookieByIdDocument,
+    options,
+  );
+}
+export function useGetCookieByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCookieByIdQuery,
+    GetCookieByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCookieByIdQuery, GetCookieByIdQueryVariables>(
+    GetCookieByIdDocument,
+    options,
+  );
+}
+export type GetCookieByIdQueryHookResult = ReturnType<
+  typeof useGetCookieByIdQuery
+>;
+export type GetCookieByIdLazyQueryHookResult = ReturnType<
+  typeof useGetCookieByIdLazyQuery
+>;
+export type GetCookieByIdQueryResult = Apollo.QueryResult<
+  GetCookieByIdQuery,
+  GetCookieByIdQueryVariables
+>;
+export const GetCookiesByContractIdDocument = gql`
+  query getCookiesByContractId($contractId: ID!) {
+    cookiesSubServices(
+      filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+    ) {
+      data {
+        id
+        attributes {
+          cookies {
+            data {
+              id
+              attributes {
+                title
+                hasMobile
+                isActivated
+              }
+            }
+          }
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCookiesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetCookiesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCookiesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCookiesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetCookiesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetCookiesByContractIdQuery,
+    GetCookiesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetCookiesByContractIdQuery,
+    GetCookiesByContractIdQueryVariables
+  >(GetCookiesByContractIdDocument, options);
+}
+export function useGetCookiesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCookiesByContractIdQuery,
+    GetCookiesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetCookiesByContractIdQuery,
+    GetCookiesByContractIdQueryVariables
+  >(GetCookiesByContractIdDocument, options);
+}
+export type GetCookiesByContractIdQueryHookResult = ReturnType<
+  typeof useGetCookiesByContractIdQuery
+>;
+export type GetCookiesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetCookiesByContractIdLazyQuery
+>;
+export type GetCookiesByContractIdQueryResult = Apollo.QueryResult<
+  GetCookiesByContractIdQuery,
+  GetCookiesByContractIdQueryVariables
+>;
+export const UpdateCookieByIdDocument = gql`
+  mutation updateCookieById($updateCookieId: ID!, $data: CookieInput!) {
+    updateCookie(id: $updateCookieId, data: $data) {
+      data {
+        id
+        attributes {
+          title
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksHorizontalRule {
+              id
+              hr
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  id
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                    ext
+                    height
+                    width
+                    createdAt
+                  }
+                }
+              }
+            }
+          }
+          hasMobile
+          isActivated
+        }
+      }
+    }
+  }
+`;
+export type UpdateCookieByIdMutationFn = Apollo.MutationFunction<
+  UpdateCookieByIdMutation,
+  UpdateCookieByIdMutationVariables
+>;
+
+/**
+ * __useUpdateCookieByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateCookieByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCookieByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCookieByIdMutation, { data, loading, error }] = useUpdateCookieByIdMutation({
+ *   variables: {
+ *      updateCookieId: // value for 'updateCookieId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateCookieByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCookieByIdMutation,
+    UpdateCookieByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateCookieByIdMutation,
+    UpdateCookieByIdMutationVariables
+  >(UpdateCookieByIdDocument, options);
+}
+export type UpdateCookieByIdMutationHookResult = ReturnType<
+  typeof useUpdateCookieByIdMutation
+>;
+export type UpdateCookieByIdMutationResult =
+  Apollo.MutationResult<UpdateCookieByIdMutation>;
+export type UpdateCookieByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCookieByIdMutation,
+  UpdateCookieByIdMutationVariables
 >;
 export const GetTagsByContractIdDocument = gql`
   query getTagsByContractId($contractId: ID) {

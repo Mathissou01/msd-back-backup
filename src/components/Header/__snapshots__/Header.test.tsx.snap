@@ -123,6 +123,16 @@ exports[`Header renders 1`] = `
             </a>
             <a
               class="c-NavigationListLink"
+              href="null/edito/politique-cookies"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Politique de cookies
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
               href="null/edito/contact"
             >
               <span
