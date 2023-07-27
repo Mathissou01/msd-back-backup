@@ -42,6 +42,7 @@ export function PersonnalisationMenuPage() {
           return {
             __typename: link.type,
             id: link.id,
+            name: link.name,
           };
         },
       );
