@@ -1,4 +1,5 @@
 import { useFormContext } from "react-hook-form";
+import { DAYS_WITH_INDEX } from "../../../lib/requests";
 import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
 import RequestAppointmentSlotsBySector, {
   IRequestAppointmentSlotsBySectorLabels,
@@ -49,23 +50,14 @@ export default function RequestAppointmentSlots({
   for (let i = 1; i < 11; i++) {
     numberOfRequiredSlotsOptions.push({ label: i.toString(), option: i });
   }
-  const days = [
-    { name: "Lundi", index: 1 },
-    { name: "Mardi", index: 2 },
-    { name: "Mercredi", index: 3 },
-    { name: "Jeudi", index: 4 },
-    { name: "Vendredi", index: 5 },
-    { name: "Samedi", index: 6 },
-    { name: "Dimanche", index: 0 },
-  ];
-  const slotsReservationRulesOptions: Array<IOptionWrapper<string>> = days.map(
-    (day) => {
+
+  const slotsReservationRulesOptions: Array<IOptionWrapper<string>> =
+    DAYS_WITH_INDEX.map((day) => {
       return {
         label: day.name,
         option: day.index.toString(),
       };
-    },
-  );
+    });
 
   return (
     <>
@@ -119,7 +111,7 @@ export default function RequestAppointmentSlots({
                 {labels.staticSlotsReservationRulesTitle}
               </span>
               <div className="c-RequestAppointmentSlots__SlotsLine">
-                {days.map((day) => {
+                {DAYS_WITH_INDEX.map((day) => {
                   return (
                     <FormSelect<string>
                       key={day.index}
