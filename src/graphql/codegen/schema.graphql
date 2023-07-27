@@ -287,6 +287,12 @@ type Audience {
   updatedAt: DateTime
 }
 
+type AudienceDTO {
+  id: ID!
+  isActive: Boolean!
+  type: String!
+}
+
 type AudienceEntity {
   attributes: Audience
   id: ID
@@ -2053,6 +2059,7 @@ type DropOffMap {
 type DropOffMapDTO {
   BANFeatureProperties: JSON
   address: String!
+  audiences: [AudienceDTO]
   city: String!
   collect: CollectEntity
   description: String
@@ -5149,7 +5156,7 @@ type Query {
   getAppointmentsDetails(requestId: ID!): AppointmentDetails
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
   getDropOffCollectType(contractId: ID!): [CollectEntity]
-  getDropOffMaps(dropOffMapServiceId: ID!): [DropOffMapDTO]
+  getDropOffMaps(audienceId: String!, dropOffMapServiceId: ID!): [DropOffMapDTO]
   getEditoBlockDTO(
     contractId: ID!
     status: ENUM_EDITOCONTENTDTO_STATUS

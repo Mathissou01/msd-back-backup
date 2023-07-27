@@ -5,6 +5,7 @@ import { IWasteFormFields } from "../../../../lib/recycling-guide";
 import FormDatePicker from "../../../Form/FormDatePicker/FormDatePicker";
 import InformationsCard from "../../../../layouts/FormLayout/FormLayoutSideBar/InformationsCard/InformationsCard";
 import VersioningCard from "../../../../layouts/FormLayout/FormLayoutSideBar/VersioningCard/VersioningCard";
+import CommonAudienceSelection from "../../../Common/CommonAudienceSelection/CommonAudienceSelection";
 import "./waste-form-sidebar.scss";
 
 export default function WasteFormSideBar() {
@@ -45,6 +46,9 @@ export default function WasteFormSideBar() {
           </p>
         </div>
       )}
+      <div className="c-WasteFormSideBar__Users">
+        <CommonAudienceSelection />
+      </div>
       {defaultValues?.createdAt && defaultValues?.updatedAt && (
         <InformationsCard
           creationDate={defaultValues?.createdAt}

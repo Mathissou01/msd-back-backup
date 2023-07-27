@@ -15,4 +15,5 @@ export interface IWasteFormStaticFields extends IFormVersioningFields {
 
 export interface IWasteFormFields extends IWasteFormStaticFields {
   contentBlock: Array<IFormBlock>;
+  audiences?: Array<IFormSingleMultiselectOption>;
 }

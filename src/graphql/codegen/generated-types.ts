@@ -370,6 +370,13 @@ export type Audience = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
+export type AudienceDto = {
+  __typename?: "AudienceDTO";
+  id: Scalars["ID"];
+  isActive: Scalars["Boolean"];
+  type: Scalars["String"];
+};
+
 export type AudienceEntity = {
   __typename?: "AudienceEntity";
   attributes?: Maybe<Audience>;
@@ -2336,6 +2343,7 @@ export type DropOffMapDto = {
   __typename?: "DropOffMapDTO";
   BANFeatureProperties?: Maybe<Scalars["JSON"]>;
   address: Scalars["String"];
+  audiences?: Maybe<Array<Maybe<AudienceDto>>>;
   city: Scalars["String"];
   collect?: Maybe<CollectEntity>;
   description?: Maybe<Scalars["String"]>;
@@ -6866,6 +6874,7 @@ export type QueryGetDropOffCollectTypeArgs = {
 };
 
 export type QueryGetDropOffMapsArgs = {
+  audienceId: Scalars["String"];
   dropOffMapServiceId: Scalars["ID"];
 };
 
@@ -11389,18 +11398,6 @@ export type GetContactUsByIdQuery = {
             attributes?: { __typename?: "Tag"; name: string } | null;
           }>;
         } | null;
-        audiences?: {
-          __typename?: "AudienceRelationResponseCollection";
-          data: Array<{
-            __typename?: "AudienceEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "Audience";
-              type: Enum_Audience_Type;
-              isActive: boolean;
-            } | null;
-          }>;
-        } | null;
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -11533,10 +11530,6 @@ export type UpdateContactUsMutation = {
             id?: string | null;
             attributes?: { __typename?: "Tag"; name: string } | null;
           }>;
-        } | null;
-        audiences?: {
-          __typename?: "AudienceRelationResponseCollection";
-          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
         } | null;
         blocks?: Array<
           | {
@@ -16653,6 +16646,18 @@ export type GetWasteFormByIdQuery = {
             } | null;
           } | null;
         } | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{
+            __typename?: "AudienceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Audience";
+              type: Enum_Audience_Type;
+              isActive: boolean;
+            } | null;
+          }>;
+        } | null;
         contentBlock?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -16830,6 +16835,10 @@ export type UpdateWasteFormMutation = {
         __typename?: "WasteForm";
         customId?: string | null;
         isHidden?: boolean | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -20274,15 +20283,6 @@ export const GetContactUsByIdDocument = gql`
               }
             }
           }
-          audiences {
-            data {
-              id
-              attributes {
-                type
-                isActive
-              }
-            }
-          }
           blocks {
             ... on ComponentBlocksSubHeading {
               id
@@ -20490,11 +20490,6 @@ export const UpdateContactUsDocument = gql`
               attributes {
                 name
               }
-            }
-          }
-          audiences {
-            data {
-              id
             }
           }
           blocks {
@@ -29418,6 +29413,15 @@ export const GetWasteFormByIdDocument = gql`
               }
             }
           }
+          audiences {
+            data {
+              id
+              attributes {
+                type
+                isActive
+              }
+            }
+          }
           contentBlock {
             ... on ComponentBlocksImage {
               id
@@ -29747,6 +29751,11 @@ export const UpdateWasteFormDocument = gql`
         attributes {
           customId
           isHidden
+          audiences {
+            data {
+              id
+            }
+          }
         }
       }
     }

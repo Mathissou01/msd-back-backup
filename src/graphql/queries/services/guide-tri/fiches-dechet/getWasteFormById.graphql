@@ -60,6 +60,15 @@ query getWasteFormById($wasteFormId: ID) {
             }
           }
         }
+        audiences {
+          data {
+            id
+            attributes {
+              type
+              isActive
+            }
+          }
+        }
         contentBlock {
           ... on ComponentBlocksImage {
             id

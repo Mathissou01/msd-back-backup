@@ -13,6 +13,7 @@ import {
   GetWasteFormByIdDocument,
   GetWasteFormDraftQuery,
   GetWasteFormDraftDocument,
+  AudienceEntity,
 } from "../../../../../../graphql/codegen/generated-types";
 import { EStatus, valueToEStatus } from "../../../../../../lib/status";
 import { formatDate } from "../../../../../../lib/utilities";
@@ -69,6 +70,9 @@ export function ServiceGuideDuTriEditPage({
           ({ id, ...rest }: IFormBlock) => rest,
         ),
         unpublishedDate: submitData.unpublishedDate,
+        audiences: submitData.audiences.map(
+          (user: IFormSingleMultiselectOption) => user.value.toString(),
+        ),
         toBeUpdated: true,
       },
     };
@@ -226,6 +230,14 @@ export function ServiceGuideDuTriEditPage({
           updatedAt: formatDate(
             parseJSON(wasteFormData.attributes.updatedAt),
             "dd/MM/yyyy HH:mm",
+          ),
+          audiences: wasteFormData.attributes.audiences?.data.map(
+            (user: AudienceEntity) => {
+              return {
+                label: user.attributes?.type ?? "",
+                value: user.id ?? "",
+              };
+            },
           ),
         };
         setMappedData(mappedData);

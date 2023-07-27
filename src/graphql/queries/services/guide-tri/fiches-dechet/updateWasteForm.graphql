@@ -5,6 +5,11 @@ mutation UpdateWasteForm($updateWasteFormId: ID!, $data: WasteFormInput!) {
       attributes {
         customId
         isHidden
+        audiences {
+          data {
+            id
+          }
+        }
       }
     }
   }
