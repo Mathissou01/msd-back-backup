@@ -131,8 +131,13 @@ export default function EditoTipsEditPage() {
   async function handlePreview(tipId: string) {
     // TODO: implement this on other edito types, either same page (with type param), or 1 page per type
     if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams({
+        id: tipId,
+        type: "tip",
+      });
+
       window.open(
-        `${currentRoot}/edito/astuces/preview?id=${tipId}`,
+        `${currentRoot}/preview?${queryParams.toString()}`,
         "_blank",
         "noreferrer",
       );
@@ -144,6 +149,7 @@ export default function EditoTipsEditPage() {
   /* Local data */
   const router = useRouter();
   const { currentRoot } = useNavigation();
+  console.log({ currentRoot });
   const { contract } = useContract();
 
   const getTipByIdLazyQuery = useGetTipByIdLazyQuery({

@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import PreviewBanner from "../../../../../components/Preview/PreviewBanner/PreviewBanner";
+import PreviewBanner from "../../../components/Preview/PreviewBanner/PreviewBanner";
 import { useRouter } from "next/router";
-import ShadowDOMContainer from "../../../../../components/Preview/ShadowDom/ShadowDomContainer";
-import CommonSpinner from "../../../../../components/Common/CommonSpinner/CommonSpinner";
-import "./edito-contactus-preview-page.scss";
-export default function PreviewContactUsPage() {
+import ShadowDOMContainer from "../../../components/Preview/ShadowDom/ShadowDomContainer";
+import CommonSpinner from "../../../components/Common/CommonSpinner/CommonSpinner";
+import "./edito-actualites-preview-page.scss";
+
+export default function PreviewPage() {
+  /* Local Data */
   const router = useRouter();
-  const { id } = router.query;
+  const { id, type } = router.query;
   const [width, setWidth] = useState<string>("100%");
 
+  /*Methods */
   async function onFormatting(device: string) {
     switch (device) {
       case "desktop":
@@ -30,7 +33,7 @@ export default function PreviewContactUsPage() {
         <CommonSpinner />
       ) : (
         <div className="c-PreviewPage">
-          <ShadowDOMContainer id={id} width={width} height={"100%"} />
+          <ShadowDOMContainer id={id} type={type} width={width} height="100%" />
         </div>
       )}
     </div>

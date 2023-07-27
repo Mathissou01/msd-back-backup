@@ -138,6 +138,23 @@ export function ServiceGuideDuTriEditPage({
     });
   }
 
+  async function onPreview(freeContentId: string) {
+    if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams({
+        id: freeContentId,
+        type: "wasteForm",
+      });
+
+      window.open(
+        `${currentRoot}/preview?${queryParams.toString()}`,
+        "_blank",
+        "noreferrer",
+      );
+    } else {
+      return router.push("/404");
+    }
+  }
+
   async function onDepublish() {
     const variables = {
       updateWasteFormId: wasteFormId,
@@ -259,6 +276,7 @@ export function ServiceGuideDuTriEditPage({
               onSubmitValid={onSubmit}
               onPublish={onPublish}
               onDepublish={onDepublish}
+              onPreview={() => onPreview(wasteFormId)}
               labels={formLabels}
             />
           </CommonLoader>

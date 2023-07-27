@@ -131,8 +131,13 @@ export default function EditoActualitesEditPage() {
   async function handlePreview(newId: string) {
     // TODO: implement this on other edito types, either same page (with type param), or 1 page per type
     if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams({
+        id: newId,
+        type: "new",
+      });
+
       window.open(
-        `${currentRoot}/edito/actualites/preview?id=${newId}`,
+        `${currentRoot}/preview?${queryParams.toString()}`,
         "_blank",
         "noreferrer",
       );

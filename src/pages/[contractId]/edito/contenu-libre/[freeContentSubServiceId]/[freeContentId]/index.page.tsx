@@ -145,8 +145,13 @@ export function EditoFreeContentEditPage({
 
   async function handlePreview(freeContentId: string) {
     if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams({
+        id: freeContentId,
+        type: "freeContent",
+      });
+
       window.open(
-        `${currentRoot}/edito/contenu-libre/preview?id=${freeContentId}`,
+        `${currentRoot}/preview?${queryParams.toString()}`,
         "_blank",
         "noreferrer",
       );

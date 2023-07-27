@@ -69,10 +69,14 @@ export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
   }
 
   async function handlePreview() {
-    // TODO: merge preview pages or refactor code. In this case is the contactUsId needed?
     if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams({
+        id: cookieId,
+        type: "cookie",
+      });
+
       window.open(
-        `${currentRoot}/edito/politique-cookies/preview?id=${cookieId}`,
+        `${currentRoot}/preview?${queryParams.toString()}`,
         "_blank",
         "noreferrer",
       );

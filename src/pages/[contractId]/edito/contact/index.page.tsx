@@ -73,7 +73,7 @@ export function EditoContactEditPage() {
     // TODO: merge preview pages or refactor code. In this case is the contactUsId needed?
     if (typeof window !== "undefined") {
       window.open(
-        `${currentRoot}/edito/contact/preview?id=${contactUsId}`,
+        `${currentRoot}/preview?id=${contactUsId}?type=contact`,
         "_blank",
         "noreferrer",
       );

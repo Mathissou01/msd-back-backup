@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-
 import "./shadow-dom-format.scss";
-const ShadowDomContainer = ({ id, width, height }) => {
+
+const ShadowDomContainer = ({ id, type, width, height }) => {
   useEffect(() => {
     window.addEventListener("DOMContentLoaded", () => {
       const iframe = document.querySelector("#external-iframe");
@@ -18,7 +18,7 @@ const ShadowDomContainer = ({ id, width, height }) => {
   return (
     <iframe
       id="external-iframe"
-      src={`http://localhost:3002/preview?id=${id}`}
+      src={`${process.env.NEXT_PUBLIC_FO_URL}/preview?type=${type}&id=${id}`}
       width={width}
       height={height}
     />
