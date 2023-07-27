@@ -137,13 +137,13 @@ export function CartePage() {
       grow: 1,
     },
     {
-      id: "dropoffmapType",
+      id: "collectVoluntary.name",
       name: tableLabels.columns.dropoffmapType,
       selector: (row) => row.type,
       sortable: true,
     },
     {
-      id: "dropoffmapPlace",
+      id: "city",
       name: tableLabels.columns.dropoffmapPlace,
       selector: (row) => row.place,
       sortable: true,
