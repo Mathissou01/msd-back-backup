@@ -11,10 +11,14 @@ import "./editorial-sidebar.scss";
 
 interface IEditorialSideBar {
   additionalPath?: string;
+  hasAudienceSelection?: boolean;
+  hasUnpublishedDatePicker?: boolean;
 }
 
 export default function EditorialSideBar({
   additionalPath,
+  hasAudienceSelection = true,
+  hasUnpublishedDatePicker = true,
 }: IEditorialSideBar) {
   /* Static Data */
   const labels = {
@@ -43,7 +47,7 @@ export default function EditorialSideBar({
           ? statusLabels[defaultValues?.status]
           : statusLabels.draft}
       </span>
-      {defaultValues?.status !== "archived" && (
+      {defaultValues?.status !== "archived" && hasUnpublishedDatePicker && (
         <div className="c-EditorialSideBar__UnpublishedDateDatePicker">
           <FormDatePicker
             name="unpublishedDate"
@@ -56,9 +60,12 @@ export default function EditorialSideBar({
           </p>
         </div>
       )}
-      <div className="c-EditorialSideBar__Users">
-        <CommonAudienceSelection />
-      </div>
+      {hasAudienceSelection && (
+        <div className="c-EditorialSideBar__Users">
+          <CommonAudienceSelection />
+        </div>
+      )}
+
       {defaultValues?.createdAt && defaultValues?.updatedAt && (
         <InformationsCard
           creationDate={defaultValues?.createdAt}

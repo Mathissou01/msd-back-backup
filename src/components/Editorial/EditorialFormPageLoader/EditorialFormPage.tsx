@@ -34,15 +34,15 @@ export interface IEditoContentLabels {
 export interface ICommonMutationVariables {
   title: string;
   tags: Array<string>;
-  image: string;
-  shortDescription: string;
+  image?: string;
+  shortDescription?: string;
   blocks: Array<IFormBlock>;
-  unpublishedDate: string;
+  unpublishedDate?: string;
 }
 
 export interface ICommonUpdateMutationVariables
   extends ICommonMutationVariables {
-  toBeUpdated: boolean;
+  toBeUpdated?: boolean;
 }
 
 export interface IEditorialFormPage {
@@ -68,6 +68,7 @@ export interface IEditorialFormPageProps {
   isLoading: boolean;
   errors: Array<ApolloError | undefined>;
   pageProps: IEditorialFormPage;
+  isContactUsSubmission?: boolean;
 }
 
 export default function EditorialFormPage({
@@ -77,6 +78,7 @@ export default function EditorialFormPage({
   isLoading,
   errors,
   pageProps,
+  isContactUsSubmission = false,
 }: IEditorialFormPageProps) {
   const {
     labels,
@@ -102,16 +104,20 @@ export default function EditorialFormPage({
       tags: submitData.tags?.map(
         (option: IFormSingleMultiselectOption) => option.value,
       ),
-      image: submitData.image.id,
-      shortDescription: submitData.shortDescription,
+      ...(!isContactUsSubmission && {
+        image: submitData.image.id,
+        shortDescription: submitData.shortDescription,
+      }),
       blocks: submitData.blocks?.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ id, ...rest }: IFormBlock) => rest,
       ),
-      unpublishedDate: submitData.unpublishedDate,
-      audiences: submitData.audiences.map(
-        (user: IFormSingleMultiselectOption) => user.value.toString(),
-      ),
+      ...(!isContactUsSubmission && {
+        audiences: submitData.audiences.map(
+          (user: IFormSingleMultiselectOption) => user.value.toString(),
+        ),
+        unpublishedDate: submitData.unpublishedDate,
+      }),
     };
     if (isCreateMode && onCreate) {
       onCreate(commonMutationVariables);
@@ -120,7 +126,9 @@ export default function EditorialFormPage({
         contentId,
         {
           ...commonMutationVariables,
-          toBeUpdated: true,
+          ...(!isContactUsSubmission && {
+            toBeUpdated: true,
+          }),
         },
         submitData.status,
       );
@@ -144,6 +152,8 @@ export default function EditorialFormPage({
             onPreview={() => onPreview(contentId)}
             labels={labels.form}
             additionalPath={subServiceId}
+            hasAudienceSelection={!isContactUsSubmission}
+            hasUnpublishedDatePicker={!isContactUsSubmission}
           />
         </CommonLoader>
       </>

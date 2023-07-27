@@ -61,10 +61,7 @@ export function EditoContactEditPage() {
     const variables = {
       updateContactUsId: contactUsId,
       data: {
-        // TODO: temporarily fix contactUS query, why codegen works
-        //status: Enum_Contactus_Status.Archived,
         status: Enum_Contactus_Status.Draft,
-        unpublishedDate: new Date(),
       },
     };
     return updateContactUs({
@@ -105,10 +102,7 @@ export function EditoContactEditPage() {
   const [
     updateContactUs,
     { loading: updateMutationLoading, error: updateMutationError },
-  ] = useUpdateContactUsMutation({
-    refetchQueries: ["getContactUsById"],
-    awaitRefetchQueries: true,
-  });
+  ] = useUpdateContactUsMutation();
   const isLoading =
     contractContactUsesLoading || loading || updateMutationLoading;
   const errors = [contractContactUsesError, error, updateMutationError];
@@ -117,15 +111,9 @@ export function EditoContactEditPage() {
   useEffect(() => {
     if (data?.contactUs?.data) {
       const editoData = data.contactUs.data;
-      if (
-        editoData.id &&
-        editoData.attributes &&
-        //editoData.attributes.customId &&
-        editoData.attributes.title
-      ) {
+      if (editoData.id && editoData.attributes && editoData.attributes.title) {
         const mappedData: IEditorialFields = {
           id: editoData.id,
-          //customId: editoData.attributes.customId,
           status: valueToEStatus(editoData.attributes.status),
           title: editoData.attributes.title,
           tags:
@@ -134,7 +122,6 @@ export function EditoContactEditPage() {
               label: tag.attributes?.name ?? "",
             })) ?? [],
           blocks: remapFormBlocksDynamicZone(editoData.attributes.blocks),
-          //unpublishedDate: editoData.attributes.unpublishedDate,
           createdAt: formatDate(
             parseJSON(editoData.attributes.createdAt),
             "dd/MM/yyyy HH:mm",
@@ -170,6 +157,7 @@ export function EditoContactEditPage() {
           isLoading={isLoading}
           errors={errors}
           pageProps={pageProps}
+          isContactUsSubmission
         />
       )}
     </>

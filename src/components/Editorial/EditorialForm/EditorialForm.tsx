@@ -23,6 +23,8 @@ interface IEditorialFormProps {
   labels: IEditorialStaticFieldsLabels;
   buttonLabels?: IFormLayoutDefaultButtonsLabels;
   additionalPath?: string;
+  hasAudienceSelection?: boolean;
+  hasUnpublishedDatePicker?: boolean;
 }
 
 export default function EditorialForm({
@@ -36,6 +38,8 @@ export default function EditorialForm({
   labels,
   buttonLabels,
   additionalPath,
+  hasAudienceSelection,
+  hasUnpublishedDatePicker,
 }: IEditorialFormProps) {
   const buttonContent = (
     <FormLayoutDefaultButtons<IEditorialFields>
@@ -57,7 +61,13 @@ export default function EditorialForm({
       />
     </>
   );
-  const sidebarContent = <EditorialSideBar additionalPath={additionalPath} />;
+  const sidebarContent = (
+    <EditorialSideBar
+      additionalPath={additionalPath}
+      hasAudienceSelection={hasAudienceSelection}
+      hasUnpublishedDatePicker={hasUnpublishedDatePicker}
+    />
+  );
   const formOptions = {
     onSubmitValid,
     defaultValues: data,
