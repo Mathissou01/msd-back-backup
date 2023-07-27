@@ -39,7 +39,7 @@ export default function MediaImportUrl({
 
     for (const url of urls) {
       if (!onPatternValidation(url)) {
-        setError("url", { message: "une URL est invalide" });
+        setError("url", { message: "L'URL saisie est invalide" });
         return;
       }
     }
@@ -88,6 +88,10 @@ export default function MediaImportUrl({
                           ).toLocaleDateString(),
                           file: file,
                         });
+                        if (index === urls.length - 1) {
+                          setSelectedFiles(selectedFilesInstance);
+                          setActiveModal(ModalStatus.UPLOAD_MODAL);
+                        }
                       }
                     };
 
@@ -108,19 +112,21 @@ export default function MediaImportUrl({
                     width: 0,
                     file: file,
                   });
-                }
-
-                if (index === urls.length - 1) {
-                  setSelectedFiles(selectedFilesInstance);
-                  setActiveModal(ModalStatus.UPLOAD_MODAL);
+                  if (index === urls.length - 1) {
+                    setSelectedFiles(selectedFilesInstance);
+                    setActiveModal(ModalStatus.UPLOAD_MODAL);
+                  }
                 }
               } else {
-                setError("url", { message: "une URL est invalide" });
+                setError("url", { message: "L'URL saisie est invalide" });
                 return;
               }
             });
           } catch (error: unknown) {
-            setError("url", { message: "Erreur réseau" });
+            setError("url", {
+              message:
+                "Le média n'est pas téléchargeable, avez-vous les autorisations nécessaires pour l'importer ?",
+            });
             if (error instanceof Error) {
               return {
                 message: error,
@@ -130,7 +136,7 @@ export default function MediaImportUrl({
         }
       }
     } else {
-      setError("url", { message: "le champs est libre" });
+      setError("url", { message: "L'URL saisie est invalide" });
     }
   }
 
