@@ -9,6 +9,11 @@ mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
         longitude
         phoneNumber
         mustKnow
+        audiences {
+          data {
+            id
+          }
+        }
         dropOffMapService {
           data {
             id

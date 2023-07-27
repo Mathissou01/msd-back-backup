@@ -9,6 +9,15 @@ query getDropOffMapById($dropOffMapId: ID!) {
         longitude
         phoneNumber
         mustKnow
+        audiences {
+          data {
+            id
+            attributes {
+              type
+              isActive
+            }
+          }
+        }
         dropOffMapService {
           data {
             id

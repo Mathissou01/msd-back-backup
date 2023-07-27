@@ -2,6 +2,9 @@
 
 .c-DropOffMapSideBar {
   &__Users {
-    height: 156px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: 400;
   }
 }

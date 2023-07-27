@@ -21,8 +21,9 @@ import {
   ICollectType,
   IDropOffMapStaticFields,
 } from "../../../../../../lib/drop-off-map";
-import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
 import { remapFormBlocksDynamicZone } from "../../../../../../lib/dynamic-blocks";
+import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
+import { IFormSingleMultiselectOption } from "../../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
 interface TServiceCartePointInteretPageProps {
   dropOffMapId: string;
@@ -84,6 +85,9 @@ export function ServiceCartePointInteretPage({
         downloadableFiles: downloadableFiles,
         dropOffMapService: contract.attributes?.dropOffMapService?.data?.id,
         openingHoursBlocks: submitData.openingHoursBlocks,
+        audiences: submitData.audiences.map(
+          (user: IFormSingleMultiselectOption) => user.value.toString(),
+        ),
       },
     };
 
@@ -244,6 +248,12 @@ export function ServiceCartePointInteretPage({
             dropOffMapData.attributes.downloadableFiles,
           ),
           openingHoursBlocks: openingHoursBlocks ?? [],
+          audiences: dropOffMapData.attributes.audiences?.data.map((user) => {
+            return {
+              label: user.attributes?.type ?? "",
+              value: user.id ?? "",
+            };
+          }),
         };
         setMappedData(mappedData);
         setIsInitialized(true);

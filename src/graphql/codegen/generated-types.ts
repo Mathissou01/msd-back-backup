@@ -15568,6 +15568,10 @@ export type CreateDropOffMapMutation = {
         longitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
         dropOffMapService?: {
           __typename?: "DropOffMapServiceEntityResponse";
           data?: {
@@ -15668,6 +15672,18 @@ export type GetDropOffMapByIdQuery = {
         longitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{
+            __typename?: "AudienceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Audience";
+              type: Enum_Audience_Type;
+              isActive: boolean;
+            } | null;
+          }>;
+        } | null;
         dropOffMapService?: {
           __typename?: "DropOffMapServiceEntityResponse";
           data?: {
@@ -15842,6 +15858,10 @@ export type UpdateDropOffMapMutation = {
         longitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
+        audiences?: {
+          __typename?: "AudienceRelationResponseCollection";
+          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
+        } | null;
         dropOffMapService?: {
           __typename?: "DropOffMapServiceEntityResponse";
           data?: {
@@ -27364,6 +27384,11 @@ export const CreateDropOffMapDocument = gql`
           longitude
           phoneNumber
           mustKnow
+          audiences {
+            data {
+              id
+            }
+          }
           dropOffMapService {
             data {
               id
@@ -27525,6 +27550,15 @@ export const GetDropOffMapByIdDocument = gql`
           longitude
           phoneNumber
           mustKnow
+          audiences {
+            data {
+              id
+              attributes {
+                type
+                isActive
+              }
+            }
+          }
           dropOffMapService {
             data {
               id
@@ -27763,6 +27797,11 @@ export const UpdateDropOffMapDocument = gql`
           longitude
           phoneNumber
           mustKnow
+          audiences {
+            data {
+              id
+            }
+          }
           dropOffMapService {
             data {
               id

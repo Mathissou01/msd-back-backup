@@ -1,3 +1,4 @@
+import { IFormSingleMultiselectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import { ComponentBlocksOpeningDay } from "../graphql/codegen/generated-types";
 import { IFormBlock } from "./dynamic-blocks";
 
@@ -18,4 +19,5 @@ export interface IDropOffMapStaticFields {
   mustKnow?: string | null;
   downloadableFiles: Array<IFormBlock>;
   openingHoursBlocks: ComponentBlocksOpeningDay[];
+  audiences?: Array<IFormSingleMultiselectOption>;
 }
