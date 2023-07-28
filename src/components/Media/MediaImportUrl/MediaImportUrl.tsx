@@ -125,7 +125,7 @@ export default function MediaImportUrl({
           } catch (error: unknown) {
             setError("url", {
               message:
-                "Le média n'est pas téléchargeable, avez-vous les autorisations nécessaires pour l'importer ?",
+                "Ce média n'est pas téléchargeable, des autorisations supplémentaires sont nécessaires pour importer des médias depuis ce site.",
             });
             if (error instanceof Error) {
               return {
