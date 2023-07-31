@@ -7,4 +7,14 @@
     justify-content: space-between;
     margin-top: 20px;
   }
+
+  &__CustomError {
+    padding: 2px 0;
+    color: #eb4a65;
+    font-style: italic;
+
+    > a {
+      text-decoration: underline;
+    }
+  }
 }

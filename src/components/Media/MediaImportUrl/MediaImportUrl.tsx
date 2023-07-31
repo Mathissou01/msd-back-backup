@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import FormInput from "../../Form/FormInput/FormInput";
 import { ILocalFile, isMimeType } from "../../../lib/media";
@@ -27,10 +28,12 @@ export default function MediaImportUrl({
   };
 
   /* Local Data */
+  const [customErrorMessage, setCustomErrorMessage] = useState<JSX.Element>();
   const form = useForm({
     mode: "onChange",
   });
-  const { handleSubmit, setError } = form;
+  const { handleSubmit, setError, watch } = form;
+  const inputWatch = watch("url");
 
   /** Method */
   async function onImportFromUrl(submitData: FieldValues) {
@@ -123,10 +126,23 @@ export default function MediaImportUrl({
               }
             });
           } catch (error: unknown) {
-            setError("url", {
-              message:
-                "Ce média n'est pas téléchargeable, des autorisations supplémentaires sont nécessaires pour importer des médias depuis ce site.",
-            });
+            setError("url", {});
+            const errorTextStart = `${"Votre navigateur bloque le téléchargement des images depuis le  lien renseigné. Merci de télécharger l'image depuis la page source ou installer l'extension "}`;
+            const extensionSearch =
+              "https://www.google.com/search?q=Allow+CORS%3A+Access-Control-Allow-Origin+extension";
+            const link = (
+              <a href={extensionSearch} target="_blank">
+                Allow CORS: Access-Control-Allow-Origin
+              </a>
+            );
+            const errorTextEnd = `${" sur votre navigateur."}`;
+            setCustomErrorMessage(
+              <div className="c-MediaImportUrl__CustomError">
+                <span>{errorTextStart}</span>
+                {link}
+                <span>{errorTextEnd}</span>
+              </div>,
+            );
             if (error instanceof Error) {
               return {
                 message: error,
@@ -146,6 +162,10 @@ export default function MediaImportUrl({
     return !!url.match(regex);
   }
 
+  useEffect(() => {
+    setCustomErrorMessage(<></>);
+  }, [inputWatch]);
+
   return (
     <FormProvider {...form}>
       <form
@@ -159,8 +179,9 @@ export default function MediaImportUrl({
           patternValidation={
             /^https?:\/\/.*\/.*\.(png|gif|jpeg|jpg|svg|dvu|ico|tiff|pdf|csv|zip|xls|xlsx|json)\??.*$/gim
           }
-          patternValidationErrorMessage="une URL est invalide"
+          patternValidationErrorMessage="L'URL saisie est invalide"
         />
+        {customErrorMessage}
         <div className="c-MediaImportUrl__Button">
           <CommonButton
             type="button"

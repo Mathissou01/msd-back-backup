@@ -27,11 +27,15 @@ export default function UploadModal({
     homeModalTitle: "Ajouter des médias",
     detailsModalTitle: "Détails",
     amountItemSelectedTitle: `${selectedFiles.length} ${
-      selectedFiles.length > 1 ? "médias" : "média"
-    } prêt à être
-    importé.`,
-    description:
-      "Editez ses attributs avant de l'ajouter à la bibliothèque de médias.",
+      selectedFiles.length > 1
+        ? "médias prêts à être importés"
+        : "média prêt à être importé"
+    }.`,
+    description: `${
+      selectedFiles.length > 1
+        ? "Editez leurs attributs avant de les ajouter à la bibliothèque de médias"
+        : "Editez ses attributs avant de l'ajouter à la bibliothèque de médias"
+    }.`,
     importBtn: "Importer des médias",
     addMediaBtn: `Ajouter ${selectedFiles.length} ${
       selectedFiles.length > 1 ? "médias" : "média"
