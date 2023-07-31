@@ -70,7 +70,7 @@ export default function FormServiceLinks({
     const link = values.filter((value) =>
       filterBool ? value.isDisplayed : !value.isDisplayed,
     )[i];
-    return values.findIndex((value) => value.id === link.id);
+    return values.findIndex((value) => value.localId === link.localId);
   }
 
   function onEdit(i: number) {
