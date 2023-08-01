@@ -108,12 +108,12 @@ export const useInitializeMap = ({
     setSource(initialSource);
 
     // Zoom over all the communes of a contract
-    if (cities) {
+    if (cities && cities?.territories && cities.territories.data.length > 0) {
       const geojsonFormat = new GeoJSON();
       const tempVectorSource = new VectorSource();
 
       // Iterate over your array of GeoJSON data
-      cities.territories?.data[0].attributes?.cities?.data.forEach((city) => {
+      cities.territories.data[0].attributes?.cities?.data?.forEach((city) => {
         const features = geojsonFormat.readFeatures(city.attributes?.GeoJSON, {
           featureProjection: "EPSG:3857",
           dataProjection: "EPSG:4326",
