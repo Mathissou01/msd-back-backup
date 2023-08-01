@@ -114,16 +114,23 @@ export const useInitializeMap = ({
 
       // Iterate over your array of GeoJSON data
       cities.territories.data[0].attributes?.cities?.data?.forEach((city) => {
-        const features = geojsonFormat.readFeatures(city.attributes?.GeoJSON, {
-          featureProjection: "EPSG:3857",
-          dataProjection: "EPSG:4326",
-        });
-        tempVectorSource.addFeatures(features);
+        if (city?.attributes?.GeoJSON) {
+          const features = geojsonFormat.readFeatures(
+            city?.attributes?.GeoJSON,
+            {
+              featureProjection: "EPSG:3857",
+              dataProjection: "EPSG:4326",
+            },
+          );
+          tempVectorSource.addFeatures(features);
+        }
       });
 
       const extent = tempVectorSource.getExtent();
-      const padding = [100, 100, 100, 100];
-      initialMap.getView().fit(extent, { padding });
+      if (extent.every(Number.isFinite)) {
+        const padding = [100, 100, 100, 100];
+        initialMap.getView().fit(extent, { padding });
+      }
     }
     return () => {
       initialMap.setTarget(undefined);
