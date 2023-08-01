@@ -3,11 +3,12 @@ query getCities($contractId: ID!) {
     data {
       id
       attributes {
-        cities {
+        cities(sort: "name:asc") {
           data {
             attributes {
               postalCode
               name
+              GeoJSON
             }
           }
         }

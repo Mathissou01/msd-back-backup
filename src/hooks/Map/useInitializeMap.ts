@@ -8,6 +8,8 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import { Fill, Stroke, Style } from "ol/style";
+import { useGetCitiesQuery } from "../../graphql/codegen/generated-types";
+import { useContract } from "../useContract";
 
 interface IHookInitializeMapProps {
   mapRef: React.RefObject<HTMLDivElement>;
@@ -24,6 +26,14 @@ export const useInitializeMap = ({
   handlePolygon,
   googleAPIKey,
 }: IHookInitializeMapProps) => {
+  const { contractId } = useContract();
+  const { data: cities } = useGetCitiesQuery({
+    variables: {
+      contractId: contractId,
+    },
+    fetchPolicy: "network-only",
+  });
+
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
     let color = "";
@@ -76,7 +86,6 @@ export const useInitializeMap = ({
           },
         }),
       ],
-      //TODO: change the center depends on the contract data
       view: new View({ center: [0, 0], zoom: 2 }),
       controls: [new Zoom()],
     });
@@ -98,8 +107,26 @@ export const useInitializeMap = ({
     setMap(initialMap);
     setSource(initialSource);
 
+    // Zoom over all the communes of a contract
+    if (cities) {
+      const geojsonFormat = new GeoJSON();
+      const tempVectorSource = new VectorSource();
+
+      // Iterate over your array of GeoJSON data
+      cities.territories?.data[0].attributes?.cities?.data.forEach((city) => {
+        const features = geojsonFormat.readFeatures(city.attributes?.GeoJSON, {
+          featureProjection: "EPSG:3857",
+          dataProjection: "EPSG:4326",
+        });
+        tempVectorSource.addFeatures(features);
+      });
+
+      const extent = tempVectorSource.getExtent();
+      const padding = [100, 100, 100, 100];
+      initialMap.getView().fit(extent, { padding });
+    }
     return () => {
       initialMap.setTarget(undefined);
     };
-  }, [googleAPIKey, handlePolygon, mapRef, setMap, setSource]);
+  }, [cities, googleAPIKey, handlePolygon, mapRef, setMap, setSource]);
 };

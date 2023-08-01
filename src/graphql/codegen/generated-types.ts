@@ -2198,6 +2198,13 @@ export type CookiesSubServiceInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type Cumbersome = {
+  __typename?: "Cumbersome";
+  category: Scalars["String"];
+  cumbersomeName: Scalars["String"];
+  volume: Scalars["String"];
+};
+
 export type DateFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars["Date"]>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars["Date"]>>>;
@@ -6419,6 +6426,7 @@ export type Query = {
   getAllFoldersHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getAppointmentsDetails?: Maybe<AppointmentDetails>;
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
+  getCumbersomeReferential: Array<Maybe<Cumbersome>>;
   getDropOffCollectType?: Maybe<Array<Maybe<CollectEntity>>>;
   getDropOffMaps?: Maybe<Array<Maybe<DropOffMapDto>>>;
   getEditoBlockDTO?: Maybe<EditoBlockDto>;
@@ -15563,6 +15571,7 @@ export type GetCitiesQuery = {
               __typename?: "City";
               postalCode?: any | null;
               name?: string | null;
+              GeoJSON?: any | null;
             } | null;
           }>;
         } | null;
@@ -27487,11 +27496,12 @@ export const GetCitiesDocument = gql`
       data {
         id
         attributes {
-          cities {
+          cities(sort: "name:asc") {
             data {
               attributes {
                 postalCode
                 name
+                GeoJSON
               }
             }
           }
