@@ -4,9 +4,7 @@ query getContactUsById($contactUsId: ID) {
       id
       attributes {
         title
-        status
-        createdAt
-        updatedAt
+        isActivated
         tags {
           data {
             id

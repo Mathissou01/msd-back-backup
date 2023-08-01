@@ -2,31 +2,34 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FieldValues } from "react-hook-form";
 import {
-  GetCookieByIdDocument,
-  useGetCookieByIdQuery,
-  useUpdateCookieByIdMutation,
+  GetConfidentialityByIdDocument,
+  useGetConfidentialityByIdQuery,
+  useUpdateConfidentialityByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { EStatus } from "../../../../../lib/status";
-import { ILegalContentFields } from "../../../../../lib/legal-content";
 import { remapFormBlocksDynamicZone } from "../../../../../lib/dynamic-blocks";
+import { ILegalContentFields } from "../../../../../lib/legal-content";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import LegalContentForm from "../../../../../components/LegalContent/LegalContentForm";
 
-interface IEditoCookieFormPageProps {
-  cookieId: string;
+interface IEditoConfidentialityFormPageProps {
+  confidentialityId: string;
 }
 
-export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
+export function EditoConfidentialityFormPage({
+  confidentialityId,
+}: IEditoConfidentialityFormPageProps) {
   /* Static Data */
   const labels = {
-    staticTitle: "Nom de la page cookie",
+    staticTitle: "Nom de la page confidentialité",
   };
+
   /* Methods */
   async function onSubmit(submitData: FieldValues) {
     const variables = {
-      updateCookieId: cookieId,
+      updateConfidentialityId: confidentialityId,
       data: {
         title: submitData.title,
         isActivated: false,
@@ -36,49 +39,45 @@ export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
         }),
       },
     };
-    return updateCookie({
+    return updateConfidentiality({
       variables,
       refetchQueries: [
         {
-          query: GetCookieByIdDocument,
+          query: GetConfidentialityByIdDocument,
           variables: {
-            cookieId,
+            confidentialityId,
           },
         },
       ],
       onCompleted: (result) => {
-        if (result.updateCookie?.data?.id) {
-          router.push(`${currentRoot}/edito/politique-cookies`);
+        if (result.updateConfidentiality?.data?.id) {
+          router.push(`${currentRoot}/edito/confidentialite`);
         }
       },
     });
   }
 
   async function onChangeActivated() {
-    return await updateCookie({
+    return await updateConfidentiality({
       variables: {
-        updateCookieId: cookieId,
+        updateConfidentialityId: confidentialityId,
         data: {
-          isActivated: !data?.cookie?.data?.attributes?.isActivated,
+          isActivated: !data?.confidentiality?.data?.attributes?.isActivated,
         },
       },
       onCompleted: (result) => {
-        if (result.updateCookie?.data?.id) {
-          router.push(`${currentRoot}/edito/politique-cookies`);
+        if (result.updateConfidentiality?.data?.id) {
+          router.push(`${currentRoot}/edito/confidentialite`);
         }
       },
     });
   }
 
   async function handlePreview() {
+    // TODO: merge preview pages or refactor code. In this case is the confidentialityId needed?
     if (typeof window !== "undefined") {
-      const queryParams = new URLSearchParams({
-        id: cookieId,
-        type: "cookie",
-      });
-
       window.open(
-        `${currentRoot}/preview?${queryParams.toString()}`,
+        `${currentRoot}/edito/confidentialite/preview?id=${confidentialityId}`,
         "_blank",
         "noreferrer",
       );
@@ -88,46 +87,48 @@ export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
   }
 
   function onCancel() {
-    void router.push(`${currentRoot}/edito/politique-cookies`);
+    void router.push(`${currentRoot}/edito/confidentialite`);
   }
 
   /* Local data */
   const router = useRouter();
   const { currentRoot } = useNavigation();
   const [mappedData, setMappedData] = useState<ILegalContentFields>();
-  const { loading, error, data } = useGetCookieByIdQuery({
-    variables: { cookieId },
+  const { loading, error, data } = useGetConfidentialityByIdQuery({
+    variables: { confidentialityId },
     fetchPolicy: "network-only",
   });
-  const [updateCookie, { loading: loadingUpdate, error: errorUpdate }] =
-    useUpdateCookieByIdMutation({
-      awaitRefetchQueries: true,
-    });
+  const [
+    updateConfidentiality,
+    { loading: loadingUpdate, error: errorUpdate },
+  ] = useUpdateConfidentialityByIdMutation({
+    awaitRefetchQueries: true,
+  });
   const isLoading = loading || loadingUpdate;
   const errors = [error, errorUpdate];
 
   useEffect(() => {
-    if (data?.cookie?.data) {
-      const cookieData = data.cookie.data;
-      if (cookieData.id && cookieData.attributes?.title) {
+    if (data?.confidentiality?.data) {
+      const confidentialityData = data.confidentiality.data;
+      if (confidentialityData.id && confidentialityData.attributes?.title) {
         const mappedData: ILegalContentFields = {
-          id: cookieData.id,
-          title: cookieData.attributes.title,
-          status: cookieData.attributes.isActivated
+          id: confidentialityData.id,
+          title: confidentialityData.attributes.title,
+          status: confidentialityData.attributes.isActivated
             ? EStatus.Activated
             : EStatus.Draft,
-          isActivated: cookieData.attributes.isActivated ?? false,
+          isActivated: confidentialityData.attributes.isActivated ?? false,
           blocks:
-            remapFormBlocksDynamicZone(cookieData.attributes.blocks) ?? [],
+            remapFormBlocksDynamicZone(confidentialityData.attributes.blocks) ??
+            [],
         };
         setMappedData(mappedData);
       }
     }
   }, [data, currentRoot]);
-
   return (
     <>
-      {cookieId && mappedData && (
+      {confidentialityId && mappedData && (
         <LegalContentForm
           title={mappedData?.title ?? ""}
           data={mappedData}
@@ -145,11 +146,12 @@ export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
 }
 
 export default function IndexPage() {
-  const cookieId = useRoutingQueryId("cookieId");
+  const confidentialityId = useRoutingQueryId("confidentialityId");
+
   return (
-    cookieId && (
+    confidentialityId && (
       <ContractLayout>
-        <EditoCookieFormPage cookieId={cookieId} />
+        <EditoConfidentialityFormPage confidentialityId={confidentialityId} />
       </ContractLayout>
     )
   );

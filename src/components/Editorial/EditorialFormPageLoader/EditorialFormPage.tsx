@@ -68,7 +68,6 @@ export interface IEditorialFormPageProps {
   isLoading: boolean;
   errors: Array<ApolloError | undefined>;
   pageProps: IEditorialFormPage;
-  isContactUsSubmission?: boolean;
 }
 
 export default function EditorialFormPage({
@@ -78,7 +77,6 @@ export default function EditorialFormPage({
   isLoading,
   errors,
   pageProps,
-  isContactUsSubmission = false,
 }: IEditorialFormPageProps) {
   const {
     labels,
@@ -104,20 +102,16 @@ export default function EditorialFormPage({
       tags: submitData.tags?.map(
         (option: IFormSingleMultiselectOption) => option.value,
       ),
-      ...(!isContactUsSubmission && {
-        image: submitData.image.id,
-        shortDescription: submitData.shortDescription,
-      }),
+      image: submitData.image.id,
+      shortDescription: submitData.shortDescription,
       blocks: submitData.blocks?.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ id, ...rest }: IFormBlock) => rest,
       ),
-      ...(!isContactUsSubmission && {
-        audiences: submitData.audiences.map(
-          (user: IFormSingleMultiselectOption) => user.value.toString(),
-        ),
-        unpublishedDate: submitData.unpublishedDate,
-      }),
+      audiences: submitData.audiences.map(
+        (user: IFormSingleMultiselectOption) => user.value.toString(),
+      ),
+      unpublishedDate: submitData.unpublishedDate,
     };
     if (isCreateMode && onCreate) {
       onCreate(commonMutationVariables);
@@ -126,9 +120,7 @@ export default function EditorialFormPage({
         contentId,
         {
           ...commonMutationVariables,
-          ...(!isContactUsSubmission && {
-            toBeUpdated: true,
-          }),
+          toBeUpdated: true,
         },
         submitData.status,
       );
@@ -152,8 +144,6 @@ export default function EditorialFormPage({
             onPreview={() => onPreview(contentId)}
             labels={labels.form}
             additionalPath={subServiceId}
-            hasAudienceSelection={!isContactUsSubmission}
-            hasUnpublishedDatePicker={!isContactUsSubmission}
           />
         </CommonLoader>
       </>

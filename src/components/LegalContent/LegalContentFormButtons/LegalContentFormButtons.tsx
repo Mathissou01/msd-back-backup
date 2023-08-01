@@ -1,34 +1,27 @@
 import { useFormContext } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
+import { ILegalContentFormButtonsLabels } from "../../../lib/legal-content";
 import CommonButton from "../../Common/CommonButton/CommonButton";
-import "./cookies-form-buttons.scss";
+import "./legal-content-form-buttons.scss";
 
-export interface ICookiesFormButtonsLabels {
-  preview: string;
-  cancel: string;
-  activate: string;
-  deactivate: string;
-  save: string;
-}
-
-interface ICookiesFormButtonsProps {
+interface ILegalContentFormButtonsProps {
   onPreview?: () => void;
   onCancel: () => void;
-  labels?: ICookiesFormButtonsLabels;
+  labels?: ILegalContentFormButtonsLabels;
   isActivated?: boolean;
   onChangeActivated: () => void;
   onSubmit: (data: FieldValues, type?: string) => void;
 }
 
-export default function CookiesFormButtons<Fields extends FieldValues>({
+export default function LegalContentFormButtons<Fields extends FieldValues>({
   onCancel,
   onPreview,
   labels,
   isActivated = false,
   onChangeActivated,
-}: ICookiesFormButtonsProps) {
+}: ILegalContentFormButtonsProps) {
   /* Static Data */
-  const buttonLabels: ICookiesFormButtonsLabels = labels ?? {
+  const buttonLabels: ILegalContentFormButtonsLabels = labels ?? {
     preview: "Prévisualiser",
     cancel: "Annuler",
     activate: "Activer",
@@ -42,7 +35,7 @@ export default function CookiesFormButtons<Fields extends FieldValues>({
   } = useFormContext<Fields>();
 
   return (
-    <div className="c-CookiesFormButtons">
+    <div className="c-LegalContentFormButtons">
       <CommonButton
         label={buttonLabels.preview}
         picto="eye"

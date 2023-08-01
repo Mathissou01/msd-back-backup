@@ -1,0 +1,48 @@
+query getConfidentialityById($confidentialityId: ID) {
+  confidentiality(id: $confidentialityId) {
+    data {
+      id
+      attributes {
+        title
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
+                }
+              }
+            }
+          }
+          ... on Error {
+            code
+            message
+          }
+        }
+        hasMobile
+        isActivated
+      }
+    }
+  }
+}

@@ -1,12 +1,11 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
-.c-CookiesSideBar {
+.c-LegalContentSideBar {
   &__Status {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 16px;
-    font-weight: 500;
     font-family: DINPro-Medium, sans-serif;
 
     &_draft {

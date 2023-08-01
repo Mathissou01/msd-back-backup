@@ -1,17 +1,14 @@
 import React from "react";
+import { ILegalContentStaticFieldsLabels } from "../../../lib/legal-content";
 import FormInput from "../../Form/FormInput/FormInput";
 
-export interface ICookiesStaticFieldsLabels {
-  staticTitle: string;
+interface ILegalContentStaticFieldsProps {
+  labels: ILegalContentStaticFieldsLabels;
 }
 
-interface ICookiesStaticFieldsProps {
-  labels: ICookiesStaticFieldsLabels;
-}
-
-export default function CookiesStaticFields({
+export default function LegalContentStaticFields({
   labels,
-}: ICookiesStaticFieldsProps) {
+}: ILegalContentStaticFieldsProps) {
   /* Static Data */
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
@@ -23,7 +20,7 @@ export default function CookiesStaticFields({
           type="text"
           name="title"
           label={labels.staticTitle}
-          isRequired={true}
+          isRequired
         />
       </div>
     </>

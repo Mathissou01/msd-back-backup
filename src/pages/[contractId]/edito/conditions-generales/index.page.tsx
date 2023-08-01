@@ -1,26 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
-import { useGetCookiesByContractIdQuery } from "../../../../graphql/codegen/generated-types";
+import { useGetCgusByContractIdQuery } from "../../../../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { useContract } from "../../../../hooks/useContract";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
-import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
-import "./cookies-page.scss";
+import "./cgu-page.scss";
 
-export interface ICookiesTableRow extends IDefaultTableRow {
+export interface ICGUTableRow extends IDefaultTableRow {
   title: string;
   hasMobile: boolean;
   status: boolean;
 }
 
-export function EditoPolitiqueCookiesPage() {
+export function EditoCGUPage() {
   /* Static Data */
-  const title = "Politique de cookies";
+  const title = "Conditions générales";
   const tableLabels = {
     columns: {
       title: "Page",
@@ -32,14 +32,14 @@ export function EditoPolitiqueCookiesPage() {
   /* External Data */
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
-  const { loading, error, data } = useGetCookiesByContractIdQuery({
+  const { loading, error, data } = useGetCgusByContractIdQuery({
     variables: { contractId },
     fetchPolicy: "network-only",
   });
   /* Local Data */
   const isInitialized = useRef(false);
-  const [tableData, setTableData] = useState<Array<ICookiesTableRow>>([]);
-  const tableColumns: Array<TableColumn<ICookiesTableRow>> = [
+  const [tableData, setTableData] = useState<Array<ICGUTableRow>>([]);
+  const tableColumns: Array<TableColumn<ICGUTableRow>> = [
     {
       id: "id",
       selector: (row) => row.id,
@@ -52,7 +52,7 @@ export function EditoPolitiqueCookiesPage() {
 
       cell: (row) => (
         <Link
-          href={`${currentRoot}/edito/politique-cookies/${row.id}`}
+          href={`${currentRoot}/edito/conditions-generales/${row.id}`}
           className="o-TablePage__Link"
         >
           {row.title}
@@ -75,12 +75,12 @@ export function EditoPolitiqueCookiesPage() {
     },
   ];
 
-  const actionColumn = (row: ICookiesTableRow): Array<IDataTableAction> => [
+  const actionColumn = (row: ICGUTableRow): Array<IDataTableAction> => [
     {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
-      href: `${currentRoot}/edito/politique-cookies/${row.id}`,
+      href: `${currentRoot}/edito/conditions-generales/${row.id}`,
     },
   ];
 
@@ -92,11 +92,11 @@ export function EditoPolitiqueCookiesPage() {
 
   useEffect(() => {
     if (data) {
-      const cookies: Array<ICookiesTableRow> = [];
-      data.cookiesSubServices?.data.forEach((cookieSubService) => {
-        cookieSubService.attributes?.cookies?.data.forEach((item) => {
+      const cgus: Array<ICGUTableRow> = [];
+      data.cguSubServices?.data.forEach((cguSubService) => {
+        cguSubService.attributes?.cgus?.data.forEach((item) => {
           if (item && item.id && item.attributes) {
-            cookies.push({
+            cgus.push({
               id: item.id,
               editState: false,
               title: item.attributes?.title ?? "",
@@ -106,16 +106,16 @@ export function EditoPolitiqueCookiesPage() {
           }
         });
       });
-      setTableData(cookies);
+      setTableData(cgus);
     }
   }, [data]);
 
   return (
     <div className="o-TablePage">
       <PageTitle title={title} />
-      <div className="c-EditoPolitiqueCookiesPage__Table">
+      <div className="c-EditoCguPage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={[error]}>
-          <CommonDataTable<ICookiesTableRow>
+          <CommonDataTable<ICGUTableRow>
             columns={tableColumns}
             actionColumn={actionColumn}
             data={tableData}
@@ -131,7 +131,7 @@ export function EditoPolitiqueCookiesPage() {
 export default function IndexPage() {
   return (
     <ContractLayout>
-      <EditoPolitiqueCookiesPage />
+      <EditoCGUPage />
     </ContractLayout>
   );
 }

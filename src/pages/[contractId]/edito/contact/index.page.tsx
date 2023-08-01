@@ -1,75 +1,76 @@
-import { parseJSON } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { FieldValues } from "react-hook-form";
 import {
-  Enum_Contactus_Status,
-  TagEntity,
   useGetContactUsByIdQuery,
   useGetContactUsesByContractIdQuery,
   useUpdateContactUsMutation,
 } from "../../../../graphql/codegen/generated-types";
-import { IEditorialFields } from "../../../../lib/editorial";
-import { valueToEStatus } from "../../../../lib/status";
-import { formatDate } from "../../../../lib/utilities";
-import { remapFormBlocksDynamicZone } from "../../../../lib/dynamic-blocks";
+import { EStatus } from "../../../../lib/status";
+import {
+  TDynamicFieldConfiguration,
+  remapFormBlocksDynamicZone,
+} from "../../../../lib/dynamic-blocks";
+import { ILegalContentFields } from "../../../../lib/legal-content";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
-import EditorialFormPage, {
-  ICommonUpdateMutationVariables,
-  IEditoContentLabels,
-  IEditorialFormPage,
-} from "../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPage";
+import LegalContentForm from "../../../../components/LegalContent/LegalContentForm";
+
+const dynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
+  { option: "ComponentBlocksWysiwyg" },
+  { option: "ComponentBlocksSubHeading" },
+  { option: "ComponentBlocksHorizontalRule" },
+  { option: "ComponentBlocksVideo" },
+  { option: "ComponentBlocksFile" },
+  { option: "ComponentBlocksImage" },
+];
 
 export function EditoContactEditPage() {
   /* Static Data */
-  const labels: IEditoContentLabels = {
-    pageTitle: "Créer la page",
-    form: {
-      staticTitle: "Titre de la page",
-    },
+  const pageTitle = "Contactez-nous";
+  const labels = {
+    staticTitle: "Titre de la page",
   };
 
   /* Methods */
-  async function handleUpdate(
-    contactUsId: string,
-    commonSubmitVariables: ICommonUpdateMutationVariables,
-  ) {
-    return updateContactUs({
-      variables: {
-        updateContactUsId: contactUsId,
-        data: {
-          ...commonSubmitVariables,
+  function onCancel() {
+    void router.push(`${currentRoot}/edito/contact`);
+  }
+  async function onSubmit(submitData: FieldValues) {
+    if (contactUsId) {
+      await updateContactUs({
+        variables: {
+          updateContactUsId: contactUsId,
+          data: {
+            title: submitData.title,
+            isActivated: false,
+            blocks: submitData.blocks?.map((block: { id?: string }) => {
+              delete block.id;
+              return block;
+            }),
+          },
         },
-      },
-    });
+      });
+      refetch();
+    }
   }
 
-  async function handlePublish(contactUsId: string) {
-    const variables = {
-      updateContactUsId: contactUsId,
-      data: {
-        status: Enum_Contactus_Status.Published,
-      },
-    };
-    return updateContactUs({
-      variables,
-    });
+  async function onChangeActivated() {
+    if (contactUsId) {
+      await updateContactUs({
+        variables: {
+          updateContactUsId: contactUsId,
+          data: {
+            isActivated: !data?.contactUs?.data?.attributes?.isActivated,
+          },
+        },
+      });
+      refetch();
+    }
   }
 
-  async function handleDepublish(contactUsId: string) {
-    const variables = {
-      updateContactUsId: contactUsId,
-      data: {
-        status: Enum_Contactus_Status.Draft,
-      },
-    };
-    return updateContactUs({
-      variables,
-    });
-  }
-
-  async function handlePreview(contactUsId: string) {
+  async function handlePreview() {
     // TODO: merge preview pages or refactor code. In this case is the contactUsId needed?
     if (typeof window !== "undefined") {
       window.open(
@@ -95,7 +96,7 @@ export function EditoContactEditPage() {
     fetchPolicy: "network-only",
   });
   const contactUsId = contractContactUses?.contactUsSubServices?.data[0]?.id;
-  const { data, loading, error } = useGetContactUsByIdQuery({
+  const { data, loading, error, refetch } = useGetContactUsByIdQuery({
     variables: { contactUsId },
     fetchPolicy: "network-only",
   });
@@ -106,30 +107,20 @@ export function EditoContactEditPage() {
   const isLoading =
     contractContactUsesLoading || loading || updateMutationLoading;
   const errors = [contractContactUsesError, error, updateMutationError];
-  const [mappedData, setMappedData] = useState<IEditorialFields>();
+  const [mappedData, setMappedData] = useState<ILegalContentFields>();
 
   useEffect(() => {
     if (data?.contactUs?.data) {
       const editoData = data.contactUs.data;
       if (editoData.id && editoData.attributes && editoData.attributes.title) {
-        const mappedData: IEditorialFields = {
+        const mappedData: ILegalContentFields = {
           id: editoData.id,
-          status: valueToEStatus(editoData.attributes.status),
+          status: editoData.attributes.isActivated
+            ? EStatus.Activated
+            : EStatus.Draft,
+          isActivated: editoData.attributes.isActivated ?? false,
           title: editoData.attributes.title,
-          tags:
-            editoData.attributes.tags?.data.map((tag: TagEntity) => ({
-              value: tag.id ?? "",
-              label: tag.attributes?.name ?? "",
-            })) ?? [],
           blocks: remapFormBlocksDynamicZone(editoData.attributes.blocks),
-          createdAt: formatDate(
-            parseJSON(editoData.attributes.createdAt),
-            "dd/MM/yyyy HH:mm",
-          ),
-          updatedAt: formatDate(
-            parseJSON(editoData.attributes.updatedAt),
-            "dd/MM/yyyy HH:mm",
-          ),
         };
         setMappedData(mappedData);
       }
@@ -138,26 +129,20 @@ export function EditoContactEditPage() {
     }
   }, [data, router, currentRoot, currentPage]);
 
-  const pageProps: IEditorialFormPage = {
-    labels,
-    staticFieldsOverride: ["title"],
-    onUpdate: handleUpdate,
-    onPublish: handlePublish,
-    onDepublish: handleDepublish,
-    onPreview: handlePreview,
-  };
-
   return (
     <>
       {contactUsId && mappedData && (
-        <EditorialFormPage
-          isCreateMode={false}
-          contentId={contactUsId}
-          mappedData={mappedData}
+        <LegalContentForm
+          title={pageTitle}
+          data={mappedData}
+          onPreview={handlePreview}
+          onCancel={onCancel}
+          onSubmit={onSubmit}
+          onChangeActivated={onChangeActivated}
+          dynamicFieldConfigurations={dynamicFieldConfigurations}
+          labels={labels}
           isLoading={isLoading}
           errors={errors}
-          pageProps={pageProps}
-          isContactUsSubmission
         />
       )}
     </>

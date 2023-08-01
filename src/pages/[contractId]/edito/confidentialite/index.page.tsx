@@ -1,26 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
-import { useGetCookiesByContractIdQuery } from "../../../../graphql/codegen/generated-types";
+import { useGetConfidentialityByContractIdQuery } from "../../../../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { useContract } from "../../../../hooks/useContract";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
-import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
-import "./cookies-page.scss";
+import "./confidentialite-page.scss";
 
-export interface ICookiesTableRow extends IDefaultTableRow {
+export interface IConfidentialiteTableRow extends IDefaultTableRow {
   title: string;
   hasMobile: boolean;
   status: boolean;
 }
 
-export function EditoPolitiqueCookiesPage() {
+export function EditoConfidentialitePage() {
   /* Static Data */
-  const title = "Politique de cookies";
+  const title = "Confidentialités";
   const tableLabels = {
     columns: {
       title: "Page",
@@ -32,14 +32,17 @@ export function EditoPolitiqueCookiesPage() {
   /* External Data */
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
-  const { loading, error, data } = useGetCookiesByContractIdQuery({
+  const { loading, error, data } = useGetConfidentialityByContractIdQuery({
     variables: { contractId },
     fetchPolicy: "network-only",
   });
+
   /* Local Data */
   const isInitialized = useRef(false);
-  const [tableData, setTableData] = useState<Array<ICookiesTableRow>>([]);
-  const tableColumns: Array<TableColumn<ICookiesTableRow>> = [
+  const [tableData, setTableData] = useState<Array<IConfidentialiteTableRow>>(
+    [],
+  );
+  const tableColumns: Array<TableColumn<IConfidentialiteTableRow>> = [
     {
       id: "id",
       selector: (row) => row.id,
@@ -52,7 +55,7 @@ export function EditoPolitiqueCookiesPage() {
 
       cell: (row) => (
         <Link
-          href={`${currentRoot}/edito/politique-cookies/${row.id}`}
+          href={`${currentRoot}/edito/confidentialite/${row.id}`}
           className="o-TablePage__Link"
         >
           {row.title}
@@ -75,12 +78,14 @@ export function EditoPolitiqueCookiesPage() {
     },
   ];
 
-  const actionColumn = (row: ICookiesTableRow): Array<IDataTableAction> => [
+  const actionColumn = (
+    row: IConfidentialiteTableRow,
+  ): Array<IDataTableAction> => [
     {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
-      href: `${currentRoot}/edito/politique-cookies/${row.id}`,
+      href: `${currentRoot}/edito/confidentialite/${row.id}`,
     },
   ];
 
@@ -92,30 +97,34 @@ export function EditoPolitiqueCookiesPage() {
 
   useEffect(() => {
     if (data) {
-      const cookies: Array<ICookiesTableRow> = [];
-      data.cookiesSubServices?.data.forEach((cookieSubService) => {
-        cookieSubService.attributes?.cookies?.data.forEach((item) => {
-          if (item && item.id && item.attributes) {
-            cookies.push({
-              id: item.id,
-              editState: false,
-              title: item.attributes?.title ?? "",
-              hasMobile: item.attributes?.hasMobile ?? false,
-              status: item.attributes?.isActivated ?? false,
-            });
-          }
-        });
-      });
-      setTableData(cookies);
+      const confidentialities: Array<IConfidentialiteTableRow> = [];
+      data.confidentialitySubServices?.data.forEach(
+        (confidentialitySubServices) => {
+          confidentialitySubServices.attributes?.confidentialities?.data.forEach(
+            (item) => {
+              if (item && item.id && item.attributes) {
+                confidentialities.push({
+                  id: item.id,
+                  editState: false,
+                  title: item.attributes?.title ?? "",
+                  hasMobile: item.attributes?.hasMobile ?? false,
+                  status: item.attributes?.isActivated ?? false,
+                });
+              }
+            },
+          );
+        },
+      );
+      setTableData(confidentialities);
     }
   }, [data]);
 
   return (
     <div className="o-TablePage">
       <PageTitle title={title} />
-      <div className="c-EditoPolitiqueCookiesPage__Table">
+      <div className="c-EditoConfidentialityPage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={[error]}>
-          <CommonDataTable<ICookiesTableRow>
+          <CommonDataTable<IConfidentialiteTableRow>
             columns={tableColumns}
             actionColumn={actionColumn}
             data={tableData}
@@ -131,7 +140,7 @@ export function EditoPolitiqueCookiesPage() {
 export default function IndexPage() {
   return (
     <ContractLayout>
-      <EditoPolitiqueCookiesPage />
+      <EditoConfidentialitePage />
     </ContractLayout>
   );
 }

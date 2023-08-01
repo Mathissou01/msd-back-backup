@@ -443,7 +443,9 @@ type Cgu {
 union CguBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
 
@@ -1264,7 +1266,9 @@ type Confidentiality {
 union ConfidentialityBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
 
@@ -1370,14 +1374,9 @@ type ContactResponse {
 
 type ContactUs {
   blocks: [ContactUsBlocksDynamicZone]
-  channelTypes(
-    filters: ChannelTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): ChannelTypeRelationResponseCollection
   contactUsSubService: ContactUsSubServiceEntityResponse
   createdAt: DateTime
-  status: ENUM_CONTACTUS_STATUS
+  isActivated: Boolean
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
@@ -1414,13 +1413,12 @@ type ContactUsEntityResponseCollection {
 
 input ContactUsFiltersInput {
   and: [ContactUsFiltersInput]
-  channelTypes: ChannelTypeFiltersInput
   contactUsSubService: ContactUsSubServiceFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
+  isActivated: BooleanFilterInput
   not: ContactUsFiltersInput
   or: [ContactUsFiltersInput]
-  status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
   updatedAt: DateTimeFilterInput
@@ -1428,9 +1426,8 @@ input ContactUsFiltersInput {
 
 input ContactUsInput {
   blocks: [ContactUsBlocksDynamicZoneInput!]
-  channelTypes: [ID]
   contactUsSubService: ID
-  status: ENUM_CONTACTUS_STATUS
+  isActivated: Boolean
   tags: [ID]
   title: String
 }
@@ -2348,11 +2345,6 @@ enum ENUM_COMPONENTLINKSREQUEST_DEMAND {
   C
   D
   E
-}
-
-enum ENUM_CONTACTUS_STATUS {
-  draft
-  published
 }
 
 enum ENUM_CONTRACT_CLIENTTYPE {

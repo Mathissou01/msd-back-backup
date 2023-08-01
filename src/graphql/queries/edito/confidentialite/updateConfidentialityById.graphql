@@ -1,0 +1,10 @@
+mutation updateConfidentialityById(
+  $updateConfidentialityId: ID!
+  $data: ConfidentialityInput!
+) {
+  updateConfidentiality(id: $updateConfidentialityId, data: $data) {
+    data {
+      id
+    }
+  }
+}

@@ -2,31 +2,32 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FieldValues } from "react-hook-form";
 import {
-  GetCookieByIdDocument,
-  useGetCookieByIdQuery,
-  useUpdateCookieByIdMutation,
+  GetCguByIdDocument,
+  useGetCguByIdQuery,
+  useUpdateCguByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { EStatus } from "../../../../../lib/status";
-import { ILegalContentFields } from "../../../../../lib/legal-content";
 import { remapFormBlocksDynamicZone } from "../../../../../lib/dynamic-blocks";
+import { ILegalContentFields } from "../../../../../lib/legal-content";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import LegalContentForm from "../../../../../components/LegalContent/LegalContentForm";
 
-interface IEditoCookieFormPageProps {
-  cookieId: string;
+interface IEditoCguFormPageProps {
+  cguId: string;
 }
 
-export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
+export function EditoCguFormPage({ cguId }: IEditoCguFormPageProps) {
   /* Static Data */
   const labels = {
-    staticTitle: "Nom de la page cookie",
+    staticTitle: "Nom de la page conditions générales",
   };
+
   /* Methods */
   async function onSubmit(submitData: FieldValues) {
     const variables = {
-      updateCookieId: cookieId,
+      updateCguId: cguId,
       data: {
         title: submitData.title,
         isActivated: false,
@@ -36,49 +37,45 @@ export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
         }),
       },
     };
-    return updateCookie({
+    return updateCgu({
       variables,
       refetchQueries: [
         {
-          query: GetCookieByIdDocument,
+          query: GetCguByIdDocument,
           variables: {
-            cookieId,
+            cguId,
           },
         },
       ],
       onCompleted: (result) => {
-        if (result.updateCookie?.data?.id) {
-          router.push(`${currentRoot}/edito/politique-cookies`);
+        if (result.updateCgu?.data?.id) {
+          router.push(`${currentRoot}/edito/conditions-generales`);
         }
       },
     });
   }
 
   async function onChangeActivated() {
-    return await updateCookie({
+    return await updateCgu({
       variables: {
-        updateCookieId: cookieId,
+        updateCguId: cguId,
         data: {
-          isActivated: !data?.cookie?.data?.attributes?.isActivated,
+          isActivated: !data?.cgu?.data?.attributes?.isActivated,
         },
       },
       onCompleted: (result) => {
-        if (result.updateCookie?.data?.id) {
-          router.push(`${currentRoot}/edito/politique-cookies`);
+        if (result.updateCgu?.data?.id) {
+          router.push(`${currentRoot}/edito/conditions-generales`);
         }
       },
     });
   }
 
   async function handlePreview() {
+    // TODO: merge preview pages or refactor code. In this case is the cguId needed?
     if (typeof window !== "undefined") {
-      const queryParams = new URLSearchParams({
-        id: cookieId,
-        type: "cookie",
-      });
-
       window.open(
-        `${currentRoot}/preview?${queryParams.toString()}`,
+        `${currentRoot}/edito/conditions-generales/preview?id=${cguId}`,
         "_blank",
         "noreferrer",
       );
@@ -88,37 +85,36 @@ export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
   }
 
   function onCancel() {
-    void router.push(`${currentRoot}/edito/politique-cookies`);
+    void router.push(`${currentRoot}/edito/conditions-generales`);
   }
 
   /* Local data */
   const router = useRouter();
   const { currentRoot } = useNavigation();
   const [mappedData, setMappedData] = useState<ILegalContentFields>();
-  const { loading, error, data } = useGetCookieByIdQuery({
-    variables: { cookieId },
+  const { loading, error, data } = useGetCguByIdQuery({
+    variables: { cguId },
     fetchPolicy: "network-only",
   });
-  const [updateCookie, { loading: loadingUpdate, error: errorUpdate }] =
-    useUpdateCookieByIdMutation({
+  const [updateCgu, { loading: loadingUpdate, error: errorUpdate }] =
+    useUpdateCguByIdMutation({
       awaitRefetchQueries: true,
     });
   const isLoading = loading || loadingUpdate;
   const errors = [error, errorUpdate];
 
   useEffect(() => {
-    if (data?.cookie?.data) {
-      const cookieData = data.cookie.data;
-      if (cookieData.id && cookieData.attributes?.title) {
+    if (data?.cgu?.data) {
+      const cguData = data.cgu.data;
+      if (cguData.id && cguData.attributes?.title) {
         const mappedData: ILegalContentFields = {
-          id: cookieData.id,
-          title: cookieData.attributes.title,
-          status: cookieData.attributes.isActivated
+          id: cguData.id,
+          title: cguData.attributes.title,
+          status: cguData.attributes.isActivated
             ? EStatus.Activated
             : EStatus.Draft,
-          isActivated: cookieData.attributes.isActivated ?? false,
-          blocks:
-            remapFormBlocksDynamicZone(cookieData.attributes.blocks) ?? [],
+          isActivated: cguData.attributes.isActivated ?? false,
+          blocks: remapFormBlocksDynamicZone(cguData.attributes.blocks) ?? [],
         };
         setMappedData(mappedData);
       }
@@ -127,7 +123,7 @@ export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
 
   return (
     <>
-      {cookieId && mappedData && (
+      {cguId && mappedData && (
         <LegalContentForm
           title={mappedData?.title ?? ""}
           data={mappedData}
@@ -145,11 +141,12 @@ export function EditoCookieFormPage({ cookieId }: IEditoCookieFormPageProps) {
 }
 
 export default function IndexPage() {
-  const cookieId = useRoutingQueryId("cookieId");
+  const cguId = useRoutingQueryId("cguId");
+
   return (
-    cookieId && (
+    cguId && (
       <ContractLayout>
-        <EditoCookieFormPage cookieId={cookieId} />
+        <EditoCguFormPage cguId={cguId} />
       </ContractLayout>
     )
   );

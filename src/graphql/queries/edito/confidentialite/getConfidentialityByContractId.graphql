@@ -1,21 +1,21 @@
-query getContactUsesByContractId($contractId: ID!) {
-  contactUsSubServices(
+query getConfidentialityByContractId($contractId: ID!) {
+  confidentialitySubServices(
     filters: { editorialService: { contract: { id: { eq: $contractId } } } }
   ) {
     data {
       id
       attributes {
-        contactUses {
+        confidentialities {
           data {
             id
             attributes {
-              isActivated
               title
+              hasMobile
+              isActivated
             }
           }
         }
         name
-        isActivated
       }
     }
   }

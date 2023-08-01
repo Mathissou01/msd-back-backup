@@ -542,7 +542,9 @@ export type Cgu = {
 export type CguBlocksDynamicZone =
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
 
@@ -1480,7 +1482,9 @@ export type Confidentiality = {
 export type ConfidentialityBlocksDynamicZone =
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
 
@@ -1596,19 +1600,12 @@ export type ContactResponse = {
 export type ContactUs = {
   __typename?: "ContactUs";
   blocks?: Maybe<Array<Maybe<ContactUsBlocksDynamicZone>>>;
-  channelTypes?: Maybe<ChannelTypeRelationResponseCollection>;
   contactUsSubService?: Maybe<ContactUsSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
-  status?: Maybe<Enum_Contactus_Status>;
+  isActivated?: Maybe<Scalars["Boolean"]>;
   tags?: Maybe<TagRelationResponseCollection>;
   title: Scalars["String"];
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type ContactUsChannelTypesArgs = {
-  filters?: InputMaybe<ChannelTypeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type ContactUsTagsArgs = {
@@ -1645,13 +1642,12 @@ export type ContactUsEntityResponseCollection = {
 
 export type ContactUsFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
-  channelTypes?: InputMaybe<ChannelTypeFiltersInput>;
   contactUsSubService?: InputMaybe<ContactUsSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  isActivated?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<ContactUsFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ContactUsFiltersInput>>>;
-  status?: InputMaybe<StringFilterInput>;
   tags?: InputMaybe<TagFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -1659,9 +1655,8 @@ export type ContactUsFiltersInput = {
 
 export type ContactUsInput = {
   blocks?: InputMaybe<Array<Scalars["ContactUsBlocksDynamicZoneInput"]>>;
-  channelTypes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   contactUsSubService?: InputMaybe<Scalars["ID"]>;
-  status?: InputMaybe<Enum_Contactus_Status>;
+  isActivated?: InputMaybe<Scalars["Boolean"]>;
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   title?: InputMaybe<Scalars["String"]>;
 };
@@ -2662,11 +2657,6 @@ export enum Enum_Componentlinksrequest_Demand {
   C = "C",
   D = "D",
   E = "E",
-}
-
-export enum Enum_Contactus_Status {
-  Draft = "draft",
-  Published = "published",
 }
 
 export enum Enum_Contract_Clienttype {
@@ -11443,6 +11433,224 @@ export type UploadGraphQlMutation = {
   uploadGraphQL?: boolean | null;
 };
 
+export type GetCguByIdQueryVariables = Exact<{
+  cguId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetCguByIdQuery = {
+  __typename?: "Query";
+  cgu?: {
+    __typename?: "CguEntityResponse";
+    data?: {
+      __typename?: "CguEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Cgu";
+        title: string;
+        hasMobile?: boolean | null;
+        isActivated?: boolean | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | { __typename?: "ComponentBlocksHorizontalRule" }
+          | { __typename?: "ComponentBlocksImage" }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | { __typename?: "ComponentBlocksVideo" }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetCgusByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetCgusByContractIdQuery = {
+  __typename?: "Query";
+  cguSubServices?: {
+    __typename?: "CguSubServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "CguSubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "CguSubService";
+        name: string;
+        cgus?: {
+          __typename?: "CguRelationResponseCollection";
+          data: Array<{
+            __typename?: "CguEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Cgu";
+              title: string;
+              hasMobile?: boolean | null;
+              isActivated?: boolean | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateCguByIdMutationVariables = Exact<{
+  updateCguId: Scalars["ID"];
+  data: CguInput;
+}>;
+
+export type UpdateCguByIdMutation = {
+  __typename?: "Mutation";
+  updateCgu?: {
+    __typename?: "CguEntityResponse";
+    data?: { __typename?: "CguEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type GetConfidentialityByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetConfidentialityByContractIdQuery = {
+  __typename?: "Query";
+  confidentialitySubServices?: {
+    __typename?: "ConfidentialitySubServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "ConfidentialitySubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ConfidentialitySubService";
+        name: string;
+        confidentialities?: {
+          __typename?: "ConfidentialityRelationResponseCollection";
+          data: Array<{
+            __typename?: "ConfidentialityEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Confidentiality";
+              title: string;
+              hasMobile?: boolean | null;
+              isActivated?: boolean | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetConfidentialityByIdQueryVariables = Exact<{
+  confidentialityId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetConfidentialityByIdQuery = {
+  __typename?: "Query";
+  confidentiality?: {
+    __typename?: "ConfidentialityEntityResponse";
+    data?: {
+      __typename?: "ConfidentialityEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Confidentiality";
+        title: string;
+        hasMobile?: boolean | null;
+        isActivated?: boolean | null;
+        blocks?: Array<
+          | {
+              __typename?: "ComponentBlocksFile";
+              id: string;
+              document?: {
+                __typename?: "UploadFileEntityResponse";
+                data?: {
+                  __typename?: "UploadFileEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "UploadFile";
+                    hash: string;
+                    mime: string;
+                    name: string;
+                    provider: string;
+                    size: number;
+                    url: string;
+                    alternativeText?: string | null;
+                    createdAt?: any | null;
+                    ext?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                  } | null;
+                } | null;
+              } | null;
+            }
+          | { __typename?: "ComponentBlocksHorizontalRule" }
+          | { __typename?: "ComponentBlocksImage" }
+          | {
+              __typename?: "ComponentBlocksSubHeading";
+              id: string;
+              subHeadingText?: string | null;
+              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+            }
+          | { __typename?: "ComponentBlocksVideo" }
+          | {
+              __typename?: "ComponentBlocksWysiwyg";
+              id: string;
+              textEditor?: string | null;
+            }
+          | { __typename?: "Error"; code: string; message?: string | null }
+          | null
+        > | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateConfidentialityByIdMutationVariables = Exact<{
+  updateConfidentialityId: Scalars["ID"];
+  data: ConfidentialityInput;
+}>;
+
+export type UpdateConfidentialityByIdMutation = {
+  __typename?: "Mutation";
+  updateConfidentiality?: {
+    __typename?: "ConfidentialityEntityResponse";
+    data?: { __typename?: "ConfidentialityEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type GetContactUsByIdQueryVariables = Exact<{
   contactUsId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -11457,9 +11665,7 @@ export type GetContactUsByIdQuery = {
       attributes?: {
         __typename?: "ContactUs";
         title: string;
-        status?: Enum_Contactus_Status | null;
-        createdAt?: any | null;
-        updatedAt?: any | null;
+        isActivated?: boolean | null;
         tags?: {
           __typename?: "TagRelationResponseCollection";
           data: Array<{
@@ -11568,7 +11774,15 @@ export type GetContactUsesByContractIdQuery = {
         isActivated?: boolean | null;
         contactUses?: {
           __typename?: "ContactUsRelationResponseCollection";
-          data: Array<{ __typename?: "ContactUsEntity"; id?: string | null }>;
+          data: Array<{
+            __typename?: "ContactUsEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "ContactUs";
+              isActivated?: boolean | null;
+              title: string;
+            } | null;
+          }>;
         } | null;
       } | null;
     }>;
@@ -11584,103 +11798,7 @@ export type UpdateContactUsMutation = {
   __typename?: "Mutation";
   updateContactUs?: {
     __typename?: "ContactUsEntityResponse";
-    data?: {
-      __typename?: "ContactUsEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "ContactUs";
-        title: string;
-        status?: Enum_Contactus_Status | null;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        tags?: {
-          __typename?: "TagRelationResponseCollection";
-          data: Array<{
-            __typename?: "TagEntity";
-            id?: string | null;
-            attributes?: { __typename?: "Tag"; name: string } | null;
-          }>;
-        } | null;
-        blocks?: Array<
-          | {
-              __typename?: "ComponentBlocksFile";
-              id: string;
-              document?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksHorizontalRule";
-              id: string;
-              hr?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksImage";
-              id: string;
-              isDecorative?: boolean | null;
-              altText?: string | null;
-              picture?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksSubHeading";
-              id: string;
-              subHeadingText?: string | null;
-              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
-            }
-          | {
-              __typename?: "ComponentBlocksVideo";
-              id: string;
-              videoLink?: string | null;
-              transcriptText?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksWysiwyg";
-              id: string;
-              textEditor?: string | null;
-            }
-          | { __typename?: "Error" }
-          | null
-        > | null;
-      } | null;
-    } | null;
+    data?: { __typename?: "ContactUsEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -12575,63 +12693,7 @@ export type UpdateCookieByIdMutation = {
   __typename?: "Mutation";
   updateCookie?: {
     __typename?: "CookieEntityResponse";
-    data?: {
-      __typename?: "CookieEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Cookie";
-        title: string;
-        hasMobile: boolean;
-        isActivated?: boolean | null;
-        blocks?: Array<
-          | {
-              __typename?: "ComponentBlocksFile";
-              id: string;
-              document?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksHorizontalRule";
-              id: string;
-              hr?: string | null;
-            }
-          | { __typename?: "ComponentBlocksImage" }
-          | {
-              __typename?: "ComponentBlocksSubHeading";
-              id: string;
-              subHeadingText?: string | null;
-              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
-            }
-          | { __typename?: "ComponentBlocksVideo" }
-          | {
-              __typename?: "ComponentBlocksWysiwyg";
-              id: string;
-              textEditor?: string | null;
-            }
-          | { __typename?: "Error" }
-          | null
-        > | null;
-      } | null;
-    } | null;
+    data?: { __typename?: "CookieEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -20551,6 +20613,466 @@ export type UploadGraphQlMutationOptions = Apollo.BaseMutationOptions<
   UploadGraphQlMutation,
   UploadGraphQlMutationVariables
 >;
+export const GetCguByIdDocument = gql`
+  query getCguById($cguId: ID) {
+    cgu(id: $cguId) {
+      data {
+        id
+        attributes {
+          title
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  id
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+          hasMobile
+          isActivated
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCguByIdQuery__
+ *
+ * To run a query within a React component, call `useGetCguByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCguByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCguByIdQuery({
+ *   variables: {
+ *      cguId: // value for 'cguId'
+ *   },
+ * });
+ */
+export function useGetCguByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetCguByIdQuery,
+    GetCguByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCguByIdQuery, GetCguByIdQueryVariables>(
+    GetCguByIdDocument,
+    options,
+  );
+}
+export function useGetCguByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCguByIdQuery,
+    GetCguByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCguByIdQuery, GetCguByIdQueryVariables>(
+    GetCguByIdDocument,
+    options,
+  );
+}
+export type GetCguByIdQueryHookResult = ReturnType<typeof useGetCguByIdQuery>;
+export type GetCguByIdLazyQueryHookResult = ReturnType<
+  typeof useGetCguByIdLazyQuery
+>;
+export type GetCguByIdQueryResult = Apollo.QueryResult<
+  GetCguByIdQuery,
+  GetCguByIdQueryVariables
+>;
+export const GetCgusByContractIdDocument = gql`
+  query getCgusByContractId($contractId: ID!) {
+    cguSubServices(
+      filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+    ) {
+      data {
+        id
+        attributes {
+          cgus {
+            data {
+              id
+              attributes {
+                title
+                hasMobile
+                isActivated
+              }
+            }
+          }
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCgusByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetCgusByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCgusByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCgusByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetCgusByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetCgusByContractIdQuery,
+    GetCgusByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetCgusByContractIdQuery,
+    GetCgusByContractIdQueryVariables
+  >(GetCgusByContractIdDocument, options);
+}
+export function useGetCgusByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCgusByContractIdQuery,
+    GetCgusByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetCgusByContractIdQuery,
+    GetCgusByContractIdQueryVariables
+  >(GetCgusByContractIdDocument, options);
+}
+export type GetCgusByContractIdQueryHookResult = ReturnType<
+  typeof useGetCgusByContractIdQuery
+>;
+export type GetCgusByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetCgusByContractIdLazyQuery
+>;
+export type GetCgusByContractIdQueryResult = Apollo.QueryResult<
+  GetCgusByContractIdQuery,
+  GetCgusByContractIdQueryVariables
+>;
+export const UpdateCguByIdDocument = gql`
+  mutation updateCGUById($updateCguId: ID!, $data: CguInput!) {
+    updateCgu(id: $updateCguId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateCguByIdMutationFn = Apollo.MutationFunction<
+  UpdateCguByIdMutation,
+  UpdateCguByIdMutationVariables
+>;
+
+/**
+ * __useUpdateCguByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateCguByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCguByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCguByIdMutation, { data, loading, error }] = useUpdateCguByIdMutation({
+ *   variables: {
+ *      updateCguId: // value for 'updateCguId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateCguByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCguByIdMutation,
+    UpdateCguByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateCguByIdMutation,
+    UpdateCguByIdMutationVariables
+  >(UpdateCguByIdDocument, options);
+}
+export type UpdateCguByIdMutationHookResult = ReturnType<
+  typeof useUpdateCguByIdMutation
+>;
+export type UpdateCguByIdMutationResult =
+  Apollo.MutationResult<UpdateCguByIdMutation>;
+export type UpdateCguByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCguByIdMutation,
+  UpdateCguByIdMutationVariables
+>;
+export const GetConfidentialityByContractIdDocument = gql`
+  query getConfidentialityByContractId($contractId: ID!) {
+    confidentialitySubServices(
+      filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+    ) {
+      data {
+        id
+        attributes {
+          confidentialities {
+            data {
+              id
+              attributes {
+                title
+                hasMobile
+                isActivated
+              }
+            }
+          }
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetConfidentialityByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetConfidentialityByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetConfidentialityByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetConfidentialityByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetConfidentialityByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetConfidentialityByContractIdQuery,
+    GetConfidentialityByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetConfidentialityByContractIdQuery,
+    GetConfidentialityByContractIdQueryVariables
+  >(GetConfidentialityByContractIdDocument, options);
+}
+export function useGetConfidentialityByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetConfidentialityByContractIdQuery,
+    GetConfidentialityByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetConfidentialityByContractIdQuery,
+    GetConfidentialityByContractIdQueryVariables
+  >(GetConfidentialityByContractIdDocument, options);
+}
+export type GetConfidentialityByContractIdQueryHookResult = ReturnType<
+  typeof useGetConfidentialityByContractIdQuery
+>;
+export type GetConfidentialityByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetConfidentialityByContractIdLazyQuery
+>;
+export type GetConfidentialityByContractIdQueryResult = Apollo.QueryResult<
+  GetConfidentialityByContractIdQuery,
+  GetConfidentialityByContractIdQueryVariables
+>;
+export const GetConfidentialityByIdDocument = gql`
+  query getConfidentialityById($confidentialityId: ID) {
+    confidentiality(id: $confidentialityId) {
+      data {
+        id
+        attributes {
+          title
+          blocks {
+            ... on ComponentBlocksSubHeading {
+              id
+              subHeadingText
+              subHeadingTag
+            }
+            ... on ComponentBlocksWysiwyg {
+              id
+              textEditor
+            }
+            ... on ComponentBlocksFile {
+              id
+              document {
+                data {
+                  id
+                  attributes {
+                    hash
+                    mime
+                    name
+                    provider
+                    size
+                    url
+                    alternativeText
+                    createdAt
+                    ext
+                    width
+                    height
+                  }
+                }
+              }
+            }
+            ... on Error {
+              code
+              message
+            }
+          }
+          hasMobile
+          isActivated
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetConfidentialityByIdQuery__
+ *
+ * To run a query within a React component, call `useGetConfidentialityByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetConfidentialityByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetConfidentialityByIdQuery({
+ *   variables: {
+ *      confidentialityId: // value for 'confidentialityId'
+ *   },
+ * });
+ */
+export function useGetConfidentialityByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetConfidentialityByIdQuery,
+    GetConfidentialityByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetConfidentialityByIdQuery,
+    GetConfidentialityByIdQueryVariables
+  >(GetConfidentialityByIdDocument, options);
+}
+export function useGetConfidentialityByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetConfidentialityByIdQuery,
+    GetConfidentialityByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetConfidentialityByIdQuery,
+    GetConfidentialityByIdQueryVariables
+  >(GetConfidentialityByIdDocument, options);
+}
+export type GetConfidentialityByIdQueryHookResult = ReturnType<
+  typeof useGetConfidentialityByIdQuery
+>;
+export type GetConfidentialityByIdLazyQueryHookResult = ReturnType<
+  typeof useGetConfidentialityByIdLazyQuery
+>;
+export type GetConfidentialityByIdQueryResult = Apollo.QueryResult<
+  GetConfidentialityByIdQuery,
+  GetConfidentialityByIdQueryVariables
+>;
+export const UpdateConfidentialityByIdDocument = gql`
+  mutation updateConfidentialityById(
+    $updateConfidentialityId: ID!
+    $data: ConfidentialityInput!
+  ) {
+    updateConfidentiality(id: $updateConfidentialityId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateConfidentialityByIdMutationFn = Apollo.MutationFunction<
+  UpdateConfidentialityByIdMutation,
+  UpdateConfidentialityByIdMutationVariables
+>;
+
+/**
+ * __useUpdateConfidentialityByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateConfidentialityByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateConfidentialityByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateConfidentialityByIdMutation, { data, loading, error }] = useUpdateConfidentialityByIdMutation({
+ *   variables: {
+ *      updateConfidentialityId: // value for 'updateConfidentialityId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateConfidentialityByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateConfidentialityByIdMutation,
+    UpdateConfidentialityByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateConfidentialityByIdMutation,
+    UpdateConfidentialityByIdMutationVariables
+  >(UpdateConfidentialityByIdDocument, options);
+}
+export type UpdateConfidentialityByIdMutationHookResult = ReturnType<
+  typeof useUpdateConfidentialityByIdMutation
+>;
+export type UpdateConfidentialityByIdMutationResult =
+  Apollo.MutationResult<UpdateConfidentialityByIdMutation>;
+export type UpdateConfidentialityByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateConfidentialityByIdMutation,
+    UpdateConfidentialityByIdMutationVariables
+  >;
 export const GetContactUsByIdDocument = gql`
   query getContactUsById($contactUsId: ID) {
     contactUs(id: $contactUsId) {
@@ -20558,9 +21080,7 @@ export const GetContactUsByIdDocument = gql`
         id
         attributes {
           title
-          status
-          createdAt
-          updatedAt
+          isActivated
           tags {
             data {
               id
@@ -20700,6 +21220,10 @@ export const GetContactUsesByContractIdDocument = gql`
           contactUses {
             data {
               id
+              attributes {
+                isActivated
+                title
+              }
             }
           }
           name
@@ -20765,84 +21289,6 @@ export const UpdateContactUsDocument = gql`
     updateContactUs(id: $updateContactUsId, data: $data) {
       data {
         id
-        attributes {
-          title
-          status
-          createdAt
-          updatedAt
-          tags {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-          blocks {
-            ... on ComponentBlocksSubHeading {
-              id
-              subHeadingText
-              subHeadingTag
-            }
-            ... on ComponentBlocksVideo {
-              id
-              videoLink
-              transcriptText
-            }
-            ... on ComponentBlocksWysiwyg {
-              id
-              textEditor
-            }
-            ... on ComponentBlocksHorizontalRule {
-              id
-              hr
-            }
-            ... on ComponentBlocksImage {
-              id
-              picture {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
-                  }
-                }
-              }
-              isDecorative
-              altText
-            }
-            ... on ComponentBlocksFile {
-              id
-              document {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -22188,47 +22634,6 @@ export const UpdateCookieByIdDocument = gql`
     updateCookie(id: $updateCookieId, data: $data) {
       data {
         id
-        attributes {
-          title
-          blocks {
-            ... on ComponentBlocksSubHeading {
-              id
-              subHeadingText
-              subHeadingTag
-            }
-            ... on ComponentBlocksWysiwyg {
-              id
-              textEditor
-            }
-            ... on ComponentBlocksHorizontalRule {
-              id
-              hr
-            }
-            ... on ComponentBlocksFile {
-              id
-              document {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
-                  }
-                }
-              }
-            }
-          }
-          hasMobile
-          isActivated
-        }
       }
     }
   }

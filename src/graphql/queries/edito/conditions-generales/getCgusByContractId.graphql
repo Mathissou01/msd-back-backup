@@ -1,21 +1,21 @@
-query getContactUsesByContractId($contractId: ID!) {
-  contactUsSubServices(
+query getCgusByContractId($contractId: ID!) {
+  cguSubServices(
     filters: { editorialService: { contract: { id: { eq: $contractId } } } }
   ) {
     data {
       id
       attributes {
-        contactUses {
+        cgus {
           data {
             id
             attributes {
-              isActivated
               title
+              hasMobile
+              isActivated
             }
           }
         }
         name
-        isActivated
       }
     }
   }

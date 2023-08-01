@@ -2,47 +2,6 @@ mutation updateCookieById($updateCookieId: ID!, $data: CookieInput!) {
   updateCookie(id: $updateCookieId, data: $data) {
     data {
       id
-      attributes {
-        title
-        blocks {
-          ... on ComponentBlocksSubHeading {
-            id
-            subHeadingText
-            subHeadingTag
-          }
-          ... on ComponentBlocksWysiwyg {
-            id
-            textEditor
-          }
-          ... on ComponentBlocksHorizontalRule {
-            id
-            hr
-          }
-          ... on ComponentBlocksFile {
-            id
-            document {
-              data {
-                id
-                attributes {
-                  hash
-                  mime
-                  name
-                  provider
-                  size
-                  url
-                  alternativeText
-                  ext
-                  height
-                  width
-                  createdAt
-                }
-              }
-            }
-          }
-        }
-        hasMobile
-        isActivated
-      }
     }
   }
 }
