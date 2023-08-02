@@ -4009,6 +4009,7 @@ type Mutation {
     id: ID!
   ): AlertNotificationServiceEntityResponse
   deleteAlertUserStorage(id: ID!): AlertUserStorageEntityResponse
+  deleteAlertUserStorageComplete(email: String, phoneNumber: String): Int
   deleteAudience(id: ID!): AudienceEntityResponse
   deleteCgu(id: ID!): CguEntityResponse
   deleteCguSubService(id: ID!): CguSubServiceEntityResponse

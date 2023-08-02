@@ -42,8 +42,8 @@ export function CartePage() {
     title: "Liste des points d'intérêt",
     columns: {
       dropoffmapTitle: "Nom du point d'intérêt",
-      dropoffmapType: "Type de lieux",
-      dropoffmapPlace: "Commune",
+      dropoffmapType: "Type de lieux/conteneurs",
+      dropoffmapPlace: "Communes",
       servicesTitle: "Services",
       updatedDate: "Modification",
     },

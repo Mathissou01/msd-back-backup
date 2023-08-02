@@ -4334,6 +4334,7 @@ export type Mutation = {
   deleteAlertNotification?: Maybe<AlertNotificationEntityResponse>;
   deleteAlertNotificationService?: Maybe<AlertNotificationServiceEntityResponse>;
   deleteAlertUserStorage?: Maybe<AlertUserStorageEntityResponse>;
+  deleteAlertUserStorageComplete?: Maybe<Scalars["Int"]>;
   deleteAudience?: Maybe<AudienceEntityResponse>;
   deleteCgu?: Maybe<CguEntityResponse>;
   deleteCguSubService?: Maybe<CguSubServiceEntityResponse>;
@@ -4915,6 +4916,11 @@ export type MutationDeleteAlertNotificationServiceArgs = {
 
 export type MutationDeleteAlertUserStorageArgs = {
   id: Scalars["ID"];
+};
+
+export type MutationDeleteAlertUserStorageCompleteArgs = {
+  email?: InputMaybe<Scalars["String"]>;
+  phoneNumber?: InputMaybe<Scalars["String"]>;
 };
 
 export type MutationDeleteAudienceArgs = {
