@@ -45,8 +45,9 @@
   }
   /* stylelint-disable */
   .ol-zoom {
-    top: 0.5em;
-    left: 0.5em;
+    position: absolute;
+    bottom: 40px;
+    right: 10px;
   }
 
   .ol-control button {
