@@ -13,7 +13,10 @@ import {
   SearchEngineBlockEntity,
   TipEntity,
 } from "../graphql/codegen/generated-types";
-import { IServiceLink, remapServiceLinksDynamicZone } from "./service-links";
+import {
+  IServiceLink,
+  remapServicesLinkDynamicZonePicto,
+} from "./service-links";
 
 /* Menu */
 export function extractMenu(data: GetMenuPageQuery) {
@@ -43,9 +46,10 @@ export function extractServicesBlock(data: GetServicesBlockTabQuery) {
   const serviceBlock =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.servicesBlock?.data ?? null;
-  const serviceLinks: Array<IServiceLink> | null = remapServiceLinksDynamicZone(
-    serviceBlock?.attributes?.serviceLinks ?? null,
-  );
+  const serviceLinks: Array<IServiceLink> | null =
+    remapServicesLinkDynamicZonePicto(
+      serviceBlock?.attributes?.serviceLinks ?? null,
+    );
 
   return {
     id: serviceBlock?.id ?? null,

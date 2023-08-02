@@ -39,6 +39,9 @@ interface IEditoTabProps {
   activatedTypes: Array<TEditorialContentTypes>;
 }
 
+interface IEditoContentsModalFields {
+  editoContentsSelect: EditoContentDto;
+}
 export default function EditoTab({ activatedTypes }: IEditoTabProps) {
   /* Static Data */
   const formLabels = {
@@ -78,11 +81,10 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
     )}`;
   }
 
-  function onContentModalSubmit(submitData: {
-    [key: string]: Array<EditoContentDto | undefined>;
-  }) {
+  function onContentModalSubmit(submitData: IEditoContentsModalFields) {
     const contents = Object.values(submitData)?.filter(removeNulls);
-    setValue("editoContents", contents, { shouldDirty: true });
+    // setValue("editoContents", contents, { shouldDirty: true });
+    return contents;
   }
 
   async function onSubmitValid(submitData: FieldValues) {
@@ -156,7 +158,7 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
   const form = useForm({
     mode: formValidationMode,
   });
-  const { handleSubmit, setValue, watch, formState } = form;
+  const { handleSubmit, watch, formState } = form;
   const { isDirty, isSubmitting } = formState;
   useEffect(() => {
     if (data?.getEditoBlockDTO && data.getEditoContentDTOs) {
@@ -233,7 +235,10 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
               />
             </div>
             <div className="c-EditoTab__Group">
-              <FormModalButtonInput<Array<EditoContentDto>>
+              <FormModalButtonInput<
+                Array<EditoContentDto>,
+                IEditoContentsModalFields
+              >
                 name="editoContents"
                 label={formLabels.editoContents}
                 displayTransform={editoContentsDisplayTransformFunction}

@@ -134,11 +134,11 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
     });
 
   if (!getFolderByPathIdErrors) {
-    if (file) {
+    if (file && file.file) {
       try {
         const formData = new FormData();
 
-        formData.append("files", file.file ?? "", file.name);
+        formData.append("files", file.file, file.name);
 
         const API = "upload";
         const HOST = process.env.NEXT_PUBLIC_API_URL;
@@ -202,10 +202,10 @@ export async function updateUploadedFile(pathId: number, file: ILocalFile) {
     });
 
   if (!getFolderByPathIdErrors) {
-    if (file) {
+    if (file && file.file) {
       try {
         const formData = new FormData();
-        formData.append("files", file.file ?? "", file.name);
+        formData.append("files", file.file, file.name);
 
         const API = `upload/${file.id}`;
         const HOST = process.env.NEXT_PUBLIC_API_URL;

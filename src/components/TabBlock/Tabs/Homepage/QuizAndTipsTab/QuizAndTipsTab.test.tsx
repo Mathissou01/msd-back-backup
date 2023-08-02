@@ -4,6 +4,9 @@ import React from "react";
 import { defaultMockData } from "../../../../../../__mocks__/quizAndTipsTabMockData";
 import QuizAndTipsTab from "./QuizAndTipsTab";
 
+// Prevent loading of client inside MockedProvider, otherwise leads to "unexpected token" error
+jest.mock("../../../../../graphql/client", () => null);
+
 describe("QuizAndTipsTab", () => {
   it("renders loading and loaded state", async () => {
     const { container } = render(
@@ -20,16 +23,4 @@ describe("QuizAndTipsTab", () => {
     ).toBeInTheDocument();
     expect(await container).toMatchSnapshot();
   });
-
-  // it("should show error UI", async () => {
-  //   const { container } = render(
-  //     <MockedProvider mocks={errorMockData} addTypename={false}>
-  //       <QuizAndTipsTab />
-  //     </MockedProvider>,
-  //   );
-  //
-  //   expect(await screen.findByText("Loading...")).toBeInTheDocument();
-  //   expect(await screen.findByText("An error occurred")).toBeInTheDocument();
-  //   expect(await container).toMatchSnapshot();
-  // });
 });

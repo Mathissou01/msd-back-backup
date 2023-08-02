@@ -34,6 +34,14 @@ interface IQuizAndTipsBlock {
   tips?: Array<TipEntity> | null;
 }
 
+interface IQuizModalFields {
+  quizSelect: QuizEntity;
+}
+
+interface ITipsModalFields {
+  tips: TipEntity;
+}
+
 export default function QuizAndTipsTab() {
   /* Static Data */
   const formLabels = {
@@ -66,11 +74,8 @@ export default function QuizAndTipsTab() {
     return quiz.attributes?.title ?? "";
   }
 
-  function onQuizModalSubmit(submitData: {
-    [key: string]: QuizEntity | undefined;
-  }) {
-    const quiz = Object.values(submitData)[0];
-    setValue("quiz", quiz, { shouldDirty: true });
+  function onQuizModalSubmit(submitData: IQuizModalFields) {
+    return Object.values(submitData)[0];
   }
 
   function tipsDisplayTransformFunction(
@@ -97,11 +102,8 @@ export default function QuizAndTipsTab() {
     )}`;
   }
 
-  function onTipsModalSubmit(submitData: {
-    [key: string]: Array<TipEntity | undefined>;
-  }) {
-    const tips = Object.values(submitData)?.filter(removeNulls);
-    setValue("tips", tips, { shouldDirty: true });
+  function onTipsModalSubmit(submitData: ITipsModalFields) {
+    return Object.values(submitData)?.filter(removeNulls);
   }
 
   async function onSubmitValid(submitData: FieldValues) {
@@ -155,7 +157,7 @@ export default function QuizAndTipsTab() {
   const form = useForm({
     mode: formValidationMode,
   });
-  const { handleSubmit, setValue, watch, formState } = form;
+  const { handleSubmit, watch, formState } = form;
   const { isDirty, isSubmitting } = formState;
 
   useEffect(() => {
@@ -233,7 +235,7 @@ export default function QuizAndTipsTab() {
             </div>
             <div className="c-QuizAndTipsTab__Group">
               <FormCheckbox name="displayQuiz" label={formLabels.displayQuiz} />
-              <FormModalButtonInput<QuizEntity>
+              <FormModalButtonInput<QuizEntity, IQuizModalFields>
                 name="quiz"
                 label={formLabels.quiz}
                 displayTransform={quizDisplayTransformFunction}
@@ -254,7 +256,7 @@ export default function QuizAndTipsTab() {
             </div>
             <div className="c-QuizAndTipsTab__Group">
               <FormCheckbox name="displayTips" label={formLabels.displayTips} />
-              <FormModalButtonInput<Array<TipEntity>>
+              <FormModalButtonInput<Array<TipEntity>, ITipsModalFields>
                 name="tips"
                 label={formLabels.tips}
                 displayTransform={tipsDisplayTransformFunction}

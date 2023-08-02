@@ -35,6 +35,11 @@ interface ITopContentBlock {
   componentId?: string | null;
 }
 
+interface ITopContentModalFields {
+  topContentRadio: string;
+  topContentSelect: EditoContentDto;
+}
+
 export default function TopContentTab() {
   /* Static Data */
   const formLabels = {
@@ -74,11 +79,10 @@ export default function TopContentTab() {
     )}`;
   }
 
-  function onTopContentModalSubmit(submitData: {
-    [key: string]: Partial<EditoContentDto> | undefined;
-  }) {
+  function onTopContentModalSubmit(submitData: ITopContentModalFields) {
     const topContent = Object.values(submitData)[1];
-    setValue("topContent", topContent, { shouldDirty: true });
+    // setValue("topContent", topContent, { shouldDirty: true });
+    return topContent;
   }
 
   function onTopContentModalRadioChange(changeData: unknown) {
@@ -155,7 +159,7 @@ export default function TopContentTab() {
   const form = useForm({
     mode: formValidationMode,
   });
-  const { handleSubmit, setValue, watch, formState } = form;
+  const { handleSubmit, watch, formState } = form;
   const { isDirty, isSubmitting } = formState;
 
   useEffect(() => {
@@ -225,7 +229,7 @@ export default function TopContentTab() {
                 name="hasTopContent"
                 label={formLabels.hasTopContent}
               />
-              <FormModalButtonInput<EditoContentDto>
+              <FormModalButtonInput<EditoContentDto, ITopContentModalFields>
                 name="topContent"
                 label={formLabels.topContent}
                 displayTransform={topContentDisplayTransformFunction}

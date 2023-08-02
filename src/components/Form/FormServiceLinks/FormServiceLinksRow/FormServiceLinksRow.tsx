@@ -47,14 +47,8 @@ export default function FormServiceLinksRow({
           className={classNames("c-FormServiceLinksRow__Picto", {
             "c-FormServiceLinksRow__Picto_disabled": isDisabled,
           })}
-          src={
-            serviceLink.picto?.data?.attributes?.url ??
-            "/images/pictos/default.svg"
-          }
-          alt={
-            serviceLink.picto?.data?.attributes.alternativeText ??
-            altTexts.picto
-          }
+          src={serviceLink.picto?.url ?? "/images/pictos/default.svg"}
+          alt={serviceLink.picto?.alternativeText ?? altTexts.picto}
           width={24}
           height={24}
         />

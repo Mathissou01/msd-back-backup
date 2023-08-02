@@ -1,4 +1,9 @@
 import { removeNulls } from "./utilities";
+import {
+  ILocalFile,
+  IUploadFileEntity,
+  remapUploadFileEntityToLocalFile,
+} from "./media";
 
 export interface IPicto {
   data: {
@@ -16,7 +21,21 @@ export interface IServiceLink {
   name: string;
   externalLink?: string;
   isDisplayed: boolean;
-  picto?: IPicto | null;
+  picto?: ILocalFile | null;
+}
+
+export interface IStateServiceLink {
+  externalLink?: string;
+  id?: string;
+  name: string;
+  isDisplayed: boolean;
+  picto?:
+    | {
+        data?: IUploadFileEntity | null | undefined;
+        __typename: string;
+      }
+    | null
+    | undefined;
 }
 
 export interface IPartialServiceLink {
@@ -28,6 +47,12 @@ export function isServiceLink(
   link: Partial<IPartialServiceLink>,
 ): link is IServiceLink {
   return "name" in link && "isDisplayed" in link;
+}
+
+export function isStateServiceLink(
+  link: Partial<IPartialServiceLink>,
+): link is IStateServiceLink {
+  return "name" in link && "isDisplayed" in link && "picto" in link;
 }
 
 export function remapServiceLinksDynamicZone(
@@ -47,6 +72,31 @@ export function remapServiceLinksDynamicZone(
               ...(link?.externalLink && { externalLink: link?.externalLink }),
               isDisplayed: link?.isDisplayed,
               picto: link?.picto,
+            };
+          }
+        }
+      })
+      .filter(removeNulls) ?? null
+  );
+}
+
+export function remapServicesLinkDynamicZonePicto(
+  serviceLinks: Array<Partial<IPartialServiceLink> | null> | null,
+): Array<IServiceLink> | null {
+  return (
+    serviceLinks
+      ?.map((link) => {
+        if (link) {
+          const type = link.__typename;
+          if (type && isStateServiceLink(link)) {
+            const pictoData = link?.picto?.data;
+            return {
+              type,
+              id: link.id,
+              name: link?.name,
+              ...(link?.externalLink && { externalLink: link?.externalLink }),
+              isDisplayed: link?.isDisplayed,
+              picto: remapUploadFileEntityToLocalFile(pictoData),
             };
           }
         }

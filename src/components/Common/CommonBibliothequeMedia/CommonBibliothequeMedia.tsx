@@ -31,7 +31,6 @@ import "./common-bibliotheque-media.scss";
 interface ICommonBibliothequeMediaProps {
   mimeFilterContains?: string;
   mimeFilterNotContains?: string;
-  name?: string;
   canSelectMultipleFiles?: boolean;
   onSelectedFiles?: (files?: Array<ILocalFile>) => void;
   onPathChange?: (pathId: number, path: string) => void;

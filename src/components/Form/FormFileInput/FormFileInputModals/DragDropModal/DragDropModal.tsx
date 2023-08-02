@@ -3,6 +3,7 @@ import { ILocalFile, uploadFile } from "../../../../../lib/media";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import MediaCard from "../../../../Media/MediaCard/MediaCard";
+import "./drag-drop-modal.scss";
 
 interface IDragDropModalProps {
   modalRef: RefObject<CommonModalWrapperRef>;
@@ -59,9 +60,9 @@ export default function DragDropModal({
   return (
     <>
       <hgroup>
-        <div className="c-FormFileInputModals__Title">Ajouter le média</div>
+        <div className="c-DragDropModal__Title">Ajouter le média</div>
       </hgroup>
-      <div className="c-FormFileInputModals__Header">
+      <div className="c-DragDropModal__Header">
         <strong>
           {labels.amountItemSelectedTitle}
           <br />
@@ -73,10 +74,10 @@ export default function DragDropModal({
           onClick={onResetDraggedFile}
         />
       </div>
-      <div className="c-FormFileInputModals__Body">
+      <div className="c-DragDropModal__Body">
         <MediaCard file={draggedFile} loading={uploadLoading} />
       </div>
-      <div className="c-FormFileInputModals__Footer">
+      <div className="c-DragDropModal__Footer">
         <CommonButton
           type="submit"
           label={labels.addMediaBtn}

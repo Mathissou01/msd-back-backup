@@ -4,6 +4,9 @@ import React from "react";
 import { defaultMockData } from "../../../../../../__mocks__/welcomeAndSearchEngineTabMockData";
 import WelcomeAndSearchEngineTab from "./WelcomeAndSearchEngineTab";
 
+// Prevent loading of client inside MockedProvider, otherwise leads to "unexpected token" error
+jest.mock("../../../../../graphql/client", () => null);
+
 describe("WelcomeAndSearchEngineTab", () => {
   it("renders loading and loaded state", async () => {
     const { container } = render(

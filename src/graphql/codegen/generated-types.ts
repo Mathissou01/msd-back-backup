@@ -14339,9 +14339,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14704,9 +14712,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -25881,8 +25897,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26442,8 +26466,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }

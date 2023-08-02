@@ -30,6 +30,9 @@ const mock = {
   ],
 };
 
+// Prevent loading of client inside MockedProvider, otherwise leads to "unexpected token" error
+jest.mock("../../../graphql/client", () => null);
+
 const Wrapper = (props: { children: ReactNode }) => {
   const formMethods = useForm();
   formMethods.reset({ [mock.name]: mock.serviceLinks });

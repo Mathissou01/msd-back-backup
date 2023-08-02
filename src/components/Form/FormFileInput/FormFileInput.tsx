@@ -317,7 +317,6 @@ export default function FormFileInput({
               </div>
               <FormFileInputModals
                 modalRef={modalRef}
-                name={name}
                 draggedFile={draggedFile}
                 mimeFilterContains={mimeFilterContains}
                 mimeFilterNotContains={mimeFilterNotContains}

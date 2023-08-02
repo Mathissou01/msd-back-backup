@@ -4,6 +4,9 @@ import React from "react";
 import { defaultMockData } from "../../../../../../__mocks__/recyclingGuideTabMockData";
 import RecyclingGuideTab from "./RecyclingGuideTab";
 
+// Prevent loading of client inside MockedProvider, otherwise leads to "unexpected token" error
+jest.mock("../../../../../graphql/client", () => null);
+
 describe("RecyclingGuideTab", () => {
   it("renders loading and loaded state", async () => {
     const { container } = render(

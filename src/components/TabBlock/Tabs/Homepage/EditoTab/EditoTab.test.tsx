@@ -4,6 +4,9 @@ import React from "react";
 import { defaultMockData } from "../../../../../../__mocks__/editorialTabMockData";
 import EditoTab from "./EditoTab";
 
+// Prevent loading of client inside MockedProvider, otherwise leads to "unexpected token" error
+jest.mock("../../../../../graphql/client", () => null);
+
 describe("EditoTab", () => {
   it("renders loading and loaded state", async () => {
     const { container } = render(

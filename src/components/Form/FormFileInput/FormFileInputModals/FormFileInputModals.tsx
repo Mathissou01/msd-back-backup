@@ -5,11 +5,9 @@ import CommonModalWrapper, {
 } from "../../../Common/CommonModalWrapper/CommonModalWrapper";
 import DragDropModal from "./DragDropModal/DragDropModal";
 import SelectingModal from "./SelectingModal/SelectingModal";
-import "./form-file-input-modals.scss";
 
 interface IMediaBlockProps {
   modalRef: React.RefObject<CommonModalWrapperRef>;
-  name: string;
   draggedFile?: ILocalFile;
   mimeFilterContains?: string;
   mimeFilterNotContains?: string;
@@ -20,7 +18,6 @@ interface IMediaBlockProps {
 
 export default function FormFileInputModals({
   modalRef,
-  name,
   onResetDraggedFile,
   draggedFile,
   mimeFilterContains,
@@ -52,7 +49,6 @@ export default function FormFileInputModals({
       ) : (
         <SelectingModal
           modalRef={modalRef}
-          name={name}
           isButtonDirty={false}
           mimeFilterContains={mimeFilterContains}
           mimeFilterNotContains={mimeFilterNotContains}

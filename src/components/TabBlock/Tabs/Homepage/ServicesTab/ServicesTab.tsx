@@ -42,14 +42,18 @@ export default function ServicesTab() {
 
   /* Method */
   function onModalSubmit(data: FieldValues) {
-    const modalData = data["createModal"];
-    if (modalData && servicesBlockData?.serviceLinks) {
+    if (
+      data["createModal_name"] &&
+      data["createModal_externalLink"] &&
+      data["createModal_picto"] &&
+      servicesBlockData?.serviceLinks
+    ) {
       const newLink: IServiceLink = {
         type: "ComponentLinksExternal",
         isDisplayed: false,
-        name: modalData["name"],
-        externalLink: modalData["externalLink"],
-        picto: modalData["picto"],
+        name: data["createModal_name"],
+        externalLink: data["createModal_externalLink"],
+        picto: data["createModal_picto"],
       };
       const newServiceLinks = [...servicesBlockData.serviceLinks, newLink];
       setServicesBlockData({
@@ -70,7 +74,7 @@ export default function ServicesTab() {
             isDisplayed: link.isDisplayed,
             name: link.name,
             externalLink: link.externalLink,
-            picto: link.picto,
+            picto: link.picto?.id,
           };
         },
       );

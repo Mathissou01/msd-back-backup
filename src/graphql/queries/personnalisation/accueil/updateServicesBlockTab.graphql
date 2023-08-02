@@ -141,8 +141,16 @@ mutation updateServicesBlockTab(
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }

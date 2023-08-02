@@ -1,12 +1,15 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 import { Flipped, Flipper } from "react-flip-toolkit";
-import { IPicto, IServiceLink } from "../../../../lib/service-links";
+import { Controller } from "react-hook-form";
+import { IServiceLink } from "../../../../lib/service-links";
+import { ILocalFile } from "../../../../lib/media";
 import { CommonModalWrapperRef } from "../../../Common/CommonModalWrapper/CommonModalWrapper";
 import FormInput from "../../FormInput/FormInput";
 import FormModal from "../../FormModal/FormModal";
 import FormModalButtonInput from "../../FormModalButtonInput/FormModalButtonInput";
 import FormServiceLinksRow from "../FormServiceLinksRow/FormServiceLinksRow";
+import SelectingModalContent from "../../FormFileInput/FormFileInputModals/SelectingModal/SelectingModalContent/SelectingModalContent";
 import "./form-service-links-list.scss";
 
 interface IFormLabels {
@@ -27,16 +30,16 @@ interface IFormFlipperProps {
   formLabels: IFormLabels;
   onModalClose: (i: number) => void;
   onModalSubmit: (
-    submitData: { [key: string]: Partial<IServiceLink> },
+    submitData: { [key: string]: Record<string, unknown> },
     modalName: string,
     i: number,
   ) => void;
-  modalPictoDisplayTransformFunction: (picto: Partial<IPicto>) => ReactNode;
+  modalPictoDisplayTransformFunction: (picto: Partial<ILocalFile>) => ReactNode;
   onPictoModalSubmit: (
-    submitData: { [key: string]: Partial<IPicto> },
+    submitData: { picto_select: ILocalFile },
     modalName: string,
     i: number,
-  ) => void;
+  ) => ILocalFile;
   isToggleDisplayDisabled?: boolean;
   isUpDisabled?: boolean;
   isDownDisabled?: boolean;
@@ -58,6 +61,11 @@ export default function FormServiceLinksList({
   isUpDisabled,
   isDownDisabled,
 }: IFormFlipperProps) {
+  /* Static Data */
+  const modalLabels = {
+    title: "Sélectionnez un picto",
+  };
+
   return (
     <Flipper className="c-FormServiceLinksList" flipKey={values} element="ul">
       {values.map((link, index) => (
@@ -81,7 +89,7 @@ export default function FormServiceLinksList({
               />
             </li>
           </Flipped>
-          <FormModal<IServiceLink>
+          <FormModal<{ [key: string]: Record<string, unknown> }>
             modalRef={getRef(index)}
             modalTitle={formLabels.modalTitle}
             modalSubtitle={link.name}
@@ -105,7 +113,7 @@ export default function FormServiceLinksList({
                 defaultValue={link.externalLink}
               />
             )}
-            <FormModalButtonInput<IPicto>
+            <FormModalButtonInput<ILocalFile, { picto_select: ILocalFile }>
               name={`modal_${index}.picto`}
               label={formLabels.pictoLabel}
               buttonLabel={formLabels.pictoButton}
@@ -113,12 +121,28 @@ export default function FormServiceLinksList({
               displayTransform={modalPictoDisplayTransformFunction}
               defaultValue={link.picto}
               isRequired={true}
-              modalTitle={"WIP MEDIA SERVER"}
+              modalTitle={modalLabels.title}
               onModalSubmit={(data) =>
                 onPictoModalSubmit(data, `modal_${index}.picto`, index)
               }
             >
-              <span>WIP MEDIA SERVER</span>
+              {/*/ TODO: TEMPORARY, SelectingModalContent or better CommonBibliothequeMedia should be refactored and we can make a Form Component that registers itself /*/}
+              <Controller
+                name={`picto_select`}
+                rules={{
+                  required: { value: true, message: "test test" },
+                }}
+                render={({ field: { onChange, value } }) => {
+                  return (
+                    <>
+                      <SelectingModalContent
+                        selectedFile={value}
+                        setSelectedFile={onChange}
+                      />
+                    </>
+                  );
+                }}
+              />
             </FormModalButtonInput>
           </FormModal>
         </div>
