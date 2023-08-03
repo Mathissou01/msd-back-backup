@@ -6,7 +6,7 @@ export const defaultMockData = [
       query: GetEditoBlockTabDocument,
       variables: {
         contractId: "0",
-        status: "published",
+        audienceId: "",
       },
     },
     result: {

@@ -3,8 +3,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
 import {
+  AudienceEntity,
   EditoContentDto,
-  Enum_Topcontentdto_Status,
   useGetTopContentBlockTabQuery,
   useUpdateTopContentBlockTabMutation,
 } from "../../../../../graphql/codegen/generated-types";
@@ -40,7 +40,11 @@ interface ITopContentModalFields {
   topContentSelect: EditoContentDto;
 }
 
-export default function TopContentTab() {
+interface ITopContentTabProps {
+  audience?: AudienceEntity;
+}
+
+export default function TopContentTab({ audience }: ITopContentTabProps) {
   /* Static Data */
   const formLabels = {
     title: "À la une",
@@ -134,8 +138,18 @@ export default function TopContentTab() {
 
   /* External Data */
   const { contractId } = useContract();
+  const getTopContentBlockVariables: {
+    contractId: string;
+    audienceId: string;
+  } = {
+    contractId,
+    audienceId: "",
+  };
+  if (audience && audience.id) {
+    getTopContentBlockVariables.audienceId = audience.id;
+  }
   const { loading, error, data } = useGetTopContentBlockTabQuery({
-    variables: { contractId, status: Enum_Topcontentdto_Status.Published },
+    variables: getTopContentBlockVariables,
     fetchPolicy: "no-cache",
   });
   const [

@@ -1,11 +1,17 @@
-query getQuizAndTipsBlockTab($contractId: ID!, $status: String!) {
+query getQuizAndTipsBlockTab(
+  $contractId: ID!
+  $status: String!
+  $audienceId: ID!
+) {
   contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       attributes {
         homepage {
           data {
             attributes {
-              quizAndTipsBlock {
+              quizAndTipsBlocks(
+                filters: { audience: { id: { eq: $audienceId } } }
+              ) {
                 data {
                   id
                   attributes {
@@ -60,7 +66,12 @@ query getQuizAndTipsBlockTab($contractId: ID!, $status: String!) {
   ) {
     data {
       attributes {
-        quizzes(filters: { status: { eq: $status } }) {
+        quizzes(
+          filters: {
+            status: { eq: $status }
+            audiences: { id: { eq: $audienceId } }
+          }
+        ) {
           data {
             id
             attributes {
@@ -78,7 +89,12 @@ query getQuizAndTipsBlockTab($contractId: ID!, $status: String!) {
   ) {
     data {
       attributes {
-        tips(filters: { status: { eq: $status } }) {
+        tips(
+          filters: {
+            status: { eq: $status }
+            audiences: { id: { eq: $audienceId } }
+          }
+        ) {
           data {
             id
             attributes {

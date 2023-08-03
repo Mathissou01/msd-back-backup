@@ -1,5 +1,9 @@
-query getEditoBlockTab($contractId: ID!, $status: ENUM_EDITOCONTENTDTO_STATUS) {
-  getEditoBlockDTO(contractId: $contractId, status: $status) {
+query getEditoBlockTab(
+  $contractId: ID!
+  $status: ENUM_EDITOCONTENTDTO_STATUS
+  $audienceId: ID!
+) {
+  getEditoBlockDTO(contractId: $contractId, audienceId: $audienceId) {
     id
     displayBlock
     titleContent
@@ -16,7 +20,11 @@ query getEditoBlockTab($contractId: ID!, $status: ENUM_EDITOCONTENTDTO_STATUS) {
       }
     }
   }
-  getEditoContentDTOs(contractId: $contractId, status: $status) {
+  getEditoContentDTOs(
+    contractId: $contractId
+    status: $status
+    audienceId: $audienceId
+  ) {
     id
     contentType
     typeName

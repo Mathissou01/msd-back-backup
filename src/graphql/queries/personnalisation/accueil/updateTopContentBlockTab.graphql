@@ -8,7 +8,7 @@ mutation updateTopContentBlockTab(
         homepage {
           data {
             attributes {
-              topContentBlock {
+              topContentBlocks {
                 data {
                   attributes {
                     displayBlock

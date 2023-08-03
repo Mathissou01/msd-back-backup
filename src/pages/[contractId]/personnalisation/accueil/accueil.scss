@@ -1,0 +1,13 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-PersonnalisationAccueilPage {
+  &__AudienceWrapper {
+    width: 20%;
+  }
+
+  &__AudienceError {
+    color: colors.$error;
+    font-size: large;
+    text-align: center;
+  }
+}

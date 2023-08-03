@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
 import React from "react";
+import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import { defaultMockData } from "../../../../../../__mocks__/servicesTapMockData";
+import { defaultMockData } from "../../../../../../__mocks__/servicesTabMockData";
 import ServicesTab from "./ServicesTab";
 
 // Prevent loading of client inside MockedProvider, otherwise leads to "unexpected token" error

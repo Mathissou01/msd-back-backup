@@ -1,4 +1,4 @@
-query getServicesBlockTab($contractId: ID!) {
+query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
   contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       id
@@ -6,7 +6,9 @@ query getServicesBlockTab($contractId: ID!) {
         homepage {
           data {
             attributes {
-              servicesBlock {
+              servicesBlocks(
+                filters: { audience: { id: { eq: $audienceId } } }
+              ) {
                 data {
                   id
                   attributes {

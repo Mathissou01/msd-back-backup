@@ -3,6 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
 import {
+  AudienceEntity,
   Enum_Tip_Status,
   QuizEntity,
   TipEntity,
@@ -42,7 +43,11 @@ interface ITipsModalFields {
   tips: TipEntity;
 }
 
-export default function QuizAndTipsTab() {
+interface IQuizAndTipsTabProps {
+  audience?: AudienceEntity;
+}
+
+export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
   /* Static Data */
   const formLabels = {
     title: "Quiz & Astuces",
@@ -133,8 +138,20 @@ export default function QuizAndTipsTab() {
 
   /* External Data */
   const { contractId } = useContract();
+  const getQuizAndTipsBlockTabVariables: {
+    contractId: string;
+    status: Enum_Tip_Status;
+    audienceId: string;
+  } = {
+    contractId,
+    status,
+    audienceId: "",
+  };
+  if (audience && audience.id) {
+    getQuizAndTipsBlockTabVariables.audienceId = audience.id;
+  }
   const { loading, error, data } = useGetQuizAndTipsBlockTabQuery({
-    variables: { contractId, status },
+    variables: getQuizAndTipsBlockTabVariables,
     fetchPolicy: "network-only",
   });
   const [

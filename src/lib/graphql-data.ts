@@ -45,7 +45,7 @@ export function extractRecyclingGuideBlock(
 export function extractServicesBlock(data: GetServicesBlockTabQuery) {
   const serviceBlock =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
-      ?.servicesBlock?.data ?? null;
+      ?.servicesBlocks?.data[0] ?? null;
   const serviceLinks: Array<IServiceLink> | null =
     remapServicesLinkDynamicZonePicto(
       serviceBlock?.attributes?.serviceLinks ?? null,
@@ -68,7 +68,7 @@ export function extractTopContentBlock(data: GetTopContentBlockTabQuery) {
 export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockTabQuery) {
   const quizAndTipsBlock: QuizAndTipsBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
-      ?.quizAndTipsBlock?.data ?? null;
+      ?.quizAndTipsBlocks?.data[0] ?? null;
   const quizzes: Array<QuizEntity> | null =
     data.quizSubServices?.data[0]?.attributes?.quizzes?.data ?? null;
   const tips: Array<TipEntity> | null =

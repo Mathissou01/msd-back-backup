@@ -10,15 +10,20 @@ interface ITabBlockProps {
   tabs: Array<ITab>;
   initialTabName: string;
   isAlignLeftMediaLibrary?: boolean;
+  onTabChanged?: (tabIndex: string) => void;
 }
 
 export default function TabBlock({
   tabs,
   initialTabName,
   isAlignLeftMediaLibrary = false,
+  onTabChanged,
 }: ITabBlockProps) {
   function clickTab(tabIndex: number) {
     setActiveTab(tabIndex);
+    if (onTabChanged) {
+      onTabChanged(tabs[tabIndex].name);
+    }
   }
 
   const CurrentTabComponent = () => {

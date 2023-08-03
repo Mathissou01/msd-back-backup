@@ -3,6 +3,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useEffect, useState } from "react";
 import FormInput from "../../../../Form/FormInput/FormInput";
 import {
+  AudienceEntity,
   useGetServicesBlockTabQuery,
   useUpdateServicesBlockTabMutation,
 } from "../../../../../graphql/codegen/generated-types";
@@ -22,7 +23,11 @@ interface IServicesBlock {
   serviceLinks: Array<IServiceLink>;
 }
 
-export default function ServicesTab() {
+interface IServicesTabProps {
+  audience?: AudienceEntity;
+}
+
+export default function ServicesTab({ audience }: IServicesTabProps) {
   /* Static Data */
   const title = "Services";
   const maxLimitDisplay = 6;
@@ -97,8 +102,18 @@ export default function ServicesTab() {
 
   /* External Data */
   const { contractId } = useContract();
+  const getServicesBlockVariables: {
+    contractId: string;
+    audienceId: string;
+  } = {
+    contractId,
+    audienceId: "",
+  };
+  if (audience && audience.id) {
+    getServicesBlockVariables.audienceId = audience.id;
+  }
   const { loading, error, data } = useGetServicesBlockTabQuery({
-    variables: { contractId },
+    variables: getServicesBlockVariables,
     fetchPolicy: "network-only",
   });
   const [

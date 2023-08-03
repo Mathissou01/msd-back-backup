@@ -9,7 +9,7 @@ mutation updateServicesBlockTab(
         homepage {
           data {
             attributes {
-              servicesBlock {
+              servicesBlocks {
                 data {
                   id
                   attributes {

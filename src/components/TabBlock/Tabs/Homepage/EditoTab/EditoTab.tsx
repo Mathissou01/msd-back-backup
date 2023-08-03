@@ -3,8 +3,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { ReactNode, useEffect, useState } from "react";
 import {
+  AudienceEntity,
   EditoContentDto,
-  Enum_Editocontentdto_Status,
   useGetEditoBlockTabQuery,
   useUpdateEditoBlockTabMutation,
 } from "../../../../../graphql/codegen/generated-types";
@@ -37,12 +37,13 @@ interface IEditoBlock {
 
 interface IEditoTabProps {
   activatedTypes: Array<TEditorialContentTypes>;
+  audience?: AudienceEntity;
 }
 
 interface IEditoContentsModalFields {
   editoContentsSelect: EditoContentDto;
 }
-export default function EditoTab({ activatedTypes }: IEditoTabProps) {
+export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
   /* Static Data */
   const formLabels = {
     title: "Bloc Édito",
@@ -135,11 +136,18 @@ export default function EditoTab({ activatedTypes }: IEditoTabProps) {
 
   /* External Data */
   const { contractId } = useContract();
+  const getEditoBlockTabVariables: {
+    contractId: string;
+    audienceId: string;
+  } = {
+    contractId,
+    audienceId: "",
+  };
+  if (audience && audience.id) {
+    getEditoBlockTabVariables.audienceId = audience.id;
+  }
   const { loading, error, data } = useGetEditoBlockTabQuery({
-    variables: {
-      contractId,
-      status: Enum_Editocontentdto_Status.Published,
-    },
+    variables: getEditoBlockTabVariables,
     fetchPolicy: "no-cache",
   });
   const [updateEditoBlock, { loading: mutationLoading, error: mutationError }] =
