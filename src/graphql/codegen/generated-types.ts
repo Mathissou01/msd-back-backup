@@ -691,7 +691,6 @@ export type City = {
   __typename?: "City";
   GeoJSON?: Maybe<Scalars["JSON"]>;
   MwCounter?: Maybe<MwCounterServiceEntityResponse>;
-  contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   department?: Maybe<Scalars["String"]>;
   epci?: Maybe<EpciRelationResponseCollection>;
@@ -738,7 +737,6 @@ export type CityFiltersInput = {
   GeoJSON?: InputMaybe<JsonFilterInput>;
   MwCounter?: InputMaybe<MwCounterServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
-  contract?: InputMaybe<ContractFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   department?: InputMaybe<StringFilterInput>;
   epci?: InputMaybe<EpciFiltersInput>;
@@ -758,7 +756,6 @@ export type CityFiltersInput = {
 export type CityInput = {
   GeoJSON?: InputMaybe<Scalars["JSON"]>;
   MwCounter?: InputMaybe<Scalars["ID"]>;
-  contract?: InputMaybe<Scalars["ID"]>;
   department?: InputMaybe<Scalars["String"]>;
   epci?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   insee?: InputMaybe<Scalars["Long"]>;
@@ -1745,7 +1742,6 @@ export type Contract = {
   audiences?: Maybe<AudienceRelationResponseCollection>;
   ccap?: Maybe<Scalars["Long"]>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
-  cities?: Maybe<CityRelationResponseCollection>;
   clear?: Maybe<Scalars["Long"]>;
   clientContact?: Maybe<ClientContactEntityResponse>;
   clientName: Scalars["String"];
@@ -1784,12 +1780,6 @@ export type Contract = {
 
 export type ContractAudiencesArgs = {
   filters?: InputMaybe<AudienceFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type ContractCitiesArgs = {
-  filters?: InputMaybe<CityFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -1934,7 +1924,6 @@ export type ContractFiltersInput = {
   audiences?: InputMaybe<AudienceFiltersInput>;
   ccap?: InputMaybe<LongFilterInput>;
   channelType?: InputMaybe<ChannelTypeFiltersInput>;
-  cities?: InputMaybe<CityFiltersInput>;
   clear?: InputMaybe<LongFilterInput>;
   clientContact?: InputMaybe<ClientContactFiltersInput>;
   clientName?: InputMaybe<StringFilterInput>;
@@ -1979,7 +1968,6 @@ export type ContractInput = {
   audiences?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   ccap?: InputMaybe<Scalars["Long"]>;
   channelType?: InputMaybe<Scalars["ID"]>;
-  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   clear?: InputMaybe<Scalars["Long"]>;
   clientContact?: InputMaybe<Scalars["ID"]>;
   clientName?: InputMaybe<Scalars["String"]>;
@@ -3833,6 +3821,7 @@ export type GenericMorph =
   | UsersPermissionsUser
   | WasteFamily
   | WasteForm
+  | WelcomeMessageBlock
   | YesWeScanService;
 
 export type Global = {
@@ -3861,6 +3850,15 @@ export type GlobalInput = {
   siteName?: InputMaybe<Scalars["String"]>;
 };
 
+export type Historic = {
+  __typename?: "Historic";
+  city?: Maybe<Scalars["String"]>;
+  date?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  recipient?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+};
+
 export type Homepage = {
   __typename?: "Homepage";
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
@@ -3872,6 +3870,7 @@ export type Homepage = {
   servicesBlocks?: Maybe<ServicesBlockRelationResponseCollection>;
   topContentBlocks?: Maybe<TopContentBlockRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  welcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
 };
 
 export type HomepageEditoBlocksArgs = {
@@ -3929,6 +3928,7 @@ export type HomepageFiltersInput = {
   servicesBlocks?: InputMaybe<ServicesBlockFiltersInput>;
   topContentBlocks?: InputMaybe<TopContentBlockFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  welcomeMessageBlock?: InputMaybe<WelcomeMessageBlockFiltersInput>;
 };
 
 export type HomepageInput = {
@@ -3939,6 +3939,7 @@ export type HomepageInput = {
   searchEngineBlock?: InputMaybe<Scalars["ID"]>;
   servicesBlocks?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   topContentBlocks?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  welcomeMessageBlock?: InputMaybe<Scalars["ID"]>;
 };
 
 export type I18NLocale = {
@@ -4357,6 +4358,7 @@ export type Mutation = {
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   createWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   createWasteForm?: Maybe<WasteFormEntityResponse>;
+  createWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   createYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   createYwsService?: Maybe<Scalars["Boolean"]>;
   deleteAccessibility?: Maybe<AccessibilityEntityResponse>;
@@ -4439,6 +4441,7 @@ export type Mutation = {
   deleteUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   deleteWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   deleteWasteForm?: Maybe<WasteFormEntityResponse>;
+  deleteWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   deleteYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   deleteYwsService?: Maybe<Scalars["Boolean"]>;
   duplicateContent?: Maybe<Scalars["Boolean"]>;
@@ -4545,6 +4548,7 @@ export type Mutation = {
   updateUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   updateWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
+  updateWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   updateYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   upload: UploadFileEntityResponse;
   uploadFileAndGetId?: Maybe<UploadResult>;
@@ -4919,6 +4923,10 @@ export type MutationCreateWasteFormArgs = {
   data: WasteFormInput;
 };
 
+export type MutationCreateWelcomeMessageBlockArgs = {
+  data: WelcomeMessageBlockInput;
+};
+
 export type MutationCreateYesWeScanServiceArgs = {
   data: YesWeScanServiceInput;
 };
@@ -5235,6 +5243,10 @@ export type MutationDeleteWasteFamilyArgs = {
 };
 
 export type MutationDeleteWasteFormArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteWelcomeMessageBlockArgs = {
   id: Scalars["ID"];
 };
 
@@ -5740,6 +5752,11 @@ export type MutationUpdateWasteFamilyArgs = {
 
 export type MutationUpdateWasteFormArgs = {
   data: WasteFormInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateWelcomeMessageBlockArgs = {
+  data: WelcomeMessageBlockInput;
   id: Scalars["ID"];
 };
 
@@ -6474,6 +6491,7 @@ export type Query = {
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  getRequestsHistoric?: Maybe<Array<Maybe<Historic>>>;
   getStatusExport?: Maybe<Scalars["String"]>;
   getThreeRandomTips?: Maybe<Array<Maybe<Tips>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
@@ -6561,6 +6579,8 @@ export type Query = {
   wasteFamilyLength?: Maybe<Scalars["Int"]>;
   wasteForm?: Maybe<WasteFormEntityResponse>;
   wasteForms?: Maybe<WasteFormEntityResponseCollection>;
+  welcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
+  welcomeMessageBlocks?: Maybe<WelcomeMessageBlockEntityResponseCollection>;
   yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   yesWeScanServices?: Maybe<YesWeScanServiceEntityResponseCollection>;
 };
@@ -7021,6 +7041,10 @@ export type QueryGetPickUpDaysByCoordinatesArgs = {
   pickUpDayServiceId: Scalars["ID"];
 };
 
+export type QueryGetRequestsHistoricArgs = {
+  requestServiceId: Scalars["Int"];
+};
+
 export type QueryGetStatusExportArgs = {
   id: Scalars["ID"];
 };
@@ -7442,6 +7466,16 @@ export type QueryWasteFormsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QueryWelcomeMessageBlockArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryWelcomeMessageBlocksArgs = {
+  filters?: InputMaybe<WelcomeMessageBlockFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type QueryYesWeScanServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -7691,7 +7725,6 @@ export type QuizSubServiceRelationResponseCollection = {
 
 export type RecyclingGuideBlock = {
   __typename?: "RecyclingGuideBlock";
-  audience?: Maybe<AudienceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   homepage?: Maybe<HomepageEntityResponse>;
   recyclingGuideDisplayContent: Scalars["String"];
@@ -7726,7 +7759,6 @@ export type RecyclingGuideBlockEntityResponseCollection = {
 
 export type RecyclingGuideBlockFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<RecyclingGuideBlockFiltersInput>>>;
-  audience?: InputMaybe<AudienceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   homepage?: InputMaybe<HomepageFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
@@ -7740,7 +7772,6 @@ export type RecyclingGuideBlockFiltersInput = {
 };
 
 export type RecyclingGuideBlockInput = {
-  audience?: InputMaybe<Scalars["ID"]>;
   homepage?: InputMaybe<Scalars["ID"]>;
   recyclingGuideDisplayContent?: InputMaybe<Scalars["String"]>;
   subtitleContent?: InputMaybe<Scalars["String"]>;
@@ -9623,6 +9654,53 @@ export type WasteFormRelationResponseCollection = {
   data: Array<WasteFormEntity>;
 };
 
+export type WelcomeMessageBlock = {
+  __typename?: "WelcomeMessageBlock";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  homepage?: Maybe<HomepageEntityResponse>;
+  showBlock: Scalars["Boolean"];
+  subtitle: Scalars["String"];
+  title: Scalars["String"];
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type WelcomeMessageBlockEntity = {
+  __typename?: "WelcomeMessageBlockEntity";
+  attributes?: Maybe<WelcomeMessageBlock>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type WelcomeMessageBlockEntityResponse = {
+  __typename?: "WelcomeMessageBlockEntityResponse";
+  data?: Maybe<WelcomeMessageBlockEntity>;
+};
+
+export type WelcomeMessageBlockEntityResponseCollection = {
+  __typename?: "WelcomeMessageBlockEntityResponseCollection";
+  data: Array<WelcomeMessageBlockEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type WelcomeMessageBlockFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<WelcomeMessageBlockFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  homepage?: InputMaybe<HomepageFiltersInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<WelcomeMessageBlockFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<WelcomeMessageBlockFiltersInput>>>;
+  showBlock?: InputMaybe<BooleanFilterInput>;
+  subtitle?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type WelcomeMessageBlockInput = {
+  homepage?: InputMaybe<Scalars["ID"]>;
+  showBlock?: InputMaybe<Scalars["Boolean"]>;
+  subtitle?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars["String"]>;
+};
+
 export type YesWeScanService = {
   __typename?: "YesWeScanService";
   contract?: Maybe<ContractEntityResponse>;
@@ -11446,6 +11524,7 @@ export type UpdateUploadFileMutation = {
           | { __typename?: "UsersPermissionsUser" }
           | { __typename?: "WasteFamily" }
           | { __typename?: "WasteForm" }
+          | { __typename?: "WelcomeMessageBlock" }
           | { __typename?: "YesWeScanService" }
           | null
         > | null;
@@ -14356,9 +14435,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14372,9 +14459,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14388,9 +14483,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14429,9 +14532,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14447,9 +14558,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14463,9 +14582,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14479,9 +14606,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14495,9 +14630,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14511,9 +14654,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14527,9 +14678,17 @@ export type GetServicesBlockTabQuery = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14730,9 +14889,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14746,9 +14913,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14762,9 +14937,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14803,9 +14986,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14821,9 +15012,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14837,9 +15036,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14853,9 +15060,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14869,9 +15084,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14885,9 +15108,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -14901,9 +15132,17 @@ export type UpdateServicesBlockTabMutation = {
                             __typename?: "UploadFileEntityResponse";
                             data?: {
                               __typename?: "UploadFileEntity";
+                              id?: string | null;
                               attributes?: {
                                 __typename?: "UploadFile";
                                 url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
                               } | null;
                             } | null;
                           } | null;
@@ -25869,8 +26108,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25881,8 +26128,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25893,8 +26148,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25905,8 +26168,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25917,8 +26188,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25929,8 +26208,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25941,8 +26228,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25953,8 +26248,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25965,8 +26268,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -25977,8 +26288,16 @@ export const GetServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26445,8 +26764,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26457,8 +26784,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26469,8 +26804,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26481,8 +26824,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26493,8 +26844,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26505,8 +26864,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26517,8 +26884,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26529,8 +26904,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26541,8 +26924,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }
@@ -26553,8 +26944,16 @@ export const UpdateServicesBlockTabDocument = gql`
                           isDisplayed
                           picto {
                             data {
+                              id
                               attributes {
                                 url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
                               }
                             }
                           }

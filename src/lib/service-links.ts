@@ -85,7 +85,7 @@ export function remapServicesLinkDynamicZonePicto(
 ): Array<IServiceLink> | null {
   return (
     serviceLinks
-      ?.map((link) => {
+      ?.map((link, index) => {
         if (link) {
           const type = link.__typename;
           if (type && isStateServiceLink(link)) {
@@ -93,6 +93,7 @@ export function remapServicesLinkDynamicZonePicto(
             return {
               type,
               id: link.id,
+              localId: `local-${index}`,
               name: link?.name,
               ...(link?.externalLink && { externalLink: link?.externalLink }),
               isDisplayed: link?.isDisplayed,

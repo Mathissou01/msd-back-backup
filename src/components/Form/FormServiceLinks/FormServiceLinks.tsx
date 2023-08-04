@@ -125,7 +125,7 @@ export default function FormServiceLinks({
   ): ReactNode {
     return (
       <Image
-        src={picto.url ?? "/images/pictos/default.svg"}
+        src={picto?.url ?? "/images/pictos/default.svg"}
         alt=""
         width={24}
         height={24}

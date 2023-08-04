@@ -20,8 +20,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -32,8 +40,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -44,8 +60,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -56,8 +80,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -68,8 +100,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -80,8 +120,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -92,8 +140,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -104,8 +160,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -116,8 +180,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
@@ -128,8 +200,16 @@ query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
                         isDisplayed
                         picto {
                           data {
+                            id
                             attributes {
                               url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
                             }
                           }
                         }
