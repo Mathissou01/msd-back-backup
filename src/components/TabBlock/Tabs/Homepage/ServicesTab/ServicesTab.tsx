@@ -144,7 +144,12 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
         const mappedData = {
           id: serviceBlockMapped.id,
           titleContent: serviceBlockMapped.titleContent,
-          serviceLinks: serviceBlockMapped.serviceLinks,
+          serviceLinks: serviceBlockMapped.serviceLinks.map(
+            (serviceLink, index) => {
+              serviceLink.localId = `local-${index}`;
+              return serviceLink;
+            },
+          ),
         };
         setServicesBlockData(mappedData);
         form.reset(mappedData);
