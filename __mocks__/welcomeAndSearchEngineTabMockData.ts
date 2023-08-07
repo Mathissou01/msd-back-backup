@@ -1,9 +1,9 @@
-import { GetSearchEngineBlockTabDocument } from "../src/graphql/codegen/generated-types";
+import { GetWelcomeMessageAndSearchEngineBlockTabDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetSearchEngineBlockTabDocument,
+      query: GetWelcomeMessageAndSearchEngineBlockTabDocument,
       variables: {
         contractId: "0",
       },
@@ -22,6 +22,16 @@ export const defaultMockData = [
                           id: "1",
                           attributes: {
                             titleContent: "Titre modifié",
+                          },
+                        },
+                      },
+                      welcomeMessageBlock: {
+                        data: {
+                          id: "1",
+                          attributes: {
+                            showBlock: true,
+                            subtitle: "Subtitle",
+                            title: "Title",
                           },
                         },
                       },

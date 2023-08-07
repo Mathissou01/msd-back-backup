@@ -4,7 +4,7 @@ import {
   GetMenuPageQuery,
   GetQuizAndTipsBlockTabQuery,
   GetRecyclingGuideBlockTabQuery,
-  GetSearchEngineBlockTabQuery,
+  GetWelcomeMessageAndSearchEngineBlockTabQuery,
   GetServicesBlockTabQuery,
   GetTopContentBlockTabQuery,
   QuizAndTipsBlockEntity,
@@ -12,6 +12,7 @@ import {
   RecyclingGuideBlockEntity,
   SearchEngineBlockEntity,
   TipEntity,
+  WelcomeMessageBlockEntity,
 } from "../graphql/codegen/generated-types";
 import {
   IServiceLink,
@@ -24,7 +25,19 @@ export function extractMenu(data: GetMenuPageQuery) {
 }
 
 /* Homepage */
-export function extractSearchEngineBlock(data: GetSearchEngineBlockTabQuery) {
+export function extractWelcomeMessageBlock(
+  data: GetWelcomeMessageAndSearchEngineBlockTabQuery,
+) {
+  const welcomeMessageBlock: WelcomeMessageBlockEntity | null =
+    data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
+      ?.welcomeMessageBlock?.data ?? null;
+
+  return { welcomeMessageBlock };
+}
+
+export function extractSearchEngineBlock(
+  data: GetWelcomeMessageAndSearchEngineBlockTabQuery,
+) {
   const searchEngineBlock: SearchEngineBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.searchEngineBlock?.data ?? null;

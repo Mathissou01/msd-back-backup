@@ -1,4 +1,4 @@
-query getSearchEngineBlockTab($contractId: ID!) {
+query getWelcomeMessageAndSearchEngineBlockTab($contractId: ID!) {
   contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       attributes {
@@ -10,6 +10,16 @@ query getSearchEngineBlockTab($contractId: ID!) {
                   id
                   attributes {
                     titleContent
+                  }
+                }
+              }
+              welcomeMessageBlock {
+                data {
+                  id
+                  attributes {
+                    showBlock
+                    subtitle
+                    title
                   }
                 }
               }

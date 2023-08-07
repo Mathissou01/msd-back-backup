@@ -252,9 +252,11 @@ export function PersonnalisationAccueilPage() {
           />
         </CommonLoader>
       ) : (
-        <span className="c-PersonnalisationAccueilPage__AudienceError">
-          {audienceError}
-        </span>
+        !isLoading && (
+          <span className="c-PersonnalisationAccueilPage__AudienceError">
+            {audienceError}
+          </span>
+        )
       )}
     </>
   );

@@ -2,19 +2,31 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useState, useEffect } from "react";
 import {
-  useGetSearchEngineBlockTabQuery,
+  useGetWelcomeMessageAndSearchEngineBlockTabQuery,
   useUpdateSearchEngineBlockTabMutation,
+  useUpdateWelcomeMessageBlockMutation,
 } from "../../../../../graphql/codegen/generated-types";
-import { extractSearchEngineBlock } from "../../../../../lib/graphql-data";
+import {
+  extractSearchEngineBlock,
+  extractWelcomeMessageBlock,
+} from "../../../../../lib/graphql-data";
 import { useContract } from "../../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../../hooks/useFocusFirstElement";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import FormInput from "../../../../Form/FormInput/FormInput";
+import FormCheckbox from "../../../../Form/FormCheckbox/FormCheckbox";
 import "./welcome-and-search-engine-tab.scss";
 
+interface IWelcomeMessageBlock {
+  welcomeMessageBlockId: string;
+  showBlock: boolean;
+  title: string;
+  subtitle: string;
+}
+
 interface ISearchEngineBlock {
-  id: string;
+  searchEngineBlockId: string;
   titleContent: string;
 }
 
@@ -22,8 +34,12 @@ export default function WelcomeAndSearchEngineTab() {
   /* Static Data */
   const formLabels = {
     welcomeTitle: "Message de bienvenue",
+    welcomeShowBlock: "Afficher ce bloc",
     welcomeTitleContent: "Titre",
+    welcomeDefaultTitleContent: "Besoin d'aide pour trier un déchet ?",
     welcomeSubtitleContent: "Sous titre",
+    welcomeDefaultSubtitleContent:
+      "Mon service déchets pour faciliter le tri & la gestion de vos déchets au quotidien",
     searchEngineTitle: "Moteur de recherche",
     searchEngineTitleContent:
       "Texte affiché dans le moteur de recherche principal (haut de page)",
@@ -31,19 +47,36 @@ export default function WelcomeAndSearchEngineTab() {
     cancelButtonLabel: "Annuler les modifications",
     maxCharactersLabel: "caractères maximum",
   };
-  const maxCharacters = 30;
+  const maxCharactersWelcomeTitle = 40;
+  const maxCharactersWelcomeSubtitle = 100;
+  const maxCharactersSearchEngine = 30;
 
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
-    if (submitData["id"]) {
-      const variables = {
-        updateSearchEngineBlockId: submitData["id"],
+    if (
+      submitData["welcomeMessageBlockId"] &&
+      submitData["searchEngineBlockId"]
+    ) {
+      const variablesWelcomeMessageBlock = {
+        updateWelcomeMessageBlockId: submitData["welcomeMessageBlockId"],
+        data: {
+          showBlock: submitData["showBlock"],
+          title: submitData["title"],
+          subtitle: submitData["subtitle"],
+        },
+      };
+      updateWelcomeMessageBlock({
+        variables: variablesWelcomeMessageBlock,
+      });
+
+      const variablesSearchEngineBlock = {
+        updateSearchEngineBlockId: submitData["searchEngineBlockId"],
         data: {
           titleContent: submitData["titleContent"],
         },
       };
       return updateSearchEngineBlock({
-        variables,
+        variables: variablesSearchEngineBlock,
       });
     }
   }
@@ -54,19 +87,32 @@ export default function WelcomeAndSearchEngineTab() {
 
   /* External Data */
   const { contractId } = useContract();
-  const { loading, error, data } = useGetSearchEngineBlockTabQuery({
-    variables: { contractId },
-    fetchPolicy: "network-only",
+  const { loading, error, data } =
+    useGetWelcomeMessageAndSearchEngineBlockTabQuery({
+      variables: { contractId },
+      fetchPolicy: "network-only",
+    });
+  const [
+    updateWelcomeMessageBlock,
+    {
+      loading: welcomeMessageMutationLoading,
+      error: welcomeMessageMutationError,
+    },
+  ] = useUpdateWelcomeMessageBlockMutation({
+    refetchQueries: ["getWelcomeMessageAndSearchEngineBlockTab"],
+    awaitRefetchQueries: true,
   });
   const [
     updateSearchEngineBlock,
-    { loading: mutationLoading, error: mutationError },
+    { loading: searchEngineMutationLoading, error: searchEngineMutationError },
   ] = useUpdateSearchEngineBlockTabMutation({
-    refetchQueries: ["getSearchEngineBlockTab"],
+    refetchQueries: ["getWelcomeMessageAndSearchEngineBlockTab"],
     awaitRefetchQueries: true,
   });
 
   /* Local Data */
+  const [welcomeMessageData, setWelcomeMessageData] =
+    useState<IWelcomeMessageBlock>();
   const [searchEngineData, setSearchEngineData] =
     useState<ISearchEngineBlock>();
   const formValidationMode = "onChange";
@@ -75,20 +121,44 @@ export default function WelcomeAndSearchEngineTab() {
   });
   const { handleSubmit, formState } = form;
   const { isDirty, isSubmitting } = formState;
+  const mutationLoading =
+    welcomeMessageMutationLoading || searchEngineMutationLoading;
+  const mutationError =
+    welcomeMessageMutationError || searchEngineMutationError;
 
   useEffect(() => {
     if (data && data.contractCustomizations?.data) {
+      const { welcomeMessageBlock } = extractWelcomeMessageBlock(data);
+      if (welcomeMessageBlock?.id && welcomeMessageBlock.attributes) {
+        const welcomeMessageBlockData = {
+          welcomeMessageBlockId: welcomeMessageBlock.id,
+          showBlock: welcomeMessageBlock.attributes.showBlock,
+          title: welcomeMessageBlock.attributes.title,
+          subtitle: welcomeMessageBlock.attributes.subtitle,
+        };
+        setWelcomeMessageData(welcomeMessageBlockData);
+      }
+
       const { searchEngineBlock } = extractSearchEngineBlock(data);
       if (searchEngineBlock?.id && searchEngineBlock?.attributes) {
-        const mappedData = {
-          id: searchEngineBlock.id,
+        const searchEngineBlockData = {
+          searchEngineBlockId: searchEngineBlock.id,
           titleContent: searchEngineBlock.attributes.titleContent,
         };
-        setSearchEngineData(mappedData);
-        form.reset(mappedData);
+        setSearchEngineData(searchEngineBlockData);
       }
     }
-  }, [form, data]);
+  }, [
+    form,
+    data,
+    formLabels.welcomeDefaultTitleContent,
+    formLabels.welcomeDefaultSubtitleContent,
+  ]);
+
+  useEffect(() => {
+    form.reset(Object.assign({}, welcomeMessageData, searchEngineData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [welcomeMessageData, searchEngineData]);
 
   return (
     <div
@@ -109,14 +179,42 @@ export default function WelcomeAndSearchEngineTab() {
             onSubmit={handleSubmit(onSubmitValid)}
             ref={useFocusFirstElement()}
           >
-            {/*<div className="c-WelcomeAndSearchEngineTab__Group">*/}
-            {/*  <h2 className="c-WelcomeAndSearchEngineTab__Title">*/}
-            {/*    {formLabels.welcomeTitle}*/}
-            {/*  </h2>*/}
-            {/*  <div className="c-WelcomeAndSearchEngineTab__SubGroup">*/}
-            {/*    <span>[...]</span>*/}
-            {/*  </div>*/}
-            {/*</div>*/}
+            <div className="c-WelcomeAndSearchEngineTab__Group">
+              <h2 className="c-WelcomeAndSearchEngineTab__Title">
+                {formLabels.welcomeTitle}
+              </h2>
+              <div className="c-WelcomeAndSearchEngineTab__SubGroup c-WelcomeAndSearchEngineTab__SubGroup_short">
+                <FormCheckbox
+                  name="showBlock"
+                  label={formLabels.welcomeShowBlock}
+                  isDisabled={mutationLoading}
+                />
+                <div className="WelcomeAndSearchEngineTab__SubGroup_title">
+                  <FormInput
+                    type="text"
+                    name="title"
+                    label={formLabels.welcomeTitleContent}
+                    isRequired
+                    isDisabled={mutationLoading}
+                    maxLengthValidation={maxCharactersWelcomeTitle}
+                    validationLabel={`${maxCharactersWelcomeTitle} ${formLabels.maxCharactersLabel}`}
+                    defaultValue={welcomeMessageData?.title}
+                  />
+                </div>
+                <div className="WelcomeAndSearchEngineTab__SubGroup_subtitle">
+                  <FormInput
+                    type="text"
+                    name="subtitle"
+                    label={formLabels.welcomeSubtitleContent}
+                    isRequired
+                    isDisabled={mutationLoading}
+                    maxLengthValidation={maxCharactersWelcomeSubtitle}
+                    validationLabel={`${maxCharactersWelcomeSubtitle} ${formLabels.maxCharactersLabel}`}
+                    defaultValue={welcomeMessageData?.subtitle}
+                  />
+                </div>
+              </div>
+            </div>
             <div className="c-WelcomeAndSearchEngineTab__Group">
               <h2 className="c-WelcomeAndSearchEngineTab__Title">
                 {formLabels.searchEngineTitle}
@@ -126,9 +224,9 @@ export default function WelcomeAndSearchEngineTab() {
                   type="text"
                   name="titleContent"
                   label={formLabels.searchEngineTitleContent}
-                  maxLengthValidation={maxCharacters}
-                  validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
-                  isRequired={true}
+                  maxLengthValidation={maxCharactersSearchEngine}
+                  validationLabel={`${maxCharactersSearchEngine} ${formLabels.maxCharactersLabel}`}
+                  isRequired
                   isDisabled={mutationLoading}
                   defaultValue={searchEngineData?.titleContent}
                 />

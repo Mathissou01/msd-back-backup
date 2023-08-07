@@ -14359,43 +14359,6 @@ export type GetRecyclingGuideBlockTabQuery = {
   } | null;
 };
 
-export type GetSearchEngineBlockTabQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetSearchEngineBlockTabQuery = {
-  __typename?: "Query";
-  contractCustomizations?: {
-    __typename?: "ContractCustomizationEntityResponseCollection";
-    data: Array<{
-      __typename?: "ContractCustomizationEntity";
-      attributes?: {
-        __typename?: "ContractCustomization";
-        homepage?: {
-          __typename?: "HomepageEntityResponse";
-          data?: {
-            __typename?: "HomepageEntity";
-            attributes?: {
-              __typename?: "Homepage";
-              searchEngineBlock?: {
-                __typename?: "SearchEngineBlockEntityResponse";
-                data?: {
-                  __typename?: "SearchEngineBlockEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "SearchEngineBlock";
-                    titleContent: string;
-                  } | null;
-                } | null;
-              } | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    }>;
-  } | null;
-};
-
 export type GetServicesBlockTabQueryVariables = Exact<{
   contractId: Scalars["ID"];
   audienceId: Scalars["ID"];
@@ -14750,6 +14713,56 @@ export type GetTopContentBlockTabQuery = {
       publishedDate?: any | null;
     };
   } | null> | null;
+};
+
+export type GetWelcomeMessageAndSearchEngineBlockTabQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetWelcomeMessageAndSearchEngineBlockTabQuery = {
+  __typename?: "Query";
+  contractCustomizations?: {
+    __typename?: "ContractCustomizationEntityResponseCollection";
+    data: Array<{
+      __typename?: "ContractCustomizationEntity";
+      attributes?: {
+        __typename?: "ContractCustomization";
+        homepage?: {
+          __typename?: "HomepageEntityResponse";
+          data?: {
+            __typename?: "HomepageEntity";
+            attributes?: {
+              __typename?: "Homepage";
+              searchEngineBlock?: {
+                __typename?: "SearchEngineBlockEntityResponse";
+                data?: {
+                  __typename?: "SearchEngineBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "SearchEngineBlock";
+                    titleContent: string;
+                  } | null;
+                } | null;
+              } | null;
+              welcomeMessageBlock?: {
+                __typename?: "WelcomeMessageBlockEntityResponse";
+                data?: {
+                  __typename?: "WelcomeMessageBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "WelcomeMessageBlock";
+                    showBlock: boolean;
+                    subtitle: string;
+                    title: string;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
 };
 
 export type UpdateEditoBlockTabMutationVariables = Exact<{
@@ -15197,6 +15210,22 @@ export type UpdateTopContentBlockTabMutation = {
           } | null;
         } | null;
       } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateWelcomeMessageBlockMutationVariables = Exact<{
+  updateWelcomeMessageBlockId: Scalars["ID"];
+  data: WelcomeMessageBlockInput;
+}>;
+
+export type UpdateWelcomeMessageBlockMutation = {
+  __typename?: "Mutation";
+  updateWelcomeMessageBlock?: {
+    __typename?: "WelcomeMessageBlockEntityResponse";
+    data?: {
+      __typename?: "WelcomeMessageBlockEntity";
+      id?: string | null;
     } | null;
   } | null;
 };
@@ -26010,81 +26039,6 @@ export type GetRecyclingGuideBlockTabQueryResult = Apollo.QueryResult<
   GetRecyclingGuideBlockTabQuery,
   GetRecyclingGuideBlockTabQueryVariables
 >;
-export const GetSearchEngineBlockTabDocument = gql`
-  query getSearchEngineBlockTab($contractId: ID!) {
-    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        attributes {
-          homepage {
-            data {
-              attributes {
-                searchEngineBlock {
-                  data {
-                    id
-                    attributes {
-                      titleContent
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetSearchEngineBlockTabQuery__
- *
- * To run a query within a React component, call `useGetSearchEngineBlockTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSearchEngineBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetSearchEngineBlockTabQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetSearchEngineBlockTabQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetSearchEngineBlockTabQuery,
-    GetSearchEngineBlockTabQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetSearchEngineBlockTabQuery,
-    GetSearchEngineBlockTabQueryVariables
-  >(GetSearchEngineBlockTabDocument, options);
-}
-export function useGetSearchEngineBlockTabLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSearchEngineBlockTabQuery,
-    GetSearchEngineBlockTabQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetSearchEngineBlockTabQuery,
-    GetSearchEngineBlockTabQueryVariables
-  >(GetSearchEngineBlockTabDocument, options);
-}
-export type GetSearchEngineBlockTabQueryHookResult = ReturnType<
-  typeof useGetSearchEngineBlockTabQuery
->;
-export type GetSearchEngineBlockTabLazyQueryHookResult = ReturnType<
-  typeof useGetSearchEngineBlockTabLazyQuery
->;
-export type GetSearchEngineBlockTabQueryResult = Apollo.QueryResult<
-  GetSearchEngineBlockTabQuery,
-  GetSearchEngineBlockTabQueryVariables
->;
 export const GetServicesBlockTabDocument = gql`
   query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
@@ -26482,6 +26436,90 @@ export type GetTopContentBlockTabQueryResult = Apollo.QueryResult<
   GetTopContentBlockTabQuery,
   GetTopContentBlockTabQueryVariables
 >;
+export const GetWelcomeMessageAndSearchEngineBlockTabDocument = gql`
+  query getWelcomeMessageAndSearchEngineBlockTab($contractId: ID!) {
+    contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          homepage {
+            data {
+              attributes {
+                searchEngineBlock {
+                  data {
+                    id
+                    attributes {
+                      titleContent
+                    }
+                  }
+                }
+                welcomeMessageBlock {
+                  data {
+                    id
+                    attributes {
+                      showBlock
+                      subtitle
+                      title
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetWelcomeMessageAndSearchEngineBlockTabQuery__
+ *
+ * To run a query within a React component, call `useGetWelcomeMessageAndSearchEngineBlockTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWelcomeMessageAndSearchEngineBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWelcomeMessageAndSearchEngineBlockTabQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetWelcomeMessageAndSearchEngineBlockTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetWelcomeMessageAndSearchEngineBlockTabQuery,
+    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetWelcomeMessageAndSearchEngineBlockTabQuery,
+    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
+  >(GetWelcomeMessageAndSearchEngineBlockTabDocument, options);
+}
+export function useGetWelcomeMessageAndSearchEngineBlockTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetWelcomeMessageAndSearchEngineBlockTabQuery,
+    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetWelcomeMessageAndSearchEngineBlockTabQuery,
+    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
+  >(GetWelcomeMessageAndSearchEngineBlockTabDocument, options);
+}
+export type GetWelcomeMessageAndSearchEngineBlockTabQueryHookResult =
+  ReturnType<typeof useGetWelcomeMessageAndSearchEngineBlockTabQuery>;
+export type GetWelcomeMessageAndSearchEngineBlockTabLazyQueryHookResult =
+  ReturnType<typeof useGetWelcomeMessageAndSearchEngineBlockTabLazyQuery>;
+export type GetWelcomeMessageAndSearchEngineBlockTabQueryResult =
+  Apollo.QueryResult<
+    GetWelcomeMessageAndSearchEngineBlockTabQuery,
+    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
+  >;
 export const UpdateEditoBlockTabDocument = gql`
   mutation updateEditoBlockTab(
     $updateEditoBlockId: ID!
@@ -27108,6 +27146,63 @@ export type UpdateTopContentBlockTabMutationOptions =
   Apollo.BaseMutationOptions<
     UpdateTopContentBlockTabMutation,
     UpdateTopContentBlockTabMutationVariables
+  >;
+export const UpdateWelcomeMessageBlockDocument = gql`
+  mutation updateWelcomeMessageBlock(
+    $updateWelcomeMessageBlockId: ID!
+    $data: WelcomeMessageBlockInput!
+  ) {
+    updateWelcomeMessageBlock(id: $updateWelcomeMessageBlockId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateWelcomeMessageBlockMutationFn = Apollo.MutationFunction<
+  UpdateWelcomeMessageBlockMutation,
+  UpdateWelcomeMessageBlockMutationVariables
+>;
+
+/**
+ * __useUpdateWelcomeMessageBlockMutation__
+ *
+ * To run a mutation, you first call `useUpdateWelcomeMessageBlockMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWelcomeMessageBlockMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWelcomeMessageBlockMutation, { data, loading, error }] = useUpdateWelcomeMessageBlockMutation({
+ *   variables: {
+ *      updateWelcomeMessageBlockId: // value for 'updateWelcomeMessageBlockId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateWelcomeMessageBlockMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateWelcomeMessageBlockMutation,
+    UpdateWelcomeMessageBlockMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateWelcomeMessageBlockMutation,
+    UpdateWelcomeMessageBlockMutationVariables
+  >(UpdateWelcomeMessageBlockDocument, options);
+}
+export type UpdateWelcomeMessageBlockMutationHookResult = ReturnType<
+  typeof useUpdateWelcomeMessageBlockMutation
+>;
+export type UpdateWelcomeMessageBlockMutationResult =
+  Apollo.MutationResult<UpdateWelcomeMessageBlockMutation>;
+export type UpdateWelcomeMessageBlockMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateWelcomeMessageBlockMutation,
+    UpdateWelcomeMessageBlockMutationVariables
   >;
 export const UpdateContractCustomizationDocument = gql`
   mutation UpdateContractCustomization(

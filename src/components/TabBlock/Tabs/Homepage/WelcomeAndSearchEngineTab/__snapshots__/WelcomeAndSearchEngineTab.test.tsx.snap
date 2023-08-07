@@ -42,6 +42,128 @@ exports[`WelcomeAndSearchEngineTab renders loading and loaded state 2`] = `
         <h2
           class="c-WelcomeAndSearchEngineTab__Title"
         >
+          Message de bienvenue
+        </h2>
+        <div
+          class="c-WelcomeAndSearchEngineTab__SubGroup c-WelcomeAndSearchEngineTab__SubGroup_short"
+        >
+          <div
+            class="c-FormCheckbox"
+          >
+            <input
+              class="c-FormCheckbox__Input "
+              data-testid="form-checkbox"
+              id="showBlock"
+              name="showBlock"
+              type="checkbox"
+            />
+            <div
+              class="c-FormLabel"
+            >
+              <label
+                class="c-FormLabel__LabelWrapper"
+                for="showBlock"
+              >
+                <span
+                  class="c-FormLabel__Label"
+                >
+                  Afficher ce bloc
+                </span>
+              </label>
+            </div>
+          </div>
+          <div
+            class="WelcomeAndSearchEngineTab__SubGroup_title"
+          >
+            <div
+              class="c-FormInput"
+            >
+              <div
+                class="c-FormLabel"
+              >
+                <label
+                  class="c-FormLabel__LabelWrapper"
+                  for="title"
+                >
+                  <span
+                    class="c-FormLabel__Label"
+                  >
+                    Titre *
+                  </span>
+                  <span
+                    class="c-FormLabel__Validation"
+                  >
+                    40 caractères maximum
+                  </span>
+                </label>
+                <div
+                  class="c-FormLabel__Content"
+                >
+                  <input
+                    aria-errormessage="title_error"
+                    aria-invalid="false"
+                    class="c-FormInput__Input"
+                    data-testid="form-input"
+                    id="title"
+                    maxlength="40"
+                    name="title"
+                    type="text"
+                    value="Title"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="WelcomeAndSearchEngineTab__SubGroup_subtitle"
+          >
+            <div
+              class="c-FormInput"
+            >
+              <div
+                class="c-FormLabel"
+              >
+                <label
+                  class="c-FormLabel__LabelWrapper"
+                  for="subtitle"
+                >
+                  <span
+                    class="c-FormLabel__Label"
+                  >
+                    Sous titre *
+                  </span>
+                  <span
+                    class="c-FormLabel__Validation"
+                  >
+                    100 caractères maximum
+                  </span>
+                </label>
+                <div
+                  class="c-FormLabel__Content"
+                >
+                  <input
+                    aria-errormessage="subtitle_error"
+                    aria-invalid="false"
+                    class="c-FormInput__Input"
+                    data-testid="form-input"
+                    id="subtitle"
+                    maxlength="100"
+                    name="subtitle"
+                    type="text"
+                    value="Subtitle"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-WelcomeAndSearchEngineTab__Group"
+      >
+        <h2
+          class="c-WelcomeAndSearchEngineTab__Title"
+        >
           Moteur de recherche
         </h2>
         <div
