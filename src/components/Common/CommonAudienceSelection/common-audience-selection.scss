@@ -1,6 +1,10 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
 .c-CommonAudienceSelection {
+  &__NoAudienceAvailableMessage {
+    color: colors.$error;
+  }
+
   &__Label {
     color: colors.$blue-2;
     font-weight: 700;

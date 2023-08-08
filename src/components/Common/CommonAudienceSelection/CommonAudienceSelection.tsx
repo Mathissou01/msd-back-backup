@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { useGetAudiencesByContractIdQuery } from "../../../graphql/codegen/generated-types";
+import { removeNulls } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import { IFormSingleMultiselectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
@@ -17,6 +19,8 @@ export default function CommonAudienceSelection() {
     allAudiences: "Tous",
   };
   const requiredMessage = "Ce champ est obligatoire";
+  const noAudienceAvailableMessage =
+    "Merci d'activer au moins un usager afin de pouvoir enregistrer ce formulaire";
 
   /* Methods */
   const handleStartModal = () => {
@@ -38,8 +42,26 @@ export default function CommonAudienceSelection() {
   } = useFormContext();
   const [selectedAudiences, setSelectedAudiences] =
     useState<Array<IFormSingleMultiselectOption>>();
+  const [audienceOptions, setAudienceOptions] =
+    useState<Array<IFormSingleMultiselectOption>>();
+  const { data: audiencesFromContract, loading: audiencesFromContractLoading } =
+    useGetAudiencesByContractIdQuery({
+      variables: {
+        filters: {
+          contract: {
+            id: {
+              eq: contract.id,
+            },
+          },
+          isActive: {
+            eq: true,
+          },
+        },
+      },
+      fetchPolicy: "network-only",
+    });
   const audiencesNumberFromContract =
-    contract?.attributes?.audiences?.data?.length ?? 0;
+    audiencesFromContract?.audiences?.data?.length;
   const audiencesWatch = watch("audiences");
   register("audiences", {
     required: {
@@ -49,11 +71,13 @@ export default function CommonAudienceSelection() {
   });
 
   useEffect(() => {
-    if (
+    if (audiencesNumberFromContract === 0) {
+      setValue("audiences", undefined);
+    } else if (
       audiencesNumberFromContract === 1 &&
-      contract?.attributes?.audiences?.data
+      audiencesFromContract?.audiences?.data
     ) {
-      const uniqueAssignedAudience = contract.attributes.audiences.data[0];
+      const uniqueAssignedAudience = audiencesFromContract.audiences.data[0];
       if (
         uniqueAssignedAudience?.id &&
         uniqueAssignedAudience.attributes?.type
@@ -64,18 +88,21 @@ export default function CommonAudienceSelection() {
             value: uniqueAssignedAudience.id,
           },
         ]);
-        setValue("audiences", uniqueAssignedAudience?.id);
       }
-    } else {
-      if (defaultValues) {
-        setSelectedAudiences(defaultValues.audiences);
-      }
+    } else if (audiencesNumberFromContract && defaultValues?.audiences) {
+      const filteredAudiences = defaultValues.audiences.filter(
+        (audience: IFormSingleMultiselectOption) =>
+          audiencesFromContract?.audiences?.data?.some(
+            (audience2) => audience2.id === audience.value,
+          ),
+      );
+      setSelectedAudiences(filteredAudiences);
     }
   }, [
     audiencesNumberFromContract,
     defaultValues,
-    contract.attributes?.audiences?.data,
     setValue,
+    audiencesFromContract?.audiences?.data,
   ]);
 
   useEffect(() => {
@@ -89,43 +116,76 @@ export default function CommonAudienceSelection() {
     }
   }, [audiencesWatch, register]);
 
+  useEffect(() => {
+    if (audiencesFromContract?.audiences?.data && !audienceOptions) {
+      setAudienceOptions(
+        audiencesFromContract.audiences.data
+          .map((audience) => {
+            if (audience?.attributes?.type && audience.id) {
+              return {
+                label: audience.attributes.type,
+                value: audience.id,
+              };
+            }
+          })
+          .filter(removeNulls),
+      );
+    }
+  }, [audiencesFromContract?.audiences?.data, audienceOptions]);
+
   return (
     <>
       <div className="c-CommonAudienceSelection__Label">{labels.users}</div>
-      <ul className="c-CommonAudienceSelection__List">
-        {selectedAudiences &&
-          (selectedAudiences.length > 1 ? (
-            selectedAudiences?.length === audiencesNumberFromContract ? (
-              <li>{labels.allAudiences}</li>
-            ) : (
-              selectedAudiences.map((audience, index) => {
-                return <li key={index}>{audience.label}</li>;
-              })
-            )
+      {!audiencesFromContractLoading && (
+        <>
+          {audiencesNumberFromContract === 0 ? (
+            <span className="c-CommonAudienceSelection__NoAudienceAvailableMessage">
+              {noAudienceAvailableMessage}
+            </span>
           ) : (
-            selectedAudiences.length === 1 && (
-              <li>{selectedAudiences[0].label}</li>
-            )
-          ))}
-      </ul>
-      <CommonButton
-        label={labels.modalOpenningBtn}
-        type="button"
-        style="secondary"
-        isDisabled={audiencesNumberFromContract <= 1}
-        onClick={() => handleStartModal()}
-      />
-      <ErrorMessage
-        errors={errors}
-        name="audiences"
-        render={({ message }: { message: string }) => (
-          <CommonFormErrorText message={message} errorId={`audiences_error`} />
-        )}
-      />
+            <ul className="c-CommonAudienceSelection__List">
+              {selectedAudiences &&
+                (selectedAudiences.length > 1 ? (
+                  selectedAudiences?.length === audiencesNumberFromContract ? (
+                    <li>{labels.allAudiences}</li>
+                  ) : (
+                    selectedAudiences.map((audience, index) => {
+                      return <li key={index}>{audience.label}</li>;
+                    })
+                  )
+                ) : (
+                  selectedAudiences.length === 1 && (
+                    <li>{selectedAudiences[0].label}</li>
+                  )
+                ))}
+            </ul>
+          )}
+          <CommonButton
+            label={labels.modalOpenningBtn}
+            type="button"
+            style="secondary"
+            isDisabled={
+              !audiencesNumberFromContract || audiencesNumberFromContract <= 1
+            }
+            onClick={() => handleStartModal()}
+          />
+          <ErrorMessage
+            errors={errors}
+            name="audiences"
+            render={({ message }: { message: string }) => (
+              <CommonFormErrorText
+                message={message}
+                errorId={`audiences_error`}
+              />
+            )}
+          />
+        </>
+      )}
       <AudienceModal
         modalRef={modalRef}
         onValidate={setAudiences}
         selectedAudiences={selectedAudiences}
+        audienceOptions={audienceOptions ?? []}
       />
     </>
   );

@@ -3,7 +3,6 @@
 .c-AudienceModal {
   display: flex;
   flex-direction: column;
-  gap: 32px;
   align-items: stretch;
 
   &__ModalTitle {
@@ -19,6 +18,10 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
+  }
+
+  hgroup {
+    margin-bottom: 15px;
   }
 
   &__ModalButtons {

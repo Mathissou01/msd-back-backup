@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { useContract } from "../../../../hooks/useContract";
-import { removeNulls } from "../../../../lib/utilities";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../CommonModalWrapper/CommonModalWrapper";
@@ -15,12 +13,14 @@ interface IAudienceModalProps {
   modalRef: React.RefObject<CommonModalWrapperRef>;
   selectedAudiences?: Array<IFormSingleMultiselectOption>;
   onValidate: (audiences: Array<IFormSingleMultiselectOption>) => void;
+  audienceOptions: Array<IFormSingleMultiselectOption>;
 }
 
 export default function AudienceModal({
   modalRef,
   selectedAudiences,
   onValidate,
+  audienceOptions,
 }: IAudienceModalProps) {
   /* Static Data */
   const labels = {
@@ -45,34 +45,9 @@ export default function AudienceModal({
   }
 
   /* Local Data */
-  const { contract } = useContract();
-  const [audienceOptions, setAudienceOptions] = useState<
-    Array<IFormSingleMultiselectOption>
-  >([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const { watch, setValue, resetField } = useFormContext();
-  const audiencesWatch = watch("audiences", selectedAudiences);
-
-  useEffect(() => {
-    if (audienceOptions.length === 0) {
-      const audiencesFromContract = contract?.attributes?.audiences?.data;
-      if (audiencesFromContract) {
-        setAudienceOptions(
-          audiencesFromContract
-            ?.map((audience) => {
-              if (audience?.attributes?.type && audience.id) {
-                return {
-                  label: audience.attributes.type,
-                  value: audience.id,
-                };
-              }
-            })
-            .filter(removeNulls),
-        );
-      }
-    }
-  }, [audienceOptions, contract]);
-
+  const audiencesWatch = watch("audiences");
   useEffect(() => {
     if (audiencesWatch) {
       setIsDisabled(
@@ -82,39 +57,43 @@ export default function AudienceModal({
   }, [audiencesWatch]);
 
   useEffect(() => {
-    if (selectedAudiences) setValue("audiences", selectedAudiences);
+    if (selectedAudiences) {
+      setValue("audiences", selectedAudiences, { shouldDirty: true });
+    }
   }, [selectedAudiences, setValue]);
 
   return (
     <CommonModalWrapper ref={modalRef} onClose={handleCloseModal}>
-      <div className="c-AudienceModal__ModalTitle">{labels.title}</div>
-      <hgroup>
-        <div className="c-AudienceModal__ModalFields">
-          <FormSingleMultiselect
-            name="audiences"
-            label={formLabels.users}
-            options={audienceOptions}
-            isMulti
-            isRequired
+      <div className="c-AudienceModal">
+        <div className="c-AudienceModal__ModalTitle">{labels.title}</div>
+        <hgroup>
+          <div className="c-AudienceModal__ModalFields">
+            <FormSingleMultiselect
+              name="audiences"
+              label={formLabels.users}
+              options={audienceOptions}
+              isMulti
+              isRequired
+            />
+          </div>
+        </hgroup>
+        <div className="c-AudienceModal__ModalButtons">
+          <CommonButton
+            type="button"
+            label={labels.submitBtn}
+            style="primary"
+            isDisabled={isDisabled}
+            onClick={() => handleValidation()}
+          />
+          <CommonButton
+            type="button"
+            label={labels.cancelBtn}
+            onClick={() => {
+              modalRef.current?.toggleModal(false);
+              handleCloseModal();
+            }}
           />
         </div>
-      </hgroup>
-      <div className="c-AudienceModal__ModalButtons">
-        <CommonButton
-          type="button"
-          label={labels.submitBtn}
-          style="primary"
-          isDisabled={isDisabled}
-          onClick={() => handleValidation()}
-        />
-        <CommonButton
-          type="button"
-          label={labels.cancelBtn}
-          onClick={() => {
-            modalRef.current?.toggleModal(false);
-            handleCloseModal();
-          }}
-        />
       </div>
     </CommonModalWrapper>
   );
