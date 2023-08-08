@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import RequestsList from "../../../../components/Request/RequestsList/RequestsList";
 import AppointmentManagement from "../../../../components/Request/AppointmentManagement/AppointmentManagement";
+import RequestsHistory from "../../../../components/Request/RequestsHistory/RequestsHistory";
 
 export function RequestsPage() {
   /* Static Data */
@@ -15,6 +17,13 @@ export function RequestsPage() {
       appointmentManagement: "Gestion des rendez-vous",
     },
   };
+  const requestListTabName = "requestList";
+
+  /* Methods */
+  function onTabChanged(activeTab: string) {
+    router.query.tab = activeTab;
+    router.push({ pathname: router.pathname, query: router.query });
+  }
 
   /* Local Data */
   const router = useRouter();
@@ -25,14 +34,12 @@ export function RequestsPage() {
       isEnabled: true,
       title: labels.tabs.requestsList,
     },
-    /* TODO : Uncomment when Back End will be available for this tab component
     {
       name: "requestHistory",
       content: <RequestsHistory />,
       isEnabled: true,
       title: labels.tabs.requestsHistory,
     },
-    */
     {
       name: "appointmentManagement",
       content: <AppointmentManagement />,
@@ -40,15 +47,19 @@ export function RequestsPage() {
       title: labels.tabs.appointmentManagement,
     },
   ];
+  const [defaultTab, setDefaultTab] = useState<string>(requestListTabName);
+
+  useEffect(() => {
+    setDefaultTab((router.query.tab as string) ?? requestListTabName);
+  }, [router.query.tab]);
 
   return (
     <div className="c-RequestsPage">
       <PageTitle title={labels.title} />
       <TabBlock
-        initialTabName={
-          router.query.tab ? router.query.tab.toString() : "requestList"
-        }
+        initialTabName={defaultTab}
         tabs={tabs}
+        onTabChanged={onTabChanged}
       />
     </div>
   );
