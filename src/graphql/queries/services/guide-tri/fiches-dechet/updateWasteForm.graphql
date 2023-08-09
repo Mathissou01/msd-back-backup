@@ -1,13 +1,18 @@
 mutation UpdateWasteForm($updateWasteFormId: ID!, $data: WasteFormInput!) {
-  updateWasteForm(id: $updateWasteFormId, data: $data) {
+  versioningHandler(
+    data: { id: $updateWasteFormId, data: $data }
+    entity: "wasteForm"
+  ) {
     data {
-      id
-      attributes {
-        customId
-        isHidden
-        audiences {
-          data {
-            id
+      ... on WasteFormEntity {
+        id
+        attributes {
+          customId
+          isHidden
+          audiences {
+            data {
+              id
+            }
           }
         }
       }

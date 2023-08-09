@@ -92,13 +92,14 @@ export function ServiceGuideDuTriEditPage({
       onCompleted: (result) => {
         if (
           variables.data.status !== EStatus.Draft &&
-          result.updateWasteForm?.data?.attributes?.customId
+          result.versioningHandler?.data?.__typename === "WasteFormEntity" &&
+          result.versioningHandler.data.attributes?.customId
         ) {
           client
             .query<GetWasteFormDraftQuery>({
               query: GetWasteFormDraftDocument,
               variables: {
-                customId: result.updateWasteForm?.data?.attributes.customId,
+                customId: result.versioningHandler.data.attributes.customId,
               },
               fetchPolicy: "no-cache",
             })

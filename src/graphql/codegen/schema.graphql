@@ -4453,6 +4453,7 @@ type Mutation {
   ): Boolean
   urlUploader(imageName: String!, url: String!): Boolean
   validateRequest(requestJSON: JSON): Boolean
+  versioningHandler(data: JSON!, entity: String!): VersioningEntityResponse
   ywsActivation(contractId: ID!): Boolean
   ywsDeactivation(contractId: ID!): Boolean
 }
@@ -7308,6 +7309,18 @@ input UsersPermissionsUserInput {
 
 type UsersPermissionsUserRelationResponseCollection {
   data: [UsersPermissionsUserEntity!]!
+}
+
+union VersioningEntity =
+    EventEntity
+  | FreeContentEntity
+  | NewEntity
+  | QuizEntity
+  | TipEntity
+  | WasteFormEntity
+
+type VersioningEntityResponse {
+  data: VersioningEntity
 }
 
 type WasteFamily {

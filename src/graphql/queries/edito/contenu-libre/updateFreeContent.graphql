@@ -2,117 +2,15 @@ mutation updateFreeContent(
   $updateFreeContentId: ID!
   $data: FreeContentInput!
 ) {
-  updateFreeContent(id: $updateFreeContentId, data: $data) {
+  versioningHandler(
+    data: { id: $updateFreeContentId, data: $data }
+    entity: "freeContent"
+  ) {
     data {
-      id
-      attributes {
-        customId
-        title
-        shortDescription
-        freeContentSubService {
-          data {
-            id
-          }
-        }
-        status
-        publishedDate
-        unpublishedDate
-        createdAt
-        updatedAt
-        tags {
-          data {
-            id
-            attributes {
-              name
-            }
-          }
-        }
-        image {
-          data {
-            id
-            attributes {
-              hash
-              mime
-              name
-              provider
-              size
-              url
-              alternativeText
-              ext
-              height
-              width
-              createdAt
-            }
-          }
-        }
-        audiences {
-          data {
-            id
-          }
-        }
-        blocks {
-          ... on ComponentBlocksSubHeading {
-            id
-            subHeadingText
-            subHeadingTag
-          }
-          ... on ComponentBlocksVideo {
-            id
-            videoLink
-            transcriptText
-          }
-          ... on ComponentBlocksWysiwyg {
-            id
-            textEditor
-          }
-          ... on ComponentBlocksHorizontalRule {
-            id
-            hr
-          }
-          ... on ComponentBlocksImage {
-            id
-            picture {
-              data {
-                id
-                attributes {
-                  hash
-                  mime
-                  name
-                  provider
-                  size
-                  url
-                  alternativeText
-                  ext
-                  height
-                  width
-                  createdAt
-                }
-              }
-            }
-            isDecorative
-            altText
-          }
-          ... on ComponentBlocksFile {
-            id
-            document {
-              data {
-                id
-                attributes {
-                  hash
-                  mime
-                  name
-                  provider
-                  size
-                  url
-                  alternativeText
-                  ext
-                  height
-                  width
-                  createdAt
-                }
-              }
-            }
-          }
+      ... on FreeContentEntity {
+        id
+        attributes {
+          customId
         }
       }
     }

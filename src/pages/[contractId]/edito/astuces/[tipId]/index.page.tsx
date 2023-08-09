@@ -77,13 +77,14 @@ export default function EditoTipsEditPage() {
       onCompleted: (result) => {
         if (
           status !== EStatus.Draft &&
-          result.updateTip?.data?.attributes?.customId
+          result.versioningHandler?.data?.__typename === "TipEntity" &&
+          result.versioningHandler.data.attributes?.customId
         ) {
           client
             .query<GetTipDraftQuery>({
               query: GetTipDraftDocument,
               variables: {
-                customId: result.updateTip?.data?.attributes.customId,
+                customId: result.versioningHandler.data.attributes.customId,
               },
               fetchPolicy: "no-cache",
             })

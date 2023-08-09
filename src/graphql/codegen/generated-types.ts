@@ -4555,6 +4555,7 @@ export type Mutation = {
   uploadGraphQL?: Maybe<Scalars["Boolean"]>;
   urlUploader?: Maybe<Scalars["Boolean"]>;
   validateRequest?: Maybe<Scalars["Boolean"]>;
+  versioningHandler?: Maybe<VersioningEntityResponse>;
   ywsActivation?: Maybe<Scalars["Boolean"]>;
   ywsDeactivation?: Maybe<Scalars["Boolean"]>;
 };
@@ -5792,6 +5793,11 @@ export type MutationUrlUploaderArgs = {
 
 export type MutationValidateRequestArgs = {
   requestJSON?: InputMaybe<Scalars["JSON"]>;
+};
+
+export type MutationVersioningHandlerArgs = {
+  data: Scalars["JSON"];
+  entity: Scalars["String"];
 };
 
 export type MutationYwsActivationArgs = {
@@ -9481,6 +9487,19 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>;
 };
 
+export type VersioningEntity =
+  | EventEntity
+  | FreeContentEntity
+  | NewEntity
+  | QuizEntity
+  | TipEntity
+  | WasteFormEntity;
+
+export type VersioningEntityResponse = {
+  __typename?: "VersioningEntityResponse";
+  data?: Maybe<VersioningEntity>;
+};
+
 export type WasteFamily = {
   __typename?: "WasteFamily";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -10353,146 +10372,156 @@ export type GetNewsByContractIdQuery = {
 
 export type UpdateNewMutationVariables = Exact<{
   updateNewId: Scalars["ID"];
-  data: NewInput;
+  data: Scalars["JSON"];
 }>;
 
 export type UpdateNewMutation = {
   __typename?: "Mutation";
-  updateNew?: {
-    __typename?: "NewEntityResponse";
-    data?: {
-      __typename?: "NewEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "New";
-        customId?: string | null;
-        title: string;
-        shortDescription?: string | null;
-        status?: Enum_New_Status | null;
-        publishedDate?: any | null;
-        unpublishedDate?: any | null;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        newsSubService?: {
-          __typename?: "NewsSubServiceEntityResponse";
-          data?: {
-            __typename?: "NewsSubServiceEntity";
-            id?: string | null;
-          } | null;
-        } | null;
-        tags?: {
-          __typename?: "TagRelationResponseCollection";
-          data: Array<{
-            __typename?: "TagEntity";
-            id?: string | null;
-            attributes?: { __typename?: "Tag"; name: string } | null;
-          }>;
-        } | null;
-        image?: {
-          __typename?: "UploadFileEntityResponse";
-          data?: {
-            __typename?: "UploadFileEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "UploadFile";
-              hash: string;
-              mime: string;
-              name: string;
-              provider: string;
-              size: number;
-              url: string;
-              alternativeText?: string | null;
-              ext?: string | null;
-              height?: number | null;
-              width?: number | null;
-              createdAt?: any | null;
+  versioningHandler?: {
+    __typename?: "VersioningEntityResponse";
+    data?:
+      | { __typename?: "EventEntity" }
+      | { __typename?: "FreeContentEntity" }
+      | {
+          __typename?: "NewEntity";
+          id?: string | null;
+          attributes?: {
+            __typename?: "New";
+            customId?: string | null;
+            title: string;
+            shortDescription?: string | null;
+            status?: Enum_New_Status | null;
+            publishedDate?: any | null;
+            unpublishedDate?: any | null;
+            createdAt?: any | null;
+            updatedAt?: any | null;
+            newsSubService?: {
+              __typename?: "NewsSubServiceEntityResponse";
+              data?: {
+                __typename?: "NewsSubServiceEntity";
+                id?: string | null;
+              } | null;
             } | null;
+            tags?: {
+              __typename?: "TagRelationResponseCollection";
+              data: Array<{
+                __typename?: "TagEntity";
+                id?: string | null;
+                attributes?: { __typename?: "Tag"; name: string } | null;
+              }>;
+            } | null;
+            image?: {
+              __typename?: "UploadFileEntityResponse";
+              data?: {
+                __typename?: "UploadFileEntity";
+                id?: string | null;
+                attributes?: {
+                  __typename?: "UploadFile";
+                  hash: string;
+                  mime: string;
+                  name: string;
+                  provider: string;
+                  size: number;
+                  url: string;
+                  alternativeText?: string | null;
+                  ext?: string | null;
+                  height?: number | null;
+                  width?: number | null;
+                  createdAt?: any | null;
+                } | null;
+              } | null;
+            } | null;
+            audiences?: {
+              __typename?: "AudienceRelationResponseCollection";
+              data: Array<{
+                __typename?: "AudienceEntity";
+                id?: string | null;
+              }>;
+            } | null;
+            blocks?: Array<
+              | {
+                  __typename?: "ComponentBlocksFile";
+                  id: string;
+                  document?: {
+                    __typename?: "UploadFileEntityResponse";
+                    data?: {
+                      __typename?: "UploadFileEntity";
+                      id?: string | null;
+                      attributes?: {
+                        __typename?: "UploadFile";
+                        hash: string;
+                        mime: string;
+                        name: string;
+                        provider: string;
+                        size: number;
+                        url: string;
+                        alternativeText?: string | null;
+                        ext?: string | null;
+                        height?: number | null;
+                        width?: number | null;
+                        createdAt?: any | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksHorizontalRule";
+                  id: string;
+                  hr?: string | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksImage";
+                  id: string;
+                  isDecorative?: boolean | null;
+                  altText?: string | null;
+                  picture?: {
+                    __typename?: "UploadFileEntityResponse";
+                    data?: {
+                      __typename?: "UploadFileEntity";
+                      id?: string | null;
+                      attributes?: {
+                        __typename?: "UploadFile";
+                        hash: string;
+                        mime: string;
+                        name: string;
+                        provider: string;
+                        size: number;
+                        url: string;
+                        alternativeText?: string | null;
+                        ext?: string | null;
+                        height?: number | null;
+                        width?: number | null;
+                        createdAt?: any | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksSubHeading";
+                  id: string;
+                  subHeadingText?: string | null;
+                  subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksVideo";
+                  id: string;
+                  videoLink?: string | null;
+                  transcriptText?: string | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksWysiwyg";
+                  id: string;
+                  textEditor?: string | null;
+                }
+              | { __typename?: "Error" }
+              | null
+            > | null;
           } | null;
-        } | null;
-        audiences?: {
-          __typename?: "AudienceRelationResponseCollection";
-          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
-        } | null;
-        blocks?: Array<
-          | {
-              __typename?: "ComponentBlocksFile";
-              id: string;
-              document?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksHorizontalRule";
-              id: string;
-              hr?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksImage";
-              id: string;
-              isDecorative?: boolean | null;
-              altText?: string | null;
-              picture?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksSubHeading";
-              id: string;
-              subHeadingText?: string | null;
-              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
-            }
-          | {
-              __typename?: "ComponentBlocksVideo";
-              id: string;
-              videoLink?: string | null;
-              transcriptText?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksWysiwyg";
-              id: string;
-              textEditor?: string | null;
-            }
-          | { __typename?: "Error" }
-          | null
-        > | null;
-      } | null;
-    } | null;
+        }
+      | { __typename?: "QuizEntity" }
+      | { __typename?: "TipEntity" }
+      | { __typename?: "WasteFormEntity" }
+      | null;
   } | null;
 };
 
@@ -11082,141 +11111,151 @@ export type UpdateTipMutationVariables = Exact<{
 
 export type UpdateTipMutation = {
   __typename?: "Mutation";
-  updateTip?: {
-    __typename?: "TipEntityResponse";
-    data?: {
-      __typename?: "TipEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Tip";
-        customId?: string | null;
-        title: string;
-        shortDescription?: string | null;
-        status?: Enum_Tip_Status | null;
-        publishedDate?: any | null;
-        unpublishedDate?: any | null;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        tipSubService?: {
-          __typename?: "TipSubServiceEntityResponse";
-          data?: {
-            __typename?: "TipSubServiceEntity";
-            id?: string | null;
-          } | null;
-        } | null;
-        tags?: {
-          __typename?: "TagRelationResponseCollection";
-          data: Array<{
-            __typename?: "TagEntity";
-            id?: string | null;
-            attributes?: { __typename?: "Tag"; name: string } | null;
-          }>;
-        } | null;
-        image: {
-          __typename?: "UploadFileEntityResponse";
-          data?: {
-            __typename?: "UploadFileEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "UploadFile";
-              hash: string;
-              mime: string;
-              name: string;
-              provider: string;
-              size: number;
-              url: string;
-              alternativeText?: string | null;
-              ext?: string | null;
-              height?: number | null;
-              width?: number | null;
-              createdAt?: any | null;
+  versioningHandler?: {
+    __typename?: "VersioningEntityResponse";
+    data?:
+      | { __typename?: "EventEntity" }
+      | { __typename?: "FreeContentEntity" }
+      | { __typename?: "NewEntity" }
+      | { __typename?: "QuizEntity" }
+      | {
+          __typename?: "TipEntity";
+          id?: string | null;
+          attributes?: {
+            __typename?: "Tip";
+            customId?: string | null;
+            title: string;
+            shortDescription?: string | null;
+            status?: Enum_Tip_Status | null;
+            publishedDate?: any | null;
+            unpublishedDate?: any | null;
+            createdAt?: any | null;
+            updatedAt?: any | null;
+            tipSubService?: {
+              __typename?: "TipSubServiceEntityResponse";
+              data?: {
+                __typename?: "TipSubServiceEntity";
+                id?: string | null;
+              } | null;
             } | null;
+            tags?: {
+              __typename?: "TagRelationResponseCollection";
+              data: Array<{
+                __typename?: "TagEntity";
+                id?: string | null;
+                attributes?: { __typename?: "Tag"; name: string } | null;
+              }>;
+            } | null;
+            image: {
+              __typename?: "UploadFileEntityResponse";
+              data?: {
+                __typename?: "UploadFileEntity";
+                id?: string | null;
+                attributes?: {
+                  __typename?: "UploadFile";
+                  hash: string;
+                  mime: string;
+                  name: string;
+                  provider: string;
+                  size: number;
+                  url: string;
+                  alternativeText?: string | null;
+                  ext?: string | null;
+                  height?: number | null;
+                  width?: number | null;
+                  createdAt?: any | null;
+                } | null;
+              } | null;
+            };
+            audiences?: {
+              __typename?: "AudienceRelationResponseCollection";
+              data: Array<{
+                __typename?: "AudienceEntity";
+                id?: string | null;
+              }>;
+            } | null;
+            blocks?: Array<
+              | {
+                  __typename?: "ComponentBlocksFile";
+                  id: string;
+                  document?: {
+                    __typename?: "UploadFileEntityResponse";
+                    data?: {
+                      __typename?: "UploadFileEntity";
+                      id?: string | null;
+                      attributes?: {
+                        __typename?: "UploadFile";
+                        hash: string;
+                        mime: string;
+                        name: string;
+                        provider: string;
+                        size: number;
+                        url: string;
+                        alternativeText?: string | null;
+                        ext?: string | null;
+                        height?: number | null;
+                        width?: number | null;
+                        createdAt?: any | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksHorizontalRule";
+                  id: string;
+                  hr?: string | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksImage";
+                  id: string;
+                  isDecorative?: boolean | null;
+                  altText?: string | null;
+                  picture?: {
+                    __typename?: "UploadFileEntityResponse";
+                    data?: {
+                      __typename?: "UploadFileEntity";
+                      id?: string | null;
+                      attributes?: {
+                        __typename?: "UploadFile";
+                        hash: string;
+                        mime: string;
+                        name: string;
+                        provider: string;
+                        size: number;
+                        url: string;
+                        alternativeText?: string | null;
+                        ext?: string | null;
+                        height?: number | null;
+                        width?: number | null;
+                        createdAt?: any | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksSubHeading";
+                  id: string;
+                  subHeadingText?: string | null;
+                  subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksVideo";
+                  id: string;
+                  videoLink?: string | null;
+                  transcriptText?: string | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksWysiwyg";
+                  id: string;
+                  textEditor?: string | null;
+                }
+              | { __typename?: "Error" }
+              | null
+            > | null;
           } | null;
-        };
-        audiences?: {
-          __typename?: "AudienceRelationResponseCollection";
-          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
-        } | null;
-        blocks?: Array<
-          | {
-              __typename?: "ComponentBlocksFile";
-              id: string;
-              document?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksHorizontalRule";
-              id: string;
-              hr?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksImage";
-              id: string;
-              isDecorative?: boolean | null;
-              altText?: string | null;
-              picture?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksSubHeading";
-              id: string;
-              subHeadingText?: string | null;
-              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
-            }
-          | {
-              __typename?: "ComponentBlocksVideo";
-              id: string;
-              videoLink?: string | null;
-              transcriptText?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksWysiwyg";
-              id: string;
-              textEditor?: string | null;
-            }
-          | { __typename?: "Error" }
-          | null
-        > | null;
-      } | null;
-    } | null;
+        }
+      | { __typename?: "WasteFormEntity" }
+      | null;
   } | null;
 };
 
@@ -12575,141 +12614,151 @@ export type UpdateFreeContentMutationVariables = Exact<{
 
 export type UpdateFreeContentMutation = {
   __typename?: "Mutation";
-  updateFreeContent?: {
-    __typename?: "FreeContentEntityResponse";
-    data?: {
-      __typename?: "FreeContentEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "FreeContent";
-        customId?: string | null;
-        title: string;
-        shortDescription?: string | null;
-        status?: Enum_Freecontent_Status | null;
-        publishedDate?: any | null;
-        unpublishedDate?: any | null;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        freeContentSubService?: {
-          __typename?: "FreeContentSubServiceEntityResponse";
-          data?: {
-            __typename?: "FreeContentSubServiceEntity";
-            id?: string | null;
-          } | null;
-        } | null;
-        tags?: {
-          __typename?: "TagRelationResponseCollection";
-          data: Array<{
-            __typename?: "TagEntity";
-            id?: string | null;
-            attributes?: { __typename?: "Tag"; name: string } | null;
-          }>;
-        } | null;
-        image: {
-          __typename?: "UploadFileEntityResponse";
-          data?: {
-            __typename?: "UploadFileEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "UploadFile";
-              hash: string;
-              mime: string;
-              name: string;
-              provider: string;
-              size: number;
-              url: string;
-              alternativeText?: string | null;
-              ext?: string | null;
-              height?: number | null;
-              width?: number | null;
-              createdAt?: any | null;
+  versioningHandler?: {
+    __typename?: "VersioningEntityResponse";
+    data?:
+      | { __typename?: "EventEntity" }
+      | {
+          __typename?: "FreeContentEntity";
+          id?: string | null;
+          attributes?: {
+            __typename?: "FreeContent";
+            customId?: string | null;
+            title: string;
+            shortDescription?: string | null;
+            status?: Enum_Freecontent_Status | null;
+            publishedDate?: any | null;
+            unpublishedDate?: any | null;
+            createdAt?: any | null;
+            updatedAt?: any | null;
+            freeContentSubService?: {
+              __typename?: "FreeContentSubServiceEntityResponse";
+              data?: {
+                __typename?: "FreeContentSubServiceEntity";
+                id?: string | null;
+              } | null;
             } | null;
+            tags?: {
+              __typename?: "TagRelationResponseCollection";
+              data: Array<{
+                __typename?: "TagEntity";
+                id?: string | null;
+                attributes?: { __typename?: "Tag"; name: string } | null;
+              }>;
+            } | null;
+            image: {
+              __typename?: "UploadFileEntityResponse";
+              data?: {
+                __typename?: "UploadFileEntity";
+                id?: string | null;
+                attributes?: {
+                  __typename?: "UploadFile";
+                  hash: string;
+                  mime: string;
+                  name: string;
+                  provider: string;
+                  size: number;
+                  url: string;
+                  alternativeText?: string | null;
+                  ext?: string | null;
+                  height?: number | null;
+                  width?: number | null;
+                  createdAt?: any | null;
+                } | null;
+              } | null;
+            };
+            audiences?: {
+              __typename?: "AudienceRelationResponseCollection";
+              data: Array<{
+                __typename?: "AudienceEntity";
+                id?: string | null;
+              }>;
+            } | null;
+            blocks?: Array<
+              | {
+                  __typename?: "ComponentBlocksFile";
+                  id: string;
+                  document?: {
+                    __typename?: "UploadFileEntityResponse";
+                    data?: {
+                      __typename?: "UploadFileEntity";
+                      id?: string | null;
+                      attributes?: {
+                        __typename?: "UploadFile";
+                        hash: string;
+                        mime: string;
+                        name: string;
+                        provider: string;
+                        size: number;
+                        url: string;
+                        alternativeText?: string | null;
+                        ext?: string | null;
+                        height?: number | null;
+                        width?: number | null;
+                        createdAt?: any | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksHorizontalRule";
+                  id: string;
+                  hr?: string | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksImage";
+                  id: string;
+                  isDecorative?: boolean | null;
+                  altText?: string | null;
+                  picture?: {
+                    __typename?: "UploadFileEntityResponse";
+                    data?: {
+                      __typename?: "UploadFileEntity";
+                      id?: string | null;
+                      attributes?: {
+                        __typename?: "UploadFile";
+                        hash: string;
+                        mime: string;
+                        name: string;
+                        provider: string;
+                        size: number;
+                        url: string;
+                        alternativeText?: string | null;
+                        ext?: string | null;
+                        height?: number | null;
+                        width?: number | null;
+                        createdAt?: any | null;
+                      } | null;
+                    } | null;
+                  } | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksSubHeading";
+                  id: string;
+                  subHeadingText?: string | null;
+                  subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksVideo";
+                  id: string;
+                  videoLink?: string | null;
+                  transcriptText?: string | null;
+                }
+              | {
+                  __typename?: "ComponentBlocksWysiwyg";
+                  id: string;
+                  textEditor?: string | null;
+                }
+              | { __typename?: "Error" }
+              | null
+            > | null;
           } | null;
-        };
-        audiences?: {
-          __typename?: "AudienceRelationResponseCollection";
-          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
-        } | null;
-        blocks?: Array<
-          | {
-              __typename?: "ComponentBlocksFile";
-              id: string;
-              document?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksHorizontalRule";
-              id: string;
-              hr?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksImage";
-              id: string;
-              isDecorative?: boolean | null;
-              altText?: string | null;
-              picture?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    hash: string;
-                    mime: string;
-                    name: string;
-                    provider: string;
-                    size: number;
-                    url: string;
-                    alternativeText?: string | null;
-                    ext?: string | null;
-                    height?: number | null;
-                    width?: number | null;
-                    createdAt?: any | null;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksSubHeading";
-              id: string;
-              subHeadingText?: string | null;
-              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
-            }
-          | {
-              __typename?: "ComponentBlocksVideo";
-              id: string;
-              videoLink?: string | null;
-              transcriptText?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksWysiwyg";
-              id: string;
-              textEditor?: string | null;
-            }
-          | { __typename?: "Error" }
-          | null
-        > | null;
-      } | null;
-    } | null;
+        }
+      | { __typename?: "NewEntity" }
+      | { __typename?: "QuizEntity" }
+      | { __typename?: "TipEntity" }
+      | { __typename?: "WasteFormEntity" }
+      | null;
   } | null;
 };
 
@@ -17540,21 +17589,31 @@ export type UpdateWasteFormMutationVariables = Exact<{
 
 export type UpdateWasteFormMutation = {
   __typename?: "Mutation";
-  updateWasteForm?: {
-    __typename?: "WasteFormEntityResponse";
-    data?: {
-      __typename?: "WasteFormEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "WasteForm";
-        customId?: string | null;
-        isHidden?: boolean | null;
-        audiences?: {
-          __typename?: "AudienceRelationResponseCollection";
-          data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
-        } | null;
-      } | null;
-    } | null;
+  versioningHandler?: {
+    __typename?: "VersioningEntityResponse";
+    data?:
+      | { __typename?: "EventEntity" }
+      | { __typename?: "FreeContentEntity" }
+      | { __typename?: "NewEntity" }
+      | { __typename?: "QuizEntity" }
+      | { __typename?: "TipEntity" }
+      | {
+          __typename?: "WasteFormEntity";
+          id?: string | null;
+          attributes?: {
+            __typename?: "WasteForm";
+            customId?: string | null;
+            isHidden?: boolean | null;
+            audiences?: {
+              __typename?: "AudienceRelationResponseCollection";
+              data: Array<{
+                __typename?: "AudienceEntity";
+                id?: string | null;
+              }>;
+            } | null;
+          } | null;
+        }
+      | null;
   } | null;
 };
 
@@ -19169,114 +19228,116 @@ export type GetNewsByContractIdQueryResult = Apollo.QueryResult<
   GetNewsByContractIdQueryVariables
 >;
 export const UpdateNewDocument = gql`
-  mutation UpdateNew($updateNewId: ID!, $data: NewInput!) {
-    updateNew(id: $updateNewId, data: $data) {
+  mutation UpdateNew($updateNewId: ID!, $data: JSON!) {
+    versioningHandler(data: { id: $updateNewId, data: $data }, entity: "new") {
       data {
-        id
-        attributes {
-          customId
-          title
-          shortDescription
-          newsSubService {
-            data {
-              id
-            }
-          }
-          status
-          publishedDate
-          unpublishedDate
-          createdAt
-          updatedAt
-          tags {
-            data {
-              id
-              attributes {
-                name
+        ... on NewEntity {
+          id
+          attributes {
+            customId
+            title
+            shortDescription
+            newsSubService {
+              data {
+                id
               }
             }
-          }
-          image {
-            data {
-              id
-              attributes {
-                hash
-                mime
-                name
-                provider
-                size
-                url
-                alternativeText
-                ext
-                height
-                width
-                createdAt
-              }
-            }
-          }
-          audiences {
-            data {
-              id
-            }
-          }
-          blocks {
-            ... on ComponentBlocksSubHeading {
-              id
-              subHeadingText
-              subHeadingTag
-            }
-            ... on ComponentBlocksVideo {
-              id
-              videoLink
-              transcriptText
-            }
-            ... on ComponentBlocksWysiwyg {
-              id
-              textEditor
-            }
-            ... on ComponentBlocksHorizontalRule {
-              id
-              hr
-            }
-            ... on ComponentBlocksImage {
-              id
-              picture {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
-                  }
+            status
+            publishedDate
+            unpublishedDate
+            createdAt
+            updatedAt
+            tags {
+              data {
+                id
+                attributes {
+                  name
                 }
               }
-              isDecorative
-              altText
             }
-            ... on ComponentBlocksFile {
-              id
-              document {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
+            image {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
+                }
+              }
+            }
+            audiences {
+              data {
+                id
+              }
+            }
+            blocks {
+              ... on ComponentBlocksSubHeading {
+                id
+                subHeadingText
+                subHeadingTag
+              }
+              ... on ComponentBlocksVideo {
+                id
+                videoLink
+                transcriptText
+              }
+              ... on ComponentBlocksWysiwyg {
+                id
+                textEditor
+              }
+              ... on ComponentBlocksHorizontalRule {
+                id
+                hr
+              }
+              ... on ComponentBlocksImage {
+                id
+                picture {
+                  data {
+                    id
+                    attributes {
+                      hash
+                      mime
+                      name
+                      provider
+                      size
+                      url
+                      alternativeText
+                      ext
+                      height
+                      width
+                      createdAt
+                    }
+                  }
+                }
+                isDecorative
+                altText
+              }
+              ... on ComponentBlocksFile {
+                id
+                document {
+                  data {
+                    id
+                    attributes {
+                      hash
+                      mime
+                      name
+                      provider
+                      size
+                      url
+                      alternativeText
+                      ext
+                      height
+                      width
+                      createdAt
+                    }
                   }
                 }
               }
@@ -20178,113 +20239,115 @@ export type GetTipsByContractIdQueryResult = Apollo.QueryResult<
 >;
 export const UpdateTipDocument = gql`
   mutation updateTip($updateTipId: ID!, $data: TipInput!) {
-    updateTip(id: $updateTipId, data: $data) {
+    versioningHandler(data: { id: $updateTipId, data: $data }, entity: "tip") {
       data {
-        id
-        attributes {
-          customId
-          title
-          shortDescription
-          tipSubService {
-            data {
-              id
-            }
-          }
-          status
-          publishedDate
-          unpublishedDate
-          createdAt
-          updatedAt
-          tags {
-            data {
-              id
-              attributes {
-                name
+        ... on TipEntity {
+          id
+          attributes {
+            customId
+            title
+            shortDescription
+            tipSubService {
+              data {
+                id
               }
             }
-          }
-          image {
-            data {
-              id
-              attributes {
-                hash
-                mime
-                name
-                provider
-                size
-                url
-                alternativeText
-                ext
-                height
-                width
-                createdAt
-              }
-            }
-          }
-          audiences {
-            data {
-              id
-            }
-          }
-          blocks {
-            ... on ComponentBlocksSubHeading {
-              id
-              subHeadingText
-              subHeadingTag
-            }
-            ... on ComponentBlocksVideo {
-              id
-              videoLink
-              transcriptText
-            }
-            ... on ComponentBlocksWysiwyg {
-              id
-              textEditor
-            }
-            ... on ComponentBlocksHorizontalRule {
-              id
-              hr
-            }
-            ... on ComponentBlocksImage {
-              id
-              picture {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
-                  }
+            status
+            publishedDate
+            unpublishedDate
+            createdAt
+            updatedAt
+            tags {
+              data {
+                id
+                attributes {
+                  name
                 }
               }
-              isDecorative
-              altText
             }
-            ... on ComponentBlocksFile {
-              id
-              document {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
+            image {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
+                }
+              }
+            }
+            audiences {
+              data {
+                id
+              }
+            }
+            blocks {
+              ... on ComponentBlocksSubHeading {
+                id
+                subHeadingText
+                subHeadingTag
+              }
+              ... on ComponentBlocksVideo {
+                id
+                videoLink
+                transcriptText
+              }
+              ... on ComponentBlocksWysiwyg {
+                id
+                textEditor
+              }
+              ... on ComponentBlocksHorizontalRule {
+                id
+                hr
+              }
+              ... on ComponentBlocksImage {
+                id
+                picture {
+                  data {
+                    id
+                    attributes {
+                      hash
+                      mime
+                      name
+                      provider
+                      size
+                      url
+                      alternativeText
+                      ext
+                      height
+                      width
+                      createdAt
+                    }
+                  }
+                }
+                isDecorative
+                altText
+              }
+              ... on ComponentBlocksFile {
+                id
+                document {
+                  data {
+                    id
+                    attributes {
+                      hash
+                      mime
+                      name
+                      provider
+                      size
+                      url
+                      alternativeText
+                      ext
+                      height
+                      width
+                      createdAt
+                    }
                   }
                 }
               }
@@ -22630,113 +22693,118 @@ export const UpdateFreeContentDocument = gql`
     $updateFreeContentId: ID!
     $data: FreeContentInput!
   ) {
-    updateFreeContent(id: $updateFreeContentId, data: $data) {
+    versioningHandler(
+      data: { id: $updateFreeContentId, data: $data }
+      entity: "freeContent"
+    ) {
       data {
-        id
-        attributes {
-          customId
-          title
-          shortDescription
-          freeContentSubService {
-            data {
-              id
-            }
-          }
-          status
-          publishedDate
-          unpublishedDate
-          createdAt
-          updatedAt
-          tags {
-            data {
-              id
-              attributes {
-                name
+        ... on FreeContentEntity {
+          id
+          attributes {
+            customId
+            title
+            shortDescription
+            freeContentSubService {
+              data {
+                id
               }
             }
-          }
-          image {
-            data {
-              id
-              attributes {
-                hash
-                mime
-                name
-                provider
-                size
-                url
-                alternativeText
-                ext
-                height
-                width
-                createdAt
-              }
-            }
-          }
-          audiences {
-            data {
-              id
-            }
-          }
-          blocks {
-            ... on ComponentBlocksSubHeading {
-              id
-              subHeadingText
-              subHeadingTag
-            }
-            ... on ComponentBlocksVideo {
-              id
-              videoLink
-              transcriptText
-            }
-            ... on ComponentBlocksWysiwyg {
-              id
-              textEditor
-            }
-            ... on ComponentBlocksHorizontalRule {
-              id
-              hr
-            }
-            ... on ComponentBlocksImage {
-              id
-              picture {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
-                  }
+            status
+            publishedDate
+            unpublishedDate
+            createdAt
+            updatedAt
+            tags {
+              data {
+                id
+                attributes {
+                  name
                 }
               }
-              isDecorative
-              altText
             }
-            ... on ComponentBlocksFile {
-              id
-              document {
-                data {
-                  id
-                  attributes {
-                    hash
-                    mime
-                    name
-                    provider
-                    size
-                    url
-                    alternativeText
-                    ext
-                    height
-                    width
-                    createdAt
+            image {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  ext
+                  height
+                  width
+                  createdAt
+                }
+              }
+            }
+            audiences {
+              data {
+                id
+              }
+            }
+            blocks {
+              ... on ComponentBlocksSubHeading {
+                id
+                subHeadingText
+                subHeadingTag
+              }
+              ... on ComponentBlocksVideo {
+                id
+                videoLink
+                transcriptText
+              }
+              ... on ComponentBlocksWysiwyg {
+                id
+                textEditor
+              }
+              ... on ComponentBlocksHorizontalRule {
+                id
+                hr
+              }
+              ... on ComponentBlocksImage {
+                id
+                picture {
+                  data {
+                    id
+                    attributes {
+                      hash
+                      mime
+                      name
+                      provider
+                      size
+                      url
+                      alternativeText
+                      ext
+                      height
+                      width
+                      createdAt
+                    }
+                  }
+                }
+                isDecorative
+                altText
+              }
+              ... on ComponentBlocksFile {
+                id
+                document {
+                  data {
+                    id
+                    attributes {
+                      hash
+                      mime
+                      name
+                      provider
+                      size
+                      url
+                      alternativeText
+                      ext
+                      height
+                      width
+                      createdAt
+                    }
                   }
                 }
               }
@@ -31394,15 +31462,20 @@ export type GetWasteFormsByContractIdQueryResult = Apollo.QueryResult<
 >;
 export const UpdateWasteFormDocument = gql`
   mutation UpdateWasteForm($updateWasteFormId: ID!, $data: WasteFormInput!) {
-    updateWasteForm(id: $updateWasteFormId, data: $data) {
+    versioningHandler(
+      data: { id: $updateWasteFormId, data: $data }
+      entity: "wasteForm"
+    ) {
       data {
-        id
-        attributes {
-          customId
-          isHidden
-          audiences {
-            data {
-              id
+        ... on WasteFormEntity {
+          id
+          attributes {
+            customId
+            isHidden
+            audiences {
+              data {
+                id
+              }
             }
           }
         }

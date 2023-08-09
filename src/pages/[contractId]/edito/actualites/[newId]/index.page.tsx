@@ -77,13 +77,14 @@ export default function EditoActualitesEditPage() {
       onCompleted: (result) => {
         if (
           status !== EStatus.Draft &&
-          result.updateNew?.data?.attributes?.customId
+          result.versioningHandler?.data?.__typename === "NewEntity" &&
+          result.versioningHandler.data.attributes?.customId
         ) {
           client
             .query<GetNewDraftQuery>({
               query: GetNewDraftDocument,
               variables: {
-                customId: result.updateNew?.data?.attributes.customId,
+                customId: result.versioningHandler.data.attributes.customId,
               },
               fetchPolicy: "no-cache",
             })

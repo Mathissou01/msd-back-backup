@@ -92,13 +92,14 @@ export function EditoFreeContentEditPage({
       onCompleted: (result) => {
         if (
           status !== EStatus.Draft &&
-          result.updateFreeContent?.data?.attributes?.customId
+          result.versioningHandler?.data?.__typename === "FreeContentEntity" &&
+          result.versioningHandler.data.attributes?.customId
         ) {
           client
             .query<GetFreeContentDraftQuery>({
               query: GetFreeContentDraftDocument,
               variables: {
-                customId: result.updateFreeContent?.data?.attributes.customId,
+                customId: result.versioningHandler.data.attributes.customId,
               },
               fetchPolicy: "no-cache",
             })
