@@ -72,6 +72,7 @@ export default function FormInput({
   labelStyle,
   validationStyle = "inline",
   tagType = "input",
+  min,
 }: IFormInputProps) {
   /* Static Data */
   const errorMessages = {
@@ -116,6 +117,7 @@ export default function FormInput({
           className={classNames("c-FormInput__Input", {
             "c-FormInput__Input_invalid": !!_.get(errors, name),
           })}
+          min={min}
           {...register(name, {
             required: { value: isRequired, message: errorMessages.required },
             minLength:

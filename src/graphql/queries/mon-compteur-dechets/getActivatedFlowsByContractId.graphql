@@ -1,12 +1,16 @@
-query getActivatedFlowsByContractId($filters: FlowFiltersInput) {
-  flows(filters: $filters) {
+query getActivatedFlowsByContractId($contractId: ID!) {
+  flows(
+    filters: {
+      contract: { id: { eq: $contractId } }
+      isActivated: { eq: true }
+      code: { in: ["OMR", "CS", "V", "PA", "DV"] }
+    }
+  ) {
     data {
       id
       attributes {
         name
-        isActivated
         code
-        createdAt
       }
     }
   }

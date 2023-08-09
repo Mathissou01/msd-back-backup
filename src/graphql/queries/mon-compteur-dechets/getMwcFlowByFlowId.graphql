@@ -1,0 +1,74 @@
+query getMwcFlowByFlowId($flowId: ID!) {
+  flow(id: $flowId) {
+    data {
+      id
+      attributes {
+        mwcFlow {
+          data {
+            id
+            attributes {
+              flow {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
+              averageProductionPerson
+              weightSystem
+              blocks {
+                ... on ComponentBlocksSubHeading {
+                  id
+                  subHeadingText
+                  subHeadingTag
+                }
+                ... on ComponentBlocksVideo {
+                  id
+                  videoLink
+                  transcriptText
+                }
+                ... on ComponentBlocksWysiwyg {
+                  id
+                  textEditor
+                }
+                ... on ComponentBlocksImage {
+                  id
+                  picture {
+                    data {
+                      id
+                      attributes {
+                        name
+                        alternativeText
+                        caption
+                        width
+                        height
+                        formats
+                        hash
+                        ext
+                        mime
+                        size
+                        url
+                        previewUrl
+                        provider
+                        provider_metadata
+                        createdAt
+                        updatedAt
+                      }
+                    }
+                  }
+                  isDecorative
+                  altText
+                }
+                ... on Error {
+                  code
+                  message
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

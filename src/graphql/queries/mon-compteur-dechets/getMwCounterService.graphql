@@ -1,0 +1,15 @@
+query getMwCounterServices($contractId: ID!) {
+  mwCounterServices(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      id
+      attributes {
+        serviceName
+        contactEmail
+        phoneNumber
+        postalAddress
+        postalCode
+        city
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
-query getMwcFlowsByContractId($filters: MwcFlowFiltersInput) {
-  mwcFlows(filters: $filters) {
+query getMwcFlowsByContractId($contractId: ID!) {
+  mwcFlows(
+    filters: { mwCounterService: { contract: { id: { eq: $contractId } } } }
+  ) {
     data {
       id
       attributes {
@@ -24,8 +26,24 @@ query getMwcFlowsByContractId($filters: MwcFlowFiltersInput) {
             id
             picture {
               data {
+                id
                 attributes {
                   name
+                  alternativeText
+                  caption
+                  width
+                  height
+                  formats
+                  hash
+                  ext
+                  mime
+                  size
+                  url
+                  previewUrl
+                  provider
+                  provider_metadata
+                  createdAt
+                  updatedAt
                 }
               }
             }
@@ -39,9 +57,11 @@ query getMwcFlowsByContractId($filters: MwcFlowFiltersInput) {
         }
         flow {
           data {
+            id
             attributes {
               isActivated
               code
+              name
             }
           }
         }

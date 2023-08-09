@@ -13822,69 +13822,24 @@ export type CreateMwcFlowMutation = {
   __typename?: "Mutation";
   createMwcFlow?: {
     __typename?: "MwcFlowEntityResponse";
-    data?: {
-      __typename?: "MwcFlowEntity";
-      attributes?: {
-        __typename?: "MwcFlow";
-        weightSystem?: Enum_Mwcflow_Weightsystem | null;
-        averageProductionPerson?: any | null;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        mwCounterService?: {
-          __typename?: "MwCounterServiceEntityResponse";
-          data?: {
-            __typename?: "MwCounterServiceEntity";
-            id?: string | null;
-          } | null;
-        } | null;
-        blocks?: Array<
-          | {
-              __typename?: "ComponentBlocksImage";
-              id: string;
-              isDecorative?: boolean | null;
-              altText?: string | null;
-              picture?: {
-                __typename?: "UploadFileEntityResponse";
-                data?: {
-                  __typename?: "UploadFileEntity";
-                  attributes?: {
-                    __typename?: "UploadFile";
-                    name: string;
-                  } | null;
-                } | null;
-              } | null;
-            }
-          | {
-              __typename?: "ComponentBlocksSubHeading";
-              id: string;
-              subHeadingText?: string | null;
-              subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
-            }
-          | {
-              __typename?: "ComponentBlocksVideo";
-              id: string;
-              videoLink?: string | null;
-              transcriptText?: string | null;
-            }
-          | {
-              __typename?: "ComponentBlocksWysiwyg";
-              id: string;
-              textEditor?: string | null;
-            }
-          | { __typename?: "Error" }
-          | null
-        > | null;
-        flow?: {
-          __typename?: "FlowEntityResponse";
-          data?: { __typename?: "FlowEntity"; id?: string | null } | null;
-        } | null;
-      } | null;
-    } | null;
+    data?: { __typename?: "MwcFlowEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type DeleteMwcFlowMutationVariables = Exact<{
+  deleteMwcFlowId: Scalars["ID"];
+}>;
+
+export type DeleteMwcFlowMutation = {
+  __typename?: "Mutation";
+  deleteMwcFlow?: {
+    __typename?: "MwcFlowEntityResponse";
+    data?: { __typename?: "MwcFlowEntity"; id?: string | null } | null;
   } | null;
 };
 
 export type GetActivatedFlowsByContractIdQueryVariables = Exact<{
-  filters?: InputMaybe<FlowFiltersInput>;
+  contractId: Scalars["ID"];
 }>;
 
 export type GetActivatedFlowsByContractIdQuery = {
@@ -13897,9 +13852,7 @@ export type GetActivatedFlowsByContractIdQuery = {
       attributes?: {
         __typename?: "Flow";
         name?: string | null;
-        isActivated?: boolean | null;
         code?: string | null;
-        createdAt?: any | null;
       } | null;
     }>;
   } | null;
@@ -13964,6 +13917,30 @@ export type GetHasTipsQuery = {
   } | null;
 };
 
+export type GetMwCounterServicesQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetMwCounterServicesQuery = {
+  __typename?: "Query";
+  mwCounterServices?: {
+    __typename?: "MwCounterServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "MwCounterServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "MwCounterService";
+        serviceName?: string | null;
+        contactEmail?: string | null;
+        phoneNumber?: string | null;
+        postalAddress?: string | null;
+        postalCode?: string | null;
+        city?: string | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type GetMwcAverageProductionQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -13973,8 +13950,106 @@ export type GetMwcAverageProductionQuery = {
   getMwcAverageProduction?: number | null;
 };
 
+export type GetMwcFlowByFlowIdQueryVariables = Exact<{
+  flowId: Scalars["ID"];
+}>;
+
+export type GetMwcFlowByFlowIdQuery = {
+  __typename?: "Query";
+  flow?: {
+    __typename?: "FlowEntityResponse";
+    data?: {
+      __typename?: "FlowEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Flow";
+        mwcFlow?: {
+          __typename?: "MwcFlowEntityResponse";
+          data?: {
+            __typename?: "MwcFlowEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "MwcFlow";
+              averageProductionPerson?: any | null;
+              weightSystem?: Enum_Mwcflow_Weightsystem | null;
+              flow?: {
+                __typename?: "FlowEntityResponse";
+                data?: {
+                  __typename?: "FlowEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "Flow";
+                    name?: string | null;
+                  } | null;
+                } | null;
+              } | null;
+              blocks?: Array<
+                | {
+                    __typename?: "ComponentBlocksImage";
+                    id: string;
+                    isDecorative?: boolean | null;
+                    altText?: string | null;
+                    picture?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          name: string;
+                          alternativeText?: string | null;
+                          caption?: string | null;
+                          width?: number | null;
+                          height?: number | null;
+                          formats?: any | null;
+                          hash: string;
+                          ext?: string | null;
+                          mime: string;
+                          size: number;
+                          url: string;
+                          previewUrl?: string | null;
+                          provider: string;
+                          provider_metadata?: any | null;
+                          createdAt?: any | null;
+                          updatedAt?: any | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: "ComponentBlocksSubHeading";
+                    id: string;
+                    subHeadingText?: string | null;
+                    subHeadingTag?: Enum_Componentblockssubheading_Subheadingtag | null;
+                  }
+                | {
+                    __typename?: "ComponentBlocksVideo";
+                    id: string;
+                    videoLink?: string | null;
+                    transcriptText?: string | null;
+                  }
+                | {
+                    __typename?: "ComponentBlocksWysiwyg";
+                    id: string;
+                    textEditor?: string | null;
+                  }
+                | {
+                    __typename?: "Error";
+                    code: string;
+                    message?: string | null;
+                  }
+                | null
+              > | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetMwcFlowsByContractIdQueryVariables = Exact<{
-  filters?: InputMaybe<MwcFlowFiltersInput>;
+  contractId: Scalars["ID"];
 }>;
 
 export type GetMwcFlowsByContractIdQuery = {
@@ -13998,9 +14073,25 @@ export type GetMwcFlowsByContractIdQuery = {
                 __typename?: "UploadFileEntityResponse";
                 data?: {
                   __typename?: "UploadFileEntity";
+                  id?: string | null;
                   attributes?: {
                     __typename?: "UploadFile";
                     name: string;
+                    alternativeText?: string | null;
+                    caption?: string | null;
+                    width?: number | null;
+                    height?: number | null;
+                    formats?: any | null;
+                    hash: string;
+                    ext?: string | null;
+                    mime: string;
+                    size: number;
+                    url: string;
+                    previewUrl?: string | null;
+                    provider: string;
+                    provider_metadata?: any | null;
+                    createdAt?: any | null;
+                    updatedAt?: any | null;
                   } | null;
                 } | null;
               } | null;
@@ -14029,10 +14120,12 @@ export type GetMwcFlowsByContractIdQuery = {
           __typename?: "FlowEntityResponse";
           data?: {
             __typename?: "FlowEntity";
+            id?: string | null;
             attributes?: {
               __typename?: "Flow";
               isActivated?: boolean | null;
               code?: string | null;
+              name?: string | null;
             } | null;
           } | null;
         } | null;
@@ -24960,50 +25053,7 @@ export const CreateMwcFlowDocument = gql`
   mutation createMwcFlow($data: MwcFlowInput!) {
     createMwcFlow(data: $data) {
       data {
-        attributes {
-          mwCounterService {
-            data {
-              id
-            }
-          }
-          blocks {
-            ... on ComponentBlocksSubHeading {
-              id
-              subHeadingText
-              subHeadingTag
-            }
-            ... on ComponentBlocksVideo {
-              id
-              videoLink
-              transcriptText
-            }
-            ... on ComponentBlocksWysiwyg {
-              id
-              textEditor
-            }
-            ... on ComponentBlocksImage {
-              id
-              picture {
-                data {
-                  attributes {
-                    name
-                  }
-                }
-              }
-              isDecorative
-              altText
-            }
-          }
-          flow {
-            data {
-              id
-            }
-          }
-          weightSystem
-          averageProductionPerson
-          createdAt
-          updatedAt
-        }
+        id
       }
     }
   }
@@ -25051,16 +25101,72 @@ export type CreateMwcFlowMutationOptions = Apollo.BaseMutationOptions<
   CreateMwcFlowMutation,
   CreateMwcFlowMutationVariables
 >;
+export const DeleteMwcFlowDocument = gql`
+  mutation deleteMwcFlow($deleteMwcFlowId: ID!) {
+    deleteMwcFlow(id: $deleteMwcFlowId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteMwcFlowMutationFn = Apollo.MutationFunction<
+  DeleteMwcFlowMutation,
+  DeleteMwcFlowMutationVariables
+>;
+
+/**
+ * __useDeleteMwcFlowMutation__
+ *
+ * To run a mutation, you first call `useDeleteMwcFlowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMwcFlowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMwcFlowMutation, { data, loading, error }] = useDeleteMwcFlowMutation({
+ *   variables: {
+ *      deleteMwcFlowId: // value for 'deleteMwcFlowId'
+ *   },
+ * });
+ */
+export function useDeleteMwcFlowMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteMwcFlowMutation,
+    DeleteMwcFlowMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteMwcFlowMutation,
+    DeleteMwcFlowMutationVariables
+  >(DeleteMwcFlowDocument, options);
+}
+export type DeleteMwcFlowMutationHookResult = ReturnType<
+  typeof useDeleteMwcFlowMutation
+>;
+export type DeleteMwcFlowMutationResult =
+  Apollo.MutationResult<DeleteMwcFlowMutation>;
+export type DeleteMwcFlowMutationOptions = Apollo.BaseMutationOptions<
+  DeleteMwcFlowMutation,
+  DeleteMwcFlowMutationVariables
+>;
 export const GetActivatedFlowsByContractIdDocument = gql`
-  query getActivatedFlowsByContractId($filters: FlowFiltersInput) {
-    flows(filters: $filters) {
+  query getActivatedFlowsByContractId($contractId: ID!) {
+    flows(
+      filters: {
+        contract: { id: { eq: $contractId } }
+        isActivated: { eq: true }
+        code: { in: ["OMR", "CS", "V", "PA", "DV"] }
+      }
+    ) {
       data {
         id
         attributes {
           name
-          isActivated
           code
-          createdAt
         }
       }
     }
@@ -25079,12 +25185,12 @@ export const GetActivatedFlowsByContractIdDocument = gql`
  * @example
  * const { data, loading, error } = useGetActivatedFlowsByContractIdQuery({
  *   variables: {
- *      filters: // value for 'filters'
+ *      contractId: // value for 'contractId'
  *   },
  * });
  */
 export function useGetActivatedFlowsByContractIdQuery(
-  baseOptions?: Apollo.QueryHookOptions<
+  baseOptions: Apollo.QueryHookOptions<
     GetActivatedFlowsByContractIdQuery,
     GetActivatedFlowsByContractIdQueryVariables
   >,
@@ -25306,6 +25412,74 @@ export type GetHasTipsQueryResult = Apollo.QueryResult<
   GetHasTipsQuery,
   GetHasTipsQueryVariables
 >;
+export const GetMwCounterServicesDocument = gql`
+  query getMwCounterServices($contractId: ID!) {
+    mwCounterServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          serviceName
+          contactEmail
+          phoneNumber
+          postalAddress
+          postalCode
+          city
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetMwCounterServicesQuery__
+ *
+ * To run a query within a React component, call `useGetMwCounterServicesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMwCounterServicesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMwCounterServicesQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetMwCounterServicesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetMwCounterServicesQuery,
+    GetMwCounterServicesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetMwCounterServicesQuery,
+    GetMwCounterServicesQueryVariables
+  >(GetMwCounterServicesDocument, options);
+}
+export function useGetMwCounterServicesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMwCounterServicesQuery,
+    GetMwCounterServicesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetMwCounterServicesQuery,
+    GetMwCounterServicesQueryVariables
+  >(GetMwCounterServicesDocument, options);
+}
+export type GetMwCounterServicesQueryHookResult = ReturnType<
+  typeof useGetMwCounterServicesQuery
+>;
+export type GetMwCounterServicesLazyQueryHookResult = ReturnType<
+  typeof useGetMwCounterServicesLazyQuery
+>;
+export type GetMwCounterServicesQueryResult = Apollo.QueryResult<
+  GetMwCounterServicesQuery,
+  GetMwCounterServicesQueryVariables
+>;
 export const GetMwcAverageProductionDocument = gql`
   query getMwcAverageProduction($contractId: ID) {
     getMwcAverageProduction(contractId: $contractId)
@@ -25362,9 +25536,138 @@ export type GetMwcAverageProductionQueryResult = Apollo.QueryResult<
   GetMwcAverageProductionQuery,
   GetMwcAverageProductionQueryVariables
 >;
+export const GetMwcFlowByFlowIdDocument = gql`
+  query getMwcFlowByFlowId($flowId: ID!) {
+    flow(id: $flowId) {
+      data {
+        id
+        attributes {
+          mwcFlow {
+            data {
+              id
+              attributes {
+                flow {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+                averageProductionPerson
+                weightSystem
+                blocks {
+                  ... on ComponentBlocksSubHeading {
+                    id
+                    subHeadingText
+                    subHeadingTag
+                  }
+                  ... on ComponentBlocksVideo {
+                    id
+                    videoLink
+                    transcriptText
+                  }
+                  ... on ComponentBlocksWysiwyg {
+                    id
+                    textEditor
+                  }
+                  ... on ComponentBlocksImage {
+                    id
+                    picture {
+                      data {
+                        id
+                        attributes {
+                          name
+                          alternativeText
+                          caption
+                          width
+                          height
+                          formats
+                          hash
+                          ext
+                          mime
+                          size
+                          url
+                          previewUrl
+                          provider
+                          provider_metadata
+                          createdAt
+                          updatedAt
+                        }
+                      }
+                    }
+                    isDecorative
+                    altText
+                  }
+                  ... on Error {
+                    code
+                    message
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetMwcFlowByFlowIdQuery__
+ *
+ * To run a query within a React component, call `useGetMwcFlowByFlowIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMwcFlowByFlowIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMwcFlowByFlowIdQuery({
+ *   variables: {
+ *      flowId: // value for 'flowId'
+ *   },
+ * });
+ */
+export function useGetMwcFlowByFlowIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetMwcFlowByFlowIdQuery,
+    GetMwcFlowByFlowIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetMwcFlowByFlowIdQuery,
+    GetMwcFlowByFlowIdQueryVariables
+  >(GetMwcFlowByFlowIdDocument, options);
+}
+export function useGetMwcFlowByFlowIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMwcFlowByFlowIdQuery,
+    GetMwcFlowByFlowIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetMwcFlowByFlowIdQuery,
+    GetMwcFlowByFlowIdQueryVariables
+  >(GetMwcFlowByFlowIdDocument, options);
+}
+export type GetMwcFlowByFlowIdQueryHookResult = ReturnType<
+  typeof useGetMwcFlowByFlowIdQuery
+>;
+export type GetMwcFlowByFlowIdLazyQueryHookResult = ReturnType<
+  typeof useGetMwcFlowByFlowIdLazyQuery
+>;
+export type GetMwcFlowByFlowIdQueryResult = Apollo.QueryResult<
+  GetMwcFlowByFlowIdQuery,
+  GetMwcFlowByFlowIdQueryVariables
+>;
 export const GetMwcFlowsByContractIdDocument = gql`
-  query getMwcFlowsByContractId($filters: MwcFlowFiltersInput) {
-    mwcFlows(filters: $filters) {
+  query getMwcFlowsByContractId($contractId: ID!) {
+    mwcFlows(
+      filters: { mwCounterService: { contract: { id: { eq: $contractId } } } }
+    ) {
       data {
         id
         attributes {
@@ -25389,8 +25692,24 @@ export const GetMwcFlowsByContractIdDocument = gql`
               id
               picture {
                 data {
+                  id
                   attributes {
                     name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    formats
+                    hash
+                    ext
+                    mime
+                    size
+                    url
+                    previewUrl
+                    provider
+                    provider_metadata
+                    createdAt
+                    updatedAt
                   }
                 }
               }
@@ -25404,9 +25723,11 @@ export const GetMwcFlowsByContractIdDocument = gql`
           }
           flow {
             data {
+              id
               attributes {
                 isActivated
                 code
+                name
               }
             }
           }
@@ -25428,12 +25749,12 @@ export const GetMwcFlowsByContractIdDocument = gql`
  * @example
  * const { data, loading, error } = useGetMwcFlowsByContractIdQuery({
  *   variables: {
- *      filters: // value for 'filters'
+ *      contractId: // value for 'contractId'
  *   },
  * });
  */
 export function useGetMwcFlowsByContractIdQuery(
-  baseOptions?: Apollo.QueryHookOptions<
+  baseOptions: Apollo.QueryHookOptions<
     GetMwcFlowsByContractIdQuery,
     GetMwcFlowsByContractIdQueryVariables
   >,

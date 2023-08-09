@@ -1,0 +1,7 @@
+mutation deleteMwcFlow($deleteMwcFlowId: ID!) {
+  deleteMwcFlow(id: $deleteMwcFlowId) {
+    data {
+      id
+    }
+  }
+}
