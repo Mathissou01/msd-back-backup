@@ -1,5 +1,6 @@
 import {
   GetAllFoldersHierarchyDocument,
+  GetAudiencesByContractIdDocument,
   GetTagsByContractIdDocument,
 } from "../src/graphql/codegen/generated-types";
 
@@ -241,6 +242,50 @@ export const defaultMockData = [
             pathId: "2",
           },
         ],
+      },
+    },
+  },
+  {
+    request: {
+      query: GetAudiencesByContractIdDocument,
+      variables: {
+        filters: {
+          contract: {
+            id: {
+              eq: "1",
+            },
+          },
+          isActive: { eq: true },
+        },
+      },
+    },
+    result: {
+      data: {
+        audiences: {
+          data: [
+            {
+              id: "1",
+              attributes: {
+                isActive: true,
+                type: "Particuliers",
+              },
+            },
+            {
+              id: "2",
+              attributes: {
+                isActive: true,
+                type: "Collectifs",
+              },
+            },
+            {
+              id: "3",
+              attributes: {
+                isActive: true,
+                type: "Professionnels",
+              },
+            },
+          ],
+        },
       },
     },
   },

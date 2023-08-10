@@ -2,6 +2,7 @@ import { TableColumn } from "react-data-table-component";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useGetContractsQuery } from "../graphql/codegen/generated-types";
 import { removeNulls } from "../lib/utilities";
 import { IDefaultTableRow } from "../lib/common-data-table";
@@ -55,6 +56,7 @@ export default function RootHomePage() {
   const { data, loading, error } = useGetContractsQuery();
 
   /* Local Data */
+  const router = useRouter();
   const [searchText, setSearchText] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const tableDataRef = useRef<Array<IContractTableRow>>();
@@ -112,6 +114,10 @@ export default function RootHomePage() {
 
   useEffect(() => {
     if (data) {
+      if (data.contracts?.data.length === 1) {
+        router.push(`/${data.contracts.data[0].id}/gestion/informations`);
+      }
+
       const tableData =
         data?.contracts?.data
           ?.map((contract) => {
@@ -139,7 +145,7 @@ export default function RootHomePage() {
       setTableData(tableData);
       tableDataRef.current = tableData;
     }
-  }, [data]);
+  }, [data, router]);
 
   useEffect(() => {
     if (tableDataRef.current) {

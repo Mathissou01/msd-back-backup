@@ -29,7 +29,7 @@ export const defaultMockData = [
                         data: {
                           id: "1",
                           attributes: {
-                            showBlock: true,
+                            showBlock: false,
                             subtitle: "Subtitle",
                             title: "Title",
                           },
