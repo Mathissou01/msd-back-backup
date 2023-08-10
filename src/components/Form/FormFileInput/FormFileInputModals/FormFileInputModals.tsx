@@ -1,5 +1,5 @@
 import { useContract } from "../../../../hooks/useContract";
-import { ILocalFile } from "../../../../lib/media";
+import { ILocalFile, TAcceptedMimeTypes } from "../../../../lib/media";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -9,8 +9,7 @@ import SelectingModal from "./SelectingModal/SelectingModal";
 interface IMediaBlockProps {
   modalRef: React.RefObject<CommonModalWrapperRef>;
   draggedFile?: ILocalFile;
-  mimeFilterContains?: string;
-  mimeFilterNotContains?: string;
+  acceptedMimeTypes?: Array<TAcceptedMimeTypes>;
   onResetDraggedFile: () => void;
   onSetFile: (file: ILocalFile) => void;
   onPathChange: (pathId: number, path: string) => void;
@@ -18,10 +17,9 @@ interface IMediaBlockProps {
 
 export default function FormFileInputModals({
   modalRef,
-  onResetDraggedFile,
   draggedFile,
-  mimeFilterContains,
-  mimeFilterNotContains,
+  acceptedMimeTypes,
+  onResetDraggedFile,
   onSetFile,
   onPathChange,
 }: IMediaBlockProps) {
@@ -50,8 +48,7 @@ export default function FormFileInputModals({
         <SelectingModal
           modalRef={modalRef}
           isButtonDirty={false}
-          mimeFilterContains={mimeFilterContains}
-          mimeFilterNotContains={mimeFilterNotContains}
+          acceptedMimeTypes={acceptedMimeTypes}
           onFinish={(file) => handleFileSelected(file)}
           onPathChange={onPathChange}
         />

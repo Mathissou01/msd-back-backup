@@ -34,7 +34,6 @@ export default function FileBlock({ blockName }: IFileBlockProps) {
       isRequired={false}
       validationLabel={labels.staticImageValidation}
       placeholder={labels.staticImagePlaceholder}
-      mimeFilterNotContains="image"
       acceptedMimeTypes={acceptedTypes}
     />
   );

@@ -155,7 +155,6 @@ export default function MemoTriTab() {
                 validationLabel={formLabels.staticImageValidation}
                 fileSizeLimitation={fileSizeLimitationOptions._20mb}
                 placeholder={formLabels.staticImagePlaceholder}
-                mimeFilterContains=""
               />
             </div>
 

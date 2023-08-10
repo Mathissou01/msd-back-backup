@@ -113,7 +113,7 @@ export default function DropOffMapStaticFields({
       </div>
       <div className="o-Form__Group">
         <FormDynamicBlocks
-          name={"downloadableFiles"}
+          name="downloadableFiles"
           blockConfigurations={dynamicFieldsOptions}
         />
       </div>

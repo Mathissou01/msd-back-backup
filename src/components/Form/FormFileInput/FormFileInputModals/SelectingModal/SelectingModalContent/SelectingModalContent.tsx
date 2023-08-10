@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllFoldersHierarchyQuery } from "../../../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../../../lib/utilities";
-import { ILocalFile } from "../../../../../../lib/media";
+import { ILocalFile, TAcceptedMimeTypes } from "../../../../../../lib/media";
 import { useContract } from "../../../../../../hooks/useContract";
 import MediaImportButton from "../../../../../Media/MediaImportButton/MediaImportButton";
 import TabHeader, {
@@ -13,8 +13,7 @@ import MediaCard from "../../../../../Media/MediaCard/MediaCard";
 import "./selecting-modal-content.scss";
 
 interface ISelectingModalContentProps {
-  mimeFilterContains?: string;
-  mimeFilterNotContains?: string;
+  acceptedMimeTypes?: Array<TAcceptedMimeTypes>;
   onPathChange?: (pathId: number, path: string) => void;
   selectedFile?: ILocalFile | null;
   setSelectedFile?: React.Dispatch<
@@ -23,8 +22,7 @@ interface ISelectingModalContentProps {
 }
 
 export default function SelectingModalContent({
-  mimeFilterContains,
-  mimeFilterNotContains,
+  acceptedMimeTypes,
   onPathChange,
   selectedFile,
   setSelectedFile,
@@ -97,8 +95,7 @@ export default function SelectingModalContent({
       <div className="c-SelectingModalContent__Content">
         {activeTab === 0 && (
           <CommonBibliothequeMedia
-            mimeFilterContains={mimeFilterContains}
-            mimeFilterNotContains={mimeFilterNotContains}
+            acceptedMimeTypes={acceptedMimeTypes}
             onSelectedFiles={(files) => files && setSelectedFile?.(files[0])}
             onPathChange={(pathId, path) => handlePathChange(pathId, path)}
             defaultSelectedFiles={selectedFile?.id ? [selectedFile.id] : []}

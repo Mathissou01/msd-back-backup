@@ -12,7 +12,12 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
-import { IFolder, ILocalFile, updateUploadedFile } from "../../../lib/media";
+import {
+  IFolder,
+  ILocalFile,
+  TAcceptedMimeTypes,
+  updateUploadedFile,
+} from "../../../lib/media";
 import { removeQuotesInString } from "../../../lib/utilities";
 import MediaBreadcrumb, {
   IMediaBreadcrumb,
@@ -29,8 +34,6 @@ import MediaCreateFolderButton from "../../Media/MediaCreateFolderButton/MediaCr
 import "./common-bibliotheque-media.scss";
 
 interface ICommonBibliothequeMediaProps {
-  mimeFilterContains?: string;
-  mimeFilterNotContains?: string;
   canSelectMultipleFiles?: boolean;
   onSelectedFiles?: (files?: Array<ILocalFile>) => void;
   onPathChange?: (pathId: number, path: string) => void;
@@ -38,11 +41,10 @@ interface ICommonBibliothequeMediaProps {
   defaultActivePath?: { pathId: number; path: string };
   style?: "modal";
   hasActionButton?: boolean;
+  acceptedMimeTypes?: Array<TAcceptedMimeTypes>;
 }
 
 export default function CommonBibliothequeMedia({
-  mimeFilterContains,
-  mimeFilterNotContains,
   onSelectedFiles,
   canSelectMultipleFiles = false,
   onPathChange,
@@ -50,6 +52,7 @@ export default function CommonBibliothequeMedia({
   defaultActivePath,
   style,
   hasActionButton = false,
+  acceptedMimeTypes,
 }: ICommonBibliothequeMediaProps) {
   /* Static Data */
   const formLabels = {
@@ -160,15 +163,20 @@ export default function CommonBibliothequeMedia({
           eq: activePathId,
         },
       },
-      mime: {
-        // TODO: works?
-        contains: mimeFilterContains,
-        notContains: mimeFilterNotContains,
-      },
     },
     sort: "mime:desc",
     pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
   };
+  if (
+    defaultQueryVariables.filters &&
+    acceptedMimeTypes &&
+    acceptedMimeTypes.length > 0
+  ) {
+    defaultQueryVariables.filters.mime = {
+      in: acceptedMimeTypes,
+    };
+  }
+
   const [currentPagination, setCurrentPagination] = useState({
     page: defaultPage,
     rowsPerPage: defaultRowsPerPage,

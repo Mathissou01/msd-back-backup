@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { TAcceptedMimeTypes } from "../../../lib/media";
 import CommonButton from "../CommonButton/CommonButton";
 import "./common-drag-drop-file.scss";
 
@@ -7,7 +6,6 @@ interface ICommonDragDropFileProps {
   handleDragOver: (event: { preventDefault: () => void }) => void;
   handleDrop: (event: React.DragEvent<HTMLFormElement>) => void;
   handleFileChange: (event: { target: HTMLInputElement }) => void;
-  acceptedTypes?: Array<TAcceptedMimeTypes>;
 }
 
 export default function CommonDragDropFile({

@@ -108,7 +108,6 @@ export default function EditorialStaticFields({
             placeholder={labels.staticImagePlaceholder}
             isRequired={true}
             acceptedMimeTypes={acceptedTypes}
-            mimeFilterContains="image"
             hasEcoConceptionMessage
             isPriority={true}
           />

@@ -205,7 +205,6 @@ export default function WasteFormStaticFields({
             validationLabel={labels.staticImageValidation}
             placeholder={labels.staticImagePlaceholder}
             acceptedMimeTypes={acceptedTypes}
-            mimeFilterContains="image"
           />
         )}
       </div>

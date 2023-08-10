@@ -44,8 +44,6 @@ interface IFormFileInputProps {
   placeholder?: string;
   isRequired?: boolean;
   acceptedMimeTypes?: Array<TAcceptedMimeTypes>;
-  mimeFilterContains?: string;
-  mimeFilterNotContains?: string;
   isPriority?: boolean;
 }
 
@@ -58,8 +56,6 @@ export default function FormFileInput({
   placeholder,
   isRequired = false,
   acceptedMimeTypes,
-  mimeFilterContains,
-  mimeFilterNotContains,
   isPriority = false,
 }: IFormFileInputProps) {
   /* Static Data */
@@ -82,12 +78,11 @@ export default function FormFileInput({
     const dataTransfer: DataTransfer | null = event.dataTransfer;
     if (dataTransfer !== null) {
       const file = dataTransfer.files[0];
-      if (
-        file.size < fileSizeLimitation &&
-        acceptedMimeTypes &&
-        isMimeType(file.type)
-      ) {
-        if (file.type.split("/")[0] === "image" && mimeFilterContains) {
+      if (file.size < fileSizeLimitation && isMimeType(file.type)) {
+        if (
+          file.type.split("/")[0] === "image" &&
+          (!acceptedMimeTypes || acceptedMimeTypes.indexOf(file.type) >= 0)
+        ) {
           const fr = new FileReader();
           fr.onload = function () {
             const img = new Image();
@@ -113,7 +108,7 @@ export default function FormFileInput({
           modalRef.current?.toggleModal(true);
         } else if (
           file.type.split("/")[0] !== "image" &&
-          mimeFilterNotContains
+          (!acceptedMimeTypes || acceptedMimeTypes.indexOf(file.type) >= 0)
         ) {
           setDraggedFile({
             name: file.name,
@@ -318,11 +313,10 @@ export default function FormFileInput({
               <FormFileInputModals
                 modalRef={modalRef}
                 draggedFile={draggedFile}
-                mimeFilterContains={mimeFilterContains}
-                mimeFilterNotContains={mimeFilterNotContains}
                 onResetDraggedFile={onResetDraggedFile}
                 onSetFile={handleSetFile}
                 onPathChange={handlePathChange}
+                acceptedMimeTypes={acceptedMimeTypes}
               />
             </>
           ) : (

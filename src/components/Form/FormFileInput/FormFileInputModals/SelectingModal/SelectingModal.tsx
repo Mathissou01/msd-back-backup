@@ -1,5 +1,5 @@
 import React, { RefObject, useState } from "react";
-import { ILocalFile } from "../../../../../lib/media";
+import { ILocalFile, TAcceptedMimeTypes } from "../../../../../lib/media";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import SelectingModalContent from "./SelectingModalContent/SelectingModalContent";
@@ -8,8 +8,7 @@ import "./selecting-modal.scss";
 interface ISelectingModalProps {
   modalRef: RefObject<CommonModalWrapperRef>;
   isButtonDirty: boolean;
-  mimeFilterContains?: string;
-  mimeFilterNotContains?: string;
+  acceptedMimeTypes?: Array<TAcceptedMimeTypes>;
   onFinish: (file?: ILocalFile) => void;
   onPathChange: (pathId: number, path: string) => void;
 }
@@ -17,8 +16,7 @@ interface ISelectingModalProps {
 export default function SelectingModal({
   modalRef,
   isButtonDirty,
-  mimeFilterContains,
-  mimeFilterNotContains,
+  acceptedMimeTypes,
   onFinish,
   onPathChange,
 }: ISelectingModalProps) {
@@ -33,8 +31,7 @@ export default function SelectingModal({
     <>
       <div className="c-SelectingModal__Title">{labels.modalTitle}</div>
       <SelectingModalContent
-        mimeFilterContains={mimeFilterContains}
-        mimeFilterNotContains={mimeFilterNotContains}
+        acceptedMimeTypes={acceptedMimeTypes}
         onPathChange={onPathChange}
         selectedFile={selectedFile}
         setSelectedFile={setSelectedFile}

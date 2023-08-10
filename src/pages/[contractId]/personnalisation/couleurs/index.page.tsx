@@ -249,7 +249,6 @@ export function PersonnalisationCouleursPage() {
                     validationLabel={labels.logoImageValidation}
                     acceptedMimeTypes={acceptedTypes}
                     placeholder={labels.logoImagePlaceholder}
-                    mimeFilterContains="image"
                   />
                 </div>
               </div>

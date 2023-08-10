@@ -42,7 +42,6 @@ export default function ImageBlock({ blockName }: IImageBlock) {
         isRequired={false}
         validationLabel={labels.staticImageValidation}
         placeholder={labels.staticImagePlaceholder}
-        mimeFilterContains="image"
         acceptedMimeTypes={acceptedTypes}
       />
       <FormCheckbox
