@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import {
+  ComponentBlocksRequestSlotsExceptions,
   Enum_Componentblockscommentary_Commentarystatus,
-  Enum_Componentblocksrequestslotsexceptions_Exceptiontype,
+  Enum_Requestslot_Slottype,
+  Scalars,
 } from "../graphql/codegen/generated-types";
 import { TBlockPictoStyles } from "./pictos";
 import { IUploadFileEntity } from "./media";
@@ -37,6 +39,7 @@ export type TDynamicFieldOption = Exclude<TBlocksDynamicZone, "Error">;
 export interface IDynamicFieldProps {
   minBlocks?: number;
   maxBlocks?: number;
+  canDeleteCondition?: (data: IFormBlock) => boolean;
 }
 
 export type TDynamicFieldConfiguration = {
@@ -252,35 +255,15 @@ export interface IBlocksCumbersome extends IPartialBlock {
   cumbersomeLimitMessage: string;
 }
 
-export interface ITimeSlot {
-  slot: string;
-  nbAppointments: number;
-}
-
-export interface ITimeSlots {
-  day: string;
-  slots: Array<ITimeSlot>;
-}
-
-export interface IExceptionSlot {
-  exceptionType: Enum_Componentblocksrequestslotsexceptions_Exceptiontype;
-  slotException: {
-    startDateFromQuery: string;
-    startDate: string;
-    endDateFromQuery: string;
-    endDate: string;
-    hasAppointmentSlots: boolean;
-    exceptionSlots?: Array<ITimeSlots>;
-  };
-}
-
 export interface IBlocksRequestSlotEntity extends IPartialBlock {
   __typename: "RequestSlotEntity";
+  slotType: Enum_Requestslot_Slottype;
   sectorizations?: Array<IFormSingleMultiselectOption>;
-  timeSlots?: Array<ITimeSlots>;
-  slotsExceptions?: Array<IExceptionSlot>;
+  timeSlots?: Scalars["JSON"];
+  slotsExceptions?: Array<ComponentBlocksRequestSlotsExceptions>;
   slotMessage?: string;
   noSlotMessage?: string;
+  hasOneActivatedRequestTaked?: boolean;
 }
 
 /* Methods */
@@ -455,6 +438,7 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         slotsExceptions: [],
         slotMessage: "",
         noSlotMessage: "",
+        hasOneActivatedRequestTaked: false,
       };
     }
     default: {

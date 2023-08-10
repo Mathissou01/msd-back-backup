@@ -4,7 +4,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useGetAudiencesByContractIdQuery } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
-import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
+import { CommonModalWrapperRef } from "../CommonModalWrapper/CommonModalWrapper";
 import { IFormSingleMultiselectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import CommonButton from "../CommonButton/CommonButton";
 import CommonFormErrorText from "../CommonFormErrorText/CommonFormErrorText";

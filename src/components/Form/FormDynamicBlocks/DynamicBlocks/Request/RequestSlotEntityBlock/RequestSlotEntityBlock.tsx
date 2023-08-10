@@ -1,20 +1,15 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { MultiValue } from "react-select";
-import { useMount } from "react-use";
 import { useFormContext } from "react-hook-form";
+import { useMount } from "react-use";
 import FormSingleMultiselect, {
   IFormSingleMultiselectOption,
 } from "../../../../FormSingleMultiselect/FormSingleMultiselect";
 import {
-  Enum_Componentblocksrequestslotsexceptions_Exceptiontype,
   useCreateSectorizationMutation,
   useGetSectorizationsByContractIdQuery,
 } from "../../../../../../graphql/codegen/generated-types";
-import {
-  IBlocksRequestSlotEntity,
-  IExceptionSlot,
-  ITimeSlots,
-} from "../../../../../../lib/dynamic-blocks";
+import { IBlocksRequestSlotEntity } from "../../../../../../lib/dynamic-blocks";
 import { removeNulls } from "../../../../../../lib/utilities";
 import { ISectorsTableRow } from "../../../../../../lib/sectors";
 import { useContract } from "../../../../../../hooks/useContract";
@@ -27,7 +22,7 @@ import CommonModalWrapper, {
 import SectorModal from "../../../../../Sector/SectorForm/SectorForm";
 import FormWysiwyg from "../../../../FormWysiwyg/FormWysiwyg";
 import { minimalWysiwygEditorOptions } from "../../../../FormWysiwyg/WysiwygEditor/WysiwygEditor";
-import RequestTimeSlot from "../../../../../Request/RequestTimeSlot/RequestTimeSlot";
+import RequestTimeSlotsAndExceptions from "./RequestTimeSlotsAndExceptions/RequestTimeSlotsAndExceptions";
 import "./request-slot-block.scss";
 
 interface IRequestSlotEntityBlockProps {
@@ -42,23 +37,40 @@ export default function RequestSlotEntityBlock({
   /* Static Data */
   const defaultTitle = "Nouvel encart créneaux par secteur(s)";
   const labels = {
+    hasOneActivatedRequestTakedWarning:
+      "La modification de cet encart Créneaux par secteur(s) est limitée car des créneaux sont réservés",
     sectorizations: "Secteur(s)",
     createSector: "Créer un secteur",
-    slots: "Créneaux *",
-    exception: "Exception",
-    from: "du",
-    to: "au",
-    closed: "Fermé",
-    modifySlots: "Modifier les créneaux",
+    timeSlotsAndExceptions: {
+      slots: "Créneaux",
+      exception: "Exception",
+      from: "du",
+      to: "au",
+      closed: "Fermé",
+      noSlots: "Aucun créneaux",
+      validationError: "Les créneaux ou exceptions sont invalides",
+      modifySlots: "Modifier les créneaux",
+      modalLabels: {
+        title: "Modifier les créneaux",
+        slotType: "Type de créneaux",
+        timeSlots: "Plages horaires",
+        addExceptionButton: "Ajouter une exception",
+        saveButton: "Enregistrer les créneaux",
+      },
+    },
     slotMessage: "Message affiché sous les créneaux",
     noSlotMessage: "Message affiché en cas d'absence de créneaux",
   };
-  const fieldNames: { [name: string]: keyof IBlocksRequestSlotEntity } = {
+  const fieldNames: {
+    [name: string]: keyof IBlocksRequestSlotEntity;
+  } = {
     sectorizations: "sectorizations",
+    slotType: "slotType",
     timeSlots: "timeSlots",
     slotsExceptions: "slotsExceptions",
     slotMessage: "slotMessage",
     noSlotMessage: "noSlotMessage",
+    hasOneActivatedRequestTaked: "hasOneActivatedRequestTaked",
   };
 
   /* Methods */
@@ -109,13 +121,8 @@ export default function RequestSlotEntityBlock({
   }
 
   /* Local Data */
-  const modalRef = useRef<CommonModalWrapperRef>();
+  const modalRef = useRef<CommonModalWrapperRef>(null);
   const { contractId } = useContract();
-  const blockId = blockName.split(".")[1];
-  const [timeSlots, setTimeSlots] = useState<Array<ITimeSlots>>([]);
-  const [exceptionSlots, setExceptionSlots] = useState<Array<IExceptionSlot>>(
-    [],
-  );
   const { data, loading, error } = useGetSectorizationsByContractIdQuery({
     variables: { contractId },
   });
@@ -145,20 +152,24 @@ export default function RequestSlotEntityBlock({
         }
       })
       .filter(removeNulls) ?? [];
+  const hasOneActivatedRequestTaked = getValues(
+    `${blockName}.${fieldNames.hasOneActivatedRequestTaked}`,
+  );
   const isLoading = loading || !sectorizationOptions || createLoading;
   const errors = [error, createError];
 
   useMount(() => {
     const values = getValues(sectorizationsFieldName);
     values?.length > 0 ? onSectorsChange(values) : onChangeTitle(defaultTitle);
-    const slots: Array<IBlocksRequestSlotEntity> = getValues("requestSlots");
-    const slot = slots.find((_, slotIndex) => slotIndex === +blockId);
-    setTimeSlots(slot?.timeSlots ?? []);
-    setExceptionSlots(slot?.slotsExceptions ?? []);
   });
 
   return (
     <div className="c-RequestSlotEntityBlock">
+      {hasOneActivatedRequestTaked && (
+        <span className="c-RequestSlotEntityBlock__Warning">
+          {labels.hasOneActivatedRequestTakedWarning}
+        </span>
+      )}
       <div>
         <CommonLoader isLoading={isLoading} errors={errors}>
           <FormSingleMultiselect
@@ -167,65 +178,26 @@ export default function RequestSlotEntityBlock({
             options={sectorizationOptions}
             isMulti
             isRequired
+            isDisabled={hasOneActivatedRequestTaked}
             onSelectChange={onSectorsChange}
           />
           <div className="c-RequestSlotEntityBlock__CreateButton">
             <CommonButton
               label={labels.createSector}
               onClick={() => modalRef.current?.toggleModal()}
+              isDisabled={hasOneActivatedRequestTaked}
             />
           </div>
         </CommonLoader>
       </div>
-      {timeSlots.length > 0 && (
-        <div className="c-RequestSlotEntityBlock__Slots">
-          <span className="c-RequestSlotEntityBlock__Slots_label">
-            {labels.slots}
-          </span>
-          <div className="c-RequestSlotEntityBlock__Slots_timeSlots">
-            {timeSlots.map((timeSlot, index) => {
-              return <RequestTimeSlot key={index} timeSlot={timeSlot} />;
-            })}
-          </div>
-        </div>
-      )}
-      {exceptionSlots.length > 0 && (
-        <>
-          {exceptionSlots.map((exceptionSlot, index) => (
-            <div
-              key={index}
-              className="c-RequestSlotEntityBlock__ExceptionSlots"
-            >
-              <>
-                <span className="c-RequestSlotEntityBlock__ExceptionSlots_label">
-                  {labels.exception}
-                </span>
-                <span className="c-RequestSlotEntityBlock__ExceptionSlots_date">
-                  {exceptionSlot.exceptionType ===
-                  Enum_Componentblocksrequestslotsexceptions_Exceptiontype.DateRange
-                    ? `${labels.from} ${exceptionSlot.slotException.startDate} ${labels.to} ${exceptionSlot.slotException.endDate}`
-                    : exceptionSlot.slotException.startDate}
-                </span>
-              </>
-              <div className="c-RequestSlotEntityBlock__Slots_timeSlots">
-                {exceptionSlot.slotException.hasAppointmentSlots &&
-                exceptionSlot.slotException.exceptionSlots &&
-                exceptionSlot.slotException.exceptionSlots.length > 0 ? (
-                  exceptionSlot.slotException.exceptionSlots.map(
-                    (timeSlot, index) => {
-                      return (
-                        <RequestTimeSlot key={index} timeSlot={timeSlot} />
-                      );
-                    },
-                  )
-                ) : (
-                  <span>{labels.closed}</span>
-                )}
-              </div>
-            </div>
-          ))}
-        </>
-      )}
+      <RequestTimeSlotsAndExceptions
+        modalName={`${blockName}.timeSlotsAndExceptionsModal`}
+        slotTypeName={`${blockName}.${fieldNames.slotType}`}
+        timeSlotsName={`${blockName}.${fieldNames.timeSlots}`}
+        exceptionsName={`${blockName}.${fieldNames.slotsExceptions}`}
+        hasOneActivatedRequestTaked={hasOneActivatedRequestTaked}
+        labels={labels.timeSlotsAndExceptions}
+      />
       <FormWysiwyg
         name={`${blockName}.${fieldNames.slotMessage}`}
         label={labels.slotMessage}

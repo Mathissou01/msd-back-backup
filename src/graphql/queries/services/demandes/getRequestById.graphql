@@ -94,6 +94,7 @@ query getRequestById($requestId: ID) {
           data {
             id
             attributes {
+              slotType
               sectorizations {
                 data {
                   id
@@ -112,6 +113,15 @@ query getRequestById($requestId: ID) {
               }
               slotMessage
               noSlotMessage
+              requestTakeds {
+                data {
+                  id
+                  attributes {
+                    name
+                    isActivated
+                  }
+                }
+              }
             }
           }
         }

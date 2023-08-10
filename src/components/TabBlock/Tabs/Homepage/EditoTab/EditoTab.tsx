@@ -11,7 +11,6 @@ import {
 import {
   comparePropertyValueByPriority,
   formatDate,
-  removeNulls,
 } from "../../../../../lib/utilities";
 import { extractEditoBlock } from "../../../../../lib/graphql-data";
 import { TEditorialContentTypes } from "../../../../../lib/editorial";
@@ -41,7 +40,9 @@ interface IEditoTabProps {
 }
 
 interface IEditoContentsModalFields {
-  editoContentsSelect: EditoContentDto;
+  editoContentsSelect_0: EditoContentDto;
+  editoContentsSelect_1: EditoContentDto;
+  editoContentsSelect_2: EditoContentDto;
 }
 export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
   /* Static Data */
@@ -59,7 +60,7 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
 
   /* Methods */
   function editoContentsDisplayTransformFunction(
-    editoContent: Array<EditoContentDto | undefined>,
+    editoContent?: Array<EditoContentDto>,
   ): ReactNode {
     return editoContent?.map((editoContent, index) => {
       if (editoContent && editoContent.id) {
@@ -74,18 +75,20 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
     });
   }
 
+  function onContentModalSubmit(submitData: IEditoContentsModalFields) {
+    return [
+      submitData.editoContentsSelect_0,
+      submitData.editoContentsSelect_1,
+      submitData.editoContentsSelect_2,
+    ];
+  }
+
   function editoContentSelectDisplayTransformFunction(
     editoContent: EditoContentDto,
   ): string {
     return `${editoContent.attributes?.title} - ${formatDate(
       parseJSON(editoContent.attributes?.publishedDate),
     )}`;
-  }
-
-  function onContentModalSubmit(submitData: IEditoContentsModalFields) {
-    const contents = Object.values(submitData)?.filter(removeNulls);
-    // setValue("editoContents", contents, { shouldDirty: true });
-    return contents;
   }
 
   async function onSubmitValid(submitData: FieldValues) {

@@ -245,7 +245,7 @@ export default function RequestAggregate() {
     [],
   );
   const tableDataRef = useRef<Array<IRequestAggregateTableRow>>(tableData);
-  const modalRef = useRef<CommonModalWrapperRef>();
+  const modalRef = useRef<CommonModalWrapperRef>(null);
   const [pageData, setPageData] = useState<
     GetRequestAggregatesByContractIdQuery | undefined
   >(data);

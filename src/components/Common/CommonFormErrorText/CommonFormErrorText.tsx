@@ -11,7 +11,7 @@ export default function CommonFormErrorText({
   errorId,
 }: ICommonFormErrorTextProps) {
   return (
-    <em className="c-CommonFormErrorText" role="alert" id={errorId}>
+    <em className="c-CommonFormErrorText u-ErrorText" role="alert" id={errorId}>
       {message}
     </em>
   );

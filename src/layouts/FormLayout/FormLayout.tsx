@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { FieldValues } from "react-hook-form/dist/types/fields";
+import { FieldErrors } from "react-hook-form/dist/types/errors";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
 import { ReactNode, useEffect, useState } from "react";
 import { removeNulls } from "../../lib/utilities";
@@ -18,7 +19,7 @@ export interface IFormlayoutOptions<Fields> {
 interface IFormLayoutProps<Fields> {
   buttonContent: ReactNode;
   formContent?: ReactNode;
-  tabs?: IFormLayoutTab[];
+  tabs?: Array<IFormLayoutTab>;
   defaultTab?: number;
   sidebarContent?: ReactNode;
   formOptions: IFormlayoutOptions<Fields>;
@@ -39,29 +40,24 @@ export default function FormLayout<Fields extends FieldValues>({
     setCanFocus(true);
   }
 
-  /* Local Data */
-  const form = useForm<Fields>({
-    mode: "onChange",
-    // TODO: strange typing error where <Fields> seems unassignable to <DeepPartial<Fields>> ?
-    defaultValues: formOptions.defaultValues as DefaultValues<Fields>,
-    shouldFocusError: false,
-  });
-  useLeavePageConfirm(form.formState.isDirty);
-  const [canFocus, setCanFocus] = useState(false);
-  const [tabsInError, setTabsInError] = useState<Array<number>>([]);
-  const [activeTab, setActiveTab] = useState<number>(defaultTab);
-  const { handleSubmit, reset } = form;
-  const sidebar = <div className="c-FormLayout__SideBar">{sidebarContent}</div>;
-
-  if (formOptions.nestedFieldsToFocus && form.formState.errors && canFocus) {
-    const errors = form.formState.errors;
+  function getHtmlElementsFromErrors(errors: FieldErrors): Array<HTMLElement> {
     const errorsKeys = Object.keys(errors);
-    let elements: Array<HTMLElement> = [];
-    // Get all HTMLElement corresponding to each form errors
+    let htmlElements: Array<HTMLElement> = [];
     if (errorsKeys.length > 0) {
-      elements = errorsKeys
+      htmlElements = errorsKeys
         .map((name) => {
-          if (formOptions.nestedFieldsToFocus?.includes(name) && errors[name]) {
+          const blockError = errors[name];
+          if (
+            blockError &&
+            "message" in blockError &&
+            "type" in blockError &&
+            "ref" in blockError
+          ) {
+            return document.getElementById(name);
+          } else if (
+            formOptions.nestedFieldsToFocus?.includes(name) &&
+            errors[name]
+          ) {
             const blocksErrors = { ...errors[name] };
             return Object.keys(blocksErrors)
               .map((block) => {
@@ -84,9 +80,17 @@ export default function FormLayout<Fields extends FieldValues>({
         .flat()
         .filter(removeNulls);
     }
-    // Sort errors into corresponding tabs, set tabsInError
+    return htmlElements;
+  }
+
+  function setTabsInErrorFromErrors(
+    errors: FieldErrors,
+    tabs?: Array<IFormLayoutTab>,
+  ): Array<number> {
+    const errorsKeys = Object.keys(errors);
     const tabsContainingError: Array<number> = [];
-    if (tabs) {
+    if (tabs && errorsKeys.length > 0) {
+      // Sort errors into corresponding tabs
       errorsKeys.forEach((errorsKey) => {
         tabs.forEach((tab, tabIndex) => {
           if (
@@ -97,55 +101,96 @@ export default function FormLayout<Fields extends FieldValues>({
           }
         });
       });
+      // Set tabsInError if value is different
       if (
         JSON.stringify(tabsContainingError.sort()) !==
         JSON.stringify(tabsInError.sort())
       ) {
         setTabsInError(tabsContainingError);
       }
+    } else if (errorsKeys.length === 0 && tabsInError.length > 0) {
+      setTabsInError([]);
     }
-    // If tabs, keep only elements inside active tab
-    if (tabs && tabsContainingError.includes(activeTab)) {
-      const newElements = [...elements];
-      const activeTabData = tabs.filter(
-        (_, tabIndex) => tabIndex === activeTab,
-      )[0];
-      const fieldsIndexesToRemove: Array<number> = [];
-      elements.forEach((element, elementIndex) => {
-        const fieldMustBeRemoved = activeTabData.fieldsToFocus.every(
-          (fieldToFocus) => {
-            return !element.id.includes(fieldToFocus);
-          },
-        );
-        if (fieldMustBeRemoved) {
-          fieldsIndexesToRemove.push(elementIndex);
-        }
-      });
-      fieldsIndexesToRemove.forEach((fieldsIndexToRemove) => {
-        delete newElements[fieldsIndexToRemove];
-      });
-      elements = newElements;
+    return tabsContainingError;
+  }
+
+  function keepOnlyElementsFromActiveTab(
+    elements: Array<HTMLElement>,
+    tabsContainingError: Array<number>,
+  ) {
+    const newElements = [...elements];
+    if (tabsContainingError.length > 0) {
+      // If activeTab contains errors, keep only elements inside active tab
+      if (tabsContainingError.includes(activeTab)) {
+        const activeTabData = tabs?.filter(
+          (_, tabIndex) => tabIndex === activeTab,
+        )[0];
+        const fieldsIndexesToRemove: Array<number> = [];
+        elements.forEach((element, elementIndex) => {
+          const fieldMustBeRemoved = activeTabData?.fieldsToFocus.every(
+            (fieldToFocus) => {
+              return !element.id.includes(fieldToFocus);
+            },
+          );
+          if (fieldMustBeRemoved) {
+            fieldsIndexesToRemove.push(elementIndex);
+          }
+        });
+        fieldsIndexesToRemove.forEach((fieldsIndexToRemove) => {
+          delete newElements[fieldsIndexToRemove];
+        });
+      } else if (!tabsContainingError.includes(activeTab)) {
+        // If not, switch to first tab containing errors
+        setActiveTab(tabsContainingError[0]);
+      }
     }
-    // Sort elements by highest to lowest in page, scroll first element in view
+    return newElements.filter(removeNulls);
+  }
+
+  function scrollAndFocusErrorElement(elements: Array<HTMLElement>) {
     if (elements.length > 0) {
-      elements.sort(
-        (a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top,
-      );
-      const errorElement = elements[0];
+      // Sort elements by highest to lowest in page
       setTimeout(() => {
+        elements.sort(
+          (a, b) =>
+            a.getBoundingClientRect().top - b.getBoundingClientRect().top,
+        );
+        // scroll first element in view
+        const errorElement = elements[0];
         errorElement.focus({ preventScroll: true });
         errorElement.scrollIntoView({
           behavior: "smooth",
           block: "center",
         });
       }, 100);
-      setCanFocus(false);
     }
-  } else if (
-    Object.keys(form.formState.errors).length === 0 &&
-    tabsInError.length > 0
-  ) {
-    setTabsInError([]);
+  }
+
+  /* Local Data */
+  const form = useForm<Fields>({
+    mode: "onChange",
+    // TODO: strange typing error where <Fields> seems unassignable to <DeepPartial<Fields>> ?
+    defaultValues: formOptions.defaultValues as DefaultValues<Fields>,
+    shouldFocusError: false,
+  });
+  useLeavePageConfirm(form.formState.isDirty);
+  const [canFocus, setCanFocus] = useState(false);
+  const [activeTab, setActiveTab] = useState(
+    tabs?.[defaultTab].isEnabled
+      ? defaultTab
+      : tabs?.some((tab) => tab.isEnabled)
+      ? tabs?.findIndex((tab) => tab.isEnabled)
+      : 0,
+  );
+  const [tabsInError, setTabsInError] = useState<Array<number>>([]);
+  const { handleSubmit, reset } = form;
+  const errors = form.formState.errors;
+  const tabsContainingError = setTabsInErrorFromErrors(errors, tabs);
+  if (Object.keys(errors).length > 0 && canFocus) {
+    let elements = getHtmlElementsFromErrors(errors);
+    elements = keepOnlyElementsFromActiveTab(elements, tabsContainingError);
+    scrollAndFocusErrorElement(elements);
+    setCanFocus(false);
   }
 
   useEffect(() => {
@@ -162,22 +207,21 @@ export default function FormLayout<Fields extends FieldValues>({
           <div className="c-FormLayout__ReturnButton">{returnButton}</div>
           <div className="c-FormLayout__Buttons">{buttonContent}</div>
           <div className="c-FormLayout__Form">
-            {/* TODO: maybe rework tabs implementation */}
             {tabs && defaultTab !== undefined && (
               <>
                 <FormLayoutTabBlock
                   tabs={tabs}
-                  initialTabName={tabs[defaultTab].name}
-                  formSidebar={sidebar}
+                  activeTab={activeTab}
+                  sidebarContent={sidebarContent}
                   tabsInError={tabsInError}
-                  onTabChange={(tabIndex: number) => setActiveTab(tabIndex)}
+                  onTabChange={(i) => setActiveTab(i)}
                 />
               </>
             )}
             {!tabs && (
               <>
                 <div className="c-FormLayout__Content">{formContent}</div>
-                {sidebar}
+                <div className="c-FormLayout__SideBar">{sidebarContent}</div>
               </>
             )}
           </div>

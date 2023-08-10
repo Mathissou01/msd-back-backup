@@ -32,6 +32,9 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
         Tip: {
           merge: true,
         },
+        FreeContent: {
+          merge: true,
+        },
         RecyclingGuideService: {
           merge: true,
         },
@@ -56,10 +59,16 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
         RequestAggregate: {
           merge: true,
         },
+        RequestSlot: {
+          merge: true,
+        },
         CollectVoluntary: {
           merge: true,
         },
         Sectorization: {
+          merge: true,
+        },
+        Audience: {
           merge: true,
         },
       },

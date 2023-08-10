@@ -30,13 +30,19 @@ interface IFormFlipperProps {
   formLabels: IFormLabels;
   onModalClose: (i: number) => void;
   onModalSubmit: (
-    submitData: { [key: string]: Record<string, unknown> },
+    submitData: {
+      [key: string]: Record<string, unknown>;
+    },
     modalName: string,
     i: number,
   ) => void;
-  modalPictoDisplayTransformFunction: (picto: Partial<ILocalFile>) => ReactNode;
+  modalPictoDisplayTransformFunction: (
+    picto?: Partial<ILocalFile>,
+  ) => ReactNode;
   onPictoModalSubmit: (
-    submitData: { picto_select: ILocalFile },
+    submitData: {
+      picto_select: ILocalFile;
+    },
     modalName: string,
     i: number,
   ) => ILocalFile;
@@ -89,7 +95,9 @@ export default function FormServiceLinksList({
               />
             </li>
           </Flipped>
-          <FormModal<{ [key: string]: Record<string, unknown> }>
+          <FormModal<{
+            [key: string]: Record<string, unknown>;
+          }>
             modalRef={getRef(index)}
             modalTitle={formLabels.modalTitle}
             modalSubtitle={link.name}
@@ -113,7 +121,12 @@ export default function FormServiceLinksList({
                 defaultValue={link.externalLink}
               />
             )}
-            <FormModalButtonInput<ILocalFile, { picto_select: ILocalFile }>
+            <FormModalButtonInput<
+              ILocalFile,
+              {
+                picto_select: ILocalFile;
+              }
+            >
               name={`modal_${index}.picto`}
               label={formLabels.pictoLabel}
               buttonLabel={formLabels.pictoButton}

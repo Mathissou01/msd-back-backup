@@ -18,11 +18,11 @@ interface IFormModalButtonInputProps<InputType, FormType> {
   secondaryLabel?: string;
   buttonLabel: string;
   isStyleRow?: boolean;
-  displayTransform: (data: InputType) => ReactNode;
+  displayTransform: (data?: InputType) => ReactNode;
   defaultValue?: Partial<InputType> | null;
   isRequired?: boolean;
   isDisabled?: boolean;
-  onValidate?: Validate<string, FieldValues>;
+  onValidate?: Validate<InputType, FieldValues>;
   modalTitle?: string;
   modalSubtitle?: string;
   modalHasRequiredChildren?: "some" | "all" | null;
@@ -90,7 +90,7 @@ export default function FormModalButtonInput<
     <>
       <div className="c-FormModalButtonInput" data-testid="form-modal-input">
         <FormLabel
-          forId={`${name}_button`}
+          forId={name}
           label={label}
           isRequired={isRequired}
           secondaryLabel={secondaryLabel}
@@ -103,16 +103,12 @@ export default function FormModalButtonInput<
           type="hidden"
           disabled={true}
         />
-
         <div
           className={classNames("c-FormModalButtonInput__Container", {
             "c-FormModalButtonInput__Container_row": isStyleRow,
           })}
         >
           {displayTransform(currentParentValues)}
-          {/* {isTruthyObjectOrArray(currentParentValues)
-            ? displayTransform(currentParentValues)
-            : "/images/pictos/default.svg"} */}
           <div
             aria-invalid={!!_.get(errors, name)}
             aria-errormessage={`${name}_error`}
@@ -121,7 +117,7 @@ export default function FormModalButtonInput<
               label={buttonLabel}
               onClick={() => childRef.current?.toggleModal(true)}
               isDisabled={isSubmitting || isDisabled}
-              formLabelId={`${name}_button`}
+              formLabelId={name}
               buttonRef={buttonRef}
             />
           </div>

@@ -3,7 +3,7 @@
 exports[`CommonFormErrorText renders 1`] = `
 <div>
   <em
-    class="c-CommonFormErrorText"
+    class="c-CommonFormErrorText u-ErrorText"
     id="error-1"
     role="alert"
   >

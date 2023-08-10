@@ -2,44 +2,67 @@ import React from "react";
 import fr from "date-fns/locale/fr";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, FieldValues, useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { TWeekDayName, weekDays } from "../../../lib/time";
 import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
-import { TimeDatePicker } from "./TimeDatePicker/TimeDatePicker";
+import TimeDatePicker from "./TimeDatePicker/TimeDatePicker";
 import "./form-opening-hours.scss";
 
 registerLocale("fr", fr);
 
-interface IOpeningHourBlock {
+const defaultOpeningHours: Array<IOpeningHourBlock> = weekDays.map((day) => ({
+  __typename: "ComponentBlocksOpeningDay",
+  weekDay: day.name,
+  morningStart: null,
+  morningEnd: null,
+  afternoonStart: null,
+  afternoonEnd: null,
+}));
+
+type TOpeningHoursDateFields =
+  | "morningStart"
+  | "morningEnd"
+  | "afternoonStart"
+  | "afternoonEnd";
+
+export interface IOpeningHourBlock {
   __typename: "ComponentBlocksOpeningDay";
-  weekDay: string;
+  weekDay: TWeekDayName;
   morningStart: string | null;
   morningEnd: string | null;
-  afterNoonStart: string | null;
-  afterNoonEnd: string | null;
+  morningSlots?: number;
+  afternoonStart: string | null;
+  afternoonEnd: string | null;
+  afternoonSlots?: number;
 }
 
-export const FormOpeningHours = () => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
+interface IFormOpeningHoursProps {
+  name: string;
+  defaultValue?: Array<IOpeningHourBlock>;
+  titleLabel?: string;
+}
 
+export default function FormOpeningHours({
+  name,
+  defaultValue = defaultOpeningHours,
+  titleLabel,
+}: IFormOpeningHoursProps) {
   /* Static Data */
-  const title = "Horaires d’ouverture";
-  const shortDescription = `Format attendu : 00h00
-Exemple : 08h00 - 12h00
-14h00 - 17h00 Laisser vides les jours fermés. S’il n’y a pas de pause méridienne, veuillez remplir uniquement les deux premières cases.`;
-
-  const weekdays = [
-    "Lundi",
-    "Mardi",
-    "Mercredi",
-    "Jeudi",
-    "Vendredi",
-    "Samedi",
-    "Dimanche",
-  ];
+  const title = titleLabel ?? "Horaires d’ouverture";
+  const descriptions = {
+    format: `Format attendu : 00h00`,
+    example: `Exemple : 08h00 - 12h00   14h00 - 17h00`,
+    instructions: `Laisser vides les jours fermés. S’il n’y a pas de pause méridienne, veuillez remplir uniquement les deux premières cases.`,
+  };
+  const minMorning = new Date();
+  minMorning.setHours(0, 0);
+  const maxMorning = new Date();
+  maxMorning.setHours(12, 0);
+  const minAfternoon = new Date();
+  minAfternoon.setHours(12, 0);
+  const maxAfternoon = new Date();
+  maxAfternoon.setHours(23, 59);
 
   /* Methods */
   const timeStrToDate = (timeStr: string | null): Date | null => {
@@ -60,23 +83,20 @@ Exemple : 08h00 - 12h00
     return `${hours}:${minutes}:${seconds}.${milliseconds}`;
   };
 
-  const validateOpeningHours = (value: IOpeningHourBlock[]) => {
+  const validateWeeklyHours = (value: IOpeningHourBlock[]) => {
     for (let i = 0; i < value.length; i++) {
       const block = value[i];
 
       if (block.morningStart && !block.morningEnd) {
         return `Dans la matinée du ${block.weekDay}, l'heure de fin est manquante.`;
       }
-
       if (!block.morningStart && block.morningEnd) {
         return `Dans la matinée du ${block.weekDay}, l'heure de début est manquante.`;
       }
-
-      if (block.afterNoonStart && !block.afterNoonEnd) {
+      if (block.afternoonStart && !block.afternoonEnd) {
         return `Dans l'après-midi du ${block.weekDay}, l'heure de fin est manquante.`;
       }
-
-      if (!block.afterNoonStart && block.afterNoonEnd) {
+      if (!block.afternoonStart && block.afternoonEnd) {
         return `Dans l'après-midi du ${block.weekDay}, l'heure de début est manquante.`;
       }
 
@@ -91,12 +111,11 @@ Exemple : 08h00 - 12h00
       ) {
         return `Dans la matinée du ${block.weekDay}, l'heure de fin doit être après l'heure de début.`;
       }
-
-      const afternoonStart = timeStrToDate(block.afterNoonStart);
-      const afternoonEnd = timeStrToDate(block.afterNoonEnd);
+      const afternoonStart = timeStrToDate(block.afternoonStart);
+      const afternoonEnd = timeStrToDate(block.afternoonEnd);
       if (
-        block.afterNoonStart &&
-        block.afterNoonEnd &&
+        block.afternoonStart &&
+        block.afternoonEnd &&
         afternoonStart &&
         afternoonEnd &&
         afternoonStart >= afternoonEnd
@@ -105,7 +124,7 @@ Exemple : 08h00 - 12h00
       }
       if (
         block.morningEnd &&
-        block.afterNoonStart &&
+        block.afternoonStart &&
         morningEnd &&
         afternoonStart &&
         morningEnd > afternoonStart
@@ -116,120 +135,131 @@ Exemple : 08h00 - 12h00
     return true;
   };
 
-  const defaultOpeningHours = weekdays.map((day) => ({
-    __typename: "ComponentBlocksOpeningDay",
-    weekDay: day,
-    morningStart: null,
-    morningEnd: null,
-    afterNoonStart: null,
-    afterNoonEnd: null,
-  }));
+  function getBlock(value: FieldValues, weekday: TWeekDayName) {
+    const blockIndex = value.findIndex(
+      (block: IOpeningHourBlock) => block.weekDay === weekday,
+    );
+    let block: IOpeningHourBlock;
+    if (blockIndex >= 0) {
+      block = value[blockIndex];
+    } else {
+      block = {
+        __typename: "ComponentBlocksOpeningDay",
+        weekDay: weekday,
+        morningStart: null,
+        morningEnd: null,
+        afternoonStart: null,
+        afternoonEnd: null,
+      };
+      value.push(block);
+    }
+    return { blockIndex, block };
+  }
 
-  const dayStart = new Date();
-  dayStart.setHours(0, 0);
-  const morningEnd = new Date();
-  morningEnd.setHours(12, 0);
-  const afternoonStart = new Date();
-  afternoonStart.setHours(12, 0);
-  const dayEnd = new Date();
-  dayEnd.setHours(23, 59);
+  function updateBlockDate(
+    index: number,
+    fieldName: TOpeningHoursDateFields,
+    newValue: Date | null,
+  ): Array<IOpeningHourBlock> {
+    const updatedBlocks: Array<IOpeningHourBlock> = [...getValues(name)];
+    updatedBlocks[index][fieldName] = dateToTimeStr(newValue);
+    return updatedBlocks;
+  }
+
+  /* Local Data */
+  const {
+    control,
+    formState: { errors },
+    getValues,
+  } = useFormContext();
 
   return (
     <div className="c-FormOpeningHours">
-      <h3 className="c-FormOpeningHours__Title">{title}</h3>
-      <span className="c-FormOpeningHours__Description">
-        {shortDescription}
-      </span>
+      <div className="c-FormOpeningHours__Infos">
+        <div className="c-FormOpeningHours__Title">{title}</div>
+        <p className="c-FormOpeningHours__Description">
+          <span>{descriptions.format}</span>
+          <span>{descriptions.example}</span>
+          <span>{descriptions.instructions}</span>
+        </p>
+      </div>
       <Controller
-        name="openingHoursBlocks"
+        name={name}
         control={control}
         rules={{
-          validate: validateOpeningHours,
+          validate: validateWeeklyHours,
         }}
-        defaultValue={defaultOpeningHours}
+        defaultValue={defaultValue}
         render={({ field: { value, onChange } }) => (
-          <div>
-            {weekdays.map((weekday, i) => {
-              const blockIndex = value.findIndex(
-                (block: IOpeningHourBlock) => block.weekDay === weekday,
-              );
-              let block: IOpeningHourBlock;
-              if (blockIndex >= 0) {
-                block = value[blockIndex];
-              } else {
-                block = {
-                  __typename: "ComponentBlocksOpeningDay",
-                  weekDay: weekday,
-                  morningStart: null,
-                  morningEnd: null,
-                  afterNoonStart: null,
-                  afterNoonEnd: null,
-                };
-                value.push(block);
-              }
-
+          <div className="c-FormOpeningHours__Hours">
+            {weekDays.map((weekday, i) => {
+              const { blockIndex, block } = getBlock(value, weekday.name);
               return (
-                <div className="c-FormOpeningHours__Container" key={i}>
+                <div className="c-FormOpeningHours__Line" key={i}>
                   <label
-                    className="c-FormOpeningHours__Label"
-                    htmlFor="appt-time"
+                    className="c-FormOpeningHours__LineLabel"
+                    htmlFor={`${weekday}-0`}
                   >
-                    {weekday}
+                    {weekday.name}
                   </label>
                   <div className="c-FormOpeningHours__TimeBlock">
                     <div className="c-FormOpeningHours__TimeSection">
                       <div className="c-FormOpeningHours__DatepickerWrapper">
                         <TimeDatePicker
+                          id={`${weekday}-morningStart`}
                           selected={timeStrToDate(block.morningStart)}
                           onChange={(date) => {
-                            const updatedBlocks = [...value];
-                            updatedBlocks[blockIndex].morningStart =
-                              dateToTimeStr(date);
-                            onChange(updatedBlocks);
+                            onChange(
+                              updateBlockDate(blockIndex, "morningStart", date),
+                            );
                           }}
-                          minTime={dayStart}
-                          maxTime={morningEnd}
+                          minTime={minMorning}
+                          maxTime={maxMorning}
                         />
-                        <div className="c-FormOpeningHours__Dash"></div>
-
+                        <div className="c-FormOpeningHours__Dash" />
                         <TimeDatePicker
+                          id={`${weekday}-morningEnd`}
                           selected={timeStrToDate(block.morningEnd)}
                           onChange={(date) => {
-                            const updatedBlocks = [...value];
-                            updatedBlocks[blockIndex].morningEnd =
-                              dateToTimeStr(date);
-                            onChange(updatedBlocks);
+                            onChange(
+                              updateBlockDate(blockIndex, "morningEnd", date),
+                            );
                           }}
-                          minTime={dayStart}
-                          maxTime={morningEnd}
+                          minTime={minMorning}
+                          maxTime={maxMorning}
                         />
                       </div>
                     </div>
-                    <div className="c-FormOpeningHours__DatepickerWrapper">
-                      <TimeDatePicker
-                        selected={timeStrToDate(block.afterNoonStart)}
-                        onChange={(date) => {
-                          const updatedBlocks = [...value];
-                          updatedBlocks[blockIndex].afterNoonStart =
-                            dateToTimeStr(date);
-                          onChange(updatedBlocks);
-                        }}
-                        minTime={afternoonStart}
-                        maxTime={dayEnd}
-                      />
-                      <div className="c-FormOpeningHours__Dash"></div>
-
-                      <TimeDatePicker
-                        selected={timeStrToDate(block.afterNoonEnd)}
-                        onChange={(date) => {
-                          const updatedBlocks = [...value];
-                          updatedBlocks[blockIndex].afterNoonEnd =
-                            dateToTimeStr(date);
-                          onChange(updatedBlocks);
-                        }}
-                        minTime={afternoonStart}
-                        maxTime={dayEnd}
-                      />
+                    <div className="c-FormOpeningHours__TimeSection">
+                      <div className="c-FormOpeningHours__DatepickerWrapper">
+                        <TimeDatePicker
+                          id={`${weekday}-afternoonStart`}
+                          selected={timeStrToDate(block.afternoonStart)}
+                          onChange={(date) => {
+                            onChange(
+                              updateBlockDate(
+                                blockIndex,
+                                "afternoonStart",
+                                date,
+                              ),
+                            );
+                          }}
+                          minTime={minAfternoon}
+                          maxTime={maxAfternoon}
+                        />
+                        <div className="c-FormOpeningHours__Dash" />
+                        <TimeDatePicker
+                          id={`${weekday}-afternoonEnd`}
+                          selected={timeStrToDate(block.afternoonEnd)}
+                          onChange={(date) => {
+                            onChange(
+                              updateBlockDate(blockIndex, "afternoonEnd", date),
+                            );
+                          }}
+                          minTime={minAfternoon}
+                          maxTime={maxAfternoon}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -238,19 +268,13 @@ Exemple : 08h00 - 12h00
           </div>
         )}
       />
-
       <ErrorMessage
         errors={errors}
-        name="openingHoursBlocks"
+        name={name}
         render={({ message }: { message: string }) => (
-          <CommonFormErrorText
-            message={message}
-            errorId={`openingHoursBlocks_error`}
-          />
+          <CommonFormErrorText message={message} errorId={`${name}_error`} />
         )}
       />
     </div>
   );
-};
-
-export default FormOpeningHours;
+}

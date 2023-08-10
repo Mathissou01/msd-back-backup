@@ -103,23 +103,26 @@ export default function FormDynamicBlocks({
     });
   }
 
-  function getCanDeleteBlock(typename: TDynamicFieldOption, blockId: string) {
-    const currentBlockConfiguration = getCurrentBlockConfiguration(typename);
-    if (
-      currentBlockConfiguration &&
-      currentBlockConfiguration.props?.minBlocks
-    ) {
-      const fieldsForTypename = filterTypesByTypename(typename);
-      const indexCurrentBlockForTypename = fieldsForTypename.findIndex(
-        (fieldForTypename) => {
-          return fieldForTypename.id === blockId;
-        },
-      );
-      if (
-        currentBlockConfiguration.props.minBlocks >=
-        indexCurrentBlockForTypename + 1
-      ) {
-        return false;
+  function getCanDeleteBlock(block: IFormBlock) {
+    const currentBlockConfiguration = getCurrentBlockConfiguration(
+      block.__typename,
+    );
+    if (currentBlockConfiguration?.props) {
+      if (currentBlockConfiguration.props.canDeleteCondition) {
+        return currentBlockConfiguration.props.canDeleteCondition(block);
+      } else if (currentBlockConfiguration.props.minBlocks) {
+        const fieldsForTypename = filterTypesByTypename(block.__typename);
+        const indexCurrentBlockForTypename = fieldsForTypename.findIndex(
+          (fieldForTypename) => {
+            return fieldForTypename.id === block.id;
+          },
+        );
+        if (
+          currentBlockConfiguration.props.minBlocks >=
+          indexCurrentBlockForTypename + 1
+        ) {
+          return false;
+        }
       }
     }
     return true;
@@ -208,7 +211,7 @@ export default function FormDynamicBlocks({
                     labelOverrides[index] ??
                     blockDisplayMap[block.__typename].label
                   }
-                  picto={blockDisplayMap[block.__typename].picto}
+                  picto={blockDisplayMap[block.__typename]?.picto}
                   onReorder={(shift) => onReorder(index, shift)}
                   isUpDisabled={index <= 0}
                   isDownDisabled={index + 1 >= fields.length}
@@ -216,10 +219,10 @@ export default function FormDynamicBlocks({
                   onDelete={() => onDelete(index)}
                   isOpen={blockOpenStates[index]}
                   onOpenToggle={() => onOpenToggle(index)}
-                  isEmpty={blockDisplayMap[block.__typename].isEmpty}
+                  isEmpty={blockDisplayMap[block.__typename]?.isEmpty}
                   canReorder={canReorder}
                   canDuplicate={canDuplicate}
-                  canDelete={getCanDeleteBlock(block.__typename, block.id)}
+                  canDelete={getCanDeleteBlock(block)}
                 >
                   <DynamicBlock
                     key={`${index}_${block.__typename}_${block.id}`}

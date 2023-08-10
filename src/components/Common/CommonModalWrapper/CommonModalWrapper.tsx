@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, {
+  ForwardedRef,
   forwardRef,
   ReactNode,
   useCallback,
@@ -34,7 +35,7 @@ export default forwardRef(function CommonModalWrapper(
     children,
     size = ICommonModalWrapperSize.MEDIUM,
   }: ICommonModalWrapperProps,
-  parentRef,
+  parentRef: ForwardedRef<CommonModalWrapperRef>,
 ) {
   const modalId = useId();
   const ref = useRef<Element | null>(null);

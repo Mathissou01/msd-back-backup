@@ -73,7 +73,7 @@ export function FluxActivationPage() {
   const { contractId } = useContract();
   const [flows, setFlows] = useState<IFlow[]>([]);
   const [openedFlow, setOpenedFlow] = useState<IFlow | null>(null);
-  const modalRef = useRef<CommonModalWrapperRef>();
+  const modalRef = useRef<CommonModalWrapperRef>(null);
 
   const { data, loading, error } = useGetFlowsByContractIdQuery({
     variables: {

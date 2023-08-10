@@ -1,30 +1,42 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import { TimeInput } from "../TimeInput/TimeInput";
+import TimeInput from "./TimeInput/TimeInput";
 
 interface ITimeDatePickerProps {
+  id?: string;
   selected: Date | null;
   onChange: (date: Date | null) => void;
-  minTime: Date;
-  maxTime: Date;
+  timeInterval?: number;
+  minTime?: Date;
+  maxTime?: Date;
+  isDisabled?: boolean;
 }
 
-export const TimeDatePicker = ({
+export default function TimeDatePicker({
+  id,
   selected,
   onChange,
-}: ITimeDatePickerProps) => {
+  timeInterval = 1,
+  minTime,
+  maxTime,
+  isDisabled = false,
+}: ITimeDatePickerProps) {
   return (
     <DatePicker
+      id={id}
       selected={selected}
       onChange={onChange}
       showTimeSelect
       showTimeSelectOnly
-      timeIntervals={1}
+      timeIntervals={timeInterval}
       timeFormat="HH:mm"
-      locale="fr"
       dateFormat="HH:mm"
-      isClearable={true}
-      customInput={<TimeInput />}
+      minTime={minTime}
+      maxTime={maxTime}
+      locale="fr"
+      customInput={<TimeInput id={id} isDisabled={isDisabled} />}
+      isClearable={!isDisabled}
+      disabled={isDisabled}
     />
   );
-};
+}

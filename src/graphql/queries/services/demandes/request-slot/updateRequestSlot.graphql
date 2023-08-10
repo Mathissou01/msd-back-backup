@@ -3,6 +3,7 @@ mutation updateRequestSlot($id: ID!, $data: RequestSlotInput!) {
     data {
       id
       attributes {
+        slotType
         sectorizations {
           data {
             id

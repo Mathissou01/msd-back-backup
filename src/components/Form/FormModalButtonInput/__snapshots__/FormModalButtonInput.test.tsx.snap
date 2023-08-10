@@ -11,7 +11,7 @@ exports[`FormModalButtonInput renders 1`] = `
     >
       <label
         class="c-FormLabel__LabelWrapper"
-        for="form-modal-input_button"
+        for="form-modal-input"
       >
         <span
           class="c-FormLabel__Label"
@@ -34,7 +34,7 @@ exports[`FormModalButtonInput renders 1`] = `
       >
         <button
           class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
-          id="form-modal-input_button"
+          id="form-modal-input"
           type="button"
         >
           button label

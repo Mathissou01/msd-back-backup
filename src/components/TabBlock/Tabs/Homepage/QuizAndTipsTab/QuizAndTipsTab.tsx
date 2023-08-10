@@ -40,7 +40,9 @@ interface IQuizModalFields {
 }
 
 interface ITipsModalFields {
-  tips: TipEntity;
+  tipsSelect_0: TipEntity;
+  tipsSelect_1: TipEntity;
+  tipsSelect_2: TipEntity;
 }
 
 interface IQuizAndTipsTabProps {
@@ -70,7 +72,7 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
 
   /* Methods */
   function quizDisplayTransformFunction(
-    quiz: QuizEntity | undefined,
+    quiz?: QuizEntity | undefined,
   ): ReactNode {
     return <p>{quiz?.attributes?.title ?? ""}</p>;
   }
@@ -84,7 +86,7 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
   }
 
   function tipsDisplayTransformFunction(
-    tips: Array<TipEntity | undefined>,
+    tips?: Array<TipEntity | undefined>,
   ): ReactNode {
     return tips?.map((tip: TipEntity | undefined, index) => {
       if (tip && tip.id) {
@@ -108,7 +110,11 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
   }
 
   function onTipsModalSubmit(submitData: ITipsModalFields) {
-    return Object.values(submitData)?.filter(removeNulls);
+    return [
+      submitData.tipsSelect_0,
+      submitData.tipsSelect_1,
+      submitData.tipsSelect_2,
+    ];
   }
 
   async function onSubmitValid(submitData: FieldValues) {

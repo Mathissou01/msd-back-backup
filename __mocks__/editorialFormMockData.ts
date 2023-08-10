@@ -249,14 +249,7 @@ export const defaultMockData = [
     request: {
       query: GetAudiencesByContractIdDocument,
       variables: {
-        filters: {
-          contract: {
-            id: {
-              eq: "1",
-            },
-          },
-          isActive: { eq: true },
-        },
+        filters: { contract: { id: { eq: "1" } }, isActive: { eq: true } },
       },
     },
     result: {
@@ -268,23 +261,12 @@ export const defaultMockData = [
               attributes: {
                 isActive: true,
                 type: "Particuliers",
+                __typename: "Audience",
               },
-            },
-            {
-              id: "2",
-              attributes: {
-                isActive: true,
-                type: "Collectifs",
-              },
-            },
-            {
-              id: "3",
-              attributes: {
-                isActive: true,
-                type: "Professionnels",
-              },
+              __typename: "AudienceEntity",
             },
           ],
+          __typename: "AudienceEntityResponseCollection",
         },
       },
     },

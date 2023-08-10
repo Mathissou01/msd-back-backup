@@ -16682,6 +16682,7 @@ export type GetRequestByIdQuery = {
             id?: string | null;
             attributes?: {
               __typename?: "RequestSlot";
+              slotType?: Enum_Requestslot_Slottype | null;
               timeSlots?: any | null;
               slotMessage?: string | null;
               noSlotMessage?: string | null;
@@ -16704,6 +16705,18 @@ export type GetRequestByIdQuery = {
                 id: string;
                 slotException?: any | null;
               } | null> | null;
+              requestTakeds?: {
+                __typename?: "RequestTakedRelationResponseCollection";
+                data: Array<{
+                  __typename?: "RequestTakedEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "RequestTaked";
+                    name: string;
+                    isActivated?: boolean | null;
+                  } | null;
+                }>;
+              } | null;
             } | null;
           }>;
         } | null;
@@ -16770,6 +16783,7 @@ export type CreateRequestSlotMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "RequestSlot";
+        slotType?: Enum_Requestslot_Slottype | null;
         timeSlots?: any | null;
         slotMessage?: string | null;
         noSlotMessage?: string | null;
@@ -16819,6 +16833,7 @@ export type UpdateRequestSlotMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "RequestSlot";
+        slotType?: Enum_Requestslot_Slottype | null;
         timeSlots?: any | null;
         slotMessage?: string | null;
         noSlotMessage?: string | null;
@@ -29801,6 +29816,7 @@ export const GetRequestByIdDocument = gql`
             data {
               id
               attributes {
+                slotType
                 sectorizations {
                   data {
                     id
@@ -29819,6 +29835,15 @@ export const GetRequestByIdDocument = gql`
                 }
                 slotMessage
                 noSlotMessage
+                requestTakeds {
+                  data {
+                    id
+                    attributes {
+                      name
+                      isActivated
+                    }
+                  }
+                }
               }
             }
           }
@@ -29976,6 +30001,7 @@ export const CreateRequestSlotDocument = gql`
       data {
         id
         attributes {
+          slotType
           sectorizations {
             data {
               id
@@ -30097,6 +30123,7 @@ export const UpdateRequestSlotDocument = gql`
       data {
         id
         attributes {
+          slotType
           sectorizations {
             data {
               id

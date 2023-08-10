@@ -1,0 +1,112 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-TimeSlotDay {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: -4px;
+  padding: 4px;
+
+  &_invalid {
+    border-color: colors.$error;
+    border-radius: 3px;
+    outline: 1px dashed colors.$error;
+  }
+
+  &__Container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    overflow: auto;
+  }
+
+  &__Label {
+    flex: 1;
+    min-width: 85px;
+    max-width: 150px;
+    color: colors.$expert-blue;
+    font-weight: 700;
+    line-height: 21px;
+  }
+
+  &__Slots {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    gap: 40px;
+    justify-content: flex-start;
+  }
+
+  &__Slot {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  &__DatePickers {
+    display: flex;
+    align-items: center;
+
+    &_invalid {
+      border: 1px solid colors.$error;
+      border-radius: 4px;
+    }
+
+    // stylelint-disable selector-class-pattern
+    // stylelint-disable max-nesting-depth
+    .react-datepicker__input-container {
+      .react-datepicker__close-icon {
+        display: none;
+      }
+
+      &:hover {
+        .react-datepicker__close-icon {
+          display: initial;
+        }
+      }
+    }
+  }
+
+  &__SlotNumber {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    width: 50px;
+    height: 48px;
+    padding: 0 8px;
+    color: colors.$blue-1;
+    background: colors.$gray-0;
+    border: 1px solid colors.$gray-250;
+    border-radius: 4px;
+
+    &_invalid {
+      border-color: colors.$error;
+    }
+
+    &_disabled {
+      background: colors.$gray-200;
+      cursor: not-allowed;
+    }
+  }
+
+  &__Dash {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+      width: 6px;
+      height: 1px;
+      margin: 0 7px;
+      background-color: colors.$expert-blue;
+      content: "";
+    }
+  }
+
+  &__Error {
+    padding-top: 5px;
+    text-align: center;
+  }
+}

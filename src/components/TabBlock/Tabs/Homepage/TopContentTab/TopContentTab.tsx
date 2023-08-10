@@ -84,9 +84,7 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
   }
 
   function onTopContentModalSubmit(submitData: ITopContentModalFields) {
-    const topContent = Object.values(submitData)[1];
-    // setValue("topContent", topContent, { shouldDirty: true });
-    return topContent;
+    return submitData.topContentSelect;
   }
 
   function onTopContentModalRadioChange(changeData: unknown) {

@@ -114,7 +114,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
           >
             <label
               class="c-FormLabel__LabelWrapper"
-              for="editoContents_button"
+              for="editoContents"
             >
               <span
                 class="c-FormLabel__Label"
@@ -147,7 +147,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
             >
               <button
                 class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
-                id="editoContents_button"
+                id="editoContents"
                 type="button"
               >
                 Sélectionner les articles à afficher

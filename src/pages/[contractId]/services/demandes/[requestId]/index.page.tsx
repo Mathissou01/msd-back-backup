@@ -141,7 +141,12 @@ export function RequestFormPage({
                 ?.map((sector) => sector.value.toString())
                 .filter(removeNulls) ?? [],
             timeSlots: requestSlot.timeSlots,
-            slotsExceptions: requestSlot.slotsExceptions,
+            slotsExceptions: requestSlot.slotsExceptions?.map(
+              (slotsException) => {
+                delete slotsException.__typename;
+                return slotsException;
+              },
+            ),
             slotMessage: requestSlot.slotMessage,
             noSlotMessage: requestSlot.noSlotMessage,
           };

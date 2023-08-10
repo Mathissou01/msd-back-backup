@@ -11,4 +11,9 @@
   background: colors.$gray-0;
   border: 1px solid colors.$gray-250;
   border-radius: 4px;
+
+  &_disabled {
+    background: colors.$gray-200;
+    cursor: not-allowed;
+  }
 }

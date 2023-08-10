@@ -3,27 +3,44 @@
 .c-FormOpeningHours {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
+
+  &__Infos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
   &__Title {
     color: colors.$expert-blue;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: DINPro-Bold, sans-serif;
+    line-height: 25px;
   }
 
   &__Description {
-    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
     line-height: 24px;
-    white-space: pre-line;
+    white-space: pre-wrap;
   }
 
-  &__Container {
+  &__Hours {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  &__Line {
     display: flex;
     gap: 16px;
     align-items: center;
-    margin-bottom: 28px;
   }
 
-  &__Label {
-    width: 132px;
+  &__LineLabel {
+    width: 100px;
     color: colors.$expert-blue;
     font-weight: 700;
     line-height: 21px;
@@ -31,7 +48,14 @@
 
   &__TimeBlock {
     display: flex;
+    flex-direction: row;
     gap: 54px;
+  }
+
+  &__TimeSection {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
   }
 
   &__DatepickerWrapper {
@@ -39,17 +63,25 @@
     align-items: center;
   }
 
-  &__Input {
+  &__Input,
+  &__SlotNumber {
     display: flex;
     gap: 4px;
     align-items: center;
-    width: 80px;
     height: 48px;
     padding: 0 8px;
     color: colors.$blue-1;
     background: colors.$gray-0;
     border: 1px solid colors.$gray-250;
     border-radius: 4px;
+  }
+
+  &__Input {
+    width: 80px;
+  }
+
+  &__SlotNumber {
+    width: 50px;
   }
 
   &__Dash {
@@ -60,7 +92,7 @@
     &::before {
       width: 6px;
       height: 1px;
-      margin: 0 20px;
+      margin: 0 10px;
       background-color: colors.$expert-blue;
       content: "";
     }

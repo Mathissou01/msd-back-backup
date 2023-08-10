@@ -118,7 +118,7 @@ export default function DropOffMapStaticFields({
         />
       </div>
       <div className="o-Form__Group">
-        <FormOpeningHours />
+        <FormOpeningHours name={"openingHoursBlocks"} />
       </div>
     </>
   );

@@ -1,15 +1,15 @@
-import MediaCreateFolderButton from "../../../../../Media/MediaCreateFolderButton/MediaCreateFolderButton";
+import React, { useEffect, useState } from "react";
+import { useGetAllFoldersHierarchyQuery } from "../../../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../../../lib/utilities";
+import { ILocalFile } from "../../../../../../lib/media";
+import { useContract } from "../../../../../../hooks/useContract";
 import MediaImportButton from "../../../../../Media/MediaImportButton/MediaImportButton";
 import TabHeader, {
   ITabHeader,
 } from "../../../../../TabBlock/TabHeader/TabHeader";
+import MediaCreateFolderButton from "../../../../../Media/MediaCreateFolderButton/MediaCreateFolderButton";
 import CommonBibliothequeMedia from "../../../../../Common/CommonBibliothequeMedia/CommonBibliothequeMedia";
 import MediaCard from "../../../../../Media/MediaCard/MediaCard";
-import React, { useEffect, useState } from "react";
-import { useContract } from "../../../../../../hooks/useContract";
-import { ILocalFile } from "../../../../../../lib/media";
-import { useGetAllFoldersHierarchyQuery } from "../../../../../../graphql/codegen/generated-types";
 import "./selecting-modal-content.scss";
 
 interface ISelectingModalContentProps {

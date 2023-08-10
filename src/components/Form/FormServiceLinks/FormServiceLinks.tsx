@@ -121,7 +121,7 @@ export default function FormServiceLinks({
   }
 
   function modalPictoDisplayTransformFunction(
-    picto: Partial<ILocalFile>,
+    picto?: Partial<ILocalFile>,
   ): ReactNode {
     return (
       <Image

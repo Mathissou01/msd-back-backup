@@ -127,7 +127,7 @@ export default function RequestsList() {
   const isInitialized = useRef(false);
   const [tableData, setTableData] = useState<Array<IRequestTableRow>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
-  const modalRef = useRef<CommonModalWrapperRef>();
+  const modalRef = useRef<CommonModalWrapperRef>(null);
   const router = useRouter();
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();

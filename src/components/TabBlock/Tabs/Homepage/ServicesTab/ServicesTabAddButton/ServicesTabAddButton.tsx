@@ -50,7 +50,7 @@ export default function ServicesTabAddButton({
     modalRef.current.current?.toggleModal(true);
   }
 
-  function modalPictoDisplayTransformFunction(data: ILocalFile): ReactNode {
+  function modalPictoDisplayTransformFunction(data?: ILocalFile): ReactNode {
     return (
       <Image
         src={data?.url ?? "/images/pictos/default.svg"}
