@@ -1,4 +1,4 @@
-mutation updateTip($updateTipId: ID!, $data: TipInput!) {
+mutation updateTip($updateTipId: ID!, $data: JSON!) {
   versioningHandler(data: { id: $updateTipId, data: $data }, entity: "tip") {
     data {
       ... on TipEntity {

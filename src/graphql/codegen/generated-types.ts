@@ -5301,10 +5301,10 @@ export type MutationMultipleUploadArgs = {
 export type MutationProgrammedSendArgs = {
   alertMessage?: InputMaybe<Scalars["String"]>;
   isEmail?: InputMaybe<Scalars["Boolean"]>;
-  isImmediate?: InputMaybe<Scalars["Boolean"]>;
   isSMS?: InputMaybe<Scalars["Boolean"]>;
   mailSubject?: InputMaybe<Scalars["String"]>;
-  recipientEmail?: InputMaybe<Scalars["String"]>;
+  recipientEmails?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  recipientnumbers?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
   smsTitle?: InputMaybe<Scalars["String"]>;
   time?: InputMaybe<Scalars["String"]>;
@@ -5326,7 +5326,7 @@ export type MutationResetPasswordArgs = {
 
 export type MutationSendEmailArgs = {
   content?: InputMaybe<Scalars["String"]>;
-  recipientEmail: Scalars["String"];
+  recipientEmails: Array<InputMaybe<Scalars["String"]>>;
   subject?: InputMaybe<Scalars["String"]>;
   templateId?: InputMaybe<Scalars["Int"]>;
 };
@@ -10997,7 +10997,7 @@ export type GetTipsByContractIdQuery = {
 
 export type UpdateTipMutationVariables = Exact<{
   updateTipId: Scalars["ID"];
-  data: TipInput;
+  data: Scalars["JSON"];
 }>;
 
 export type UpdateTipMutation = {
@@ -12369,7 +12369,7 @@ export type GetFreeContentsBySubServiceIdQuery = {
 
 export type UpdateFreeContentMutationVariables = Exact<{
   updateFreeContentId: Scalars["ID"];
-  data: FreeContentInput;
+  data: Scalars["JSON"];
 }>;
 
 export type UpdateFreeContentMutation = {
@@ -19871,7 +19871,7 @@ export type GetTipsByContractIdQueryResult = Apollo.QueryResult<
   GetTipsByContractIdQueryVariables
 >;
 export const UpdateTipDocument = gql`
-  mutation updateTip($updateTipId: ID!, $data: TipInput!) {
+  mutation updateTip($updateTipId: ID!, $data: JSON!) {
     versioningHandler(data: { id: $updateTipId, data: $data }, entity: "tip") {
       data {
         ... on TipEntity {
@@ -22215,10 +22215,7 @@ export type GetFreeContentsBySubServiceIdQueryResult = Apollo.QueryResult<
   GetFreeContentsBySubServiceIdQueryVariables
 >;
 export const UpdateFreeContentDocument = gql`
-  mutation updateFreeContent(
-    $updateFreeContentId: ID!
-    $data: FreeContentInput!
-  ) {
+  mutation updateFreeContent($updateFreeContentId: ID!, $data: JSON!) {
     versioningHandler(
       data: { id: $updateFreeContentId, data: $data }
       entity: "freeContent"

@@ -94,7 +94,7 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
           <p key={tip.id + index}>
             {`${tip.attributes?.title} - ${formatDate(
               parseJSON(tip.attributes?.publishedDate),
-              "dd/mm/yyyy",
+              "dd/MM/yyyy",
             )}`}
           </p>
         );
@@ -105,7 +105,7 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
   function tipSelectDisplayTransformFunction(tip: TipEntity): string {
     return `${tip.attributes?.title} - ${formatDate(
       parseJSON(tip.attributes?.publishedDate),
-      "dd/mm/yyyy",
+      "dd/MM/yyyy",
     )}`;
   }
 
@@ -128,8 +128,9 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
           quiz: submitData["quiz"]?.id ?? null,
           displayTips: submitData["displayTips"],
           tips:
-            submitData["tips"]?.map((tip: TipEntity) => tip?.id ?? null) ??
-            null,
+            submitData["tips"]
+              ?.map((tip: TipEntity) => tip?.id ?? null)
+              .filter(removeNulls) ?? null,
         },
       };
       return updateQuizAndTipsBlock({

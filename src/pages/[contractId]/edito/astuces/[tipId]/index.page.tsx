@@ -158,7 +158,7 @@ export default function EditoTipsEditPage() {
   });
   const createTipMutation = useCreateTipMutation();
   const updateTipMutation = useUpdateTipMutation({
-    refetchQueries: ["getTipId", "getTagsByContractId"],
+    refetchQueries: ["getTipById", "getTagsByContractId"],
     awaitRefetchQueries: true,
   });
 

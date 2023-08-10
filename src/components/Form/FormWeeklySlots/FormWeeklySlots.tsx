@@ -85,12 +85,12 @@ export default function FormWeeklySlots({
       {
         fieldNames: ["morningStart"],
         isInvalid: (!!morningEnd || !!morningSlots) && !morningStart,
-        message: "L'horaire du matin est incomplète",
+        message: "L'horaire du matin est incomplet",
       },
       {
         fieldNames: ["morningEnd"],
         isInvalid: (!!morningStart || !!morningSlots) && !morningEnd,
-        message: "L'horaire du matin est incomplète",
+        message: "L'horaire du matin est incomplet",
       },
       {
         fieldNames: ["morningSlots"],
@@ -110,12 +110,12 @@ export default function FormWeeklySlots({
       {
         fieldNames: ["afternoonStart"],
         isInvalid: (!!afternoonEnd || !!afternoonSlots) && !afternoonStart,
-        message: "L'horaire d'après-midi est incomplète",
+        message: "L'horaire d'après-midi est incomplet",
       },
       {
         fieldNames: ["afternoonEnd"],
         isInvalid: (!!afternoonStart || !!afternoonSlots) && !afternoonEnd,
-        message: "L'horaire d'après-midi est incomplète",
+        message: "L'horaire d'après-midi est incomplet",
       },
       {
         fieldNames: ["afternoonSlots"],

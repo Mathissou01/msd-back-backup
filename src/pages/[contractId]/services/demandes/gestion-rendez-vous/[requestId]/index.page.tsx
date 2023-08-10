@@ -157,6 +157,7 @@ export function AppointmentManagementPage({
     if (!reservationsAndAvailabilities) {
       return <></>;
     }
+
     return (
       <div className="c-AppointmentManagementPage__Appointment_accordionContent">
         <span>{date}</span>
@@ -165,7 +166,7 @@ export function AppointmentManagementPage({
           className={classNames({
             ["c-AppointmentManagementPage__Appointment_accordionContent_reservationNotAvailable"]:
               reservationsAndAvailabilities.indexOf(
-                `0 ${labels.availability}`,
+                `- 0 ${labels.availability}`,
               ) > 0,
           })}
         >

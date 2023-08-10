@@ -173,7 +173,10 @@ export function EditoFreeContentEditPage({
 
   const getFreeContentByIdLazyQuery = useGetFreeContentByIdLazyQuery();
   const createFreeContentMutation = useCreateFreeContentMutation();
-  const updateFreeContentMutation = useUpdateFreeContentMutation();
+  const updateFreeContentMutation = useUpdateFreeContentMutation({
+    refetchQueries: ["getFreeContentById", "getTagsByContractId"],
+    awaitRefetchQueries: true,
+  });
 
   const pageProps: IEditorialFormPage = {
     labels,

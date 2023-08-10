@@ -1,7 +1,4 @@
-mutation updateFreeContent(
-  $updateFreeContentId: ID!
-  $data: FreeContentInput!
-) {
+mutation updateFreeContent($updateFreeContentId: ID!, $data: JSON!) {
   versioningHandler(
     data: { id: $updateFreeContentId, data: $data }
     entity: "freeContent"

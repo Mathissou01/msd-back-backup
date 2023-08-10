@@ -231,10 +231,10 @@ exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
             class="c-FormModalButtonInput__Container"
           >
             <p>
-              Pas besoin de nettoyer vos pots de yaourts avant de les jeter - 19/14/2022
+              Pas besoin de nettoyer vos pots de yaourts avant de les jeter - 19/11/2022
             </p>
             <p>
-              Titre de l'astuce 3 - 19/14/2022
+              Titre de l'astuce 3 - 19/11/2022
             </p>
             <div
               aria-errormessage="tips_error"

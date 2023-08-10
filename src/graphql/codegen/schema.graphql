@@ -4149,10 +4149,10 @@ type Mutation {
   programmedSend(
     alertMessage: String
     isEmail: Boolean
-    isImmediate: Boolean
     isSMS: Boolean
     mailSubject: String
-    recipientEmail: String
+    recipientEmails: [String]
+    recipientnumbers: [String]
     scheduledAt: Date
     smsTitle: String
     time: String
@@ -4174,7 +4174,7 @@ type Mutation {
   ): UsersPermissionsLoginPayload
   sendEmail(
     content: String
-    recipientEmail: String!
+    recipientEmails: [String]!
     subject: String
     templateId: Int
   ): String

@@ -11,6 +11,7 @@ import {
 import {
   comparePropertyValueByPriority,
   formatDate,
+  removeNulls,
 } from "../../../../../lib/utilities";
 import { extractEditoBlock } from "../../../../../lib/graphql-data";
 import { TEditorialContentTypes } from "../../../../../lib/editorial";
@@ -99,8 +100,9 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
           displayBlock: submitData["displayBlock"],
           titleContent: submitData["titleContent"],
           editoContents:
-            submitData["editoContents"]?.map(
-              (editoContent: EditoContentDto, index: number) => {
+            submitData["editoContents"]
+              .filter(removeNulls)
+              ?.map((editoContent: EditoContentDto, index: number) => {
                 return {
                   id: editoData?.editoContents
                     ? editoData.editoContents[index]?.componentId
@@ -123,8 +125,8 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
                       ? editoContent.id
                       : null,
                 };
-              },
-            ) ?? null,
+              })
+              .filter(removeNulls) ?? null,
         },
       };
       return updateEditoBlock({

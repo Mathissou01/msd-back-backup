@@ -66,12 +66,14 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
   function topContentDisplayTransformFunction(
     topContent: Partial<EditoContentDto> | undefined,
   ): ReactNode {
-    return (
+    return topContent ? (
       <p>
         {`${topContent?.attributes?.title} - ${formatDate(
           parseJSON(topContent?.attributes?.publishedDate),
         )}`}
       </p>
+    ) : (
+      <></>
     );
   }
 
