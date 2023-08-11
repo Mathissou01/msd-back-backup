@@ -14,15 +14,15 @@ export default function RequestTimeSlot({ timeSlot }: IRequestTimeSlotProps) {
 
   return (
     <div className="c-RequestTimeSlot">
-      <span>{timeSlot.day}</span>
+      <span data-testid="time-slot-day">{timeSlot.day}</span>
       <div className="c-RequestTimeSlot__Slots">
         {timeSlot.slots.map((slot, slotIndex) => {
           return (
             <div key={slotIndex}>
-              <span>
+              <span data-testid="time-slot-text">
                 {slot.slot} {labels.separator}
               </span>
-              <span>
+              <span data-testid="time-slot-nb-appointments">
                 {slot.nbAppointments} {labels.appointment}
               </span>
             </div>

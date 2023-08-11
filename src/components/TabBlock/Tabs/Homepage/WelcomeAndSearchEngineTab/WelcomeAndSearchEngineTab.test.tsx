@@ -4,8 +4,12 @@ import React from "react";
 import { defaultMockData } from "../../../../../../__mocks__/welcomeAndSearchEngineTabMockData";
 import WelcomeAndSearchEngineTab from "./WelcomeAndSearchEngineTab";
 
-// Prevent loading of client inside MockedProvider, otherwise leads to "unexpected token" error
 jest.mock("../../../../../graphql/client", () => null);
+
+const showBlockTestId = "form-checkbox";
+const welcomeTitleValue = "Title";
+const welcomeSubtitleValue = "Subtitle";
+const searchEngineTitleValue = "Titre modifié";
 
 describe("WelcomeAndSearchEngineTab", () => {
   it("renders loading and loaded state", async () => {
@@ -17,8 +21,15 @@ describe("WelcomeAndSearchEngineTab", () => {
 
     expect(await screen.findByTestId("common-spinner")).toBeInTheDocument();
     expect(await container).toMatchSnapshot();
+    expect(await screen.findByTestId(showBlockTestId)).toBeInTheDocument();
     expect(
-      await screen.findByDisplayValue("Titre modifié"),
+      await screen.findByDisplayValue(welcomeTitleValue),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByDisplayValue(welcomeSubtitleValue),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByDisplayValue(searchEngineTitleValue),
     ).toBeInTheDocument();
     expect(await container).toMatchSnapshot();
   });

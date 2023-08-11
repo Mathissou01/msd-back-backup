@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RequestTimeSlot renders 1`] = `
+<div>
+  <div
+    class="c-RequestTimeSlot"
+  >
+    <span
+      data-testid="time-slot-day"
+    >
+      Lundi
+    </span>
+    <div
+      class="c-RequestTimeSlot__Slots"
+    >
+      <div>
+        <span
+          data-testid="time-slot-text"
+        >
+          08h00 - 12h00
+           
+          :
+        </span>
+        <span
+          data-testid="time-slot-nb-appointments"
+        >
+          3
+           
+          rendez-vous
+        </span>
+      </div>
+      <div>
+        <span
+          data-testid="time-slot-text"
+        >
+          14h00 - 18h00
+           
+          :
+        </span>
+        <span
+          data-testid="time-slot-nb-appointments"
+        >
+          10
+           
+          rendez-vous
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
