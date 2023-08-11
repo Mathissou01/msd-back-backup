@@ -16,15 +16,15 @@ const defaultOpeningHours: Array<IOpeningHourBlock> = weekDays.map((day) => ({
   weekDay: day.name,
   morningStart: null,
   morningEnd: null,
-  afternoonStart: null,
-  afternoonEnd: null,
+  afterNoonStart: null,
+  afterNoonEnd: null,
 }));
 
 type TOpeningHoursDateFields =
   | "morningStart"
   | "morningEnd"
-  | "afternoonStart"
-  | "afternoonEnd";
+  | "afterNoonStart"
+  | "afterNoonEnd";
 
 export interface IOpeningHourBlock {
   __typename: "ComponentBlocksOpeningDay";
@@ -32,11 +32,10 @@ export interface IOpeningHourBlock {
   morningStart: string | null;
   morningEnd: string | null;
   morningSlots?: number;
-  afternoonStart: string | null;
-  afternoonEnd: string | null;
+  afterNoonStart: string | null;
+  afterNoonEnd: string | null;
   afternoonSlots?: number;
 }
-
 interface IFormOpeningHoursProps {
   name: string;
   defaultValue?: Array<IOpeningHourBlock>;
@@ -55,14 +54,6 @@ export default function FormOpeningHours({
     example: `Exemple : 08h00 - 12h00   14h00 - 17h00`,
     instructions: `Laisser vides les jours fermés. S’il n’y a pas de pause méridienne, veuillez remplir uniquement les deux premières cases.`,
   };
-  const minMorning = new Date();
-  minMorning.setHours(0, 0);
-  const maxMorning = new Date();
-  maxMorning.setHours(12, 0);
-  const minAfternoon = new Date();
-  minAfternoon.setHours(12, 0);
-  const maxAfternoon = new Date();
-  maxAfternoon.setHours(23, 59);
 
   /* Methods */
   const timeStrToDate = (timeStr: string | null): Date | null => {
@@ -93,10 +84,10 @@ export default function FormOpeningHours({
       if (!block.morningStart && block.morningEnd) {
         return `Dans la matinée du ${block.weekDay}, l'heure de début est manquante.`;
       }
-      if (block.afternoonStart && !block.afternoonEnd) {
+      if (block.afterNoonStart && !block.afterNoonEnd) {
         return `Dans l'après-midi du ${block.weekDay}, l'heure de fin est manquante.`;
       }
-      if (!block.afternoonStart && block.afternoonEnd) {
+      if (!block.afterNoonStart && block.afterNoonEnd) {
         return `Dans l'après-midi du ${block.weekDay}, l'heure de début est manquante.`;
       }
 
@@ -111,23 +102,23 @@ export default function FormOpeningHours({
       ) {
         return `Dans la matinée du ${block.weekDay}, l'heure de fin doit être après l'heure de début.`;
       }
-      const afternoonStart = timeStrToDate(block.afternoonStart);
-      const afternoonEnd = timeStrToDate(block.afternoonEnd);
+      const afterNoonStart = timeStrToDate(block.afterNoonStart);
+      const afterNoonEnd = timeStrToDate(block.afterNoonEnd);
       if (
-        block.afternoonStart &&
-        block.afternoonEnd &&
-        afternoonStart &&
-        afternoonEnd &&
-        afternoonStart >= afternoonEnd
+        block.afterNoonStart &&
+        block.afterNoonEnd &&
+        afterNoonStart &&
+        afterNoonEnd &&
+        afterNoonStart >= afterNoonEnd
       ) {
         return `Dans l'après-midi du ${block.weekDay}, l'heure de fin doit être après l'heure de début.`;
       }
       if (
         block.morningEnd &&
-        block.afternoonStart &&
+        block.afterNoonStart &&
         morningEnd &&
-        afternoonStart &&
-        morningEnd > afternoonStart
+        afterNoonStart &&
+        morningEnd > afterNoonStart
       ) {
         return `Dans le ${block.weekDay}, l'heure de début de l'après-midi doit être après la fin de la matinée.`;
       }
@@ -148,8 +139,8 @@ export default function FormOpeningHours({
         weekDay: weekday,
         morningStart: null,
         morningEnd: null,
-        afternoonStart: null,
-        afternoonEnd: null,
+        afterNoonStart: null,
+        afterNoonEnd: null,
       };
       value.push(block);
     }
@@ -172,7 +163,6 @@ export default function FormOpeningHours({
     formState: { errors },
     getValues,
   } = useFormContext();
-
   return (
     <div className="c-FormOpeningHours">
       <div className="c-FormOpeningHours__Infos">
@@ -213,8 +203,6 @@ export default function FormOpeningHours({
                               updateBlockDate(blockIndex, "morningStart", date),
                             );
                           }}
-                          minTime={minMorning}
-                          maxTime={maxMorning}
                         />
                         <div className="c-FormOpeningHours__Dash" />
                         <TimeDatePicker
@@ -225,39 +213,33 @@ export default function FormOpeningHours({
                               updateBlockDate(blockIndex, "morningEnd", date),
                             );
                           }}
-                          minTime={minMorning}
-                          maxTime={maxMorning}
                         />
                       </div>
                     </div>
                     <div className="c-FormOpeningHours__TimeSection">
                       <div className="c-FormOpeningHours__DatepickerWrapper">
                         <TimeDatePicker
-                          id={`${weekday}-afternoonStart`}
-                          selected={timeStrToDate(block.afternoonStart)}
+                          id={`${weekday}-afterNoonStart`}
+                          selected={timeStrToDate(block.afterNoonStart)}
                           onChange={(date) => {
                             onChange(
                               updateBlockDate(
                                 blockIndex,
-                                "afternoonStart",
+                                "afterNoonStart",
                                 date,
                               ),
                             );
                           }}
-                          minTime={minAfternoon}
-                          maxTime={maxAfternoon}
                         />
                         <div className="c-FormOpeningHours__Dash" />
                         <TimeDatePicker
-                          id={`${weekday}-afternoonEnd`}
-                          selected={timeStrToDate(block.afternoonEnd)}
+                          id={`${weekday}-afterNoonEnd`}
+                          selected={timeStrToDate(block.afterNoonEnd)}
                           onChange={(date) => {
                             onChange(
-                              updateBlockDate(blockIndex, "afternoonEnd", date),
+                              updateBlockDate(blockIndex, "afterNoonEnd", date),
                             );
                           }}
-                          minTime={minAfternoon}
-                          maxTime={maxAfternoon}
                         />
                       </div>
                     </div>
