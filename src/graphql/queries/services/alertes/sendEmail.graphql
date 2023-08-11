@@ -1,0 +1,11 @@
+mutation SendEmail(
+  $subject: String
+  $content: String
+  $recipientEmails: [String]!
+) {
+  sendEmail(
+    subject: $subject
+    content: $content
+    recipientEmails: $recipientEmails
+  )
+}

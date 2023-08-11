@@ -6,13 +6,17 @@ mutation updateAlertNotificationById(
     data {
       id
       attributes {
-        alertDescription
-        alertMessage
-        scheduledAt
-        scheduledAtTime
-        sendSMS
-        sendMail
-        subject
+        alertUserStorages {
+          data {
+            attributes {
+              alertNotificationServiceId
+              email
+              phoneNumber
+              isSMS
+              isEmail
+            }
+          }
+        }
       }
     }
   }

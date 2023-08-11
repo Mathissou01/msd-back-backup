@@ -1,0 +1,18 @@
+query getAllRequestsEmailByContractId($contractId: ID!) {
+  requests(
+    filters: { requestService: { contract: { id: { eq: $contractId } } } }
+  ) {
+    data {
+      id
+      attributes {
+        requestType {
+          id
+          title
+          email
+          isEmail
+          isTSMS
+        }
+      }
+    }
+  }
+}

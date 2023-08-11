@@ -1,14 +1,17 @@
-mutation createAlertNotification($data: AlertNotificationInput!) {
+mutation CreateAlertNotification($data: AlertNotificationInput!) {
   createAlertNotification(data: $data) {
     data {
       id
       attributes {
-        alertDescription
-        scheduledAt
-        scheduledAtTime
-        sectorizations {
+        alertUserStorages {
           data {
-            id
+            attributes {
+              alertNotificationServiceId
+              email
+              phoneNumber
+              isSMS
+              isEmail
+            }
           }
         }
       }

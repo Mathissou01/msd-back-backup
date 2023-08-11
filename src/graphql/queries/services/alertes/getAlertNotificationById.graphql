@@ -11,6 +11,22 @@ query getAlertNotificationById($alertNotificationId: ID) {
         subject
         sendSMS
         sendMail
+        sectorizations {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        cities {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
       }
     }
   }

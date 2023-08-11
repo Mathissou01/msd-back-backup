@@ -3444,14 +3444,6 @@ input GlobalInput {
   siteName: String
 }
 
-type Historic {
-  city: String
-  date: String
-  name: String
-  recipient: String
-  type: String
-}
-
 type Homepage {
   contractCustomization: ContractCustomizationEntityResponse
   createdAt: DateTime
@@ -5270,7 +5262,6 @@ type Query {
     long: Float!
     pickUpDayServiceId: ID!
   ): [ID]
-  getRequestsHistoric(requestServiceId: Int!): [Historic]
   getStatusExport(id: ID!): String
   getThreeRandomTips(contractId: ID!): [Tips]
   getTopContentBlockDTO(audienceId: ID!, contractId: ID!): TopContentBlockDTO

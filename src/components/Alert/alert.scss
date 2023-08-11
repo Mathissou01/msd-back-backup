@@ -1,7 +1,9 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.shadows" as shadows;
 
-.c-ServicesAlertFormPage {
+.c-Alert {
+  padding-bottom: 37px;
+
   &__Form {
     display: flex;
     flex-direction: column;
@@ -44,6 +46,12 @@
     padding: 16px 20px 32px;
     background-color: colors.$white;
     border-radius: 8px;
+  }
+
+  &__Label {
+    color: colors.$blue-2;
+    font-weight: 700;
+    font-size: 16px;
   }
 
   &__Buttons {

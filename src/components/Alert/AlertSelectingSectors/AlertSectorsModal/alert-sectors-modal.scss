@@ -1,0 +1,27 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-AlertSectorsModal {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  &__ModalTitle {
+    color: colors.$expert-blue;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 35px;
+  }
+
+  &__ModalFields {
+    padding-top: 16px;
+    color: colors.$gray-600;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  &__ModalButtons {
+    display: flex;
+    gap: 24px;
+  }
+}

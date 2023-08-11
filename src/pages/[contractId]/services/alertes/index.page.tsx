@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import Link from "next/link";
-import { format, isBefore, parseISO } from "date-fns";
+import { add, addHours, format, parseISO } from "date-fns";
 import {
   ICurrentPagination,
   IDefaultTableRow,
@@ -60,7 +60,7 @@ export function AlertsPage() {
   );
 
   const currentTimeString = useMemo(
-    () => format(currentDate, "HH:mm"),
+    () => format(addHours(currentDate, 5), "HH:mm"),
     [currentDate],
   );
 
@@ -204,8 +204,15 @@ export function AlertsPage() {
   ];
 
   const actionColumn = (row: IAlertsTableRow): Array<IDataTableAction> => {
+    const customizedCurrentDate = add(currentDate, { hours: 5 });
     const scheduledDate = row.scheduledAt;
-    const isAlertSent = isBefore(scheduledDate, currentDate);
+    const scheduledTime = add(scheduledDate, {
+      hours: +row.scheduledAtTime.split(":")[0],
+      minutes: +row.scheduledAtTime.split(":")[1],
+    });
+    const isAlertSent =
+      scheduledDate.getDate() < currentDate.getDate() ||
+      +scheduledTime < +customizedCurrentDate;
     const actions: Array<IDataTableAction> = [];
 
     if (isAlertSent) {
@@ -233,14 +240,12 @@ export function AlertsPage() {
     useState<Array<ICommonButtonGroupSingle>>();
 
   const filtersNode = (
-    <>
-      <CommonButtonGroup
-        buttons={filterButtonGroup ?? []}
-        onChange={(button) =>
-          setFilters({ ...filters, scheduledAt: button.value })
-        }
-      />
-    </>
+    <CommonButtonGroup
+      buttons={filterButtonGroup ?? []}
+      onChange={(button) =>
+        setFilters({ ...filters, scheduledAt: button.value })
+      }
+    />
   );
 
   useEffect(() => {
@@ -344,7 +349,7 @@ export function AlertsPage() {
               defaultPage,
             }}
             onLazyLoad={handleLazyLoad}
-          ></CommonDataTable>
+          />
         </CommonLoader>
       </div>
     </div>

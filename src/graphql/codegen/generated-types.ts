@@ -3850,15 +3850,6 @@ export type GlobalInput = {
   siteName?: InputMaybe<Scalars["String"]>;
 };
 
-export type Historic = {
-  __typename?: "Historic";
-  city?: Maybe<Scalars["String"]>;
-  date?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  recipient?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-};
-
 export type Homepage = {
   __typename?: "Homepage";
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
@@ -6514,7 +6505,6 @@ export type Query = {
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  getRequestsHistoric?: Maybe<Array<Maybe<Historic>>>;
   getStatusExport?: Maybe<Scalars["String"]>;
   getThreeRandomTips?: Maybe<Array<Maybe<Tips>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
@@ -7063,10 +7053,6 @@ export type QueryGetPickUpDaysByCoordinatesArgs = {
   lat: Scalars["Float"];
   long: Scalars["Float"];
   pickUpDayServiceId: Scalars["ID"];
-};
-
-export type QueryGetRequestsHistoricArgs = {
-  requestServiceId: Scalars["Int"];
 };
 
 export type QueryGetStatusExportArgs = {
@@ -15854,14 +15840,18 @@ export type CreateAlertNotificationMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "AlertNotification";
-        alertDescription: string;
-        scheduledAt: any;
-        scheduledAtTime: string;
-        sectorizations?: {
-          __typename?: "SectorizationRelationResponseCollection";
+        alertUserStorages?: {
+          __typename?: "AlertUserStorageRelationResponseCollection";
           data: Array<{
-            __typename?: "SectorizationEntity";
-            id?: string | null;
+            __typename?: "AlertUserStorageEntity";
+            attributes?: {
+              __typename?: "AlertUserStorage";
+              alertNotificationServiceId: string;
+              email?: string | null;
+              phoneNumber?: string | null;
+              isSMS: boolean;
+              isEmail: boolean;
+            } | null;
           }>;
         } | null;
       } | null;
@@ -15905,6 +15895,22 @@ export type GetAlertNotificationByIdQuery = {
         subject?: string | null;
         sendSMS?: boolean | null;
         sendMail?: boolean | null;
+        sectorizations?: {
+          __typename?: "SectorizationRelationResponseCollection";
+          data: Array<{
+            __typename?: "SectorizationEntity";
+            id?: string | null;
+            attributes?: { __typename?: "Sectorization"; name: string } | null;
+          }>;
+        } | null;
+        cities?: {
+          __typename?: "CityRelationResponseCollection";
+          data: Array<{
+            __typename?: "CityEntity";
+            id?: string | null;
+            attributes?: { __typename?: "City"; name?: string | null } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -15991,6 +15997,80 @@ export type GetAlertNotificationsByContractIdQuery = {
   } | null;
 };
 
+export type GetAllRequestsEmailByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetAllRequestsEmailByContractIdQuery = {
+  __typename?: "Query";
+  requests?: {
+    __typename?: "RequestEntityResponseCollection";
+    data: Array<{
+      __typename?: "RequestEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Request";
+        requestType?: Array<{
+          __typename?: "ComponentBlocksRequestType";
+          id: string;
+          title: string;
+          email?: string | null;
+          isEmail?: boolean | null;
+          isTSMS?: boolean | null;
+        } | null> | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type ProgrammedSendMutationVariables = Exact<{
+  isEmail?: InputMaybe<Scalars["Boolean"]>;
+  isSms?: InputMaybe<Scalars["Boolean"]>;
+  mailSubject?: InputMaybe<Scalars["String"]>;
+  smsTitle?: InputMaybe<Scalars["String"]>;
+  alertMessage?: InputMaybe<Scalars["String"]>;
+  scheduledAt?: InputMaybe<Scalars["Date"]>;
+  time?: InputMaybe<Scalars["String"]>;
+  recipientEmails?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+  recipientnumbers?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type ProgrammedSendMutation = {
+  __typename?: "Mutation";
+  programmedSend?: string | null;
+};
+
+export type SendEmailMutationVariables = Exact<{
+  subject?: InputMaybe<Scalars["String"]>;
+  content?: InputMaybe<Scalars["String"]>;
+  recipientEmails:
+    | Array<InputMaybe<Scalars["String"]>>
+    | InputMaybe<Scalars["String"]>;
+}>;
+
+export type SendEmailMutation = {
+  __typename?: "Mutation";
+  sendEmail?: string | null;
+};
+
+export type SendSmsMutationVariables = Exact<{
+  content: Scalars["String"];
+  scheduledAt?: InputMaybe<Scalars["String"]>;
+  sendMultiple?: InputMaybe<Scalars["Boolean"]>;
+  phoneNumber:
+    | Array<InputMaybe<Scalars["String"]>>
+    | InputMaybe<Scalars["String"]>;
+}>;
+
+export type SendSmsMutation = {
+  __typename?: "Mutation";
+  sendSMS?: string | null;
+};
+
 export type UpdateAlertNotificationByIdMutationVariables = Exact<{
   updateAlertNotificationId: Scalars["ID"];
   data: AlertNotificationInput;
@@ -16005,13 +16085,20 @@ export type UpdateAlertNotificationByIdMutation = {
       id?: string | null;
       attributes?: {
         __typename?: "AlertNotification";
-        alertDescription: string;
-        alertMessage?: string | null;
-        scheduledAt: any;
-        scheduledAtTime: string;
-        sendSMS?: boolean | null;
-        sendMail?: boolean | null;
-        subject?: string | null;
+        alertUserStorages?: {
+          __typename?: "AlertUserStorageRelationResponseCollection";
+          data: Array<{
+            __typename?: "AlertUserStorageEntity";
+            attributes?: {
+              __typename?: "AlertUserStorage";
+              alertNotificationServiceId: string;
+              email?: string | null;
+              phoneNumber?: string | null;
+              isSMS: boolean;
+              isEmail: boolean;
+            } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -28290,17 +28377,20 @@ export type UpdateAudienceMutationOptions = Apollo.BaseMutationOptions<
   UpdateAudienceMutationVariables
 >;
 export const CreateAlertNotificationDocument = gql`
-  mutation createAlertNotification($data: AlertNotificationInput!) {
+  mutation CreateAlertNotification($data: AlertNotificationInput!) {
     createAlertNotification(data: $data) {
       data {
         id
         attributes {
-          alertDescription
-          scheduledAt
-          scheduledAtTime
-          sectorizations {
+          alertUserStorages {
             data {
-              id
+              attributes {
+                alertNotificationServiceId
+                email
+                phoneNumber
+                isSMS
+                isEmail
+              }
             }
           }
         }
@@ -28418,6 +28508,22 @@ export const GetAlertNotificationByIdDocument = gql`
           subject
           sendSMS
           sendMail
+          sectorizations {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          cities {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -28628,6 +28734,268 @@ export type GetAlertNotificationsByContractIdQueryResult = Apollo.QueryResult<
   GetAlertNotificationsByContractIdQuery,
   GetAlertNotificationsByContractIdQueryVariables
 >;
+export const GetAllRequestsEmailByContractIdDocument = gql`
+  query getAllRequestsEmailByContractId($contractId: ID!) {
+    requests(
+      filters: { requestService: { contract: { id: { eq: $contractId } } } }
+    ) {
+      data {
+        id
+        attributes {
+          requestType {
+            id
+            title
+            email
+            isEmail
+            isTSMS
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAllRequestsEmailByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetAllRequestsEmailByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllRequestsEmailByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllRequestsEmailByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetAllRequestsEmailByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetAllRequestsEmailByContractIdQuery,
+    GetAllRequestsEmailByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetAllRequestsEmailByContractIdQuery,
+    GetAllRequestsEmailByContractIdQueryVariables
+  >(GetAllRequestsEmailByContractIdDocument, options);
+}
+export function useGetAllRequestsEmailByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllRequestsEmailByContractIdQuery,
+    GetAllRequestsEmailByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAllRequestsEmailByContractIdQuery,
+    GetAllRequestsEmailByContractIdQueryVariables
+  >(GetAllRequestsEmailByContractIdDocument, options);
+}
+export type GetAllRequestsEmailByContractIdQueryHookResult = ReturnType<
+  typeof useGetAllRequestsEmailByContractIdQuery
+>;
+export type GetAllRequestsEmailByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetAllRequestsEmailByContractIdLazyQuery
+>;
+export type GetAllRequestsEmailByContractIdQueryResult = Apollo.QueryResult<
+  GetAllRequestsEmailByContractIdQuery,
+  GetAllRequestsEmailByContractIdQueryVariables
+>;
+export const ProgrammedSendDocument = gql`
+  mutation ProgrammedSend(
+    $isEmail: Boolean
+    $isSms: Boolean
+    $mailSubject: String
+    $smsTitle: String
+    $alertMessage: String
+    $scheduledAt: Date
+    $time: String
+    $recipientEmails: [String]
+    $recipientnumbers: [String]
+  ) {
+    programmedSend(
+      isEmail: $isEmail
+      isSMS: $isSms
+      mailSubject: $mailSubject
+      smsTitle: $smsTitle
+      alertMessage: $alertMessage
+      scheduledAt: $scheduledAt
+      time: $time
+      recipientEmails: $recipientEmails
+      recipientnumbers: $recipientnumbers
+    )
+  }
+`;
+export type ProgrammedSendMutationFn = Apollo.MutationFunction<
+  ProgrammedSendMutation,
+  ProgrammedSendMutationVariables
+>;
+
+/**
+ * __useProgrammedSendMutation__
+ *
+ * To run a mutation, you first call `useProgrammedSendMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProgrammedSendMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [programmedSendMutation, { data, loading, error }] = useProgrammedSendMutation({
+ *   variables: {
+ *      isEmail: // value for 'isEmail'
+ *      isSms: // value for 'isSms'
+ *      mailSubject: // value for 'mailSubject'
+ *      smsTitle: // value for 'smsTitle'
+ *      alertMessage: // value for 'alertMessage'
+ *      scheduledAt: // value for 'scheduledAt'
+ *      time: // value for 'time'
+ *      recipientEmails: // value for 'recipientEmails'
+ *      recipientnumbers: // value for 'recipientnumbers'
+ *   },
+ * });
+ */
+export function useProgrammedSendMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ProgrammedSendMutation,
+    ProgrammedSendMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ProgrammedSendMutation,
+    ProgrammedSendMutationVariables
+  >(ProgrammedSendDocument, options);
+}
+export type ProgrammedSendMutationHookResult = ReturnType<
+  typeof useProgrammedSendMutation
+>;
+export type ProgrammedSendMutationResult =
+  Apollo.MutationResult<ProgrammedSendMutation>;
+export type ProgrammedSendMutationOptions = Apollo.BaseMutationOptions<
+  ProgrammedSendMutation,
+  ProgrammedSendMutationVariables
+>;
+export const SendEmailDocument = gql`
+  mutation SendEmail(
+    $subject: String
+    $content: String
+    $recipientEmails: [String]!
+  ) {
+    sendEmail(
+      subject: $subject
+      content: $content
+      recipientEmails: $recipientEmails
+    )
+  }
+`;
+export type SendEmailMutationFn = Apollo.MutationFunction<
+  SendEmailMutation,
+  SendEmailMutationVariables
+>;
+
+/**
+ * __useSendEmailMutation__
+ *
+ * To run a mutation, you first call `useSendEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendEmailMutation, { data, loading, error }] = useSendEmailMutation({
+ *   variables: {
+ *      subject: // value for 'subject'
+ *      content: // value for 'content'
+ *      recipientEmails: // value for 'recipientEmails'
+ *   },
+ * });
+ */
+export function useSendEmailMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SendEmailMutation,
+    SendEmailMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<SendEmailMutation, SendEmailMutationVariables>(
+    SendEmailDocument,
+    options,
+  );
+}
+export type SendEmailMutationHookResult = ReturnType<
+  typeof useSendEmailMutation
+>;
+export type SendEmailMutationResult = Apollo.MutationResult<SendEmailMutation>;
+export type SendEmailMutationOptions = Apollo.BaseMutationOptions<
+  SendEmailMutation,
+  SendEmailMutationVariables
+>;
+export const SendSmsDocument = gql`
+  mutation SendSMS(
+    $content: String!
+    $scheduledAt: String
+    $sendMultiple: Boolean
+    $phoneNumber: [String]!
+  ) {
+    sendSMS(
+      content: $content
+      scheduledAt: $scheduledAt
+      sendMultiple: $sendMultiple
+      phoneNumber: $phoneNumber
+    )
+  }
+`;
+export type SendSmsMutationFn = Apollo.MutationFunction<
+  SendSmsMutation,
+  SendSmsMutationVariables
+>;
+
+/**
+ * __useSendSmsMutation__
+ *
+ * To run a mutation, you first call `useSendSmsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendSmsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendSmsMutation, { data, loading, error }] = useSendSmsMutation({
+ *   variables: {
+ *      content: // value for 'content'
+ *      scheduledAt: // value for 'scheduledAt'
+ *      sendMultiple: // value for 'sendMultiple'
+ *      phoneNumber: // value for 'phoneNumber'
+ *   },
+ * });
+ */
+export function useSendSmsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SendSmsMutation,
+    SendSmsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<SendSmsMutation, SendSmsMutationVariables>(
+    SendSmsDocument,
+    options,
+  );
+}
+export type SendSmsMutationHookResult = ReturnType<typeof useSendSmsMutation>;
+export type SendSmsMutationResult = Apollo.MutationResult<SendSmsMutation>;
+export type SendSmsMutationOptions = Apollo.BaseMutationOptions<
+  SendSmsMutation,
+  SendSmsMutationVariables
+>;
 export const UpdateAlertNotificationByIdDocument = gql`
   mutation updateAlertNotificationById(
     $updateAlertNotificationId: ID!
@@ -28637,13 +29005,17 @@ export const UpdateAlertNotificationByIdDocument = gql`
       data {
         id
         attributes {
-          alertDescription
-          alertMessage
-          scheduledAt
-          scheduledAtTime
-          sendSMS
-          sendMail
-          subject
+          alertUserStorages {
+            data {
+              attributes {
+                alertNotificationServiceId
+                email
+                phoneNumber
+                isSMS
+                isEmail
+              }
+            }
+          }
         }
       }
     }
