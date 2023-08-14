@@ -369,7 +369,7 @@ export function RequestFormPage({
     { option: "ComponentBlocksCumbersome", props: { maxBlocks: 1 } },
     { option: "ComponentBlocksQuestions" },
     { option: "ComponentBlocksQcm" },
-    { option: "ComponentBlocksDateChoice" },
+    { option: "ComponentBlocksDateChoice", props: { maxBlocks: 1 } },
     { option: "ComponentBlocksCheckbox" },
   ];
   const requestTypeDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> =

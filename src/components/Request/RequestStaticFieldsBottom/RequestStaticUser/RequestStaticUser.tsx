@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { IOptionWrapper } from "../../../Form/FormMultiselect/FormMultiselect";
 import FormCheckbox from "../../../Form/FormCheckbox/FormCheckbox";
 import FormSelect from "../../../Form/FormSelect/FormSelect";
@@ -63,6 +64,8 @@ export default function RequestStaticUser({
       label: labels.staticMandatoryFieldStateSelectLabelFalseOption,
     },
   ];
+  const { watch } = useFormContext();
+  const requestTypes = watch("requestType", { nest: true });
 
   useEffect(() => {
     setLocalHasUser(hasUser);
@@ -132,13 +135,19 @@ export default function RequestStaticUser({
                   isRequired
                 />
               </div>
-              <div className="c-RequestStaticUser__Field c-RequestStaticUser__UserAllowSMSNotification">
-                <FormCheckbox
-                  name={"userAllowSMSNotification"}
-                  label={labels.staticUserSMSCheckboxStateLabel}
-                  defaultChecked={false}
-                />
-              </div>
+              {requestTypes &&
+                Array.isArray(requestTypes) &&
+                requestTypes
+                  .map((requestType) => requestType.isTSMS)
+                  .some((isTSMS) => !!isTSMS) && (
+                  <div className="c-RequestStaticUser__Field c-RequestStaticUser__UserAllowSMSNotification">
+                    <FormCheckbox
+                      name={"userAllowSMSNotification"}
+                      label={labels.staticUserSMSCheckboxStateLabel}
+                      defaultChecked={false}
+                    />
+                  </div>
+                )}
             </div>
           </div>
         )}
