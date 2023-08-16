@@ -60,9 +60,9 @@ export default function Alert({
   const messages = {
     mandatoryFields: "Tous les champs marqués d'une * sont obligatoires.",
     required: "Ce champ est obligatoire",
-    maxLengthAlertTitle: 11,
-    maxLengthAlertMessage: 160,
-    maxChars: "11 caractères maximum",
+    maxLengthTitle: 11,
+    maxLengthMessage: 160,
+    maxChars: "caractères maximum",
   };
 
   /* External Data */
@@ -223,6 +223,7 @@ export default function Alert({
           )}`,
           sendMultiple: true,
           phoneNumber: users
+            .filter((user) => user.attributes?.isSMS)
             .map((user) => user.attributes?.phoneNumber)
             .filter(removeNulls),
         },
@@ -242,6 +243,7 @@ export default function Alert({
       sendEmail({
         variables: {
           recipientEmails: users
+            .filter((user) => user.attributes?.isEmail)
             .map((user) => user.attributes?.email)
             .filter(removeNulls),
           subject: submitData.subject,
@@ -270,9 +272,11 @@ export default function Alert({
           scheduledAt: format(new Date(), "yyyy-MM-dd"),
           time: submitData.scheduledAtTime,
           recipientEmails: users
+            .filter((user) => user.attributes?.isEmail)
             .map((user) => user.attributes?.email)
             .filter(removeNulls),
           recipientnumbers: users
+            .filter((user) => user.attributes?.isSMS)
             .map((user) => user.attributes?.phoneNumber)
             .filter(removeNulls),
         },
@@ -416,9 +420,9 @@ export default function Alert({
                   <FormInput
                     name="alertTitle"
                     label={formLabels.alertTitle}
-                    isDisabled={!watch("sendSMS")}
-                    maxLengthValidation={messages.maxLengthAlertTitle}
-                    informationLabel={messages.maxChars}
+                    isHidden={!watch("sendSMS")}
+                    maxLengthValidation={messages.maxLengthTitle}
+                    informationLabel={`${messages.maxLengthTitle} ${messages.maxChars}`}
                     isRequired={watch("sendSMS")}
                   />
                   <FormInput
@@ -426,8 +430,8 @@ export default function Alert({
                     name="alertMessage"
                     label={formLabels.alertMessage}
                     isDisabled={!watch("sendSMS")}
-                    maxLengthValidation={messages.maxLengthAlertMessage}
-                    informationLabel={messages.maxChars}
+                    maxLengthValidation={messages.maxLengthMessage}
+                    informationLabel={`${messages.maxLengthMessage} ${messages.maxChars}`}
                     isRequired={watch("sendSMS")}
                     isHidden={watch("sendMail")}
                   />
@@ -444,9 +448,9 @@ export default function Alert({
                   <FormInput
                     name="subject"
                     label={formLabels.subject}
-                    isDisabled={!watch("sendMail")}
-                    maxLengthValidation={messages.maxLengthAlertTitle}
-                    informationLabel={messages.maxChars}
+                    isHidden={!watch("sendMail")}
+                    maxLengthValidation={messages.maxLengthTitle}
+                    informationLabel={`${messages.maxLengthTitle} ${messages.maxChars}`}
                     isRequired={watch("sendMail")}
                   />
                   <FormInput
@@ -454,8 +458,8 @@ export default function Alert({
                     name="alertMessage"
                     label={formLabels.alertMessage}
                     isDisabled={!watch("sendMail")}
-                    maxLengthValidation={messages.maxLengthAlertMessage}
-                    informationLabel={messages.maxChars}
+                    maxLengthValidation={messages.maxLengthMessage}
+                    informationLabel={`${messages.maxLengthMessage} ${messages.maxChars}`}
                     isRequired={watch("sendMail")}
                     isHidden={!watch("sendMail") && watch("sendSMS")}
                   />

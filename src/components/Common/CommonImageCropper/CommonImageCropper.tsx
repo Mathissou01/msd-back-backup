@@ -68,6 +68,7 @@ export default function CommonImageCropper({
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const [verifyCrop, setVerifyCrop] = useState<boolean>(false);
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+  const blobUrlRef = useRef("");
 
   const [aspect] = useState<number | undefined>(16 / 9);
 
@@ -94,49 +95,12 @@ export default function CommonImageCropper({
   );
 
   const handleCrop = () => {
+    if (!previewCanvasRef.current) {
+      throw new Error("Crop canvas does not exist");
+    }
+
     if (completedCrop) {
       setVerifyCrop(true);
-
-      const image = previewCanvasRef.current?.toDataURL(
-        "image/" + fileToEdit.ext,
-      );
-
-      const isBase64 = (value: string) =>
-        /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$/.test(
-          value,
-        );
-      const b64toBlob = (
-        b64Data: string,
-        contentType = "",
-        sliceSize = 512,
-      ) => {
-        const newB64 = b64Data.split(",");
-        if (!isBase64(newB64[1])) {
-          throw new Error("Input is not a valid base64 string");
-        }
-        const byteCharacters = window.atob(newB64[1]);
-        const byteArrays = [];
-
-        for (
-          let offset = 0;
-          offset < byteCharacters.length;
-          offset += sliceSize
-        ) {
-          const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-          const byteNumbers = new Array(slice.length);
-          for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-          }
-
-          const byteArray = new Uint8Array(byteNumbers);
-          byteArrays.push(byteArray);
-        }
-
-        const blob = new Blob(byteArrays, { type: contentType });
-
-        return blob;
-      };
 
       const blobToFile = (theBlob: Blob, fileName: string): File => {
         const b: IBlob = theBlob;
@@ -146,28 +110,37 @@ export default function CommonImageCropper({
         return theBlob as File;
       };
 
-      const blob = b64toBlob(image ?? "", fileToEdit.mime);
-      const file = blobToFile(blob, fileToEdit.name);
+      previewCanvasRef.current.toBlob((blob) => {
+        if (!blob) {
+          throw new Error("Failed to create blob");
+        }
+        if (blobUrlRef.current) {
+          URL.revokeObjectURL(blobUrlRef.current);
+        }
+        blobUrlRef.current = URL.createObjectURL(blob);
 
-      const croppedFile = {
-        ...fileToEdit,
-        name: file.name,
-        size: file.size,
-        mime: file.type,
-        ext: fileToEdit.ext,
-        width: Math.round(completedCrop.width),
-        height: Math.round(completedCrop.height),
-        date: new Date().toLocaleDateString(),
-        url: URL.createObjectURL(blob),
-        file,
-      };
+        const file = blobToFile(blob, fileToEdit.name);
 
-      onCropCompleted(
-        croppedFile,
-        URL.createObjectURL(blob),
-        completedCrop.width,
-        completedCrop.height,
-      );
+        const croppedFile = {
+          ...fileToEdit,
+          name: file.name,
+          size: file.size,
+          mime: file.type,
+          ext: fileToEdit.ext,
+          width: Math.round(completedCrop.width),
+          height: Math.round(completedCrop.height),
+          date: new Date().toLocaleDateString(),
+          url: URL.createObjectURL(blob),
+          file,
+        };
+
+        onCropCompleted(
+          croppedFile,
+          URL.createObjectURL(blob),
+          completedCrop.width,
+          completedCrop.height,
+        );
+      });
     }
   };
 
@@ -198,6 +171,7 @@ export default function CommonImageCropper({
               crop={crop}
               onChange={(_, percentCrop) => setCrop(percentCrop)}
               onComplete={(c) => setCompletedCrop(c)}
+              className="c-CommonImageCropper__ReactCrop"
             >
               {!verifyCrop && (
                 <Image
@@ -206,7 +180,8 @@ export default function CommonImageCropper({
                   alt="Crop me"
                   src={fileToEdit.url}
                   onLoad={onImageLoad}
-                  fill
+                  width={500}
+                  height={300}
                   crossOrigin="anonymous"
                 />
               )}
@@ -215,14 +190,17 @@ export default function CommonImageCropper({
         </>
       )}
       <div style={{ display: "none" }}>
-        <canvas
-          ref={previewCanvasRef}
-          style={{
-            objectFit: "contain",
-            width: "100%",
-            height: "100%",
-          }}
-        />
+        {!!completedCrop && (
+          <canvas
+            ref={previewCanvasRef}
+            style={{
+              border: "1px solid red",
+              objectFit: "contain",
+              width: completedCrop?.width,
+              height: completedCrop?.height,
+            }}
+          />
+        )}
       </div>
     </div>
   );

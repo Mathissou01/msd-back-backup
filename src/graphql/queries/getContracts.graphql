@@ -10,6 +10,7 @@ query getContracts {
         clientType
         isNonExclusive
         isRVFrance
+        isFreemium
         logo {
           data {
             id
