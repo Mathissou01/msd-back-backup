@@ -1,9 +1,21 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
 .c-Footer {
-  position: relative;
-  z-index: 10;
-  background-color: colors.$white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid colors.$gray-200;
+
+  &__Version {
+    margin-left: 1em;
+    font-size: 16px;
+  }
+
+  &__ContentContainer {
+    position: relative;
+    z-index: 10;
+    background-color: colors.$white;
+  }
 
   &__Content {
     display: flex;

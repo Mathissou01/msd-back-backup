@@ -1,5 +1,6 @@
-import "./footer.scss";
 import Image from "next/image";
+import { version } from "../../../package.json";
+import "./footer.scss";
 
 interface IFooterProps {
   isRoot?: boolean;
@@ -9,17 +10,20 @@ export default function Footer({ isRoot = false }: IFooterProps) {
   return (
     <>
       {!isRoot && (
-        <footer className="c-Footer">
-          <div className="c-Footer__Content">
-            <Image
-              className="c-Footer__LogoSuez"
-              src="/images/suez-logo.svg"
-              alt="logo_footer"
-              width={110}
-              height={50}
-            />
-          </div>
-        </footer>
+        <div className="c-Footer">
+          <span className="c-Footer__Version">Version - {version}</span>
+          <footer className="c-Footer__ContentContainer">
+            <div className="c-Footer__Content">
+              <Image
+                className="c-Footer__LogoSuez"
+                src="/images/suez-logo.svg"
+                alt="logo_footer"
+                width={110}
+                height={50}
+              />
+            </div>
+          </footer>
+        </div>
       )}
     </>
   );

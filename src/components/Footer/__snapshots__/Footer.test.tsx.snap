@@ -2,24 +2,34 @@
 
 exports[`Footer renders a basic footer 1`] = `
 <div>
-  <footer
+  <div
     class="c-Footer"
   >
-    <div
-      class="c-Footer__Content"
+    <span
+      class="c-Footer__Version"
     >
-      <img
-        alt="logo_footer"
-        class="c-Footer__LogoSuez"
-        data-nimg="1"
-        decoding="async"
-        height="50"
-        loading="lazy"
-        src="/images/suez-logo.svg"
-        style="color: transparent;"
-        width="110"
-      />
-    </div>
-  </footer>
+      Version - 
+      0.0.1
+    </span>
+    <footer
+      class="c-Footer__ContentContainer"
+    >
+      <div
+        class="c-Footer__Content"
+      >
+        <img
+          alt="logo_footer"
+          class="c-Footer__LogoSuez"
+          data-nimg="1"
+          decoding="async"
+          height="50"
+          loading="lazy"
+          src="/images/suez-logo.svg"
+          style="color: transparent;"
+          width="110"
+        />
+      </div>
+    </footer>
+  </div>
 </div>
 `;
