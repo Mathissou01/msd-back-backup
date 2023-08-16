@@ -14,6 +14,7 @@ export const mockData = {
     ccap: 123456789,
     isNonExclusive: false,
     isRVFrance: true,
+    isFreemium: false,
     pathId: 2,
     logo: {
       data: null,

@@ -3837,6 +3837,15 @@ export type GlobalInput = {
   siteName?: InputMaybe<Scalars["String"]>;
 };
 
+export type Historic = {
+  __typename?: "Historic";
+  city?: Maybe<Scalars["String"]>;
+  date?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  recipient?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+};
+
 export type Homepage = {
   __typename?: "Homepage";
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
@@ -6489,6 +6498,7 @@ export type Query = {
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  getRequestsHistoric?: Maybe<Array<Maybe<Historic>>>;
   getStatusExport?: Maybe<Scalars["String"]>;
   getThreeRandomTips?: Maybe<Array<Maybe<Tips>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
@@ -7043,6 +7053,10 @@ export type QueryGetPickUpDaysByCoordinatesArgs = {
   lat: Scalars["Float"];
   long: Scalars["Float"];
   pickUpDayServiceId: Scalars["ID"];
+};
+
+export type QueryGetRequestsHistoricArgs = {
+  requestServiceId: Scalars["Int"];
 };
 
 export type QueryGetStatusExportArgs = {
