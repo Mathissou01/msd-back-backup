@@ -22,6 +22,13 @@ export type TWeeklySlots = {
   [Index in TWeekDayIndexString]?: TTimeSlot;
 };
 
+export type TSlotException = {
+  endDate: string;
+  startDate: string;
+  timeSlots: TWeeklySlots;
+  hasAppointmentSlots: boolean;
+};
+
 export const slotTypeLabelMap: Record<
   keyof typeof Enum_Requestslot_Slottype,
   string
@@ -108,7 +115,7 @@ export function parseSlotsExceptions(
 ) {
   const slotExceptionsMapped: Array<IExceptionSlotDisplay> =
     slotsExceptions?.map((slotExceptionData) => {
-      const exceptionTimeSlots = slotExceptionData?.slotException.timeSlots;
+      const exceptionTimeSlots = slotExceptionData?.slotException?.timeSlots;
       const scalarTimeSlots: Scalars["JSON"][] = [];
       if (exceptionTimeSlots) {
         const exceptionTimeSlotsKeys = Object.keys(exceptionTimeSlots);
@@ -130,8 +137,8 @@ export function parseSlotsExceptions(
       if (firstExceptionTimeSlot) {
         slots.push(firstExceptionTimeSlot);
       }
-      const exceptionStartDate = slotExceptionData?.slotException.startDate;
-      const exceptionEndDate = slotExceptionData?.slotException.endDate;
+      const exceptionStartDate = slotExceptionData?.slotException?.startDate;
+      const exceptionEndDate = slotExceptionData?.slotException?.endDate;
       const data: IExceptionSlotDisplay = {
         exceptionType:
           slotExceptionData?.exceptionType ??

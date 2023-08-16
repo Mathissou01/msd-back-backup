@@ -1,8 +1,8 @@
+import React, { useState } from "react";
+import { registerLocale } from "react-datepicker";
 import classNames from "classnames";
 import { setHours, setMinutes } from "date-fns";
 import fr from "date-fns/locale/fr";
-import React from "react";
-import { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { dateToSlotString, IDay, timeStringToDate } from "../../../../lib/time";
 import { TTimeSlot } from "../../../../lib/requests";
@@ -67,6 +67,14 @@ export default function TimeSlotDay({
     // Create timeSlots JSON object from existing values + modified value, with empty fallback
     const newMorningStart = updates.updatedMorningStart ?? morningStart ?? "";
     const newMorningEnd = updates.updatedMorningEnd ?? morningEnd ?? "";
+    setNewAfternoonMin(
+      newMorningEnd
+        ? setHours(
+            setMinutes(new Date(), parseInt(newMorningEnd.slice(3, 5))),
+            parseInt(newMorningEnd.slice(0, 2)),
+          )
+        : afternoonMin,
+    );
     const newMorningSlots =
       updates.updateMorningSlots === null
         ? undefined
@@ -106,6 +114,7 @@ export default function TimeSlotDay({
     afternoonEnd,
     afternoonSlots,
   } = parseValueIntoFields(value);
+  const [newAfternoonMin, setNewAfternoonMin] = useState<Date>();
 
   // Relative min/max dates
   const defaultMin = setHours(setMinutes(new Date(), 0), 0);
@@ -117,12 +126,17 @@ export default function TimeSlotDay({
   const morningEndMin =
     timeStringToDate(morningStart, 1) ?? morningMin ?? defaultMin;
   const morningEndMax = morningMax ?? defaultMax;
+
   // Afternoon
-  const afternoonStartMin = afternoonMin ?? defaultMin;
+  const afternoonStartMin =
+    timeStringToDate(morningEnd, 1) ?? afternoonMin ?? defaultMin;
   const afternoonStartMax =
     timeStringToDate(afternoonEnd, -1) ?? afternoonMax ?? defaultMax;
   const afternoonEndMin =
-    timeStringToDate(afternoonStart, 1) ?? afternoonMin ?? defaultMin;
+    timeStringToDate(afternoonStart, 1) ??
+    timeStringToDate(morningEnd, 1) ??
+    afternoonMin ??
+    defaultMin;
   const afternoonEndMax = afternoonMax ?? defaultMax;
 
   // Dynamic classnames
@@ -208,7 +222,7 @@ export default function TimeSlotDay({
                     updatedAfternoonStart: dateToSlotString(date),
                   })
                 }
-                minTime={afternoonStartMin}
+                minTime={newAfternoonMin ?? afternoonStartMin}
                 maxTime={afternoonStartMax}
                 isDisabled={isDisabled}
               />

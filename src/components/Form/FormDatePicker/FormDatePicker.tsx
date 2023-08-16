@@ -14,7 +14,7 @@ interface IDatePickerProps {
   minDate: Date;
   maxDate?: Date;
   endDate?: Date;
-  label: string;
+  label?: string;
   isDisabled?: boolean;
   isRequired?: boolean;
   selectsRange?: boolean;

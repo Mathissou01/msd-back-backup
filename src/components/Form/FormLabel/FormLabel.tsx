@@ -47,7 +47,7 @@ export default function FormLabel({
     <div className={labelClassNames}>
       <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
         <span className="c-FormLabel__Label">
-          {`${label}${isRequired ? " *" : ""}`}
+          {label && `${label}${isRequired ? " *" : ""}`}
           {labelDescription && (
             <span className="c-FormLabel__LabelDescription">
               {labelDescription}

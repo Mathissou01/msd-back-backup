@@ -14,6 +14,7 @@ import "./form-weekly-slots.scss";
 interface IFormWeeklySlotsProps {
   name: string;
   defaultValue?: TWeeklySlots;
+  weekDaysOverride?: Array<IDay>;
   titleLabel?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
@@ -22,6 +23,7 @@ interface IFormWeeklySlotsProps {
 export default function FormWeeklySlots({
   name,
   defaultValue,
+  weekDaysOverride,
   titleLabel,
   isRequired = false,
   isDisabled = false,
@@ -127,7 +129,7 @@ export default function FormWeeklySlots({
   }
 
   function validateTimeSlotDay(value: TWeeklySlots): boolean | string {
-    const errors = weekDays
+    const errors = (weekDaysOverride ?? weekDays)
       .map((day) => parseTimeSlotIntoErrors(value[day.index]))
       .filter(removeNulls);
     const isInvalid = errors.length > 0;
@@ -180,7 +182,7 @@ export default function FormWeeklySlots({
             render={({ field: { onChange, value } }) => {
               return (
                 <>
-                  {weekDays.map((day, i) => (
+                  {(weekDaysOverride ?? weekDays).map((day, i) => (
                     <TimeSlotDay
                       key={i}
                       idPrefix={name}

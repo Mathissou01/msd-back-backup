@@ -1,0 +1,39 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-RequestExceptions {
+  display: grid;
+  gap: 20px;
+
+  &__BlockException {
+    display: grid;
+    gap: 15px;
+    padding: 15px;
+    background-color: colors.$gray-100;
+
+    > .c-FormSelect {
+      width: 50%;
+    }
+  }
+
+  &__DateRange {
+    display: block;
+  }
+
+  &__BlockAction {
+    &_delete {
+      top: 10px;
+      right: 10px;
+      width: 15px;
+      height: 15px;
+      margin-left: 98%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' style='enable-background:new 0 0 24 24' xml:space='preserve' fill='%233d466c'%3E%3Cpath d='M1.751 7.118a.751.751 0 0 1-.156-1.484l5.869-1.247-.156-.731a2.247 2.247 0 0 1 .317-1.698c.328-.504.833-.85 1.421-.974l4.401-.935a2.231 2.231 0 0 1 1.692.316c.503.328.849.833.973 1.421l.155.73 5.869-1.247a.753.753 0 0 1 .889.577c.042.196.004.396-.105.564s-.277.283-.473.325l-6.56 1.395a.386.386 0 0 1-.042.012L8.51 5.701a.482.482 0 0 1-.052.008L1.907 7.101a.745.745 0 0 1-.156.017zm7.605-4.667a.747.747 0 0 0-.581.889l.156.735L14.8 2.827l-.155-.731a.748.748 0 0 0-.884-.581l-4.405.936zm1.395 16.299a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0V18a.75.75 0 0 1-.75.75zm4.5 0a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0V18a.75.75 0 0 1-.75.75z'/%3E%3Cpath d='M7.631 24a2.262 2.262 0 0 1-2.241-2.064L4.353 9.439a.748.748 0 1 1 1.494-.125l1.037 12.497c.032.386.36.688.747.688h10.735c.392 0 .72-.302.752-.688L20.433 6.75h-1.807a.75.75 0 0 1 0-1.5h2.625a.75.75 0 0 1 .747.816L20.613 21.94A2.262 2.262 0 0 1 18.371 24H7.631z'/%3E%3C/svg%3E");
+    }
+  }
+
+  .c-FormWeeklySlots {
+    &__DatePickersBlock {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}

@@ -19,19 +19,20 @@ import FormModalButtonInput from "../../../../../FormModalButtonInput/FormModalB
 import FormSelect from "../../../../../FormSelect/FormSelect";
 import { IOptionWrapper } from "../../../../../FormMultiselect/FormMultiselect";
 import FormWeeklySlots from "../../../../../FormWeeklySlots/FormWeeklySlots";
-import CommonButton from "../../../../../../Common/CommonButton/CommonButton";
+import RequestExceptions from "./RequestExceptions/RequestExceptions";
+import { IRequestExceptionsLabels } from "./RequestExceptions/RequestExceptionBlock/RequestExceptionBlock";
 import "./request-time-slots-and-exceptions.scss";
 
 interface IRequestSlotsAndExceptionsInput {
   slotType?: Enum_Requestslot_Slottype;
   timeSlots?: Scalars["JSON"];
-  slotExceptions?: Array<ComponentBlocksRequestSlotsExceptions>;
+  slotsExceptions?: Array<ComponentBlocksRequestSlotsExceptions>;
 }
 
 interface IRequestSlotsAndExceptionsModalFields {
   slotType: Enum_Requestslot_Slottype;
   timeSlots: Scalars["JSON"];
-  slotExceptions: Array<ComponentBlocksRequestSlotsExceptions>;
+  slotsExceptions: Array<ComponentBlocksRequestSlotsExceptions>;
 }
 
 export interface IRequestTimeSlotsAndExceptionsLabels {
@@ -47,8 +48,8 @@ export interface IRequestTimeSlotsAndExceptionsLabels {
     title: string;
     slotType: string;
     timeSlots: string;
-    addExceptionButton: string;
     saveButton: string;
+    slotsExceptions: IRequestExceptionsLabels;
   };
 }
 
@@ -76,7 +77,7 @@ export default function RequestTimeSlotsAndExceptions({
     const parsedTimeSlots: Array<ITimeSlotsDisplay> =
       parseTimeSlots(timeSlotsAndExceptions?.timeSlots) ?? [];
     const parsedExceptionSlots: Array<IExceptionSlotDisplay> =
-      parseSlotsExceptions(timeSlotsAndExceptions?.slotExceptions) ?? [];
+      parseSlotsExceptions(timeSlotsAndExceptions?.slotsExceptions) ?? [];
     return (
       <div className="c-RequestTimeSlotsAndExceptions__Content">
         {parsedTimeSlots.length > 0 ? (
@@ -135,14 +136,14 @@ export default function RequestTimeSlotsAndExceptions({
   ): IRequestSlotsAndExceptionsInput {
     const newSlotType = submitData.slotType;
     const newTimeSlots = submitData.timeSlots;
-    const newSlotExceptions = submitData.slotExceptions;
+    const newSlotsExceptions = submitData.slotsExceptions;
     setValue(slotTypeName, newSlotType);
     setValue(timeSlotsName, newTimeSlots);
-    setValue(exceptionsName, newSlotExceptions);
+    setValue(exceptionsName, newSlotsExceptions);
     return {
       slotType: newSlotType,
       timeSlots: newTimeSlots,
-      slotExceptions: newSlotExceptions,
+      slotsExceptions: newSlotsExceptions,
     };
   }
 
@@ -151,22 +152,22 @@ export default function RequestTimeSlotsAndExceptions({
   const existingSlotType: Enum_Requestslot_Slottype =
     getValues(slotTypeName) ?? Enum_Requestslot_Slottype.Weekly;
   const existingTimeSlots: TWeeklySlots = getValues(timeSlotsName);
-  const existingSlotExceptions: Array<ComponentBlocksRequestSlotsExceptions> =
+  const existingSlotsExceptions: Array<ComponentBlocksRequestSlotsExceptions> =
     getValues(exceptionsName);
   // If no existing values for modal fields, defaultValues is empty
   const defaultValues: IRequestSlotsAndExceptionsInput | undefined =
-    Object.values(existingTimeSlots).length > 0 ||
-    existingSlotExceptions?.length > 0
+    Object.values(existingTimeSlots).length > 0
       ? {
           slotType: existingSlotType,
           timeSlots: existingTimeSlots,
-          slotExceptions: existingSlotExceptions,
+          slotsExceptions: existingSlotsExceptions,
         }
       : undefined;
   // Type de créneaux
   const EnumKeys = Object.keys(Enum_Requestslot_Slottype) as Array<
     keyof typeof Enum_Requestslot_Slottype
   >;
+
   const slotTypeOptions: Array<IOptionWrapper<Enum_Requestslot_Slottype>> =
     EnumKeys.map((key) => {
       // TODO: only handles "weekly" type for MVP 0, remove this if() and the filter(removeNulls) later
@@ -201,7 +202,7 @@ export default function RequestTimeSlotsAndExceptions({
             name="slotType"
             label={labels.modalLabels.slotType}
             options={slotTypeOptions}
-            defaultValue={Enum_Requestslot_Slottype.Weekly}
+            defaultValue={existingSlotType}
             isRequired
             isDisabled={hasOneActivatedRequestTaked}
           />
@@ -213,14 +214,12 @@ export default function RequestTimeSlotsAndExceptions({
               isDisabled={hasOneActivatedRequestTaked}
             />
           </div>
-          <div>TODO: exceptions...</div>
-          {/* TODO: if hasOneActivatedRequestTaked -> disable modifying/deleting exceptions BUT can still add a new one */}
-          <div className="c-RequestTimeSlotsAndExceptions__ModalExceptions">
-            <CommonButton
-              label={labels.modalLabels.addExceptionButton}
-              picto="warning"
-            />
-          </div>
+          <RequestExceptions
+            name="slotsExceptions"
+            defaultValue={existingSlotsExceptions}
+            labels={labels.modalLabels.slotsExceptions}
+            hasOneActivatedRequestTaked={hasOneActivatedRequestTaked}
+          />
         </div>
       </FormModalButtonInput>
     </div>
