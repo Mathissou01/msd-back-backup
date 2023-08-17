@@ -105,6 +105,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
               <div
                 class="c-TimeSlotDay__Slot"
@@ -158,6 +161,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
             </div>
           </div>
@@ -231,6 +237,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
               <div
                 class="c-TimeSlotDay__Slot"
@@ -284,6 +293,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
             </div>
           </div>
@@ -357,6 +369,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
               <div
                 class="c-TimeSlotDay__Slot"
@@ -410,6 +425,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
             </div>
           </div>
@@ -483,6 +501,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
               <div
                 class="c-TimeSlotDay__Slot"
@@ -536,6 +557,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
             </div>
           </div>
@@ -609,6 +633,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
               <div
                 class="c-TimeSlotDay__Slot"
@@ -662,6 +689,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
             </div>
           </div>
@@ -735,6 +765,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
               <div
                 class="c-TimeSlotDay__Slot"
@@ -788,6 +821,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
             </div>
           </div>
@@ -861,6 +897,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
               <div
                 class="c-TimeSlotDay__Slot"
@@ -914,6 +953,9 @@ exports[`FormWeeklySlots renders 1`] = `
                   type="number"
                   value=""
                 />
+                <span>
+                  rendez-vous
+                </span>
               </div>
             </div>
           </div>

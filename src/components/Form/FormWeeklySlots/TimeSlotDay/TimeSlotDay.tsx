@@ -62,6 +62,9 @@ export default function TimeSlotDay({
   afternoonMin,
   afternoonMax,
 }: ITimeSlotDayProps) {
+  /* Static Data */
+  const appointmentLabel = "rendez-vous";
+
   /* Methods */
   function handleChange(updates: ITimeSlotUpdate) {
     // Create timeSlots JSON object from existing values + modified value, with empty fallback
@@ -212,6 +215,7 @@ export default function TimeSlotDay({
               }
               disabled={isDisabled}
             />
+            <span>{appointmentLabel}</span>
           </div>
           <div className="c-TimeSlotDay__Slot">
             <div className={afternoonPickerClassNames}>
@@ -250,6 +254,7 @@ export default function TimeSlotDay({
               }
               disabled={isDisabled}
             />
+            <span>{appointmentLabel}</span>
           </div>
         </div>
       </div>
