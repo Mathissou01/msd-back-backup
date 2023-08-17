@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { version } from "../../../package.json";
+import packageData from "../../../package.json";
 import "./footer.scss";
 
 interface IFooterProps {
@@ -11,7 +11,9 @@ export default function Footer({ isRoot = false }: IFooterProps) {
     <>
       {!isRoot && (
         <div className="c-Footer">
-          <span className="c-Footer__Version">Version - {version}</span>
+          <span className="c-Footer__Version">
+            Version - {packageData.version}
+          </span>
           <footer className="c-Footer__ContentContainer">
             <div className="c-Footer__Content">
               <Image
