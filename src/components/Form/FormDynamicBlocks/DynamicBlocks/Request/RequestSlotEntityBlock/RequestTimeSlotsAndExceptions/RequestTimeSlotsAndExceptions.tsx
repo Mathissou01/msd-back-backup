@@ -134,6 +134,27 @@ export default function RequestTimeSlotsAndExceptions({
   function handleModalSubmit(
     submitData: IRequestSlotsAndExceptionsModalFields,
   ): IRequestSlotsAndExceptionsInput {
+    // Remove data for items that are not set (the issue was only after an update on a previously defined slot)
+    const timeSlotsKeys = Object.keys(submitData.timeSlots);
+    timeSlotsKeys.forEach((timeSlotsKey) => {
+      if (Object.keys(submitData.timeSlots[timeSlotsKey]).length === 0) {
+        delete submitData.timeSlots[timeSlotsKey];
+      }
+    });
+    submitData.slotsExceptions.forEach((slotsException, slotExceptionId) => {
+      const exceptionsKeys = Object.keys(
+        slotsException.slotException.timeSlots,
+      );
+      exceptionsKeys.forEach((exceptionsKey) => {
+        if (
+          Object.keys(slotsException.slotException.timeSlots[exceptionsKey])
+            .length === 0
+        ) {
+          delete submitData.slotsExceptions[slotExceptionId].slotException
+            .timeSlots[exceptionsKey];
+        }
+      });
+    });
     const newSlotType = submitData.slotType;
     const newTimeSlots = submitData.timeSlots;
     const newSlotsExceptions = submitData.slotsExceptions;
