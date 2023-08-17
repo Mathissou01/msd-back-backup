@@ -25,16 +25,18 @@ export default function BarometerInsight({
   const maxVeryHigh = Math.round((watch("veryHigh") / 100) * averageProduction);
 
   const rootStyles = getComputedStyle(document.documentElement);
+  const white = rootStyles.getPropertyValue("--white");
   const graphLow = rootStyles.getPropertyValue("--graph-low");
   const graphMedium = rootStyles.getPropertyValue("--graph-medium");
   const graphHot = rootStyles.getPropertyValue("--graph-hot");
   const graphVeryHot = rootStyles.getPropertyValue("--graph-veryhot");
 
   const data: Data[] = [
+    { name: "0", value: 0, color: white },
     { name: "low", value: maxLow, color: graphLow },
-    { name: "medium", value: maxMedium, color: graphMedium },
-    { name: "high", value: maxHigh, color: graphHot },
-    { name: "veryHigh", value: maxVeryHigh, color: graphVeryHot },
+    { name: "medium", value: maxMedium - maxLow, color: graphMedium },
+    { name: "high", value: maxHigh - maxMedium, color: graphHot },
+    { name: "veryHigh", value: maxVeryHigh - maxHigh, color: graphVeryHot },
   ];
 
   const cx = 155;
@@ -103,7 +105,7 @@ export default function BarometerInsight({
             outerRadius={oR}
             stroke="none"
             label={({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
-              const radius = innerRadius + (outerRadius - innerRadius) * 1.1;
+              const radius = 25 + innerRadius + (outerRadius - innerRadius);
               const x = cx + Math.cos(midAngle * RADIAN) * radius;
               const y = cy + Math.sin(-midAngle * RADIAN) * radius;
 
@@ -121,7 +123,7 @@ export default function BarometerInsight({
                 </text>
               );
             }}
-            labelLine={false}
+            labelLine={true}
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
