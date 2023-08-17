@@ -126,14 +126,17 @@ export default function BarometerManagement() {
             ) : (
               <div className="c-BarometerManagement__ProductionContainer">
                 <BarometerForm />
-                <div className="c-BarometerManagement__Barometer">
-                  <BarometerInsight
-                    averageProduction={Number(
-                      averageProduction?.getMwcAverageProduction,
-                    )}
-                  />
-                  <BarometerLegend />
-                </div>
+                {averageProduction?.getMwcAverageProduction &&
+                  averageProduction?.getMwcAverageProduction > 0 && (
+                    <div className="c-BarometerManagement__Barometer">
+                      <BarometerInsight
+                        averageProduction={Number(
+                          averageProduction?.getMwcAverageProduction,
+                        )}
+                      />
+                      <BarometerLegend />
+                    </div>
+                  )}
               </div>
             )}
 
