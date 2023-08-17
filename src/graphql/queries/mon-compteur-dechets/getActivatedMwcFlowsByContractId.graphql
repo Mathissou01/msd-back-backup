@@ -1,4 +1,4 @@
-query getActivatedFlowsByContractId($contractId: ID!) {
+query getActivatedMwcFlowsByContractId($contractId: ID!) {
   flows(
     filters: {
       contract: { id: { eq: $contractId } }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import {
-  useGetActivatedFlowsByContractIdQuery,
+  useGetActivatedMwcFlowsByContractIdQuery,
   useGetMwcFlowsByContractIdLazyQuery,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
@@ -30,7 +30,7 @@ export default function Flow() {
       },
     });
 
-  const { data: dataFlowActivated } = useGetActivatedFlowsByContractIdQuery({
+  const { data: dataFlowActivated } = useGetActivatedMwcFlowsByContractIdQuery({
     variables: {
       contractId: contractId,
     },

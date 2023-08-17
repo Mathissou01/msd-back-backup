@@ -1,4 +1,4 @@
-mutation UpdateContactMwc(
+mutation updateMwcContact(
   $contractId: ID!
   $serviceName: String
   $postalAddress: String

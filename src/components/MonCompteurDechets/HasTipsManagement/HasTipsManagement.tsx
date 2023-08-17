@@ -1,8 +1,8 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import {
-  useGetHasTipsQuery,
-  useUpdateHasTipsMutation,
+  useGetMwcHasTipsQuery,
+  useUpdateMwcHasTipsMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
@@ -23,7 +23,7 @@ interface IHasTips {
 export default function HasTipsManagement() {
   const { contractId } = useContract();
 
-  const { data } = useGetHasTipsQuery({
+  const { data } = useGetMwcHasTipsQuery({
     variables: {
       filters: {
         contract: {
@@ -35,8 +35,8 @@ export default function HasTipsManagement() {
     },
   });
 
-  const [updateHasTips] = useUpdateHasTipsMutation({
-    refetchQueries: ["GetHasTips"],
+  const [updateMwcHasTips] = useUpdateMwcHasTipsMutation({
+    refetchQueries: ["getMwcHasTips"],
   });
 
   const hasTips =
@@ -49,7 +49,7 @@ export default function HasTipsManagement() {
   });
 
   const onSubmit = (data: IHasTips) => {
-    updateHasTips({
+    updateMwcHasTips({
       variables: {
         contractId: contractId,
         data: {

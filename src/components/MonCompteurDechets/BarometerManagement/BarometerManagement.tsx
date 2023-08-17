@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./barometer-management.scss";
 import { FormProvider, useForm } from "react-hook-form";
 import {
-  useGetBaroMeterParamsQuery,
+  useGetMwcBarometerParamsQuery,
   useGetMwcAverageProductionQuery,
-  useUpdateBarometerParamsMutation,
+  useUpdateMwcBarometerParamsMutation,
 } from "../../../graphql/codegen/generated-types";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import BarometerForm from "./BarometerForm/BarometerForm";
@@ -50,7 +50,7 @@ export default function BarometerManagement() {
     veryHigh: defaultValues.veryHigh,
   });
 
-  const { data: barometerData, loading } = useGetBaroMeterParamsQuery({
+  const { data: barometerData, loading } = useGetMwcBarometerParamsQuery({
     variables: { mwCounterServiceId: contractId },
   });
 
@@ -58,8 +58,8 @@ export default function BarometerManagement() {
     variables: { contractId: contractId },
   });
 
-  const [updateBarometerParams] = useUpdateBarometerParamsMutation({
-    refetchQueries: ["getBaroMeterParams"],
+  const [updateMwcBarometerParams] = useUpdateMwcBarometerParamsMutation({
+    refetchQueries: ["getMwcBarometerParams"],
   });
 
   const methods = useForm({
@@ -69,7 +69,7 @@ export default function BarometerManagement() {
   });
 
   const onSubmit = (data: IBarometerParams) => {
-    return updateBarometerParams({
+    return updateMwcBarometerParams({
       variables: {
         updateMwCounterServiceId: contractId,
         data: {

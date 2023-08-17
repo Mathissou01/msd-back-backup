@@ -2,8 +2,8 @@ import React, { useEffect, useCallback } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
-  UpdateContactMwcDocument,
-  useGetContactMwcQuery,
+  UpdateMwcContactDocument,
+  useGetMwcContactQuery,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../../components/Common/CommonButton/CommonButton";
@@ -64,9 +64,9 @@ export default function ContactMwc() {
 
   const { contractId } = useContract();
 
-  const [updateContactMwc] = useMutation(UpdateContactMwcDocument);
+  const [updateMwcContact] = useMutation(UpdateMwcContactDocument);
 
-  const { data } = useGetContactMwcQuery({
+  const { data } = useGetMwcContactQuery({
     variables: {
       filters: {
         contract: {
@@ -108,7 +108,7 @@ export default function ContactMwc() {
 
   const handleSave = async (formData: ContactFormData) => {
     try {
-      await updateContactMwc({
+      await updateMwcContact({
         variables: {
           serviceName: formData.serviceName,
           postalAddress: formData.address,

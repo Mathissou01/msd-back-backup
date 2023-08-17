@@ -13476,11 +13476,11 @@ export type DeleteMwcFlowMutation = {
   } | null;
 };
 
-export type GetActivatedFlowsByContractIdQueryVariables = Exact<{
+export type GetActivatedMwcFlowsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetActivatedFlowsByContractIdQuery = {
+export type GetActivatedMwcFlowsByContractIdQuery = {
   __typename?: "Query";
   flows?: {
     __typename?: "FlowEntityResponseCollection";
@@ -13491,65 +13491,6 @@ export type GetActivatedFlowsByContractIdQuery = {
         __typename?: "Flow";
         name?: string | null;
         code?: string | null;
-      } | null;
-    }>;
-  } | null;
-};
-
-export type GetBaroMeterParamsQueryVariables = Exact<{
-  mwCounterServiceId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetBaroMeterParamsQuery = {
-  __typename?: "Query";
-  mwCounterService?: {
-    __typename?: "MwCounterServiceEntityResponse";
-    data?: {
-      __typename?: "MwCounterServiceEntity";
-      attributes?: {
-        __typename?: "MwCounterService";
-        barometerParams?: any | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type GetContactMwcQueryVariables = Exact<{
-  filters?: InputMaybe<MwCounterServiceFiltersInput>;
-}>;
-
-export type GetContactMwcQuery = {
-  __typename?: "Query";
-  mwCounterServices?: {
-    __typename?: "MwCounterServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "MwCounterServiceEntity";
-      attributes?: {
-        __typename?: "MwCounterService";
-        serviceName?: string | null;
-        contactEmail?: string | null;
-        phoneNumber?: string | null;
-        postalAddress?: string | null;
-        postalCode?: string | null;
-        city?: string | null;
-      } | null;
-    }>;
-  } | null;
-};
-
-export type GetHasTipsQueryVariables = Exact<{
-  filters?: InputMaybe<MwCounterServiceFiltersInput>;
-}>;
-
-export type GetHasTipsQuery = {
-  __typename?: "Query";
-  mwCounterServices?: {
-    __typename?: "MwCounterServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "MwCounterServiceEntity";
-      attributes?: {
-        __typename?: "MwCounterService";
-        hasTips?: boolean | null;
       } | null;
     }>;
   } | null;
@@ -13586,6 +13527,47 @@ export type GetMwcAverageProductionQueryVariables = Exact<{
 export type GetMwcAverageProductionQuery = {
   __typename?: "Query";
   getMwcAverageProduction?: number | null;
+};
+
+export type GetMwcBarometerParamsQueryVariables = Exact<{
+  mwCounterServiceId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetMwcBarometerParamsQuery = {
+  __typename?: "Query";
+  mwCounterService?: {
+    __typename?: "MwCounterServiceEntityResponse";
+    data?: {
+      __typename?: "MwCounterServiceEntity";
+      attributes?: {
+        __typename?: "MwCounterService";
+        barometerParams?: any | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetMwcContactQueryVariables = Exact<{
+  filters?: InputMaybe<MwCounterServiceFiltersInput>;
+}>;
+
+export type GetMwcContactQuery = {
+  __typename?: "Query";
+  mwCounterServices?: {
+    __typename?: "MwCounterServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "MwCounterServiceEntity";
+      attributes?: {
+        __typename?: "MwCounterService";
+        serviceName?: string | null;
+        contactEmail?: string | null;
+        phoneNumber?: string | null;
+        postalAddress?: string | null;
+        postalCode?: string | null;
+        city?: string | null;
+      } | null;
+    }>;
+  } | null;
 };
 
 export type GetMwcFlowByFlowIdQueryVariables = Exact<{
@@ -13772,12 +13754,30 @@ export type GetMwcFlowsByContractIdQuery = {
   } | null;
 };
 
-export type UpdateBarometerParamsMutationVariables = Exact<{
+export type GetMwcHasTipsQueryVariables = Exact<{
+  filters?: InputMaybe<MwCounterServiceFiltersInput>;
+}>;
+
+export type GetMwcHasTipsQuery = {
+  __typename?: "Query";
+  mwCounterServices?: {
+    __typename?: "MwCounterServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "MwCounterServiceEntity";
+      attributes?: {
+        __typename?: "MwCounterService";
+        hasTips?: boolean | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateMwcBarometerParamsMutationVariables = Exact<{
   updateMwCounterServiceId: Scalars["ID"];
   data: MwCounterServiceInput;
 }>;
 
-export type UpdateBarometerParamsMutation = {
+export type UpdateMwcBarometerParamsMutation = {
   __typename?: "Mutation";
   updateMwCounterService?: {
     __typename?: "MwCounterServiceEntityResponse";
@@ -13791,7 +13791,7 @@ export type UpdateBarometerParamsMutation = {
   } | null;
 };
 
-export type UpdateContactMwcMutationVariables = Exact<{
+export type UpdateMwcContactMutationVariables = Exact<{
   contractId: Scalars["ID"];
   serviceName?: InputMaybe<Scalars["String"]>;
   postalAddress?: InputMaybe<Scalars["String"]>;
@@ -13801,7 +13801,7 @@ export type UpdateContactMwcMutationVariables = Exact<{
   phoneNumber?: InputMaybe<Scalars["String"]>;
 }>;
 
-export type UpdateContactMwcMutation = {
+export type UpdateMwcContactMutation = {
   __typename?: "Mutation";
   updateContactMwc?: {
     __typename?: "ContactResponse";
@@ -13811,25 +13811,6 @@ export type UpdateContactMwcMutation = {
     city?: string | null;
     contactEmail?: string | null;
     phoneNumber?: string | null;
-  } | null;
-};
-
-export type UpdateHasTipsMutationVariables = Exact<{
-  contractId: Scalars["ID"];
-  data: MwCounterServiceInput;
-}>;
-
-export type UpdateHasTipsMutation = {
-  __typename?: "Mutation";
-  updateMwCounterService?: {
-    __typename?: "MwCounterServiceEntityResponse";
-    data?: {
-      __typename?: "MwCounterServiceEntity";
-      attributes?: {
-        __typename?: "MwCounterService";
-        hasTips?: boolean | null;
-      } | null;
-    } | null;
   } | null;
 };
 
@@ -13898,6 +13879,25 @@ export type UpdateMwcFlowMutation = {
           __typename?: "FlowEntityResponse";
           data?: { __typename?: "FlowEntity"; id?: string | null } | null;
         } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateMwcHasTipsMutationVariables = Exact<{
+  contractId: Scalars["ID"];
+  data: MwCounterServiceInput;
+}>;
+
+export type UpdateMwcHasTipsMutation = {
+  __typename?: "Mutation";
+  updateMwCounterService?: {
+    __typename?: "MwCounterServiceEntityResponse";
+    data?: {
+      __typename?: "MwCounterServiceEntity";
+      attributes?: {
+        __typename?: "MwCounterService";
+        hasTips?: boolean | null;
       } | null;
     } | null;
   } | null;
@@ -24585,8 +24585,8 @@ export type DeleteMwcFlowMutationOptions = Apollo.BaseMutationOptions<
   DeleteMwcFlowMutation,
   DeleteMwcFlowMutationVariables
 >;
-export const GetActivatedFlowsByContractIdDocument = gql`
-  query getActivatedFlowsByContractId($contractId: ID!) {
+export const GetActivatedMwcFlowsByContractIdDocument = gql`
+  query getActivatedMwcFlowsByContractId($contractId: ID!) {
     flows(
       filters: {
         contract: { id: { eq: $contractId } }
@@ -24606,243 +24606,54 @@ export const GetActivatedFlowsByContractIdDocument = gql`
 `;
 
 /**
- * __useGetActivatedFlowsByContractIdQuery__
+ * __useGetActivatedMwcFlowsByContractIdQuery__
  *
- * To run a query within a React component, call `useGetActivatedFlowsByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetActivatedFlowsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetActivatedMwcFlowsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActivatedMwcFlowsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetActivatedFlowsByContractIdQuery({
+ * const { data, loading, error } = useGetActivatedMwcFlowsByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetActivatedFlowsByContractIdQuery(
+export function useGetActivatedMwcFlowsByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetActivatedFlowsByContractIdQuery,
-    GetActivatedFlowsByContractIdQueryVariables
+    GetActivatedMwcFlowsByContractIdQuery,
+    GetActivatedMwcFlowsByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetActivatedFlowsByContractIdQuery,
-    GetActivatedFlowsByContractIdQueryVariables
-  >(GetActivatedFlowsByContractIdDocument, options);
+    GetActivatedMwcFlowsByContractIdQuery,
+    GetActivatedMwcFlowsByContractIdQueryVariables
+  >(GetActivatedMwcFlowsByContractIdDocument, options);
 }
-export function useGetActivatedFlowsByContractIdLazyQuery(
+export function useGetActivatedMwcFlowsByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetActivatedFlowsByContractIdQuery,
-    GetActivatedFlowsByContractIdQueryVariables
+    GetActivatedMwcFlowsByContractIdQuery,
+    GetActivatedMwcFlowsByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetActivatedFlowsByContractIdQuery,
-    GetActivatedFlowsByContractIdQueryVariables
-  >(GetActivatedFlowsByContractIdDocument, options);
+    GetActivatedMwcFlowsByContractIdQuery,
+    GetActivatedMwcFlowsByContractIdQueryVariables
+  >(GetActivatedMwcFlowsByContractIdDocument, options);
 }
-export type GetActivatedFlowsByContractIdQueryHookResult = ReturnType<
-  typeof useGetActivatedFlowsByContractIdQuery
+export type GetActivatedMwcFlowsByContractIdQueryHookResult = ReturnType<
+  typeof useGetActivatedMwcFlowsByContractIdQuery
 >;
-export type GetActivatedFlowsByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetActivatedFlowsByContractIdLazyQuery
+export type GetActivatedMwcFlowsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetActivatedMwcFlowsByContractIdLazyQuery
 >;
-export type GetActivatedFlowsByContractIdQueryResult = Apollo.QueryResult<
-  GetActivatedFlowsByContractIdQuery,
-  GetActivatedFlowsByContractIdQueryVariables
->;
-export const GetBaroMeterParamsDocument = gql`
-  query getBaroMeterParams($mwCounterServiceId: ID) {
-    mwCounterService(id: $mwCounterServiceId) {
-      data {
-        attributes {
-          barometerParams
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetBaroMeterParamsQuery__
- *
- * To run a query within a React component, call `useGetBaroMeterParamsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBaroMeterParamsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetBaroMeterParamsQuery({
- *   variables: {
- *      mwCounterServiceId: // value for 'mwCounterServiceId'
- *   },
- * });
- */
-export function useGetBaroMeterParamsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetBaroMeterParamsQuery,
-    GetBaroMeterParamsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetBaroMeterParamsQuery,
-    GetBaroMeterParamsQueryVariables
-  >(GetBaroMeterParamsDocument, options);
-}
-export function useGetBaroMeterParamsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetBaroMeterParamsQuery,
-    GetBaroMeterParamsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetBaroMeterParamsQuery,
-    GetBaroMeterParamsQueryVariables
-  >(GetBaroMeterParamsDocument, options);
-}
-export type GetBaroMeterParamsQueryHookResult = ReturnType<
-  typeof useGetBaroMeterParamsQuery
->;
-export type GetBaroMeterParamsLazyQueryHookResult = ReturnType<
-  typeof useGetBaroMeterParamsLazyQuery
->;
-export type GetBaroMeterParamsQueryResult = Apollo.QueryResult<
-  GetBaroMeterParamsQuery,
-  GetBaroMeterParamsQueryVariables
->;
-export const GetContactMwcDocument = gql`
-  query getContactMwc($filters: MwCounterServiceFiltersInput) {
-    mwCounterServices(filters: $filters) {
-      data {
-        attributes {
-          serviceName
-          contactEmail
-          phoneNumber
-          postalAddress
-          postalCode
-          city
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetContactMwcQuery__
- *
- * To run a query within a React component, call `useGetContactMwcQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContactMwcQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetContactMwcQuery({
- *   variables: {
- *      filters: // value for 'filters'
- *   },
- * });
- */
-export function useGetContactMwcQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetContactMwcQuery,
-    GetContactMwcQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetContactMwcQuery, GetContactMwcQueryVariables>(
-    GetContactMwcDocument,
-    options,
-  );
-}
-export function useGetContactMwcLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetContactMwcQuery,
-    GetContactMwcQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetContactMwcQuery, GetContactMwcQueryVariables>(
-    GetContactMwcDocument,
-    options,
-  );
-}
-export type GetContactMwcQueryHookResult = ReturnType<
-  typeof useGetContactMwcQuery
->;
-export type GetContactMwcLazyQueryHookResult = ReturnType<
-  typeof useGetContactMwcLazyQuery
->;
-export type GetContactMwcQueryResult = Apollo.QueryResult<
-  GetContactMwcQuery,
-  GetContactMwcQueryVariables
->;
-export const GetHasTipsDocument = gql`
-  query getHasTips($filters: MwCounterServiceFiltersInput) {
-    mwCounterServices(filters: $filters) {
-      data {
-        attributes {
-          hasTips
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetHasTipsQuery__
- *
- * To run a query within a React component, call `useGetHasTipsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetHasTipsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetHasTipsQuery({
- *   variables: {
- *      filters: // value for 'filters'
- *   },
- * });
- */
-export function useGetHasTipsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetHasTipsQuery,
-    GetHasTipsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetHasTipsQuery, GetHasTipsQueryVariables>(
-    GetHasTipsDocument,
-    options,
-  );
-}
-export function useGetHasTipsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetHasTipsQuery,
-    GetHasTipsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetHasTipsQuery, GetHasTipsQueryVariables>(
-    GetHasTipsDocument,
-    options,
-  );
-}
-export type GetHasTipsQueryHookResult = ReturnType<typeof useGetHasTipsQuery>;
-export type GetHasTipsLazyQueryHookResult = ReturnType<
-  typeof useGetHasTipsLazyQuery
->;
-export type GetHasTipsQueryResult = Apollo.QueryResult<
-  GetHasTipsQuery,
-  GetHasTipsQueryVariables
+export type GetActivatedMwcFlowsByContractIdQueryResult = Apollo.QueryResult<
+  GetActivatedMwcFlowsByContractIdQuery,
+  GetActivatedMwcFlowsByContractIdQueryVariables
 >;
 export const GetMwCounterServicesDocument = gql`
   query getMwCounterServices($contractId: ID!) {
@@ -24967,6 +24778,135 @@ export type GetMwcAverageProductionLazyQueryHookResult = ReturnType<
 export type GetMwcAverageProductionQueryResult = Apollo.QueryResult<
   GetMwcAverageProductionQuery,
   GetMwcAverageProductionQueryVariables
+>;
+export const GetMwcBarometerParamsDocument = gql`
+  query getMwcBarometerParams($mwCounterServiceId: ID) {
+    mwCounterService(id: $mwCounterServiceId) {
+      data {
+        attributes {
+          barometerParams
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetMwcBarometerParamsQuery__
+ *
+ * To run a query within a React component, call `useGetMwcBarometerParamsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMwcBarometerParamsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMwcBarometerParamsQuery({
+ *   variables: {
+ *      mwCounterServiceId: // value for 'mwCounterServiceId'
+ *   },
+ * });
+ */
+export function useGetMwcBarometerParamsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetMwcBarometerParamsQuery,
+    GetMwcBarometerParamsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetMwcBarometerParamsQuery,
+    GetMwcBarometerParamsQueryVariables
+  >(GetMwcBarometerParamsDocument, options);
+}
+export function useGetMwcBarometerParamsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMwcBarometerParamsQuery,
+    GetMwcBarometerParamsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetMwcBarometerParamsQuery,
+    GetMwcBarometerParamsQueryVariables
+  >(GetMwcBarometerParamsDocument, options);
+}
+export type GetMwcBarometerParamsQueryHookResult = ReturnType<
+  typeof useGetMwcBarometerParamsQuery
+>;
+export type GetMwcBarometerParamsLazyQueryHookResult = ReturnType<
+  typeof useGetMwcBarometerParamsLazyQuery
+>;
+export type GetMwcBarometerParamsQueryResult = Apollo.QueryResult<
+  GetMwcBarometerParamsQuery,
+  GetMwcBarometerParamsQueryVariables
+>;
+export const GetMwcContactDocument = gql`
+  query getMwcContact($filters: MwCounterServiceFiltersInput) {
+    mwCounterServices(filters: $filters) {
+      data {
+        attributes {
+          serviceName
+          contactEmail
+          phoneNumber
+          postalAddress
+          postalCode
+          city
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetMwcContactQuery__
+ *
+ * To run a query within a React component, call `useGetMwcContactQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMwcContactQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMwcContactQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetMwcContactQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetMwcContactQuery,
+    GetMwcContactQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetMwcContactQuery, GetMwcContactQueryVariables>(
+    GetMwcContactDocument,
+    options,
+  );
+}
+export function useGetMwcContactLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMwcContactQuery,
+    GetMwcContactQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetMwcContactQuery, GetMwcContactQueryVariables>(
+    GetMwcContactDocument,
+    options,
+  );
+}
+export type GetMwcContactQueryHookResult = ReturnType<
+  typeof useGetMwcContactQuery
+>;
+export type GetMwcContactLazyQueryHookResult = ReturnType<
+  typeof useGetMwcContactLazyQuery
+>;
+export type GetMwcContactQueryResult = Apollo.QueryResult<
+  GetMwcContactQuery,
+  GetMwcContactQueryVariables
 >;
 export const GetMwcFlowByFlowIdDocument = gql`
   query getMwcFlowByFlowId($flowId: ID!) {
@@ -25219,8 +25159,70 @@ export type GetMwcFlowsByContractIdQueryResult = Apollo.QueryResult<
   GetMwcFlowsByContractIdQuery,
   GetMwcFlowsByContractIdQueryVariables
 >;
-export const UpdateBarometerParamsDocument = gql`
-  mutation updateBarometerParams(
+export const GetMwcHasTipsDocument = gql`
+  query getMwcHasTips($filters: MwCounterServiceFiltersInput) {
+    mwCounterServices(filters: $filters) {
+      data {
+        attributes {
+          hasTips
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetMwcHasTipsQuery__
+ *
+ * To run a query within a React component, call `useGetMwcHasTipsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMwcHasTipsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMwcHasTipsQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useGetMwcHasTipsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetMwcHasTipsQuery,
+    GetMwcHasTipsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetMwcHasTipsQuery, GetMwcHasTipsQueryVariables>(
+    GetMwcHasTipsDocument,
+    options,
+  );
+}
+export function useGetMwcHasTipsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMwcHasTipsQuery,
+    GetMwcHasTipsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetMwcHasTipsQuery, GetMwcHasTipsQueryVariables>(
+    GetMwcHasTipsDocument,
+    options,
+  );
+}
+export type GetMwcHasTipsQueryHookResult = ReturnType<
+  typeof useGetMwcHasTipsQuery
+>;
+export type GetMwcHasTipsLazyQueryHookResult = ReturnType<
+  typeof useGetMwcHasTipsLazyQuery
+>;
+export type GetMwcHasTipsQueryResult = Apollo.QueryResult<
+  GetMwcHasTipsQuery,
+  GetMwcHasTipsQueryVariables
+>;
+export const UpdateMwcBarometerParamsDocument = gql`
+  mutation updateMwcBarometerParams(
     $updateMwCounterServiceId: ID!
     $data: MwCounterServiceInput!
   ) {
@@ -25233,52 +25235,53 @@ export const UpdateBarometerParamsDocument = gql`
     }
   }
 `;
-export type UpdateBarometerParamsMutationFn = Apollo.MutationFunction<
-  UpdateBarometerParamsMutation,
-  UpdateBarometerParamsMutationVariables
+export type UpdateMwcBarometerParamsMutationFn = Apollo.MutationFunction<
+  UpdateMwcBarometerParamsMutation,
+  UpdateMwcBarometerParamsMutationVariables
 >;
 
 /**
- * __useUpdateBarometerParamsMutation__
+ * __useUpdateMwcBarometerParamsMutation__
  *
- * To run a mutation, you first call `useUpdateBarometerParamsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateBarometerParamsMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateMwcBarometerParamsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMwcBarometerParamsMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateBarometerParamsMutation, { data, loading, error }] = useUpdateBarometerParamsMutation({
+ * const [updateMwcBarometerParamsMutation, { data, loading, error }] = useUpdateMwcBarometerParamsMutation({
  *   variables: {
  *      updateMwCounterServiceId: // value for 'updateMwCounterServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateBarometerParamsMutation(
+export function useUpdateMwcBarometerParamsMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateBarometerParamsMutation,
-    UpdateBarometerParamsMutationVariables
+    UpdateMwcBarometerParamsMutation,
+    UpdateMwcBarometerParamsMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateBarometerParamsMutation,
-    UpdateBarometerParamsMutationVariables
-  >(UpdateBarometerParamsDocument, options);
+    UpdateMwcBarometerParamsMutation,
+    UpdateMwcBarometerParamsMutationVariables
+  >(UpdateMwcBarometerParamsDocument, options);
 }
-export type UpdateBarometerParamsMutationHookResult = ReturnType<
-  typeof useUpdateBarometerParamsMutation
+export type UpdateMwcBarometerParamsMutationHookResult = ReturnType<
+  typeof useUpdateMwcBarometerParamsMutation
 >;
-export type UpdateBarometerParamsMutationResult =
-  Apollo.MutationResult<UpdateBarometerParamsMutation>;
-export type UpdateBarometerParamsMutationOptions = Apollo.BaseMutationOptions<
-  UpdateBarometerParamsMutation,
-  UpdateBarometerParamsMutationVariables
->;
-export const UpdateContactMwcDocument = gql`
-  mutation UpdateContactMwc(
+export type UpdateMwcBarometerParamsMutationResult =
+  Apollo.MutationResult<UpdateMwcBarometerParamsMutation>;
+export type UpdateMwcBarometerParamsMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateMwcBarometerParamsMutation,
+    UpdateMwcBarometerParamsMutationVariables
+  >;
+export const UpdateMwcContactDocument = gql`
+  mutation updateMwcContact(
     $contractId: ID!
     $serviceName: String
     $postalAddress: String
@@ -25305,23 +25308,23 @@ export const UpdateContactMwcDocument = gql`
     }
   }
 `;
-export type UpdateContactMwcMutationFn = Apollo.MutationFunction<
-  UpdateContactMwcMutation,
-  UpdateContactMwcMutationVariables
+export type UpdateMwcContactMutationFn = Apollo.MutationFunction<
+  UpdateMwcContactMutation,
+  UpdateMwcContactMutationVariables
 >;
 
 /**
- * __useUpdateContactMwcMutation__
+ * __useUpdateMwcContactMutation__
  *
- * To run a mutation, you first call `useUpdateContactMwcMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContactMwcMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateMwcContactMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMwcContactMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContactMwcMutation, { data, loading, error }] = useUpdateContactMwcMutation({
+ * const [updateMwcContactMutation, { data, loading, error }] = useUpdateMwcContactMutation({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      serviceName: // value for 'serviceName'
@@ -25333,81 +25336,26 @@ export type UpdateContactMwcMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateContactMwcMutation(
+export function useUpdateMwcContactMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContactMwcMutation,
-    UpdateContactMwcMutationVariables
+    UpdateMwcContactMutation,
+    UpdateMwcContactMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContactMwcMutation,
-    UpdateContactMwcMutationVariables
-  >(UpdateContactMwcDocument, options);
+    UpdateMwcContactMutation,
+    UpdateMwcContactMutationVariables
+  >(UpdateMwcContactDocument, options);
 }
-export type UpdateContactMwcMutationHookResult = ReturnType<
-  typeof useUpdateContactMwcMutation
+export type UpdateMwcContactMutationHookResult = ReturnType<
+  typeof useUpdateMwcContactMutation
 >;
-export type UpdateContactMwcMutationResult =
-  Apollo.MutationResult<UpdateContactMwcMutation>;
-export type UpdateContactMwcMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContactMwcMutation,
-  UpdateContactMwcMutationVariables
->;
-export const UpdateHasTipsDocument = gql`
-  mutation updateHasTips($contractId: ID!, $data: MwCounterServiceInput!) {
-    updateMwCounterService(id: $contractId, data: $data) {
-      data {
-        attributes {
-          hasTips
-        }
-      }
-    }
-  }
-`;
-export type UpdateHasTipsMutationFn = Apollo.MutationFunction<
-  UpdateHasTipsMutation,
-  UpdateHasTipsMutationVariables
->;
-
-/**
- * __useUpdateHasTipsMutation__
- *
- * To run a mutation, you first call `useUpdateHasTipsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateHasTipsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateHasTipsMutation, { data, loading, error }] = useUpdateHasTipsMutation({
- *   variables: {
- *      contractId: // value for 'contractId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateHasTipsMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateHasTipsMutation,
-    UpdateHasTipsMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateHasTipsMutation,
-    UpdateHasTipsMutationVariables
-  >(UpdateHasTipsDocument, options);
-}
-export type UpdateHasTipsMutationHookResult = ReturnType<
-  typeof useUpdateHasTipsMutation
->;
-export type UpdateHasTipsMutationResult =
-  Apollo.MutationResult<UpdateHasTipsMutation>;
-export type UpdateHasTipsMutationOptions = Apollo.BaseMutationOptions<
-  UpdateHasTipsMutation,
-  UpdateHasTipsMutationVariables
+export type UpdateMwcContactMutationResult =
+  Apollo.MutationResult<UpdateMwcContactMutation>;
+export type UpdateMwcContactMutationOptions = Apollo.BaseMutationOptions<
+  UpdateMwcContactMutation,
+  UpdateMwcContactMutationVariables
 >;
 export const UpdateMwcFlowDocument = gql`
   mutation updateMwcFlow($data: MwcFlowInput!, $updateMwcFlowId: ID!) {
@@ -25504,6 +25452,61 @@ export type UpdateMwcFlowMutationResult =
 export type UpdateMwcFlowMutationOptions = Apollo.BaseMutationOptions<
   UpdateMwcFlowMutation,
   UpdateMwcFlowMutationVariables
+>;
+export const UpdateMwcHasTipsDocument = gql`
+  mutation updateMwcHasTips($contractId: ID!, $data: MwCounterServiceInput!) {
+    updateMwCounterService(id: $contractId, data: $data) {
+      data {
+        attributes {
+          hasTips
+        }
+      }
+    }
+  }
+`;
+export type UpdateMwcHasTipsMutationFn = Apollo.MutationFunction<
+  UpdateMwcHasTipsMutation,
+  UpdateMwcHasTipsMutationVariables
+>;
+
+/**
+ * __useUpdateMwcHasTipsMutation__
+ *
+ * To run a mutation, you first call `useUpdateMwcHasTipsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMwcHasTipsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMwcHasTipsMutation, { data, loading, error }] = useUpdateMwcHasTipsMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateMwcHasTipsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateMwcHasTipsMutation,
+    UpdateMwcHasTipsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateMwcHasTipsMutation,
+    UpdateMwcHasTipsMutationVariables
+  >(UpdateMwcHasTipsDocument, options);
+}
+export type UpdateMwcHasTipsMutationHookResult = ReturnType<
+  typeof useUpdateMwcHasTipsMutation
+>;
+export type UpdateMwcHasTipsMutationResult =
+  Apollo.MutationResult<UpdateMwcHasTipsMutation>;
+export type UpdateMwcHasTipsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateMwcHasTipsMutation,
+  UpdateMwcHasTipsMutationVariables
 >;
 export const GetEditoBlockTabDocument = gql`
   query getEditoBlockTab(

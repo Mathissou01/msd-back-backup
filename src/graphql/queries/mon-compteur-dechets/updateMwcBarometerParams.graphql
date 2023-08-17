@@ -1,4 +1,4 @@
-mutation updateBarometerParams(
+mutation updateMwcBarometerParams(
   $updateMwCounterServiceId: ID!
   $data: MwCounterServiceInput!
 ) {

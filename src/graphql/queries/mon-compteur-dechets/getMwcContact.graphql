@@ -1,4 +1,4 @@
-query getContactMwc($filters: MwCounterServiceFiltersInput) {
+query getMwcContact($filters: MwCounterServiceFiltersInput) {
   mwCounterServices(filters: $filters) {
     data {
       attributes {
