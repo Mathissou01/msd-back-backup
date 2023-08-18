@@ -142,19 +142,22 @@ export default function RequestTimeSlotsAndExceptions({
       }
     });
     submitData.slotsExceptions.forEach((slotsException, slotExceptionId) => {
-      const exceptionsKeys = Object.keys(
-        slotsException.slotException.timeSlots,
-      );
-      exceptionsKeys.forEach((exceptionsKey) => {
-        if (
-          Object.keys(slotsException.slotException.timeSlots[exceptionsKey])
-            .length === 0
-        ) {
-          delete submitData.slotsExceptions[slotExceptionId].slotException
-            .timeSlots[exceptionsKey];
-        }
-      });
+      if (slotsException.slotException.timeSlots) {
+        const exceptionsKeys = Object.keys(
+          slotsException.slotException.timeSlots,
+        );
+        exceptionsKeys.forEach((exceptionsKey) => {
+          if (
+            Object.keys(slotsException.slotException.timeSlots[exceptionsKey])
+              .length === 0
+          ) {
+            delete submitData.slotsExceptions[slotExceptionId].slotException
+              .timeSlots[exceptionsKey];
+          }
+        });
+      }
     });
+
     const newSlotType = submitData.slotType;
     const newTimeSlots = submitData.timeSlots;
     const newSlotsExceptions = submitData.slotsExceptions;

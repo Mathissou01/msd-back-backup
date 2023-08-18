@@ -5,7 +5,7 @@ import { weekDays } from "../../../../../../../../../lib/time";
 import PseudoImageFallback from "../../../../../../../../Accessibility/PseudoImageFallback/PseudoImageFallback";
 import FormSelect from "../../../../../../../FormSelect/FormSelect";
 import FormDatePicker from "../../../../../../../FormDatePicker/FormDatePicker";
-import FormCheckbox from "../../../../../../../FormCheckbox/FormCheckbox";
+import FormRadioInput from "../../../../../../../FormRadioInput/FormRadioInput";
 import { newBlockExceptionSlot } from "../RequestExceptions";
 
 export interface IRequestExceptionsLabels {
@@ -70,16 +70,34 @@ export default function RequestExceptionBlock({
     const daysBetweenEndStartDate =
       (watchEndDate.getTime() - watchStartDate.getTime()) / (1000 * 3600 * 24);
 
-    return daysBetweenEndStartDate >= 7
-      ? undefined
-      : watchExceptionType &&
-        watchStartDate &&
-        watchExceptionType ===
-          Enum_Componentblocksrequestslotsexceptions_Exceptiontype.Daily
-      ? weekDays.slice(watchStartDate.getDay(), watchStartDate.getDay() + 1)
-      : watchStartDate.getDay() < watchEndDate.getDay()
-      ? weekDays.slice(watchStartDate.getDay(), watchEndDate.getDay() + 1)
-      : weekDays.slice(watchEndDate.getDay(), watchStartDate.getDay() + 1);
+    // More or equals to a week => undefined
+    if (daysBetweenEndStartDate >= 7) {
+      return undefined;
+    } else {
+      if (!watch(`${name}.${blockIndex}.slotException.endDate`)) {
+        return [weekDays[watchStartDate.getDay() - 1]];
+      }
+      // case when one of the dates is a Sunday (last on the tab)
+      if (watchStartDate.getDay() === 0) {
+        return [
+          weekDays[6],
+          weekDays.slice(0, watchEndDate.getDay()).flat(),
+        ].flat();
+      } else if (watchEndDate.getDay() === 0) {
+        return weekDays.slice(watchStartDate.getDay() - 1, 7);
+      } else if (watchStartDate.getDay() >= watchEndDate.getDay()) {
+        return [
+          weekDays[watchStartDate.getDay() - 1],
+          weekDays[watchStartDate.getDay()],
+          weekDays.slice(0, watchEndDate.getDay()).flat(),
+        ].flat();
+      } else {
+        return weekDays.slice(
+          watchStartDate.getDay() - 1,
+          watchEndDate.getDay(),
+        );
+      }
+    }
   }
 
   return (
@@ -202,38 +220,45 @@ export default function RequestExceptionBlock({
               </div>
             </div>
           )}
-          <FormCheckbox
-            name={`${name}.${blockIndex}.slotException.hasAppointmentSlots`}
+          <FormRadioInput
+            name={`${blockIndex}`}
+            defaultValue={
+              watch(`${name}.${blockIndex}.slotException.hasAppointmentSlots`)
+                ? "1"
+                : "0"
+            }
             isDisabled={
               hasOneActivatedRequestTaked && watch(`${name}.${blockIndex}.id`)
             }
-            onClick={() => {
-              if (
-                !getValues(
-                  `${name}.${blockIndex}.slotException.hasAppointmentSlots`,
-                )
-              ) {
-                unregister(`${name}.${blockIndex}.slotException.timeSlots`);
-              }
-
+            displayName={labels.appointmentSlots}
+            options={[
+              {
+                label: "Oui",
+                value: "1",
+              },
+              {
+                label: "Non",
+                value: "0",
+              },
+            ]}
+            onChange={(value) => {
               setValue(
                 `${name}.${blockIndex}.slotException.hasAppointmentSlots`,
-                !getValues(
-                  `${name}.${blockIndex}.slotException.hasAppointmentSlots`,
-                ),
+                value === "1",
               );
             }}
-            label={labels.appointmentSlots}
           />
-          {hasAppointmentSlots && (
-            <FormWeeklySlots
-              name={`${name}.${blockIndex}.slotException.timeSlots`}
-              isDisabled={
-                hasOneActivatedRequestTaked && watch(`${name}.${blockIndex}.id`)
-              }
-              weekDaysOverride={getWeekDaysToShow(blockIndex)}
-            />
-          )}
+          {hasAppointmentSlots &&
+            watch(`${name}.${blockIndex}.slotException.startDate`) && (
+              <FormWeeklySlots
+                name={`${name}.${blockIndex}.slotException.timeSlots`}
+                isDisabled={
+                  hasOneActivatedRequestTaked &&
+                  watch(`${name}.${blockIndex}.id`)
+                }
+                weekDaysOverride={getWeekDaysToShow(blockIndex)}
+              />
+            )}
         </>
       )}
     </div>
