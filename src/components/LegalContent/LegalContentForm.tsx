@@ -76,7 +76,7 @@ export default function LegalContentForm({
   return (
     <CommonLoader isLoading={isLoading} errors={errors}>
       <div className="o-FormEditPage">
-        <PageTitle title={title} />;
+        <PageTitle title={title} />
         <FormLayout<ILegalContentStaticFields>
           buttonContent={contentButton}
           formContent={fieldContent}
