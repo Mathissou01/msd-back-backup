@@ -1,17 +1,35 @@
 import {
   ApolloClient,
+  ApolloLink,
+  HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
+import { headerContractIdVar } from "./apolloState";
 
 let client: ApolloClient<NormalizedCacheObject>;
+
+const httpLink = new HttpLink({
+  uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
+});
+
+const dynamicHeadersLink = new ApolloLink((operation, forward) => {
+  const contractId = headerContractIdVar();
+  operation.setContext({
+    headers: {
+      "x-contract-key": contractId,
+    },
+  });
+
+  return forward(operation);
+});
 
 if (process.env.NEXT_PUBLIC_MOCK === "true") {
   /* With .env variable NEXT_PUBLIC_MOCK=true, return mock graphql client with fake response data */
   client = (await import("./mockedClient")).default(1000);
 } else {
   client = await new ApolloClient({
-    uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
+    link: dynamicHeadersLink.concat(httpLink),
     cache: new InMemoryCache({
       typePolicies: {
         UploadFolder: {

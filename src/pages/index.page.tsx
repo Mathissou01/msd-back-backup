@@ -3,6 +3,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useHeaderContractId } from "../hooks/useHeaderContractId";
 import { useGetContractsQuery } from "../graphql/codegen/generated-types";
 import { removeNulls } from "../lib/utilities";
 import { IDefaultTableRow } from "../lib/common-data-table";
@@ -12,7 +13,6 @@ import CommonLoader from "../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../components/Common/CommonButton/CommonButton";
 import CommonDataTable from "../components/Common/CommonDataTable/CommonDataTable";
 import "./root-home-page.scss";
-
 interface IContractTableRow extends IDefaultTableRow {
   id: string;
   clientName: string;
@@ -57,6 +57,7 @@ export default function RootHomePage() {
 
   /* Local Data */
   const router = useRouter();
+  const { setHeaderContractId } = useHeaderContractId();
   const [searchText, setSearchText] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const tableDataRef = useRef<Array<IContractTableRow>>();
@@ -88,7 +89,14 @@ export default function RootHomePage() {
           href={`/${row.id}/gestion/informations`}
           className="o-TablePage__Link"
         >
-          {row.clientName}
+          <button
+            className="o-TablePage__Link"
+            onClick={() => {
+              setHeaderContractId(+row.id);
+            }}
+          >
+            {row.clientName}
+          </button>
         </Link>
       ),
       selector: (row) => row.clientName,
