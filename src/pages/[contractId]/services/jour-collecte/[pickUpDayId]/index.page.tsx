@@ -12,11 +12,11 @@ import { IFormSingleMultiselectOption } from "../../../../../components/Form/For
 import {
   CityEntity,
   GetActiveRequestsByContractIdDocument,
-  GetFlowsByContractIdDocument,
+  GetFlowsDocument,
   SectorizationEntity,
   useCreatePickUpDayMutation,
   useGetPickUpDayByIdQuery,
-  useUpdatePickUpDayMutation,
+  useUpdatePickUpDayByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import {
   EMonthlyStatus,
@@ -85,7 +85,7 @@ export function ServicesPickUpDayEditPage({
   const [
     updatePickUpDay,
     { loading: updatePickUpDayLoading, error: updatePickUpDayError },
-  ] = useUpdatePickUpDayMutation();
+  ] = useUpdatePickUpDayByIdMutation();
 
   /* Local data */
   const isLoading = loading || createPickUpDayLoading || updatePickUpDayLoading;
@@ -165,7 +165,7 @@ export function ServicesPickUpDayEditPage({
         variables,
         refetchQueries: [
           {
-            query: GetFlowsByContractIdDocument,
+            query: GetFlowsDocument,
             variables: {
               pickUpDayId,
             },

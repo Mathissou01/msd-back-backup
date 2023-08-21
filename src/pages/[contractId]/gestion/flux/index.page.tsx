@@ -1,9 +1,9 @@
 import { FieldValues } from "react-hook-form";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  useGetFlowsByContractIdQuery,
-  useUpdateFlowMutation,
-  useGetCollectionMethodsByContractIdQuery,
+  useGetFlowsQuery,
+  useUpdateFlowByIdMutation,
+  useGetCollectionMethodsQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import { cleanCollectionMethods, IFlow } from "../../../../lib/flows";
@@ -60,7 +60,7 @@ export function FluxActivationPage() {
       },
     };
 
-    await updateFlowMutation({ variables });
+    await updateFlow({ variables });
 
     modalRef.current?.toggleModal(false);
   }
@@ -75,7 +75,7 @@ export function FluxActivationPage() {
   const [openedFlow, setOpenedFlow] = useState<IFlow | null>(null);
   const modalRef = useRef<CommonModalWrapperRef>(null);
 
-  const { data, loading, error } = useGetFlowsByContractIdQuery({
+  const { data, loading, error } = useGetFlowsQuery({
     variables: {
       filters: {
         contract: {
@@ -91,19 +91,14 @@ export function FluxActivationPage() {
     data: collectionMethods,
     loading: collectionLoading,
     error: collectionError,
-  } = useGetCollectionMethodsByContractIdQuery({
+  } = useGetCollectionMethodsQuery({
     fetchPolicy: "network-only",
   });
-  const [
-    updateFlowMutation,
-    { loading: mutationLoading, error: mutationError },
-  ] = useUpdateFlowMutation({
-    refetchQueries: [
-      "getFlowsByContractId",
-      "getCollectionMethodsByContractId",
-    ],
-    awaitRefetchQueries: true,
-  });
+  const [updateFlow, { loading: mutationLoading, error: mutationError }] =
+    useUpdateFlowByIdMutation({
+      refetchQueries: ["getFlows", "getCollectionMethods"],
+      awaitRefetchQueries: true,
+    });
   const isLoading = loading || collectionLoading || mutationLoading;
   const errors = [error, collectionError, mutationError];
 

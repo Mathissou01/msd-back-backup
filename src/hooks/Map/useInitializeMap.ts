@@ -8,7 +8,7 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import { Fill, Stroke, Style } from "ol/style";
-import { useGetCitiesQuery } from "../../graphql/codegen/generated-types";
+import { useGetCitiesByContractIdQuery } from "../../graphql/codegen/generated-types";
 import { useContract } from "../useContract";
 
 interface IHookInitializeMapProps {
@@ -27,7 +27,7 @@ export const useInitializeMap = ({
   googleAPIKey,
 }: IHookInitializeMapProps) => {
   const { contractId } = useContract();
-  const { data: cities } = useGetCitiesQuery({
+  const { data: cities } = useGetCitiesByContractIdQuery({
     variables: {
       contractId: contractId,
     },

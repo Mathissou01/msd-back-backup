@@ -1,9 +1,9 @@
-import { GetMenuPageDocument } from "../src/graphql/codegen/generated-types";
+import { GetContractMenuByContractIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetMenuPageDocument,
+      query: GetContractMenuByContractIdDocument,
       variables: {
         contractId: "0",
       },

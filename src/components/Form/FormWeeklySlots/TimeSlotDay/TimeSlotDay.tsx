@@ -213,6 +213,7 @@ export default function TimeSlotDay({
                   updateMorningSlots: Number.parseInt(e.target.value) || null,
                 })
               }
+              onWheel={(e) => (e.target as HTMLElement).blur()}
               disabled={isDisabled}
             />
             <span>{appointmentLabel}</span>
@@ -252,6 +253,7 @@ export default function TimeSlotDay({
                     Number.parseInt(e.target.value) || null,
                 })
               }
+              onWheel={(e) => (e.target as HTMLElement).blur()}
               disabled={isDisabled}
             />
             <span>{appointmentLabel}</span>

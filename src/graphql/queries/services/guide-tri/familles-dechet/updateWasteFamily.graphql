@@ -1,4 +1,4 @@
-mutation UpdateWasteFamily(
+mutation updateWasteFamilyById(
   $updateWasteFamilyId: ID!
   $data: WasteFamilyInput!
 ) {

@@ -3,8 +3,8 @@ import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import {
   Enum_Flow_Recyclinggesture,
   FlowColorEntity,
-  useGetCollectionMethodsByContractIdQuery,
-  useGetColorsQuery,
+  useGetCollectionMethodsQuery,
+  useGetFlowColorsQuery,
 } from "../../../graphql/codegen/generated-types";
 import { IFlow, cleanCollectionMethods } from "../../../lib/flows";
 import CommonButton from "../../Common/CommonButton/CommonButton";
@@ -75,10 +75,10 @@ export default function FlowModal({
   });
   const { handleSubmit, watch } = form;
 
-  const { data: dataColors } = useGetColorsQuery({
+  const { data: dataColors } = useGetFlowColorsQuery({
     fetchPolicy: "network-only",
   });
-  const { data: collectionMethods } = useGetCollectionMethodsByContractIdQuery({
+  const { data: collectionMethods } = useGetCollectionMethodsQuery({
     fetchPolicy: "network-only",
   });
 

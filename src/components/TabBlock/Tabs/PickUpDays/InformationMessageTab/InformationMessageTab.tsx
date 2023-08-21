@@ -4,9 +4,9 @@ import { TableColumn } from "react-data-table-component";
 import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import {
-  GetInformationMessageByContractIdQuery,
-  GetInformationMessageByContractIdQueryVariables,
-  useGetInformationMessageByContractIdLazyQuery,
+  GetInformationMessagesByContractIdQuery,
+  GetInformationMessagesByContractIdQueryVariables,
+  useGetInformationMessagesByContractIdLazyQuery,
   useGetPickUpDaysByContractIdLazyQuery,
 } from "../../../../../graphql/codegen/generated-types";
 import {
@@ -46,7 +46,7 @@ function InformationMessageTab() {
     params: ICurrentPagination,
     filters?: IFilters,
   ) {
-    return getInformationMessageQuery({
+    return getInformationMessages({
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
@@ -66,13 +66,13 @@ function InformationMessageTab() {
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
-  const defaultQueryVariables: GetInformationMessageByContractIdQueryVariables =
+  const defaultQueryVariables: GetInformationMessagesByContractIdQueryVariables =
     {
       contractId,
       pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
     };
-  const [getInformationMessageQuery, { data, loading, error }] =
-    useGetInformationMessageByContractIdLazyQuery({
+  const [getInformationMessages, { data, loading, error }] =
+    useGetInformationMessagesByContractIdLazyQuery({
       variables: defaultQueryVariables,
       fetchPolicy: "network-only",
     });
@@ -85,7 +85,7 @@ function InformationMessageTab() {
   const router = useRouter();
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
-    GetInformationMessageByContractIdQuery | undefined
+    GetInformationMessagesByContractIdQuery | undefined
   >(data);
   const [tableData, setTableData] = useState<
     Array<IInformationMessageTableRow>
@@ -199,10 +199,10 @@ function InformationMessageTab() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getInformationMessageQuery();
+      void getInformationMessages();
       void getFilterPickUpDays();
     }
-  }, [getInformationMessageQuery, isInitialized, getFilterPickUpDays]);
+  }, [getInformationMessages, isInitialized, getFilterPickUpDays]);
 
   return (
     <div className="o-TablePage">

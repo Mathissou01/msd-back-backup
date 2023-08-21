@@ -8,11 +8,11 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import {
   Enum_Wasteform_Status,
   useGetContractByIdQuery,
-  useUpdateWasteFormMutation,
+  useUpdateWasteFormByIdMutation,
   useGetWasteFormByIdQuery,
   GetWasteFormByIdDocument,
-  GetWasteFormDraftQuery,
-  GetWasteFormDraftDocument,
+  GetWasteFormsDraftByCustomIdQuery,
+  GetWasteFormsDraftByCustomIdDocument,
   AudienceEntity,
 } from "../../../../../../graphql/codegen/generated-types";
 import { EStatus, valueToEStatus } from "../../../../../../lib/status";
@@ -76,7 +76,7 @@ export function ServiceGuideDuTriEditPage({
         toBeUpdated: true,
       },
     };
-    return updateWasteFormMutation({
+    return updateWasteForm({
       variables,
       refetchQueries: [
         {
@@ -96,8 +96,8 @@ export function ServiceGuideDuTriEditPage({
           result.versioningHandler.data.attributes?.customId
         ) {
           client
-            .query<GetWasteFormDraftQuery>({
-              query: GetWasteFormDraftDocument,
+            .query<GetWasteFormsDraftByCustomIdQuery>({
+              query: GetWasteFormsDraftByCustomIdDocument,
               variables: {
                 customId: result.versioningHandler.data.attributes.customId,
               },
@@ -123,7 +123,7 @@ export function ServiceGuideDuTriEditPage({
         toBeUpdated: false,
       },
     };
-    return updateWasteFormMutation({
+    return updateWasteForm({
       variables,
       refetchQueries: [
         {
@@ -165,7 +165,7 @@ export function ServiceGuideDuTriEditPage({
         toBeUpdated: false,
       },
     };
-    return updateWasteFormMutation({
+    return updateWasteForm({
       variables,
       refetchQueries: [
         {
@@ -193,9 +193,9 @@ export function ServiceGuideDuTriEditPage({
     fetchPolicy: "network-only",
   });
   const [
-    updateWasteFormMutation,
+    updateWasteForm,
     { loading: updateWasteFormLoading, error: updateWasteFormError },
-  ] = useUpdateWasteFormMutation();
+  ] = useUpdateWasteFormByIdMutation();
 
   /* Local data */
   const router = useRouter();

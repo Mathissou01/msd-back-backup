@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
-  useUpdateFlowMutation,
-  GetFlowsByContractIdDocument,
+  useUpdateFlowByIdMutation,
+  GetFlowsDocument,
 } from "../../../graphql/codegen/generated-types";
 import { IFlow } from "../../../lib/flows";
 import CommonToggle from "../../Common/CommonToggle/CommonToggle";
@@ -37,7 +37,7 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
       variables,
       refetchQueries: [
         {
-          query: GetFlowsByContractIdDocument,
+          query: GetFlowsDocument,
           variables: { id: flow.id },
         },
       ],
@@ -47,11 +47,8 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
   /* Local Data */
   const [isToggleActive, setIsToggleActive] = useState<boolean>();
   // TODO: try to use loading and error from mutation
-  const [updateFlow] = useUpdateFlowMutation({
-    refetchQueries: [
-      "getFlowsByContractId",
-      "getCollectionMethodsByContractId",
-    ],
+  const [updateFlow] = useUpdateFlowByIdMutation({
+    refetchQueries: ["getFlows", "getCollectionMethods"],
   });
 
   return (

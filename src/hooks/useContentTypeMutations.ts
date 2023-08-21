@@ -1,108 +1,85 @@
 import {
-  useCreateContentTypeMutation,
-  useUpdateContentTypeAccessibilityMutation,
-  useUpdateContentTypeCguMutation,
-  useUpdateContentTypeConfidentialityMutation,
-  useUpdateContentTypeContactUsMutation,
-  useUpdateContentTypeCookiesMutation,
-  useUpdateContentTypeEventMutation,
-  useUpdateContentTypeFreeContentMutation,
-  useUpdateContentTypeNewsMutation,
-  useUpdateContentTypeQuizMutation,
-  useUpdateContentTypeTipMutation,
+  useCreateContentTypeForContractIdMutation,
+  useUpdateAccessibilitySubServiceByIdMutation,
+  useUpdateCguSubServiceByIdMutation,
+  useUpdateConfidentialitySubServiceByIdMutation,
+  useUpdateContactUsSubServiceByIdMutation,
+  useUpdateCookiesSubServiceByIdMutation,
+  useUpdateEventSubServiceByIdMutation,
+  useUpdateFreeContentSubServiceByIdMutation,
+  useUpdateNewsSubServiceByIdMutation,
+  useUpdateQuizSubServiceByIdMutation,
+  useUpdateTipSubServiceByIdMutation,
 } from "../graphql/codegen/generated-types";
 
 export const useContentTypeMutations = () => {
   // UPDATE
   const [
     updateCookies,
-    {
-      loading: updateCookiesMutationLoading,
-      error: updateCookiesMutationError,
-    },
-  ] = useUpdateContentTypeCookiesMutation();
+    { loading: updateCookiesLoading, error: updateCookiesError },
+  ] = useUpdateCookiesSubServiceByIdMutation();
   const [
     updateAccessibility,
-    {
-      loading: updateAccessibilityMutationLoading,
-      error: updateAccessibilityMutationError,
-    },
-  ] = useUpdateContentTypeAccessibilityMutation();
+    { loading: updateAccessibilityLoading, error: updateAccessibilityError },
+  ] = useUpdateAccessibilitySubServiceByIdMutation();
   const [
     updateContactUs,
-    {
-      loading: updateContactUsMutationLoading,
-      error: updateContactUsMutationError,
-    },
-  ] = useUpdateContentTypeContactUsMutation();
-  const [
-    updateCgu,
-    { loading: updateCguMutationLoading, error: updateCguMutationError },
-  ] = useUpdateContentTypeCguMutation();
+    { loading: updateContactUsLoading, error: updateContactUsError },
+  ] = useUpdateContactUsSubServiceByIdMutation();
+  const [updateCgu, { loading: updateCguLoading, error: updateCguError }] =
+    useUpdateCguSubServiceByIdMutation();
   const [
     updateConfidentiality,
     {
-      loading: updateConfidentialityMutationLoading,
-      error: updateConfidentialityMutationError,
+      loading: updateConfidentialityLoading,
+      error: updateConfidentialityError,
     },
-  ] = useUpdateContentTypeConfidentialityMutation();
-  const [
-    updateNews,
-    { loading: updateNewsMutationLoading, error: updateNewsMutationError },
-  ] = useUpdateContentTypeNewsMutation();
-  const [
-    updateTip,
-    { loading: updateTipMutationLoading, error: updateTipMutationError },
-  ] = useUpdateContentTypeTipMutation();
-  const [
-    updateQuiz,
-    { loading: updateQuizMutationLoading, error: updateQuizMutationError },
-  ] = useUpdateContentTypeQuizMutation();
+  ] = useUpdateConfidentialitySubServiceByIdMutation();
+  const [updateNews, { loading: updateNewsLoading, error: updateNewsError }] =
+    useUpdateNewsSubServiceByIdMutation();
+  const [updateTip, { loading: updateTipLoading, error: updateTipError }] =
+    useUpdateTipSubServiceByIdMutation();
+  const [updateQuiz, { loading: updateQuizLoading, error: updateQuizError }] =
+    useUpdateQuizSubServiceByIdMutation();
   const [
     updateEvent,
-    { loading: updateEventMutationLoading, error: updateEventMutationError },
-  ] = useUpdateContentTypeEventMutation();
+    { loading: updateEventLoading, error: updateEventError },
+  ] = useUpdateEventSubServiceByIdMutation();
   const [
     updateFreeContent,
-    {
-      loading: updateFreeContentMutationLoading,
-      error: updateFreeContentMutationError,
-    },
-  ] = useUpdateContentTypeFreeContentMutation();
+    { loading: updateFreeContentLoading, error: updateFreeContentError },
+  ] = useUpdateFreeContentSubServiceByIdMutation();
 
   // CREATE
   const [
-    createContentTypeMutation,
-    {
-      loading: createContentTypeMutationLoading,
-      error: createContentTypeMutationError,
-    },
-  ] = useCreateContentTypeMutation();
+    createContentType,
+    { loading: createContentTypeLoading, error: createContentTypeError },
+  ] = useCreateContentTypeForContractIdMutation();
 
   const loading =
-    updateCookiesMutationLoading ||
-    updateAccessibilityMutationLoading ||
-    updateContactUsMutationLoading ||
-    updateCguMutationLoading ||
-    updateConfidentialityMutationLoading ||
-    updateNewsMutationLoading ||
-    updateTipMutationLoading ||
-    updateQuizMutationLoading ||
-    updateEventMutationLoading ||
-    updateFreeContentMutationLoading ||
-    createContentTypeMutationLoading;
+    updateCookiesLoading ||
+    updateAccessibilityLoading ||
+    updateContactUsLoading ||
+    updateCguLoading ||
+    updateConfidentialityLoading ||
+    updateNewsLoading ||
+    updateTipLoading ||
+    updateQuizLoading ||
+    updateEventLoading ||
+    updateFreeContentLoading ||
+    createContentTypeLoading;
   const errors = [
-    updateCookiesMutationError,
-    updateAccessibilityMutationError,
-    updateContactUsMutationError,
-    updateCguMutationError,
-    updateConfidentialityMutationError,
-    updateNewsMutationError,
-    updateTipMutationError,
-    updateQuizMutationError,
-    updateEventMutationError,
-    updateFreeContentMutationError,
-    createContentTypeMutationError,
+    updateCookiesError,
+    updateAccessibilityError,
+    updateContactUsError,
+    updateCguError,
+    updateConfidentialityError,
+    updateNewsError,
+    updateTipError,
+    updateQuizError,
+    updateEventError,
+    updateFreeContentError,
+    createContentTypeError,
   ];
   return {
     mutations: {
@@ -116,7 +93,7 @@ export const useContentTypeMutations = () => {
       updateQuiz,
       updateEvent,
       updateFreeContent,
-      createContentTypeMutation,
+      createContentType,
     },
     loading,
     errors,

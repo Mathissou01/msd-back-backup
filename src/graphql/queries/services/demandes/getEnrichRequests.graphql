@@ -1,7 +1,0 @@
-query getEnrichRequests($requestServiceId: ID!) {
-  getEnrichRequests(requestServiceId: $requestServiceId) {
-    requestName
-    requestId
-    dynamicAppointments
-  }
-}

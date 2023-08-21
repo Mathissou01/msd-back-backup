@@ -2,8 +2,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useState, useEffect } from "react";
 import {
-  useGetRecyclingGuideBlockTabQuery,
-  useUpdateRecyclingGuideTabMutation,
+  useGetRecyclingGuideBlockByContractIdQuery,
+  useUpdateRecyclingGuideBlockByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { extractRecyclingGuideBlock } from "../../../../../lib/graphql-data";
 import { useContract } from "../../../../../hooks/useContract";
@@ -59,15 +59,15 @@ export default function RecyclingGuideTab() {
 
   /* External Data */
   const { contractId } = useContract();
-  const { loading, error, data } = useGetRecyclingGuideBlockTabQuery({
+  const { loading, error, data } = useGetRecyclingGuideBlockByContractIdQuery({
     variables: { contractId },
     fetchPolicy: "network-only",
   });
   const [
     updateRecyclingGuideBlock,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateRecyclingGuideTabMutation({
-    refetchQueries: ["getRecyclingGuideBlockTab"],
+  ] = useUpdateRecyclingGuideBlockByIdMutation({
+    refetchQueries: ["getRecyclingGuideBlockByContractId"],
     awaitRefetchQueries: true,
   });
 

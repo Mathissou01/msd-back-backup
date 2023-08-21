@@ -1,0 +1,72 @@
+mutation updateDropOffMapById(
+  $updateDropOffMapId: ID!
+  $data: DropOffMapInput!
+) {
+  updateDropOffMap(id: $updateDropOffMapId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        address
+        latitude
+        longitude
+        phoneNumber
+        mustKnow
+        audiences {
+          data {
+            id
+          }
+        }
+        dropOffMapService {
+          data {
+            id
+          }
+        }
+        collectDropOff {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectVoluntary {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        downloadableFiles {
+          id
+          linkText
+          file {
+            data {
+              id
+              attributes {
+                name
+                alternativeText
+                hash
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+        }
+        openingHoursBlocks {
+          ... on ComponentBlocksOpeningDay {
+            id
+            weekDay
+            morningStart
+            morningEnd
+            afterNoonStart
+            afterNoonEnd
+          }
+        }
+      }
+    }
+  }
+}

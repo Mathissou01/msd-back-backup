@@ -1,6 +1,0 @@
-query getSearchCities($searchTerm: String!, $contractId: ID!) {
-  searchCities(searchTerm: $searchTerm, contractId: $contractId) {
-    id
-    name
-  }
-}

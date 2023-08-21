@@ -9950,11 +9950,11 @@ export type CreateNewMutation = {
   } | null;
 };
 
-export type DeleteNewMutationVariables = Exact<{
+export type DeleteNewByIdMutationVariables = Exact<{
   deleteNewId: Scalars["ID"];
 }>;
 
-export type DeleteNewMutation = {
+export type DeleteNewByIdMutation = {
   __typename?: "Mutation";
   deleteNew?: {
     __typename?: "NewEntityResponse";
@@ -10311,18 +10311,6 @@ export type GetNewByIdQuery = {
   } | null;
 };
 
-export type GetNewDraftQueryVariables = Exact<{
-  customId: Scalars["String"];
-}>;
-
-export type GetNewDraftQuery = {
-  __typename?: "Query";
-  news?: {
-    __typename?: "NewEntityResponseCollection";
-    data: Array<{ __typename?: "NewEntity"; id?: string | null }>;
-  } | null;
-};
-
 export type GetNewsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   statusFilter?: InputMaybe<StringFilterInput>;
@@ -10389,12 +10377,24 @@ export type GetNewsByContractIdQuery = {
   } | null;
 };
 
-export type UpdateNewMutationVariables = Exact<{
+export type GetNewsDraftByCustomIdQueryVariables = Exact<{
+  customId: Scalars["String"];
+}>;
+
+export type GetNewsDraftByCustomIdQuery = {
+  __typename?: "Query";
+  news?: {
+    __typename?: "NewEntityResponseCollection";
+    data: Array<{ __typename?: "NewEntity"; id?: string | null }>;
+  } | null;
+};
+
+export type UpdateNewByIdMutationVariables = Exact<{
   updateNewId: Scalars["ID"];
   data: Scalars["JSON"];
 }>;
 
-export type UpdateNewMutation = {
+export type UpdateNewByIdMutation = {
   __typename?: "Mutation";
   versioningHandler?: {
     __typename?: "VersioningEntityResponse";
@@ -10557,11 +10557,11 @@ export type CreateTipMutation = {
   } | null;
 };
 
-export type DeleteTipMutationVariables = Exact<{
+export type DeleteTipByIdMutationVariables = Exact<{
   deleteTipId: Scalars["ID"];
 }>;
 
-export type DeleteTipMutation = {
+export type DeleteTipByIdMutation = {
   __typename?: "Mutation";
   deleteTip?: {
     __typename?: "TipEntityResponse";
@@ -10917,18 +10917,6 @@ export type GetTipByIdQuery = {
   } | null;
 };
 
-export type GetTipDraftQueryVariables = Exact<{
-  customId: Scalars["String"];
-}>;
-
-export type GetTipDraftQuery = {
-  __typename?: "Query";
-  tips?: {
-    __typename?: "TipEntityResponseCollection";
-    data: Array<{ __typename?: "TipEntity"; id?: string | null }>;
-  } | null;
-};
-
 export type GetTipsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   statusFilter?: InputMaybe<StringFilterInput>;
@@ -10995,12 +10983,24 @@ export type GetTipsByContractIdQuery = {
   } | null;
 };
 
-export type UpdateTipMutationVariables = Exact<{
+export type GetTipsDraftByCustomIdQueryVariables = Exact<{
+  customId: Scalars["String"];
+}>;
+
+export type GetTipsDraftByCustomIdQuery = {
+  __typename?: "Query";
+  tips?: {
+    __typename?: "TipEntityResponseCollection";
+    data: Array<{ __typename?: "TipEntity"; id?: string | null }>;
+  } | null;
+};
+
+export type UpdateTipByIdMutationVariables = Exact<{
   updateTipId: Scalars["ID"];
   data: Scalars["JSON"];
 }>;
 
-export type UpdateTipMutation = {
+export type UpdateTipByIdMutation = {
   __typename?: "Mutation";
   versioningHandler?: {
     __typename?: "VersioningEntityResponse";
@@ -11051,7 +11051,22 @@ export type GetAllFoldersHierarchyQuery = {
   } | null> | null;
 };
 
-export type GetFilesPaginationByPathIdQueryVariables = Exact<{
+export type GetLibraryBreadcrumbTrailQueryVariables = Exact<{
+  path: Scalars["String"];
+}>;
+
+export type GetLibraryBreadcrumbTrailQuery = {
+  __typename?: "Query";
+  libraryBreadcrumbTrail?: Array<{
+    __typename?: "Folders";
+    id?: string | null;
+    name?: string | null;
+    path?: string | null;
+    pathId?: string | null;
+  } | null> | null;
+};
+
+export type GetUploadFilesQueryVariables = Exact<{
   filters?: InputMaybe<UploadFileFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<
@@ -11059,7 +11074,7 @@ export type GetFilesPaginationByPathIdQueryVariables = Exact<{
   >;
 }>;
 
-export type GetFilesPaginationByPathIdQuery = {
+export type GetUploadFilesQuery = {
   __typename?: "Query";
   uploadFiles?: {
     __typename?: "UploadFileEntityResponseCollection";
@@ -11092,11 +11107,11 @@ export type GetFilesPaginationByPathIdQuery = {
   } | null;
 };
 
-export type GetFolderAndChildrenByIdQueryVariables = Exact<{
+export type GetUploadFoldersQueryVariables = Exact<{
   filters?: InputMaybe<UploadFolderFiltersInput>;
 }>;
 
-export type GetFolderAndChildrenByIdQuery = {
+export type GetUploadFoldersQuery = {
   __typename?: "Query";
   uploadFolders?: {
     __typename?: "UploadFolderEntityResponseCollection";
@@ -11144,26 +11159,11 @@ export type GetFolderAndChildrenByIdQuery = {
   } | null;
 };
 
-export type GetFolderBreadcrumbQueryVariables = Exact<{
-  path: Scalars["String"];
-}>;
-
-export type GetFolderBreadcrumbQuery = {
-  __typename?: "Query";
-  libraryBreadcrumbTrail?: Array<{
-    __typename?: "Folders";
-    id?: string | null;
-    name?: string | null;
-    path?: string | null;
-    pathId?: string | null;
-  } | null> | null;
-};
-
-export type GetFolderByPathIdQueryVariables = Exact<{
+export type GetUploadFoldersByPathIdQueryVariables = Exact<{
   pathId: Scalars["Int"];
 }>;
 
-export type GetFolderByPathIdQuery = {
+export type GetUploadFoldersByPathIdQuery = {
   __typename?: "Query";
   uploadFolders?: {
     __typename?: "UploadFolderEntityResponseCollection";
@@ -11180,12 +11180,12 @@ export type GetFolderByPathIdQuery = {
   } | null;
 };
 
-export type UpdateUploadFileMutationVariables = Exact<{
+export type UpdateUploadFileByIdMutationVariables = Exact<{
   updateUploadFileId: Scalars["ID"];
   data: UploadFileInput;
 }>;
 
-export type UpdateUploadFileMutation = {
+export type UpdateUploadFileByIdMutation = {
   __typename?: "Mutation";
   updateUploadFile?: {
     __typename?: "UploadFileEntityResponse";
@@ -11333,12 +11333,12 @@ export type UpdateUploadFileMutation = {
   } | null;
 };
 
-export type UpdateUploadFolderMutationVariables = Exact<{
+export type UpdateUploadFolderByIdMutationVariables = Exact<{
   updateUploadFolderId: Scalars["ID"];
   data: UploadFolderInput;
 }>;
 
-export type UpdateUploadFolderMutation = {
+export type UpdateUploadFolderByIdMutation = {
   __typename?: "Mutation";
   updateUploadFolder?: {
     __typename?: "UploadFolderEntityResponse";
@@ -11453,11 +11453,11 @@ export type GetCguByIdQuery = {
   } | null;
 };
 
-export type GetCgusByContractIdQueryVariables = Exact<{
+export type GetCguSubServicesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetCgusByContractIdQuery = {
+export type GetCguSubServicesByContractIdQuery = {
   __typename?: "Query";
   cguSubServices?: {
     __typename?: "CguSubServiceEntityResponseCollection";
@@ -11495,38 +11495,6 @@ export type UpdateCguByIdMutation = {
   updateCgu?: {
     __typename?: "CguEntityResponse";
     data?: { __typename?: "CguEntity"; id?: string | null } | null;
-  } | null;
-};
-
-export type GetConfidentialityByContractIdQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetConfidentialityByContractIdQuery = {
-  __typename?: "Query";
-  confidentialitySubServices?: {
-    __typename?: "ConfidentialitySubServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "ConfidentialitySubServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "ConfidentialitySubService";
-        name: string;
-        confidentialities?: {
-          __typename?: "ConfidentialityRelationResponseCollection";
-          data: Array<{
-            __typename?: "ConfidentialityEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "Confidentiality";
-              title: string;
-              hasMobile?: boolean | null;
-              isActivated?: boolean | null;
-            } | null;
-          }>;
-        } | null;
-      } | null;
-    }>;
   } | null;
 };
 
@@ -11591,6 +11559,38 @@ export type GetConfidentialityByIdQuery = {
         > | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetConfidentialitySubServicesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetConfidentialitySubServicesByContractIdQuery = {
+  __typename?: "Query";
+  confidentialitySubServices?: {
+    __typename?: "ConfidentialitySubServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "ConfidentialitySubServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ConfidentialitySubService";
+        name: string;
+        confidentialities?: {
+          __typename?: "ConfidentialityRelationResponseCollection";
+          data: Array<{
+            __typename?: "ConfidentialityEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Confidentiality";
+              title: string;
+              hasMobile?: boolean | null;
+              isActivated?: boolean | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -11713,11 +11713,11 @@ export type GetContactUsByIdQuery = {
   } | null;
 };
 
-export type GetContactUsesByContractIdQueryVariables = Exact<{
+export type GetContactUsSubServicesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetContactUsesByContractIdQuery = {
+export type GetContactUsSubServicesByContractIdQuery = {
   __typename?: "Query";
   contactUsSubServices?: {
     __typename?: "ContactUsSubServiceEntityResponseCollection";
@@ -11745,12 +11745,12 @@ export type GetContactUsesByContractIdQuery = {
   } | null;
 };
 
-export type UpdateContactUsMutationVariables = Exact<{
+export type UpdateContactUsByIdMutationVariables = Exact<{
   updateContactUsId: Scalars["ID"];
   data: ContactUsInput;
 }>;
 
-export type UpdateContactUsMutation = {
+export type UpdateContactUsByIdMutation = {
   __typename?: "Mutation";
   updateContactUs?: {
     __typename?: "ContactUsEntityResponse";
@@ -11902,11 +11902,11 @@ export type CreateFreeContentMutation = {
   } | null;
 };
 
-export type DeleteFreeContentMutationVariables = Exact<{
+export type DeleteFreeContentByIdMutationVariables = Exact<{
   deleteFreeContentId: Scalars["ID"];
 }>;
 
-export type DeleteFreeContentMutation = {
+export type DeleteFreeContentByIdMutation = {
   __typename?: "Mutation";
   deleteFreeContent?: {
     __typename?: "FreeContentEntityResponse";
@@ -12273,18 +12273,6 @@ export type GetFreeContentByIdQuery = {
   } | null;
 };
 
-export type GetFreeContentDraftQueryVariables = Exact<{
-  customId: Scalars["String"];
-}>;
-
-export type GetFreeContentDraftQuery = {
-  __typename?: "Query";
-  freeContents?: {
-    __typename?: "FreeContentEntityResponseCollection";
-    data: Array<{ __typename?: "FreeContentEntity"; id?: string | null }>;
-  } | null;
-};
-
 export type GetFreeContentSubServiceByIdQueryVariables = Exact<{
   freeContentSubServiceId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -12371,12 +12359,24 @@ export type GetFreeContentsBySubServiceIdQuery = {
   } | null;
 };
 
-export type UpdateFreeContentMutationVariables = Exact<{
+export type GetFreeContentsDraftByCustomIdQueryVariables = Exact<{
+  customId: Scalars["String"];
+}>;
+
+export type GetFreeContentsDraftByCustomIdQuery = {
+  __typename?: "Query";
+  freeContents?: {
+    __typename?: "FreeContentEntityResponseCollection";
+    data: Array<{ __typename?: "FreeContentEntity"; id?: string | null }>;
+  } | null;
+};
+
+export type UpdateFreeContentByIdMutationVariables = Exact<{
   updateFreeContentId: Scalars["ID"];
   data: Scalars["JSON"];
 }>;
 
-export type UpdateFreeContentMutation = {
+export type UpdateFreeContentByIdMutation = {
   __typename?: "Mutation";
   versioningHandler?: {
     __typename?: "VersioningEntityResponse";
@@ -12493,11 +12493,11 @@ export type GetCookieByIdQuery = {
   } | null;
 };
 
-export type GetCookiesByContractIdQueryVariables = Exact<{
+export type GetCookiesSubServicesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetCookiesByContractIdQuery = {
+export type GetCookiesSubServicesByContractIdQuery = {
   __typename?: "Query";
   cookiesSubServices?: {
     __typename?: "CookiesSubServiceEntityResponseCollection";
@@ -12554,20 +12554,6 @@ export type GetTagsByContractIdQuery = {
   } | null;
 };
 
-export type CountContentPerTagQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type CountContentPerTagQuery = {
-  __typename?: "Query";
-  countContentPerTag?: Array<{
-    __typename?: "totalCountPerTag";
-    id: string;
-    name: string;
-    count: number;
-  } | null> | null;
-};
-
 export type CreateNewTagMutationVariables = Exact<{
   contractId: Scalars["ID"];
   tagName: Scalars["String"];
@@ -12583,11 +12569,11 @@ export type CreateNewTagMutation = {
   } | null;
 };
 
-export type DeleteTagMutationVariables = Exact<{
+export type DeleteTagByIdMutationVariables = Exact<{
   deleteTagId: Scalars["ID"];
 }>;
 
-export type DeleteTagMutation = {
+export type DeleteTagByIdMutation = {
   __typename?: "Mutation";
   deleteTag?: {
     __typename?: "TagEntityResponse";
@@ -12603,12 +12589,26 @@ export type DeleteTagMutation = {
   } | null;
 };
 
-export type UpdateTagMutationVariables = Exact<{
+export type GetCountContentPerTagByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetCountContentPerTagByContractIdQuery = {
+  __typename?: "Query";
+  countContentPerTag?: Array<{
+    __typename?: "totalCountPerTag";
+    id: string;
+    name: string;
+    count: number;
+  } | null> | null;
+};
+
+export type UpdateTagByIdMutationVariables = Exact<{
   updateTagId: Scalars["ID"];
   data: TagInput;
 }>;
 
-export type UpdateTagMutation = {
+export type UpdateTagByIdMutation = {
   __typename?: "Mutation";
   updateTag?: {
     __typename?: "TagEntityResponse";
@@ -12624,13 +12624,13 @@ export type UpdateTagMutation = {
   } | null;
 };
 
-export type CreateContentTypeMutationVariables = Exact<{
+export type CreateContentTypeForContractIdMutationVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
 }>;
 
-export type CreateContentTypeMutation = {
+export type CreateContentTypeForContractIdMutation = {
   __typename?: "Mutation";
   createContentTypeForContractId?: {
     __typename?: "FreeContentSubServiceEntity";
@@ -12638,11 +12638,11 @@ export type CreateContentTypeMutation = {
   } | null;
 };
 
-export type GetContentTypeDtOsQueryVariables = Exact<{
+export type GetContentTypesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetContentTypeDtOsQuery = {
+export type GetContentTypesByContractIdQuery = {
   __typename?: "Query";
   getContentTypeDTOs?: Array<{
     __typename?: "ContentTypeDTO";
@@ -12653,12 +12653,12 @@ export type GetContentTypeDtOsQuery = {
   } | null> | null;
 };
 
-export type UpdateContentTypeCookiesMutationVariables = Exact<{
+export type UpdateCookiesSubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: CookiesSubServiceInput;
 }>;
 
-export type UpdateContentTypeCookiesMutation = {
+export type UpdateCookiesSubServiceByIdMutation = {
   __typename?: "Mutation";
   updateCookiesSubService?: {
     __typename?: "CookiesSubServiceEntityResponse";
@@ -12674,12 +12674,12 @@ export type UpdateContentTypeCookiesMutation = {
   } | null;
 };
 
-export type UpdateContentTypeAccessibilityMutationVariables = Exact<{
+export type UpdateAccessibilitySubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: AccessibilitySubServiceInput;
 }>;
 
-export type UpdateContentTypeAccessibilityMutation = {
+export type UpdateAccessibilitySubServiceByIdMutation = {
   __typename?: "Mutation";
   updateAccessibilitySubService?: {
     __typename?: "AccessibilitySubServiceEntityResponse";
@@ -12695,12 +12695,12 @@ export type UpdateContentTypeAccessibilityMutation = {
   } | null;
 };
 
-export type UpdateContentTypeContactUsMutationVariables = Exact<{
+export type UpdateContactUsSubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: ContactUsSubServiceInput;
 }>;
 
-export type UpdateContentTypeContactUsMutation = {
+export type UpdateContactUsSubServiceByIdMutation = {
   __typename?: "Mutation";
   updateContactUsSubService?: {
     __typename?: "ContactUsSubServiceEntityResponse";
@@ -12716,12 +12716,12 @@ export type UpdateContentTypeContactUsMutation = {
   } | null;
 };
 
-export type UpdateContentTypeCguMutationVariables = Exact<{
+export type UpdateCguSubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: CguSubServiceInput;
 }>;
 
-export type UpdateContentTypeCguMutation = {
+export type UpdateCguSubServiceByIdMutation = {
   __typename?: "Mutation";
   updateCguSubService?: {
     __typename?: "CguSubServiceEntityResponse";
@@ -12737,12 +12737,12 @@ export type UpdateContentTypeCguMutation = {
   } | null;
 };
 
-export type UpdateContentTypeConfidentialityMutationVariables = Exact<{
+export type UpdateConfidentialitySubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: ConfidentialitySubServiceInput;
 }>;
 
-export type UpdateContentTypeConfidentialityMutation = {
+export type UpdateConfidentialitySubServiceByIdMutation = {
   __typename?: "Mutation";
   updateConfidentialitySubService?: {
     __typename?: "ConfidentialitySubServiceEntityResponse";
@@ -12758,12 +12758,12 @@ export type UpdateContentTypeConfidentialityMutation = {
   } | null;
 };
 
-export type UpdateContentTypeNewsMutationVariables = Exact<{
+export type UpdateNewsSubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: NewsSubServiceInput;
 }>;
 
-export type UpdateContentTypeNewsMutation = {
+export type UpdateNewsSubServiceByIdMutation = {
   __typename?: "Mutation";
   updateNewsSubService?: {
     __typename?: "NewsSubServiceEntityResponse";
@@ -12779,12 +12779,12 @@ export type UpdateContentTypeNewsMutation = {
   } | null;
 };
 
-export type UpdateContentTypeTipMutationVariables = Exact<{
+export type UpdateTipSubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: TipSubServiceInput;
 }>;
 
-export type UpdateContentTypeTipMutation = {
+export type UpdateTipSubServiceByIdMutation = {
   __typename?: "Mutation";
   updateTipSubService?: {
     __typename?: "TipSubServiceEntityResponse";
@@ -12800,12 +12800,12 @@ export type UpdateContentTypeTipMutation = {
   } | null;
 };
 
-export type UpdateContentTypeQuizMutationVariables = Exact<{
+export type UpdateQuizSubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: QuizSubServiceInput;
 }>;
 
-export type UpdateContentTypeQuizMutation = {
+export type UpdateQuizSubServiceByIdMutation = {
   __typename?: "Mutation";
   updateQuizSubService?: {
     __typename?: "QuizSubServiceEntityResponse";
@@ -12821,12 +12821,12 @@ export type UpdateContentTypeQuizMutation = {
   } | null;
 };
 
-export type UpdateContentTypeEventMutationVariables = Exact<{
+export type UpdateEventSubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: EventSubServiceInput;
 }>;
 
-export type UpdateContentTypeEventMutation = {
+export type UpdateEventSubServiceByIdMutation = {
   __typename?: "Mutation";
   updateEventSubService?: {
     __typename?: "EventSubServiceEntityResponse";
@@ -12842,12 +12842,12 @@ export type UpdateContentTypeEventMutation = {
   } | null;
 };
 
-export type UpdateContentTypeFreeContentMutationVariables = Exact<{
+export type UpdateFreeContentSubServiceByIdMutationVariables = Exact<{
   updateSubServiceId: Scalars["ID"];
   data: FreeContentSubServiceInput;
 }>;
 
-export type UpdateContentTypeFreeContentMutation = {
+export type UpdateFreeContentSubServiceByIdMutation = {
   __typename?: "Mutation";
   updateFreeContentSubService?: {
     __typename?: "FreeContentSubServiceEntityResponse";
@@ -12863,11 +12863,11 @@ export type UpdateContentTypeFreeContentMutation = {
   } | null;
 };
 
-export type GetCollectionMethodsByContractIdQueryVariables = Exact<{
+export type GetCollectionMethodsQueryVariables = Exact<{
   filters?: InputMaybe<CollectDoorToDoorFiltersInput>;
 }>;
 
-export type GetCollectionMethodsByContractIdQuery = {
+export type GetCollectionMethodsQuery = {
   __typename?: "Query";
   collectDoorToDoors?: {
     __typename?: "CollectDoorToDoorEntityResponseCollection";
@@ -12904,11 +12904,11 @@ export type GetCollectionMethodsByContractIdQuery = {
   } | null;
 };
 
-export type GetColorsQueryVariables = Exact<{
+export type GetFlowColorsQueryVariables = Exact<{
   filters?: InputMaybe<FlowColorFiltersInput>;
 }>;
 
-export type GetColorsQuery = {
+export type GetFlowColorsQuery = {
   __typename?: "Query";
   flowColors?: {
     __typename?: "FlowColorEntityResponseCollection";
@@ -12925,11 +12925,11 @@ export type GetColorsQuery = {
   } | null;
 };
 
-export type GetFlowsByContractIdQueryVariables = Exact<{
+export type GetFlowsQueryVariables = Exact<{
   filters?: InputMaybe<FlowFiltersInput>;
 }>;
 
-export type GetFlowsByContractIdQuery = {
+export type GetFlowsQuery = {
   __typename?: "Query";
   flows?: {
     __typename?: "FlowEntityResponseCollection";
@@ -13004,12 +13004,12 @@ export type GetFlowsByContractIdQuery = {
   } | null;
 };
 
-export type UpdateFlowMutationVariables = Exact<{
+export type UpdateFlowByIdMutationVariables = Exact<{
   updateFlowId: Scalars["ID"];
   data: FlowInput;
 }>;
 
-export type UpdateFlowMutation = {
+export type UpdateFlowByIdMutation = {
   __typename?: "Mutation";
   updateFlow?: {
     __typename?: "FlowEntityResponse";
@@ -13072,11 +13072,108 @@ export type UpdateFlowMutation = {
   } | null;
 };
 
-export type GetBanAddressesAutoCompleteQueryVariables = Exact<{
+export type GetActiveServicesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetActiveServicesByContractIdQuery = {
+  __typename?: "Query";
+  editorialServices?: {
+    __typename?: "EditorialServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "EditorialServiceEntity";
+      attributes?: {
+        __typename?: "EditorialService";
+        eventSubService?: {
+          __typename?: "EventSubServiceEntityResponse";
+          data?: {
+            __typename?: "EventSubServiceEntity";
+            attributes?: {
+              __typename?: "EventSubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        newsSubService?: {
+          __typename?: "NewsSubServiceEntityResponse";
+          data?: {
+            __typename?: "NewsSubServiceEntity";
+            attributes?: {
+              __typename?: "NewsSubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        quizSubService?: {
+          __typename?: "QuizSubServiceEntityResponse";
+          data?: {
+            __typename?: "QuizSubServiceEntity";
+            attributes?: {
+              __typename?: "QuizSubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        tipSubService?: {
+          __typename?: "TipSubServiceEntityResponse";
+          data?: {
+            __typename?: "TipSubServiceEntity";
+            attributes?: {
+              __typename?: "TipSubService";
+              isActivated: boolean;
+            } | null;
+          } | null;
+        } | null;
+        freeContentSubServices?: {
+          __typename?: "FreeContentSubServiceRelationResponseCollection";
+          data: Array<{
+            __typename?: "FreeContentSubServiceEntity";
+            attributes?: {
+              __typename?: "FreeContentSubService";
+              isActivated: boolean;
+            } | null;
+          }>;
+        } | null;
+        contactUsSubService?: {
+          __typename?: "ContactUsSubServiceEntityResponse";
+          data?: {
+            __typename?: "ContactUsSubServiceEntity";
+            attributes?: {
+              __typename?: "ContactUsSubService";
+              isActivated?: boolean | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+  } | null;
+  recyclingGuideServices?: {
+    __typename?: "RecyclingGuideServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "RecyclingGuideServiceEntity";
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        isActivated: boolean;
+      } | null;
+    }>;
+  } | null;
+  requestServices?: {
+    __typename?: "RequestServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "RequestServiceEntity";
+      attributes?: {
+        __typename?: "RequestService";
+        isActivated: boolean;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetAddressCoordinatesQueryVariables = Exact<{
   searchTerm: Scalars["String"];
 }>;
 
-export type GetBanAddressesAutoCompleteQuery = {
+export type GetAddressCoordinatesQuery = {
   __typename?: "Query";
   getAddressCoordinates?: Array<{
     __typename?: "SearchResultAddress";
@@ -13350,103 +13447,6 @@ export type GetContractsQuery = {
             } | null;
           } | null;
         } | null;
-      } | null;
-    }>;
-  } | null;
-};
-
-export type GetServicesActiveQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetServicesActiveQuery = {
-  __typename?: "Query";
-  editorialServices?: {
-    __typename?: "EditorialServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "EditorialServiceEntity";
-      attributes?: {
-        __typename?: "EditorialService";
-        eventSubService?: {
-          __typename?: "EventSubServiceEntityResponse";
-          data?: {
-            __typename?: "EventSubServiceEntity";
-            attributes?: {
-              __typename?: "EventSubService";
-              isActivated: boolean;
-            } | null;
-          } | null;
-        } | null;
-        newsSubService?: {
-          __typename?: "NewsSubServiceEntityResponse";
-          data?: {
-            __typename?: "NewsSubServiceEntity";
-            attributes?: {
-              __typename?: "NewsSubService";
-              isActivated: boolean;
-            } | null;
-          } | null;
-        } | null;
-        quizSubService?: {
-          __typename?: "QuizSubServiceEntityResponse";
-          data?: {
-            __typename?: "QuizSubServiceEntity";
-            attributes?: {
-              __typename?: "QuizSubService";
-              isActivated: boolean;
-            } | null;
-          } | null;
-        } | null;
-        tipSubService?: {
-          __typename?: "TipSubServiceEntityResponse";
-          data?: {
-            __typename?: "TipSubServiceEntity";
-            attributes?: {
-              __typename?: "TipSubService";
-              isActivated: boolean;
-            } | null;
-          } | null;
-        } | null;
-        freeContentSubServices?: {
-          __typename?: "FreeContentSubServiceRelationResponseCollection";
-          data: Array<{
-            __typename?: "FreeContentSubServiceEntity";
-            attributes?: {
-              __typename?: "FreeContentSubService";
-              isActivated: boolean;
-            } | null;
-          }>;
-        } | null;
-        contactUsSubService?: {
-          __typename?: "ContactUsSubServiceEntityResponse";
-          data?: {
-            __typename?: "ContactUsSubServiceEntity";
-            attributes?: {
-              __typename?: "ContactUsSubService";
-              isActivated?: boolean | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    }>;
-  } | null;
-  recyclingGuideServices?: {
-    __typename?: "RecyclingGuideServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "RecyclingGuideServiceEntity";
-      attributes?: {
-        __typename?: "RecyclingGuideService";
-        isActivated: boolean;
-      } | null;
-    }>;
-  } | null;
-  requestServices?: {
-    __typename?: "RequestServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "RequestServiceEntity";
-      attributes?: {
-        __typename?: "RequestService";
-        isActivated: boolean;
       } | null;
     }>;
   } | null;
@@ -13903,13 +13903,13 @@ export type UpdateMwcHasTipsMutation = {
   } | null;
 };
 
-export type GetEditoBlockTabQueryVariables = Exact<{
+export type GetEditoBlockTabByContractIdAndAudienceIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   status?: InputMaybe<Enum_Editocontentdto_Status>;
   audienceId: Scalars["ID"];
 }>;
 
-export type GetEditoBlockTabQuery = {
+export type GetEditoBlockTabByContractIdAndAudienceIdQuery = {
   __typename?: "Query";
   getEditoBlockDTO?: {
     __typename?: "EditoBlockDTO";
@@ -13946,13 +13946,14 @@ export type GetEditoBlockTabQuery = {
   } | null> | null;
 };
 
-export type GetQuizAndTipsBlockTabQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-  status: Scalars["String"];
-  audienceId: Scalars["ID"];
-}>;
+export type GetQuizAndTipsBlockTabByContractIdAndAudienceIdQueryVariables =
+  Exact<{
+    contractId: Scalars["ID"];
+    status: Scalars["String"];
+    audienceId: Scalars["ID"];
+  }>;
 
-export type GetQuizAndTipsBlockTabQuery = {
+export type GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery = {
   __typename?: "Query";
   contractCustomizations?: {
     __typename?: "ContractCustomizationEntityResponseCollection";
@@ -14090,11 +14091,11 @@ export type GetQuizAndTipsBlockTabQuery = {
   } | null;
 };
 
-export type GetRecyclingGuideBlockTabQueryVariables = Exact<{
+export type GetRecyclingGuideBlockByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetRecyclingGuideBlockTabQuery = {
+export type GetRecyclingGuideBlockByContractIdQuery = {
   __typename?: "Query";
   contractCustomizations?: {
     __typename?: "ContractCustomizationEntityResponseCollection";
@@ -14139,12 +14140,12 @@ export type GetRecyclingGuideBlockTabQuery = {
   } | null;
 };
 
-export type GetServicesBlockTabQueryVariables = Exact<{
+export type GetServicesBlocksByContractIdAndAudienceIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   audienceId: Scalars["ID"];
 }>;
 
-export type GetServicesBlockTabQuery = {
+export type GetServicesBlocksByContractIdAndAudienceIdQuery = {
   __typename?: "Query";
   contractCustomizations?: {
     __typename?: "ContractCustomizationEntityResponseCollection";
@@ -14450,13 +14451,14 @@ export type GetServicesBlockTabQuery = {
   } | null;
 };
 
-export type GetTopContentBlockTabQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-  status?: InputMaybe<Enum_Topcontentdto_Status>;
-  audienceId: Scalars["ID"];
-}>;
+export type GetTopContentBlockTabByContractIdAndAudienceIdQueryVariables =
+  Exact<{
+    contractId: Scalars["ID"];
+    status?: InputMaybe<Enum_Topcontentdto_Status>;
+    audienceId: Scalars["ID"];
+  }>;
 
-export type GetTopContentBlockTabQuery = {
+export type GetTopContentBlockTabByContractIdAndAudienceIdQuery = {
   __typename?: "Query";
   getTopContentBlockDTO?: {
     __typename?: "TopContentBlockDTO";
@@ -14495,11 +14497,12 @@ export type GetTopContentBlockTabQuery = {
   } | null> | null;
 };
 
-export type GetWelcomeMessageAndSearchEngineBlockTabQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
+export type GetWelcomeMessageAndSearchEngineBlocksByContractIdQueryVariables =
+  Exact<{
+    contractId: Scalars["ID"];
+  }>;
 
-export type GetWelcomeMessageAndSearchEngineBlockTabQuery = {
+export type GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery = {
   __typename?: "Query";
   contractCustomizations?: {
     __typename?: "ContractCustomizationEntityResponseCollection";
@@ -14513,17 +14516,6 @@ export type GetWelcomeMessageAndSearchEngineBlockTabQuery = {
             __typename?: "HomepageEntity";
             attributes?: {
               __typename?: "Homepage";
-              searchEngineBlock?: {
-                __typename?: "SearchEngineBlockEntityResponse";
-                data?: {
-                  __typename?: "SearchEngineBlockEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "SearchEngineBlock";
-                    titleContent: string;
-                  } | null;
-                } | null;
-              } | null;
               welcomeMessageBlock?: {
                 __typename?: "WelcomeMessageBlockEntityResponse";
                 data?: {
@@ -14537,6 +14529,17 @@ export type GetWelcomeMessageAndSearchEngineBlockTabQuery = {
                   } | null;
                 } | null;
               } | null;
+              searchEngineBlock?: {
+                __typename?: "SearchEngineBlockEntityResponse";
+                data?: {
+                  __typename?: "SearchEngineBlockEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "SearchEngineBlock";
+                    titleContent: string;
+                  } | null;
+                } | null;
+              } | null;
             } | null;
           } | null;
         } | null;
@@ -14545,12 +14548,12 @@ export type GetWelcomeMessageAndSearchEngineBlockTabQuery = {
   } | null;
 };
 
-export type UpdateEditoBlockTabMutationVariables = Exact<{
+export type UpdateEditoBlockByIdMutationVariables = Exact<{
   updateEditoBlockId: Scalars["ID"];
   data: EditoBlockInput;
 }>;
 
-export type UpdateEditoBlockTabMutation = {
+export type UpdateEditoBlockByIdMutation = {
   __typename?: "Mutation";
   updateEditoBlock?: {
     __typename?: "EditoBlockEntityResponse";
@@ -14566,12 +14569,12 @@ export type UpdateEditoBlockTabMutation = {
   } | null;
 };
 
-export type UpdateQuizAndTipsBlockTabMutationVariables = Exact<{
+export type UpdateQuizAndTipsBlockByIdMutationVariables = Exact<{
   quizAndTipsBlockId: Scalars["ID"];
   data: QuizAndTipsBlockInput;
 }>;
 
-export type UpdateQuizAndTipsBlockTabMutation = {
+export type UpdateQuizAndTipsBlockByIdMutation = {
   __typename?: "Mutation";
   updateQuizAndTipsBlock?: {
     __typename?: "QuizAndTipsBlockEntityResponse";
@@ -14596,12 +14599,12 @@ export type UpdateQuizAndTipsBlockTabMutation = {
   } | null;
 };
 
-export type UpdateRecyclingGuideTabMutationVariables = Exact<{
+export type UpdateRecyclingGuideBlockByIdMutationVariables = Exact<{
   updateRecyclingGuideBlockId: Scalars["ID"];
   data: RecyclingGuideBlockInput;
 }>;
 
-export type UpdateRecyclingGuideTabMutation = {
+export type UpdateRecyclingGuideBlockByIdMutation = {
   __typename?: "Mutation";
   updateRecyclingGuideBlock?: {
     __typename?: "RecyclingGuideBlockEntityResponse";
@@ -14624,12 +14627,12 @@ export type UpdateRecyclingGuideTabMutation = {
   } | null;
 };
 
-export type UpdateSearchEngineBlockTabMutationVariables = Exact<{
+export type UpdateSearchEngineBlockByIdMutationVariables = Exact<{
   updateSearchEngineBlockId: Scalars["ID"];
   data: SearchEngineBlockInput;
 }>;
 
-export type UpdateSearchEngineBlockTabMutation = {
+export type UpdateSearchEngineBlockByIdMutation = {
   __typename?: "Mutation";
   updateSearchEngineBlock?: {
     __typename?: "SearchEngineBlockEntityResponse";
@@ -14643,12 +14646,12 @@ export type UpdateSearchEngineBlockTabMutation = {
   } | null;
 };
 
-export type UpdateServicesBlockTabMutationVariables = Exact<{
+export type UpdateServicesBlockByIdMutationVariables = Exact<{
   updateServicesBlockId: Scalars["ID"];
   data: ServicesBlockInput;
 }>;
 
-export type UpdateServicesBlockTabMutation = {
+export type UpdateServicesBlockByIdMutation = {
   __typename?: "Mutation";
   updateServicesBlock?: {
     __typename?: "ServicesBlockEntityResponse";
@@ -14954,12 +14957,12 @@ export type UpdateServicesBlockTabMutation = {
   } | null;
 };
 
-export type UpdateTopContentBlockTabMutationVariables = Exact<{
+export type UpdateTopContentBlockByIdMutationVariables = Exact<{
   updateTopContentBlockId: Scalars["ID"];
   data: TopContentBlockInput;
 }>;
 
-export type UpdateTopContentBlockTabMutation = {
+export type UpdateTopContentBlockByIdMutation = {
   __typename?: "Mutation";
   updateTopContentBlock?: {
     __typename?: "TopContentBlockEntityResponse";
@@ -14994,39 +14997,18 @@ export type UpdateTopContentBlockTabMutation = {
   } | null;
 };
 
-export type UpdateWelcomeMessageBlockMutationVariables = Exact<{
+export type UpdateWelcomeMessageBlockByIdMutationVariables = Exact<{
   updateWelcomeMessageBlockId: Scalars["ID"];
   data: WelcomeMessageBlockInput;
 }>;
 
-export type UpdateWelcomeMessageBlockMutation = {
+export type UpdateWelcomeMessageBlockByIdMutation = {
   __typename?: "Mutation";
   updateWelcomeMessageBlock?: {
     __typename?: "WelcomeMessageBlockEntityResponse";
     data?: {
       __typename?: "WelcomeMessageBlockEntity";
       id?: string | null;
-    } | null;
-  } | null;
-};
-
-export type UpdateContractCustomizationMutationVariables = Exact<{
-  updateContractCustomizationId: Scalars["ID"];
-  data: ContractCustomizationInput;
-}>;
-
-export type UpdateContractCustomizationMutation = {
-  __typename?: "Mutation";
-  updateContractCustomization?: {
-    __typename?: "ContractCustomizationEntityResponse";
-    data?: {
-      __typename?: "ContractCustomizationEntity";
-      attributes?: {
-        __typename?: "ContractCustomization";
-        primaryColor: string;
-        secondaryColor?: string | null;
-        textContrast: string;
-      } | null;
     } | null;
   } | null;
 };
@@ -15079,12 +15061,12 @@ export type GetContractCustomizationByIdQuery = {
   } | null;
 };
 
-export type UpdateContractCustomizationByIdMutationVariables = Exact<{
+export type UpdateContractCustomizationByContractIdMutationVariables = Exact<{
   updateContractId: Scalars["ID"];
   data: ContractInput;
 }>;
 
-export type UpdateContractCustomizationByIdMutation = {
+export type UpdateContractCustomizationByContractIdMutation = {
   __typename?: "Mutation";
   updateContract?: {
     __typename?: "ContractEntityResponse";
@@ -15128,11 +15110,32 @@ export type UpdateContractCustomizationByIdMutation = {
   } | null;
 };
 
-export type GetFooterPageQueryVariables = Exact<{
+export type UpdateContractCustomizationByIdMutationVariables = Exact<{
+  updateContractCustomizationId: Scalars["ID"];
+  data: ContractCustomizationInput;
+}>;
+
+export type UpdateContractCustomizationByIdMutation = {
+  __typename?: "Mutation";
+  updateContractCustomization?: {
+    __typename?: "ContractCustomizationEntityResponse";
+    data?: {
+      __typename?: "ContractCustomizationEntity";
+      attributes?: {
+        __typename?: "ContractCustomization";
+        primaryColor: string;
+        secondaryColor?: string | null;
+        textContrast: string;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetFooterByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetFooterPageQuery = {
+export type GetFooterByContractIdQuery = {
   __typename?: "Query";
   contractCustomizations?: {
     __typename?: "ContractCustomizationEntityResponseCollection";
@@ -15168,14 +15171,15 @@ export type GetFooterPageQuery = {
   } | null;
 };
 
-export type UpdateFooterPageMutationVariables = Exact<{
-  updateFooterId: Scalars["ID"];
-  updateFooterData: FooterInput;
-  updateContactUsSubServiceId: Scalars["ID"];
-  updateContactUsSubServiceData: ContactUsSubServiceInput;
-}>;
+export type UpdateFooterPageByIdAndContactUsSubServiceIdMutationVariables =
+  Exact<{
+    updateFooterId: Scalars["ID"];
+    updateFooterData: FooterInput;
+    updateContactUsSubServiceId: Scalars["ID"];
+    updateContactUsSubServiceData: ContactUsSubServiceInput;
+  }>;
 
-export type UpdateFooterPageMutation = {
+export type UpdateFooterPageByIdAndContactUsSubServiceIdMutation = {
   __typename?: "Mutation";
   updateFooter?: {
     __typename?: "FooterEntityResponse";
@@ -15201,11 +15205,11 @@ export type UpdateFooterPageMutation = {
   } | null;
 };
 
-export type GetMenuPageQueryVariables = Exact<{
+export type GetContractMenuByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetMenuPageQuery = {
+export type GetContractMenuByContractIdQuery = {
   __typename?: "Query";
   contract?: {
     __typename?: "ContractEntityResponse";
@@ -15439,12 +15443,12 @@ export type GetMenuPageQuery = {
   } | null;
 };
 
-export type UpdateMenuPageMutationVariables = Exact<{
+export type UpdateContractMenuByIdMutationVariables = Exact<{
   updateMenuPageId: Scalars["ID"];
   data: ContractMenuInput;
 }>;
 
-export type UpdateMenuPageMutation = {
+export type UpdateContractMenuByIdMutation = {
   __typename?: "Mutation";
   updateContractMenu?: {
     __typename?: "ContractMenuEntityResponse";
@@ -15664,11 +15668,11 @@ export type CreateSectorizationMutation = {
   } | null;
 };
 
-export type DeleteSectorizationMutationVariables = Exact<{
+export type DeleteSectorizationByIdMutationVariables = Exact<{
   deleteSectorizationId: Scalars["ID"];
 }>;
 
-export type DeleteSectorizationMutation = {
+export type DeleteSectorizationByIdMutation = {
   __typename?: "Mutation";
   deleteSectorization?: {
     __typename?: "SectorizationEntityResponse";
@@ -15687,11 +15691,11 @@ export type DeleteSectorizationMutation = {
   } | null;
 };
 
-export type GetCitiesQueryVariables = Exact<{
+export type GetCitiesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetCitiesQuery = {
+export type GetCitiesByContractIdQuery = {
   __typename?: "Query";
   territories?: {
     __typename?: "TerritoryEntityResponseCollection";
@@ -15729,11 +15733,11 @@ export type GetSectorizationByCityQuery = {
   } | null;
 };
 
-export type GetSectorizationByContractIdQueryVariables = Exact<{
+export type GetSectorizationByIdQueryVariables = Exact<{
   sectorizationId?: InputMaybe<Scalars["ID"]>;
 }>;
 
-export type GetSectorizationByContractIdQuery = {
+export type GetSectorizationByIdQuery = {
   __typename?: "Query";
   sectorization?: {
     __typename?: "SectorizationEntityResponse";
@@ -15786,12 +15790,12 @@ export type GetSectorizationsByContractIdQuery = {
   } | null;
 };
 
-export type UpdateSectorizationMutationVariables = Exact<{
+export type UpdateSectorizationByIdMutationVariables = Exact<{
   updateSectorizationId: Scalars["ID"];
   data: SectorizationInput;
 }>;
 
-export type UpdateSectorizationMutation = {
+export type UpdateSectorizationByIdMutation = {
   __typename?: "Mutation";
   updateSectorization?: {
     __typename?: "SectorizationEntityResponse";
@@ -15810,11 +15814,11 @@ export type UpdateSectorizationMutation = {
   } | null;
 };
 
-export type GetAudiencesByContractIdQueryVariables = Exact<{
+export type GetAudiencesQueryVariables = Exact<{
   filters?: InputMaybe<AudienceFiltersInput>;
 }>;
 
-export type GetAudiencesByContractIdQuery = {
+export type GetAudiencesQuery = {
   __typename?: "Query";
   audiences?: {
     __typename?: "AudienceEntityResponseCollection";
@@ -15830,12 +15834,12 @@ export type GetAudiencesByContractIdQuery = {
   } | null;
 };
 
-export type UpdateAudienceMutationVariables = Exact<{
+export type UpdateAudienceByIdMutationVariables = Exact<{
   updateAudienceId: Scalars["ID"];
   data: AudienceInput;
 }>;
 
-export type UpdateAudienceMutation = {
+export type UpdateAudienceByIdMutation = {
   __typename?: "Mutation";
   updateAudience?: {
     __typename?: "AudienceEntityResponse";
@@ -15879,11 +15883,11 @@ export type CreateAlertNotificationMutation = {
   } | null;
 };
 
-export type DeleteAlertNotificationsByIdMutationVariables = Exact<{
+export type DeleteAlertNotificationByIdMutationVariables = Exact<{
   deleteAlertNotificationId: Scalars["ID"];
 }>;
 
-export type DeleteAlertNotificationsByIdMutation = {
+export type DeleteAlertNotificationByIdMutation = {
   __typename?: "Mutation";
   deleteAlertNotification?: {
     __typename?: "AlertNotificationEntityResponse";
@@ -16012,32 +16016,6 @@ export type GetAlertNotificationsByContractIdQuery = {
         alertMessage?: string | null;
         alertDescription: string;
         scheduledAtTime: string;
-      } | null;
-    }>;
-  } | null;
-};
-
-export type GetAllRequestsEmailByContractIdQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetAllRequestsEmailByContractIdQuery = {
-  __typename?: "Query";
-  requests?: {
-    __typename?: "RequestEntityResponseCollection";
-    data: Array<{
-      __typename?: "RequestEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Request";
-        requestType?: Array<{
-          __typename?: "ComponentBlocksRequestType";
-          id: string;
-          title: string;
-          email?: string | null;
-          isEmail?: boolean | null;
-          isTSMS?: boolean | null;
-        } | null> | null;
       } | null;
     }>;
   } | null;
@@ -16216,11 +16194,11 @@ export type CreateDropOffMapMutation = {
   } | null;
 };
 
-export type DeleteDropOffMapMutationVariables = Exact<{
+export type DeleteDropOffMapByIdMutationVariables = Exact<{
   deleteDropOffMapId: Scalars["ID"];
 }>;
 
-export type DeleteDropOffMapMutation = {
+export type DeleteDropOffMapByIdMutation = {
   __typename?: "Mutation";
   deleteDropOffMap?: {
     __typename?: "DropOffMapEntityResponse";
@@ -16328,7 +16306,7 @@ export type GetDropOffMapByIdQuery = {
   } | null;
 };
 
-export type GetDropOffMapByDropOffMapByServiceIdQueryVariables = Exact<{
+export type GetDropOffMapsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<
@@ -16336,7 +16314,7 @@ export type GetDropOffMapByDropOffMapByServiceIdQueryVariables = Exact<{
   >;
 }>;
 
-export type GetDropOffMapByDropOffMapByServiceIdQuery = {
+export type GetDropOffMapsByContractIdQuery = {
   __typename?: "Query";
   dropOffMaps?: {
     __typename?: "DropOffMapEntityResponseCollection";
@@ -16413,12 +16391,12 @@ export type GetDropOffMapByDropOffMapByServiceIdQuery = {
   } | null;
 };
 
-export type UpdateDropOffMapMutationVariables = Exact<{
+export type UpdateDropOffMapByIdMutationVariables = Exact<{
   updateDropOffMapId: Scalars["ID"];
   data: DropOffMapInput;
 }>;
 
-export type UpdateDropOffMapMutation = {
+export type UpdateDropOffMapByIdMutation = {
   __typename?: "Mutation";
   updateDropOffMap?: {
     __typename?: "DropOffMapEntityResponse";
@@ -16506,6 +16484,18 @@ export type UpdateDropOffMapMutation = {
   } | null;
 };
 
+export type CreateRequestMutationVariables = Exact<{
+  data: RequestInput;
+}>;
+
+export type CreateRequestMutation = {
+  __typename?: "Mutation";
+  createRequest?: {
+    __typename?: "RequestEntityResponse";
+    data?: { __typename?: "RequestEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type CreateRequestAggregateMutationVariables = Exact<{
   data: RequestAggregateInput;
 }>;
@@ -16534,18 +16524,6 @@ export type CreateRequestAggregateMutation = {
   } | null;
 };
 
-export type CreateRequestByContractIdMutationVariables = Exact<{
-  data: RequestInput;
-}>;
-
-export type CreateRequestByContractIdMutation = {
-  __typename?: "Mutation";
-  createRequest?: {
-    __typename?: "RequestEntityResponse";
-    data?: { __typename?: "RequestEntity"; id?: string | null } | null;
-  } | null;
-};
-
 export type DeleteRequestAggregateByIdMutationVariables = Exact<{
   deleteRequestAggregateId: Scalars["ID"];
 }>;
@@ -16570,11 +16548,11 @@ export type DeleteRequestByIdMutation = {
   } | null;
 };
 
-export type DeleteRequestTakedMutationVariables = Exact<{
+export type DeleteRequestTakedByIdMutationVariables = Exact<{
   deleteRequestTakedId: Scalars["ID"];
 }>;
 
-export type DeleteRequestTakedMutation = {
+export type DeleteRequestTakedByIdMutation = {
   __typename?: "Mutation";
   deleteRequestTaked?: {
     __typename?: "RequestTakedEntityResponse";
@@ -16582,11 +16560,11 @@ export type DeleteRequestTakedMutation = {
   } | null;
 };
 
-export type GetAppointmentsDetailsQueryVariables = Exact<{
+export type GetAppointmentsDetailsByRequestIdQueryVariables = Exact<{
   requestId: Scalars["ID"];
 }>;
 
-export type GetAppointmentsDetailsQuery = {
+export type GetAppointmentsDetailsByRequestIdQuery = {
   __typename?: "Query";
   getAppointmentsDetails?: {
     __typename?: "AppointmentDetails";
@@ -16616,11 +16594,11 @@ export type GetAppointmentsDetailsQuery = {
   } | null;
 };
 
-export type GetEnrichRequestsQueryVariables = Exact<{
+export type GetEnrichRequestsByRequestServiceIdQueryVariables = Exact<{
   requestServiceId: Scalars["ID"];
 }>;
 
-export type GetEnrichRequestsQuery = {
+export type GetEnrichRequestsByRequestServiceIdQuery = {
   __typename?: "Query";
   getEnrichRequests?: Array<{
     __typename?: "EnrichRequest";
@@ -16914,11 +16892,11 @@ export type CreateRequestSlotMutation = {
   } | null;
 };
 
-export type DeleteRequestSlotMutationVariables = Exact<{
+export type DeleteRequestSlotByIdMutationVariables = Exact<{
   id: Scalars["ID"];
 }>;
 
-export type DeleteRequestSlotMutation = {
+export type DeleteRequestSlotByIdMutation = {
   __typename?: "Mutation";
   deleteRequestSlot?: {
     __typename?: "RequestSlotEntityResponse";
@@ -16926,12 +16904,12 @@ export type DeleteRequestSlotMutation = {
   } | null;
 };
 
-export type UpdateRequestSlotMutationVariables = Exact<{
+export type UpdateRequestSlotByIdMutationVariables = Exact<{
   id: Scalars["ID"];
   data: RequestSlotInput;
 }>;
 
-export type UpdateRequestSlotMutation = {
+export type UpdateRequestSlotByIdMutation = {
   __typename?: "Mutation";
   updateRequestSlot?: {
     __typename?: "RequestSlotEntityResponse";
@@ -16964,12 +16942,12 @@ export type UpdateRequestSlotMutation = {
   } | null;
 };
 
-export type UpdateRequestAggregateMutationVariables = Exact<{
+export type UpdateRequestAggregateByIdMutationVariables = Exact<{
   updateRequestAggregateId: Scalars["ID"];
   data: RequestAggregateInput;
 }>;
 
-export type UpdateRequestAggregateMutation = {
+export type UpdateRequestAggregateByIdMutation = {
   __typename?: "Mutation";
   updateRequestAggregate?: {
     __typename?: "RequestAggregateEntityResponse";
@@ -16994,14 +16972,14 @@ export type UpdateRequestByIdMutation = {
   } | null;
 };
 
-export type GetWasteFamiliesQueryVariables = Exact<{
+export type GetWasteFamiliesByContractIdQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
   >;
 }>;
 
-export type GetWasteFamiliesQuery = {
+export type GetWasteFamiliesByContractIdQuery = {
   __typename?: "Query";
   recyclingGuideService?: {
     __typename?: "RecyclingGuideServiceEntityResponse";
@@ -17038,42 +17016,12 @@ export type GetWasteFamiliesQuery = {
   } | null;
 };
 
-export type GetWasteFamiliesByContractIdQueryVariables = Exact<{
-  contractId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetWasteFamiliesByContractIdQuery = {
-  __typename?: "Query";
-  recyclingGuideService?: {
-    __typename?: "RecyclingGuideServiceEntityResponse";
-    data?: {
-      __typename?: "RecyclingGuideServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "RecyclingGuideService";
-        wasteFamilies?: {
-          __typename?: "WasteFamilyRelationResponseCollection";
-          data: Array<{
-            __typename?: "WasteFamilyEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "WasteFamily";
-              familyName: string;
-              isSystem: boolean;
-            } | null;
-          }>;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type UpdateWasteFamilyMutationVariables = Exact<{
+export type UpdateWasteFamilyByIdMutationVariables = Exact<{
   updateWasteFamilyId: Scalars["ID"];
   data: WasteFamilyInput;
 }>;
 
-export type UpdateWasteFamilyMutation = {
+export type UpdateWasteFamilyByIdMutation = {
   __typename?: "Mutation";
   updateWasteFamily?: {
     __typename?: "WasteFamilyEntityResponse";
@@ -17088,6 +17036,26 @@ export type UpdateWasteFamilyMutation = {
         isSystem: boolean;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetActiveFlowsByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetActiveFlowsByContractIdQuery = {
+  __typename?: "Query";
+  flows?: {
+    __typename?: "FlowEntityResponseCollection";
+    data: Array<{
+      __typename?: "FlowEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Flow";
+        name?: string | null;
+        recyclingGesture: Enum_Flow_Recyclinggesture;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -17152,26 +17120,6 @@ export type GetAllVersionsOfWasteFormByCustomIdQuery = {
         status?: Enum_Wasteform_Status | null;
         publishedDate?: any | null;
         updatedAt?: any | null;
-      } | null;
-    }>;
-  } | null;
-};
-
-export type GetFlowsFilterByContractIdQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetFlowsFilterByContractIdQuery = {
-  __typename?: "Query";
-  flows?: {
-    __typename?: "FlowEntityResponseCollection";
-    data: Array<{
-      __typename?: "FlowEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Flow";
-        name?: string | null;
-        recyclingGesture: Enum_Flow_Recyclinggesture;
       } | null;
     }>;
   } | null;
@@ -17351,18 +17299,6 @@ export type GetWasteFormByIdQuery = {
   } | null;
 };
 
-export type GetWasteFormDraftQueryVariables = Exact<{
-  customId: Scalars["String"];
-}>;
-
-export type GetWasteFormDraftQuery = {
-  __typename?: "Query";
-  wasteForms?: {
-    __typename?: "WasteFormEntityResponseCollection";
-    data: Array<{ __typename?: "WasteFormEntity"; id?: string | null }>;
-  } | null;
-};
-
 export type GetWasteFormsByContractIdQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
   statusFilter?: InputMaybe<Scalars["String"]>;
@@ -17429,12 +17365,24 @@ export type GetWasteFormsByContractIdQuery = {
   } | null;
 };
 
-export type UpdateWasteFormMutationVariables = Exact<{
+export type GetWasteFormsDraftByCustomIdQueryVariables = Exact<{
+  customId: Scalars["String"];
+}>;
+
+export type GetWasteFormsDraftByCustomIdQuery = {
+  __typename?: "Query";
+  wasteForms?: {
+    __typename?: "WasteFormEntityResponseCollection";
+    data: Array<{ __typename?: "WasteFormEntity"; id?: string | null }>;
+  } | null;
+};
+
+export type UpdateWasteFormByIdMutationVariables = Exact<{
   updateWasteFormId: Scalars["ID"];
   data: WasteFormInput;
 }>;
 
-export type UpdateWasteFormMutation = {
+export type UpdateWasteFormByIdMutation = {
   __typename?: "Mutation";
   versioningHandler?: {
     __typename?: "VersioningEntityResponse";
@@ -17464,11 +17412,53 @@ export type UpdateWasteFormMutation = {
   } | null;
 };
 
-export type GetRecyclingGuideServiceByContractIdQueryVariables = Exact<{
+export type GetRecyclingGuideServiceByIdQueryVariables = Exact<{
+  recyclingGuideServiceId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetRecyclingGuideServiceByIdQuery = {
+  __typename?: "Query";
+  recyclingGuideService?: {
+    __typename?: "RecyclingGuideServiceEntityResponse";
+    data?: {
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        orderExtension?: boolean | null;
+        memoName: string;
+        memoDesc?: string | null;
+        memoFile?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+              ext?: string | null;
+              height?: number | null;
+              width?: number | null;
+              createdAt?: any | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetRecyclingGuideServicesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
 
-export type GetRecyclingGuideServiceByContractIdQuery = {
+export type GetRecyclingGuideServicesByContractIdQuery = {
   __typename?: "Query";
   recyclingGuideServices?: {
     __typename?: "RecyclingGuideServiceEntityResponseCollection";
@@ -17529,54 +17519,12 @@ export type GetRecyclingGuideServiceByContractIdQuery = {
   } | null;
 };
 
-export type GetRecyclingGuideServiceByIdQueryVariables = Exact<{
-  recyclingGuideServiceId?: InputMaybe<Scalars["ID"]>;
-}>;
-
-export type GetRecyclingGuideServiceByIdQuery = {
-  __typename?: "Query";
-  recyclingGuideService?: {
-    __typename?: "RecyclingGuideServiceEntityResponse";
-    data?: {
-      __typename?: "RecyclingGuideServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "RecyclingGuideService";
-        orderExtension?: boolean | null;
-        memoName: string;
-        memoDesc?: string | null;
-        memoFile?: {
-          __typename?: "UploadFileEntityResponse";
-          data?: {
-            __typename?: "UploadFileEntity";
-            id?: string | null;
-            attributes?: {
-              __typename?: "UploadFile";
-              hash: string;
-              mime: string;
-              name: string;
-              provider: string;
-              size: number;
-              url: string;
-              alternativeText?: string | null;
-              ext?: string | null;
-              height?: number | null;
-              width?: number | null;
-              createdAt?: any | null;
-            } | null;
-          } | null;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type UpdateMemoTriMutationVariables = Exact<{
+export type UpdateRecyclingGuideServiceByIdMutationVariables = Exact<{
   updateRecyclingGuideServiceId: Scalars["ID"];
   data: RecyclingGuideServiceInput;
 }>;
 
-export type UpdateMemoTriMutation = {
+export type UpdateRecyclingGuideServiceByIdMutation = {
   __typename?: "Mutation";
   updateRecyclingGuideService?: {
     __typename?: "RecyclingGuideServiceEntityResponse";
@@ -17586,6 +17534,7 @@ export type UpdateMemoTriMutation = {
       attributes?: {
         __typename?: "RecyclingGuideService";
         name: string;
+        orderExtension?: boolean | null;
         isActivated: boolean;
         memoName: string;
         memoDesc?: string | null;
@@ -17595,52 +17544,6 @@ export type UpdateMemoTriMutation = {
         } | null;
       } | null;
     } | null;
-  } | null;
-};
-
-export type UpdateRecyclingGuideServiceMutationVariables = Exact<{
-  updateRecyclingGuideServiceId: Scalars["ID"];
-  data: RecyclingGuideServiceInput;
-}>;
-
-export type UpdateRecyclingGuideServiceMutation = {
-  __typename?: "Mutation";
-  updateRecyclingGuideService?: {
-    __typename?: "RecyclingGuideServiceEntityResponse";
-    data?: {
-      __typename?: "RecyclingGuideServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "RecyclingGuideService";
-        orderExtension?: boolean | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
-export type GetFilteredFlowsQueryVariables = Exact<{
-  contractId?: InputMaybe<Scalars["ID"]>;
-  sectorizationsId?: InputMaybe<
-    Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>
-  >;
-}>;
-
-export type GetFilteredFlowsQuery = {
-  __typename?: "Query";
-  flows?: {
-    __typename?: "FlowEntityResponseCollection";
-    data: Array<{
-      __typename?: "FlowEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Flow";
-        name?: string | null;
-        pickUpDays?: {
-          __typename?: "PickUpDayRelationResponseCollection";
-          data: Array<{ __typename?: "PickUpDayEntity"; id?: string | null }>;
-        } | null;
-      } | null;
-    }>;
   } | null;
 };
 
@@ -17773,11 +17676,11 @@ export type GetActiveRequestsByContractIdQuery = {
   } | null;
 };
 
-export type GetCollectDoorToDoorByFlowIdQueryVariables = Exact<{
+export type GetCollectDoorToDoorsByFlowIdQueryVariables = Exact<{
   flowId?: InputMaybe<Scalars["ID"]>;
 }>;
 
-export type GetCollectDoorToDoorByFlowIdQuery = {
+export type GetCollectDoorToDoorsByFlowIdQuery = {
   __typename?: "Query";
   collectDoorToDoors?: {
     __typename?: "CollectDoorToDoorEntityResponseCollection";
@@ -17827,58 +17730,27 @@ export type GetDropOffCollectTypeByContractIdQuery = {
   } | null> | null;
 };
 
-export type GetFlowsQueryVariables = Exact<{
-  contractId?: InputMaybe<Scalars["ID"]>;
-}>;
+export type GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables =
+  Exact<{
+    contractId?: InputMaybe<Scalars["ID"]>;
+    sectorizationsId?: InputMaybe<
+      Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>
+    >;
+  }>;
 
-export type GetFlowsQuery = {
+export type GetActiveFlowsByContractIdAndSectorizationsIdQuery = {
   __typename?: "Query";
   flows?: {
     __typename?: "FlowEntityResponseCollection";
     data: Array<{
       __typename?: "FlowEntity";
       id?: string | null;
-      attributes?: { __typename?: "Flow"; name?: string | null } | null;
-    }>;
-  } | null;
-};
-
-export type GetInformationMessageByContractIdQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-  pickUpDaysId?: InputMaybe<Scalars["ID"]>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<
-    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
-  >;
-}>;
-
-export type GetInformationMessageByContractIdQuery = {
-  __typename?: "Query";
-  informationMessages?: {
-    __typename?: "InformationMessageEntityResponseCollection";
-    meta: {
-      __typename?: "ResponseCollectionMeta";
-      pagination: {
-        __typename?: "Pagination";
-        page: number;
-        pageCount: number;
-        pageSize: number;
-        total: number;
-      };
-    };
-    data: Array<{
-      __typename?: "InformationMessageEntity";
-      id?: string | null;
       attributes?: {
-        __typename?: "InformationMessage";
-        infoMessage: string;
+        __typename?: "Flow";
+        name?: string | null;
         pickUpDays?: {
           __typename?: "PickUpDayRelationResponseCollection";
-          data: Array<{
-            __typename?: "PickUpDayEntity";
-            id?: string | null;
-            attributes?: { __typename?: "PickUpDay"; name: string } | null;
-          }>;
+          data: Array<{ __typename?: "PickUpDayEntity"; id?: string | null }>;
         } | null;
       } | null;
     }>;
@@ -17911,6 +17783,48 @@ export type GetInformationMessageByIdQuery = {
         } | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetInformationMessagesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  pickUpDaysId?: InputMaybe<Scalars["ID"]>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetInformationMessagesByContractIdQuery = {
+  __typename?: "Query";
+  informationMessages?: {
+    __typename?: "InformationMessageEntityResponseCollection";
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageCount: number;
+        pageSize: number;
+        total: number;
+      };
+    };
+    data: Array<{
+      __typename?: "InformationMessageEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "InformationMessage";
+        infoMessage: string;
+        pickUpDays?: {
+          __typename?: "PickUpDayRelationResponseCollection";
+          data: Array<{
+            __typename?: "PickUpDayEntity";
+            id?: string | null;
+            attributes?: { __typename?: "PickUpDay"; name: string } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -18109,12 +18023,12 @@ export type GetPickUpDaysByContractIdQuery = {
   } | null;
 };
 
-export type GetSearchCitiesQueryVariables = Exact<{
+export type GetSearchCitiesByContractIdQueryVariables = Exact<{
   searchTerm: Scalars["String"];
   contractId: Scalars["ID"];
 }>;
 
-export type GetSearchCitiesQuery = {
+export type GetSearchCitiesByContractIdQuery = {
   __typename?: "Query";
   searchCities?: Array<{
     __typename?: "CityResult";
@@ -18123,11 +18037,11 @@ export type GetSearchCitiesQuery = {
   } | null> | null;
 };
 
-export type GetSectorizationsPickUpDayQueryVariables = Exact<{
+export type GetSectorizationsPickUpDayByContractIdQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
 }>;
 
-export type GetSectorizationsPickUpDayQuery = {
+export type GetSectorizationsPickUpDayByContractIdQuery = {
   __typename?: "Query";
   sectorizations?: {
     __typename?: "SectorizationEntityResponseCollection";
@@ -18169,12 +18083,12 @@ export type UpdateInformationMessageByIdMutation = {
   } | null;
 };
 
-export type UpdatePickUpDayMutationVariables = Exact<{
+export type UpdatePickUpDayByIdMutationVariables = Exact<{
   updatePickUpDayId: Scalars["ID"];
   data: PickUpDayInput;
 }>;
 
-export type UpdatePickUpDayMutation = {
+export type UpdatePickUpDayByIdMutation = {
   __typename?: "Mutation";
   updatePickUpDay?: {
     __typename?: "PickUpDayEntityResponse";
@@ -18387,8 +18301,8 @@ export type CreateNewMutationOptions = Apollo.BaseMutationOptions<
   CreateNewMutation,
   CreateNewMutationVariables
 >;
-export const DeleteNewDocument = gql`
-  mutation deleteNew($deleteNewId: ID!) {
+export const DeleteNewByIdDocument = gql`
+  mutation deleteNewById($deleteNewId: ID!) {
     deleteNew(id: $deleteNewId) {
       data {
         id
@@ -18501,47 +18415,48 @@ export const DeleteNewDocument = gql`
     }
   }
 `;
-export type DeleteNewMutationFn = Apollo.MutationFunction<
-  DeleteNewMutation,
-  DeleteNewMutationVariables
+export type DeleteNewByIdMutationFn = Apollo.MutationFunction<
+  DeleteNewByIdMutation,
+  DeleteNewByIdMutationVariables
 >;
 
 /**
- * __useDeleteNewMutation__
+ * __useDeleteNewByIdMutation__
  *
- * To run a mutation, you first call `useDeleteNewMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteNewMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteNewByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteNewByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteNewMutation, { data, loading, error }] = useDeleteNewMutation({
+ * const [deleteNewByIdMutation, { data, loading, error }] = useDeleteNewByIdMutation({
  *   variables: {
  *      deleteNewId: // value for 'deleteNewId'
  *   },
  * });
  */
-export function useDeleteNewMutation(
+export function useDeleteNewByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteNewMutation,
-    DeleteNewMutationVariables
+    DeleteNewByIdMutation,
+    DeleteNewByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteNewMutation, DeleteNewMutationVariables>(
-    DeleteNewDocument,
-    options,
-  );
+  return Apollo.useMutation<
+    DeleteNewByIdMutation,
+    DeleteNewByIdMutationVariables
+  >(DeleteNewByIdDocument, options);
 }
-export type DeleteNewMutationHookResult = ReturnType<
-  typeof useDeleteNewMutation
+export type DeleteNewByIdMutationHookResult = ReturnType<
+  typeof useDeleteNewByIdMutation
 >;
-export type DeleteNewMutationResult = Apollo.MutationResult<DeleteNewMutation>;
-export type DeleteNewMutationOptions = Apollo.BaseMutationOptions<
-  DeleteNewMutation,
-  DeleteNewMutationVariables
+export type DeleteNewByIdMutationResult =
+  Apollo.MutationResult<DeleteNewByIdMutation>;
+export type DeleteNewByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteNewByIdMutation,
+  DeleteNewByIdMutationVariables
 >;
 export const GetAllVersionsOfNewsByCustomIdDocument = gql`
   query getAllVersionsOfNewsByCustomId(
@@ -18869,64 +18784,6 @@ export type GetNewByIdQueryResult = Apollo.QueryResult<
   GetNewByIdQuery,
   GetNewByIdQueryVariables
 >;
-export const GetNewDraftDocument = gql`
-  query getNewDraft($customId: String!) {
-    news(filters: { customId: { eq: $customId }, status: { eq: "draft" } }) {
-      data {
-        id
-      }
-    }
-  }
-`;
-
-/**
- * __useGetNewDraftQuery__
- *
- * To run a query within a React component, call `useGetNewDraftQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetNewDraftQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetNewDraftQuery({
- *   variables: {
- *      customId: // value for 'customId'
- *   },
- * });
- */
-export function useGetNewDraftQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetNewDraftQuery,
-    GetNewDraftQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetNewDraftQuery, GetNewDraftQueryVariables>(
-    GetNewDraftDocument,
-    options,
-  );
-}
-export function useGetNewDraftLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetNewDraftQuery,
-    GetNewDraftQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetNewDraftQuery, GetNewDraftQueryVariables>(
-    GetNewDraftDocument,
-    options,
-  );
-}
-export type GetNewDraftQueryHookResult = ReturnType<typeof useGetNewDraftQuery>;
-export type GetNewDraftLazyQueryHookResult = ReturnType<
-  typeof useGetNewDraftLazyQuery
->;
-export type GetNewDraftQueryResult = Apollo.QueryResult<
-  GetNewDraftQuery,
-  GetNewDraftQueryVariables
->;
 export const GetNewsByContractIdDocument = gql`
   query getNewsByContractId(
     $contractId: ID!
@@ -19074,8 +18931,68 @@ export type GetNewsByContractIdQueryResult = Apollo.QueryResult<
   GetNewsByContractIdQuery,
   GetNewsByContractIdQueryVariables
 >;
-export const UpdateNewDocument = gql`
-  mutation UpdateNew($updateNewId: ID!, $data: JSON!) {
+export const GetNewsDraftByCustomIdDocument = gql`
+  query getNewsDraftByCustomId($customId: String!) {
+    news(filters: { customId: { eq: $customId }, status: { eq: "draft" } }) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetNewsDraftByCustomIdQuery__
+ *
+ * To run a query within a React component, call `useGetNewsDraftByCustomIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewsDraftByCustomIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewsDraftByCustomIdQuery({
+ *   variables: {
+ *      customId: // value for 'customId'
+ *   },
+ * });
+ */
+export function useGetNewsDraftByCustomIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetNewsDraftByCustomIdQuery,
+    GetNewsDraftByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetNewsDraftByCustomIdQuery,
+    GetNewsDraftByCustomIdQueryVariables
+  >(GetNewsDraftByCustomIdDocument, options);
+}
+export function useGetNewsDraftByCustomIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetNewsDraftByCustomIdQuery,
+    GetNewsDraftByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetNewsDraftByCustomIdQuery,
+    GetNewsDraftByCustomIdQueryVariables
+  >(GetNewsDraftByCustomIdDocument, options);
+}
+export type GetNewsDraftByCustomIdQueryHookResult = ReturnType<
+  typeof useGetNewsDraftByCustomIdQuery
+>;
+export type GetNewsDraftByCustomIdLazyQueryHookResult = ReturnType<
+  typeof useGetNewsDraftByCustomIdLazyQuery
+>;
+export type GetNewsDraftByCustomIdQueryResult = Apollo.QueryResult<
+  GetNewsDraftByCustomIdQuery,
+  GetNewsDraftByCustomIdQueryVariables
+>;
+export const UpdateNewByIdDocument = gql`
+  mutation updateNewById($updateNewId: ID!, $data: JSON!) {
     versioningHandler(data: { id: $updateNewId, data: $data }, entity: "new") {
       data {
         ... on NewEntity {
@@ -19088,48 +19005,49 @@ export const UpdateNewDocument = gql`
     }
   }
 `;
-export type UpdateNewMutationFn = Apollo.MutationFunction<
-  UpdateNewMutation,
-  UpdateNewMutationVariables
+export type UpdateNewByIdMutationFn = Apollo.MutationFunction<
+  UpdateNewByIdMutation,
+  UpdateNewByIdMutationVariables
 >;
 
 /**
- * __useUpdateNewMutation__
+ * __useUpdateNewByIdMutation__
  *
- * To run a mutation, you first call `useUpdateNewMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateNewMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateNewByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateNewByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateNewMutation, { data, loading, error }] = useUpdateNewMutation({
+ * const [updateNewByIdMutation, { data, loading, error }] = useUpdateNewByIdMutation({
  *   variables: {
  *      updateNewId: // value for 'updateNewId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateNewMutation(
+export function useUpdateNewByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateNewMutation,
-    UpdateNewMutationVariables
+    UpdateNewByIdMutation,
+    UpdateNewByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateNewMutation, UpdateNewMutationVariables>(
-    UpdateNewDocument,
-    options,
-  );
+  return Apollo.useMutation<
+    UpdateNewByIdMutation,
+    UpdateNewByIdMutationVariables
+  >(UpdateNewByIdDocument, options);
 }
-export type UpdateNewMutationHookResult = ReturnType<
-  typeof useUpdateNewMutation
+export type UpdateNewByIdMutationHookResult = ReturnType<
+  typeof useUpdateNewByIdMutation
 >;
-export type UpdateNewMutationResult = Apollo.MutationResult<UpdateNewMutation>;
-export type UpdateNewMutationOptions = Apollo.BaseMutationOptions<
-  UpdateNewMutation,
-  UpdateNewMutationVariables
+export type UpdateNewByIdMutationResult =
+  Apollo.MutationResult<UpdateNewByIdMutation>;
+export type UpdateNewByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateNewByIdMutation,
+  UpdateNewByIdMutationVariables
 >;
 export const CreateTipDocument = gql`
   mutation createTip($data: TipInput!) {
@@ -19291,8 +19209,8 @@ export type CreateTipMutationOptions = Apollo.BaseMutationOptions<
   CreateTipMutation,
   CreateTipMutationVariables
 >;
-export const DeleteTipDocument = gql`
-  mutation deleteTip($deleteTipId: ID!) {
+export const DeleteTipByIdDocument = gql`
+  mutation deleteTipById($deleteTipId: ID!) {
     deleteTip(id: $deleteTipId) {
       data {
         id
@@ -19404,47 +19322,48 @@ export const DeleteTipDocument = gql`
     }
   }
 `;
-export type DeleteTipMutationFn = Apollo.MutationFunction<
-  DeleteTipMutation,
-  DeleteTipMutationVariables
+export type DeleteTipByIdMutationFn = Apollo.MutationFunction<
+  DeleteTipByIdMutation,
+  DeleteTipByIdMutationVariables
 >;
 
 /**
- * __useDeleteTipMutation__
+ * __useDeleteTipByIdMutation__
  *
- * To run a mutation, you first call `useDeleteTipMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteTipMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteTipByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTipByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteTipMutation, { data, loading, error }] = useDeleteTipMutation({
+ * const [deleteTipByIdMutation, { data, loading, error }] = useDeleteTipByIdMutation({
  *   variables: {
  *      deleteTipId: // value for 'deleteTipId'
  *   },
  * });
  */
-export function useDeleteTipMutation(
+export function useDeleteTipByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteTipMutation,
-    DeleteTipMutationVariables
+    DeleteTipByIdMutation,
+    DeleteTipByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteTipMutation, DeleteTipMutationVariables>(
-    DeleteTipDocument,
-    options,
-  );
+  return Apollo.useMutation<
+    DeleteTipByIdMutation,
+    DeleteTipByIdMutationVariables
+  >(DeleteTipByIdDocument, options);
 }
-export type DeleteTipMutationHookResult = ReturnType<
-  typeof useDeleteTipMutation
+export type DeleteTipByIdMutationHookResult = ReturnType<
+  typeof useDeleteTipByIdMutation
 >;
-export type DeleteTipMutationResult = Apollo.MutationResult<DeleteTipMutation>;
-export type DeleteTipMutationOptions = Apollo.BaseMutationOptions<
-  DeleteTipMutation,
-  DeleteTipMutationVariables
+export type DeleteTipByIdMutationResult =
+  Apollo.MutationResult<DeleteTipByIdMutation>;
+export type DeleteTipByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTipByIdMutation,
+  DeleteTipByIdMutationVariables
 >;
 export const GetAllVersionsOfTipByCustomIdDocument = gql`
   query getAllVersionsOfTipByCustomId(
@@ -19772,64 +19691,6 @@ export type GetTipByIdQueryResult = Apollo.QueryResult<
   GetTipByIdQuery,
   GetTipByIdQueryVariables
 >;
-export const GetTipDraftDocument = gql`
-  query getTipDraft($customId: String!) {
-    tips(filters: { customId: { eq: $customId }, status: { eq: "draft" } }) {
-      data {
-        id
-      }
-    }
-  }
-`;
-
-/**
- * __useGetTipDraftQuery__
- *
- * To run a query within a React component, call `useGetTipDraftQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTipDraftQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTipDraftQuery({
- *   variables: {
- *      customId: // value for 'customId'
- *   },
- * });
- */
-export function useGetTipDraftQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetTipDraftQuery,
-    GetTipDraftQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTipDraftQuery, GetTipDraftQueryVariables>(
-    GetTipDraftDocument,
-    options,
-  );
-}
-export function useGetTipDraftLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTipDraftQuery,
-    GetTipDraftQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTipDraftQuery, GetTipDraftQueryVariables>(
-    GetTipDraftDocument,
-    options,
-  );
-}
-export type GetTipDraftQueryHookResult = ReturnType<typeof useGetTipDraftQuery>;
-export type GetTipDraftLazyQueryHookResult = ReturnType<
-  typeof useGetTipDraftLazyQuery
->;
-export type GetTipDraftQueryResult = Apollo.QueryResult<
-  GetTipDraftQuery,
-  GetTipDraftQueryVariables
->;
 export const GetTipsByContractIdDocument = gql`
   query getTipsByContractId(
     $contractId: ID!
@@ -19977,8 +19838,68 @@ export type GetTipsByContractIdQueryResult = Apollo.QueryResult<
   GetTipsByContractIdQuery,
   GetTipsByContractIdQueryVariables
 >;
-export const UpdateTipDocument = gql`
-  mutation updateTip($updateTipId: ID!, $data: JSON!) {
+export const GetTipsDraftByCustomIdDocument = gql`
+  query getTipsDraftByCustomId($customId: String!) {
+    tips(filters: { customId: { eq: $customId }, status: { eq: "draft" } }) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTipsDraftByCustomIdQuery__
+ *
+ * To run a query within a React component, call `useGetTipsDraftByCustomIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTipsDraftByCustomIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTipsDraftByCustomIdQuery({
+ *   variables: {
+ *      customId: // value for 'customId'
+ *   },
+ * });
+ */
+export function useGetTipsDraftByCustomIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTipsDraftByCustomIdQuery,
+    GetTipsDraftByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetTipsDraftByCustomIdQuery,
+    GetTipsDraftByCustomIdQueryVariables
+  >(GetTipsDraftByCustomIdDocument, options);
+}
+export function useGetTipsDraftByCustomIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTipsDraftByCustomIdQuery,
+    GetTipsDraftByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetTipsDraftByCustomIdQuery,
+    GetTipsDraftByCustomIdQueryVariables
+  >(GetTipsDraftByCustomIdDocument, options);
+}
+export type GetTipsDraftByCustomIdQueryHookResult = ReturnType<
+  typeof useGetTipsDraftByCustomIdQuery
+>;
+export type GetTipsDraftByCustomIdLazyQueryHookResult = ReturnType<
+  typeof useGetTipsDraftByCustomIdLazyQuery
+>;
+export type GetTipsDraftByCustomIdQueryResult = Apollo.QueryResult<
+  GetTipsDraftByCustomIdQuery,
+  GetTipsDraftByCustomIdQueryVariables
+>;
+export const UpdateTipByIdDocument = gql`
+  mutation updateTipById($updateTipId: ID!, $data: JSON!) {
     versioningHandler(data: { id: $updateTipId, data: $data }, entity: "tip") {
       data {
         ... on TipEntity {
@@ -19991,48 +19912,49 @@ export const UpdateTipDocument = gql`
     }
   }
 `;
-export type UpdateTipMutationFn = Apollo.MutationFunction<
-  UpdateTipMutation,
-  UpdateTipMutationVariables
+export type UpdateTipByIdMutationFn = Apollo.MutationFunction<
+  UpdateTipByIdMutation,
+  UpdateTipByIdMutationVariables
 >;
 
 /**
- * __useUpdateTipMutation__
+ * __useUpdateTipByIdMutation__
  *
- * To run a mutation, you first call `useUpdateTipMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateTipMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateTipByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTipByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateTipMutation, { data, loading, error }] = useUpdateTipMutation({
+ * const [updateTipByIdMutation, { data, loading, error }] = useUpdateTipByIdMutation({
  *   variables: {
  *      updateTipId: // value for 'updateTipId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateTipMutation(
+export function useUpdateTipByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateTipMutation,
-    UpdateTipMutationVariables
+    UpdateTipByIdMutation,
+    UpdateTipByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateTipMutation, UpdateTipMutationVariables>(
-    UpdateTipDocument,
-    options,
-  );
+  return Apollo.useMutation<
+    UpdateTipByIdMutation,
+    UpdateTipByIdMutationVariables
+  >(UpdateTipByIdDocument, options);
 }
-export type UpdateTipMutationHookResult = ReturnType<
-  typeof useUpdateTipMutation
+export type UpdateTipByIdMutationHookResult = ReturnType<
+  typeof useUpdateTipByIdMutation
 >;
-export type UpdateTipMutationResult = Apollo.MutationResult<UpdateTipMutation>;
-export type UpdateTipMutationOptions = Apollo.BaseMutationOptions<
-  UpdateTipMutation,
-  UpdateTipMutationVariables
+export type UpdateTipByIdMutationResult =
+  Apollo.MutationResult<UpdateTipByIdMutation>;
+export type UpdateTipByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTipByIdMutation,
+  UpdateTipByIdMutationVariables
 >;
 export const CreateNewFolderDocument = gql`
   mutation createNewFolder(
@@ -20158,8 +20080,69 @@ export type GetAllFoldersHierarchyQueryResult = Apollo.QueryResult<
   GetAllFoldersHierarchyQuery,
   GetAllFoldersHierarchyQueryVariables
 >;
-export const GetFilesPaginationByPathIdDocument = gql`
-  query getFilesPaginationByPathId(
+export const GetLibraryBreadcrumbTrailDocument = gql`
+  query getLibraryBreadcrumbTrail($path: String!) {
+    libraryBreadcrumbTrail(path: $path) {
+      id
+      name
+      path
+      pathId
+    }
+  }
+`;
+
+/**
+ * __useGetLibraryBreadcrumbTrailQuery__
+ *
+ * To run a query within a React component, call `useGetLibraryBreadcrumbTrailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLibraryBreadcrumbTrailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLibraryBreadcrumbTrailQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *   },
+ * });
+ */
+export function useGetLibraryBreadcrumbTrailQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetLibraryBreadcrumbTrailQuery,
+    GetLibraryBreadcrumbTrailQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetLibraryBreadcrumbTrailQuery,
+    GetLibraryBreadcrumbTrailQueryVariables
+  >(GetLibraryBreadcrumbTrailDocument, options);
+}
+export function useGetLibraryBreadcrumbTrailLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetLibraryBreadcrumbTrailQuery,
+    GetLibraryBreadcrumbTrailQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetLibraryBreadcrumbTrailQuery,
+    GetLibraryBreadcrumbTrailQueryVariables
+  >(GetLibraryBreadcrumbTrailDocument, options);
+}
+export type GetLibraryBreadcrumbTrailQueryHookResult = ReturnType<
+  typeof useGetLibraryBreadcrumbTrailQuery
+>;
+export type GetLibraryBreadcrumbTrailLazyQueryHookResult = ReturnType<
+  typeof useGetLibraryBreadcrumbTrailLazyQuery
+>;
+export type GetLibraryBreadcrumbTrailQueryResult = Apollo.QueryResult<
+  GetLibraryBreadcrumbTrailQuery,
+  GetLibraryBreadcrumbTrailQueryVariables
+>;
+export const GetUploadFilesDocument = gql`
+  query getUploadFiles(
     $filters: UploadFileFiltersInput
     $pagination: PaginationArg
     $sort: [String]
@@ -20193,16 +20176,16 @@ export const GetFilesPaginationByPathIdDocument = gql`
 `;
 
 /**
- * __useGetFilesPaginationByPathIdQuery__
+ * __useGetUploadFilesQuery__
  *
- * To run a query within a React component, call `useGetFilesPaginationByPathIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFilesPaginationByPathIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUploadFilesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUploadFilesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFilesPaginationByPathIdQuery({
+ * const { data, loading, error } = useGetUploadFilesQuery({
  *   variables: {
  *      filters: // value for 'filters'
  *      pagination: // value for 'pagination'
@@ -20210,42 +20193,42 @@ export const GetFilesPaginationByPathIdDocument = gql`
  *   },
  * });
  */
-export function useGetFilesPaginationByPathIdQuery(
+export function useGetUploadFilesQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetFilesPaginationByPathIdQuery,
-    GetFilesPaginationByPathIdQueryVariables
+    GetUploadFilesQuery,
+    GetUploadFilesQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetFilesPaginationByPathIdQuery,
-    GetFilesPaginationByPathIdQueryVariables
-  >(GetFilesPaginationByPathIdDocument, options);
+  return Apollo.useQuery<GetUploadFilesQuery, GetUploadFilesQueryVariables>(
+    GetUploadFilesDocument,
+    options,
+  );
 }
-export function useGetFilesPaginationByPathIdLazyQuery(
+export function useGetUploadFilesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFilesPaginationByPathIdQuery,
-    GetFilesPaginationByPathIdQueryVariables
+    GetUploadFilesQuery,
+    GetUploadFilesQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetFilesPaginationByPathIdQuery,
-    GetFilesPaginationByPathIdQueryVariables
-  >(GetFilesPaginationByPathIdDocument, options);
+  return Apollo.useLazyQuery<GetUploadFilesQuery, GetUploadFilesQueryVariables>(
+    GetUploadFilesDocument,
+    options,
+  );
 }
-export type GetFilesPaginationByPathIdQueryHookResult = ReturnType<
-  typeof useGetFilesPaginationByPathIdQuery
+export type GetUploadFilesQueryHookResult = ReturnType<
+  typeof useGetUploadFilesQuery
 >;
-export type GetFilesPaginationByPathIdLazyQueryHookResult = ReturnType<
-  typeof useGetFilesPaginationByPathIdLazyQuery
+export type GetUploadFilesLazyQueryHookResult = ReturnType<
+  typeof useGetUploadFilesLazyQuery
 >;
-export type GetFilesPaginationByPathIdQueryResult = Apollo.QueryResult<
-  GetFilesPaginationByPathIdQuery,
-  GetFilesPaginationByPathIdQueryVariables
+export type GetUploadFilesQueryResult = Apollo.QueryResult<
+  GetUploadFilesQuery,
+  GetUploadFilesQueryVariables
 >;
-export const GetFolderAndChildrenByIdDocument = gql`
-  query getFolderAndChildrenById($filters: UploadFolderFiltersInput) {
+export const GetUploadFoldersDocument = gql`
+  query getUploadFolders($filters: UploadFolderFiltersInput) {
     uploadFolders(filters: $filters) {
       data {
         id
@@ -20285,118 +20268,57 @@ export const GetFolderAndChildrenByIdDocument = gql`
 `;
 
 /**
- * __useGetFolderAndChildrenByIdQuery__
+ * __useGetUploadFoldersQuery__
  *
- * To run a query within a React component, call `useGetFolderAndChildrenByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFolderAndChildrenByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUploadFoldersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUploadFoldersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFolderAndChildrenByIdQuery({
+ * const { data, loading, error } = useGetUploadFoldersQuery({
  *   variables: {
  *      filters: // value for 'filters'
  *   },
  * });
  */
-export function useGetFolderAndChildrenByIdQuery(
+export function useGetUploadFoldersQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetFolderAndChildrenByIdQuery,
-    GetFolderAndChildrenByIdQueryVariables
+    GetUploadFoldersQuery,
+    GetUploadFoldersQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetFolderAndChildrenByIdQuery,
-    GetFolderAndChildrenByIdQueryVariables
-  >(GetFolderAndChildrenByIdDocument, options);
+  return Apollo.useQuery<GetUploadFoldersQuery, GetUploadFoldersQueryVariables>(
+    GetUploadFoldersDocument,
+    options,
+  );
 }
-export function useGetFolderAndChildrenByIdLazyQuery(
+export function useGetUploadFoldersLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFolderAndChildrenByIdQuery,
-    GetFolderAndChildrenByIdQueryVariables
+    GetUploadFoldersQuery,
+    GetUploadFoldersQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetFolderAndChildrenByIdQuery,
-    GetFolderAndChildrenByIdQueryVariables
-  >(GetFolderAndChildrenByIdDocument, options);
+    GetUploadFoldersQuery,
+    GetUploadFoldersQueryVariables
+  >(GetUploadFoldersDocument, options);
 }
-export type GetFolderAndChildrenByIdQueryHookResult = ReturnType<
-  typeof useGetFolderAndChildrenByIdQuery
+export type GetUploadFoldersQueryHookResult = ReturnType<
+  typeof useGetUploadFoldersQuery
 >;
-export type GetFolderAndChildrenByIdLazyQueryHookResult = ReturnType<
-  typeof useGetFolderAndChildrenByIdLazyQuery
+export type GetUploadFoldersLazyQueryHookResult = ReturnType<
+  typeof useGetUploadFoldersLazyQuery
 >;
-export type GetFolderAndChildrenByIdQueryResult = Apollo.QueryResult<
-  GetFolderAndChildrenByIdQuery,
-  GetFolderAndChildrenByIdQueryVariables
+export type GetUploadFoldersQueryResult = Apollo.QueryResult<
+  GetUploadFoldersQuery,
+  GetUploadFoldersQueryVariables
 >;
-export const GetFolderBreadcrumbDocument = gql`
-  query getFolderBreadcrumb($path: String!) {
-    libraryBreadcrumbTrail(path: $path) {
-      id
-      name
-      path
-      pathId
-    }
-  }
-`;
-
-/**
- * __useGetFolderBreadcrumbQuery__
- *
- * To run a query within a React component, call `useGetFolderBreadcrumbQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFolderBreadcrumbQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFolderBreadcrumbQuery({
- *   variables: {
- *      path: // value for 'path'
- *   },
- * });
- */
-export function useGetFolderBreadcrumbQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetFolderBreadcrumbQuery,
-    GetFolderBreadcrumbQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetFolderBreadcrumbQuery,
-    GetFolderBreadcrumbQueryVariables
-  >(GetFolderBreadcrumbDocument, options);
-}
-export function useGetFolderBreadcrumbLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFolderBreadcrumbQuery,
-    GetFolderBreadcrumbQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetFolderBreadcrumbQuery,
-    GetFolderBreadcrumbQueryVariables
-  >(GetFolderBreadcrumbDocument, options);
-}
-export type GetFolderBreadcrumbQueryHookResult = ReturnType<
-  typeof useGetFolderBreadcrumbQuery
->;
-export type GetFolderBreadcrumbLazyQueryHookResult = ReturnType<
-  typeof useGetFolderBreadcrumbLazyQuery
->;
-export type GetFolderBreadcrumbQueryResult = Apollo.QueryResult<
-  GetFolderBreadcrumbQuery,
-  GetFolderBreadcrumbQueryVariables
->;
-export const GetFolderByPathIdDocument = gql`
-  query getFolderByPathId($pathId: Int!) {
+export const GetUploadFoldersByPathIdDocument = gql`
+  query getUploadFoldersByPathId($pathId: Int!) {
     uploadFolders(filters: { pathId: { eq: $pathId } }) {
       data {
         id
@@ -20411,57 +20333,60 @@ export const GetFolderByPathIdDocument = gql`
 `;
 
 /**
- * __useGetFolderByPathIdQuery__
+ * __useGetUploadFoldersByPathIdQuery__
  *
- * To run a query within a React component, call `useGetFolderByPathIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFolderByPathIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUploadFoldersByPathIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUploadFoldersByPathIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFolderByPathIdQuery({
+ * const { data, loading, error } = useGetUploadFoldersByPathIdQuery({
  *   variables: {
  *      pathId: // value for 'pathId'
  *   },
  * });
  */
-export function useGetFolderByPathIdQuery(
+export function useGetUploadFoldersByPathIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetFolderByPathIdQuery,
-    GetFolderByPathIdQueryVariables
+    GetUploadFoldersByPathIdQuery,
+    GetUploadFoldersByPathIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetFolderByPathIdQuery,
-    GetFolderByPathIdQueryVariables
-  >(GetFolderByPathIdDocument, options);
+    GetUploadFoldersByPathIdQuery,
+    GetUploadFoldersByPathIdQueryVariables
+  >(GetUploadFoldersByPathIdDocument, options);
 }
-export function useGetFolderByPathIdLazyQuery(
+export function useGetUploadFoldersByPathIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFolderByPathIdQuery,
-    GetFolderByPathIdQueryVariables
+    GetUploadFoldersByPathIdQuery,
+    GetUploadFoldersByPathIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetFolderByPathIdQuery,
-    GetFolderByPathIdQueryVariables
-  >(GetFolderByPathIdDocument, options);
+    GetUploadFoldersByPathIdQuery,
+    GetUploadFoldersByPathIdQueryVariables
+  >(GetUploadFoldersByPathIdDocument, options);
 }
-export type GetFolderByPathIdQueryHookResult = ReturnType<
-  typeof useGetFolderByPathIdQuery
+export type GetUploadFoldersByPathIdQueryHookResult = ReturnType<
+  typeof useGetUploadFoldersByPathIdQuery
 >;
-export type GetFolderByPathIdLazyQueryHookResult = ReturnType<
-  typeof useGetFolderByPathIdLazyQuery
+export type GetUploadFoldersByPathIdLazyQueryHookResult = ReturnType<
+  typeof useGetUploadFoldersByPathIdLazyQuery
 >;
-export type GetFolderByPathIdQueryResult = Apollo.QueryResult<
-  GetFolderByPathIdQuery,
-  GetFolderByPathIdQueryVariables
+export type GetUploadFoldersByPathIdQueryResult = Apollo.QueryResult<
+  GetUploadFoldersByPathIdQuery,
+  GetUploadFoldersByPathIdQueryVariables
 >;
-export const UpdateUploadFileDocument = gql`
-  mutation updateUploadFile($updateUploadFileId: ID!, $data: UploadFileInput!) {
+export const UpdateUploadFileByIdDocument = gql`
+  mutation updateUploadFileById(
+    $updateUploadFileId: ID!
+    $data: UploadFileInput!
+  ) {
     updateUploadFile(id: $updateUploadFileId, data: $data) {
       data {
         id
@@ -20490,52 +20415,52 @@ export const UpdateUploadFileDocument = gql`
     }
   }
 `;
-export type UpdateUploadFileMutationFn = Apollo.MutationFunction<
-  UpdateUploadFileMutation,
-  UpdateUploadFileMutationVariables
+export type UpdateUploadFileByIdMutationFn = Apollo.MutationFunction<
+  UpdateUploadFileByIdMutation,
+  UpdateUploadFileByIdMutationVariables
 >;
 
 /**
- * __useUpdateUploadFileMutation__
+ * __useUpdateUploadFileByIdMutation__
  *
- * To run a mutation, you first call `useUpdateUploadFileMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUploadFileMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateUploadFileByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUploadFileByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateUploadFileMutation, { data, loading, error }] = useUpdateUploadFileMutation({
+ * const [updateUploadFileByIdMutation, { data, loading, error }] = useUpdateUploadFileByIdMutation({
  *   variables: {
  *      updateUploadFileId: // value for 'updateUploadFileId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateUploadFileMutation(
+export function useUpdateUploadFileByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateUploadFileMutation,
-    UpdateUploadFileMutationVariables
+    UpdateUploadFileByIdMutation,
+    UpdateUploadFileByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateUploadFileMutation,
-    UpdateUploadFileMutationVariables
-  >(UpdateUploadFileDocument, options);
+    UpdateUploadFileByIdMutation,
+    UpdateUploadFileByIdMutationVariables
+  >(UpdateUploadFileByIdDocument, options);
 }
-export type UpdateUploadFileMutationHookResult = ReturnType<
-  typeof useUpdateUploadFileMutation
+export type UpdateUploadFileByIdMutationHookResult = ReturnType<
+  typeof useUpdateUploadFileByIdMutation
 >;
-export type UpdateUploadFileMutationResult =
-  Apollo.MutationResult<UpdateUploadFileMutation>;
-export type UpdateUploadFileMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUploadFileMutation,
-  UpdateUploadFileMutationVariables
+export type UpdateUploadFileByIdMutationResult =
+  Apollo.MutationResult<UpdateUploadFileByIdMutation>;
+export type UpdateUploadFileByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUploadFileByIdMutation,
+  UpdateUploadFileByIdMutationVariables
 >;
-export const UpdateUploadFolderDocument = gql`
-  mutation updateUploadFolder(
+export const UpdateUploadFolderByIdDocument = gql`
+  mutation updateUploadFolderById(
     $updateUploadFolderId: ID!
     $data: UploadFolderInput!
   ) {
@@ -20567,49 +20492,49 @@ export const UpdateUploadFolderDocument = gql`
     }
   }
 `;
-export type UpdateUploadFolderMutationFn = Apollo.MutationFunction<
-  UpdateUploadFolderMutation,
-  UpdateUploadFolderMutationVariables
+export type UpdateUploadFolderByIdMutationFn = Apollo.MutationFunction<
+  UpdateUploadFolderByIdMutation,
+  UpdateUploadFolderByIdMutationVariables
 >;
 
 /**
- * __useUpdateUploadFolderMutation__
+ * __useUpdateUploadFolderByIdMutation__
  *
- * To run a mutation, you first call `useUpdateUploadFolderMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUploadFolderMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateUploadFolderByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUploadFolderByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateUploadFolderMutation, { data, loading, error }] = useUpdateUploadFolderMutation({
+ * const [updateUploadFolderByIdMutation, { data, loading, error }] = useUpdateUploadFolderByIdMutation({
  *   variables: {
  *      updateUploadFolderId: // value for 'updateUploadFolderId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateUploadFolderMutation(
+export function useUpdateUploadFolderByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateUploadFolderMutation,
-    UpdateUploadFolderMutationVariables
+    UpdateUploadFolderByIdMutation,
+    UpdateUploadFolderByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateUploadFolderMutation,
-    UpdateUploadFolderMutationVariables
-  >(UpdateUploadFolderDocument, options);
+    UpdateUploadFolderByIdMutation,
+    UpdateUploadFolderByIdMutationVariables
+  >(UpdateUploadFolderByIdDocument, options);
 }
-export type UpdateUploadFolderMutationHookResult = ReturnType<
-  typeof useUpdateUploadFolderMutation
+export type UpdateUploadFolderByIdMutationHookResult = ReturnType<
+  typeof useUpdateUploadFolderByIdMutation
 >;
-export type UpdateUploadFolderMutationResult =
-  Apollo.MutationResult<UpdateUploadFolderMutation>;
-export type UpdateUploadFolderMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUploadFolderMutation,
-  UpdateUploadFolderMutationVariables
+export type UpdateUploadFolderByIdMutationResult =
+  Apollo.MutationResult<UpdateUploadFolderByIdMutation>;
+export type UpdateUploadFolderByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUploadFolderByIdMutation,
+  UpdateUploadFolderByIdMutationVariables
 >;
 export const UploadGraphQlDocument = gql`
   mutation uploadGraphQL(
@@ -20774,8 +20699,8 @@ export type GetCguByIdQueryResult = Apollo.QueryResult<
   GetCguByIdQuery,
   GetCguByIdQueryVariables
 >;
-export const GetCgusByContractIdDocument = gql`
-  query getCgusByContractId($contractId: ID!) {
+export const GetCguSubServicesByContractIdDocument = gql`
+  query getCguSubServicesByContractId($contractId: ID!) {
     cguSubServices(
       filters: { editorialService: { contract: { id: { eq: $contractId } } } }
     ) {
@@ -20800,57 +20725,57 @@ export const GetCgusByContractIdDocument = gql`
 `;
 
 /**
- * __useGetCgusByContractIdQuery__
+ * __useGetCguSubServicesByContractIdQuery__
  *
- * To run a query within a React component, call `useGetCgusByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCgusByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCguSubServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCguSubServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCgusByContractIdQuery({
+ * const { data, loading, error } = useGetCguSubServicesByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetCgusByContractIdQuery(
+export function useGetCguSubServicesByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetCgusByContractIdQuery,
-    GetCgusByContractIdQueryVariables
+    GetCguSubServicesByContractIdQuery,
+    GetCguSubServicesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetCgusByContractIdQuery,
-    GetCgusByContractIdQueryVariables
-  >(GetCgusByContractIdDocument, options);
+    GetCguSubServicesByContractIdQuery,
+    GetCguSubServicesByContractIdQueryVariables
+  >(GetCguSubServicesByContractIdDocument, options);
 }
-export function useGetCgusByContractIdLazyQuery(
+export function useGetCguSubServicesByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCgusByContractIdQuery,
-    GetCgusByContractIdQueryVariables
+    GetCguSubServicesByContractIdQuery,
+    GetCguSubServicesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetCgusByContractIdQuery,
-    GetCgusByContractIdQueryVariables
-  >(GetCgusByContractIdDocument, options);
+    GetCguSubServicesByContractIdQuery,
+    GetCguSubServicesByContractIdQueryVariables
+  >(GetCguSubServicesByContractIdDocument, options);
 }
-export type GetCgusByContractIdQueryHookResult = ReturnType<
-  typeof useGetCgusByContractIdQuery
+export type GetCguSubServicesByContractIdQueryHookResult = ReturnType<
+  typeof useGetCguSubServicesByContractIdQuery
 >;
-export type GetCgusByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetCgusByContractIdLazyQuery
+export type GetCguSubServicesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetCguSubServicesByContractIdLazyQuery
 >;
-export type GetCgusByContractIdQueryResult = Apollo.QueryResult<
-  GetCgusByContractIdQuery,
-  GetCgusByContractIdQueryVariables
+export type GetCguSubServicesByContractIdQueryResult = Apollo.QueryResult<
+  GetCguSubServicesByContractIdQuery,
+  GetCguSubServicesByContractIdQueryVariables
 >;
 export const UpdateCguByIdDocument = gql`
-  mutation updateCGUById($updateCguId: ID!, $data: CguInput!) {
+  mutation updateCguById($updateCguId: ID!, $data: CguInput!) {
     updateCgu(id: $updateCguId, data: $data) {
       data {
         id
@@ -20901,81 +20826,6 @@ export type UpdateCguByIdMutationResult =
 export type UpdateCguByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdateCguByIdMutation,
   UpdateCguByIdMutationVariables
->;
-export const GetConfidentialityByContractIdDocument = gql`
-  query getConfidentialityByContractId($contractId: ID!) {
-    confidentialitySubServices(
-      filters: { editorialService: { contract: { id: { eq: $contractId } } } }
-    ) {
-      data {
-        id
-        attributes {
-          confidentialities {
-            data {
-              id
-              attributes {
-                title
-                hasMobile
-                isActivated
-              }
-            }
-          }
-          name
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetConfidentialityByContractIdQuery__
- *
- * To run a query within a React component, call `useGetConfidentialityByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetConfidentialityByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetConfidentialityByContractIdQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetConfidentialityByContractIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetConfidentialityByContractIdQuery,
-    GetConfidentialityByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetConfidentialityByContractIdQuery,
-    GetConfidentialityByContractIdQueryVariables
-  >(GetConfidentialityByContractIdDocument, options);
-}
-export function useGetConfidentialityByContractIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetConfidentialityByContractIdQuery,
-    GetConfidentialityByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetConfidentialityByContractIdQuery,
-    GetConfidentialityByContractIdQueryVariables
-  >(GetConfidentialityByContractIdDocument, options);
-}
-export type GetConfidentialityByContractIdQueryHookResult = ReturnType<
-  typeof useGetConfidentialityByContractIdQuery
->;
-export type GetConfidentialityByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetConfidentialityByContractIdLazyQuery
->;
-export type GetConfidentialityByContractIdQueryResult = Apollo.QueryResult<
-  GetConfidentialityByContractIdQuery,
-  GetConfidentialityByContractIdQueryVariables
 >;
 export const GetConfidentialityByIdDocument = gql`
   query getConfidentialityById($confidentialityId: ID) {
@@ -21078,6 +20928,80 @@ export type GetConfidentialityByIdQueryResult = Apollo.QueryResult<
   GetConfidentialityByIdQuery,
   GetConfidentialityByIdQueryVariables
 >;
+export const GetConfidentialitySubServicesByContractIdDocument = gql`
+  query getConfidentialitySubServicesByContractId($contractId: ID!) {
+    confidentialitySubServices(
+      filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+    ) {
+      data {
+        id
+        attributes {
+          confidentialities {
+            data {
+              id
+              attributes {
+                title
+                hasMobile
+                isActivated
+              }
+            }
+          }
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetConfidentialitySubServicesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetConfidentialitySubServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetConfidentialitySubServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetConfidentialitySubServicesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetConfidentialitySubServicesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetConfidentialitySubServicesByContractIdQuery,
+    GetConfidentialitySubServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetConfidentialitySubServicesByContractIdQuery,
+    GetConfidentialitySubServicesByContractIdQueryVariables
+  >(GetConfidentialitySubServicesByContractIdDocument, options);
+}
+export function useGetConfidentialitySubServicesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetConfidentialitySubServicesByContractIdQuery,
+    GetConfidentialitySubServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetConfidentialitySubServicesByContractIdQuery,
+    GetConfidentialitySubServicesByContractIdQueryVariables
+  >(GetConfidentialitySubServicesByContractIdDocument, options);
+}
+export type GetConfidentialitySubServicesByContractIdQueryHookResult =
+  ReturnType<typeof useGetConfidentialitySubServicesByContractIdQuery>;
+export type GetConfidentialitySubServicesByContractIdLazyQueryHookResult =
+  ReturnType<typeof useGetConfidentialitySubServicesByContractIdLazyQuery>;
+export type GetConfidentialitySubServicesByContractIdQueryResult =
+  Apollo.QueryResult<
+    GetConfidentialitySubServicesByContractIdQuery,
+    GetConfidentialitySubServicesByContractIdQueryVariables
+  >;
 export const UpdateConfidentialityByIdDocument = gql`
   mutation updateConfidentialityById(
     $updateConfidentialityId: ID!
@@ -21271,8 +21195,8 @@ export type GetContactUsByIdQueryResult = Apollo.QueryResult<
   GetContactUsByIdQuery,
   GetContactUsByIdQueryVariables
 >;
-export const GetContactUsesByContractIdDocument = gql`
-  query getContactUsesByContractId($contractId: ID!) {
+export const GetContactUsSubServicesByContractIdDocument = gql`
+  query getContactUsSubServicesByContractId($contractId: ID!) {
     contactUsSubServices(
       filters: { editorialService: { contract: { id: { eq: $contractId } } } }
     ) {
@@ -21297,57 +21221,60 @@ export const GetContactUsesByContractIdDocument = gql`
 `;
 
 /**
- * __useGetContactUsesByContractIdQuery__
+ * __useGetContactUsSubServicesByContractIdQuery__
  *
- * To run a query within a React component, call `useGetContactUsesByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContactUsesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetContactUsSubServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContactUsSubServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetContactUsesByContractIdQuery({
+ * const { data, loading, error } = useGetContactUsSubServicesByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetContactUsesByContractIdQuery(
+export function useGetContactUsSubServicesByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetContactUsesByContractIdQuery,
-    GetContactUsesByContractIdQueryVariables
+    GetContactUsSubServicesByContractIdQuery,
+    GetContactUsSubServicesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetContactUsesByContractIdQuery,
-    GetContactUsesByContractIdQueryVariables
-  >(GetContactUsesByContractIdDocument, options);
+    GetContactUsSubServicesByContractIdQuery,
+    GetContactUsSubServicesByContractIdQueryVariables
+  >(GetContactUsSubServicesByContractIdDocument, options);
 }
-export function useGetContactUsesByContractIdLazyQuery(
+export function useGetContactUsSubServicesByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetContactUsesByContractIdQuery,
-    GetContactUsesByContractIdQueryVariables
+    GetContactUsSubServicesByContractIdQuery,
+    GetContactUsSubServicesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetContactUsesByContractIdQuery,
-    GetContactUsesByContractIdQueryVariables
-  >(GetContactUsesByContractIdDocument, options);
+    GetContactUsSubServicesByContractIdQuery,
+    GetContactUsSubServicesByContractIdQueryVariables
+  >(GetContactUsSubServicesByContractIdDocument, options);
 }
-export type GetContactUsesByContractIdQueryHookResult = ReturnType<
-  typeof useGetContactUsesByContractIdQuery
+export type GetContactUsSubServicesByContractIdQueryHookResult = ReturnType<
+  typeof useGetContactUsSubServicesByContractIdQuery
 >;
-export type GetContactUsesByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetContactUsesByContractIdLazyQuery
+export type GetContactUsSubServicesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetContactUsSubServicesByContractIdLazyQuery
 >;
-export type GetContactUsesByContractIdQueryResult = Apollo.QueryResult<
-  GetContactUsesByContractIdQuery,
-  GetContactUsesByContractIdQueryVariables
+export type GetContactUsSubServicesByContractIdQueryResult = Apollo.QueryResult<
+  GetContactUsSubServicesByContractIdQuery,
+  GetContactUsSubServicesByContractIdQueryVariables
 >;
-export const UpdateContactUsDocument = gql`
-  mutation UpdateContactUs($updateContactUsId: ID!, $data: ContactUsInput!) {
+export const UpdateContactUsByIdDocument = gql`
+  mutation updateContactUsById(
+    $updateContactUsId: ID!
+    $data: ContactUsInput!
+  ) {
     updateContactUs(id: $updateContactUsId, data: $data) {
       data {
         id
@@ -21355,49 +21282,49 @@ export const UpdateContactUsDocument = gql`
     }
   }
 `;
-export type UpdateContactUsMutationFn = Apollo.MutationFunction<
-  UpdateContactUsMutation,
-  UpdateContactUsMutationVariables
+export type UpdateContactUsByIdMutationFn = Apollo.MutationFunction<
+  UpdateContactUsByIdMutation,
+  UpdateContactUsByIdMutationVariables
 >;
 
 /**
- * __useUpdateContactUsMutation__
+ * __useUpdateContactUsByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContactUsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContactUsMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContactUsByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContactUsByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContactUsMutation, { data, loading, error }] = useUpdateContactUsMutation({
+ * const [updateContactUsByIdMutation, { data, loading, error }] = useUpdateContactUsByIdMutation({
  *   variables: {
  *      updateContactUsId: // value for 'updateContactUsId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContactUsMutation(
+export function useUpdateContactUsByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContactUsMutation,
-    UpdateContactUsMutationVariables
+    UpdateContactUsByIdMutation,
+    UpdateContactUsByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContactUsMutation,
-    UpdateContactUsMutationVariables
-  >(UpdateContactUsDocument, options);
+    UpdateContactUsByIdMutation,
+    UpdateContactUsByIdMutationVariables
+  >(UpdateContactUsByIdDocument, options);
 }
-export type UpdateContactUsMutationHookResult = ReturnType<
-  typeof useUpdateContactUsMutation
+export type UpdateContactUsByIdMutationHookResult = ReturnType<
+  typeof useUpdateContactUsByIdMutation
 >;
-export type UpdateContactUsMutationResult =
-  Apollo.MutationResult<UpdateContactUsMutation>;
-export type UpdateContactUsMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContactUsMutation,
-  UpdateContactUsMutationVariables
+export type UpdateContactUsByIdMutationResult =
+  Apollo.MutationResult<UpdateContactUsByIdMutation>;
+export type UpdateContactUsByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContactUsByIdMutation,
+  UpdateContactUsByIdMutationVariables
 >;
 export const CreateFreeContentDocument = gql`
   mutation createFreeContent($data: FreeContentInput!) {
@@ -21560,8 +21487,8 @@ export type CreateFreeContentMutationOptions = Apollo.BaseMutationOptions<
   CreateFreeContentMutation,
   CreateFreeContentMutationVariables
 >;
-export const DeleteFreeContentDocument = gql`
-  mutation deleteFreeContent($deleteFreeContentId: ID!) {
+export const DeleteFreeContentByIdDocument = gql`
+  mutation deleteFreeContentById($deleteFreeContentId: ID!) {
     deleteFreeContent(id: $deleteFreeContentId) {
       data {
         id
@@ -21673,48 +21600,48 @@ export const DeleteFreeContentDocument = gql`
     }
   }
 `;
-export type DeleteFreeContentMutationFn = Apollo.MutationFunction<
-  DeleteFreeContentMutation,
-  DeleteFreeContentMutationVariables
+export type DeleteFreeContentByIdMutationFn = Apollo.MutationFunction<
+  DeleteFreeContentByIdMutation,
+  DeleteFreeContentByIdMutationVariables
 >;
 
 /**
- * __useDeleteFreeContentMutation__
+ * __useDeleteFreeContentByIdMutation__
  *
- * To run a mutation, you first call `useDeleteFreeContentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteFreeContentMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteFreeContentByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteFreeContentByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteFreeContentMutation, { data, loading, error }] = useDeleteFreeContentMutation({
+ * const [deleteFreeContentByIdMutation, { data, loading, error }] = useDeleteFreeContentByIdMutation({
  *   variables: {
  *      deleteFreeContentId: // value for 'deleteFreeContentId'
  *   },
  * });
  */
-export function useDeleteFreeContentMutation(
+export function useDeleteFreeContentByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteFreeContentMutation,
-    DeleteFreeContentMutationVariables
+    DeleteFreeContentByIdMutation,
+    DeleteFreeContentByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    DeleteFreeContentMutation,
-    DeleteFreeContentMutationVariables
-  >(DeleteFreeContentDocument, options);
+    DeleteFreeContentByIdMutation,
+    DeleteFreeContentByIdMutationVariables
+  >(DeleteFreeContentByIdDocument, options);
 }
-export type DeleteFreeContentMutationHookResult = ReturnType<
-  typeof useDeleteFreeContentMutation
+export type DeleteFreeContentByIdMutationHookResult = ReturnType<
+  typeof useDeleteFreeContentByIdMutation
 >;
-export type DeleteFreeContentMutationResult =
-  Apollo.MutationResult<DeleteFreeContentMutation>;
-export type DeleteFreeContentMutationOptions = Apollo.BaseMutationOptions<
-  DeleteFreeContentMutation,
-  DeleteFreeContentMutationVariables
+export type DeleteFreeContentByIdMutationResult =
+  Apollo.MutationResult<DeleteFreeContentByIdMutation>;
+export type DeleteFreeContentByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteFreeContentByIdMutation,
+  DeleteFreeContentByIdMutationVariables
 >;
 export const GetAllVersionsOfFreeContentByCustomIdDocument = gql`
   query getAllVersionsOfFreeContentByCustomId(
@@ -22058,68 +21985,6 @@ export type GetFreeContentByIdQueryResult = Apollo.QueryResult<
   GetFreeContentByIdQuery,
   GetFreeContentByIdQueryVariables
 >;
-export const GetFreeContentDraftDocument = gql`
-  query getFreeContentDraft($customId: String!) {
-    freeContents(
-      filters: { customId: { eq: $customId }, status: { eq: "draft" } }
-    ) {
-      data {
-        id
-      }
-    }
-  }
-`;
-
-/**
- * __useGetFreeContentDraftQuery__
- *
- * To run a query within a React component, call `useGetFreeContentDraftQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFreeContentDraftQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFreeContentDraftQuery({
- *   variables: {
- *      customId: // value for 'customId'
- *   },
- * });
- */
-export function useGetFreeContentDraftQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetFreeContentDraftQuery,
-    GetFreeContentDraftQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetFreeContentDraftQuery,
-    GetFreeContentDraftQueryVariables
-  >(GetFreeContentDraftDocument, options);
-}
-export function useGetFreeContentDraftLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFreeContentDraftQuery,
-    GetFreeContentDraftQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetFreeContentDraftQuery,
-    GetFreeContentDraftQueryVariables
-  >(GetFreeContentDraftDocument, options);
-}
-export type GetFreeContentDraftQueryHookResult = ReturnType<
-  typeof useGetFreeContentDraftQuery
->;
-export type GetFreeContentDraftLazyQueryHookResult = ReturnType<
-  typeof useGetFreeContentDraftLazyQuery
->;
-export type GetFreeContentDraftQueryResult = Apollo.QueryResult<
-  GetFreeContentDraftQuery,
-  GetFreeContentDraftQueryVariables
->;
 export const GetFreeContentSubServiceByIdDocument = gql`
   query getFreeContentSubServiceById($freeContentSubServiceId: ID) {
     freeContentSubService(id: $freeContentSubServiceId) {
@@ -22321,8 +22186,70 @@ export type GetFreeContentsBySubServiceIdQueryResult = Apollo.QueryResult<
   GetFreeContentsBySubServiceIdQuery,
   GetFreeContentsBySubServiceIdQueryVariables
 >;
-export const UpdateFreeContentDocument = gql`
-  mutation updateFreeContent($updateFreeContentId: ID!, $data: JSON!) {
+export const GetFreeContentsDraftByCustomIdDocument = gql`
+  query getFreeContentsDraftByCustomId($customId: String!) {
+    freeContents(
+      filters: { customId: { eq: $customId }, status: { eq: "draft" } }
+    ) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFreeContentsDraftByCustomIdQuery__
+ *
+ * To run a query within a React component, call `useGetFreeContentsDraftByCustomIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFreeContentsDraftByCustomIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFreeContentsDraftByCustomIdQuery({
+ *   variables: {
+ *      customId: // value for 'customId'
+ *   },
+ * });
+ */
+export function useGetFreeContentsDraftByCustomIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFreeContentsDraftByCustomIdQuery,
+    GetFreeContentsDraftByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFreeContentsDraftByCustomIdQuery,
+    GetFreeContentsDraftByCustomIdQueryVariables
+  >(GetFreeContentsDraftByCustomIdDocument, options);
+}
+export function useGetFreeContentsDraftByCustomIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFreeContentsDraftByCustomIdQuery,
+    GetFreeContentsDraftByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFreeContentsDraftByCustomIdQuery,
+    GetFreeContentsDraftByCustomIdQueryVariables
+  >(GetFreeContentsDraftByCustomIdDocument, options);
+}
+export type GetFreeContentsDraftByCustomIdQueryHookResult = ReturnType<
+  typeof useGetFreeContentsDraftByCustomIdQuery
+>;
+export type GetFreeContentsDraftByCustomIdLazyQueryHookResult = ReturnType<
+  typeof useGetFreeContentsDraftByCustomIdLazyQuery
+>;
+export type GetFreeContentsDraftByCustomIdQueryResult = Apollo.QueryResult<
+  GetFreeContentsDraftByCustomIdQuery,
+  GetFreeContentsDraftByCustomIdQueryVariables
+>;
+export const UpdateFreeContentByIdDocument = gql`
+  mutation updateFreeContentById($updateFreeContentId: ID!, $data: JSON!) {
     versioningHandler(
       data: { id: $updateFreeContentId, data: $data }
       entity: "freeContent"
@@ -22338,49 +22265,49 @@ export const UpdateFreeContentDocument = gql`
     }
   }
 `;
-export type UpdateFreeContentMutationFn = Apollo.MutationFunction<
-  UpdateFreeContentMutation,
-  UpdateFreeContentMutationVariables
+export type UpdateFreeContentByIdMutationFn = Apollo.MutationFunction<
+  UpdateFreeContentByIdMutation,
+  UpdateFreeContentByIdMutationVariables
 >;
 
 /**
- * __useUpdateFreeContentMutation__
+ * __useUpdateFreeContentByIdMutation__
  *
- * To run a mutation, you first call `useUpdateFreeContentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateFreeContentMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateFreeContentByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFreeContentByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateFreeContentMutation, { data, loading, error }] = useUpdateFreeContentMutation({
+ * const [updateFreeContentByIdMutation, { data, loading, error }] = useUpdateFreeContentByIdMutation({
  *   variables: {
  *      updateFreeContentId: // value for 'updateFreeContentId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateFreeContentMutation(
+export function useUpdateFreeContentByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateFreeContentMutation,
-    UpdateFreeContentMutationVariables
+    UpdateFreeContentByIdMutation,
+    UpdateFreeContentByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateFreeContentMutation,
-    UpdateFreeContentMutationVariables
-  >(UpdateFreeContentDocument, options);
+    UpdateFreeContentByIdMutation,
+    UpdateFreeContentByIdMutationVariables
+  >(UpdateFreeContentByIdDocument, options);
 }
-export type UpdateFreeContentMutationHookResult = ReturnType<
-  typeof useUpdateFreeContentMutation
+export type UpdateFreeContentByIdMutationHookResult = ReturnType<
+  typeof useUpdateFreeContentByIdMutation
 >;
-export type UpdateFreeContentMutationResult =
-  Apollo.MutationResult<UpdateFreeContentMutation>;
-export type UpdateFreeContentMutationOptions = Apollo.BaseMutationOptions<
-  UpdateFreeContentMutation,
-  UpdateFreeContentMutationVariables
+export type UpdateFreeContentByIdMutationResult =
+  Apollo.MutationResult<UpdateFreeContentByIdMutation>;
+export type UpdateFreeContentByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateFreeContentByIdMutation,
+  UpdateFreeContentByIdMutationVariables
 >;
 export const GetCookieByIdDocument = gql`
   query getCookieById($cookieId: ID) {
@@ -22511,8 +22438,8 @@ export type GetCookieByIdQueryResult = Apollo.QueryResult<
   GetCookieByIdQuery,
   GetCookieByIdQueryVariables
 >;
-export const GetCookiesByContractIdDocument = gql`
-  query getCookiesByContractId($contractId: ID!) {
+export const GetCookiesSubServicesByContractIdDocument = gql`
+  query getCookiesSubServicesByContractId($contractId: ID!) {
     cookiesSubServices(
       filters: { editorialService: { contract: { id: { eq: $contractId } } } }
     ) {
@@ -22537,54 +22464,54 @@ export const GetCookiesByContractIdDocument = gql`
 `;
 
 /**
- * __useGetCookiesByContractIdQuery__
+ * __useGetCookiesSubServicesByContractIdQuery__
  *
- * To run a query within a React component, call `useGetCookiesByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCookiesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCookiesSubServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCookiesSubServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCookiesByContractIdQuery({
+ * const { data, loading, error } = useGetCookiesSubServicesByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetCookiesByContractIdQuery(
+export function useGetCookiesSubServicesByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetCookiesByContractIdQuery,
-    GetCookiesByContractIdQueryVariables
+    GetCookiesSubServicesByContractIdQuery,
+    GetCookiesSubServicesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetCookiesByContractIdQuery,
-    GetCookiesByContractIdQueryVariables
-  >(GetCookiesByContractIdDocument, options);
+    GetCookiesSubServicesByContractIdQuery,
+    GetCookiesSubServicesByContractIdQueryVariables
+  >(GetCookiesSubServicesByContractIdDocument, options);
 }
-export function useGetCookiesByContractIdLazyQuery(
+export function useGetCookiesSubServicesByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCookiesByContractIdQuery,
-    GetCookiesByContractIdQueryVariables
+    GetCookiesSubServicesByContractIdQuery,
+    GetCookiesSubServicesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetCookiesByContractIdQuery,
-    GetCookiesByContractIdQueryVariables
-  >(GetCookiesByContractIdDocument, options);
+    GetCookiesSubServicesByContractIdQuery,
+    GetCookiesSubServicesByContractIdQueryVariables
+  >(GetCookiesSubServicesByContractIdDocument, options);
 }
-export type GetCookiesByContractIdQueryHookResult = ReturnType<
-  typeof useGetCookiesByContractIdQuery
+export type GetCookiesSubServicesByContractIdQueryHookResult = ReturnType<
+  typeof useGetCookiesSubServicesByContractIdQuery
 >;
-export type GetCookiesByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetCookiesByContractIdLazyQuery
+export type GetCookiesSubServicesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetCookiesSubServicesByContractIdLazyQuery
 >;
-export type GetCookiesByContractIdQueryResult = Apollo.QueryResult<
-  GetCookiesByContractIdQuery,
-  GetCookiesByContractIdQueryVariables
+export type GetCookiesSubServicesByContractIdQueryResult = Apollo.QueryResult<
+  GetCookiesSubServicesByContractIdQuery,
+  GetCookiesSubServicesByContractIdQueryVariables
 >;
 export const UpdateCookieByIdDocument = gql`
   mutation updateCookieById($updateCookieId: ID!, $data: CookieInput!) {
@@ -22702,66 +22629,6 @@ export type GetTagsByContractIdQueryResult = Apollo.QueryResult<
   GetTagsByContractIdQuery,
   GetTagsByContractIdQueryVariables
 >;
-export const CountContentPerTagDocument = gql`
-  query countContentPerTag($contractId: ID!) {
-    countContentPerTag(contractId: $contractId) {
-      id
-      name
-      count
-    }
-  }
-`;
-
-/**
- * __useCountContentPerTagQuery__
- *
- * To run a query within a React component, call `useCountContentPerTagQuery` and pass it any options that fit your needs.
- * When your component renders, `useCountContentPerTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCountContentPerTagQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useCountContentPerTagQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    CountContentPerTagQuery,
-    CountContentPerTagQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    CountContentPerTagQuery,
-    CountContentPerTagQueryVariables
-  >(CountContentPerTagDocument, options);
-}
-export function useCountContentPerTagLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CountContentPerTagQuery,
-    CountContentPerTagQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    CountContentPerTagQuery,
-    CountContentPerTagQueryVariables
-  >(CountContentPerTagDocument, options);
-}
-export type CountContentPerTagQueryHookResult = ReturnType<
-  typeof useCountContentPerTagQuery
->;
-export type CountContentPerTagLazyQueryHookResult = ReturnType<
-  typeof useCountContentPerTagLazyQuery
->;
-export type CountContentPerTagQueryResult = Apollo.QueryResult<
-  CountContentPerTagQuery,
-  CountContentPerTagQueryVariables
->;
 export const CreateNewTagDocument = gql`
   mutation createNewTag($contractId: ID!, $tagName: String!) {
     createNewTag(contractId: $contractId, tagName: $tagName) {
@@ -22815,8 +22682,8 @@ export type CreateNewTagMutationOptions = Apollo.BaseMutationOptions<
   CreateNewTagMutation,
   CreateNewTagMutationVariables
 >;
-export const DeleteTagDocument = gql`
-  mutation deleteTag($deleteTagId: ID!) {
+export const DeleteTagByIdDocument = gql`
+  mutation deleteTagById($deleteTagId: ID!) {
     deleteTag(id: $deleteTagId) {
       data {
         id
@@ -22828,50 +22695,111 @@ export const DeleteTagDocument = gql`
     }
   }
 `;
-export type DeleteTagMutationFn = Apollo.MutationFunction<
-  DeleteTagMutation,
-  DeleteTagMutationVariables
+export type DeleteTagByIdMutationFn = Apollo.MutationFunction<
+  DeleteTagByIdMutation,
+  DeleteTagByIdMutationVariables
 >;
 
 /**
- * __useDeleteTagMutation__
+ * __useDeleteTagByIdMutation__
  *
- * To run a mutation, you first call `useDeleteTagMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteTagMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteTagByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTagByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteTagMutation, { data, loading, error }] = useDeleteTagMutation({
+ * const [deleteTagByIdMutation, { data, loading, error }] = useDeleteTagByIdMutation({
  *   variables: {
  *      deleteTagId: // value for 'deleteTagId'
  *   },
  * });
  */
-export function useDeleteTagMutation(
+export function useDeleteTagByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteTagMutation,
-    DeleteTagMutationVariables
+    DeleteTagByIdMutation,
+    DeleteTagByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteTagMutation, DeleteTagMutationVariables>(
-    DeleteTagDocument,
-    options,
-  );
+  return Apollo.useMutation<
+    DeleteTagByIdMutation,
+    DeleteTagByIdMutationVariables
+  >(DeleteTagByIdDocument, options);
 }
-export type DeleteTagMutationHookResult = ReturnType<
-  typeof useDeleteTagMutation
+export type DeleteTagByIdMutationHookResult = ReturnType<
+  typeof useDeleteTagByIdMutation
 >;
-export type DeleteTagMutationResult = Apollo.MutationResult<DeleteTagMutation>;
-export type DeleteTagMutationOptions = Apollo.BaseMutationOptions<
-  DeleteTagMutation,
-  DeleteTagMutationVariables
+export type DeleteTagByIdMutationResult =
+  Apollo.MutationResult<DeleteTagByIdMutation>;
+export type DeleteTagByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTagByIdMutation,
+  DeleteTagByIdMutationVariables
 >;
-export const UpdateTagDocument = gql`
-  mutation updateTag($updateTagId: ID!, $data: TagInput!) {
+export const GetCountContentPerTagByContractIdDocument = gql`
+  query getCountContentPerTagByContractId($contractId: ID!) {
+    countContentPerTag(contractId: $contractId) {
+      id
+      name
+      count
+    }
+  }
+`;
+
+/**
+ * __useGetCountContentPerTagByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetCountContentPerTagByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCountContentPerTagByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCountContentPerTagByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetCountContentPerTagByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetCountContentPerTagByContractIdQuery,
+    GetCountContentPerTagByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetCountContentPerTagByContractIdQuery,
+    GetCountContentPerTagByContractIdQueryVariables
+  >(GetCountContentPerTagByContractIdDocument, options);
+}
+export function useGetCountContentPerTagByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCountContentPerTagByContractIdQuery,
+    GetCountContentPerTagByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetCountContentPerTagByContractIdQuery,
+    GetCountContentPerTagByContractIdQueryVariables
+  >(GetCountContentPerTagByContractIdDocument, options);
+}
+export type GetCountContentPerTagByContractIdQueryHookResult = ReturnType<
+  typeof useGetCountContentPerTagByContractIdQuery
+>;
+export type GetCountContentPerTagByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetCountContentPerTagByContractIdLazyQuery
+>;
+export type GetCountContentPerTagByContractIdQueryResult = Apollo.QueryResult<
+  GetCountContentPerTagByContractIdQuery,
+  GetCountContentPerTagByContractIdQueryVariables
+>;
+export const UpdateTagByIdDocument = gql`
+  mutation updateTagById($updateTagId: ID!, $data: TagInput!) {
     updateTag(id: $updateTagId, data: $data) {
       data {
         id
@@ -22883,51 +22811,52 @@ export const UpdateTagDocument = gql`
     }
   }
 `;
-export type UpdateTagMutationFn = Apollo.MutationFunction<
-  UpdateTagMutation,
-  UpdateTagMutationVariables
+export type UpdateTagByIdMutationFn = Apollo.MutationFunction<
+  UpdateTagByIdMutation,
+  UpdateTagByIdMutationVariables
 >;
 
 /**
- * __useUpdateTagMutation__
+ * __useUpdateTagByIdMutation__
  *
- * To run a mutation, you first call `useUpdateTagMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateTagMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateTagByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTagByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateTagMutation, { data, loading, error }] = useUpdateTagMutation({
+ * const [updateTagByIdMutation, { data, loading, error }] = useUpdateTagByIdMutation({
  *   variables: {
  *      updateTagId: // value for 'updateTagId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateTagMutation(
+export function useUpdateTagByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateTagMutation,
-    UpdateTagMutationVariables
+    UpdateTagByIdMutation,
+    UpdateTagByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateTagMutation, UpdateTagMutationVariables>(
-    UpdateTagDocument,
-    options,
-  );
+  return Apollo.useMutation<
+    UpdateTagByIdMutation,
+    UpdateTagByIdMutationVariables
+  >(UpdateTagByIdDocument, options);
 }
-export type UpdateTagMutationHookResult = ReturnType<
-  typeof useUpdateTagMutation
+export type UpdateTagByIdMutationHookResult = ReturnType<
+  typeof useUpdateTagByIdMutation
 >;
-export type UpdateTagMutationResult = Apollo.MutationResult<UpdateTagMutation>;
-export type UpdateTagMutationOptions = Apollo.BaseMutationOptions<
-  UpdateTagMutation,
-  UpdateTagMutationVariables
+export type UpdateTagByIdMutationResult =
+  Apollo.MutationResult<UpdateTagByIdMutation>;
+export type UpdateTagByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTagByIdMutation,
+  UpdateTagByIdMutationVariables
 >;
-export const CreateContentTypeDocument = gql`
-  mutation createContentType(
+export const CreateContentTypeForContractIdDocument = gql`
+  mutation createContentTypeForContractId(
     $contractId: ID
     $name: String
     $description: String
@@ -22941,23 +22870,23 @@ export const CreateContentTypeDocument = gql`
     }
   }
 `;
-export type CreateContentTypeMutationFn = Apollo.MutationFunction<
-  CreateContentTypeMutation,
-  CreateContentTypeMutationVariables
+export type CreateContentTypeForContractIdMutationFn = Apollo.MutationFunction<
+  CreateContentTypeForContractIdMutation,
+  CreateContentTypeForContractIdMutationVariables
 >;
 
 /**
- * __useCreateContentTypeMutation__
+ * __useCreateContentTypeForContractIdMutation__
  *
- * To run a mutation, you first call `useCreateContentTypeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateContentTypeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateContentTypeForContractIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateContentTypeForContractIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createContentTypeMutation, { data, loading, error }] = useCreateContentTypeMutation({
+ * const [createContentTypeForContractIdMutation, { data, loading, error }] = useCreateContentTypeForContractIdMutation({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      name: // value for 'name'
@@ -22965,29 +22894,30 @@ export type CreateContentTypeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateContentTypeMutation(
+export function useCreateContentTypeForContractIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreateContentTypeMutation,
-    CreateContentTypeMutationVariables
+    CreateContentTypeForContractIdMutation,
+    CreateContentTypeForContractIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    CreateContentTypeMutation,
-    CreateContentTypeMutationVariables
-  >(CreateContentTypeDocument, options);
+    CreateContentTypeForContractIdMutation,
+    CreateContentTypeForContractIdMutationVariables
+  >(CreateContentTypeForContractIdDocument, options);
 }
-export type CreateContentTypeMutationHookResult = ReturnType<
-  typeof useCreateContentTypeMutation
+export type CreateContentTypeForContractIdMutationHookResult = ReturnType<
+  typeof useCreateContentTypeForContractIdMutation
 >;
-export type CreateContentTypeMutationResult =
-  Apollo.MutationResult<CreateContentTypeMutation>;
-export type CreateContentTypeMutationOptions = Apollo.BaseMutationOptions<
-  CreateContentTypeMutation,
-  CreateContentTypeMutationVariables
->;
-export const GetContentTypeDtOsDocument = gql`
-  query getContentTypeDTOs($contractId: ID!) {
+export type CreateContentTypeForContractIdMutationResult =
+  Apollo.MutationResult<CreateContentTypeForContractIdMutation>;
+export type CreateContentTypeForContractIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateContentTypeForContractIdMutation,
+    CreateContentTypeForContractIdMutationVariables
+  >;
+export const GetContentTypesByContractIdDocument = gql`
+  query getContentTypesByContractId($contractId: ID!) {
     getContentTypeDTOs(contractId: $contractId) {
       subServiceId
       type
@@ -22998,57 +22928,57 @@ export const GetContentTypeDtOsDocument = gql`
 `;
 
 /**
- * __useGetContentTypeDtOsQuery__
+ * __useGetContentTypesByContractIdQuery__
  *
- * To run a query within a React component, call `useGetContentTypeDtOsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContentTypeDtOsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetContentTypesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContentTypesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetContentTypeDtOsQuery({
+ * const { data, loading, error } = useGetContentTypesByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetContentTypeDtOsQuery(
+export function useGetContentTypesByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetContentTypeDtOsQuery,
-    GetContentTypeDtOsQueryVariables
+    GetContentTypesByContractIdQuery,
+    GetContentTypesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetContentTypeDtOsQuery,
-    GetContentTypeDtOsQueryVariables
-  >(GetContentTypeDtOsDocument, options);
+    GetContentTypesByContractIdQuery,
+    GetContentTypesByContractIdQueryVariables
+  >(GetContentTypesByContractIdDocument, options);
 }
-export function useGetContentTypeDtOsLazyQuery(
+export function useGetContentTypesByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetContentTypeDtOsQuery,
-    GetContentTypeDtOsQueryVariables
+    GetContentTypesByContractIdQuery,
+    GetContentTypesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetContentTypeDtOsQuery,
-    GetContentTypeDtOsQueryVariables
-  >(GetContentTypeDtOsDocument, options);
+    GetContentTypesByContractIdQuery,
+    GetContentTypesByContractIdQueryVariables
+  >(GetContentTypesByContractIdDocument, options);
 }
-export type GetContentTypeDtOsQueryHookResult = ReturnType<
-  typeof useGetContentTypeDtOsQuery
+export type GetContentTypesByContractIdQueryHookResult = ReturnType<
+  typeof useGetContentTypesByContractIdQuery
 >;
-export type GetContentTypeDtOsLazyQueryHookResult = ReturnType<
-  typeof useGetContentTypeDtOsLazyQuery
+export type GetContentTypesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetContentTypesByContractIdLazyQuery
 >;
-export type GetContentTypeDtOsQueryResult = Apollo.QueryResult<
-  GetContentTypeDtOsQuery,
-  GetContentTypeDtOsQueryVariables
+export type GetContentTypesByContractIdQueryResult = Apollo.QueryResult<
+  GetContentTypesByContractIdQuery,
+  GetContentTypesByContractIdQueryVariables
 >;
-export const UpdateContentTypeCookiesDocument = gql`
-  mutation updateContentTypeCookies(
+export const UpdateCookiesSubServiceByIdDocument = gql`
+  mutation updateCookiesSubServiceById(
     $updateSubServiceId: ID!
     $data: CookiesSubServiceInput!
   ) {
@@ -23063,53 +22993,53 @@ export const UpdateContentTypeCookiesDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeCookiesMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeCookiesMutation,
-  UpdateContentTypeCookiesMutationVariables
+export type UpdateCookiesSubServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateCookiesSubServiceByIdMutation,
+  UpdateCookiesSubServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeCookiesMutation__
+ * __useUpdateCookiesSubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeCookiesMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeCookiesMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateCookiesSubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCookiesSubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeCookiesMutation, { data, loading, error }] = useUpdateContentTypeCookiesMutation({
+ * const [updateCookiesSubServiceByIdMutation, { data, loading, error }] = useUpdateCookiesSubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeCookiesMutation(
+export function useUpdateCookiesSubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeCookiesMutation,
-    UpdateContentTypeCookiesMutationVariables
+    UpdateCookiesSubServiceByIdMutation,
+    UpdateCookiesSubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeCookiesMutation,
-    UpdateContentTypeCookiesMutationVariables
-  >(UpdateContentTypeCookiesDocument, options);
+    UpdateCookiesSubServiceByIdMutation,
+    UpdateCookiesSubServiceByIdMutationVariables
+  >(UpdateCookiesSubServiceByIdDocument, options);
 }
-export type UpdateContentTypeCookiesMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeCookiesMutation
+export type UpdateCookiesSubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateCookiesSubServiceByIdMutation
 >;
-export type UpdateContentTypeCookiesMutationResult =
-  Apollo.MutationResult<UpdateContentTypeCookiesMutation>;
-export type UpdateContentTypeCookiesMutationOptions =
+export type UpdateCookiesSubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateCookiesSubServiceByIdMutation>;
+export type UpdateCookiesSubServiceByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateContentTypeCookiesMutation,
-    UpdateContentTypeCookiesMutationVariables
+    UpdateCookiesSubServiceByIdMutation,
+    UpdateCookiesSubServiceByIdMutationVariables
   >;
-export const UpdateContentTypeAccessibilityDocument = gql`
-  mutation updateContentTypeAccessibility(
+export const UpdateAccessibilitySubServiceByIdDocument = gql`
+  mutation updateAccessibilitySubServiceById(
     $updateSubServiceId: ID!
     $data: AccessibilitySubServiceInput!
   ) {
@@ -23124,53 +23054,54 @@ export const UpdateContentTypeAccessibilityDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeAccessibilityMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeAccessibilityMutation,
-  UpdateContentTypeAccessibilityMutationVariables
->;
+export type UpdateAccessibilitySubServiceByIdMutationFn =
+  Apollo.MutationFunction<
+    UpdateAccessibilitySubServiceByIdMutation,
+    UpdateAccessibilitySubServiceByIdMutationVariables
+  >;
 
 /**
- * __useUpdateContentTypeAccessibilityMutation__
+ * __useUpdateAccessibilitySubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeAccessibilityMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeAccessibilityMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateAccessibilitySubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAccessibilitySubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeAccessibilityMutation, { data, loading, error }] = useUpdateContentTypeAccessibilityMutation({
+ * const [updateAccessibilitySubServiceByIdMutation, { data, loading, error }] = useUpdateAccessibilitySubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeAccessibilityMutation(
+export function useUpdateAccessibilitySubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeAccessibilityMutation,
-    UpdateContentTypeAccessibilityMutationVariables
+    UpdateAccessibilitySubServiceByIdMutation,
+    UpdateAccessibilitySubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeAccessibilityMutation,
-    UpdateContentTypeAccessibilityMutationVariables
-  >(UpdateContentTypeAccessibilityDocument, options);
+    UpdateAccessibilitySubServiceByIdMutation,
+    UpdateAccessibilitySubServiceByIdMutationVariables
+  >(UpdateAccessibilitySubServiceByIdDocument, options);
 }
-export type UpdateContentTypeAccessibilityMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeAccessibilityMutation
+export type UpdateAccessibilitySubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateAccessibilitySubServiceByIdMutation
 >;
-export type UpdateContentTypeAccessibilityMutationResult =
-  Apollo.MutationResult<UpdateContentTypeAccessibilityMutation>;
-export type UpdateContentTypeAccessibilityMutationOptions =
+export type UpdateAccessibilitySubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateAccessibilitySubServiceByIdMutation>;
+export type UpdateAccessibilitySubServiceByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateContentTypeAccessibilityMutation,
-    UpdateContentTypeAccessibilityMutationVariables
+    UpdateAccessibilitySubServiceByIdMutation,
+    UpdateAccessibilitySubServiceByIdMutationVariables
   >;
-export const UpdateContentTypeContactUsDocument = gql`
-  mutation updateContentTypeContactUs(
+export const UpdateContactUsSubServiceByIdDocument = gql`
+  mutation updateContactUsSubServiceById(
     $updateSubServiceId: ID!
     $data: ContactUsSubServiceInput!
   ) {
@@ -23185,53 +23116,53 @@ export const UpdateContentTypeContactUsDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeContactUsMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeContactUsMutation,
-  UpdateContentTypeContactUsMutationVariables
+export type UpdateContactUsSubServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateContactUsSubServiceByIdMutation,
+  UpdateContactUsSubServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeContactUsMutation__
+ * __useUpdateContactUsSubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeContactUsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeContactUsMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContactUsSubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContactUsSubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeContactUsMutation, { data, loading, error }] = useUpdateContentTypeContactUsMutation({
+ * const [updateContactUsSubServiceByIdMutation, { data, loading, error }] = useUpdateContactUsSubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeContactUsMutation(
+export function useUpdateContactUsSubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeContactUsMutation,
-    UpdateContentTypeContactUsMutationVariables
+    UpdateContactUsSubServiceByIdMutation,
+    UpdateContactUsSubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeContactUsMutation,
-    UpdateContentTypeContactUsMutationVariables
-  >(UpdateContentTypeContactUsDocument, options);
+    UpdateContactUsSubServiceByIdMutation,
+    UpdateContactUsSubServiceByIdMutationVariables
+  >(UpdateContactUsSubServiceByIdDocument, options);
 }
-export type UpdateContentTypeContactUsMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeContactUsMutation
+export type UpdateContactUsSubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateContactUsSubServiceByIdMutation
 >;
-export type UpdateContentTypeContactUsMutationResult =
-  Apollo.MutationResult<UpdateContentTypeContactUsMutation>;
-export type UpdateContentTypeContactUsMutationOptions =
+export type UpdateContactUsSubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateContactUsSubServiceByIdMutation>;
+export type UpdateContactUsSubServiceByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateContentTypeContactUsMutation,
-    UpdateContentTypeContactUsMutationVariables
+    UpdateContactUsSubServiceByIdMutation,
+    UpdateContactUsSubServiceByIdMutationVariables
   >;
-export const UpdateContentTypeCguDocument = gql`
-  mutation updateContentTypeCGU(
+export const UpdateCguSubServiceByIdDocument = gql`
+  mutation updateCguSubServiceById(
     $updateSubServiceId: ID!
     $data: CguSubServiceInput!
   ) {
@@ -23246,52 +23177,52 @@ export const UpdateContentTypeCguDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeCguMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeCguMutation,
-  UpdateContentTypeCguMutationVariables
+export type UpdateCguSubServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateCguSubServiceByIdMutation,
+  UpdateCguSubServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeCguMutation__
+ * __useUpdateCguSubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeCguMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeCguMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateCguSubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCguSubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeCguMutation, { data, loading, error }] = useUpdateContentTypeCguMutation({
+ * const [updateCguSubServiceByIdMutation, { data, loading, error }] = useUpdateCguSubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeCguMutation(
+export function useUpdateCguSubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeCguMutation,
-    UpdateContentTypeCguMutationVariables
+    UpdateCguSubServiceByIdMutation,
+    UpdateCguSubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeCguMutation,
-    UpdateContentTypeCguMutationVariables
-  >(UpdateContentTypeCguDocument, options);
+    UpdateCguSubServiceByIdMutation,
+    UpdateCguSubServiceByIdMutationVariables
+  >(UpdateCguSubServiceByIdDocument, options);
 }
-export type UpdateContentTypeCguMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeCguMutation
+export type UpdateCguSubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateCguSubServiceByIdMutation
 >;
-export type UpdateContentTypeCguMutationResult =
-  Apollo.MutationResult<UpdateContentTypeCguMutation>;
-export type UpdateContentTypeCguMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContentTypeCguMutation,
-  UpdateContentTypeCguMutationVariables
+export type UpdateCguSubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateCguSubServiceByIdMutation>;
+export type UpdateCguSubServiceByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCguSubServiceByIdMutation,
+  UpdateCguSubServiceByIdMutationVariables
 >;
-export const UpdateContentTypeConfidentialityDocument = gql`
-  mutation updateContentTypeConfidentiality(
+export const UpdateConfidentialitySubServiceByIdDocument = gql`
+  mutation updateConfidentialitySubServiceById(
     $updateSubServiceId: ID!
     $data: ConfidentialitySubServiceInput!
   ) {
@@ -23306,54 +23237,54 @@ export const UpdateContentTypeConfidentialityDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeConfidentialityMutationFn =
+export type UpdateConfidentialitySubServiceByIdMutationFn =
   Apollo.MutationFunction<
-    UpdateContentTypeConfidentialityMutation,
-    UpdateContentTypeConfidentialityMutationVariables
+    UpdateConfidentialitySubServiceByIdMutation,
+    UpdateConfidentialitySubServiceByIdMutationVariables
   >;
 
 /**
- * __useUpdateContentTypeConfidentialityMutation__
+ * __useUpdateConfidentialitySubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeConfidentialityMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeConfidentialityMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateConfidentialitySubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateConfidentialitySubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeConfidentialityMutation, { data, loading, error }] = useUpdateContentTypeConfidentialityMutation({
+ * const [updateConfidentialitySubServiceByIdMutation, { data, loading, error }] = useUpdateConfidentialitySubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeConfidentialityMutation(
+export function useUpdateConfidentialitySubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeConfidentialityMutation,
-    UpdateContentTypeConfidentialityMutationVariables
+    UpdateConfidentialitySubServiceByIdMutation,
+    UpdateConfidentialitySubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeConfidentialityMutation,
-    UpdateContentTypeConfidentialityMutationVariables
-  >(UpdateContentTypeConfidentialityDocument, options);
+    UpdateConfidentialitySubServiceByIdMutation,
+    UpdateConfidentialitySubServiceByIdMutationVariables
+  >(UpdateConfidentialitySubServiceByIdDocument, options);
 }
-export type UpdateContentTypeConfidentialityMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeConfidentialityMutation
+export type UpdateConfidentialitySubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateConfidentialitySubServiceByIdMutation
 >;
-export type UpdateContentTypeConfidentialityMutationResult =
-  Apollo.MutationResult<UpdateContentTypeConfidentialityMutation>;
-export type UpdateContentTypeConfidentialityMutationOptions =
+export type UpdateConfidentialitySubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateConfidentialitySubServiceByIdMutation>;
+export type UpdateConfidentialitySubServiceByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateContentTypeConfidentialityMutation,
-    UpdateContentTypeConfidentialityMutationVariables
+    UpdateConfidentialitySubServiceByIdMutation,
+    UpdateConfidentialitySubServiceByIdMutationVariables
   >;
-export const UpdateContentTypeNewsDocument = gql`
-  mutation updateContentTypeNews(
+export const UpdateNewsSubServiceByIdDocument = gql`
+  mutation updateNewsSubServiceById(
     $updateSubServiceId: ID!
     $data: NewsSubServiceInput!
   ) {
@@ -23368,52 +23299,53 @@ export const UpdateContentTypeNewsDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeNewsMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeNewsMutation,
-  UpdateContentTypeNewsMutationVariables
+export type UpdateNewsSubServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateNewsSubServiceByIdMutation,
+  UpdateNewsSubServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeNewsMutation__
+ * __useUpdateNewsSubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeNewsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeNewsMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateNewsSubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateNewsSubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeNewsMutation, { data, loading, error }] = useUpdateContentTypeNewsMutation({
+ * const [updateNewsSubServiceByIdMutation, { data, loading, error }] = useUpdateNewsSubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeNewsMutation(
+export function useUpdateNewsSubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeNewsMutation,
-    UpdateContentTypeNewsMutationVariables
+    UpdateNewsSubServiceByIdMutation,
+    UpdateNewsSubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeNewsMutation,
-    UpdateContentTypeNewsMutationVariables
-  >(UpdateContentTypeNewsDocument, options);
+    UpdateNewsSubServiceByIdMutation,
+    UpdateNewsSubServiceByIdMutationVariables
+  >(UpdateNewsSubServiceByIdDocument, options);
 }
-export type UpdateContentTypeNewsMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeNewsMutation
+export type UpdateNewsSubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateNewsSubServiceByIdMutation
 >;
-export type UpdateContentTypeNewsMutationResult =
-  Apollo.MutationResult<UpdateContentTypeNewsMutation>;
-export type UpdateContentTypeNewsMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContentTypeNewsMutation,
-  UpdateContentTypeNewsMutationVariables
->;
-export const UpdateContentTypeTipDocument = gql`
-  mutation updateContentTypeTip(
+export type UpdateNewsSubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateNewsSubServiceByIdMutation>;
+export type UpdateNewsSubServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateNewsSubServiceByIdMutation,
+    UpdateNewsSubServiceByIdMutationVariables
+  >;
+export const UpdateTipSubServiceByIdDocument = gql`
+  mutation updateTipSubServiceById(
     $updateSubServiceId: ID!
     $data: TipSubServiceInput!
   ) {
@@ -23428,52 +23360,52 @@ export const UpdateContentTypeTipDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeTipMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeTipMutation,
-  UpdateContentTypeTipMutationVariables
+export type UpdateTipSubServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateTipSubServiceByIdMutation,
+  UpdateTipSubServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeTipMutation__
+ * __useUpdateTipSubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeTipMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeTipMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateTipSubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTipSubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeTipMutation, { data, loading, error }] = useUpdateContentTypeTipMutation({
+ * const [updateTipSubServiceByIdMutation, { data, loading, error }] = useUpdateTipSubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeTipMutation(
+export function useUpdateTipSubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeTipMutation,
-    UpdateContentTypeTipMutationVariables
+    UpdateTipSubServiceByIdMutation,
+    UpdateTipSubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeTipMutation,
-    UpdateContentTypeTipMutationVariables
-  >(UpdateContentTypeTipDocument, options);
+    UpdateTipSubServiceByIdMutation,
+    UpdateTipSubServiceByIdMutationVariables
+  >(UpdateTipSubServiceByIdDocument, options);
 }
-export type UpdateContentTypeTipMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeTipMutation
+export type UpdateTipSubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateTipSubServiceByIdMutation
 >;
-export type UpdateContentTypeTipMutationResult =
-  Apollo.MutationResult<UpdateContentTypeTipMutation>;
-export type UpdateContentTypeTipMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContentTypeTipMutation,
-  UpdateContentTypeTipMutationVariables
+export type UpdateTipSubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateTipSubServiceByIdMutation>;
+export type UpdateTipSubServiceByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTipSubServiceByIdMutation,
+  UpdateTipSubServiceByIdMutationVariables
 >;
-export const UpdateContentTypeQuizDocument = gql`
-  mutation updateContentTypeQuiz(
+export const UpdateQuizSubServiceByIdDocument = gql`
+  mutation updateQuizSubServiceById(
     $updateSubServiceId: ID!
     $data: QuizSubServiceInput!
   ) {
@@ -23488,52 +23420,53 @@ export const UpdateContentTypeQuizDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeQuizMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeQuizMutation,
-  UpdateContentTypeQuizMutationVariables
+export type UpdateQuizSubServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateQuizSubServiceByIdMutation,
+  UpdateQuizSubServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeQuizMutation__
+ * __useUpdateQuizSubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeQuizMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeQuizMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateQuizSubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateQuizSubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeQuizMutation, { data, loading, error }] = useUpdateContentTypeQuizMutation({
+ * const [updateQuizSubServiceByIdMutation, { data, loading, error }] = useUpdateQuizSubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeQuizMutation(
+export function useUpdateQuizSubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeQuizMutation,
-    UpdateContentTypeQuizMutationVariables
+    UpdateQuizSubServiceByIdMutation,
+    UpdateQuizSubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeQuizMutation,
-    UpdateContentTypeQuizMutationVariables
-  >(UpdateContentTypeQuizDocument, options);
+    UpdateQuizSubServiceByIdMutation,
+    UpdateQuizSubServiceByIdMutationVariables
+  >(UpdateQuizSubServiceByIdDocument, options);
 }
-export type UpdateContentTypeQuizMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeQuizMutation
+export type UpdateQuizSubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateQuizSubServiceByIdMutation
 >;
-export type UpdateContentTypeQuizMutationResult =
-  Apollo.MutationResult<UpdateContentTypeQuizMutation>;
-export type UpdateContentTypeQuizMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContentTypeQuizMutation,
-  UpdateContentTypeQuizMutationVariables
->;
-export const UpdateContentTypeEventDocument = gql`
-  mutation updateContentTypeEvent(
+export type UpdateQuizSubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateQuizSubServiceByIdMutation>;
+export type UpdateQuizSubServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateQuizSubServiceByIdMutation,
+    UpdateQuizSubServiceByIdMutationVariables
+  >;
+export const UpdateEventSubServiceByIdDocument = gql`
+  mutation updateEventSubServiceById(
     $updateSubServiceId: ID!
     $data: EventSubServiceInput!
   ) {
@@ -23548,52 +23481,53 @@ export const UpdateContentTypeEventDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeEventMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeEventMutation,
-  UpdateContentTypeEventMutationVariables
+export type UpdateEventSubServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateEventSubServiceByIdMutation,
+  UpdateEventSubServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeEventMutation__
+ * __useUpdateEventSubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeEventMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeEventMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateEventSubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventSubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeEventMutation, { data, loading, error }] = useUpdateContentTypeEventMutation({
+ * const [updateEventSubServiceByIdMutation, { data, loading, error }] = useUpdateEventSubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeEventMutation(
+export function useUpdateEventSubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeEventMutation,
-    UpdateContentTypeEventMutationVariables
+    UpdateEventSubServiceByIdMutation,
+    UpdateEventSubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeEventMutation,
-    UpdateContentTypeEventMutationVariables
-  >(UpdateContentTypeEventDocument, options);
+    UpdateEventSubServiceByIdMutation,
+    UpdateEventSubServiceByIdMutationVariables
+  >(UpdateEventSubServiceByIdDocument, options);
 }
-export type UpdateContentTypeEventMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeEventMutation
+export type UpdateEventSubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateEventSubServiceByIdMutation
 >;
-export type UpdateContentTypeEventMutationResult =
-  Apollo.MutationResult<UpdateContentTypeEventMutation>;
-export type UpdateContentTypeEventMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContentTypeEventMutation,
-  UpdateContentTypeEventMutationVariables
->;
-export const UpdateContentTypeFreeContentDocument = gql`
-  mutation updateContentTypeFreeContent(
+export type UpdateEventSubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateEventSubServiceByIdMutation>;
+export type UpdateEventSubServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateEventSubServiceByIdMutation,
+    UpdateEventSubServiceByIdMutationVariables
+  >;
+export const UpdateFreeContentSubServiceByIdDocument = gql`
+  mutation updateFreeContentSubServiceById(
     $updateSubServiceId: ID!
     $data: FreeContentSubServiceInput!
   ) {
@@ -23608,55 +23542,53 @@ export const UpdateContentTypeFreeContentDocument = gql`
     }
   }
 `;
-export type UpdateContentTypeFreeContentMutationFn = Apollo.MutationFunction<
-  UpdateContentTypeFreeContentMutation,
-  UpdateContentTypeFreeContentMutationVariables
+export type UpdateFreeContentSubServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateFreeContentSubServiceByIdMutation,
+  UpdateFreeContentSubServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateContentTypeFreeContentMutation__
+ * __useUpdateFreeContentSubServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateContentTypeFreeContentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContentTypeFreeContentMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateFreeContentSubServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFreeContentSubServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContentTypeFreeContentMutation, { data, loading, error }] = useUpdateContentTypeFreeContentMutation({
+ * const [updateFreeContentSubServiceByIdMutation, { data, loading, error }] = useUpdateFreeContentSubServiceByIdMutation({
  *   variables: {
  *      updateSubServiceId: // value for 'updateSubServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateContentTypeFreeContentMutation(
+export function useUpdateFreeContentSubServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateContentTypeFreeContentMutation,
-    UpdateContentTypeFreeContentMutationVariables
+    UpdateFreeContentSubServiceByIdMutation,
+    UpdateFreeContentSubServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateContentTypeFreeContentMutation,
-    UpdateContentTypeFreeContentMutationVariables
-  >(UpdateContentTypeFreeContentDocument, options);
+    UpdateFreeContentSubServiceByIdMutation,
+    UpdateFreeContentSubServiceByIdMutationVariables
+  >(UpdateFreeContentSubServiceByIdDocument, options);
 }
-export type UpdateContentTypeFreeContentMutationHookResult = ReturnType<
-  typeof useUpdateContentTypeFreeContentMutation
+export type UpdateFreeContentSubServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateFreeContentSubServiceByIdMutation
 >;
-export type UpdateContentTypeFreeContentMutationResult =
-  Apollo.MutationResult<UpdateContentTypeFreeContentMutation>;
-export type UpdateContentTypeFreeContentMutationOptions =
+export type UpdateFreeContentSubServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateFreeContentSubServiceByIdMutation>;
+export type UpdateFreeContentSubServiceByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateContentTypeFreeContentMutation,
-    UpdateContentTypeFreeContentMutationVariables
+    UpdateFreeContentSubServiceByIdMutation,
+    UpdateFreeContentSubServiceByIdMutationVariables
   >;
-export const GetCollectionMethodsByContractIdDocument = gql`
-  query getCollectionMethodsByContractId(
-    $filters: CollectDoorToDoorFiltersInput
-  ) {
+export const GetCollectionMethodsDocument = gql`
+  query getCollectionMethods($filters: CollectDoorToDoorFiltersInput) {
     collectDoorToDoors(filters: $filters) {
       data {
         id
@@ -23685,57 +23617,57 @@ export const GetCollectionMethodsByContractIdDocument = gql`
 `;
 
 /**
- * __useGetCollectionMethodsByContractIdQuery__
+ * __useGetCollectionMethodsQuery__
  *
- * To run a query within a React component, call `useGetCollectionMethodsByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCollectionMethodsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCollectionMethodsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCollectionMethodsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCollectionMethodsByContractIdQuery({
+ * const { data, loading, error } = useGetCollectionMethodsQuery({
  *   variables: {
  *      filters: // value for 'filters'
  *   },
  * });
  */
-export function useGetCollectionMethodsByContractIdQuery(
+export function useGetCollectionMethodsQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetCollectionMethodsByContractIdQuery,
-    GetCollectionMethodsByContractIdQueryVariables
+    GetCollectionMethodsQuery,
+    GetCollectionMethodsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetCollectionMethodsByContractIdQuery,
-    GetCollectionMethodsByContractIdQueryVariables
-  >(GetCollectionMethodsByContractIdDocument, options);
+    GetCollectionMethodsQuery,
+    GetCollectionMethodsQueryVariables
+  >(GetCollectionMethodsDocument, options);
 }
-export function useGetCollectionMethodsByContractIdLazyQuery(
+export function useGetCollectionMethodsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCollectionMethodsByContractIdQuery,
-    GetCollectionMethodsByContractIdQueryVariables
+    GetCollectionMethodsQuery,
+    GetCollectionMethodsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetCollectionMethodsByContractIdQuery,
-    GetCollectionMethodsByContractIdQueryVariables
-  >(GetCollectionMethodsByContractIdDocument, options);
+    GetCollectionMethodsQuery,
+    GetCollectionMethodsQueryVariables
+  >(GetCollectionMethodsDocument, options);
 }
-export type GetCollectionMethodsByContractIdQueryHookResult = ReturnType<
-  typeof useGetCollectionMethodsByContractIdQuery
+export type GetCollectionMethodsQueryHookResult = ReturnType<
+  typeof useGetCollectionMethodsQuery
 >;
-export type GetCollectionMethodsByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetCollectionMethodsByContractIdLazyQuery
+export type GetCollectionMethodsLazyQueryHookResult = ReturnType<
+  typeof useGetCollectionMethodsLazyQuery
 >;
-export type GetCollectionMethodsByContractIdQueryResult = Apollo.QueryResult<
-  GetCollectionMethodsByContractIdQuery,
-  GetCollectionMethodsByContractIdQueryVariables
+export type GetCollectionMethodsQueryResult = Apollo.QueryResult<
+  GetCollectionMethodsQuery,
+  GetCollectionMethodsQueryVariables
 >;
-export const GetColorsDocument = gql`
-  query getColors($filters: FlowColorFiltersInput) {
+export const GetFlowColorsDocument = gql`
+  query getFlowColors($filters: FlowColorFiltersInput) {
     flowColors(filters: $filters) {
       data {
         id
@@ -23750,55 +23682,57 @@ export const GetColorsDocument = gql`
 `;
 
 /**
- * __useGetColorsQuery__
+ * __useGetFlowColorsQuery__
  *
- * To run a query within a React component, call `useGetColorsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetColorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetFlowColorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFlowColorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetColorsQuery({
+ * const { data, loading, error } = useGetFlowColorsQuery({
  *   variables: {
  *      filters: // value for 'filters'
  *   },
  * });
  */
-export function useGetColorsQuery(
+export function useGetFlowColorsQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetColorsQuery,
-    GetColorsQueryVariables
+    GetFlowColorsQuery,
+    GetFlowColorsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetColorsQuery, GetColorsQueryVariables>(
-    GetColorsDocument,
+  return Apollo.useQuery<GetFlowColorsQuery, GetFlowColorsQueryVariables>(
+    GetFlowColorsDocument,
     options,
   );
 }
-export function useGetColorsLazyQuery(
+export function useGetFlowColorsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetColorsQuery,
-    GetColorsQueryVariables
+    GetFlowColorsQuery,
+    GetFlowColorsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetColorsQuery, GetColorsQueryVariables>(
-    GetColorsDocument,
+  return Apollo.useLazyQuery<GetFlowColorsQuery, GetFlowColorsQueryVariables>(
+    GetFlowColorsDocument,
     options,
   );
 }
-export type GetColorsQueryHookResult = ReturnType<typeof useGetColorsQuery>;
-export type GetColorsLazyQueryHookResult = ReturnType<
-  typeof useGetColorsLazyQuery
+export type GetFlowColorsQueryHookResult = ReturnType<
+  typeof useGetFlowColorsQuery
 >;
-export type GetColorsQueryResult = Apollo.QueryResult<
-  GetColorsQuery,
-  GetColorsQueryVariables
+export type GetFlowColorsLazyQueryHookResult = ReturnType<
+  typeof useGetFlowColorsLazyQuery
 >;
-export const GetFlowsByContractIdDocument = gql`
-  query getFlowsByContractId($filters: FlowFiltersInput) {
+export type GetFlowColorsQueryResult = Apollo.QueryResult<
+  GetFlowColorsQuery,
+  GetFlowColorsQueryVariables
+>;
+export const GetFlowsDocument = gql`
+  query getFlows($filters: FlowFiltersInput) {
     flows(filters: $filters) {
       data {
         id
@@ -23856,57 +23790,52 @@ export const GetFlowsByContractIdDocument = gql`
 `;
 
 /**
- * __useGetFlowsByContractIdQuery__
+ * __useGetFlowsQuery__
  *
- * To run a query within a React component, call `useGetFlowsByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFlowsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetFlowsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFlowsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFlowsByContractIdQuery({
+ * const { data, loading, error } = useGetFlowsQuery({
  *   variables: {
  *      filters: // value for 'filters'
  *   },
  * });
  */
-export function useGetFlowsByContractIdQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetFlowsByContractIdQuery,
-    GetFlowsByContractIdQueryVariables
-  >,
+export function useGetFlowsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetFlowsQuery, GetFlowsQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetFlowsByContractIdQuery,
-    GetFlowsByContractIdQueryVariables
-  >(GetFlowsByContractIdDocument, options);
+  return Apollo.useQuery<GetFlowsQuery, GetFlowsQueryVariables>(
+    GetFlowsDocument,
+    options,
+  );
 }
-export function useGetFlowsByContractIdLazyQuery(
+export function useGetFlowsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFlowsByContractIdQuery,
-    GetFlowsByContractIdQueryVariables
+    GetFlowsQuery,
+    GetFlowsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetFlowsByContractIdQuery,
-    GetFlowsByContractIdQueryVariables
-  >(GetFlowsByContractIdDocument, options);
+  return Apollo.useLazyQuery<GetFlowsQuery, GetFlowsQueryVariables>(
+    GetFlowsDocument,
+    options,
+  );
 }
-export type GetFlowsByContractIdQueryHookResult = ReturnType<
-  typeof useGetFlowsByContractIdQuery
+export type GetFlowsQueryHookResult = ReturnType<typeof useGetFlowsQuery>;
+export type GetFlowsLazyQueryHookResult = ReturnType<
+  typeof useGetFlowsLazyQuery
 >;
-export type GetFlowsByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetFlowsByContractIdLazyQuery
+export type GetFlowsQueryResult = Apollo.QueryResult<
+  GetFlowsQuery,
+  GetFlowsQueryVariables
 >;
-export type GetFlowsByContractIdQueryResult = Apollo.QueryResult<
-  GetFlowsByContractIdQuery,
-  GetFlowsByContractIdQueryVariables
->;
-export const UpdateFlowDocument = gql`
-  mutation updateFlow($updateFlowId: ID!, $data: FlowInput!) {
+export const UpdateFlowByIdDocument = gql`
+  mutation updateFlowById($updateFlowId: ID!, $data: FlowInput!) {
     updateFlow(id: $updateFlowId, data: $data) {
       data {
         id
@@ -23953,52 +23882,169 @@ export const UpdateFlowDocument = gql`
     }
   }
 `;
-export type UpdateFlowMutationFn = Apollo.MutationFunction<
-  UpdateFlowMutation,
-  UpdateFlowMutationVariables
+export type UpdateFlowByIdMutationFn = Apollo.MutationFunction<
+  UpdateFlowByIdMutation,
+  UpdateFlowByIdMutationVariables
 >;
 
 /**
- * __useUpdateFlowMutation__
+ * __useUpdateFlowByIdMutation__
  *
- * To run a mutation, you first call `useUpdateFlowMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateFlowMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateFlowByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFlowByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateFlowMutation, { data, loading, error }] = useUpdateFlowMutation({
+ * const [updateFlowByIdMutation, { data, loading, error }] = useUpdateFlowByIdMutation({
  *   variables: {
  *      updateFlowId: // value for 'updateFlowId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateFlowMutation(
+export function useUpdateFlowByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateFlowMutation,
-    UpdateFlowMutationVariables
+    UpdateFlowByIdMutation,
+    UpdateFlowByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateFlowMutation, UpdateFlowMutationVariables>(
-    UpdateFlowDocument,
-    options,
-  );
+  return Apollo.useMutation<
+    UpdateFlowByIdMutation,
+    UpdateFlowByIdMutationVariables
+  >(UpdateFlowByIdDocument, options);
 }
-export type UpdateFlowMutationHookResult = ReturnType<
-  typeof useUpdateFlowMutation
+export type UpdateFlowByIdMutationHookResult = ReturnType<
+  typeof useUpdateFlowByIdMutation
 >;
-export type UpdateFlowMutationResult =
-  Apollo.MutationResult<UpdateFlowMutation>;
-export type UpdateFlowMutationOptions = Apollo.BaseMutationOptions<
-  UpdateFlowMutation,
-  UpdateFlowMutationVariables
+export type UpdateFlowByIdMutationResult =
+  Apollo.MutationResult<UpdateFlowByIdMutation>;
+export type UpdateFlowByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateFlowByIdMutation,
+  UpdateFlowByIdMutationVariables
 >;
-export const GetBanAddressesAutoCompleteDocument = gql`
-  query getBanAddressesAutoComplete($searchTerm: String!) {
+export const GetActiveServicesByContractIdDocument = gql`
+  query getActiveServicesByContractId($contractId: ID!) {
+    editorialServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          eventSubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          newsSubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          quizSubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          tipSubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          freeContentSubServices {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+          contactUsSubService {
+            data {
+              attributes {
+                isActivated
+              }
+            }
+          }
+        }
+      }
+    }
+    recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          isActivated
+        }
+      }
+    }
+    requestServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        attributes {
+          isActivated
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetActiveServicesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetActiveServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActiveServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetActiveServicesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetActiveServicesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetActiveServicesByContractIdQuery,
+    GetActiveServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetActiveServicesByContractIdQuery,
+    GetActiveServicesByContractIdQueryVariables
+  >(GetActiveServicesByContractIdDocument, options);
+}
+export function useGetActiveServicesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetActiveServicesByContractIdQuery,
+    GetActiveServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetActiveServicesByContractIdQuery,
+    GetActiveServicesByContractIdQueryVariables
+  >(GetActiveServicesByContractIdDocument, options);
+}
+export type GetActiveServicesByContractIdQueryHookResult = ReturnType<
+  typeof useGetActiveServicesByContractIdQuery
+>;
+export type GetActiveServicesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetActiveServicesByContractIdLazyQuery
+>;
+export type GetActiveServicesByContractIdQueryResult = Apollo.QueryResult<
+  GetActiveServicesByContractIdQuery,
+  GetActiveServicesByContractIdQueryVariables
+>;
+export const GetAddressCoordinatesDocument = gql`
+  query getAddressCoordinates($searchTerm: String!) {
     getAddressCoordinates(searchTerm: $searchTerm) {
       name
       latitude
@@ -24009,54 +24055,54 @@ export const GetBanAddressesAutoCompleteDocument = gql`
 `;
 
 /**
- * __useGetBanAddressesAutoCompleteQuery__
+ * __useGetAddressCoordinatesQuery__
  *
- * To run a query within a React component, call `useGetBanAddressesAutoCompleteQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBanAddressesAutoCompleteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAddressCoordinatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAddressCoordinatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetBanAddressesAutoCompleteQuery({
+ * const { data, loading, error } = useGetAddressCoordinatesQuery({
  *   variables: {
  *      searchTerm: // value for 'searchTerm'
  *   },
  * });
  */
-export function useGetBanAddressesAutoCompleteQuery(
+export function useGetAddressCoordinatesQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetBanAddressesAutoCompleteQuery,
-    GetBanAddressesAutoCompleteQueryVariables
+    GetAddressCoordinatesQuery,
+    GetAddressCoordinatesQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetBanAddressesAutoCompleteQuery,
-    GetBanAddressesAutoCompleteQueryVariables
-  >(GetBanAddressesAutoCompleteDocument, options);
+    GetAddressCoordinatesQuery,
+    GetAddressCoordinatesQueryVariables
+  >(GetAddressCoordinatesDocument, options);
 }
-export function useGetBanAddressesAutoCompleteLazyQuery(
+export function useGetAddressCoordinatesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetBanAddressesAutoCompleteQuery,
-    GetBanAddressesAutoCompleteQueryVariables
+    GetAddressCoordinatesQuery,
+    GetAddressCoordinatesQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetBanAddressesAutoCompleteQuery,
-    GetBanAddressesAutoCompleteQueryVariables
-  >(GetBanAddressesAutoCompleteDocument, options);
+    GetAddressCoordinatesQuery,
+    GetAddressCoordinatesQueryVariables
+  >(GetAddressCoordinatesDocument, options);
 }
-export type GetBanAddressesAutoCompleteQueryHookResult = ReturnType<
-  typeof useGetBanAddressesAutoCompleteQuery
+export type GetAddressCoordinatesQueryHookResult = ReturnType<
+  typeof useGetAddressCoordinatesQuery
 >;
-export type GetBanAddressesAutoCompleteLazyQueryHookResult = ReturnType<
-  typeof useGetBanAddressesAutoCompleteLazyQuery
+export type GetAddressCoordinatesLazyQueryHookResult = ReturnType<
+  typeof useGetAddressCoordinatesLazyQuery
 >;
-export type GetBanAddressesAutoCompleteQueryResult = Apollo.QueryResult<
-  GetBanAddressesAutoCompleteQuery,
-  GetBanAddressesAutoCompleteQueryVariables
+export type GetAddressCoordinatesQueryResult = Apollo.QueryResult<
+  GetAddressCoordinatesQuery,
+  GetAddressCoordinatesQueryVariables
 >;
 export const GetContractByIdDocument = gql`
   query getContractById($contractId: ID!) {
@@ -24363,123 +24409,6 @@ export type GetContractsLazyQueryHookResult = ReturnType<
 export type GetContractsQueryResult = Apollo.QueryResult<
   GetContractsQuery,
   GetContractsQueryVariables
->;
-export const GetServicesActiveDocument = gql`
-  query getServicesActive($contractId: ID!) {
-    editorialServices(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        attributes {
-          eventSubService {
-            data {
-              attributes {
-                isActivated
-              }
-            }
-          }
-          newsSubService {
-            data {
-              attributes {
-                isActivated
-              }
-            }
-          }
-          quizSubService {
-            data {
-              attributes {
-                isActivated
-              }
-            }
-          }
-          tipSubService {
-            data {
-              attributes {
-                isActivated
-              }
-            }
-          }
-          freeContentSubServices {
-            data {
-              attributes {
-                isActivated
-              }
-            }
-          }
-          contactUsSubService {
-            data {
-              attributes {
-                isActivated
-              }
-            }
-          }
-        }
-      }
-    }
-    recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        attributes {
-          isActivated
-        }
-      }
-    }
-    requestServices(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        attributes {
-          isActivated
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetServicesActiveQuery__
- *
- * To run a query within a React component, call `useGetServicesActiveQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetServicesActiveQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetServicesActiveQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetServicesActiveQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetServicesActiveQuery,
-    GetServicesActiveQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetServicesActiveQuery,
-    GetServicesActiveQueryVariables
-  >(GetServicesActiveDocument, options);
-}
-export function useGetServicesActiveLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetServicesActiveQuery,
-    GetServicesActiveQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetServicesActiveQuery,
-    GetServicesActiveQueryVariables
-  >(GetServicesActiveDocument, options);
-}
-export type GetServicesActiveQueryHookResult = ReturnType<
-  typeof useGetServicesActiveQuery
->;
-export type GetServicesActiveLazyQueryHookResult = ReturnType<
-  typeof useGetServicesActiveLazyQuery
->;
-export type GetServicesActiveQueryResult = Apollo.QueryResult<
-  GetServicesActiveQuery,
-  GetServicesActiveQueryVariables
 >;
 export const CreateMwcFlowDocument = gql`
   mutation createMwcFlow($data: MwcFlowInput!) {
@@ -25508,8 +25437,8 @@ export type UpdateMwcHasTipsMutationOptions = Apollo.BaseMutationOptions<
   UpdateMwcHasTipsMutation,
   UpdateMwcHasTipsMutationVariables
 >;
-export const GetEditoBlockTabDocument = gql`
-  query getEditoBlockTab(
+export const GetEditoBlockTabByContractIdAndAudienceIdDocument = gql`
+  query getEditoBlockTabByContractIdAndAudienceId(
     $contractId: ID!
     $status: ENUM_EDITOCONTENTDTO_STATUS
     $audienceId: ID!
@@ -25550,16 +25479,16 @@ export const GetEditoBlockTabDocument = gql`
 `;
 
 /**
- * __useGetEditoBlockTabQuery__
+ * __useGetEditoBlockTabByContractIdAndAudienceIdQuery__
  *
- * To run a query within a React component, call `useGetEditoBlockTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetEditoBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetEditoBlockTabByContractIdAndAudienceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEditoBlockTabByContractIdAndAudienceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetEditoBlockTabQuery({
+ * const { data, loading, error } = useGetEditoBlockTabByContractIdAndAudienceIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      status: // value for 'status'
@@ -25567,42 +25496,41 @@ export const GetEditoBlockTabDocument = gql`
  *   },
  * });
  */
-export function useGetEditoBlockTabQuery(
+export function useGetEditoBlockTabByContractIdAndAudienceIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetEditoBlockTabQuery,
-    GetEditoBlockTabQueryVariables
+    GetEditoBlockTabByContractIdAndAudienceIdQuery,
+    GetEditoBlockTabByContractIdAndAudienceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetEditoBlockTabQuery, GetEditoBlockTabQueryVariables>(
-    GetEditoBlockTabDocument,
-    options,
-  );
+  return Apollo.useQuery<
+    GetEditoBlockTabByContractIdAndAudienceIdQuery,
+    GetEditoBlockTabByContractIdAndAudienceIdQueryVariables
+  >(GetEditoBlockTabByContractIdAndAudienceIdDocument, options);
 }
-export function useGetEditoBlockTabLazyQuery(
+export function useGetEditoBlockTabByContractIdAndAudienceIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEditoBlockTabQuery,
-    GetEditoBlockTabQueryVariables
+    GetEditoBlockTabByContractIdAndAudienceIdQuery,
+    GetEditoBlockTabByContractIdAndAudienceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetEditoBlockTabQuery,
-    GetEditoBlockTabQueryVariables
-  >(GetEditoBlockTabDocument, options);
+    GetEditoBlockTabByContractIdAndAudienceIdQuery,
+    GetEditoBlockTabByContractIdAndAudienceIdQueryVariables
+  >(GetEditoBlockTabByContractIdAndAudienceIdDocument, options);
 }
-export type GetEditoBlockTabQueryHookResult = ReturnType<
-  typeof useGetEditoBlockTabQuery
->;
-export type GetEditoBlockTabLazyQueryHookResult = ReturnType<
-  typeof useGetEditoBlockTabLazyQuery
->;
-export type GetEditoBlockTabQueryResult = Apollo.QueryResult<
-  GetEditoBlockTabQuery,
-  GetEditoBlockTabQueryVariables
->;
-export const GetQuizAndTipsBlockTabDocument = gql`
-  query getQuizAndTipsBlockTab(
+export type GetEditoBlockTabByContractIdAndAudienceIdQueryHookResult =
+  ReturnType<typeof useGetEditoBlockTabByContractIdAndAudienceIdQuery>;
+export type GetEditoBlockTabByContractIdAndAudienceIdLazyQueryHookResult =
+  ReturnType<typeof useGetEditoBlockTabByContractIdAndAudienceIdLazyQuery>;
+export type GetEditoBlockTabByContractIdAndAudienceIdQueryResult =
+  Apollo.QueryResult<
+    GetEditoBlockTabByContractIdAndAudienceIdQuery,
+    GetEditoBlockTabByContractIdAndAudienceIdQueryVariables
+  >;
+export const GetQuizAndTipsBlockTabByContractIdAndAudienceIdDocument = gql`
+  query getQuizAndTipsBlockTabByContractIdAndAudienceId(
     $contractId: ID!
     $status: String!
     $audienceId: ID!
@@ -25728,16 +25656,16 @@ export const GetQuizAndTipsBlockTabDocument = gql`
 `;
 
 /**
- * __useGetQuizAndTipsBlockTabQuery__
+ * __useGetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery__
  *
- * To run a query within a React component, call `useGetQuizAndTipsBlockTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetQuizAndTipsBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetQuizAndTipsBlockTabQuery({
+ * const { data, loading, error } = useGetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      status: // value for 'status'
@@ -25745,42 +25673,43 @@ export const GetQuizAndTipsBlockTabDocument = gql`
  *   },
  * });
  */
-export function useGetQuizAndTipsBlockTabQuery(
+export function useGetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetQuizAndTipsBlockTabQuery,
-    GetQuizAndTipsBlockTabQueryVariables
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetQuizAndTipsBlockTabQuery,
-    GetQuizAndTipsBlockTabQueryVariables
-  >(GetQuizAndTipsBlockTabDocument, options);
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQueryVariables
+  >(GetQuizAndTipsBlockTabByContractIdAndAudienceIdDocument, options);
 }
-export function useGetQuizAndTipsBlockTabLazyQuery(
+export function useGetQuizAndTipsBlockTabByContractIdAndAudienceIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetQuizAndTipsBlockTabQuery,
-    GetQuizAndTipsBlockTabQueryVariables
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetQuizAndTipsBlockTabQuery,
-    GetQuizAndTipsBlockTabQueryVariables
-  >(GetQuizAndTipsBlockTabDocument, options);
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQueryVariables
+  >(GetQuizAndTipsBlockTabByContractIdAndAudienceIdDocument, options);
 }
-export type GetQuizAndTipsBlockTabQueryHookResult = ReturnType<
-  typeof useGetQuizAndTipsBlockTabQuery
->;
-export type GetQuizAndTipsBlockTabLazyQueryHookResult = ReturnType<
-  typeof useGetQuizAndTipsBlockTabLazyQuery
->;
-export type GetQuizAndTipsBlockTabQueryResult = Apollo.QueryResult<
-  GetQuizAndTipsBlockTabQuery,
-  GetQuizAndTipsBlockTabQueryVariables
->;
-export const GetRecyclingGuideBlockTabDocument = gql`
-  query getRecyclingGuideBlockTab($contractId: ID!) {
+export type GetQuizAndTipsBlockTabByContractIdAndAudienceIdQueryHookResult =
+  ReturnType<typeof useGetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery>;
+export type GetQuizAndTipsBlockTabByContractIdAndAudienceIdLazyQueryHookResult =
+  ReturnType<
+    typeof useGetQuizAndTipsBlockTabByContractIdAndAudienceIdLazyQuery
+  >;
+export type GetQuizAndTipsBlockTabByContractIdAndAudienceIdQueryResult =
+  Apollo.QueryResult<
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+    GetQuizAndTipsBlockTabByContractIdAndAudienceIdQueryVariables
+  >;
+export const GetRecyclingGuideBlockByContractIdDocument = gql`
+  query getRecyclingGuideBlockByContractId($contractId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
@@ -25814,57 +25743,60 @@ export const GetRecyclingGuideBlockTabDocument = gql`
 `;
 
 /**
- * __useGetRecyclingGuideBlockTabQuery__
+ * __useGetRecyclingGuideBlockByContractIdQuery__
  *
- * To run a query within a React component, call `useGetRecyclingGuideBlockTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecyclingGuideBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetRecyclingGuideBlockByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecyclingGuideBlockByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRecyclingGuideBlockTabQuery({
+ * const { data, loading, error } = useGetRecyclingGuideBlockByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetRecyclingGuideBlockTabQuery(
+export function useGetRecyclingGuideBlockByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetRecyclingGuideBlockTabQuery,
-    GetRecyclingGuideBlockTabQueryVariables
+    GetRecyclingGuideBlockByContractIdQuery,
+    GetRecyclingGuideBlockByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetRecyclingGuideBlockTabQuery,
-    GetRecyclingGuideBlockTabQueryVariables
-  >(GetRecyclingGuideBlockTabDocument, options);
+    GetRecyclingGuideBlockByContractIdQuery,
+    GetRecyclingGuideBlockByContractIdQueryVariables
+  >(GetRecyclingGuideBlockByContractIdDocument, options);
 }
-export function useGetRecyclingGuideBlockTabLazyQuery(
+export function useGetRecyclingGuideBlockByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetRecyclingGuideBlockTabQuery,
-    GetRecyclingGuideBlockTabQueryVariables
+    GetRecyclingGuideBlockByContractIdQuery,
+    GetRecyclingGuideBlockByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetRecyclingGuideBlockTabQuery,
-    GetRecyclingGuideBlockTabQueryVariables
-  >(GetRecyclingGuideBlockTabDocument, options);
+    GetRecyclingGuideBlockByContractIdQuery,
+    GetRecyclingGuideBlockByContractIdQueryVariables
+  >(GetRecyclingGuideBlockByContractIdDocument, options);
 }
-export type GetRecyclingGuideBlockTabQueryHookResult = ReturnType<
-  typeof useGetRecyclingGuideBlockTabQuery
+export type GetRecyclingGuideBlockByContractIdQueryHookResult = ReturnType<
+  typeof useGetRecyclingGuideBlockByContractIdQuery
 >;
-export type GetRecyclingGuideBlockTabLazyQueryHookResult = ReturnType<
-  typeof useGetRecyclingGuideBlockTabLazyQuery
+export type GetRecyclingGuideBlockByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetRecyclingGuideBlockByContractIdLazyQuery
 >;
-export type GetRecyclingGuideBlockTabQueryResult = Apollo.QueryResult<
-  GetRecyclingGuideBlockTabQuery,
-  GetRecyclingGuideBlockTabQueryVariables
+export type GetRecyclingGuideBlockByContractIdQueryResult = Apollo.QueryResult<
+  GetRecyclingGuideBlockByContractIdQuery,
+  GetRecyclingGuideBlockByContractIdQueryVariables
 >;
-export const GetServicesBlockTabDocument = gql`
-  query getServicesBlockTab($contractId: ID!, $audienceId: ID!) {
+export const GetServicesBlocksByContractIdAndAudienceIdDocument = gql`
+  query getServicesBlocksByContractIdAndAudienceId(
+    $contractId: ID!
+    $audienceId: ID!
+  ) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         id
@@ -26115,58 +26047,57 @@ export const GetServicesBlockTabDocument = gql`
 `;
 
 /**
- * __useGetServicesBlockTabQuery__
+ * __useGetServicesBlocksByContractIdAndAudienceIdQuery__
  *
- * To run a query within a React component, call `useGetServicesBlockTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetServicesBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetServicesBlocksByContractIdAndAudienceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetServicesBlocksByContractIdAndAudienceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetServicesBlockTabQuery({
+ * const { data, loading, error } = useGetServicesBlocksByContractIdAndAudienceIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      audienceId: // value for 'audienceId'
  *   },
  * });
  */
-export function useGetServicesBlockTabQuery(
+export function useGetServicesBlocksByContractIdAndAudienceIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetServicesBlockTabQuery,
-    GetServicesBlockTabQueryVariables
+    GetServicesBlocksByContractIdAndAudienceIdQuery,
+    GetServicesBlocksByContractIdAndAudienceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetServicesBlockTabQuery,
-    GetServicesBlockTabQueryVariables
-  >(GetServicesBlockTabDocument, options);
+    GetServicesBlocksByContractIdAndAudienceIdQuery,
+    GetServicesBlocksByContractIdAndAudienceIdQueryVariables
+  >(GetServicesBlocksByContractIdAndAudienceIdDocument, options);
 }
-export function useGetServicesBlockTabLazyQuery(
+export function useGetServicesBlocksByContractIdAndAudienceIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetServicesBlockTabQuery,
-    GetServicesBlockTabQueryVariables
+    GetServicesBlocksByContractIdAndAudienceIdQuery,
+    GetServicesBlocksByContractIdAndAudienceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetServicesBlockTabQuery,
-    GetServicesBlockTabQueryVariables
-  >(GetServicesBlockTabDocument, options);
+    GetServicesBlocksByContractIdAndAudienceIdQuery,
+    GetServicesBlocksByContractIdAndAudienceIdQueryVariables
+  >(GetServicesBlocksByContractIdAndAudienceIdDocument, options);
 }
-export type GetServicesBlockTabQueryHookResult = ReturnType<
-  typeof useGetServicesBlockTabQuery
->;
-export type GetServicesBlockTabLazyQueryHookResult = ReturnType<
-  typeof useGetServicesBlockTabLazyQuery
->;
-export type GetServicesBlockTabQueryResult = Apollo.QueryResult<
-  GetServicesBlockTabQuery,
-  GetServicesBlockTabQueryVariables
->;
-export const GetTopContentBlockTabDocument = gql`
-  query getTopContentBlockTab(
+export type GetServicesBlocksByContractIdAndAudienceIdQueryHookResult =
+  ReturnType<typeof useGetServicesBlocksByContractIdAndAudienceIdQuery>;
+export type GetServicesBlocksByContractIdAndAudienceIdLazyQueryHookResult =
+  ReturnType<typeof useGetServicesBlocksByContractIdAndAudienceIdLazyQuery>;
+export type GetServicesBlocksByContractIdAndAudienceIdQueryResult =
+  Apollo.QueryResult<
+    GetServicesBlocksByContractIdAndAudienceIdQuery,
+    GetServicesBlocksByContractIdAndAudienceIdQueryVariables
+  >;
+export const GetTopContentBlockTabByContractIdAndAudienceIdDocument = gql`
+  query getTopContentBlockTabByContractIdAndAudienceId(
     $contractId: ID!
     $status: ENUM_TOPCONTENTDTO_STATUS
     $audienceId: ID!
@@ -26209,16 +26140,16 @@ export const GetTopContentBlockTabDocument = gql`
 `;
 
 /**
- * __useGetTopContentBlockTabQuery__
+ * __useGetTopContentBlockTabByContractIdAndAudienceIdQuery__
  *
- * To run a query within a React component, call `useGetTopContentBlockTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTopContentBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetTopContentBlockTabByContractIdAndAudienceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopContentBlockTabByContractIdAndAudienceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetTopContentBlockTabQuery({
+ * const { data, loading, error } = useGetTopContentBlockTabByContractIdAndAudienceIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      status: // value for 'status'
@@ -26226,56 +26157,47 @@ export const GetTopContentBlockTabDocument = gql`
  *   },
  * });
  */
-export function useGetTopContentBlockTabQuery(
+export function useGetTopContentBlockTabByContractIdAndAudienceIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetTopContentBlockTabQuery,
-    GetTopContentBlockTabQueryVariables
+    GetTopContentBlockTabByContractIdAndAudienceIdQuery,
+    GetTopContentBlockTabByContractIdAndAudienceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetTopContentBlockTabQuery,
-    GetTopContentBlockTabQueryVariables
-  >(GetTopContentBlockTabDocument, options);
+    GetTopContentBlockTabByContractIdAndAudienceIdQuery,
+    GetTopContentBlockTabByContractIdAndAudienceIdQueryVariables
+  >(GetTopContentBlockTabByContractIdAndAudienceIdDocument, options);
 }
-export function useGetTopContentBlockTabLazyQuery(
+export function useGetTopContentBlockTabByContractIdAndAudienceIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTopContentBlockTabQuery,
-    GetTopContentBlockTabQueryVariables
+    GetTopContentBlockTabByContractIdAndAudienceIdQuery,
+    GetTopContentBlockTabByContractIdAndAudienceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetTopContentBlockTabQuery,
-    GetTopContentBlockTabQueryVariables
-  >(GetTopContentBlockTabDocument, options);
+    GetTopContentBlockTabByContractIdAndAudienceIdQuery,
+    GetTopContentBlockTabByContractIdAndAudienceIdQueryVariables
+  >(GetTopContentBlockTabByContractIdAndAudienceIdDocument, options);
 }
-export type GetTopContentBlockTabQueryHookResult = ReturnType<
-  typeof useGetTopContentBlockTabQuery
->;
-export type GetTopContentBlockTabLazyQueryHookResult = ReturnType<
-  typeof useGetTopContentBlockTabLazyQuery
->;
-export type GetTopContentBlockTabQueryResult = Apollo.QueryResult<
-  GetTopContentBlockTabQuery,
-  GetTopContentBlockTabQueryVariables
->;
-export const GetWelcomeMessageAndSearchEngineBlockTabDocument = gql`
-  query getWelcomeMessageAndSearchEngineBlockTab($contractId: ID!) {
+export type GetTopContentBlockTabByContractIdAndAudienceIdQueryHookResult =
+  ReturnType<typeof useGetTopContentBlockTabByContractIdAndAudienceIdQuery>;
+export type GetTopContentBlockTabByContractIdAndAudienceIdLazyQueryHookResult =
+  ReturnType<typeof useGetTopContentBlockTabByContractIdAndAudienceIdLazyQuery>;
+export type GetTopContentBlockTabByContractIdAndAudienceIdQueryResult =
+  Apollo.QueryResult<
+    GetTopContentBlockTabByContractIdAndAudienceIdQuery,
+    GetTopContentBlockTabByContractIdAndAudienceIdQueryVariables
+  >;
+export const GetWelcomeMessageAndSearchEngineBlocksByContractIdDocument = gql`
+  query getWelcomeMessageAndSearchEngineBlocksByContractId($contractId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
           homepage {
             data {
               attributes {
-                searchEngineBlock {
-                  data {
-                    id
-                    attributes {
-                      titleContent
-                    }
-                  }
-                }
                 welcomeMessageBlock {
                   data {
                     id
@@ -26283,6 +26205,14 @@ export const GetWelcomeMessageAndSearchEngineBlockTabDocument = gql`
                       showBlock
                       subtitle
                       title
+                    }
+                  }
+                }
+                searchEngineBlock {
+                  data {
+                    id
+                    attributes {
+                      titleContent
                     }
                   }
                 }
@@ -26296,56 +26226,58 @@ export const GetWelcomeMessageAndSearchEngineBlockTabDocument = gql`
 `;
 
 /**
- * __useGetWelcomeMessageAndSearchEngineBlockTabQuery__
+ * __useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery__
  *
- * To run a query within a React component, call `useGetWelcomeMessageAndSearchEngineBlockTabQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetWelcomeMessageAndSearchEngineBlockTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetWelcomeMessageAndSearchEngineBlockTabQuery({
+ * const { data, loading, error } = useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetWelcomeMessageAndSearchEngineBlockTabQuery(
+export function useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetWelcomeMessageAndSearchEngineBlockTabQuery,
-    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetWelcomeMessageAndSearchEngineBlockTabQuery,
-    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
-  >(GetWelcomeMessageAndSearchEngineBlockTabDocument, options);
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQueryVariables
+  >(GetWelcomeMessageAndSearchEngineBlocksByContractIdDocument, options);
 }
-export function useGetWelcomeMessageAndSearchEngineBlockTabLazyQuery(
+export function useGetWelcomeMessageAndSearchEngineBlocksByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetWelcomeMessageAndSearchEngineBlockTabQuery,
-    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetWelcomeMessageAndSearchEngineBlockTabQuery,
-    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
-  >(GetWelcomeMessageAndSearchEngineBlockTabDocument, options);
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQueryVariables
+  >(GetWelcomeMessageAndSearchEngineBlocksByContractIdDocument, options);
 }
-export type GetWelcomeMessageAndSearchEngineBlockTabQueryHookResult =
-  ReturnType<typeof useGetWelcomeMessageAndSearchEngineBlockTabQuery>;
-export type GetWelcomeMessageAndSearchEngineBlockTabLazyQueryHookResult =
-  ReturnType<typeof useGetWelcomeMessageAndSearchEngineBlockTabLazyQuery>;
-export type GetWelcomeMessageAndSearchEngineBlockTabQueryResult =
-  Apollo.QueryResult<
-    GetWelcomeMessageAndSearchEngineBlockTabQuery,
-    GetWelcomeMessageAndSearchEngineBlockTabQueryVariables
+export type GetWelcomeMessageAndSearchEngineBlocksByContractIdQueryHookResult =
+  ReturnType<typeof useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery>;
+export type GetWelcomeMessageAndSearchEngineBlocksByContractIdLazyQueryHookResult =
+  ReturnType<
+    typeof useGetWelcomeMessageAndSearchEngineBlocksByContractIdLazyQuery
   >;
-export const UpdateEditoBlockTabDocument = gql`
-  mutation updateEditoBlockTab(
+export type GetWelcomeMessageAndSearchEngineBlocksByContractIdQueryResult =
+  Apollo.QueryResult<
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+    GetWelcomeMessageAndSearchEngineBlocksByContractIdQueryVariables
+  >;
+export const UpdateEditoBlockByIdDocument = gql`
+  mutation updateEditoBlockById(
     $updateEditoBlockId: ID!
     $data: EditoBlockInput!
   ) {
@@ -26360,52 +26292,52 @@ export const UpdateEditoBlockTabDocument = gql`
     }
   }
 `;
-export type UpdateEditoBlockTabMutationFn = Apollo.MutationFunction<
-  UpdateEditoBlockTabMutation,
-  UpdateEditoBlockTabMutationVariables
+export type UpdateEditoBlockByIdMutationFn = Apollo.MutationFunction<
+  UpdateEditoBlockByIdMutation,
+  UpdateEditoBlockByIdMutationVariables
 >;
 
 /**
- * __useUpdateEditoBlockTabMutation__
+ * __useUpdateEditoBlockByIdMutation__
  *
- * To run a mutation, you first call `useUpdateEditoBlockTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateEditoBlockTabMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateEditoBlockByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEditoBlockByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateEditoBlockTabMutation, { data, loading, error }] = useUpdateEditoBlockTabMutation({
+ * const [updateEditoBlockByIdMutation, { data, loading, error }] = useUpdateEditoBlockByIdMutation({
  *   variables: {
  *      updateEditoBlockId: // value for 'updateEditoBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateEditoBlockTabMutation(
+export function useUpdateEditoBlockByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateEditoBlockTabMutation,
-    UpdateEditoBlockTabMutationVariables
+    UpdateEditoBlockByIdMutation,
+    UpdateEditoBlockByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateEditoBlockTabMutation,
-    UpdateEditoBlockTabMutationVariables
-  >(UpdateEditoBlockTabDocument, options);
+    UpdateEditoBlockByIdMutation,
+    UpdateEditoBlockByIdMutationVariables
+  >(UpdateEditoBlockByIdDocument, options);
 }
-export type UpdateEditoBlockTabMutationHookResult = ReturnType<
-  typeof useUpdateEditoBlockTabMutation
+export type UpdateEditoBlockByIdMutationHookResult = ReturnType<
+  typeof useUpdateEditoBlockByIdMutation
 >;
-export type UpdateEditoBlockTabMutationResult =
-  Apollo.MutationResult<UpdateEditoBlockTabMutation>;
-export type UpdateEditoBlockTabMutationOptions = Apollo.BaseMutationOptions<
-  UpdateEditoBlockTabMutation,
-  UpdateEditoBlockTabMutationVariables
+export type UpdateEditoBlockByIdMutationResult =
+  Apollo.MutationResult<UpdateEditoBlockByIdMutation>;
+export type UpdateEditoBlockByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEditoBlockByIdMutation,
+  UpdateEditoBlockByIdMutationVariables
 >;
-export const UpdateQuizAndTipsBlockTabDocument = gql`
-  mutation updateQuizAndTipsBlockTab(
+export const UpdateQuizAndTipsBlockByIdDocument = gql`
+  mutation updateQuizAndTipsBlockById(
     $quizAndTipsBlockId: ID!
     $data: QuizAndTipsBlockInput!
   ) {
@@ -26431,53 +26363,53 @@ export const UpdateQuizAndTipsBlockTabDocument = gql`
     }
   }
 `;
-export type UpdateQuizAndTipsBlockTabMutationFn = Apollo.MutationFunction<
-  UpdateQuizAndTipsBlockTabMutation,
-  UpdateQuizAndTipsBlockTabMutationVariables
+export type UpdateQuizAndTipsBlockByIdMutationFn = Apollo.MutationFunction<
+  UpdateQuizAndTipsBlockByIdMutation,
+  UpdateQuizAndTipsBlockByIdMutationVariables
 >;
 
 /**
- * __useUpdateQuizAndTipsBlockTabMutation__
+ * __useUpdateQuizAndTipsBlockByIdMutation__
  *
- * To run a mutation, you first call `useUpdateQuizAndTipsBlockTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateQuizAndTipsBlockTabMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateQuizAndTipsBlockByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateQuizAndTipsBlockByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateQuizAndTipsBlockTabMutation, { data, loading, error }] = useUpdateQuizAndTipsBlockTabMutation({
+ * const [updateQuizAndTipsBlockByIdMutation, { data, loading, error }] = useUpdateQuizAndTipsBlockByIdMutation({
  *   variables: {
  *      quizAndTipsBlockId: // value for 'quizAndTipsBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateQuizAndTipsBlockTabMutation(
+export function useUpdateQuizAndTipsBlockByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateQuizAndTipsBlockTabMutation,
-    UpdateQuizAndTipsBlockTabMutationVariables
+    UpdateQuizAndTipsBlockByIdMutation,
+    UpdateQuizAndTipsBlockByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateQuizAndTipsBlockTabMutation,
-    UpdateQuizAndTipsBlockTabMutationVariables
-  >(UpdateQuizAndTipsBlockTabDocument, options);
+    UpdateQuizAndTipsBlockByIdMutation,
+    UpdateQuizAndTipsBlockByIdMutationVariables
+  >(UpdateQuizAndTipsBlockByIdDocument, options);
 }
-export type UpdateQuizAndTipsBlockTabMutationHookResult = ReturnType<
-  typeof useUpdateQuizAndTipsBlockTabMutation
+export type UpdateQuizAndTipsBlockByIdMutationHookResult = ReturnType<
+  typeof useUpdateQuizAndTipsBlockByIdMutation
 >;
-export type UpdateQuizAndTipsBlockTabMutationResult =
-  Apollo.MutationResult<UpdateQuizAndTipsBlockTabMutation>;
-export type UpdateQuizAndTipsBlockTabMutationOptions =
+export type UpdateQuizAndTipsBlockByIdMutationResult =
+  Apollo.MutationResult<UpdateQuizAndTipsBlockByIdMutation>;
+export type UpdateQuizAndTipsBlockByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateQuizAndTipsBlockTabMutation,
-    UpdateQuizAndTipsBlockTabMutationVariables
+    UpdateQuizAndTipsBlockByIdMutation,
+    UpdateQuizAndTipsBlockByIdMutationVariables
   >;
-export const UpdateRecyclingGuideTabDocument = gql`
-  mutation updateRecyclingGuideTab(
+export const UpdateRecyclingGuideBlockByIdDocument = gql`
+  mutation updateRecyclingGuideBlockById(
     $updateRecyclingGuideBlockId: ID!
     $data: RecyclingGuideBlockInput!
   ) {
@@ -26499,52 +26431,53 @@ export const UpdateRecyclingGuideTabDocument = gql`
     }
   }
 `;
-export type UpdateRecyclingGuideTabMutationFn = Apollo.MutationFunction<
-  UpdateRecyclingGuideTabMutation,
-  UpdateRecyclingGuideTabMutationVariables
+export type UpdateRecyclingGuideBlockByIdMutationFn = Apollo.MutationFunction<
+  UpdateRecyclingGuideBlockByIdMutation,
+  UpdateRecyclingGuideBlockByIdMutationVariables
 >;
 
 /**
- * __useUpdateRecyclingGuideTabMutation__
+ * __useUpdateRecyclingGuideBlockByIdMutation__
  *
- * To run a mutation, you first call `useUpdateRecyclingGuideTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateRecyclingGuideTabMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateRecyclingGuideBlockByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRecyclingGuideBlockByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateRecyclingGuideTabMutation, { data, loading, error }] = useUpdateRecyclingGuideTabMutation({
+ * const [updateRecyclingGuideBlockByIdMutation, { data, loading, error }] = useUpdateRecyclingGuideBlockByIdMutation({
  *   variables: {
  *      updateRecyclingGuideBlockId: // value for 'updateRecyclingGuideBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateRecyclingGuideTabMutation(
+export function useUpdateRecyclingGuideBlockByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateRecyclingGuideTabMutation,
-    UpdateRecyclingGuideTabMutationVariables
+    UpdateRecyclingGuideBlockByIdMutation,
+    UpdateRecyclingGuideBlockByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateRecyclingGuideTabMutation,
-    UpdateRecyclingGuideTabMutationVariables
-  >(UpdateRecyclingGuideTabDocument, options);
+    UpdateRecyclingGuideBlockByIdMutation,
+    UpdateRecyclingGuideBlockByIdMutationVariables
+  >(UpdateRecyclingGuideBlockByIdDocument, options);
 }
-export type UpdateRecyclingGuideTabMutationHookResult = ReturnType<
-  typeof useUpdateRecyclingGuideTabMutation
+export type UpdateRecyclingGuideBlockByIdMutationHookResult = ReturnType<
+  typeof useUpdateRecyclingGuideBlockByIdMutation
 >;
-export type UpdateRecyclingGuideTabMutationResult =
-  Apollo.MutationResult<UpdateRecyclingGuideTabMutation>;
-export type UpdateRecyclingGuideTabMutationOptions = Apollo.BaseMutationOptions<
-  UpdateRecyclingGuideTabMutation,
-  UpdateRecyclingGuideTabMutationVariables
->;
-export const UpdateSearchEngineBlockTabDocument = gql`
-  mutation updateSearchEngineBlockTab(
+export type UpdateRecyclingGuideBlockByIdMutationResult =
+  Apollo.MutationResult<UpdateRecyclingGuideBlockByIdMutation>;
+export type UpdateRecyclingGuideBlockByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateRecyclingGuideBlockByIdMutation,
+    UpdateRecyclingGuideBlockByIdMutationVariables
+  >;
+export const UpdateSearchEngineBlockByIdDocument = gql`
+  mutation updateSearchEngineBlockById(
     $updateSearchEngineBlockId: ID!
     $data: SearchEngineBlockInput!
   ) {
@@ -26557,53 +26490,53 @@ export const UpdateSearchEngineBlockTabDocument = gql`
     }
   }
 `;
-export type UpdateSearchEngineBlockTabMutationFn = Apollo.MutationFunction<
-  UpdateSearchEngineBlockTabMutation,
-  UpdateSearchEngineBlockTabMutationVariables
+export type UpdateSearchEngineBlockByIdMutationFn = Apollo.MutationFunction<
+  UpdateSearchEngineBlockByIdMutation,
+  UpdateSearchEngineBlockByIdMutationVariables
 >;
 
 /**
- * __useUpdateSearchEngineBlockTabMutation__
+ * __useUpdateSearchEngineBlockByIdMutation__
  *
- * To run a mutation, you first call `useUpdateSearchEngineBlockTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateSearchEngineBlockTabMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateSearchEngineBlockByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSearchEngineBlockByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateSearchEngineBlockTabMutation, { data, loading, error }] = useUpdateSearchEngineBlockTabMutation({
+ * const [updateSearchEngineBlockByIdMutation, { data, loading, error }] = useUpdateSearchEngineBlockByIdMutation({
  *   variables: {
  *      updateSearchEngineBlockId: // value for 'updateSearchEngineBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateSearchEngineBlockTabMutation(
+export function useUpdateSearchEngineBlockByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateSearchEngineBlockTabMutation,
-    UpdateSearchEngineBlockTabMutationVariables
+    UpdateSearchEngineBlockByIdMutation,
+    UpdateSearchEngineBlockByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateSearchEngineBlockTabMutation,
-    UpdateSearchEngineBlockTabMutationVariables
-  >(UpdateSearchEngineBlockTabDocument, options);
+    UpdateSearchEngineBlockByIdMutation,
+    UpdateSearchEngineBlockByIdMutationVariables
+  >(UpdateSearchEngineBlockByIdDocument, options);
 }
-export type UpdateSearchEngineBlockTabMutationHookResult = ReturnType<
-  typeof useUpdateSearchEngineBlockTabMutation
+export type UpdateSearchEngineBlockByIdMutationHookResult = ReturnType<
+  typeof useUpdateSearchEngineBlockByIdMutation
 >;
-export type UpdateSearchEngineBlockTabMutationResult =
-  Apollo.MutationResult<UpdateSearchEngineBlockTabMutation>;
-export type UpdateSearchEngineBlockTabMutationOptions =
+export type UpdateSearchEngineBlockByIdMutationResult =
+  Apollo.MutationResult<UpdateSearchEngineBlockByIdMutation>;
+export type UpdateSearchEngineBlockByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateSearchEngineBlockTabMutation,
-    UpdateSearchEngineBlockTabMutationVariables
+    UpdateSearchEngineBlockByIdMutation,
+    UpdateSearchEngineBlockByIdMutationVariables
   >;
-export const UpdateServicesBlockTabDocument = gql`
-  mutation updateServicesBlockTab(
+export const UpdateServicesBlockByIdDocument = gql`
+  mutation updateServicesBlockById(
     $updateServicesBlockId: ID!
     $data: ServicesBlockInput!
   ) {
@@ -26853,52 +26786,52 @@ export const UpdateServicesBlockTabDocument = gql`
     }
   }
 `;
-export type UpdateServicesBlockTabMutationFn = Apollo.MutationFunction<
-  UpdateServicesBlockTabMutation,
-  UpdateServicesBlockTabMutationVariables
+export type UpdateServicesBlockByIdMutationFn = Apollo.MutationFunction<
+  UpdateServicesBlockByIdMutation,
+  UpdateServicesBlockByIdMutationVariables
 >;
 
 /**
- * __useUpdateServicesBlockTabMutation__
+ * __useUpdateServicesBlockByIdMutation__
  *
- * To run a mutation, you first call `useUpdateServicesBlockTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateServicesBlockTabMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateServicesBlockByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateServicesBlockByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateServicesBlockTabMutation, { data, loading, error }] = useUpdateServicesBlockTabMutation({
+ * const [updateServicesBlockByIdMutation, { data, loading, error }] = useUpdateServicesBlockByIdMutation({
  *   variables: {
  *      updateServicesBlockId: // value for 'updateServicesBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateServicesBlockTabMutation(
+export function useUpdateServicesBlockByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateServicesBlockTabMutation,
-    UpdateServicesBlockTabMutationVariables
+    UpdateServicesBlockByIdMutation,
+    UpdateServicesBlockByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateServicesBlockTabMutation,
-    UpdateServicesBlockTabMutationVariables
-  >(UpdateServicesBlockTabDocument, options);
+    UpdateServicesBlockByIdMutation,
+    UpdateServicesBlockByIdMutationVariables
+  >(UpdateServicesBlockByIdDocument, options);
 }
-export type UpdateServicesBlockTabMutationHookResult = ReturnType<
-  typeof useUpdateServicesBlockTabMutation
+export type UpdateServicesBlockByIdMutationHookResult = ReturnType<
+  typeof useUpdateServicesBlockByIdMutation
 >;
-export type UpdateServicesBlockTabMutationResult =
-  Apollo.MutationResult<UpdateServicesBlockTabMutation>;
-export type UpdateServicesBlockTabMutationOptions = Apollo.BaseMutationOptions<
-  UpdateServicesBlockTabMutation,
-  UpdateServicesBlockTabMutationVariables
+export type UpdateServicesBlockByIdMutationResult =
+  Apollo.MutationResult<UpdateServicesBlockByIdMutation>;
+export type UpdateServicesBlockByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateServicesBlockByIdMutation,
+  UpdateServicesBlockByIdMutationVariables
 >;
-export const UpdateTopContentBlockTabDocument = gql`
-  mutation updateTopContentBlockTab(
+export const UpdateTopContentBlockByIdDocument = gql`
+  mutation updateTopContentBlockById(
     $updateTopContentBlockId: ID!
     $data: TopContentBlockInput!
   ) {
@@ -26926,53 +26859,53 @@ export const UpdateTopContentBlockTabDocument = gql`
     }
   }
 `;
-export type UpdateTopContentBlockTabMutationFn = Apollo.MutationFunction<
-  UpdateTopContentBlockTabMutation,
-  UpdateTopContentBlockTabMutationVariables
+export type UpdateTopContentBlockByIdMutationFn = Apollo.MutationFunction<
+  UpdateTopContentBlockByIdMutation,
+  UpdateTopContentBlockByIdMutationVariables
 >;
 
 /**
- * __useUpdateTopContentBlockTabMutation__
+ * __useUpdateTopContentBlockByIdMutation__
  *
- * To run a mutation, you first call `useUpdateTopContentBlockTabMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateTopContentBlockTabMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateTopContentBlockByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTopContentBlockByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateTopContentBlockTabMutation, { data, loading, error }] = useUpdateTopContentBlockTabMutation({
+ * const [updateTopContentBlockByIdMutation, { data, loading, error }] = useUpdateTopContentBlockByIdMutation({
  *   variables: {
  *      updateTopContentBlockId: // value for 'updateTopContentBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateTopContentBlockTabMutation(
+export function useUpdateTopContentBlockByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateTopContentBlockTabMutation,
-    UpdateTopContentBlockTabMutationVariables
+    UpdateTopContentBlockByIdMutation,
+    UpdateTopContentBlockByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateTopContentBlockTabMutation,
-    UpdateTopContentBlockTabMutationVariables
-  >(UpdateTopContentBlockTabDocument, options);
+    UpdateTopContentBlockByIdMutation,
+    UpdateTopContentBlockByIdMutationVariables
+  >(UpdateTopContentBlockByIdDocument, options);
 }
-export type UpdateTopContentBlockTabMutationHookResult = ReturnType<
-  typeof useUpdateTopContentBlockTabMutation
+export type UpdateTopContentBlockByIdMutationHookResult = ReturnType<
+  typeof useUpdateTopContentBlockByIdMutation
 >;
-export type UpdateTopContentBlockTabMutationResult =
-  Apollo.MutationResult<UpdateTopContentBlockTabMutation>;
-export type UpdateTopContentBlockTabMutationOptions =
+export type UpdateTopContentBlockByIdMutationResult =
+  Apollo.MutationResult<UpdateTopContentBlockByIdMutation>;
+export type UpdateTopContentBlockByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateTopContentBlockTabMutation,
-    UpdateTopContentBlockTabMutationVariables
+    UpdateTopContentBlockByIdMutation,
+    UpdateTopContentBlockByIdMutationVariables
   >;
-export const UpdateWelcomeMessageBlockDocument = gql`
-  mutation updateWelcomeMessageBlock(
+export const UpdateWelcomeMessageBlockByIdDocument = gql`
+  mutation updateWelcomeMessageBlockById(
     $updateWelcomeMessageBlockId: ID!
     $data: WelcomeMessageBlockInput!
   ) {
@@ -26983,114 +26916,50 @@ export const UpdateWelcomeMessageBlockDocument = gql`
     }
   }
 `;
-export type UpdateWelcomeMessageBlockMutationFn = Apollo.MutationFunction<
-  UpdateWelcomeMessageBlockMutation,
-  UpdateWelcomeMessageBlockMutationVariables
+export type UpdateWelcomeMessageBlockByIdMutationFn = Apollo.MutationFunction<
+  UpdateWelcomeMessageBlockByIdMutation,
+  UpdateWelcomeMessageBlockByIdMutationVariables
 >;
 
 /**
- * __useUpdateWelcomeMessageBlockMutation__
+ * __useUpdateWelcomeMessageBlockByIdMutation__
  *
- * To run a mutation, you first call `useUpdateWelcomeMessageBlockMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateWelcomeMessageBlockMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateWelcomeMessageBlockByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWelcomeMessageBlockByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateWelcomeMessageBlockMutation, { data, loading, error }] = useUpdateWelcomeMessageBlockMutation({
+ * const [updateWelcomeMessageBlockByIdMutation, { data, loading, error }] = useUpdateWelcomeMessageBlockByIdMutation({
  *   variables: {
  *      updateWelcomeMessageBlockId: // value for 'updateWelcomeMessageBlockId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateWelcomeMessageBlockMutation(
+export function useUpdateWelcomeMessageBlockByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateWelcomeMessageBlockMutation,
-    UpdateWelcomeMessageBlockMutationVariables
+    UpdateWelcomeMessageBlockByIdMutation,
+    UpdateWelcomeMessageBlockByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateWelcomeMessageBlockMutation,
-    UpdateWelcomeMessageBlockMutationVariables
-  >(UpdateWelcomeMessageBlockDocument, options);
+    UpdateWelcomeMessageBlockByIdMutation,
+    UpdateWelcomeMessageBlockByIdMutationVariables
+  >(UpdateWelcomeMessageBlockByIdDocument, options);
 }
-export type UpdateWelcomeMessageBlockMutationHookResult = ReturnType<
-  typeof useUpdateWelcomeMessageBlockMutation
+export type UpdateWelcomeMessageBlockByIdMutationHookResult = ReturnType<
+  typeof useUpdateWelcomeMessageBlockByIdMutation
 >;
-export type UpdateWelcomeMessageBlockMutationResult =
-  Apollo.MutationResult<UpdateWelcomeMessageBlockMutation>;
-export type UpdateWelcomeMessageBlockMutationOptions =
+export type UpdateWelcomeMessageBlockByIdMutationResult =
+  Apollo.MutationResult<UpdateWelcomeMessageBlockByIdMutation>;
+export type UpdateWelcomeMessageBlockByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateWelcomeMessageBlockMutation,
-    UpdateWelcomeMessageBlockMutationVariables
-  >;
-export const UpdateContractCustomizationDocument = gql`
-  mutation UpdateContractCustomization(
-    $updateContractCustomizationId: ID!
-    $data: ContractCustomizationInput!
-  ) {
-    updateContractCustomization(
-      id: $updateContractCustomizationId
-      data: $data
-    ) {
-      data {
-        attributes {
-          primaryColor
-          secondaryColor
-          textContrast
-        }
-      }
-    }
-  }
-`;
-export type UpdateContractCustomizationMutationFn = Apollo.MutationFunction<
-  UpdateContractCustomizationMutation,
-  UpdateContractCustomizationMutationVariables
->;
-
-/**
- * __useUpdateContractCustomizationMutation__
- *
- * To run a mutation, you first call `useUpdateContractCustomizationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContractCustomizationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateContractCustomizationMutation, { data, loading, error }] = useUpdateContractCustomizationMutation({
- *   variables: {
- *      updateContractCustomizationId: // value for 'updateContractCustomizationId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateContractCustomizationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateContractCustomizationMutation,
-    UpdateContractCustomizationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateContractCustomizationMutation,
-    UpdateContractCustomizationMutationVariables
-  >(UpdateContractCustomizationDocument, options);
-}
-export type UpdateContractCustomizationMutationHookResult = ReturnType<
-  typeof useUpdateContractCustomizationMutation
->;
-export type UpdateContractCustomizationMutationResult =
-  Apollo.MutationResult<UpdateContractCustomizationMutation>;
-export type UpdateContractCustomizationMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateContractCustomizationMutation,
-    UpdateContractCustomizationMutationVariables
+    UpdateWelcomeMessageBlockByIdMutation,
+    UpdateWelcomeMessageBlockByIdMutationVariables
   >;
 export const GetContractCustomizationByIdDocument = gql`
   query getContractCustomizationById($contractId: ID!) {
@@ -27178,8 +27047,8 @@ export type GetContractCustomizationByIdQueryResult = Apollo.QueryResult<
   GetContractCustomizationByIdQuery,
   GetContractCustomizationByIdQueryVariables
 >;
-export const UpdateContractCustomizationByIdDocument = gql`
-  mutation updateContractCustomizationById(
+export const UpdateContractCustomizationByContractIdDocument = gql`
+  mutation updateContractCustomizationByContractId(
     $updateContractId: ID!
     $data: ContractInput!
   ) {
@@ -27216,6 +27085,70 @@ export const UpdateContractCustomizationByIdDocument = gql`
     }
   }
 `;
+export type UpdateContractCustomizationByContractIdMutationFn =
+  Apollo.MutationFunction<
+    UpdateContractCustomizationByContractIdMutation,
+    UpdateContractCustomizationByContractIdMutationVariables
+  >;
+
+/**
+ * __useUpdateContractCustomizationByContractIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateContractCustomizationByContractIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContractCustomizationByContractIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContractCustomizationByContractIdMutation, { data, loading, error }] = useUpdateContractCustomizationByContractIdMutation({
+ *   variables: {
+ *      updateContractId: // value for 'updateContractId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContractCustomizationByContractIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContractCustomizationByContractIdMutation,
+    UpdateContractCustomizationByContractIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContractCustomizationByContractIdMutation,
+    UpdateContractCustomizationByContractIdMutationVariables
+  >(UpdateContractCustomizationByContractIdDocument, options);
+}
+export type UpdateContractCustomizationByContractIdMutationHookResult =
+  ReturnType<typeof useUpdateContractCustomizationByContractIdMutation>;
+export type UpdateContractCustomizationByContractIdMutationResult =
+  Apollo.MutationResult<UpdateContractCustomizationByContractIdMutation>;
+export type UpdateContractCustomizationByContractIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContractCustomizationByContractIdMutation,
+    UpdateContractCustomizationByContractIdMutationVariables
+  >;
+export const UpdateContractCustomizationByIdDocument = gql`
+  mutation updateContractCustomizationById(
+    $updateContractCustomizationId: ID!
+    $data: ContractCustomizationInput!
+  ) {
+    updateContractCustomization(
+      id: $updateContractCustomizationId
+      data: $data
+    ) {
+      data {
+        attributes {
+          primaryColor
+          secondaryColor
+          textContrast
+        }
+      }
+    }
+  }
+`;
 export type UpdateContractCustomizationByIdMutationFn = Apollo.MutationFunction<
   UpdateContractCustomizationByIdMutation,
   UpdateContractCustomizationByIdMutationVariables
@@ -27234,7 +27167,7 @@ export type UpdateContractCustomizationByIdMutationFn = Apollo.MutationFunction<
  * @example
  * const [updateContractCustomizationByIdMutation, { data, loading, error }] = useUpdateContractCustomizationByIdMutation({
  *   variables: {
- *      updateContractId: // value for 'updateContractId'
+ *      updateContractCustomizationId: // value for 'updateContractCustomizationId'
  *      data: // value for 'data'
  *   },
  * });
@@ -27261,8 +27194,8 @@ export type UpdateContractCustomizationByIdMutationOptions =
     UpdateContractCustomizationByIdMutation,
     UpdateContractCustomizationByIdMutationVariables
   >;
-export const GetFooterPageDocument = gql`
-  query getFooterPage($contractId: ID!) {
+export const GetFooterByContractIdDocument = gql`
+  query getFooterByContractId($contractId: ID!) {
     contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         attributes {
@@ -27290,57 +27223,57 @@ export const GetFooterPageDocument = gql`
 `;
 
 /**
- * __useGetFooterPageQuery__
+ * __useGetFooterByContractIdQuery__
  *
- * To run a query within a React component, call `useGetFooterPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFooterPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetFooterByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFooterByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFooterPageQuery({
+ * const { data, loading, error } = useGetFooterByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetFooterPageQuery(
+export function useGetFooterByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetFooterPageQuery,
-    GetFooterPageQueryVariables
+    GetFooterByContractIdQuery,
+    GetFooterByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetFooterPageQuery, GetFooterPageQueryVariables>(
-    GetFooterPageDocument,
-    options,
-  );
+  return Apollo.useQuery<
+    GetFooterByContractIdQuery,
+    GetFooterByContractIdQueryVariables
+  >(GetFooterByContractIdDocument, options);
 }
-export function useGetFooterPageLazyQuery(
+export function useGetFooterByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFooterPageQuery,
-    GetFooterPageQueryVariables
+    GetFooterByContractIdQuery,
+    GetFooterByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetFooterPageQuery, GetFooterPageQueryVariables>(
-    GetFooterPageDocument,
-    options,
-  );
+  return Apollo.useLazyQuery<
+    GetFooterByContractIdQuery,
+    GetFooterByContractIdQueryVariables
+  >(GetFooterByContractIdDocument, options);
 }
-export type GetFooterPageQueryHookResult = ReturnType<
-  typeof useGetFooterPageQuery
+export type GetFooterByContractIdQueryHookResult = ReturnType<
+  typeof useGetFooterByContractIdQuery
 >;
-export type GetFooterPageLazyQueryHookResult = ReturnType<
-  typeof useGetFooterPageLazyQuery
+export type GetFooterByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetFooterByContractIdLazyQuery
 >;
-export type GetFooterPageQueryResult = Apollo.QueryResult<
-  GetFooterPageQuery,
-  GetFooterPageQueryVariables
+export type GetFooterByContractIdQueryResult = Apollo.QueryResult<
+  GetFooterByContractIdQuery,
+  GetFooterByContractIdQueryVariables
 >;
-export const UpdateFooterPageDocument = gql`
-  mutation updateFooterPage(
+export const UpdateFooterPageByIdAndContactUsSubServiceIdDocument = gql`
+  mutation updateFooterPageByIdAndContactUsSubServiceId(
     $updateFooterId: ID!
     $updateFooterData: FooterInput!
     $updateContactUsSubServiceId: ID!
@@ -27367,23 +27300,24 @@ export const UpdateFooterPageDocument = gql`
     }
   }
 `;
-export type UpdateFooterPageMutationFn = Apollo.MutationFunction<
-  UpdateFooterPageMutation,
-  UpdateFooterPageMutationVariables
->;
+export type UpdateFooterPageByIdAndContactUsSubServiceIdMutationFn =
+  Apollo.MutationFunction<
+    UpdateFooterPageByIdAndContactUsSubServiceIdMutation,
+    UpdateFooterPageByIdAndContactUsSubServiceIdMutationVariables
+  >;
 
 /**
- * __useUpdateFooterPageMutation__
+ * __useUpdateFooterPageByIdAndContactUsSubServiceIdMutation__
  *
- * To run a mutation, you first call `useUpdateFooterPageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateFooterPageMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateFooterPageByIdAndContactUsSubServiceIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFooterPageByIdAndContactUsSubServiceIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateFooterPageMutation, { data, loading, error }] = useUpdateFooterPageMutation({
+ * const [updateFooterPageByIdAndContactUsSubServiceIdMutation, { data, loading, error }] = useUpdateFooterPageByIdAndContactUsSubServiceIdMutation({
  *   variables: {
  *      updateFooterId: // value for 'updateFooterId'
  *      updateFooterData: // value for 'updateFooterData'
@@ -27392,29 +27326,29 @@ export type UpdateFooterPageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateFooterPageMutation(
+export function useUpdateFooterPageByIdAndContactUsSubServiceIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateFooterPageMutation,
-    UpdateFooterPageMutationVariables
+    UpdateFooterPageByIdAndContactUsSubServiceIdMutation,
+    UpdateFooterPageByIdAndContactUsSubServiceIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateFooterPageMutation,
-    UpdateFooterPageMutationVariables
-  >(UpdateFooterPageDocument, options);
+    UpdateFooterPageByIdAndContactUsSubServiceIdMutation,
+    UpdateFooterPageByIdAndContactUsSubServiceIdMutationVariables
+  >(UpdateFooterPageByIdAndContactUsSubServiceIdDocument, options);
 }
-export type UpdateFooterPageMutationHookResult = ReturnType<
-  typeof useUpdateFooterPageMutation
->;
-export type UpdateFooterPageMutationResult =
-  Apollo.MutationResult<UpdateFooterPageMutation>;
-export type UpdateFooterPageMutationOptions = Apollo.BaseMutationOptions<
-  UpdateFooterPageMutation,
-  UpdateFooterPageMutationVariables
->;
-export const GetMenuPageDocument = gql`
-  query getMenuPage($contractId: ID!) {
+export type UpdateFooterPageByIdAndContactUsSubServiceIdMutationHookResult =
+  ReturnType<typeof useUpdateFooterPageByIdAndContactUsSubServiceIdMutation>;
+export type UpdateFooterPageByIdAndContactUsSubServiceIdMutationResult =
+  Apollo.MutationResult<UpdateFooterPageByIdAndContactUsSubServiceIdMutation>;
+export type UpdateFooterPageByIdAndContactUsSubServiceIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateFooterPageByIdAndContactUsSubServiceIdMutation,
+    UpdateFooterPageByIdAndContactUsSubServiceIdMutationVariables
+  >;
+export const GetContractMenuByContractIdDocument = gql`
+  query getContractMenuByContractId($contractId: ID!) {
     contract(id: $contractId) {
       data {
         attributes {
@@ -27591,55 +27525,60 @@ export const GetMenuPageDocument = gql`
 `;
 
 /**
- * __useGetMenuPageQuery__
+ * __useGetContractMenuByContractIdQuery__
  *
- * To run a query within a React component, call `useGetMenuPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMenuPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetContractMenuByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContractMenuByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetMenuPageQuery({
+ * const { data, loading, error } = useGetContractMenuByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetMenuPageQuery(
+export function useGetContractMenuByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetMenuPageQuery,
-    GetMenuPageQueryVariables
+    GetContractMenuByContractIdQuery,
+    GetContractMenuByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMenuPageQuery, GetMenuPageQueryVariables>(
-    GetMenuPageDocument,
-    options,
-  );
+  return Apollo.useQuery<
+    GetContractMenuByContractIdQuery,
+    GetContractMenuByContractIdQueryVariables
+  >(GetContractMenuByContractIdDocument, options);
 }
-export function useGetMenuPageLazyQuery(
+export function useGetContractMenuByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMenuPageQuery,
-    GetMenuPageQueryVariables
+    GetContractMenuByContractIdQuery,
+    GetContractMenuByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetMenuPageQuery, GetMenuPageQueryVariables>(
-    GetMenuPageDocument,
-    options,
-  );
+  return Apollo.useLazyQuery<
+    GetContractMenuByContractIdQuery,
+    GetContractMenuByContractIdQueryVariables
+  >(GetContractMenuByContractIdDocument, options);
 }
-export type GetMenuPageQueryHookResult = ReturnType<typeof useGetMenuPageQuery>;
-export type GetMenuPageLazyQueryHookResult = ReturnType<
-  typeof useGetMenuPageLazyQuery
+export type GetContractMenuByContractIdQueryHookResult = ReturnType<
+  typeof useGetContractMenuByContractIdQuery
 >;
-export type GetMenuPageQueryResult = Apollo.QueryResult<
-  GetMenuPageQuery,
-  GetMenuPageQueryVariables
+export type GetContractMenuByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetContractMenuByContractIdLazyQuery
 >;
-export const UpdateMenuPageDocument = gql`
-  mutation updateMenuPage($updateMenuPageId: ID!, $data: ContractMenuInput!) {
+export type GetContractMenuByContractIdQueryResult = Apollo.QueryResult<
+  GetContractMenuByContractIdQuery,
+  GetContractMenuByContractIdQueryVariables
+>;
+export const UpdateContractMenuByIdDocument = gql`
+  mutation updateContractMenuById(
+    $updateMenuPageId: ID!
+    $data: ContractMenuInput!
+  ) {
     updateContractMenu(id: $updateMenuPageId, data: $data) {
       data {
         attributes {
@@ -27783,49 +27722,49 @@ export const UpdateMenuPageDocument = gql`
     }
   }
 `;
-export type UpdateMenuPageMutationFn = Apollo.MutationFunction<
-  UpdateMenuPageMutation,
-  UpdateMenuPageMutationVariables
+export type UpdateContractMenuByIdMutationFn = Apollo.MutationFunction<
+  UpdateContractMenuByIdMutation,
+  UpdateContractMenuByIdMutationVariables
 >;
 
 /**
- * __useUpdateMenuPageMutation__
+ * __useUpdateContractMenuByIdMutation__
  *
- * To run a mutation, you first call `useUpdateMenuPageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateMenuPageMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContractMenuByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContractMenuByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateMenuPageMutation, { data, loading, error }] = useUpdateMenuPageMutation({
+ * const [updateContractMenuByIdMutation, { data, loading, error }] = useUpdateContractMenuByIdMutation({
  *   variables: {
  *      updateMenuPageId: // value for 'updateMenuPageId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateMenuPageMutation(
+export function useUpdateContractMenuByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateMenuPageMutation,
-    UpdateMenuPageMutationVariables
+    UpdateContractMenuByIdMutation,
+    UpdateContractMenuByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateMenuPageMutation,
-    UpdateMenuPageMutationVariables
-  >(UpdateMenuPageDocument, options);
+    UpdateContractMenuByIdMutation,
+    UpdateContractMenuByIdMutationVariables
+  >(UpdateContractMenuByIdDocument, options);
 }
-export type UpdateMenuPageMutationHookResult = ReturnType<
-  typeof useUpdateMenuPageMutation
+export type UpdateContractMenuByIdMutationHookResult = ReturnType<
+  typeof useUpdateContractMenuByIdMutation
 >;
-export type UpdateMenuPageMutationResult =
-  Apollo.MutationResult<UpdateMenuPageMutation>;
-export type UpdateMenuPageMutationOptions = Apollo.BaseMutationOptions<
-  UpdateMenuPageMutation,
-  UpdateMenuPageMutationVariables
+export type UpdateContractMenuByIdMutationResult =
+  Apollo.MutationResult<UpdateContractMenuByIdMutation>;
+export type UpdateContractMenuByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateContractMenuByIdMutation,
+  UpdateContractMenuByIdMutationVariables
 >;
 export const CreateSectorizationDocument = gql`
   mutation createSectorization($data: SectorizationInput!) {
@@ -27886,8 +27825,8 @@ export type CreateSectorizationMutationOptions = Apollo.BaseMutationOptions<
   CreateSectorizationMutation,
   CreateSectorizationMutationVariables
 >;
-export const DeleteSectorizationDocument = gql`
-  mutation deleteSectorization($deleteSectorizationId: ID!) {
+export const DeleteSectorizationByIdDocument = gql`
+  mutation deleteSectorizationById($deleteSectorizationId: ID!) {
     deleteSectorization(id: $deleteSectorizationId) {
       data {
         id
@@ -27902,51 +27841,51 @@ export const DeleteSectorizationDocument = gql`
     }
   }
 `;
-export type DeleteSectorizationMutationFn = Apollo.MutationFunction<
-  DeleteSectorizationMutation,
-  DeleteSectorizationMutationVariables
+export type DeleteSectorizationByIdMutationFn = Apollo.MutationFunction<
+  DeleteSectorizationByIdMutation,
+  DeleteSectorizationByIdMutationVariables
 >;
 
 /**
- * __useDeleteSectorizationMutation__
+ * __useDeleteSectorizationByIdMutation__
  *
- * To run a mutation, you first call `useDeleteSectorizationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteSectorizationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteSectorizationByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSectorizationByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteSectorizationMutation, { data, loading, error }] = useDeleteSectorizationMutation({
+ * const [deleteSectorizationByIdMutation, { data, loading, error }] = useDeleteSectorizationByIdMutation({
  *   variables: {
  *      deleteSectorizationId: // value for 'deleteSectorizationId'
  *   },
  * });
  */
-export function useDeleteSectorizationMutation(
+export function useDeleteSectorizationByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteSectorizationMutation,
-    DeleteSectorizationMutationVariables
+    DeleteSectorizationByIdMutation,
+    DeleteSectorizationByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    DeleteSectorizationMutation,
-    DeleteSectorizationMutationVariables
-  >(DeleteSectorizationDocument, options);
+    DeleteSectorizationByIdMutation,
+    DeleteSectorizationByIdMutationVariables
+  >(DeleteSectorizationByIdDocument, options);
 }
-export type DeleteSectorizationMutationHookResult = ReturnType<
-  typeof useDeleteSectorizationMutation
+export type DeleteSectorizationByIdMutationHookResult = ReturnType<
+  typeof useDeleteSectorizationByIdMutation
 >;
-export type DeleteSectorizationMutationResult =
-  Apollo.MutationResult<DeleteSectorizationMutation>;
-export type DeleteSectorizationMutationOptions = Apollo.BaseMutationOptions<
-  DeleteSectorizationMutation,
-  DeleteSectorizationMutationVariables
+export type DeleteSectorizationByIdMutationResult =
+  Apollo.MutationResult<DeleteSectorizationByIdMutation>;
+export type DeleteSectorizationByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteSectorizationByIdMutation,
+  DeleteSectorizationByIdMutationVariables
 >;
-export const GetCitiesDocument = gql`
-  query getCities($contractId: ID!) {
+export const GetCitiesByContractIdDocument = gql`
+  query getCitiesByContractId($contractId: ID!) {
     territories(filters: { contract: { id: { eq: $contractId } } }) {
       data {
         id
@@ -27967,49 +27906,54 @@ export const GetCitiesDocument = gql`
 `;
 
 /**
- * __useGetCitiesQuery__
+ * __useGetCitiesByContractIdQuery__
  *
- * To run a query within a React component, call `useGetCitiesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCitiesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCitiesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCitiesQuery({
+ * const { data, loading, error } = useGetCitiesByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetCitiesQuery(
-  baseOptions: Apollo.QueryHookOptions<GetCitiesQuery, GetCitiesQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetCitiesQuery, GetCitiesQueryVariables>(
-    GetCitiesDocument,
-    options,
-  );
-}
-export function useGetCitiesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCitiesQuery,
-    GetCitiesQueryVariables
+export function useGetCitiesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetCitiesByContractIdQuery,
+    GetCitiesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetCitiesQuery, GetCitiesQueryVariables>(
-    GetCitiesDocument,
-    options,
-  );
+  return Apollo.useQuery<
+    GetCitiesByContractIdQuery,
+    GetCitiesByContractIdQueryVariables
+  >(GetCitiesByContractIdDocument, options);
 }
-export type GetCitiesQueryHookResult = ReturnType<typeof useGetCitiesQuery>;
-export type GetCitiesLazyQueryHookResult = ReturnType<
-  typeof useGetCitiesLazyQuery
+export function useGetCitiesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCitiesByContractIdQuery,
+    GetCitiesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetCitiesByContractIdQuery,
+    GetCitiesByContractIdQueryVariables
+  >(GetCitiesByContractIdDocument, options);
+}
+export type GetCitiesByContractIdQueryHookResult = ReturnType<
+  typeof useGetCitiesByContractIdQuery
 >;
-export type GetCitiesQueryResult = Apollo.QueryResult<
-  GetCitiesQuery,
-  GetCitiesQueryVariables
+export type GetCitiesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetCitiesByContractIdLazyQuery
+>;
+export type GetCitiesByContractIdQueryResult = Apollo.QueryResult<
+  GetCitiesByContractIdQuery,
+  GetCitiesByContractIdQueryVariables
 >;
 export const GetSectorizationByCityDocument = gql`
   query getSectorizationByCity($postalCode: Int!) {
@@ -28069,8 +28013,8 @@ export type GetSectorizationByCityQueryResult = Apollo.QueryResult<
   GetSectorizationByCityQuery,
   GetSectorizationByCityQueryVariables
 >;
-export const GetSectorizationByContractIdDocument = gql`
-  query getSectorizationByContractId($sectorizationId: ID) {
+export const GetSectorizationByIdDocument = gql`
+  query getSectorizationById($sectorizationId: ID) {
     sectorization(id: $sectorizationId) {
       data {
         attributes {
@@ -28084,54 +28028,54 @@ export const GetSectorizationByContractIdDocument = gql`
 `;
 
 /**
- * __useGetSectorizationByContractIdQuery__
+ * __useGetSectorizationByIdQuery__
  *
- * To run a query within a React component, call `useGetSectorizationByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSectorizationByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetSectorizationByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSectorizationByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetSectorizationByContractIdQuery({
+ * const { data, loading, error } = useGetSectorizationByIdQuery({
  *   variables: {
  *      sectorizationId: // value for 'sectorizationId'
  *   },
  * });
  */
-export function useGetSectorizationByContractIdQuery(
+export function useGetSectorizationByIdQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetSectorizationByContractIdQuery,
-    GetSectorizationByContractIdQueryVariables
+    GetSectorizationByIdQuery,
+    GetSectorizationByIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetSectorizationByContractIdQuery,
-    GetSectorizationByContractIdQueryVariables
-  >(GetSectorizationByContractIdDocument, options);
+    GetSectorizationByIdQuery,
+    GetSectorizationByIdQueryVariables
+  >(GetSectorizationByIdDocument, options);
 }
-export function useGetSectorizationByContractIdLazyQuery(
+export function useGetSectorizationByIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSectorizationByContractIdQuery,
-    GetSectorizationByContractIdQueryVariables
+    GetSectorizationByIdQuery,
+    GetSectorizationByIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetSectorizationByContractIdQuery,
-    GetSectorizationByContractIdQueryVariables
-  >(GetSectorizationByContractIdDocument, options);
+    GetSectorizationByIdQuery,
+    GetSectorizationByIdQueryVariables
+  >(GetSectorizationByIdDocument, options);
 }
-export type GetSectorizationByContractIdQueryHookResult = ReturnType<
-  typeof useGetSectorizationByContractIdQuery
+export type GetSectorizationByIdQueryHookResult = ReturnType<
+  typeof useGetSectorizationByIdQuery
 >;
-export type GetSectorizationByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetSectorizationByContractIdLazyQuery
+export type GetSectorizationByIdLazyQueryHookResult = ReturnType<
+  typeof useGetSectorizationByIdLazyQuery
 >;
-export type GetSectorizationByContractIdQueryResult = Apollo.QueryResult<
-  GetSectorizationByContractIdQuery,
-  GetSectorizationByContractIdQueryVariables
+export type GetSectorizationByIdQueryResult = Apollo.QueryResult<
+  GetSectorizationByIdQuery,
+  GetSectorizationByIdQueryVariables
 >;
 export const GetSectorizationsByContractIdDocument = gql`
   query getSectorizationsByContractId(
@@ -28218,8 +28162,8 @@ export type GetSectorizationsByContractIdQueryResult = Apollo.QueryResult<
   GetSectorizationsByContractIdQuery,
   GetSectorizationsByContractIdQueryVariables
 >;
-export const UpdateSectorizationDocument = gql`
-  mutation UpdateSectorization(
+export const UpdateSectorizationByIdDocument = gql`
+  mutation updateSectorizationById(
     $updateSectorizationId: ID!
     $data: SectorizationInput!
   ) {
@@ -28237,52 +28181,52 @@ export const UpdateSectorizationDocument = gql`
     }
   }
 `;
-export type UpdateSectorizationMutationFn = Apollo.MutationFunction<
-  UpdateSectorizationMutation,
-  UpdateSectorizationMutationVariables
+export type UpdateSectorizationByIdMutationFn = Apollo.MutationFunction<
+  UpdateSectorizationByIdMutation,
+  UpdateSectorizationByIdMutationVariables
 >;
 
 /**
- * __useUpdateSectorizationMutation__
+ * __useUpdateSectorizationByIdMutation__
  *
- * To run a mutation, you first call `useUpdateSectorizationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateSectorizationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateSectorizationByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSectorizationByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateSectorizationMutation, { data, loading, error }] = useUpdateSectorizationMutation({
+ * const [updateSectorizationByIdMutation, { data, loading, error }] = useUpdateSectorizationByIdMutation({
  *   variables: {
  *      updateSectorizationId: // value for 'updateSectorizationId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateSectorizationMutation(
+export function useUpdateSectorizationByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateSectorizationMutation,
-    UpdateSectorizationMutationVariables
+    UpdateSectorizationByIdMutation,
+    UpdateSectorizationByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateSectorizationMutation,
-    UpdateSectorizationMutationVariables
-  >(UpdateSectorizationDocument, options);
+    UpdateSectorizationByIdMutation,
+    UpdateSectorizationByIdMutationVariables
+  >(UpdateSectorizationByIdDocument, options);
 }
-export type UpdateSectorizationMutationHookResult = ReturnType<
-  typeof useUpdateSectorizationMutation
+export type UpdateSectorizationByIdMutationHookResult = ReturnType<
+  typeof useUpdateSectorizationByIdMutation
 >;
-export type UpdateSectorizationMutationResult =
-  Apollo.MutationResult<UpdateSectorizationMutation>;
-export type UpdateSectorizationMutationOptions = Apollo.BaseMutationOptions<
-  UpdateSectorizationMutation,
-  UpdateSectorizationMutationVariables
+export type UpdateSectorizationByIdMutationResult =
+  Apollo.MutationResult<UpdateSectorizationByIdMutation>;
+export type UpdateSectorizationByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateSectorizationByIdMutation,
+  UpdateSectorizationByIdMutationVariables
 >;
-export const GetAudiencesByContractIdDocument = gql`
-  query getAudiencesByContractId($filters: AudienceFiltersInput) {
+export const GetAudiencesDocument = gql`
+  query getAudiences($filters: AudienceFiltersInput) {
     audiences(filters: $filters) {
       data {
         id
@@ -28296,57 +28240,57 @@ export const GetAudiencesByContractIdDocument = gql`
 `;
 
 /**
- * __useGetAudiencesByContractIdQuery__
+ * __useGetAudiencesQuery__
  *
- * To run a query within a React component, call `useGetAudiencesByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAudiencesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAudiencesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAudiencesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAudiencesByContractIdQuery({
+ * const { data, loading, error } = useGetAudiencesQuery({
  *   variables: {
  *      filters: // value for 'filters'
  *   },
  * });
  */
-export function useGetAudiencesByContractIdQuery(
+export function useGetAudiencesQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetAudiencesByContractIdQuery,
-    GetAudiencesByContractIdQueryVariables
+    GetAudiencesQuery,
+    GetAudiencesQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetAudiencesByContractIdQuery,
-    GetAudiencesByContractIdQueryVariables
-  >(GetAudiencesByContractIdDocument, options);
+  return Apollo.useQuery<GetAudiencesQuery, GetAudiencesQueryVariables>(
+    GetAudiencesDocument,
+    options,
+  );
 }
-export function useGetAudiencesByContractIdLazyQuery(
+export function useGetAudiencesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAudiencesByContractIdQuery,
-    GetAudiencesByContractIdQueryVariables
+    GetAudiencesQuery,
+    GetAudiencesQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetAudiencesByContractIdQuery,
-    GetAudiencesByContractIdQueryVariables
-  >(GetAudiencesByContractIdDocument, options);
+  return Apollo.useLazyQuery<GetAudiencesQuery, GetAudiencesQueryVariables>(
+    GetAudiencesDocument,
+    options,
+  );
 }
-export type GetAudiencesByContractIdQueryHookResult = ReturnType<
-  typeof useGetAudiencesByContractIdQuery
+export type GetAudiencesQueryHookResult = ReturnType<
+  typeof useGetAudiencesQuery
 >;
-export type GetAudiencesByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetAudiencesByContractIdLazyQuery
+export type GetAudiencesLazyQueryHookResult = ReturnType<
+  typeof useGetAudiencesLazyQuery
 >;
-export type GetAudiencesByContractIdQueryResult = Apollo.QueryResult<
-  GetAudiencesByContractIdQuery,
-  GetAudiencesByContractIdQueryVariables
+export type GetAudiencesQueryResult = Apollo.QueryResult<
+  GetAudiencesQuery,
+  GetAudiencesQueryVariables
 >;
-export const UpdateAudienceDocument = gql`
-  mutation updateAudience($updateAudienceId: ID!, $data: AudienceInput!) {
+export const UpdateAudienceByIdDocument = gql`
+  mutation updateAudienceById($updateAudienceId: ID!, $data: AudienceInput!) {
     updateAudience(id: $updateAudienceId, data: $data) {
       data {
         id
@@ -28357,52 +28301,52 @@ export const UpdateAudienceDocument = gql`
     }
   }
 `;
-export type UpdateAudienceMutationFn = Apollo.MutationFunction<
-  UpdateAudienceMutation,
-  UpdateAudienceMutationVariables
+export type UpdateAudienceByIdMutationFn = Apollo.MutationFunction<
+  UpdateAudienceByIdMutation,
+  UpdateAudienceByIdMutationVariables
 >;
 
 /**
- * __useUpdateAudienceMutation__
+ * __useUpdateAudienceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateAudienceMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateAudienceMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateAudienceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAudienceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateAudienceMutation, { data, loading, error }] = useUpdateAudienceMutation({
+ * const [updateAudienceByIdMutation, { data, loading, error }] = useUpdateAudienceByIdMutation({
  *   variables: {
  *      updateAudienceId: // value for 'updateAudienceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateAudienceMutation(
+export function useUpdateAudienceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateAudienceMutation,
-    UpdateAudienceMutationVariables
+    UpdateAudienceByIdMutation,
+    UpdateAudienceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateAudienceMutation,
-    UpdateAudienceMutationVariables
-  >(UpdateAudienceDocument, options);
+    UpdateAudienceByIdMutation,
+    UpdateAudienceByIdMutationVariables
+  >(UpdateAudienceByIdDocument, options);
 }
-export type UpdateAudienceMutationHookResult = ReturnType<
-  typeof useUpdateAudienceMutation
+export type UpdateAudienceByIdMutationHookResult = ReturnType<
+  typeof useUpdateAudienceByIdMutation
 >;
-export type UpdateAudienceMutationResult =
-  Apollo.MutationResult<UpdateAudienceMutation>;
-export type UpdateAudienceMutationOptions = Apollo.BaseMutationOptions<
-  UpdateAudienceMutation,
-  UpdateAudienceMutationVariables
+export type UpdateAudienceByIdMutationResult =
+  Apollo.MutationResult<UpdateAudienceByIdMutation>;
+export type UpdateAudienceByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateAudienceByIdMutation,
+  UpdateAudienceByIdMutationVariables
 >;
 export const CreateAlertNotificationDocument = gql`
-  mutation CreateAlertNotification($data: AlertNotificationInput!) {
+  mutation createAlertNotification($data: AlertNotificationInput!) {
     createAlertNotification(data: $data) {
       data {
         id
@@ -28466,8 +28410,8 @@ export type CreateAlertNotificationMutationOptions = Apollo.BaseMutationOptions<
   CreateAlertNotificationMutation,
   CreateAlertNotificationMutationVariables
 >;
-export const DeleteAlertNotificationsByIdDocument = gql`
-  mutation deleteAlertNotificationsById($deleteAlertNotificationId: ID!) {
+export const DeleteAlertNotificationByIdDocument = gql`
+  mutation deleteAlertNotificationById($deleteAlertNotificationId: ID!) {
     deleteAlertNotification(id: $deleteAlertNotificationId) {
       data {
         id
@@ -28475,49 +28419,49 @@ export const DeleteAlertNotificationsByIdDocument = gql`
     }
   }
 `;
-export type DeleteAlertNotificationsByIdMutationFn = Apollo.MutationFunction<
-  DeleteAlertNotificationsByIdMutation,
-  DeleteAlertNotificationsByIdMutationVariables
+export type DeleteAlertNotificationByIdMutationFn = Apollo.MutationFunction<
+  DeleteAlertNotificationByIdMutation,
+  DeleteAlertNotificationByIdMutationVariables
 >;
 
 /**
- * __useDeleteAlertNotificationsByIdMutation__
+ * __useDeleteAlertNotificationByIdMutation__
  *
- * To run a mutation, you first call `useDeleteAlertNotificationsByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteAlertNotificationsByIdMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteAlertNotificationByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAlertNotificationByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteAlertNotificationsByIdMutation, { data, loading, error }] = useDeleteAlertNotificationsByIdMutation({
+ * const [deleteAlertNotificationByIdMutation, { data, loading, error }] = useDeleteAlertNotificationByIdMutation({
  *   variables: {
  *      deleteAlertNotificationId: // value for 'deleteAlertNotificationId'
  *   },
  * });
  */
-export function useDeleteAlertNotificationsByIdMutation(
+export function useDeleteAlertNotificationByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteAlertNotificationsByIdMutation,
-    DeleteAlertNotificationsByIdMutationVariables
+    DeleteAlertNotificationByIdMutation,
+    DeleteAlertNotificationByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    DeleteAlertNotificationsByIdMutation,
-    DeleteAlertNotificationsByIdMutationVariables
-  >(DeleteAlertNotificationsByIdDocument, options);
+    DeleteAlertNotificationByIdMutation,
+    DeleteAlertNotificationByIdMutationVariables
+  >(DeleteAlertNotificationByIdDocument, options);
 }
-export type DeleteAlertNotificationsByIdMutationHookResult = ReturnType<
-  typeof useDeleteAlertNotificationsByIdMutation
+export type DeleteAlertNotificationByIdMutationHookResult = ReturnType<
+  typeof useDeleteAlertNotificationByIdMutation
 >;
-export type DeleteAlertNotificationsByIdMutationResult =
-  Apollo.MutationResult<DeleteAlertNotificationsByIdMutation>;
-export type DeleteAlertNotificationsByIdMutationOptions =
+export type DeleteAlertNotificationByIdMutationResult =
+  Apollo.MutationResult<DeleteAlertNotificationByIdMutation>;
+export type DeleteAlertNotificationByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    DeleteAlertNotificationsByIdMutation,
-    DeleteAlertNotificationsByIdMutationVariables
+    DeleteAlertNotificationByIdMutation,
+    DeleteAlertNotificationByIdMutationVariables
   >;
 export const GetAlertNotificationByIdDocument = gql`
   query getAlertNotificationById($alertNotificationId: ID) {
@@ -28759,79 +28703,8 @@ export type GetAlertNotificationsByContractIdQueryResult = Apollo.QueryResult<
   GetAlertNotificationsByContractIdQuery,
   GetAlertNotificationsByContractIdQueryVariables
 >;
-export const GetAllRequestsEmailByContractIdDocument = gql`
-  query getAllRequestsEmailByContractId($contractId: ID!) {
-    requests(
-      filters: { requestService: { contract: { id: { eq: $contractId } } } }
-    ) {
-      data {
-        id
-        attributes {
-          requestType {
-            id
-            title
-            email
-            isEmail
-            isTSMS
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetAllRequestsEmailByContractIdQuery__
- *
- * To run a query within a React component, call `useGetAllRequestsEmailByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllRequestsEmailByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllRequestsEmailByContractIdQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetAllRequestsEmailByContractIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetAllRequestsEmailByContractIdQuery,
-    GetAllRequestsEmailByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetAllRequestsEmailByContractIdQuery,
-    GetAllRequestsEmailByContractIdQueryVariables
-  >(GetAllRequestsEmailByContractIdDocument, options);
-}
-export function useGetAllRequestsEmailByContractIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAllRequestsEmailByContractIdQuery,
-    GetAllRequestsEmailByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetAllRequestsEmailByContractIdQuery,
-    GetAllRequestsEmailByContractIdQueryVariables
-  >(GetAllRequestsEmailByContractIdDocument, options);
-}
-export type GetAllRequestsEmailByContractIdQueryHookResult = ReturnType<
-  typeof useGetAllRequestsEmailByContractIdQuery
->;
-export type GetAllRequestsEmailByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetAllRequestsEmailByContractIdLazyQuery
->;
-export type GetAllRequestsEmailByContractIdQueryResult = Apollo.QueryResult<
-  GetAllRequestsEmailByContractIdQuery,
-  GetAllRequestsEmailByContractIdQueryVariables
->;
 export const ProgrammedSendDocument = gql`
-  mutation ProgrammedSend(
+  mutation programmedSend(
     $isEmail: Boolean
     $isSms: Boolean
     $mailSubject: String
@@ -28907,7 +28780,7 @@ export type ProgrammedSendMutationOptions = Apollo.BaseMutationOptions<
   ProgrammedSendMutationVariables
 >;
 export const SendEmailDocument = gql`
-  mutation SendEmail(
+  mutation sendEmail(
     $subject: String
     $content: String
     $recipientEmails: [String]!
@@ -28964,7 +28837,7 @@ export type SendEmailMutationOptions = Apollo.BaseMutationOptions<
   SendEmailMutationVariables
 >;
 export const SendSmsDocument = gql`
-  mutation SendSMS(
+  mutation sendSMS(
     $content: String!
     $scheduledAt: String
     $sendMultiple: Boolean
@@ -29205,8 +29078,8 @@ export type CreateDropOffMapMutationOptions = Apollo.BaseMutationOptions<
   CreateDropOffMapMutation,
   CreateDropOffMapMutationVariables
 >;
-export const DeleteDropOffMapDocument = gql`
-  mutation deleteDropOffMap($deleteDropOffMapId: ID!) {
+export const DeleteDropOffMapByIdDocument = gql`
+  mutation deleteDropOffMapById($deleteDropOffMapId: ID!) {
     deleteDropOffMap(id: $deleteDropOffMapId) {
       data {
         id
@@ -29214,48 +29087,48 @@ export const DeleteDropOffMapDocument = gql`
     }
   }
 `;
-export type DeleteDropOffMapMutationFn = Apollo.MutationFunction<
-  DeleteDropOffMapMutation,
-  DeleteDropOffMapMutationVariables
+export type DeleteDropOffMapByIdMutationFn = Apollo.MutationFunction<
+  DeleteDropOffMapByIdMutation,
+  DeleteDropOffMapByIdMutationVariables
 >;
 
 /**
- * __useDeleteDropOffMapMutation__
+ * __useDeleteDropOffMapByIdMutation__
  *
- * To run a mutation, you first call `useDeleteDropOffMapMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteDropOffMapMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteDropOffMapByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDropOffMapByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteDropOffMapMutation, { data, loading, error }] = useDeleteDropOffMapMutation({
+ * const [deleteDropOffMapByIdMutation, { data, loading, error }] = useDeleteDropOffMapByIdMutation({
  *   variables: {
  *      deleteDropOffMapId: // value for 'deleteDropOffMapId'
  *   },
  * });
  */
-export function useDeleteDropOffMapMutation(
+export function useDeleteDropOffMapByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteDropOffMapMutation,
-    DeleteDropOffMapMutationVariables
+    DeleteDropOffMapByIdMutation,
+    DeleteDropOffMapByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    DeleteDropOffMapMutation,
-    DeleteDropOffMapMutationVariables
-  >(DeleteDropOffMapDocument, options);
+    DeleteDropOffMapByIdMutation,
+    DeleteDropOffMapByIdMutationVariables
+  >(DeleteDropOffMapByIdDocument, options);
 }
-export type DeleteDropOffMapMutationHookResult = ReturnType<
-  typeof useDeleteDropOffMapMutation
+export type DeleteDropOffMapByIdMutationHookResult = ReturnType<
+  typeof useDeleteDropOffMapByIdMutation
 >;
-export type DeleteDropOffMapMutationResult =
-  Apollo.MutationResult<DeleteDropOffMapMutation>;
-export type DeleteDropOffMapMutationOptions = Apollo.BaseMutationOptions<
-  DeleteDropOffMapMutation,
-  DeleteDropOffMapMutationVariables
+export type DeleteDropOffMapByIdMutationResult =
+  Apollo.MutationResult<DeleteDropOffMapByIdMutation>;
+export type DeleteDropOffMapByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteDropOffMapByIdMutation,
+  DeleteDropOffMapByIdMutationVariables
 >;
 export const GetDropOffMapByIdDocument = gql`
   query getDropOffMapById($dropOffMapId: ID!) {
@@ -29383,8 +29256,8 @@ export type GetDropOffMapByIdQueryResult = Apollo.QueryResult<
   GetDropOffMapByIdQuery,
   GetDropOffMapByIdQueryVariables
 >;
-export const GetDropOffMapByDropOffMapByServiceIdDocument = gql`
-  query getDropOffMapByDropOffMapByServiceId(
+export const GetDropOffMapsByContractIdDocument = gql`
+  query getDropOffMapsByContractId(
     $contractId: ID!
     $pagination: PaginationArg
     $sort: [String]
@@ -29453,16 +29326,16 @@ export const GetDropOffMapByDropOffMapByServiceIdDocument = gql`
 `;
 
 /**
- * __useGetDropOffMapByDropOffMapByServiceIdQuery__
+ * __useGetDropOffMapsByContractIdQuery__
  *
- * To run a query within a React component, call `useGetDropOffMapByDropOffMapByServiceIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDropOffMapByDropOffMapByServiceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetDropOffMapsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDropOffMapsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetDropOffMapByDropOffMapByServiceIdQuery({
+ * const { data, loading, error } = useGetDropOffMapsByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      pagination: // value for 'pagination'
@@ -29470,42 +29343,45 @@ export const GetDropOffMapByDropOffMapByServiceIdDocument = gql`
  *   },
  * });
  */
-export function useGetDropOffMapByDropOffMapByServiceIdQuery(
+export function useGetDropOffMapsByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetDropOffMapByDropOffMapByServiceIdQuery,
-    GetDropOffMapByDropOffMapByServiceIdQueryVariables
+    GetDropOffMapsByContractIdQuery,
+    GetDropOffMapsByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetDropOffMapByDropOffMapByServiceIdQuery,
-    GetDropOffMapByDropOffMapByServiceIdQueryVariables
-  >(GetDropOffMapByDropOffMapByServiceIdDocument, options);
+    GetDropOffMapsByContractIdQuery,
+    GetDropOffMapsByContractIdQueryVariables
+  >(GetDropOffMapsByContractIdDocument, options);
 }
-export function useGetDropOffMapByDropOffMapByServiceIdLazyQuery(
+export function useGetDropOffMapsByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetDropOffMapByDropOffMapByServiceIdQuery,
-    GetDropOffMapByDropOffMapByServiceIdQueryVariables
+    GetDropOffMapsByContractIdQuery,
+    GetDropOffMapsByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetDropOffMapByDropOffMapByServiceIdQuery,
-    GetDropOffMapByDropOffMapByServiceIdQueryVariables
-  >(GetDropOffMapByDropOffMapByServiceIdDocument, options);
+    GetDropOffMapsByContractIdQuery,
+    GetDropOffMapsByContractIdQueryVariables
+  >(GetDropOffMapsByContractIdDocument, options);
 }
-export type GetDropOffMapByDropOffMapByServiceIdQueryHookResult = ReturnType<
-  typeof useGetDropOffMapByDropOffMapByServiceIdQuery
+export type GetDropOffMapsByContractIdQueryHookResult = ReturnType<
+  typeof useGetDropOffMapsByContractIdQuery
 >;
-export type GetDropOffMapByDropOffMapByServiceIdLazyQueryHookResult =
-  ReturnType<typeof useGetDropOffMapByDropOffMapByServiceIdLazyQuery>;
-export type GetDropOffMapByDropOffMapByServiceIdQueryResult =
-  Apollo.QueryResult<
-    GetDropOffMapByDropOffMapByServiceIdQuery,
-    GetDropOffMapByDropOffMapByServiceIdQueryVariables
-  >;
-export const UpdateDropOffMapDocument = gql`
-  mutation updateDropOffMap($updateDropOffMapId: ID!, $data: DropOffMapInput!) {
+export type GetDropOffMapsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetDropOffMapsByContractIdLazyQuery
+>;
+export type GetDropOffMapsByContractIdQueryResult = Apollo.QueryResult<
+  GetDropOffMapsByContractIdQuery,
+  GetDropOffMapsByContractIdQueryVariables
+>;
+export const UpdateDropOffMapByIdDocument = gql`
+  mutation updateDropOffMapById(
+    $updateDropOffMapId: ID!
+    $data: DropOffMapInput!
+  ) {
     updateDropOffMap(id: $updateDropOffMapId, data: $data) {
       data {
         id
@@ -29575,49 +29451,101 @@ export const UpdateDropOffMapDocument = gql`
     }
   }
 `;
-export type UpdateDropOffMapMutationFn = Apollo.MutationFunction<
-  UpdateDropOffMapMutation,
-  UpdateDropOffMapMutationVariables
+export type UpdateDropOffMapByIdMutationFn = Apollo.MutationFunction<
+  UpdateDropOffMapByIdMutation,
+  UpdateDropOffMapByIdMutationVariables
 >;
 
 /**
- * __useUpdateDropOffMapMutation__
+ * __useUpdateDropOffMapByIdMutation__
  *
- * To run a mutation, you first call `useUpdateDropOffMapMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateDropOffMapMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateDropOffMapByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDropOffMapByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateDropOffMapMutation, { data, loading, error }] = useUpdateDropOffMapMutation({
+ * const [updateDropOffMapByIdMutation, { data, loading, error }] = useUpdateDropOffMapByIdMutation({
  *   variables: {
  *      updateDropOffMapId: // value for 'updateDropOffMapId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateDropOffMapMutation(
+export function useUpdateDropOffMapByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateDropOffMapMutation,
-    UpdateDropOffMapMutationVariables
+    UpdateDropOffMapByIdMutation,
+    UpdateDropOffMapByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateDropOffMapMutation,
-    UpdateDropOffMapMutationVariables
-  >(UpdateDropOffMapDocument, options);
+    UpdateDropOffMapByIdMutation,
+    UpdateDropOffMapByIdMutationVariables
+  >(UpdateDropOffMapByIdDocument, options);
 }
-export type UpdateDropOffMapMutationHookResult = ReturnType<
-  typeof useUpdateDropOffMapMutation
+export type UpdateDropOffMapByIdMutationHookResult = ReturnType<
+  typeof useUpdateDropOffMapByIdMutation
 >;
-export type UpdateDropOffMapMutationResult =
-  Apollo.MutationResult<UpdateDropOffMapMutation>;
-export type UpdateDropOffMapMutationOptions = Apollo.BaseMutationOptions<
-  UpdateDropOffMapMutation,
-  UpdateDropOffMapMutationVariables
+export type UpdateDropOffMapByIdMutationResult =
+  Apollo.MutationResult<UpdateDropOffMapByIdMutation>;
+export type UpdateDropOffMapByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateDropOffMapByIdMutation,
+  UpdateDropOffMapByIdMutationVariables
+>;
+export const CreateRequestDocument = gql`
+  mutation createRequest($data: RequestInput!) {
+    createRequest(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type CreateRequestMutationFn = Apollo.MutationFunction<
+  CreateRequestMutation,
+  CreateRequestMutationVariables
+>;
+
+/**
+ * __useCreateRequestMutation__
+ *
+ * To run a mutation, you first call `useCreateRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRequestMutation, { data, loading, error }] = useCreateRequestMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateRequestMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateRequestMutation,
+    CreateRequestMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateRequestMutation,
+    CreateRequestMutationVariables
+  >(CreateRequestDocument, options);
+}
+export type CreateRequestMutationHookResult = ReturnType<
+  typeof useCreateRequestMutation
+>;
+export type CreateRequestMutationResult =
+  Apollo.MutationResult<CreateRequestMutation>;
+export type CreateRequestMutationOptions = Apollo.BaseMutationOptions<
+  CreateRequestMutation,
+  CreateRequestMutationVariables
 >;
 export const CreateRequestAggregateDocument = gql`
   mutation createRequestAggregate($data: RequestAggregateInput!) {
@@ -29681,59 +29609,6 @@ export type CreateRequestAggregateMutationOptions = Apollo.BaseMutationOptions<
   CreateRequestAggregateMutation,
   CreateRequestAggregateMutationVariables
 >;
-export const CreateRequestByContractIdDocument = gql`
-  mutation createRequestByContractId($data: RequestInput!) {
-    createRequest(data: $data) {
-      data {
-        id
-      }
-    }
-  }
-`;
-export type CreateRequestByContractIdMutationFn = Apollo.MutationFunction<
-  CreateRequestByContractIdMutation,
-  CreateRequestByContractIdMutationVariables
->;
-
-/**
- * __useCreateRequestByContractIdMutation__
- *
- * To run a mutation, you first call `useCreateRequestByContractIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateRequestByContractIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createRequestByContractIdMutation, { data, loading, error }] = useCreateRequestByContractIdMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useCreateRequestByContractIdMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateRequestByContractIdMutation,
-    CreateRequestByContractIdMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateRequestByContractIdMutation,
-    CreateRequestByContractIdMutationVariables
-  >(CreateRequestByContractIdDocument, options);
-}
-export type CreateRequestByContractIdMutationHookResult = ReturnType<
-  typeof useCreateRequestByContractIdMutation
->;
-export type CreateRequestByContractIdMutationResult =
-  Apollo.MutationResult<CreateRequestByContractIdMutation>;
-export type CreateRequestByContractIdMutationOptions =
-  Apollo.BaseMutationOptions<
-    CreateRequestByContractIdMutation,
-    CreateRequestByContractIdMutationVariables
-  >;
 export const DeleteRequestAggregateByIdDocument = gql`
   mutation deleteRequestAggregateById($deleteRequestAggregateId: ID!) {
     deleteRequestAggregate(id: $deleteRequestAggregateId) {
@@ -29839,8 +29714,8 @@ export type DeleteRequestByIdMutationOptions = Apollo.BaseMutationOptions<
   DeleteRequestByIdMutation,
   DeleteRequestByIdMutationVariables
 >;
-export const DeleteRequestTakedDocument = gql`
-  mutation DeleteRequestTaked($deleteRequestTakedId: ID!) {
+export const DeleteRequestTakedByIdDocument = gql`
+  mutation deleteRequestTakedById($deleteRequestTakedId: ID!) {
     deleteRequestTaked(id: $deleteRequestTakedId) {
       data {
         id
@@ -29848,51 +29723,51 @@ export const DeleteRequestTakedDocument = gql`
     }
   }
 `;
-export type DeleteRequestTakedMutationFn = Apollo.MutationFunction<
-  DeleteRequestTakedMutation,
-  DeleteRequestTakedMutationVariables
+export type DeleteRequestTakedByIdMutationFn = Apollo.MutationFunction<
+  DeleteRequestTakedByIdMutation,
+  DeleteRequestTakedByIdMutationVariables
 >;
 
 /**
- * __useDeleteRequestTakedMutation__
+ * __useDeleteRequestTakedByIdMutation__
  *
- * To run a mutation, you first call `useDeleteRequestTakedMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteRequestTakedMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteRequestTakedByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRequestTakedByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteRequestTakedMutation, { data, loading, error }] = useDeleteRequestTakedMutation({
+ * const [deleteRequestTakedByIdMutation, { data, loading, error }] = useDeleteRequestTakedByIdMutation({
  *   variables: {
  *      deleteRequestTakedId: // value for 'deleteRequestTakedId'
  *   },
  * });
  */
-export function useDeleteRequestTakedMutation(
+export function useDeleteRequestTakedByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteRequestTakedMutation,
-    DeleteRequestTakedMutationVariables
+    DeleteRequestTakedByIdMutation,
+    DeleteRequestTakedByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    DeleteRequestTakedMutation,
-    DeleteRequestTakedMutationVariables
-  >(DeleteRequestTakedDocument, options);
+    DeleteRequestTakedByIdMutation,
+    DeleteRequestTakedByIdMutationVariables
+  >(DeleteRequestTakedByIdDocument, options);
 }
-export type DeleteRequestTakedMutationHookResult = ReturnType<
-  typeof useDeleteRequestTakedMutation
+export type DeleteRequestTakedByIdMutationHookResult = ReturnType<
+  typeof useDeleteRequestTakedByIdMutation
 >;
-export type DeleteRequestTakedMutationResult =
-  Apollo.MutationResult<DeleteRequestTakedMutation>;
-export type DeleteRequestTakedMutationOptions = Apollo.BaseMutationOptions<
-  DeleteRequestTakedMutation,
-  DeleteRequestTakedMutationVariables
+export type DeleteRequestTakedByIdMutationResult =
+  Apollo.MutationResult<DeleteRequestTakedByIdMutation>;
+export type DeleteRequestTakedByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRequestTakedByIdMutation,
+  DeleteRequestTakedByIdMutationVariables
 >;
-export const GetAppointmentsDetailsDocument = gql`
-  query GetAppointmentsDetails($requestId: ID!) {
+export const GetAppointmentsDetailsByRequestIdDocument = gql`
+  query getAppointmentsDetailsByRequestId($requestId: ID!) {
     getAppointmentsDetails(requestId: $requestId) {
       title
       appointments {
@@ -29918,57 +29793,57 @@ export const GetAppointmentsDetailsDocument = gql`
 `;
 
 /**
- * __useGetAppointmentsDetailsQuery__
+ * __useGetAppointmentsDetailsByRequestIdQuery__
  *
- * To run a query within a React component, call `useGetAppointmentsDetailsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAppointmentsDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAppointmentsDetailsByRequestIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAppointmentsDetailsByRequestIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAppointmentsDetailsQuery({
+ * const { data, loading, error } = useGetAppointmentsDetailsByRequestIdQuery({
  *   variables: {
  *      requestId: // value for 'requestId'
  *   },
  * });
  */
-export function useGetAppointmentsDetailsQuery(
+export function useGetAppointmentsDetailsByRequestIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetAppointmentsDetailsQuery,
-    GetAppointmentsDetailsQueryVariables
+    GetAppointmentsDetailsByRequestIdQuery,
+    GetAppointmentsDetailsByRequestIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetAppointmentsDetailsQuery,
-    GetAppointmentsDetailsQueryVariables
-  >(GetAppointmentsDetailsDocument, options);
+    GetAppointmentsDetailsByRequestIdQuery,
+    GetAppointmentsDetailsByRequestIdQueryVariables
+  >(GetAppointmentsDetailsByRequestIdDocument, options);
 }
-export function useGetAppointmentsDetailsLazyQuery(
+export function useGetAppointmentsDetailsByRequestIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAppointmentsDetailsQuery,
-    GetAppointmentsDetailsQueryVariables
+    GetAppointmentsDetailsByRequestIdQuery,
+    GetAppointmentsDetailsByRequestIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetAppointmentsDetailsQuery,
-    GetAppointmentsDetailsQueryVariables
-  >(GetAppointmentsDetailsDocument, options);
+    GetAppointmentsDetailsByRequestIdQuery,
+    GetAppointmentsDetailsByRequestIdQueryVariables
+  >(GetAppointmentsDetailsByRequestIdDocument, options);
 }
-export type GetAppointmentsDetailsQueryHookResult = ReturnType<
-  typeof useGetAppointmentsDetailsQuery
+export type GetAppointmentsDetailsByRequestIdQueryHookResult = ReturnType<
+  typeof useGetAppointmentsDetailsByRequestIdQuery
 >;
-export type GetAppointmentsDetailsLazyQueryHookResult = ReturnType<
-  typeof useGetAppointmentsDetailsLazyQuery
+export type GetAppointmentsDetailsByRequestIdLazyQueryHookResult = ReturnType<
+  typeof useGetAppointmentsDetailsByRequestIdLazyQuery
 >;
-export type GetAppointmentsDetailsQueryResult = Apollo.QueryResult<
-  GetAppointmentsDetailsQuery,
-  GetAppointmentsDetailsQueryVariables
+export type GetAppointmentsDetailsByRequestIdQueryResult = Apollo.QueryResult<
+  GetAppointmentsDetailsByRequestIdQuery,
+  GetAppointmentsDetailsByRequestIdQueryVariables
 >;
-export const GetEnrichRequestsDocument = gql`
-  query getEnrichRequests($requestServiceId: ID!) {
+export const GetEnrichRequestsByRequestServiceIdDocument = gql`
+  query getEnrichRequestsByRequestServiceId($requestServiceId: ID!) {
     getEnrichRequests(requestServiceId: $requestServiceId) {
       requestName
       requestId
@@ -29978,54 +29853,54 @@ export const GetEnrichRequestsDocument = gql`
 `;
 
 /**
- * __useGetEnrichRequestsQuery__
+ * __useGetEnrichRequestsByRequestServiceIdQuery__
  *
- * To run a query within a React component, call `useGetEnrichRequestsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetEnrichRequestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetEnrichRequestsByRequestServiceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEnrichRequestsByRequestServiceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetEnrichRequestsQuery({
+ * const { data, loading, error } = useGetEnrichRequestsByRequestServiceIdQuery({
  *   variables: {
  *      requestServiceId: // value for 'requestServiceId'
  *   },
  * });
  */
-export function useGetEnrichRequestsQuery(
+export function useGetEnrichRequestsByRequestServiceIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetEnrichRequestsQuery,
-    GetEnrichRequestsQueryVariables
+    GetEnrichRequestsByRequestServiceIdQuery,
+    GetEnrichRequestsByRequestServiceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetEnrichRequestsQuery,
-    GetEnrichRequestsQueryVariables
-  >(GetEnrichRequestsDocument, options);
+    GetEnrichRequestsByRequestServiceIdQuery,
+    GetEnrichRequestsByRequestServiceIdQueryVariables
+  >(GetEnrichRequestsByRequestServiceIdDocument, options);
 }
-export function useGetEnrichRequestsLazyQuery(
+export function useGetEnrichRequestsByRequestServiceIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEnrichRequestsQuery,
-    GetEnrichRequestsQueryVariables
+    GetEnrichRequestsByRequestServiceIdQuery,
+    GetEnrichRequestsByRequestServiceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetEnrichRequestsQuery,
-    GetEnrichRequestsQueryVariables
-  >(GetEnrichRequestsDocument, options);
+    GetEnrichRequestsByRequestServiceIdQuery,
+    GetEnrichRequestsByRequestServiceIdQueryVariables
+  >(GetEnrichRequestsByRequestServiceIdDocument, options);
 }
-export type GetEnrichRequestsQueryHookResult = ReturnType<
-  typeof useGetEnrichRequestsQuery
+export type GetEnrichRequestsByRequestServiceIdQueryHookResult = ReturnType<
+  typeof useGetEnrichRequestsByRequestServiceIdQuery
 >;
-export type GetEnrichRequestsLazyQueryHookResult = ReturnType<
-  typeof useGetEnrichRequestsLazyQuery
+export type GetEnrichRequestsByRequestServiceIdLazyQueryHookResult = ReturnType<
+  typeof useGetEnrichRequestsByRequestServiceIdLazyQuery
 >;
-export type GetEnrichRequestsQueryResult = Apollo.QueryResult<
-  GetEnrichRequestsQuery,
-  GetEnrichRequestsQueryVariables
+export type GetEnrichRequestsByRequestServiceIdQueryResult = Apollo.QueryResult<
+  GetEnrichRequestsByRequestServiceIdQuery,
+  GetEnrichRequestsByRequestServiceIdQueryVariables
 >;
 export const GetRequestAggregatesByContractIdDocument = gql`
   query getRequestAggregatesByContractId(
@@ -30459,8 +30334,8 @@ export type CreateRequestSlotMutationOptions = Apollo.BaseMutationOptions<
   CreateRequestSlotMutation,
   CreateRequestSlotMutationVariables
 >;
-export const DeleteRequestSlotDocument = gql`
-  mutation deleteRequestSlot($id: ID!) {
+export const DeleteRequestSlotByIdDocument = gql`
+  mutation deleteRequestSlotById($id: ID!) {
     deleteRequestSlot(id: $id) {
       data {
         id
@@ -30468,51 +30343,51 @@ export const DeleteRequestSlotDocument = gql`
     }
   }
 `;
-export type DeleteRequestSlotMutationFn = Apollo.MutationFunction<
-  DeleteRequestSlotMutation,
-  DeleteRequestSlotMutationVariables
+export type DeleteRequestSlotByIdMutationFn = Apollo.MutationFunction<
+  DeleteRequestSlotByIdMutation,
+  DeleteRequestSlotByIdMutationVariables
 >;
 
 /**
- * __useDeleteRequestSlotMutation__
+ * __useDeleteRequestSlotByIdMutation__
  *
- * To run a mutation, you first call `useDeleteRequestSlotMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteRequestSlotMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteRequestSlotByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRequestSlotByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteRequestSlotMutation, { data, loading, error }] = useDeleteRequestSlotMutation({
+ * const [deleteRequestSlotByIdMutation, { data, loading, error }] = useDeleteRequestSlotByIdMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDeleteRequestSlotMutation(
+export function useDeleteRequestSlotByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteRequestSlotMutation,
-    DeleteRequestSlotMutationVariables
+    DeleteRequestSlotByIdMutation,
+    DeleteRequestSlotByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    DeleteRequestSlotMutation,
-    DeleteRequestSlotMutationVariables
-  >(DeleteRequestSlotDocument, options);
+    DeleteRequestSlotByIdMutation,
+    DeleteRequestSlotByIdMutationVariables
+  >(DeleteRequestSlotByIdDocument, options);
 }
-export type DeleteRequestSlotMutationHookResult = ReturnType<
-  typeof useDeleteRequestSlotMutation
+export type DeleteRequestSlotByIdMutationHookResult = ReturnType<
+  typeof useDeleteRequestSlotByIdMutation
 >;
-export type DeleteRequestSlotMutationResult =
-  Apollo.MutationResult<DeleteRequestSlotMutation>;
-export type DeleteRequestSlotMutationOptions = Apollo.BaseMutationOptions<
-  DeleteRequestSlotMutation,
-  DeleteRequestSlotMutationVariables
+export type DeleteRequestSlotByIdMutationResult =
+  Apollo.MutationResult<DeleteRequestSlotByIdMutation>;
+export type DeleteRequestSlotByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRequestSlotByIdMutation,
+  DeleteRequestSlotByIdMutationVariables
 >;
-export const UpdateRequestSlotDocument = gql`
-  mutation updateRequestSlot($id: ID!, $data: RequestSlotInput!) {
+export const UpdateRequestSlotByIdDocument = gql`
+  mutation updateRequestSlotById($id: ID!, $data: RequestSlotInput!) {
     updateRequestSlot(id: $id, data: $data) {
       data {
         id
@@ -30538,52 +30413,52 @@ export const UpdateRequestSlotDocument = gql`
     }
   }
 `;
-export type UpdateRequestSlotMutationFn = Apollo.MutationFunction<
-  UpdateRequestSlotMutation,
-  UpdateRequestSlotMutationVariables
+export type UpdateRequestSlotByIdMutationFn = Apollo.MutationFunction<
+  UpdateRequestSlotByIdMutation,
+  UpdateRequestSlotByIdMutationVariables
 >;
 
 /**
- * __useUpdateRequestSlotMutation__
+ * __useUpdateRequestSlotByIdMutation__
  *
- * To run a mutation, you first call `useUpdateRequestSlotMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateRequestSlotMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateRequestSlotByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRequestSlotByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateRequestSlotMutation, { data, loading, error }] = useUpdateRequestSlotMutation({
+ * const [updateRequestSlotByIdMutation, { data, loading, error }] = useUpdateRequestSlotByIdMutation({
  *   variables: {
  *      id: // value for 'id'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateRequestSlotMutation(
+export function useUpdateRequestSlotByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateRequestSlotMutation,
-    UpdateRequestSlotMutationVariables
+    UpdateRequestSlotByIdMutation,
+    UpdateRequestSlotByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateRequestSlotMutation,
-    UpdateRequestSlotMutationVariables
-  >(UpdateRequestSlotDocument, options);
+    UpdateRequestSlotByIdMutation,
+    UpdateRequestSlotByIdMutationVariables
+  >(UpdateRequestSlotByIdDocument, options);
 }
-export type UpdateRequestSlotMutationHookResult = ReturnType<
-  typeof useUpdateRequestSlotMutation
+export type UpdateRequestSlotByIdMutationHookResult = ReturnType<
+  typeof useUpdateRequestSlotByIdMutation
 >;
-export type UpdateRequestSlotMutationResult =
-  Apollo.MutationResult<UpdateRequestSlotMutation>;
-export type UpdateRequestSlotMutationOptions = Apollo.BaseMutationOptions<
-  UpdateRequestSlotMutation,
-  UpdateRequestSlotMutationVariables
+export type UpdateRequestSlotByIdMutationResult =
+  Apollo.MutationResult<UpdateRequestSlotByIdMutation>;
+export type UpdateRequestSlotByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateRequestSlotByIdMutation,
+  UpdateRequestSlotByIdMutationVariables
 >;
-export const UpdateRequestAggregateDocument = gql`
-  mutation updateRequestAggregate(
+export const UpdateRequestAggregateByIdDocument = gql`
+  mutation updateRequestAggregateById(
     $updateRequestAggregateId: ID!
     $data: RequestAggregateInput!
   ) {
@@ -30597,50 +30472,51 @@ export const UpdateRequestAggregateDocument = gql`
     }
   }
 `;
-export type UpdateRequestAggregateMutationFn = Apollo.MutationFunction<
-  UpdateRequestAggregateMutation,
-  UpdateRequestAggregateMutationVariables
+export type UpdateRequestAggregateByIdMutationFn = Apollo.MutationFunction<
+  UpdateRequestAggregateByIdMutation,
+  UpdateRequestAggregateByIdMutationVariables
 >;
 
 /**
- * __useUpdateRequestAggregateMutation__
+ * __useUpdateRequestAggregateByIdMutation__
  *
- * To run a mutation, you first call `useUpdateRequestAggregateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateRequestAggregateMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateRequestAggregateByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRequestAggregateByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateRequestAggregateMutation, { data, loading, error }] = useUpdateRequestAggregateMutation({
+ * const [updateRequestAggregateByIdMutation, { data, loading, error }] = useUpdateRequestAggregateByIdMutation({
  *   variables: {
  *      updateRequestAggregateId: // value for 'updateRequestAggregateId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateRequestAggregateMutation(
+export function useUpdateRequestAggregateByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateRequestAggregateMutation,
-    UpdateRequestAggregateMutationVariables
+    UpdateRequestAggregateByIdMutation,
+    UpdateRequestAggregateByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateRequestAggregateMutation,
-    UpdateRequestAggregateMutationVariables
-  >(UpdateRequestAggregateDocument, options);
+    UpdateRequestAggregateByIdMutation,
+    UpdateRequestAggregateByIdMutationVariables
+  >(UpdateRequestAggregateByIdDocument, options);
 }
-export type UpdateRequestAggregateMutationHookResult = ReturnType<
-  typeof useUpdateRequestAggregateMutation
+export type UpdateRequestAggregateByIdMutationHookResult = ReturnType<
+  typeof useUpdateRequestAggregateByIdMutation
 >;
-export type UpdateRequestAggregateMutationResult =
-  Apollo.MutationResult<UpdateRequestAggregateMutation>;
-export type UpdateRequestAggregateMutationOptions = Apollo.BaseMutationOptions<
-  UpdateRequestAggregateMutation,
-  UpdateRequestAggregateMutationVariables
->;
+export type UpdateRequestAggregateByIdMutationResult =
+  Apollo.MutationResult<UpdateRequestAggregateByIdMutation>;
+export type UpdateRequestAggregateByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateRequestAggregateByIdMutation,
+    UpdateRequestAggregateByIdMutationVariables
+  >;
 export const UpdateRequestByIdDocument = gql`
   mutation updateRequestById($updateRequestId: ID!, $data: RequestInput!) {
     updateRequest(id: $updateRequestId, data: $data) {
@@ -30694,8 +30570,8 @@ export type UpdateRequestByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdateRequestByIdMutation,
   UpdateRequestByIdMutationVariables
 >;
-export const GetWasteFamiliesDocument = gql`
-  query getWasteFamilies($contractId: ID, $sort: [String]) {
+export const GetWasteFamiliesByContractIdDocument = gql`
+  query getWasteFamiliesByContractId($contractId: ID, $sort: [String]) {
     recyclingGuideService(id: $contractId) {
       data {
         id
@@ -30724,78 +30600,6 @@ export const GetWasteFamiliesDocument = gql`
 `;
 
 /**
- * __useGetWasteFamiliesQuery__
- *
- * To run a query within a React component, call `useGetWasteFamiliesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetWasteFamiliesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetWasteFamiliesQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *      sort: // value for 'sort'
- *   },
- * });
- */
-export function useGetWasteFamiliesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetWasteFamiliesQuery,
-    GetWasteFamiliesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetWasteFamiliesQuery, GetWasteFamiliesQueryVariables>(
-    GetWasteFamiliesDocument,
-    options,
-  );
-}
-export function useGetWasteFamiliesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetWasteFamiliesQuery,
-    GetWasteFamiliesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetWasteFamiliesQuery,
-    GetWasteFamiliesQueryVariables
-  >(GetWasteFamiliesDocument, options);
-}
-export type GetWasteFamiliesQueryHookResult = ReturnType<
-  typeof useGetWasteFamiliesQuery
->;
-export type GetWasteFamiliesLazyQueryHookResult = ReturnType<
-  typeof useGetWasteFamiliesLazyQuery
->;
-export type GetWasteFamiliesQueryResult = Apollo.QueryResult<
-  GetWasteFamiliesQuery,
-  GetWasteFamiliesQueryVariables
->;
-export const GetWasteFamiliesByContractIdDocument = gql`
-  query getWasteFamiliesByContractId($contractId: ID) {
-    recyclingGuideService(id: $contractId) {
-      data {
-        id
-        attributes {
-          wasteFamilies {
-            data {
-              id
-              attributes {
-                familyName
-                isSystem
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
  * __useGetWasteFamiliesByContractIdQuery__
  *
  * To run a query within a React component, call `useGetWasteFamiliesByContractIdQuery` and pass it any options that fit your needs.
@@ -30808,6 +30612,7 @@ export const GetWasteFamiliesByContractIdDocument = gql`
  * const { data, loading, error } = useGetWasteFamiliesByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      sort: // value for 'sort'
  *   },
  * });
  */
@@ -30845,8 +30650,8 @@ export type GetWasteFamiliesByContractIdQueryResult = Apollo.QueryResult<
   GetWasteFamiliesByContractIdQuery,
   GetWasteFamiliesByContractIdQueryVariables
 >;
-export const UpdateWasteFamilyDocument = gql`
-  mutation UpdateWasteFamily(
+export const UpdateWasteFamilyByIdDocument = gql`
+  mutation updateWasteFamilyById(
     $updateWasteFamilyId: ID!
     $data: WasteFamilyInput!
   ) {
@@ -30863,49 +30668,119 @@ export const UpdateWasteFamilyDocument = gql`
     }
   }
 `;
-export type UpdateWasteFamilyMutationFn = Apollo.MutationFunction<
-  UpdateWasteFamilyMutation,
-  UpdateWasteFamilyMutationVariables
+export type UpdateWasteFamilyByIdMutationFn = Apollo.MutationFunction<
+  UpdateWasteFamilyByIdMutation,
+  UpdateWasteFamilyByIdMutationVariables
 >;
 
 /**
- * __useUpdateWasteFamilyMutation__
+ * __useUpdateWasteFamilyByIdMutation__
  *
- * To run a mutation, you first call `useUpdateWasteFamilyMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateWasteFamilyMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateWasteFamilyByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWasteFamilyByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateWasteFamilyMutation, { data, loading, error }] = useUpdateWasteFamilyMutation({
+ * const [updateWasteFamilyByIdMutation, { data, loading, error }] = useUpdateWasteFamilyByIdMutation({
  *   variables: {
  *      updateWasteFamilyId: // value for 'updateWasteFamilyId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateWasteFamilyMutation(
+export function useUpdateWasteFamilyByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateWasteFamilyMutation,
-    UpdateWasteFamilyMutationVariables
+    UpdateWasteFamilyByIdMutation,
+    UpdateWasteFamilyByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateWasteFamilyMutation,
-    UpdateWasteFamilyMutationVariables
-  >(UpdateWasteFamilyDocument, options);
+    UpdateWasteFamilyByIdMutation,
+    UpdateWasteFamilyByIdMutationVariables
+  >(UpdateWasteFamilyByIdDocument, options);
 }
-export type UpdateWasteFamilyMutationHookResult = ReturnType<
-  typeof useUpdateWasteFamilyMutation
+export type UpdateWasteFamilyByIdMutationHookResult = ReturnType<
+  typeof useUpdateWasteFamilyByIdMutation
 >;
-export type UpdateWasteFamilyMutationResult =
-  Apollo.MutationResult<UpdateWasteFamilyMutation>;
-export type UpdateWasteFamilyMutationOptions = Apollo.BaseMutationOptions<
-  UpdateWasteFamilyMutation,
-  UpdateWasteFamilyMutationVariables
+export type UpdateWasteFamilyByIdMutationResult =
+  Apollo.MutationResult<UpdateWasteFamilyByIdMutation>;
+export type UpdateWasteFamilyByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateWasteFamilyByIdMutation,
+  UpdateWasteFamilyByIdMutationVariables
+>;
+export const GetActiveFlowsByContractIdDocument = gql`
+  query getActiveFlowsByContractId($contractId: ID!) {
+    flows(
+      filters: {
+        isActivated: { eq: true }
+        contract: { id: { eq: $contractId } }
+      }
+      sort: "name:asc"
+    ) {
+      data {
+        id
+        attributes {
+          name
+          recyclingGesture
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetActiveFlowsByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetActiveFlowsByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActiveFlowsByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetActiveFlowsByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetActiveFlowsByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetActiveFlowsByContractIdQuery,
+    GetActiveFlowsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetActiveFlowsByContractIdQuery,
+    GetActiveFlowsByContractIdQueryVariables
+  >(GetActiveFlowsByContractIdDocument, options);
+}
+export function useGetActiveFlowsByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetActiveFlowsByContractIdQuery,
+    GetActiveFlowsByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetActiveFlowsByContractIdQuery,
+    GetActiveFlowsByContractIdQueryVariables
+  >(GetActiveFlowsByContractIdDocument, options);
+}
+export type GetActiveFlowsByContractIdQueryHookResult = ReturnType<
+  typeof useGetActiveFlowsByContractIdQuery
+>;
+export type GetActiveFlowsByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetActiveFlowsByContractIdLazyQuery
+>;
+export type GetActiveFlowsByContractIdQueryResult = Apollo.QueryResult<
+  GetActiveFlowsByContractIdQuery,
+  GetActiveFlowsByContractIdQueryVariables
 >;
 export const GetAllVersionsOfWasteFormByCustomIdDocument = gql`
   query getAllVersionsOfWasteFormByCustomId(
@@ -31049,76 +30924,6 @@ export type GetAllVersionsOfWasteFormByCustomIdLazyQueryHookResult = ReturnType<
 export type GetAllVersionsOfWasteFormByCustomIdQueryResult = Apollo.QueryResult<
   GetAllVersionsOfWasteFormByCustomIdQuery,
   GetAllVersionsOfWasteFormByCustomIdQueryVariables
->;
-export const GetFlowsFilterByContractIdDocument = gql`
-  query getFlowsFilterByContractId($contractId: ID!) {
-    flows(
-      filters: {
-        isActivated: { eq: true }
-        contract: { id: { eq: $contractId } }
-      }
-      sort: "name:asc"
-    ) {
-      data {
-        id
-        attributes {
-          name
-          recyclingGesture
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetFlowsFilterByContractIdQuery__
- *
- * To run a query within a React component, call `useGetFlowsFilterByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFlowsFilterByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFlowsFilterByContractIdQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetFlowsFilterByContractIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetFlowsFilterByContractIdQuery,
-    GetFlowsFilterByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetFlowsFilterByContractIdQuery,
-    GetFlowsFilterByContractIdQueryVariables
-  >(GetFlowsFilterByContractIdDocument, options);
-}
-export function useGetFlowsFilterByContractIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFlowsFilterByContractIdQuery,
-    GetFlowsFilterByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetFlowsFilterByContractIdQuery,
-    GetFlowsFilterByContractIdQueryVariables
-  >(GetFlowsFilterByContractIdDocument, options);
-}
-export type GetFlowsFilterByContractIdQueryHookResult = ReturnType<
-  typeof useGetFlowsFilterByContractIdQuery
->;
-export type GetFlowsFilterByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetFlowsFilterByContractIdLazyQuery
->;
-export type GetFlowsFilterByContractIdQueryResult = Apollo.QueryResult<
-  GetFlowsFilterByContractIdQuery,
-  GetFlowsFilterByContractIdQueryVariables
 >;
 export const GetWasteFormByIdDocument = gql`
   query getWasteFormById($wasteFormId: ID) {
@@ -31312,68 +31117,6 @@ export type GetWasteFormByIdQueryResult = Apollo.QueryResult<
   GetWasteFormByIdQuery,
   GetWasteFormByIdQueryVariables
 >;
-export const GetWasteFormDraftDocument = gql`
-  query getWasteFormDraft($customId: String!) {
-    wasteForms(
-      filters: { customId: { eq: $customId }, status: { eq: "draft" } }
-    ) {
-      data {
-        id
-      }
-    }
-  }
-`;
-
-/**
- * __useGetWasteFormDraftQuery__
- *
- * To run a query within a React component, call `useGetWasteFormDraftQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetWasteFormDraftQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetWasteFormDraftQuery({
- *   variables: {
- *      customId: // value for 'customId'
- *   },
- * });
- */
-export function useGetWasteFormDraftQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetWasteFormDraftQuery,
-    GetWasteFormDraftQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetWasteFormDraftQuery,
-    GetWasteFormDraftQueryVariables
-  >(GetWasteFormDraftDocument, options);
-}
-export function useGetWasteFormDraftLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetWasteFormDraftQuery,
-    GetWasteFormDraftQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetWasteFormDraftQuery,
-    GetWasteFormDraftQueryVariables
-  >(GetWasteFormDraftDocument, options);
-}
-export type GetWasteFormDraftQueryHookResult = ReturnType<
-  typeof useGetWasteFormDraftQuery
->;
-export type GetWasteFormDraftLazyQueryHookResult = ReturnType<
-  typeof useGetWasteFormDraftLazyQuery
->;
-export type GetWasteFormDraftQueryResult = Apollo.QueryResult<
-  GetWasteFormDraftQuery,
-  GetWasteFormDraftQueryVariables
->;
 export const GetWasteFormsByContractIdDocument = gql`
   query getWasteFormsByContractId(
     $contractId: ID
@@ -31513,8 +31256,73 @@ export type GetWasteFormsByContractIdQueryResult = Apollo.QueryResult<
   GetWasteFormsByContractIdQuery,
   GetWasteFormsByContractIdQueryVariables
 >;
-export const UpdateWasteFormDocument = gql`
-  mutation UpdateWasteForm($updateWasteFormId: ID!, $data: WasteFormInput!) {
+export const GetWasteFormsDraftByCustomIdDocument = gql`
+  query getWasteFormsDraftByCustomId($customId: String!) {
+    wasteForms(
+      filters: { customId: { eq: $customId }, status: { eq: "draft" } }
+    ) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetWasteFormsDraftByCustomIdQuery__
+ *
+ * To run a query within a React component, call `useGetWasteFormsDraftByCustomIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWasteFormsDraftByCustomIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWasteFormsDraftByCustomIdQuery({
+ *   variables: {
+ *      customId: // value for 'customId'
+ *   },
+ * });
+ */
+export function useGetWasteFormsDraftByCustomIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetWasteFormsDraftByCustomIdQuery,
+    GetWasteFormsDraftByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetWasteFormsDraftByCustomIdQuery,
+    GetWasteFormsDraftByCustomIdQueryVariables
+  >(GetWasteFormsDraftByCustomIdDocument, options);
+}
+export function useGetWasteFormsDraftByCustomIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetWasteFormsDraftByCustomIdQuery,
+    GetWasteFormsDraftByCustomIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetWasteFormsDraftByCustomIdQuery,
+    GetWasteFormsDraftByCustomIdQueryVariables
+  >(GetWasteFormsDraftByCustomIdDocument, options);
+}
+export type GetWasteFormsDraftByCustomIdQueryHookResult = ReturnType<
+  typeof useGetWasteFormsDraftByCustomIdQuery
+>;
+export type GetWasteFormsDraftByCustomIdLazyQueryHookResult = ReturnType<
+  typeof useGetWasteFormsDraftByCustomIdLazyQuery
+>;
+export type GetWasteFormsDraftByCustomIdQueryResult = Apollo.QueryResult<
+  GetWasteFormsDraftByCustomIdQuery,
+  GetWasteFormsDraftByCustomIdQueryVariables
+>;
+export const UpdateWasteFormByIdDocument = gql`
+  mutation updateWasteFormById(
+    $updateWasteFormId: ID!
+    $data: WasteFormInput!
+  ) {
     versioningHandler(
       data: { id: $updateWasteFormId, data: $data }
       entity: "wasteForm"
@@ -31536,150 +31344,50 @@ export const UpdateWasteFormDocument = gql`
     }
   }
 `;
-export type UpdateWasteFormMutationFn = Apollo.MutationFunction<
-  UpdateWasteFormMutation,
-  UpdateWasteFormMutationVariables
+export type UpdateWasteFormByIdMutationFn = Apollo.MutationFunction<
+  UpdateWasteFormByIdMutation,
+  UpdateWasteFormByIdMutationVariables
 >;
 
 /**
- * __useUpdateWasteFormMutation__
+ * __useUpdateWasteFormByIdMutation__
  *
- * To run a mutation, you first call `useUpdateWasteFormMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateWasteFormMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateWasteFormByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWasteFormByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateWasteFormMutation, { data, loading, error }] = useUpdateWasteFormMutation({
+ * const [updateWasteFormByIdMutation, { data, loading, error }] = useUpdateWasteFormByIdMutation({
  *   variables: {
  *      updateWasteFormId: // value for 'updateWasteFormId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateWasteFormMutation(
+export function useUpdateWasteFormByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateWasteFormMutation,
-    UpdateWasteFormMutationVariables
+    UpdateWasteFormByIdMutation,
+    UpdateWasteFormByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateWasteFormMutation,
-    UpdateWasteFormMutationVariables
-  >(UpdateWasteFormDocument, options);
+    UpdateWasteFormByIdMutation,
+    UpdateWasteFormByIdMutationVariables
+  >(UpdateWasteFormByIdDocument, options);
 }
-export type UpdateWasteFormMutationHookResult = ReturnType<
-  typeof useUpdateWasteFormMutation
+export type UpdateWasteFormByIdMutationHookResult = ReturnType<
+  typeof useUpdateWasteFormByIdMutation
 >;
-export type UpdateWasteFormMutationResult =
-  Apollo.MutationResult<UpdateWasteFormMutation>;
-export type UpdateWasteFormMutationOptions = Apollo.BaseMutationOptions<
-  UpdateWasteFormMutation,
-  UpdateWasteFormMutationVariables
+export type UpdateWasteFormByIdMutationResult =
+  Apollo.MutationResult<UpdateWasteFormByIdMutation>;
+export type UpdateWasteFormByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateWasteFormByIdMutation,
+  UpdateWasteFormByIdMutationVariables
 >;
-export const GetRecyclingGuideServiceByContractIdDocument = gql`
-  query getRecyclingGuideServiceByContractId($contractId: ID!) {
-    recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        id
-        attributes {
-          name
-          endDate
-          memoName
-          memoDesc
-          isActivated
-          orderExtension
-          wasteFamilies {
-            data {
-              id
-              attributes {
-                createdAt
-                familyName
-                isSystem
-                updatedAt
-                wasteForms {
-                  data {
-                    id
-                    attributes {
-                      name
-                    }
-                  }
-                }
-              }
-            }
-          }
-          memoFile {
-            data {
-              id
-              attributes {
-                name
-                hash
-                mime
-                size
-                url
-                provider
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetRecyclingGuideServiceByContractIdQuery__
- *
- * To run a query within a React component, call `useGetRecyclingGuideServiceByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecyclingGuideServiceByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetRecyclingGuideServiceByContractIdQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetRecyclingGuideServiceByContractIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >(GetRecyclingGuideServiceByContractIdDocument, options);
-}
-export function useGetRecyclingGuideServiceByContractIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >(GetRecyclingGuideServiceByContractIdDocument, options);
-}
-export type GetRecyclingGuideServiceByContractIdQueryHookResult = ReturnType<
-  typeof useGetRecyclingGuideServiceByContractIdQuery
->;
-export type GetRecyclingGuideServiceByContractIdLazyQueryHookResult =
-  ReturnType<typeof useGetRecyclingGuideServiceByContractIdLazyQuery>;
-export type GetRecyclingGuideServiceByContractIdQueryResult =
-  Apollo.QueryResult<
-    GetRecyclingGuideServiceByContractIdQuery,
-    GetRecyclingGuideServiceByContractIdQueryVariables
-  >;
 export const GetRecyclingGuideServiceByIdDocument = gql`
   query getRecyclingGuideServiceById($recyclingGuideServiceId: ID) {
     recyclingGuideService(id: $recyclingGuideServiceId) {
@@ -31763,8 +31471,108 @@ export type GetRecyclingGuideServiceByIdQueryResult = Apollo.QueryResult<
   GetRecyclingGuideServiceByIdQuery,
   GetRecyclingGuideServiceByIdQueryVariables
 >;
-export const UpdateMemoTriDocument = gql`
-  mutation updateMemoTri(
+export const GetRecyclingGuideServicesByContractIdDocument = gql`
+  query getRecyclingGuideServicesByContractId($contractId: ID!) {
+    recyclingGuideServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          name
+          endDate
+          memoName
+          memoDesc
+          isActivated
+          orderExtension
+          wasteFamilies {
+            data {
+              id
+              attributes {
+                createdAt
+                familyName
+                isSystem
+                updatedAt
+                wasteForms {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
+          memoFile {
+            data {
+              id
+              attributes {
+                name
+                hash
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRecyclingGuideServicesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetRecyclingGuideServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecyclingGuideServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecyclingGuideServicesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetRecyclingGuideServicesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRecyclingGuideServicesByContractIdQuery,
+    GetRecyclingGuideServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRecyclingGuideServicesByContractIdQuery,
+    GetRecyclingGuideServicesByContractIdQueryVariables
+  >(GetRecyclingGuideServicesByContractIdDocument, options);
+}
+export function useGetRecyclingGuideServicesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRecyclingGuideServicesByContractIdQuery,
+    GetRecyclingGuideServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRecyclingGuideServicesByContractIdQuery,
+    GetRecyclingGuideServicesByContractIdQueryVariables
+  >(GetRecyclingGuideServicesByContractIdDocument, options);
+}
+export type GetRecyclingGuideServicesByContractIdQueryHookResult = ReturnType<
+  typeof useGetRecyclingGuideServicesByContractIdQuery
+>;
+export type GetRecyclingGuideServicesByContractIdLazyQueryHookResult =
+  ReturnType<typeof useGetRecyclingGuideServicesByContractIdLazyQuery>;
+export type GetRecyclingGuideServicesByContractIdQueryResult =
+  Apollo.QueryResult<
+    GetRecyclingGuideServicesByContractIdQuery,
+    GetRecyclingGuideServicesByContractIdQueryVariables
+  >;
+export const UpdateRecyclingGuideServiceByIdDocument = gql`
+  mutation updateRecyclingGuideServiceById(
     $updateRecyclingGuideServiceId: ID!
     $data: RecyclingGuideServiceInput!
   ) {
@@ -31776,6 +31584,7 @@ export const UpdateMemoTriDocument = gql`
         id
         attributes {
           name
+          orderExtension
           isActivated
           memoName
           memoDesc
@@ -31789,189 +31598,51 @@ export const UpdateMemoTriDocument = gql`
     }
   }
 `;
-export type UpdateMemoTriMutationFn = Apollo.MutationFunction<
-  UpdateMemoTriMutation,
-  UpdateMemoTriMutationVariables
+export type UpdateRecyclingGuideServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateRecyclingGuideServiceByIdMutation,
+  UpdateRecyclingGuideServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateMemoTriMutation__
+ * __useUpdateRecyclingGuideServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateMemoTriMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateMemoTriMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateRecyclingGuideServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRecyclingGuideServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateMemoTriMutation, { data, loading, error }] = useUpdateMemoTriMutation({
+ * const [updateRecyclingGuideServiceByIdMutation, { data, loading, error }] = useUpdateRecyclingGuideServiceByIdMutation({
  *   variables: {
  *      updateRecyclingGuideServiceId: // value for 'updateRecyclingGuideServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateMemoTriMutation(
+export function useUpdateRecyclingGuideServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateMemoTriMutation,
-    UpdateMemoTriMutationVariables
+    UpdateRecyclingGuideServiceByIdMutation,
+    UpdateRecyclingGuideServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateMemoTriMutation,
-    UpdateMemoTriMutationVariables
-  >(UpdateMemoTriDocument, options);
+    UpdateRecyclingGuideServiceByIdMutation,
+    UpdateRecyclingGuideServiceByIdMutationVariables
+  >(UpdateRecyclingGuideServiceByIdDocument, options);
 }
-export type UpdateMemoTriMutationHookResult = ReturnType<
-  typeof useUpdateMemoTriMutation
+export type UpdateRecyclingGuideServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateRecyclingGuideServiceByIdMutation
 >;
-export type UpdateMemoTriMutationResult =
-  Apollo.MutationResult<UpdateMemoTriMutation>;
-export type UpdateMemoTriMutationOptions = Apollo.BaseMutationOptions<
-  UpdateMemoTriMutation,
-  UpdateMemoTriMutationVariables
->;
-export const UpdateRecyclingGuideServiceDocument = gql`
-  mutation updateRecyclingGuideService(
-    $updateRecyclingGuideServiceId: ID!
-    $data: RecyclingGuideServiceInput!
-  ) {
-    updateRecyclingGuideService(
-      id: $updateRecyclingGuideServiceId
-      data: $data
-    ) {
-      data {
-        id
-        attributes {
-          orderExtension
-        }
-      }
-    }
-  }
-`;
-export type UpdateRecyclingGuideServiceMutationFn = Apollo.MutationFunction<
-  UpdateRecyclingGuideServiceMutation,
-  UpdateRecyclingGuideServiceMutationVariables
->;
-
-/**
- * __useUpdateRecyclingGuideServiceMutation__
- *
- * To run a mutation, you first call `useUpdateRecyclingGuideServiceMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateRecyclingGuideServiceMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateRecyclingGuideServiceMutation, { data, loading, error }] = useUpdateRecyclingGuideServiceMutation({
- *   variables: {
- *      updateRecyclingGuideServiceId: // value for 'updateRecyclingGuideServiceId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateRecyclingGuideServiceMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateRecyclingGuideServiceMutation,
-    UpdateRecyclingGuideServiceMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateRecyclingGuideServiceMutation,
-    UpdateRecyclingGuideServiceMutationVariables
-  >(UpdateRecyclingGuideServiceDocument, options);
-}
-export type UpdateRecyclingGuideServiceMutationHookResult = ReturnType<
-  typeof useUpdateRecyclingGuideServiceMutation
->;
-export type UpdateRecyclingGuideServiceMutationResult =
-  Apollo.MutationResult<UpdateRecyclingGuideServiceMutation>;
-export type UpdateRecyclingGuideServiceMutationOptions =
+export type UpdateRecyclingGuideServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateRecyclingGuideServiceByIdMutation>;
+export type UpdateRecyclingGuideServiceByIdMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateRecyclingGuideServiceMutation,
-    UpdateRecyclingGuideServiceMutationVariables
+    UpdateRecyclingGuideServiceByIdMutation,
+    UpdateRecyclingGuideServiceByIdMutationVariables
   >;
-export const GetFilteredFlowsDocument = gql`
-  query getFilteredFlows($contractId: ID, $sectorizationsId: [ID]) {
-    flows(
-      filters: {
-        contract: { id: { eq: $contractId } }
-        isActivated: { eq: true }
-      }
-    ) {
-      data {
-        id
-        attributes {
-          name
-          pickUpDays(
-            filters: { sectorizations: { id: { in: $sectorizationsId } } }
-          ) {
-            data {
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetFilteredFlowsQuery__
- *
- * To run a query within a React component, call `useGetFilteredFlowsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFilteredFlowsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFilteredFlowsQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *      sectorizationsId: // value for 'sectorizationsId'
- *   },
- * });
- */
-export function useGetFilteredFlowsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetFilteredFlowsQuery,
-    GetFilteredFlowsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetFilteredFlowsQuery, GetFilteredFlowsQueryVariables>(
-    GetFilteredFlowsDocument,
-    options,
-  );
-}
-export function useGetFilteredFlowsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFilteredFlowsQuery,
-    GetFilteredFlowsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetFilteredFlowsQuery,
-    GetFilteredFlowsQueryVariables
-  >(GetFilteredFlowsDocument, options);
-}
-export type GetFilteredFlowsQueryHookResult = ReturnType<
-  typeof useGetFilteredFlowsQuery
->;
-export type GetFilteredFlowsLazyQueryHookResult = ReturnType<
-  typeof useGetFilteredFlowsLazyQuery
->;
-export type GetFilteredFlowsQueryResult = Apollo.QueryResult<
-  GetFilteredFlowsQuery,
-  GetFilteredFlowsQueryVariables
->;
 export const CreateInformationMessageDocument = gql`
   mutation createInformationMessage($data: InformationMessageInput!) {
     createInformationMessage(data: $data) {
@@ -32260,8 +31931,8 @@ export type GetActiveRequestsByContractIdQueryResult = Apollo.QueryResult<
   GetActiveRequestsByContractIdQuery,
   GetActiveRequestsByContractIdQueryVariables
 >;
-export const GetCollectDoorToDoorByFlowIdDocument = gql`
-  query getCollectDoorToDoorByFlowId($flowId: ID) {
+export const GetCollectDoorToDoorsByFlowIdDocument = gql`
+  query getCollectDoorToDoorsByFlowId($flowId: ID) {
     collectDoorToDoors(filters: { flows: { id: { eq: $flowId } } }) {
       data {
         id
@@ -32274,54 +31945,54 @@ export const GetCollectDoorToDoorByFlowIdDocument = gql`
 `;
 
 /**
- * __useGetCollectDoorToDoorByFlowIdQuery__
+ * __useGetCollectDoorToDoorsByFlowIdQuery__
  *
- * To run a query within a React component, call `useGetCollectDoorToDoorByFlowIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCollectDoorToDoorByFlowIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCollectDoorToDoorsByFlowIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCollectDoorToDoorsByFlowIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCollectDoorToDoorByFlowIdQuery({
+ * const { data, loading, error } = useGetCollectDoorToDoorsByFlowIdQuery({
  *   variables: {
  *      flowId: // value for 'flowId'
  *   },
  * });
  */
-export function useGetCollectDoorToDoorByFlowIdQuery(
+export function useGetCollectDoorToDoorsByFlowIdQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetCollectDoorToDoorByFlowIdQuery,
-    GetCollectDoorToDoorByFlowIdQueryVariables
+    GetCollectDoorToDoorsByFlowIdQuery,
+    GetCollectDoorToDoorsByFlowIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetCollectDoorToDoorByFlowIdQuery,
-    GetCollectDoorToDoorByFlowIdQueryVariables
-  >(GetCollectDoorToDoorByFlowIdDocument, options);
+    GetCollectDoorToDoorsByFlowIdQuery,
+    GetCollectDoorToDoorsByFlowIdQueryVariables
+  >(GetCollectDoorToDoorsByFlowIdDocument, options);
 }
-export function useGetCollectDoorToDoorByFlowIdLazyQuery(
+export function useGetCollectDoorToDoorsByFlowIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCollectDoorToDoorByFlowIdQuery,
-    GetCollectDoorToDoorByFlowIdQueryVariables
+    GetCollectDoorToDoorsByFlowIdQuery,
+    GetCollectDoorToDoorsByFlowIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetCollectDoorToDoorByFlowIdQuery,
-    GetCollectDoorToDoorByFlowIdQueryVariables
-  >(GetCollectDoorToDoorByFlowIdDocument, options);
+    GetCollectDoorToDoorsByFlowIdQuery,
+    GetCollectDoorToDoorsByFlowIdQueryVariables
+  >(GetCollectDoorToDoorsByFlowIdDocument, options);
 }
-export type GetCollectDoorToDoorByFlowIdQueryHookResult = ReturnType<
-  typeof useGetCollectDoorToDoorByFlowIdQuery
+export type GetCollectDoorToDoorsByFlowIdQueryHookResult = ReturnType<
+  typeof useGetCollectDoorToDoorsByFlowIdQuery
 >;
-export type GetCollectDoorToDoorByFlowIdLazyQueryHookResult = ReturnType<
-  typeof useGetCollectDoorToDoorByFlowIdLazyQuery
+export type GetCollectDoorToDoorsByFlowIdLazyQueryHookResult = ReturnType<
+  typeof useGetCollectDoorToDoorsByFlowIdLazyQuery
 >;
-export type GetCollectDoorToDoorByFlowIdQueryResult = Apollo.QueryResult<
-  GetCollectDoorToDoorByFlowIdQuery,
-  GetCollectDoorToDoorByFlowIdQueryVariables
+export type GetCollectDoorToDoorsByFlowIdQueryResult = Apollo.QueryResult<
+  GetCollectDoorToDoorsByFlowIdQuery,
+  GetCollectDoorToDoorsByFlowIdQueryVariables
 >;
 export const GetCollectVoluntariesByFlowIdDocument = gql`
   query getCollectVoluntariesByFlowId($flowId: ID) {
@@ -32448,8 +32119,11 @@ export type GetDropOffCollectTypeByContractIdQueryResult = Apollo.QueryResult<
   GetDropOffCollectTypeByContractIdQuery,
   GetDropOffCollectTypeByContractIdQueryVariables
 >;
-export const GetFlowsDocument = gql`
-  query getFlows($contractId: ID) {
+export const GetActiveFlowsByContractIdAndSectorizationsIdDocument = gql`
+  query getActiveFlowsByContractIdAndSectorizationsId(
+    $contractId: ID
+    $sectorizationsId: [ID]
+  ) {
     flows(
       filters: {
         contract: { id: { eq: $contractId } }
@@ -32460,92 +32134,11 @@ export const GetFlowsDocument = gql`
         id
         attributes {
           name
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetFlowsQuery__
- *
- * To run a query within a React component, call `useGetFlowsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFlowsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFlowsQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetFlowsQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetFlowsQuery, GetFlowsQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetFlowsQuery, GetFlowsQueryVariables>(
-    GetFlowsDocument,
-    options,
-  );
-}
-export function useGetFlowsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFlowsQuery,
-    GetFlowsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetFlowsQuery, GetFlowsQueryVariables>(
-    GetFlowsDocument,
-    options,
-  );
-}
-export type GetFlowsQueryHookResult = ReturnType<typeof useGetFlowsQuery>;
-export type GetFlowsLazyQueryHookResult = ReturnType<
-  typeof useGetFlowsLazyQuery
->;
-export type GetFlowsQueryResult = Apollo.QueryResult<
-  GetFlowsQuery,
-  GetFlowsQueryVariables
->;
-export const GetInformationMessageByContractIdDocument = gql`
-  query getInformationMessageByContractId(
-    $contractId: ID!
-    $pickUpDaysId: ID
-    $pagination: PaginationArg
-    $sort: [String]
-  ) {
-    informationMessages(
-      filters: {
-        pickUpDays: {
-          pickUpDayService: { contract: { id: { eq: $contractId } } }
-          id: { eq: $pickUpDaysId }
-        }
-      }
-      pagination: $pagination
-      sort: $sort
-    ) {
-      meta {
-        pagination {
-          page
-          pageCount
-          pageSize
-          total
-        }
-      }
-      data {
-        id
-        attributes {
-          infoMessage
-          pickUpDays {
+          pickUpDays(
+            filters: { sectorizations: { id: { in: $sectorizationsId } } }
+          ) {
             data {
               id
-              attributes {
-                name
-              }
             }
           }
         }
@@ -32555,58 +32148,55 @@ export const GetInformationMessageByContractIdDocument = gql`
 `;
 
 /**
- * __useGetInformationMessageByContractIdQuery__
+ * __useGetActiveFlowsByContractIdAndSectorizationsIdQuery__
  *
- * To run a query within a React component, call `useGetInformationMessageByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetInformationMessageByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetActiveFlowsByContractIdAndSectorizationsIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActiveFlowsByContractIdAndSectorizationsIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetInformationMessageByContractIdQuery({
+ * const { data, loading, error } = useGetActiveFlowsByContractIdAndSectorizationsIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
- *      pickUpDaysId: // value for 'pickUpDaysId'
- *      pagination: // value for 'pagination'
- *      sort: // value for 'sort'
+ *      sectorizationsId: // value for 'sectorizationsId'
  *   },
  * });
  */
-export function useGetInformationMessageByContractIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetInformationMessageByContractIdQuery,
-    GetInformationMessageByContractIdQueryVariables
+export function useGetActiveFlowsByContractIdAndSectorizationsIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
+    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetInformationMessageByContractIdQuery,
-    GetInformationMessageByContractIdQueryVariables
-  >(GetInformationMessageByContractIdDocument, options);
+    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
+    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
+  >(GetActiveFlowsByContractIdAndSectorizationsIdDocument, options);
 }
-export function useGetInformationMessageByContractIdLazyQuery(
+export function useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetInformationMessageByContractIdQuery,
-    GetInformationMessageByContractIdQueryVariables
+    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
+    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetInformationMessageByContractIdQuery,
-    GetInformationMessageByContractIdQueryVariables
-  >(GetInformationMessageByContractIdDocument, options);
+    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
+    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
+  >(GetActiveFlowsByContractIdAndSectorizationsIdDocument, options);
 }
-export type GetInformationMessageByContractIdQueryHookResult = ReturnType<
-  typeof useGetInformationMessageByContractIdQuery
->;
-export type GetInformationMessageByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetInformationMessageByContractIdLazyQuery
->;
-export type GetInformationMessageByContractIdQueryResult = Apollo.QueryResult<
-  GetInformationMessageByContractIdQuery,
-  GetInformationMessageByContractIdQueryVariables
->;
+export type GetActiveFlowsByContractIdAndSectorizationsIdQueryHookResult =
+  ReturnType<typeof useGetActiveFlowsByContractIdAndSectorizationsIdQuery>;
+export type GetActiveFlowsByContractIdAndSectorizationsIdLazyQueryHookResult =
+  ReturnType<typeof useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery>;
+export type GetActiveFlowsByContractIdAndSectorizationsIdQueryResult =
+  Apollo.QueryResult<
+    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
+    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
+  >;
 export const GetInformationMessageByIdDocument = gql`
   query getInformationMessageById($informationMessageId: ID) {
     informationMessage(id: $informationMessageId) {
@@ -32679,6 +32269,102 @@ export type GetInformationMessageByIdLazyQueryHookResult = ReturnType<
 export type GetInformationMessageByIdQueryResult = Apollo.QueryResult<
   GetInformationMessageByIdQuery,
   GetInformationMessageByIdQueryVariables
+>;
+export const GetInformationMessagesByContractIdDocument = gql`
+  query getInformationMessagesByContractId(
+    $contractId: ID!
+    $pickUpDaysId: ID
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    informationMessages(
+      filters: {
+        pickUpDays: {
+          pickUpDayService: { contract: { id: { eq: $contractId } } }
+          id: { eq: $pickUpDaysId }
+        }
+      }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      meta {
+        pagination {
+          page
+          pageCount
+          pageSize
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          infoMessage
+          pickUpDays {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetInformationMessagesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetInformationMessagesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetInformationMessagesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetInformationMessagesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      pickUpDaysId: // value for 'pickUpDaysId'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetInformationMessagesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetInformationMessagesByContractIdQuery,
+    GetInformationMessagesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetInformationMessagesByContractIdQuery,
+    GetInformationMessagesByContractIdQueryVariables
+  >(GetInformationMessagesByContractIdDocument, options);
+}
+export function useGetInformationMessagesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetInformationMessagesByContractIdQuery,
+    GetInformationMessagesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetInformationMessagesByContractIdQuery,
+    GetInformationMessagesByContractIdQueryVariables
+  >(GetInformationMessagesByContractIdDocument, options);
+}
+export type GetInformationMessagesByContractIdQueryHookResult = ReturnType<
+  typeof useGetInformationMessagesByContractIdQuery
+>;
+export type GetInformationMessagesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetInformationMessagesByContractIdLazyQuery
+>;
+export type GetInformationMessagesByContractIdQueryResult = Apollo.QueryResult<
+  GetInformationMessagesByContractIdQuery,
+  GetInformationMessagesByContractIdQueryVariables
 >;
 export const GetPickUpDayByIdDocument = gql`
   query getPickUpDayById($pickUpDayId: ID) {
@@ -32941,8 +32627,8 @@ export type GetPickUpDaysByContractIdQueryResult = Apollo.QueryResult<
   GetPickUpDaysByContractIdQuery,
   GetPickUpDaysByContractIdQueryVariables
 >;
-export const GetSearchCitiesDocument = gql`
-  query getSearchCities($searchTerm: String!, $contractId: ID!) {
+export const GetSearchCitiesByContractIdDocument = gql`
+  query getSearchCitiesByContractId($searchTerm: String!, $contractId: ID!) {
     searchCities(searchTerm: $searchTerm, contractId: $contractId) {
       id
       name
@@ -32951,58 +32637,58 @@ export const GetSearchCitiesDocument = gql`
 `;
 
 /**
- * __useGetSearchCitiesQuery__
+ * __useGetSearchCitiesByContractIdQuery__
  *
- * To run a query within a React component, call `useGetSearchCitiesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSearchCitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetSearchCitiesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSearchCitiesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetSearchCitiesQuery({
+ * const { data, loading, error } = useGetSearchCitiesByContractIdQuery({
  *   variables: {
  *      searchTerm: // value for 'searchTerm'
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetSearchCitiesQuery(
+export function useGetSearchCitiesByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetSearchCitiesQuery,
-    GetSearchCitiesQueryVariables
+    GetSearchCitiesByContractIdQuery,
+    GetSearchCitiesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetSearchCitiesQuery, GetSearchCitiesQueryVariables>(
-    GetSearchCitiesDocument,
-    options,
-  );
+  return Apollo.useQuery<
+    GetSearchCitiesByContractIdQuery,
+    GetSearchCitiesByContractIdQueryVariables
+  >(GetSearchCitiesByContractIdDocument, options);
 }
-export function useGetSearchCitiesLazyQuery(
+export function useGetSearchCitiesByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSearchCitiesQuery,
-    GetSearchCitiesQueryVariables
+    GetSearchCitiesByContractIdQuery,
+    GetSearchCitiesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetSearchCitiesQuery,
-    GetSearchCitiesQueryVariables
-  >(GetSearchCitiesDocument, options);
+    GetSearchCitiesByContractIdQuery,
+    GetSearchCitiesByContractIdQueryVariables
+  >(GetSearchCitiesByContractIdDocument, options);
 }
-export type GetSearchCitiesQueryHookResult = ReturnType<
-  typeof useGetSearchCitiesQuery
+export type GetSearchCitiesByContractIdQueryHookResult = ReturnType<
+  typeof useGetSearchCitiesByContractIdQuery
 >;
-export type GetSearchCitiesLazyQueryHookResult = ReturnType<
-  typeof useGetSearchCitiesLazyQuery
+export type GetSearchCitiesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetSearchCitiesByContractIdLazyQuery
 >;
-export type GetSearchCitiesQueryResult = Apollo.QueryResult<
-  GetSearchCitiesQuery,
-  GetSearchCitiesQueryVariables
+export type GetSearchCitiesByContractIdQueryResult = Apollo.QueryResult<
+  GetSearchCitiesByContractIdQuery,
+  GetSearchCitiesByContractIdQueryVariables
 >;
-export const GetSectorizationsPickUpDayDocument = gql`
-  query getSectorizationsPickUpDay($contractId: ID) {
+export const GetSectorizationsPickUpDayByContractIdDocument = gql`
+  query getSectorizationsPickUpDayByContractId($contractId: ID) {
     sectorizations(
       filters: { contract: { id: { eq: $contractId } } }
       sort: "createdAt:desc"
@@ -33018,55 +32704,55 @@ export const GetSectorizationsPickUpDayDocument = gql`
 `;
 
 /**
- * __useGetSectorizationsPickUpDayQuery__
+ * __useGetSectorizationsPickUpDayByContractIdQuery__
  *
- * To run a query within a React component, call `useGetSectorizationsPickUpDayQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSectorizationsPickUpDayQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetSectorizationsPickUpDayByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSectorizationsPickUpDayByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetSectorizationsPickUpDayQuery({
+ * const { data, loading, error } = useGetSectorizationsPickUpDayByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *   },
  * });
  */
-export function useGetSectorizationsPickUpDayQuery(
+export function useGetSectorizationsPickUpDayByContractIdQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetSectorizationsPickUpDayQuery,
-    GetSectorizationsPickUpDayQueryVariables
+    GetSectorizationsPickUpDayByContractIdQuery,
+    GetSectorizationsPickUpDayByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetSectorizationsPickUpDayQuery,
-    GetSectorizationsPickUpDayQueryVariables
-  >(GetSectorizationsPickUpDayDocument, options);
+    GetSectorizationsPickUpDayByContractIdQuery,
+    GetSectorizationsPickUpDayByContractIdQueryVariables
+  >(GetSectorizationsPickUpDayByContractIdDocument, options);
 }
-export function useGetSectorizationsPickUpDayLazyQuery(
+export function useGetSectorizationsPickUpDayByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSectorizationsPickUpDayQuery,
-    GetSectorizationsPickUpDayQueryVariables
+    GetSectorizationsPickUpDayByContractIdQuery,
+    GetSectorizationsPickUpDayByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetSectorizationsPickUpDayQuery,
-    GetSectorizationsPickUpDayQueryVariables
-  >(GetSectorizationsPickUpDayDocument, options);
+    GetSectorizationsPickUpDayByContractIdQuery,
+    GetSectorizationsPickUpDayByContractIdQueryVariables
+  >(GetSectorizationsPickUpDayByContractIdDocument, options);
 }
-export type GetSectorizationsPickUpDayQueryHookResult = ReturnType<
-  typeof useGetSectorizationsPickUpDayQuery
+export type GetSectorizationsPickUpDayByContractIdQueryHookResult = ReturnType<
+  typeof useGetSectorizationsPickUpDayByContractIdQuery
 >;
-export type GetSectorizationsPickUpDayLazyQueryHookResult = ReturnType<
-  typeof useGetSectorizationsPickUpDayLazyQuery
->;
-export type GetSectorizationsPickUpDayQueryResult = Apollo.QueryResult<
-  GetSectorizationsPickUpDayQuery,
-  GetSectorizationsPickUpDayQueryVariables
->;
+export type GetSectorizationsPickUpDayByContractIdLazyQueryHookResult =
+  ReturnType<typeof useGetSectorizationsPickUpDayByContractIdLazyQuery>;
+export type GetSectorizationsPickUpDayByContractIdQueryResult =
+  Apollo.QueryResult<
+    GetSectorizationsPickUpDayByContractIdQuery,
+    GetSectorizationsPickUpDayByContractIdQueryVariables
+  >;
 export const UpdateInformationMessageByIdDocument = gql`
   mutation updateInformationMessageById(
     $updateInformationMessageId: ID!
@@ -33137,8 +32823,11 @@ export type UpdateInformationMessageByIdMutationOptions =
     UpdateInformationMessageByIdMutation,
     UpdateInformationMessageByIdMutationVariables
   >;
-export const UpdatePickUpDayDocument = gql`
-  mutation updatePickUpDay($updatePickUpDayId: ID!, $data: PickUpDayInput!) {
+export const UpdatePickUpDayByIdDocument = gql`
+  mutation updatePickUpDayById(
+    $updatePickUpDayId: ID!
+    $data: PickUpDayInput!
+  ) {
     updatePickUpDay(id: $updatePickUpDayId, data: $data) {
       data {
         id
@@ -33185,47 +32874,47 @@ export const UpdatePickUpDayDocument = gql`
     }
   }
 `;
-export type UpdatePickUpDayMutationFn = Apollo.MutationFunction<
-  UpdatePickUpDayMutation,
-  UpdatePickUpDayMutationVariables
+export type UpdatePickUpDayByIdMutationFn = Apollo.MutationFunction<
+  UpdatePickUpDayByIdMutation,
+  UpdatePickUpDayByIdMutationVariables
 >;
 
 /**
- * __useUpdatePickUpDayMutation__
+ * __useUpdatePickUpDayByIdMutation__
  *
- * To run a mutation, you first call `useUpdatePickUpDayMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePickUpDayMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdatePickUpDayByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePickUpDayByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updatePickUpDayMutation, { data, loading, error }] = useUpdatePickUpDayMutation({
+ * const [updatePickUpDayByIdMutation, { data, loading, error }] = useUpdatePickUpDayByIdMutation({
  *   variables: {
  *      updatePickUpDayId: // value for 'updatePickUpDayId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdatePickUpDayMutation(
+export function useUpdatePickUpDayByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdatePickUpDayMutation,
-    UpdatePickUpDayMutationVariables
+    UpdatePickUpDayByIdMutation,
+    UpdatePickUpDayByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdatePickUpDayMutation,
-    UpdatePickUpDayMutationVariables
-  >(UpdatePickUpDayDocument, options);
+    UpdatePickUpDayByIdMutation,
+    UpdatePickUpDayByIdMutationVariables
+  >(UpdatePickUpDayByIdDocument, options);
 }
-export type UpdatePickUpDayMutationHookResult = ReturnType<
-  typeof useUpdatePickUpDayMutation
+export type UpdatePickUpDayByIdMutationHookResult = ReturnType<
+  typeof useUpdatePickUpDayByIdMutation
 >;
-export type UpdatePickUpDayMutationResult =
-  Apollo.MutationResult<UpdatePickUpDayMutation>;
-export type UpdatePickUpDayMutationOptions = Apollo.BaseMutationOptions<
-  UpdatePickUpDayMutation,
-  UpdatePickUpDayMutationVariables
+export type UpdatePickUpDayByIdMutationResult =
+  Apollo.MutationResult<UpdatePickUpDayByIdMutation>;
+export type UpdatePickUpDayByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdatePickUpDayByIdMutation,
+  UpdatePickUpDayByIdMutationVariables
 >;

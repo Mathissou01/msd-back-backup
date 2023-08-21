@@ -8,7 +8,7 @@ import {
   GetTipsByContractIdQuery,
   GetTipsByContractIdQueryVariables,
   useCreateTipMutation,
-  useDeleteTipMutation,
+  useDeleteTipByIdMutation,
   useGetTipByIdLazyQuery,
   useGetTipsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
@@ -75,10 +75,10 @@ export function EditoAstucesPage() {
   }
 
   function onDuplicate(row: ITipsTableRow) {
-    GetTipByIdQuery({ variables: { tipId: row.id } }).then((data) => {
+    getTipByIdQuery({ variables: { tipId: row.id } }).then((data) => {
       const originalTip = data.data?.tip?.data?.attributes;
       if (originalTip) {
-        void createTipMutation({
+        void createTip({
           variables: {
             data: {
               title: `${originalTip.title} Ajout`,
@@ -100,7 +100,7 @@ export function EditoAstucesPage() {
 
   async function onDelete(row: ITipsTableRow) {
     setIsUpdatingData(true);
-    return deleteTipMutation({
+    return deleteTip({
       variables: { deleteTipId: row.id },
     });
   }
@@ -121,23 +121,19 @@ export function EditoAstucesPage() {
       fetchPolicy: "network-only",
     });
   const [
-    GetTipByIdQuery,
-    { loading: prepareDuplicateLoading, error: prepareDuplicateError },
+    getTipByIdQuery,
+    { loading: getTipByIdLoading, error: getTipByIdError },
   ] = useGetTipByIdLazyQuery();
-  const [
-    createTipMutation,
-    { loading: createTipMutationLoading, error: createTipMutationError },
-  ] = useCreateTipMutation({
-    refetchQueries: ["getTipsByContractId"],
-    awaitRefetchQueries: true,
-  });
-  const [
-    deleteTipMutation,
-    { loading: deleteTipMutationLoading, error: deleteTipMutationError },
-  ] = useDeleteTipMutation({
-    refetchQueries: ["getTipsByContractId"],
-    awaitRefetchQueries: true,
-  });
+  const [createTip, { loading: createTipLoading, error: createTipError }] =
+    useCreateTipMutation({
+      refetchQueries: ["getTipsByContractId"],
+      awaitRefetchQueries: true,
+    });
+  const [deleteTip, { loading: deleteTipLoading, error: deleteTipError }] =
+    useDeleteTipByIdMutation({
+      refetchQueries: ["getTipsByContractId"],
+      awaitRefetchQueries: true,
+    });
 
   /* Local Data */
   const router = useRouter();
@@ -149,17 +145,9 @@ export function EditoAstucesPage() {
   const [filters, setFilters] = useState<IFilters>({});
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
-    isUpdatingData ||
-    prepareDuplicateLoading ||
-    createTipMutationLoading ||
-    deleteTipMutationLoading;
+    isUpdatingData || getTipByIdLoading || createTipLoading || deleteTipLoading;
   const isLoading = loading || isLoadingMutation;
-  const errors = [
-    error,
-    prepareDuplicateError,
-    createTipMutationError,
-    deleteTipMutationError,
-  ];
+  const errors = [error, getTipByIdError, createTipError, deleteTipError];
 
   const tableColumns: Array<TableColumn<ITipsTableRow>> = [
     {

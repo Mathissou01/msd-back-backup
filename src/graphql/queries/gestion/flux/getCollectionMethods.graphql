@@ -1,0 +1,26 @@
+query getCollectionMethods($filters: CollectDoorToDoorFiltersInput) {
+  collectDoorToDoors(filters: $filters) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+  collectDropOffs {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+  collectVoluntaries {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

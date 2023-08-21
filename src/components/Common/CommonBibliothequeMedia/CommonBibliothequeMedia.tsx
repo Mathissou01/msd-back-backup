@@ -2,13 +2,13 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import classNames from "classnames";
 import {
-  GetFilesPaginationByPathIdDocument,
-  GetFilesPaginationByPathIdQueryVariables,
+  GetUploadFilesDocument,
+  GetUploadFilesQueryVariables,
   useGetAllFoldersHierarchyQuery,
-  useGetFilesPaginationByPathIdLazyQuery,
-  useGetFolderAndChildrenByIdQuery,
-  useGetFolderBreadcrumbQuery,
-  useUpdateUploadFileMutation,
+  useGetUploadFilesLazyQuery,
+  useGetUploadFoldersQuery,
+  useGetLibraryBreadcrumbTrailQuery,
+  useUpdateUploadFileByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
@@ -88,7 +88,7 @@ export default function CommonBibliothequeMedia({
         file,
       );
       if (response === 200) {
-        void UpdateUploadFileDocument({
+        void updateUploadFile({
           variables: {
             updateUploadFileId: file?.id,
             data: {
@@ -103,7 +103,7 @@ export default function CommonBibliothequeMedia({
           },
           refetchQueries: [
             {
-              query: GetFilesPaginationByPathIdDocument,
+              query: GetUploadFilesDocument,
               variables: defaultQueryVariables,
             },
           ],
@@ -156,7 +156,7 @@ export default function CommonBibliothequeMedia({
 
   const defaultRowsPerPage = 10;
   const defaultPage = 1;
-  const defaultQueryVariables: GetFilesPaginationByPathIdQueryVariables = {
+  const defaultQueryVariables: GetUploadFilesQueryVariables = {
     filters: {
       folder: {
         pathId: {
@@ -186,21 +186,21 @@ export default function CommonBibliothequeMedia({
     data: foldersData,
     loading: foldersDataLoading,
     error: foldersDataError,
-  } = useGetFolderAndChildrenByIdQuery({
+  } = useGetUploadFoldersQuery({
     variables: { filters: { pathId: { eq: activePathId } } },
     fetchPolicy: "network-only",
   });
   const [
-    getFilesPaginationByPathId,
+    getUploadFiles,
     { data: filesData, loading: filesDataLoading, error: filesDataError },
-  ] = useGetFilesPaginationByPathIdLazyQuery({
+  ] = useGetUploadFilesLazyQuery({
     variables: defaultQueryVariables,
   });
   const {
     data: foldersBreadcrumb,
     loading: foldersBreadcrumbLoading,
     error: foldersBreadcrumbError,
-  } = useGetFolderBreadcrumbQuery({
+  } = useGetLibraryBreadcrumbTrailQuery({
     variables: { path: activePath },
     fetchPolicy: "network-only",
   });
@@ -212,13 +212,11 @@ export default function CommonBibliothequeMedia({
     variables: { path: activePath },
     fetchPolicy: "network-only",
   });
-  const [
-    UpdateUploadFileDocument,
-    { loading: updateLoading, error: updateError },
-  ] = useUpdateUploadFileMutation({
-    refetchQueries: ["getFolderAndChildrenById", "getFilesPaginationByPathId"],
-    awaitRefetchQueries: true,
-  });
+  const [updateUploadFile, { loading: updateLoading, error: updateError }] =
+    useUpdateUploadFileByIdMutation({
+      refetchQueries: ["getUploadFolders", "getUploadFiles"],
+      awaitRefetchQueries: true,
+    });
 
   const loading =
     filesDataLoading ||
@@ -303,7 +301,7 @@ export default function CommonBibliothequeMedia({
   }, [foldersData, filesData, activePathId]);
 
   useEffect(() => {
-    getFilesPaginationByPathId({
+    getUploadFiles({
       variables: {
         ...defaultQueryVariables,
         pagination: {

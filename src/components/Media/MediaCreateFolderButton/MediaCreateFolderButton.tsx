@@ -2,7 +2,7 @@ import { FieldValues } from "react-hook-form";
 import { useRef } from "react";
 import {
   GetAllFoldersHierarchyDocument,
-  GetFolderAndChildrenByIdDocument,
+  GetUploadFoldersDocument,
   RequestFolders,
   useCreateNewFolderMutation,
 } from "../../../graphql/codegen/generated-types";
@@ -44,7 +44,7 @@ export default function MediaCreateFolderButton({
       variables,
       refetchQueries: [
         {
-          query: GetFolderAndChildrenByIdDocument,
+          query: GetUploadFoldersDocument,
           variables: { activePathId: activePathId },
         },
         {

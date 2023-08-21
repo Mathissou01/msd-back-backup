@@ -1,7 +1,0 @@
-mutation deleteDropOffMap($deleteDropOffMapId: ID!) {
-  deleteDropOffMap(id: $deleteDropOffMapId) {
-    data {
-      id
-    }
-  }
-}

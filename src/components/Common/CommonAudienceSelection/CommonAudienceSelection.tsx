@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { useGetAudiencesByContractIdQuery } from "../../../graphql/codegen/generated-types";
+import { useGetAudiencesQuery } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
 import { CommonModalWrapperRef } from "../CommonModalWrapper/CommonModalWrapper";
@@ -45,7 +45,7 @@ export default function CommonAudienceSelection() {
   const [audienceOptions, setAudienceOptions] =
     useState<Array<IFormSingleMultiselectOption>>();
   const { data: audiencesFromContract, loading: audiencesFromContractLoading } =
-    useGetAudiencesByContractIdQuery({
+    useGetAudiencesQuery({
       variables: {
         filters: {
           contract: {

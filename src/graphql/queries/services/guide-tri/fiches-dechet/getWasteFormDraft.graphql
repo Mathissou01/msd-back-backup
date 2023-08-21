@@ -1,9 +1,0 @@
-query getWasteFormDraft($customId: String!) {
-  wasteForms(
-    filters: { customId: { eq: $customId }, status: { eq: "draft" } }
-  ) {
-    data {
-      id
-    }
-  }
-}

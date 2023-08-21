@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
-import { useGetCgusByContractIdQuery } from "../../../../graphql/codegen/generated-types";
+import { useGetCguSubServicesByContractIdQuery } from "../../../../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { useContract } from "../../../../hooks/useContract";
@@ -32,7 +32,7 @@ export function EditoCGUPage() {
   /* External Data */
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
-  const { loading, error, data } = useGetCgusByContractIdQuery({
+  const { loading, error, data } = useGetCguSubServicesByContractIdQuery({
     variables: { contractId },
     fetchPolicy: "network-only",
   });

@@ -5,8 +5,8 @@ import React, { ReactNode, useEffect, useState } from "react";
 import {
   AudienceEntity,
   EditoContentDto,
-  useGetEditoBlockTabQuery,
-  useUpdateEditoBlockTabMutation,
+  useGetEditoBlockTabByContractIdAndAudienceIdQuery,
+  useUpdateEditoBlockByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import {
   comparePropertyValueByPriority,
@@ -151,13 +151,14 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
   if (audience && audience.id) {
     getEditoBlockTabVariables.audienceId = audience.id;
   }
-  const { loading, error, data } = useGetEditoBlockTabQuery({
-    variables: getEditoBlockTabVariables,
-    fetchPolicy: "no-cache",
-  });
+  const { loading, error, data } =
+    useGetEditoBlockTabByContractIdAndAudienceIdQuery({
+      variables: getEditoBlockTabVariables,
+      fetchPolicy: "no-cache",
+    });
   const [updateEditoBlock, { loading: mutationLoading, error: mutationError }] =
-    useUpdateEditoBlockTabMutation({
-      refetchQueries: ["getEditoBlockTab"],
+    useUpdateEditoBlockByIdMutation({
+      refetchQueries: ["getEditoBlockTabByContractIdAndAudienceId"],
       awaitRefetchQueries: true,
     });
 

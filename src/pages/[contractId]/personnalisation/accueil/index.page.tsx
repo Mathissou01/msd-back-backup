@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   AudienceEntity,
-  useGetAudiencesByContractIdQuery,
-  useGetServicesActiveQuery,
+  useGetAudiencesQuery,
+  useGetActiveServicesByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import { TEditorialContentTypes } from "../../../../lib/editorial";
@@ -55,14 +55,14 @@ export function PersonnalisationAccueilPage() {
 
   /* External Data */
   const { contractId } = useContract();
-  const { loading, error, data } = useGetServicesActiveQuery({
+  const { loading, error, data } = useGetActiveServicesByContractIdQuery({
     variables: { contractId },
   });
   const {
     loading: loadingAudiences,
     error: errorAudiences,
     data: dataAudiences,
-  } = useGetAudiencesByContractIdQuery({
+  } = useGetAudiencesQuery({
     variables: {
       filters: {
         contract: {

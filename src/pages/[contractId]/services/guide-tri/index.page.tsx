@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-  GetRecyclingGuideServiceByContractIdDocument,
+  GetRecyclingGuideServicesByContractIdDocument,
   useGetRecyclingGuideServiceByIdQuery,
-  useUpdateRecyclingGuideServiceMutation,
+  useUpdateRecyclingGuideServiceByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
@@ -34,8 +34,8 @@ export function GuideTriPage() {
     },
     fetchPolicy: "network-only",
   });
-  const [updateRecyclingGuideServiceMutation, { loading, error }] =
-    useUpdateRecyclingGuideServiceMutation({
+  const [updateRecyclingGuideService, { loading, error }] =
+    useUpdateRecyclingGuideServiceByIdMutation({
       refetchQueries: ["getRecyclingGuideServiceById"],
     });
 
@@ -91,12 +91,12 @@ export function GuideTriPage() {
         },
         refetchQueries: [
           {
-            query: GetRecyclingGuideServiceByContractIdDocument,
+            query: GetRecyclingGuideServicesByContractIdDocument,
             variables: { contractId },
           },
         ],
       };
-      await updateRecyclingGuideServiceMutation({ variables });
+      await updateRecyclingGuideService({ variables });
     }
   }
 

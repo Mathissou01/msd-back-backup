@@ -13,7 +13,7 @@ import { TableColumn } from "react-data-table-component";
 import {
   GetAlertNotificationsByContractIdQuery,
   GetAlertNotificationsByContractIdQueryVariables,
-  useDeleteAlertNotificationsByIdMutation,
+  useDeleteAlertNotificationByIdMutation,
   useGetAlertNotificationsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
@@ -153,7 +153,7 @@ export function AlertsPage() {
   const [
     deleteAlertMutation,
     { loading: deleteAlertMutationLoading, error: deleteAlertMutationError },
-  ] = useDeleteAlertNotificationsByIdMutation({
+  ] = useDeleteAlertNotificationByIdMutation({
     refetchQueries: ["getAlertNotificationsByContractId"],
     awaitRefetchQueries: true,
   });

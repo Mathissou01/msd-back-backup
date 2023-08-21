@@ -2,12 +2,12 @@ import { FieldValues } from "react-hook-form";
 import { useRef } from "react";
 import {
   GetAllFoldersHierarchyDocument,
-  GetFolderAndChildrenByIdDocument,
-  GetFolderBreadcrumbDocument,
+  GetUploadFoldersDocument,
+  GetLibraryBreadcrumbTrailDocument,
   RequestFolders,
   UploadFolderEntity,
   useGetAllFoldersHierarchyQuery,
-  useUpdateUploadFolderMutation,
+  useUpdateUploadFolderByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -53,7 +53,7 @@ export default function MediaUpdateFolderButton({
         refetchQueries: !(folder.childrenAmount && folder.childrenAmount > 0)
           ? [
               {
-                query: GetFolderAndChildrenByIdDocument,
+                query: GetUploadFoldersDocument,
                 variables: { activePathId: activePathId },
               },
               {
@@ -61,7 +61,7 @@ export default function MediaUpdateFolderButton({
                 variables: { path: folder.path },
               },
               {
-                query: GetFolderBreadcrumbDocument,
+                query: GetLibraryBreadcrumbTrailDocument,
                 variables: { path: activePath },
               },
             ]
@@ -101,7 +101,7 @@ export default function MediaUpdateFolderButton({
           )
             ? [
                 {
-                  query: GetFolderAndChildrenByIdDocument,
+                  query: GetUploadFoldersDocument,
                   variables: { activePathId: activePathId },
                 },
                 {
@@ -109,7 +109,7 @@ export default function MediaUpdateFolderButton({
                   variables: { path: folder.path },
                 },
                 {
-                  query: GetFolderBreadcrumbDocument,
+                  query: GetLibraryBreadcrumbTrailDocument,
                   variables: { path: activePath },
                 },
               ]
@@ -161,7 +161,7 @@ export default function MediaUpdateFolderButton({
     fetchPolicy: "network-only",
   });
   const [updateUploadFolder, { loading: mutationLoading }] =
-    useUpdateUploadFolderMutation({
+    useUpdateUploadFolderByIdMutation({
       refetchQueries: ["getAllFoldersHierarchy"],
     });
 

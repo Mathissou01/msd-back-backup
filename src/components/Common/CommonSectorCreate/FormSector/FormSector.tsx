@@ -3,10 +3,10 @@ import React, { useEffect, useState, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import {
-  GetSectorizationByContractIdQueryVariables,
-  GetSectorizationsPickUpDayDocument,
+  GetSectorizationByIdQueryVariables,
+  GetSectorizationsPickUpDayByContractIdDocument,
   useCreateSectorizationMutation,
-  useGetSectorizationByContractIdQuery,
+  useGetSectorizationByIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { ISectorsTableRow } from "../../../../lib/sectors";
 import { removeNulls } from "../../../../lib/utilities";
@@ -42,7 +42,7 @@ export default function FormSector({
       "Dessinez un secteur sur la carte ou bien saisissez les communes du secteur :",
   };
   const maxCharacters = 30;
-  const defaultQueryVariables: GetSectorizationByContractIdQueryVariables = {
+  const defaultQueryVariables: GetSectorizationByIdQueryVariables = {
     sectorizationId: defaultValue?.id,
   };
 
@@ -50,7 +50,7 @@ export default function FormSector({
   const [createSectorization] = useCreateSectorizationMutation({
     awaitRefetchQueries: true,
   });
-  const { data } = useGetSectorizationByContractIdQuery({
+  const { data } = useGetSectorizationByIdQuery({
     variables: defaultQueryVariables,
     fetchPolicy: "network-only",
   });
@@ -131,7 +131,7 @@ export default function FormSector({
       variables,
       refetchQueries: [
         {
-          query: GetSectorizationsPickUpDayDocument,
+          query: GetSectorizationsPickUpDayByContractIdDocument,
           variables: { contractId },
         },
       ],

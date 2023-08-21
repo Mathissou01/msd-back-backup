@@ -1,9 +1,9 @@
-import { GetEditoBlockTabDocument } from "../src/graphql/codegen/generated-types";
+import { GetEditoBlockTabByContractIdAndAudienceIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetEditoBlockTabDocument,
+      query: GetEditoBlockTabByContractIdAndAudienceIdDocument,
       variables: {
         contractId: "0",
         audienceId: "",

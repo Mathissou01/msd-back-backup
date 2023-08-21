@@ -13,7 +13,7 @@ import {
   useCreateDropOffMapMutation,
   useGetDropOffCollectTypeByContractIdQuery,
   useGetDropOffMapByIdLazyQuery,
-  useUpdateDropOffMapMutation,
+  useUpdateDropOffMapByIdMutation,
 } from "../../../../../../graphql/codegen/generated-types";
 import { useRoutingQueryId } from "../../../../../../hooks/useRoutingQueryId";
 import { useNavigation } from "../../../../../../hooks/useNavigation";
@@ -152,7 +152,7 @@ export function ServiceCartePointInteretPage({
   const [
     updateDropOffMap,
     { loading: updateDropOffMapLoading, error: updateDropOffMapError },
-  ] = useUpdateDropOffMapMutation({
+  ] = useUpdateDropOffMapByIdMutation({
     awaitRefetchQueries: true,
     onError: (error) => {
       setError("name", { type: "validate", message: error.message });

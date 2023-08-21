@@ -1,4 +1,4 @@
-mutation CreateAlertNotification($data: AlertNotificationInput!) {
+mutation createAlertNotification($data: AlertNotificationInput!) {
   createAlertNotification(data: $data) {
     data {
       id

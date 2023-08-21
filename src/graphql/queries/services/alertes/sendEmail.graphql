@@ -1,4 +1,4 @@
-mutation SendEmail(
+mutation sendEmail(
   $subject: String
   $content: String
   $recipientEmails: [String]!

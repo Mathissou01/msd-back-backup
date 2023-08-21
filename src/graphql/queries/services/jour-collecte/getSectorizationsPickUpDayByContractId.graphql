@@ -1,0 +1,13 @@
+query getSectorizationsPickUpDayByContractId($contractId: ID) {
+  sectorizations(
+    filters: { contract: { id: { eq: $contractId } } }
+    sort: "createdAt:desc"
+  ) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

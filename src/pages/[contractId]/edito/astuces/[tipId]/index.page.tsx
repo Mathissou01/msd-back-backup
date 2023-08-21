@@ -5,9 +5,9 @@ import {
   Enum_Tip_Status,
   useGetTipByIdLazyQuery,
   useCreateTipMutation,
-  useUpdateTipMutation,
-  GetTipDraftQuery,
-  GetTipDraftDocument,
+  useUpdateTipByIdMutation,
+  GetTipsDraftByCustomIdQuery,
+  GetTipsDraftByCustomIdDocument,
 } from "../../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
@@ -81,8 +81,8 @@ export default function EditoTipsEditPage() {
           result.versioningHandler.data.attributes?.customId
         ) {
           client
-            .query<GetTipDraftQuery>({
-              query: GetTipDraftDocument,
+            .query<GetTipsDraftByCustomIdQuery>({
+              query: GetTipsDraftByCustomIdDocument,
               variables: {
                 customId: result.versioningHandler.data.attributes.customId,
               },
@@ -157,7 +157,7 @@ export default function EditoTipsEditPage() {
     fetchPolicy: "network-only",
   });
   const createTipMutation = useCreateTipMutation();
-  const updateTipMutation = useUpdateTipMutation({
+  const updateTipMutation = useUpdateTipByIdMutation({
     refetchQueries: ["getTipById", "getTagsByContractId"],
     awaitRefetchQueries: true,
   });

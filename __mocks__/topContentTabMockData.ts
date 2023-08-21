@@ -1,9 +1,9 @@
-import { GetTopContentBlockTabDocument } from "../src/graphql/codegen/generated-types";
+import { GetTopContentBlockTabByContractIdAndAudienceIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetTopContentBlockTabDocument,
+      query: GetTopContentBlockTabByContractIdAndAudienceIdDocument,
       variables: {
         contractId: "0",
         audienceId: "",

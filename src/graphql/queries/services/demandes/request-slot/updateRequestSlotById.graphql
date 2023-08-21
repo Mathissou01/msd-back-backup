@@ -1,0 +1,25 @@
+mutation updateRequestSlotById($id: ID!, $data: RequestSlotInput!) {
+  updateRequestSlot(id: $id, data: $data) {
+    data {
+      id
+      attributes {
+        slotType
+        sectorizations {
+          data {
+            id
+          }
+        }
+        timeSlots
+        slotsExceptions {
+          id
+          slotException
+          exceptionType
+        }
+        slotMessage
+        noSlotMessage
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

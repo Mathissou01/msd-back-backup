@@ -1,0 +1,32 @@
+query getWelcomeMessageAndSearchEngineBlocksByContractId($contractId: ID!) {
+  contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        homepage {
+          data {
+            attributes {
+              welcomeMessageBlock {
+                data {
+                  id
+                  attributes {
+                    showBlock
+                    subtitle
+                    title
+                  }
+                }
+              }
+              searchEngineBlock {
+                data {
+                  id
+                  attributes {
+                    titleContent
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

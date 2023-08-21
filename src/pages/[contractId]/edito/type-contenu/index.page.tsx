@@ -2,8 +2,8 @@ import { TableColumn } from "react-data-table-component";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { createRef, useEffect, useRef, useState } from "react";
 import {
-  GetContentTypeDtOsDocument,
-  useGetContentTypeDtOsQuery,
+  GetContentTypesByContractIdDocument,
+  useGetContentTypesByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import { useContract } from "../../../../hooks/useContract";
@@ -120,7 +120,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -130,7 +130,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -140,7 +140,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -150,7 +150,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -160,7 +160,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -170,7 +170,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -180,7 +180,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -190,7 +190,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -200,7 +200,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -210,7 +210,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -228,7 +228,7 @@ export function EditoTypeContenuPage() {
     //   variables,
     //   refetchQueries: [
     //     {
-    //       query: GetContentTypeDtOsDocument,
+    //       query: GetContentTypesByContractIdDocument,
     //       variables: { contractId },
     //     },
     //   ],
@@ -242,11 +242,11 @@ export function EditoTypeContenuPage() {
       name: data["name"],
       description: data["description"],
     };
-    return createContentTypeMutation({
+    return createContentType({
       variables,
       refetchQueries: [
         {
-          query: GetContentTypeDtOsDocument,
+          query: GetContentTypesByContractIdDocument,
           variables: { contractId },
         },
       ],
@@ -260,7 +260,7 @@ export function EditoTypeContenuPage() {
     loading: dataLoading,
     error,
     data,
-  } = useGetContentTypeDtOsQuery({
+  } = useGetContentTypesByContractIdQuery({
     variables: { contractId },
   });
   const {
@@ -279,7 +279,7 @@ export function EditoTypeContenuPage() {
     updateQuiz,
     updateEvent,
     updateFreeContent,
-    createContentTypeMutation,
+    createContentType,
   } = mutations;
 
   /* Local Data */

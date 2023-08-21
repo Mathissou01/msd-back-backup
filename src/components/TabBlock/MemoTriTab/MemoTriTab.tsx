@@ -7,9 +7,9 @@ import {
 import { useContract } from "../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 import {
-  GetRecyclingGuideServiceByContractIdDocument,
+  GetRecyclingGuideServicesByContractIdDocument,
   useGetRecyclingGuideServiceByIdLazyQuery,
-  useUpdateMemoTriMutation,
+  useUpdateRecyclingGuideServiceByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormFileInput from "../../Form/FormFileInput/FormFileInput";
@@ -48,9 +48,9 @@ export default function MemoTriTab() {
   const [getGetRecyclingGuideServiceById, { data, loading, error }] =
     useGetRecyclingGuideServiceByIdLazyQuery();
   const [
-    updateMemoTriMutation,
+    updateRecyclingGuideService,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateMemoTriMutation();
+  ] = useUpdateRecyclingGuideServiceByIdMutation();
 
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
@@ -63,11 +63,11 @@ export default function MemoTriTab() {
           memoFile: submitData.memoFile.id,
         },
       };
-      return updateMemoTriMutation({
+      return updateRecyclingGuideService({
         variables,
         refetchQueries: [
           {
-            query: GetRecyclingGuideServiceByContractIdDocument,
+            query: GetRecyclingGuideServicesByContractIdDocument,
             variables: { contractId },
           },
         ],

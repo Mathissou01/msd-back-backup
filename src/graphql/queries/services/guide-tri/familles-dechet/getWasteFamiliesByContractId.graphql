@@ -1,14 +1,22 @@
-query getWasteFamiliesByContractId($contractId: ID) {
+query getWasteFamiliesByContractId($contractId: ID, $sort: [String]) {
   recyclingGuideService(id: $contractId) {
     data {
       id
       attributes {
-        wasteFamilies {
+        wasteFamilies(sort: $sort) {
           data {
             id
             attributes {
               familyName
               isSystem
+              wasteForms {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
             }
           }
         }

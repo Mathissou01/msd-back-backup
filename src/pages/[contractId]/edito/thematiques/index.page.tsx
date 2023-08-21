@@ -2,11 +2,11 @@ import { TableColumn } from "react-data-table-component";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { createRef, useEffect, useRef, useState } from "react";
 import {
-  CountContentPerTagDocument,
-  useCountContentPerTagQuery,
+  GetCountContentPerTagByContractIdDocument,
+  useGetCountContentPerTagByContractIdQuery,
   useCreateNewTagMutation,
-  useDeleteTagMutation,
-  useUpdateTagMutation,
+  useDeleteTagByIdMutation,
+  useUpdateTagByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import {
@@ -101,11 +101,11 @@ export function EditoThematiquesPage() {
         name: inputRefs.current[i].current?.value,
       },
     };
-    return updateTagMutation({
+    return updateTag({
       variables,
       refetchQueries: [
         {
-          query: CountContentPerTagDocument,
+          query: GetCountContentPerTagByContractIdDocument,
           variables: { contractId },
         },
       ],
@@ -117,11 +117,11 @@ export function EditoThematiquesPage() {
     const variables = {
       deleteTagId: row.id,
     };
-    return deleteTagMutation({
+    return deleteTag({
       variables,
       refetchQueries: [
         {
-          query: CountContentPerTagDocument,
+          query: GetCountContentPerTagByContractIdDocument,
           variables: { contractId: contract.id },
         },
       ],
@@ -139,11 +139,11 @@ export function EditoThematiquesPage() {
       contractId,
       tagName: data["name"],
     };
-    return createNewTagMutation({
+    return createNewTag({
       variables,
       refetchQueries: [
         {
-          query: CountContentPerTagDocument,
+          query: GetCountContentPerTagByContractIdDocument,
           variables: { contractId },
         },
       ],
@@ -157,21 +157,15 @@ export function EditoThematiquesPage() {
     loading: dataLoading,
     error,
     data,
-  } = useCountContentPerTagQuery({
+  } = useGetCountContentPerTagByContractIdQuery({
     variables: { contractId },
   });
-  const [
-    updateTagMutation,
-    { loading: updateTagMutationLoading, error: updateTagMutationError },
-  ] = useUpdateTagMutation();
-  const [
-    deleteTagMutation,
-    { loading: deleteTagMutationLoading, error: deleteTagMutationError },
-  ] = useDeleteTagMutation();
-  const [
-    createNewTagMutation,
-    { loading: newTagMutationLoading, error: newTagMutationError },
-  ] = useCreateNewTagMutation();
+  const [updateTag, { loading: updateTagLoading, error: updateTagError }] =
+    useUpdateTagByIdMutation();
+  const [deleteTag, { loading: deleteTagLoading, error: deleteTagError }] =
+    useDeleteTagByIdMutation();
+  const [createNewTag, { loading: newTagLoading, error: newTagError }] =
+    useCreateNewTagMutation();
 
   /* Local Data */
   const inputRefs = useRef<Array<React.RefObject<HTMLInputElement>>>([]);
@@ -181,17 +175,9 @@ export function EditoThematiquesPage() {
   const confirmStatesRef = useRef<Array<boolean>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
-    isUpdatingData ||
-    updateTagMutationLoading ||
-    deleteTagMutationLoading ||
-    newTagMutationLoading;
+    isUpdatingData || updateTagLoading || deleteTagLoading || newTagLoading;
   const isLoading = dataLoading || isLoadingMutation;
-  const errors = [
-    error,
-    updateTagMutationError,
-    deleteTagMutationError,
-    newTagMutationError,
-  ];
+  const errors = [error, updateTagError, deleteTagError, newTagError];
 
   const tableColumns: Array<TableColumn<ITagTableRow>> = [
     {
@@ -302,7 +288,7 @@ export function EditoThematiquesPage() {
                 validationLabel={`${30} ${
                   tableLabels.addRow.maxCharactersLabel
                 }`}
-                isDisabled={newTagMutationLoading}
+                isDisabled={newTagLoading}
                 flexStyle="row"
                 labelStyle="table"
               />

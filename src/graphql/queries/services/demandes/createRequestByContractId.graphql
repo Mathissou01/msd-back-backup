@@ -1,7 +1,0 @@
-mutation createRequestByContractId($data: RequestInput!) {
-  createRequest(data: $data) {
-    data {
-      id
-    }
-  }
-}

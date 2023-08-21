@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import client from "../../../../../graphql/client";
 import {
   Enum_New_Status,
-  GetNewDraftDocument,
-  GetNewDraftQuery,
+  GetNewsDraftByCustomIdDocument,
+  GetNewsDraftByCustomIdQuery,
   useCreateNewMutation,
   useGetNewByIdLazyQuery,
-  useUpdateNewMutation,
+  useUpdateNewByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { EStatus } from "../../../../../lib/status";
 import { useContract } from "../../../../../hooks/useContract";
@@ -81,8 +81,8 @@ export default function EditoActualitesEditPage() {
           result.versioningHandler.data.attributes?.customId
         ) {
           client
-            .query<GetNewDraftQuery>({
-              query: GetNewDraftDocument,
+            .query<GetNewsDraftByCustomIdQuery>({
+              query: GetNewsDraftByCustomIdDocument,
               variables: {
                 customId: result.versioningHandler.data.attributes.customId,
               },
@@ -156,7 +156,7 @@ export default function EditoActualitesEditPage() {
     fetchPolicy: "network-only",
   });
   const createNewMutation = useCreateNewMutation();
-  const updateNewMutation = useUpdateNewMutation({
+  const updateNewMutation = useUpdateNewByIdMutation({
     refetchQueries: ["getNewById", "getTagsByContractId"],
     awaitRefetchQueries: true,
   });

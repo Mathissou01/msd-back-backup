@@ -1,0 +1,31 @@
+query getUploadFiles(
+  $filters: UploadFileFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  uploadFiles(filters: $filters, pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        name
+        mime
+        size
+        width
+        height
+        createdAt
+        url
+        ext
+        alternativeText
+        createdAt
+      }
+    }
+    meta {
+      pagination {
+        total
+        pageSize
+        pageCount
+        page
+      }
+    }
+  }
+}

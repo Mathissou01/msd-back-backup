@@ -1,0 +1,26 @@
+mutation updateFooterPageByIdAndContactUsSubServiceId(
+  $updateFooterId: ID!
+  $updateFooterData: FooterInput!
+  $updateContactUsSubServiceId: ID!
+  $updateContactUsSubServiceData: ContactUsSubServiceInput!
+) {
+  updateFooter(id: $updateFooterId, data: $updateFooterData) {
+    data {
+      id
+      attributes {
+        accessibilityLevel
+      }
+    }
+  }
+  updateContactUsSubService(
+    id: $updateContactUsSubServiceId
+    data: $updateContactUsSubServiceData
+  ) {
+    data {
+      attributes {
+        label
+        link
+      }
+    }
+  }
+}

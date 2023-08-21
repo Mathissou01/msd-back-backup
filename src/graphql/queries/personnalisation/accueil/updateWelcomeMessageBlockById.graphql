@@ -1,0 +1,10 @@
+mutation updateWelcomeMessageBlockById(
+  $updateWelcomeMessageBlockId: ID!
+  $data: WelcomeMessageBlockInput!
+) {
+  updateWelcomeMessageBlock(id: $updateWelcomeMessageBlockId, data: $data) {
+    data {
+      id
+    }
+  }
+}

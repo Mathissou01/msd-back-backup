@@ -1,0 +1,11 @@
+mutation deleteTagById($deleteTagId: ID!) {
+  deleteTag(id: $deleteTagId) {
+    data {
+      id
+      attributes {
+        name
+        createdAt
+      }
+    }
+  }
+}

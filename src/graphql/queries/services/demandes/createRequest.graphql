@@ -1,0 +1,7 @@
+mutation createRequest($data: RequestInput!) {
+  createRequest(data: $data) {
+    data {
+      id
+    }
+  }
+}

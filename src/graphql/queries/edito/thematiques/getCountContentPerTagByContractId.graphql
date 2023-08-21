@@ -1,0 +1,7 @@
+query getCountContentPerTagByContractId($contractId: ID!) {
+  countContentPerTag(contractId: $contractId) {
+    id
+    name
+    count
+  }
+}

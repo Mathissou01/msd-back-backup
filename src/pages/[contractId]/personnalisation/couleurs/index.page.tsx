@@ -4,8 +4,8 @@ import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import {
   GetContractCustomizationByIdDocument,
   useGetContractCustomizationByIdQuery,
+  useUpdateContractCustomizationByContractIdMutation,
   useUpdateContractCustomizationByIdMutation,
-  useUpdateContractCustomizationMutation,
 } from "../../../../graphql/codegen/generated-types";
 import {
   TAcceptedMimeTypes,
@@ -82,11 +82,11 @@ export function PersonnalisationCouleursPage() {
   const [
     updateContract,
     { loading: mutationLoadingById, error: mutationErrorById },
-  ] = useUpdateContractCustomizationByIdMutation();
+  ] = useUpdateContractCustomizationByContractIdMutation();
   const [
-    updateContractCustomizationMutation,
+    updateContractCustomization,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateContractCustomizationMutation();
+  ] = useUpdateContractCustomizationByIdMutation();
 
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
@@ -98,7 +98,7 @@ export function PersonnalisationCouleursPage() {
         },
       };
 
-      return updateContract({
+      updateContract({
         variables,
         refetchQueries: [
           {
@@ -135,7 +135,7 @@ export function PersonnalisationCouleursPage() {
             : defaultColorPalette.contrastText,
         },
       };
-      return updateContractCustomizationMutation({
+      return updateContractCustomization({
         variables,
         refetchQueries: [
           {

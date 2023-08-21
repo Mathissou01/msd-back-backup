@@ -1,0 +1,11 @@
+query getSectorizationById($sectorizationId: ID) {
+  sectorization(id: $sectorizationId) {
+    data {
+      attributes {
+        name
+        description
+        polygonCoordinates
+      }
+    }
+  }
+}

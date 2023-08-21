@@ -1,12 +1,12 @@
 import {
-  GetEditoBlockTabQuery,
-  GetFooterPageQuery,
-  GetMenuPageQuery,
-  GetQuizAndTipsBlockTabQuery,
-  GetRecyclingGuideBlockTabQuery,
-  GetWelcomeMessageAndSearchEngineBlockTabQuery,
-  GetServicesBlockTabQuery,
-  GetTopContentBlockTabQuery,
+  GetEditoBlockTabByContractIdAndAudienceIdQuery,
+  GetFooterByContractIdQuery,
+  GetContractMenuByContractIdQuery,
+  GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+  GetRecyclingGuideBlockByContractIdQuery,
+  GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+  GetServicesBlocksByContractIdAndAudienceIdQuery,
+  GetTopContentBlockTabByContractIdAndAudienceIdQuery,
   QuizAndTipsBlockEntity,
   QuizEntity,
   RecyclingGuideBlockEntity,
@@ -20,13 +20,13 @@ import {
 } from "./service-links";
 
 /* Menu */
-export function extractMenu(data: GetMenuPageQuery) {
+export function extractMenu(data: GetContractMenuByContractIdQuery) {
   return data.contract?.data?.attributes?.contractMenu?.data ?? null;
 }
 
 /* Homepage */
 export function extractWelcomeMessageBlock(
-  data: GetWelcomeMessageAndSearchEngineBlockTabQuery,
+  data: GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
 ) {
   const welcomeMessageBlock: WelcomeMessageBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
@@ -36,7 +36,7 @@ export function extractWelcomeMessageBlock(
 }
 
 export function extractSearchEngineBlock(
-  data: GetWelcomeMessageAndSearchEngineBlockTabQuery,
+  data: GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
 ) {
   const searchEngineBlock: SearchEngineBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
@@ -46,7 +46,7 @@ export function extractSearchEngineBlock(
 }
 
 export function extractRecyclingGuideBlock(
-  data: GetRecyclingGuideBlockTabQuery,
+  data: GetRecyclingGuideBlockByContractIdQuery,
 ) {
   const recyclingGuideBlock: RecyclingGuideBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
@@ -55,7 +55,9 @@ export function extractRecyclingGuideBlock(
   return { recyclingGuideBlock };
 }
 
-export function extractServicesBlock(data: GetServicesBlockTabQuery) {
+export function extractServicesBlock(
+  data: GetServicesBlocksByContractIdAndAudienceIdQuery,
+) {
   const serviceBlock =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.servicesBlocks?.data[0] ?? null;
@@ -71,14 +73,18 @@ export function extractServicesBlock(data: GetServicesBlockTabQuery) {
   };
 }
 
-export function extractTopContentBlock(data: GetTopContentBlockTabQuery) {
+export function extractTopContentBlock(
+  data: GetTopContentBlockTabByContractIdAndAudienceIdQuery,
+) {
   const topContentBlock = data.getTopContentBlockDTO ?? null;
   const topContents = data.getTopContentDTOs ?? null;
 
   return { topContentBlock, topContents };
 }
 
-export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockTabQuery) {
+export function extractQuizAndTipsBlock(
+  data: GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+) {
   const quizAndTipsBlock: QuizAndTipsBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.quizAndTipsBlocks?.data[0] ?? null;
@@ -90,7 +96,9 @@ export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockTabQuery) {
   return { quizAndTipsBlock, quizzes, tips };
 }
 
-export function extractEditoBlock(data: GetEditoBlockTabQuery) {
+export function extractEditoBlock(
+  data: GetEditoBlockTabByContractIdAndAudienceIdQuery,
+) {
   const editoBlock = data.getEditoBlockDTO ?? null;
   const editoContents = data.getEditoContentDTOs ?? null;
 
@@ -98,7 +106,7 @@ export function extractEditoBlock(data: GetEditoBlockTabQuery) {
 }
 
 /* Footer */
-export function extractFooter(data: GetFooterPageQuery) {
+export function extractFooter(data: GetFooterByContractIdQuery) {
   const footer =
     data.contractCustomizations?.data[0]?.attributes?.footer?.data ?? null;
   return { footer };

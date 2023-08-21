@@ -1,0 +1,25 @@
+query getFooterByContractId($contractId: ID!) {
+  contractCustomizations(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      attributes {
+        footer {
+          data {
+            id
+            attributes {
+              accessibilityLevel
+              contactUsSubService {
+                data {
+                  id
+                  attributes {
+                    label
+                    link
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

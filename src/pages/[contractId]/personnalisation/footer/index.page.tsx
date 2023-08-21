@@ -3,9 +3,9 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useEffect, useState } from "react";
 import {
   Enum_Footer_Accessibilitylevel,
-  GetFooterPageDocument,
-  useGetFooterPageQuery,
-  useUpdateFooterPageMutation,
+  GetFooterByContractIdDocument,
+  useGetFooterByContractIdQuery,
+  useUpdateFooterPageByIdAndContactUsSubServiceIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { extractFooter } from "../../../../lib/graphql-data";
 import { useContract } from "../../../../hooks/useContract";
@@ -69,7 +69,7 @@ export function PersonnalisationFooterPage() {
         variables,
         refetchQueries: [
           {
-            query: GetFooterPageDocument,
+            query: GetFooterByContractIdDocument,
             variables: { contractId },
           },
         ],
@@ -84,11 +84,11 @@ export function PersonnalisationFooterPage() {
   /* External Data */
   const { contract } = useContract();
   const contractId = contract.id ?? "";
-  const { loading, error, data } = useGetFooterPageQuery({
+  const { loading, error, data } = useGetFooterByContractIdQuery({
     variables: { contractId },
   });
   const [updateFooterPage, { loading: mutationLoading, error: mutationError }] =
-    useUpdateFooterPageMutation();
+    useUpdateFooterPageByIdAndContactUsSubServiceIdMutation();
 
   /* Local Data */
   const [footerData, setFooterData] = useState<IFooterData>();

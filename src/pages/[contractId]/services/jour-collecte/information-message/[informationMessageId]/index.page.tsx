@@ -6,7 +6,7 @@ import { useRoutingQueryId } from "../../../../../../hooks/useRoutingQueryId";
 import { useNavigation } from "../../../../../../hooks/useNavigation";
 import { format, parse } from "date-fns";
 import {
-  GetInformationMessageByContractIdDocument,
+  GetInformationMessagesByContractIdDocument,
   useCreateInformationMessageMutation,
   useGetInformationMessageByIdQuery,
   useUpdateInformationMessageByIdMutation,
@@ -69,7 +69,7 @@ export function InformationMessageEditPage({
         variables,
         refetchQueries: [
           {
-            query: GetInformationMessageByContractIdDocument,
+            query: GetInformationMessagesByContractIdDocument,
             variables: { informationMessageId },
           },
         ],

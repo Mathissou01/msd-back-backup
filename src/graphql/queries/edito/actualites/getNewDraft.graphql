@@ -1,7 +1,0 @@
-query getNewDraft($customId: String!) {
-  news(filters: { customId: { eq: $customId }, status: { eq: "draft" } }) {
-    data {
-      id
-    }
-  }
-}

@@ -3,10 +3,10 @@ import { useFormContext } from "react-hook-form";
 import {
   RequestEntity,
   useGetActiveRequestsByContractIdQuery,
-  useGetCollectDoorToDoorByFlowIdQuery,
+  useGetCollectDoorToDoorsByFlowIdQuery,
   useGetCollectVoluntariesByFlowIdQuery,
-  useGetFilteredFlowsLazyQuery,
-  useGetFlowsQuery,
+  useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery,
+  useGetActiveFlowsByContractIdQuery,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
@@ -94,7 +94,7 @@ export default function PickUpDaysFormStaticFields({
   const sectorizations = watch("sectorizations");
 
   /* External Data */
-  const { data: flowsData } = useGetFlowsQuery({
+  const { data: flowsData } = useGetActiveFlowsByContractIdQuery({
     variables: {
       contractId: contractId,
     },
@@ -105,10 +105,11 @@ export default function PickUpDaysFormStaticFields({
       contractId,
     },
   });
-  const { data: collectDoorToDoorData } = useGetCollectDoorToDoorByFlowIdQuery({
-    variables: { flowId: flow },
-    fetchPolicy: "network-only",
-  });
+  const { data: collectDoorToDoorsData } =
+    useGetCollectDoorToDoorsByFlowIdQuery({
+      variables: { flowId: flow },
+      fetchPolicy: "network-only",
+    });
   const { data: collectVoluntariesData } =
     useGetCollectVoluntariesByFlowIdQuery({
       variables: { flowId: flow },
@@ -121,7 +122,7 @@ export default function PickUpDaysFormStaticFields({
       loading: filteredFlowsLoading,
       error: filteredFlowsError,
     },
-  ] = useGetFilteredFlowsLazyQuery();
+  ] = useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery();
 
   /* Methods */
   const daysOfTheMonth = (): IOptionWrapper<string>[] => {
@@ -217,24 +218,24 @@ export default function PickUpDaysFormStaticFields({
   }, [collectDoorToDoorOptions, CollectVoluntariesOptions]);
 
   useEffect(() => {
-    if (collectDoorToDoorData && collectDoorToDoorData.collectDoorToDoors) {
+    if (collectDoorToDoorsData && collectDoorToDoorsData.collectDoorToDoors) {
       setCollectDoorToDoorOptions(
-        collectDoorToDoorData.collectDoorToDoors?.data
-          ?.map((collectDoorToDoorData) => {
+        collectDoorToDoorsData.collectDoorToDoors?.data
+          ?.map((collectDoorToDoorsItem) => {
             if (
-              collectDoorToDoorData.id &&
-              collectDoorToDoorData.attributes?.name
+              collectDoorToDoorsItem.id &&
+              collectDoorToDoorsItem.attributes?.name
             ) {
               return {
-                value: `${EPickUpDayCollectType.DOOR_TO_DOOR}${collectDoorToDoorData.id}`,
-                label: collectDoorToDoorData.attributes.name,
+                value: `${EPickUpDayCollectType.DOOR_TO_DOOR}${collectDoorToDoorsItem.id}`,
+                label: collectDoorToDoorsItem.attributes.name,
               };
             }
           })
           .filter(removeNulls) ?? [],
       );
     }
-  }, [collectDoorToDoorData]);
+  }, [collectDoorToDoorsData]);
 
   useEffect(() => {
     if (collectVoluntariesData && collectVoluntariesData.collectVoluntaries) {

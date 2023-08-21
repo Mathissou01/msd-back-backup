@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import {
   SearchResultAddress,
-  useGetBanAddressesAutoCompleteLazyQuery,
+  useGetAddressCoordinatesLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import FormLabel from "../../../Form/FormLabel/FormLabel";
@@ -44,7 +44,7 @@ export default function AddressOrGpsFields({
     searchValue: string,
   ): Promise<Array<SearchResultAddress>> {
     let searchResults: Array<SearchResultAddress> = [];
-    await getBanAddresses({
+    await getAddressCoordinates({
       variables: { searchTerm: searchValue },
       onCompleted: (results) => {
         if (
@@ -59,8 +59,8 @@ export default function AddressOrGpsFields({
   }
 
   /* Local Data */
-  const [getBanAddresses, { loading, error }] =
-    useGetBanAddressesAutoCompleteLazyQuery({
+  const [getAddressCoordinates, { loading, error }] =
+    useGetAddressCoordinatesLazyQuery({
       fetchPolicy: "network-only",
     });
   const [radioValue, setRadioValue] = useState<TRadioName>("address");

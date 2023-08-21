@@ -5,7 +5,7 @@ import { IDefaultTableRow } from "../../../lib/common-data-table";
 import { removeNulls } from "../../../lib/utilities";
 import { useNavigation } from "../../../hooks/useNavigation";
 import { useContract } from "../../../hooks/useContract";
-import { useGetEnrichRequestsLazyQuery } from "../../../graphql/codegen/generated-types";
+import { useGetEnrichRequestsByRequestServiceIdLazyQuery } from "../../../graphql/codegen/generated-types";
 import { IDataTableAction } from "../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../Common/CommonDataTable/CommonDataTable";
@@ -41,7 +41,7 @@ export default function AppointmentManagement() {
   >([]);
   const [nbRequestsDisplayed, setNbRequestsDisplayed] = useState<number>(30);
   const [getEnrichRequests, { data, loading, error }] =
-    useGetEnrichRequestsLazyQuery({
+    useGetEnrichRequestsByRequestServiceIdLazyQuery({
       variables: {
         requestServiceId: contractId,
       },

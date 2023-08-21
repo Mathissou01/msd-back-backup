@@ -1,9 +1,9 @@
-import { GetWelcomeMessageAndSearchEngineBlockTabDocument } from "../src/graphql/codegen/generated-types";
+import { GetWelcomeMessageAndSearchEngineBlocksByContractIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetWelcomeMessageAndSearchEngineBlockTabDocument,
+      query: GetWelcomeMessageAndSearchEngineBlocksByContractIdDocument,
       variables: {
         contractId: "0",
       },

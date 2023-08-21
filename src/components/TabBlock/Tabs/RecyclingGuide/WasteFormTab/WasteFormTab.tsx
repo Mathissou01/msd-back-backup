@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Enum_Wasteform_Status,
   GetWasteFormsByContractIdQuery,
-  useGetFlowsFilterByContractIdLazyQuery,
+  useGetActiveFlowsByContractIdLazyQuery,
   useGetWasteFormsByContractIdLazyQuery,
-  useUpdateWasteFormMutation,
+  useUpdateWasteFormByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
@@ -66,14 +66,14 @@ export default function WasteFormTab() {
   const [
     getFilterFlows,
     { data: dataFlows, loading: loadingFlows, error: errorFlows },
-  ] = useGetFlowsFilterByContractIdLazyQuery({
+  ] = useGetActiveFlowsByContractIdLazyQuery({
     variables: {
       contractId,
     },
   });
 
   const [updateWasteForm, { loading: loadingUpdate, error: errorUpdate }] =
-    useUpdateWasteFormMutation({
+    useUpdateWasteFormByIdMutation({
       refetchQueries: ["getWasteFormsByContractId"],
       awaitRefetchQueries: true,
     });

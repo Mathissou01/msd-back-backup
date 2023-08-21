@@ -6,7 +6,7 @@ import {
   useCreateRequestAggregateMutation,
   useDeleteRequestAggregateByIdMutation,
   useGetRequestAggregatesByContractIdLazyQuery,
-  useUpdateRequestAggregateMutation,
+  useUpdateRequestAggregateByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import {
@@ -225,7 +225,7 @@ export default function RequestAggregate() {
       loading: updateRequestAggregateLoading,
       error: updateRequestAggregateError,
     },
-  ] = useUpdateRequestAggregateMutation();
+  ] = useUpdateRequestAggregateByIdMutation();
 
   const [
     deleteRequestAggregate,

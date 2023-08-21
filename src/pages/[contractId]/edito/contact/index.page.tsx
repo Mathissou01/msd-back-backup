@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { FieldValues } from "react-hook-form";
 import {
   useGetContactUsByIdQuery,
-  useGetContactUsesByContractIdQuery,
-  useUpdateContactUsMutation,
+  useGetContactUsSubServicesByContractIdQuery,
+  useUpdateContactUsByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { EStatus } from "../../../../lib/status";
 import {
@@ -91,7 +91,7 @@ export function EditoContactEditPage() {
     data: contractContactUses,
     loading: contractContactUsesLoading,
     error: contractContactUsesError,
-  } = useGetContactUsesByContractIdQuery({
+  } = useGetContactUsSubServicesByContractIdQuery({
     variables: { contractId },
     fetchPolicy: "network-only",
   });
@@ -100,13 +100,10 @@ export function EditoContactEditPage() {
     variables: { contactUsId },
     fetchPolicy: "network-only",
   });
-  const [
-    updateContactUs,
-    { loading: updateMutationLoading, error: updateMutationError },
-  ] = useUpdateContactUsMutation();
-  const isLoading =
-    contractContactUsesLoading || loading || updateMutationLoading;
-  const errors = [contractContactUsesError, error, updateMutationError];
+  const [updateContactUs, { loading: updateLoading, error: updateError }] =
+    useUpdateContactUsByIdMutation();
+  const isLoading = contractContactUsesLoading || loading || updateLoading;
+  const errors = [contractContactUsesError, error, updateError];
   const [mappedData, setMappedData] = useState<ILegalContentFields>();
 
   useEffect(() => {

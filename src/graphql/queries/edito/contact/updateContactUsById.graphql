@@ -1,0 +1,7 @@
+mutation updateContactUsById($updateContactUsId: ID!, $data: ContactUsInput!) {
+  updateContactUs(id: $updateContactUsId, data: $data) {
+    data {
+      id
+    }
+  }
+}

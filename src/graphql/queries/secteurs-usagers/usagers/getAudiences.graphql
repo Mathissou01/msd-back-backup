@@ -1,0 +1,11 @@
+query getAudiences($filters: AudienceFiltersInput) {
+  audiences(filters: $filters) {
+    data {
+      id
+      attributes {
+        isActive
+        type
+      }
+    }
+  }
+}

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useContract } from "../../../../hooks/useContract";
 import {
-  useGetSearchCitiesQuery,
-  useGetSectorizationsPickUpDayQuery,
+  useGetSearchCitiesByContractIdQuery,
+  useGetSectorizationsPickUpDayByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import FormSingleMultiselect, {
   IFormSingleMultiselectOption,
@@ -42,11 +42,12 @@ export default function SectorizationOrCityFields({
   const radioBtnStatusWatch = watch("sectorizationsMode");
 
   /* External Data */
-  const { data: sectorizationsData } = useGetSectorizationsPickUpDayQuery({
-    variables: { contractId },
-    fetchPolicy: "cache-and-network",
-  });
-  const { data: searchCitiesData } = useGetSearchCitiesQuery({
+  const { data: sectorizationsData } =
+    useGetSectorizationsPickUpDayByContractIdQuery({
+      variables: { contractId },
+      fetchPolicy: "cache-and-network",
+    });
+  const { data: searchCitiesData } = useGetSearchCitiesByContractIdQuery({
     variables: { contractId, searchTerm: searchTerm },
     fetchPolicy: "no-cache",
   });

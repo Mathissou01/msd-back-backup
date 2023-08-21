@@ -1,9 +1,9 @@
-import { GetFooterPageDocument } from "../src/graphql/codegen/generated-types";
+import { GetFooterByContractIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetFooterPageDocument,
+      query: GetFooterByContractIdDocument,
       variables: {
         contractId: "0",
       },

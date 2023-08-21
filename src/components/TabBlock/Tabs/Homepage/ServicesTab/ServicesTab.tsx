@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import FormInput from "../../../../Form/FormInput/FormInput";
 import {
   AudienceEntity,
-  useGetServicesBlockTabQuery,
-  useUpdateServicesBlockTabMutation,
+  useGetServicesBlocksByContractIdAndAudienceIdQuery,
+  useUpdateServicesBlockByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../../hooks/useContract";
 import { IServiceLink } from "../../../../../lib/service-links";
@@ -90,7 +90,7 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
           serviceLinks: returnValues,
         },
       };
-      return updateServicesBlockTab({
+      return updateServicesBlock({
         variables,
       });
     }
@@ -112,15 +112,16 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
   if (audience && audience.id) {
     getServicesBlockVariables.audienceId = audience.id;
   }
-  const { loading, error, data } = useGetServicesBlockTabQuery({
-    variables: getServicesBlockVariables,
-    fetchPolicy: "network-only",
-  });
+  const { loading, error, data } =
+    useGetServicesBlocksByContractIdAndAudienceIdQuery({
+      variables: getServicesBlockVariables,
+      fetchPolicy: "network-only",
+    });
   const [
-    updateServicesBlockTab,
+    updateServicesBlock,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateServicesBlockTabMutation({
-    refetchQueries: ["getServicesBlockTab"],
+  ] = useUpdateServicesBlockByIdMutation({
+    refetchQueries: ["getServicesBlocksByContractIdAndAudienceId"],
     awaitRefetchQueries: true,
   });
 

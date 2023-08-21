@@ -1,9 +1,9 @@
-import { GetAudiencesByContractIdDocument } from "../src/graphql/codegen/generated-types";
+import { GetAudiencesDocument } from "../src/graphql/codegen/generated-types";
 
 export const getNoAudienceMockedData = [
   {
     request: {
-      query: GetAudiencesByContractIdDocument,
+      query: GetAudiencesDocument,
       variables: {
         filters: {
           contract: {
@@ -30,7 +30,7 @@ export const getNoAudienceMockedData = [
 export const getSingleAudienceMockedData = [
   {
     request: {
-      query: GetAudiencesByContractIdDocument,
+      query: GetAudiencesDocument,
       variables: {
         filters: {
           contract: {
@@ -66,7 +66,7 @@ export const getSingleAudienceMockedData = [
 export const getTwoAudiencesMockedData = [
   {
     request: {
-      query: GetAudiencesByContractIdDocument,
+      query: GetAudiencesDocument,
       variables: {
         filters: {
           contract: {
@@ -110,7 +110,7 @@ export const getTwoAudiencesMockedData = [
 export const getAllAudiencesMockedData = [
   {
     request: {
-      query: GetAudiencesByContractIdDocument,
+      query: GetAudiencesDocument,
       variables: {
         filters: {
           contract: {

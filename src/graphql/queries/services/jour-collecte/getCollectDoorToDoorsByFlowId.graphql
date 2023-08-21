@@ -1,0 +1,10 @@
+query getCollectDoorToDoorsByFlowId($flowId: ID) {
+  collectDoorToDoors(filters: { flows: { id: { eq: $flowId } } }) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

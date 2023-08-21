@@ -1,4 +1,4 @@
-mutation ProgrammedSend(
+mutation programmedSend(
   $isEmail: Boolean
   $isSms: Boolean
   $mailSubject: String

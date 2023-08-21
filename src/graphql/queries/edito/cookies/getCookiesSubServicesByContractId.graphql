@@ -1,0 +1,22 @@
+query getCookiesSubServicesByContractId($contractId: ID!) {
+  cookiesSubServices(
+    filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+  ) {
+    data {
+      id
+      attributes {
+        cookies {
+          data {
+            id
+            attributes {
+              title
+              hasMobile
+              isActivated
+            }
+          }
+        }
+        name
+      }
+    }
+  }
+}

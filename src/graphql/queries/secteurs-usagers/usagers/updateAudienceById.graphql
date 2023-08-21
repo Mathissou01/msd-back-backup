@@ -1,0 +1,10 @@
+mutation updateAudienceById($updateAudienceId: ID!, $data: AudienceInput!) {
+  updateAudience(id: $updateAudienceId, data: $data) {
+    data {
+      id
+      attributes {
+        isActive
+      }
+    }
+  }
+}

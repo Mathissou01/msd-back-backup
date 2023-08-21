@@ -2,9 +2,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useState, useEffect } from "react";
 import {
-  useGetWelcomeMessageAndSearchEngineBlockTabQuery,
-  useUpdateSearchEngineBlockTabMutation,
-  useUpdateWelcomeMessageBlockMutation,
+  useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+  useUpdateSearchEngineBlockByIdMutation,
+  useUpdateWelcomeMessageBlockByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import {
   extractSearchEngineBlock,
@@ -88,7 +88,7 @@ export default function WelcomeAndSearchEngineTab() {
   /* External Data */
   const { contractId } = useContract();
   const { loading, error, data } =
-    useGetWelcomeMessageAndSearchEngineBlockTabQuery({
+    useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery({
       variables: { contractId },
       fetchPolicy: "network-only",
     });
@@ -98,15 +98,15 @@ export default function WelcomeAndSearchEngineTab() {
       loading: welcomeMessageMutationLoading,
       error: welcomeMessageMutationError,
     },
-  ] = useUpdateWelcomeMessageBlockMutation({
-    refetchQueries: ["getWelcomeMessageAndSearchEngineBlockTab"],
+  ] = useUpdateWelcomeMessageBlockByIdMutation({
+    refetchQueries: ["getWelcomeMessageAndSearchEngineBlocksByContractId"],
     awaitRefetchQueries: true,
   });
   const [
     updateSearchEngineBlock,
     { loading: searchEngineMutationLoading, error: searchEngineMutationError },
-  ] = useUpdateSearchEngineBlockTabMutation({
-    refetchQueries: ["getWelcomeMessageAndSearchEngineBlockTab"],
+  ] = useUpdateSearchEngineBlockByIdMutation({
+    refetchQueries: ["getWelcomeMessageAndSearchEngineBlocksByContractId"],
     awaitRefetchQueries: true,
   });
 

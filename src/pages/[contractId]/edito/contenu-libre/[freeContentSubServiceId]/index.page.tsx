@@ -8,7 +8,7 @@ import {
   GetFreeContentsBySubServiceIdQuery,
   GetFreeContentsBySubServiceIdDocument,
   useCreateFreeContentMutation,
-  useDeleteFreeContentMutation,
+  useDeleteFreeContentByIdMutation,
   useGetFreeContentsBySubServiceIdLazyQuery,
   GetFreeContentsBySubServiceIdQueryVariables,
   useGetFreeContentByIdLazyQuery,
@@ -68,7 +68,7 @@ export function EditoFreeContentSubServicePage({
     params: ICurrentPagination,
     filters?: IFilters,
   ) {
-    return getFreeContentsQuery({
+    return getFreeContents({
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
@@ -83,55 +83,53 @@ export function EditoFreeContentSubServicePage({
   }
 
   function onDuplicate(row: IFreeContentTableRow) {
-    GetFreeContentByIdQuery({ variables: { freeContentId: row.id } }).then(
-      (data) => {
-        const originalFreeContent = data.data?.freeContent?.data?.attributes;
-        if (originalFreeContent) {
-          CreateFreeContentByFreeContentSubServiceIdMutation({
-            variables: {
-              data: {
-                title: `${originalFreeContent.title} Ajout`,
-                shortDescription: originalFreeContent.shortDescription,
-                freeContentSubService:
-                  originalFreeContent.freeContentSubService?.data?.id,
-                image: originalFreeContent.image?.data?.id,
-                blocks: originalFreeContent.blocks?.map((block) => {
-                  return {
-                    ...block,
-                    id: undefined,
-                  };
-                }),
-              },
+    getFreeContent({ variables: { freeContentId: row.id } }).then((data) => {
+      const originalFreeContent = data.data?.freeContent?.data?.attributes;
+      if (originalFreeContent) {
+        createFreeContent({
+          variables: {
+            data: {
+              title: `${originalFreeContent.title} Ajout`,
+              shortDescription: originalFreeContent.shortDescription,
+              freeContentSubService:
+                originalFreeContent.freeContentSubService?.data?.id,
+              image: originalFreeContent.image?.data?.id,
+              blocks: originalFreeContent.blocks?.map((block) => {
+                return {
+                  ...block,
+                  id: undefined,
+                };
+              }),
             },
-            refetchQueries: [
-              {
-                query: GetFreeContentsBySubServiceIdDocument,
-                variables: { freeContentSubServiceId },
-              },
-            ],
-            onQueryUpdated: (observableQuery) => {
-              observableQuery
-                .result()
-                .then((result) => {
-                  // TODO: probably a better way to refetch than this
-                  console.log("result here :", result);
-                  if (!result.loading) {
-                    setPageData(
-                      result?.data as
-                        | GetFreeContentsBySubServiceIdQuery
-                        | undefined,
-                    );
-                  }
-                })
-                .catch((error) => {
-                  // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
-                  console.log(error);
-                });
+          },
+          refetchQueries: [
+            {
+              query: GetFreeContentsBySubServiceIdDocument,
+              variables: { freeContentSubServiceId },
             },
-          });
-        }
-      },
-    );
+          ],
+          onQueryUpdated: (observableQuery) => {
+            observableQuery
+              .result()
+              .then((result) => {
+                // TODO: probably a better way to refetch than this
+                console.log("result here :", result);
+                if (!result.loading) {
+                  setPageData(
+                    result?.data as
+                      | GetFreeContentsBySubServiceIdQuery
+                      | undefined,
+                  );
+                }
+              })
+              .catch((error) => {
+                // TODO : handle error, to do when all editorial pages will refactored ( to check with @QuentinLeCaignec)
+                console.log(error);
+              });
+          },
+        });
+      }
+    });
   }
 
   async function onDelete(row: IFreeContentTableRow) {
@@ -139,7 +137,7 @@ export function EditoFreeContentSubServicePage({
     const variables = {
       deleteFreeContentId: row.id,
     };
-    return DeleteFreeContentMutation({
+    return deleteFreeContent({
       variables,
       refetchQueries: [
         {
@@ -180,29 +178,23 @@ export function EditoFreeContentSubServicePage({
     sort: "title:asc",
     pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
   };
-  const [getFreeContentsQuery, { data, loading, error }] =
+  const [getFreeContents, { data, loading, error }] =
     useGetFreeContentsBySubServiceIdLazyQuery({
       variables: defaultQueryVariables,
       fetchPolicy: "no-cache",
     });
   const [
-    GetFreeContentByIdQuery,
-    { loading: prepareDuplicateLoading, error: prepareDuplicateError },
+    getFreeContent,
+    { loading: getFreeContentLoading, error: getFreeContentError },
   ] = useGetFreeContentByIdLazyQuery();
   const [
-    CreateFreeContentByFreeContentSubServiceIdMutation,
-    {
-      loading: CreateFreeContentByFreeContentSubServiceIdMutationLoading,
-      error: CreateFreeContentByFreeContentSubServiceIdMutationError,
-    },
+    createFreeContent,
+    { loading: createFreeContentLoading, error: createFreeContentError },
   ] = useCreateFreeContentMutation();
   const [
-    DeleteFreeContentMutation,
-    {
-      loading: DeleteFreeContentMutationLoading,
-      error: DeleteFreeContentMutationError,
-    },
-  ] = useDeleteFreeContentMutation();
+    deleteFreeContent,
+    { loading: deleteFreeContentLoading, error: deleteFreeContentError },
+  ] = useDeleteFreeContentByIdMutation();
 
   /* Local Data */
   const router = useRouter();
@@ -216,16 +208,16 @@ export function EditoFreeContentSubServicePage({
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
     isUpdatingData ||
-    prepareDuplicateLoading ||
-    CreateFreeContentByFreeContentSubServiceIdMutationLoading ||
-    DeleteFreeContentMutationLoading;
+    getFreeContentLoading ||
+    createFreeContentLoading ||
+    deleteFreeContentLoading;
   const isLoading = loading || isLoadingMutation;
   const errors = [
     freeContentSubServiceError,
     error,
-    prepareDuplicateError,
-    CreateFreeContentByFreeContentSubServiceIdMutationError,
-    DeleteFreeContentMutationError,
+    getFreeContentError,
+    createFreeContentError,
+    deleteFreeContentError,
   ];
 
   const tableColumns: Array<TableColumn<IFreeContentTableRow>> = [
@@ -365,9 +357,9 @@ export function EditoFreeContentSubServicePage({
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getFreeContentsQuery();
+      void getFreeContents();
     }
-  }, [getFreeContentsQuery, isInitialized]);
+  }, [getFreeContents, isInitialized]);
 
   return (
     <div className="o-TablePage">

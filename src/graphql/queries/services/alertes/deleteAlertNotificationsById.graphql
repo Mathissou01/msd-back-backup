@@ -1,4 +1,4 @@
-mutation deleteAlertNotificationsById($deleteAlertNotificationId: ID!) {
+mutation deleteAlertNotificationById($deleteAlertNotificationId: ID!) {
   deleteAlertNotification(id: $deleteAlertNotificationId) {
     data {
       id

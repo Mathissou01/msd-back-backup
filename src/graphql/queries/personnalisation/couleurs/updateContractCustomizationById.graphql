@@ -1,35 +1,13 @@
 mutation updateContractCustomizationById(
-  $updateContractId: ID!
-  $data: ContractInput!
+  $updateContractCustomizationId: ID!
+  $data: ContractCustomizationInput!
 ) {
-  updateContract(id: $updateContractId, data: $data) {
+  updateContractCustomization(id: $updateContractCustomizationId, data: $data) {
     data {
-      id
       attributes {
-        logo {
-          data {
-            id
-            attributes {
-              name
-              alternativeText
-              hash
-              mime
-              size
-              url
-              provider
-            }
-          }
-        }
-        contractCustomization {
-          data {
-            id
-            attributes {
-              primaryColor
-              secondaryColor
-              textContrast
-            }
-          }
-        }
+        primaryColor
+        secondaryColor
+        textContrast
       }
     }
   }

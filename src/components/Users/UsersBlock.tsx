@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import CommonToggle from "../Common/CommonToggle/CommonToggle";
 import { IAudience } from "../../pages/[contractId]/secteurs-usagers/usagers/index.page";
 import {
-  GetAudiencesByContractIdDocument,
-  useUpdateAudienceMutation,
+  GetAudiencesDocument,
+  useUpdateAudienceByIdMutation,
 } from "../../graphql/codegen/generated-types";
 import "./users-card.scss";
 interface IAudiencesBlockProps {
@@ -24,11 +24,11 @@ export default function UsersBlock({ audience }: IAudiencesBlockProps) {
         isActive: isToggleActiveUpdated,
       },
     };
-    return updateFlow({
+    return updateAudience({
       variables,
       refetchQueries: [
         {
-          query: GetAudiencesByContractIdDocument,
+          query: GetAudiencesDocument,
           variables: { id: audience.id },
         },
       ],
@@ -36,11 +36,8 @@ export default function UsersBlock({ audience }: IAudiencesBlockProps) {
   };
   /* Local Data */
   const [isToggleActive, setIsToggleActive] = useState<boolean>();
-  const [updateFlow] = useUpdateAudienceMutation({
-    refetchQueries: [
-      "getAudiencesByContractId",
-      "getCollectionMethodsByContractId",
-    ],
+  const [updateAudience] = useUpdateAudienceByIdMutation({
+    refetchQueries: ["getAudiences", "getCollectionMethods"],
   });
   return (
     <div className="c-UsersBlock">

@@ -5,9 +5,9 @@ import {
   GetSectorizationsByContractIdQuery,
   GetSectorizationsByContractIdQueryVariables,
   useCreateSectorizationMutation,
-  useDeleteSectorizationMutation,
+  useDeleteSectorizationByIdMutation,
   GetSectorizationsByContractIdDocument,
-  useUpdateSectorizationMutation,
+  useUpdateSectorizationByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import { ICurrentPagination } from "../../../../lib/common-data-table";
@@ -62,20 +62,14 @@ export function SectorsPage() {
 
   const [createSectorization] = useCreateSectorizationMutation();
   const [
-    updateSectorizationMutation,
-    {
-      loading: updateSectorizationMutationLoading,
-      error: updateSectorizationMutationError,
-    },
-  ] = useUpdateSectorizationMutation();
+    updateSectorization,
+    { loading: updateSectorizationLoading, error: updateSectorizationError },
+  ] = useUpdateSectorizationByIdMutation();
 
   const [
-    deleteSectorizationMutation,
-    {
-      loading: deleteSectorizationMutationLoading,
-      error: deleteSectorizationMutationError,
-    },
-  ] = useDeleteSectorizationMutation();
+    deleteSectorization,
+    { loading: deleteSectorizationLoading, error: deleteSectorizationError },
+  ] = useDeleteSectorizationByIdMutation();
 
   /* Local Data */
   const isInitialized = useRef(false);
@@ -85,16 +79,9 @@ export function SectorsPage() {
   const [tableData, setTableData] = useState<Array<ISectorsTableRow>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
-    isUpdatingData ||
-    deleteSectorizationMutationLoading ||
-    updateSectorizationMutationLoading;
-  const isLoading =
-    loading || isLoadingMutation || updateSectorizationMutationLoading;
-  const errors = [
-    error,
-    deleteSectorizationMutationError,
-    updateSectorizationMutationError,
-  ];
+    isUpdatingData || deleteSectorizationLoading || updateSectorizationLoading;
+  const isLoading = loading || isLoadingMutation;
+  const errors = [error, deleteSectorizationError, updateSectorizationError];
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const [secteurDefaultValue, setSecteurDefaultValue] =
     useState<ISectorsTableRow>();
@@ -219,7 +206,7 @@ export function SectorsPage() {
     const variables = {
       deleteSectorizationId: row.id,
     };
-    void deleteSectorizationMutation({
+    void deleteSectorization({
       variables,
       refetchQueries: [
         {
@@ -261,7 +248,7 @@ export function SectorsPage() {
         polygonCoordinates: submitData.polygonData,
       },
     };
-    void updateSectorizationMutation({
+    void updateSectorization({
       variables,
       refetchQueries: [
         {

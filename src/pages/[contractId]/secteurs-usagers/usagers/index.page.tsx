@@ -5,7 +5,7 @@ import UsersBlock from "../../../../components/Users/UsersBlock";
 import { useContract } from "../../../../hooks/useContract";
 import { removeNulls } from "../../../../lib/utilities";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
-import { useGetAudiencesByContractIdQuery } from "../../../../graphql/codegen/generated-types";
+import { useGetAudiencesQuery } from "../../../../graphql/codegen/generated-types";
 import "./usagers.scss";
 export interface IAudience {
   id: string;
@@ -21,7 +21,7 @@ export function UsagersPage() {
   /* Local Data */
   const { contractId } = useContract();
   const [audiences, setAudiences] = useState<IAudience[]>([]);
-  const { data, loading, error } = useGetAudiencesByContractIdQuery({
+  const { data, loading, error } = useGetAudiencesQuery({
     variables: {
       filters: {
         contract: {

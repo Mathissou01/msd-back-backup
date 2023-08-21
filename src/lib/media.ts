@@ -1,13 +1,13 @@
 import axios from "axios";
 import client from "../graphql/client";
 import {
-  GetFilesPaginationByPathIdDocument,
-  GetFolderByPathIdDocument,
-  GetFolderByPathIdQuery,
+  GetUploadFilesDocument,
+  GetUploadFoldersByPathIdDocument,
+  GetUploadFoldersByPathIdQuery,
   Maybe,
   Scalars,
-  UpdateUploadFileDocument,
-  UpdateUploadFileMutation,
+  UpdateUploadFileByIdDocument,
+  UpdateUploadFileByIdMutation,
 } from "../graphql/codegen/generated-types";
 
 export const AcceptedMimeTypes = [
@@ -127,13 +127,13 @@ export function remapUploadFileEntityToLocalFile(
 }
 
 export async function uploadFile(activePathId: number, file: ILocalFile) {
-  const { data: getFolderByPathIdData, errors: getFolderByPathIdErrors } =
-    await client.query<GetFolderByPathIdQuery>({
-      query: GetFolderByPathIdDocument,
+  const { data: foldersData, errors: foldersErrors } =
+    await client.query<GetUploadFoldersByPathIdQuery>({
+      query: GetUploadFoldersByPathIdDocument,
       variables: { pathId: activePathId },
     });
 
-  if (!getFolderByPathIdErrors) {
+  if (!foldersErrors) {
     if (file && file.file) {
       try {
         const formData = new FormData();
@@ -155,15 +155,13 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
         const { status, data } = await axios.post(url, formData, config);
 
         if (status === 200) {
-          const { data: UpdateUploadFileMutationData } =
-            await client.mutate<UpdateUploadFileMutation>({
-              mutation: UpdateUploadFileDocument,
+          const { data: updateUploadFileData } =
+            await client.mutate<UpdateUploadFileByIdMutation>({
+              mutation: UpdateUploadFileByIdDocument,
               variables: {
                 updateUploadFileId: data[0].id,
                 data: {
-                  folder:
-                    file.folder ??
-                    getFolderByPathIdData?.uploadFolders?.data[0].id,
+                  folder: file.folder ?? foldersData?.uploadFolders?.data[0].id,
                   name: file.name,
                   width: file.width ?? null,
                   height: file.height ?? null,
@@ -172,14 +170,14 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
               },
               refetchQueries: [
                 {
-                  query: GetFilesPaginationByPathIdDocument,
+                  query: GetUploadFilesDocument,
                   variables: { activePathId: activePathId },
                 },
-                "getFilesPaginationByPathId",
+                "getUploadFiles",
               ],
             });
           return {
-            data: UpdateUploadFileMutationData,
+            data: updateUploadFileData,
             result: data[0],
           };
         }
@@ -195,13 +193,13 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
 }
 
 export async function updateUploadedFile(pathId: number, file: ILocalFile) {
-  const { errors: getFolderByPathIdErrors } =
-    await client.query<GetFolderByPathIdQuery>({
-      query: GetFolderByPathIdDocument,
+  const { errors: foldersErrors } =
+    await client.query<GetUploadFoldersByPathIdQuery>({
+      query: GetUploadFoldersByPathIdDocument,
       variables: { pathId },
     });
 
-  if (!getFolderByPathIdErrors) {
+  if (!foldersErrors) {
     if (file && file.file) {
       try {
         const formData = new FormData();

@@ -89,7 +89,7 @@ export default function Alert({
     useSendEmailMutation();
   const [
     programmedSend,
-    { loading: sendProgrammedSendLoading, error: sendProgrammedSendError },
+    { loading: programmedSendLoading, error: programmedSendError },
   ] = useProgrammedSendMutation();
 
   /* Local data */
@@ -120,14 +120,14 @@ export default function Alert({
     createAlertLoading ||
     updateAlertNotificationLoading ||
     sendSMSLoading ||
-    sendProgrammedSendLoading ||
+    programmedSendLoading ||
     sendEmailLoading;
   const errors = [
     createAlertError,
     errorAlertNotificationError,
     sendSMSError,
     sendEmailError,
-    sendProgrammedSendError,
+    programmedSendError,
   ];
 
   /* Methods */

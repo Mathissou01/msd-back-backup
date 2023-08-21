@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
-import { useGetConfidentialityByContractIdQuery } from "../../../../graphql/codegen/generated-types";
+import { useGetConfidentialitySubServicesByContractIdQuery } from "../../../../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { useContract } from "../../../../hooks/useContract";
@@ -32,10 +32,11 @@ export function EditoConfidentialitePage() {
   /* External Data */
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
-  const { loading, error, data } = useGetConfidentialityByContractIdQuery({
-    variables: { contractId },
-    fetchPolicy: "network-only",
-  });
+  const { loading, error, data } =
+    useGetConfidentialitySubServicesByContractIdQuery({
+      variables: { contractId },
+      fetchPolicy: "network-only",
+    });
 
   /* Local Data */
   const isInitialized = useRef(false);

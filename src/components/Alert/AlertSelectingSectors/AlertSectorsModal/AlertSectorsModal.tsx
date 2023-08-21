@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import {
-  useGetSearchCitiesQuery,
-  useGetSectorizationsPickUpDayQuery,
+  useGetSearchCitiesByContractIdQuery,
+  useGetSectorizationsPickUpDayByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import { useContract } from "../../../../hooks/useContract";
@@ -77,14 +77,15 @@ export default function AlertSectorsModal({
 
   /* External Data */
   const { contractId } = useContract();
-  const { data: searchCitiesData } = useGetSearchCitiesQuery({
+  const { data: searchCitiesData } = useGetSearchCitiesByContractIdQuery({
     variables: { contractId, searchTerm: searchTerm },
     fetchPolicy: "no-cache",
   });
-  const { data: sectorizationsData } = useGetSectorizationsPickUpDayQuery({
-    variables: { contractId },
-    fetchPolicy: "cache-and-network",
-  });
+  const { data: sectorizationsData } =
+    useGetSectorizationsPickUpDayByContractIdQuery({
+      variables: { contractId },
+      fetchPolicy: "cache-and-network",
+    });
 
   useEffect(() => {
     if (searchCitiesData) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  useGetFlowsByContractIdQuery,
+  useGetFlowsQuery,
   useGetTagsByContractIdQuery,
   useGetWasteFamiliesByContractIdQuery,
   WasteFamilyEntity,
@@ -105,7 +105,7 @@ export default function WasteFormStaticFields({
     data: activeFlowData,
     loading: activeFlowLoading,
     error: activeFlowError,
-  } = useGetFlowsByContractIdQuery({
+  } = useGetFlowsQuery({
     variables: {
       filters: {
         contract: {

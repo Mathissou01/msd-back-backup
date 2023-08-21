@@ -1,0 +1,55 @@
+query getFlows($filters: FlowFiltersInput) {
+  flows(filters: $filters) {
+    data {
+      id
+      attributes {
+        name
+        isActivated
+        createdAt
+        recyclingGesture
+        wasteForms {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        code
+        color {
+          data {
+            id
+            attributes {
+              hexaCode
+              name
+            }
+          }
+        }
+        collectVoluntaries {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectDoorToDoors {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        collectDropOffs {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

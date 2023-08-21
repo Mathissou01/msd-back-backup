@@ -1,0 +1,7 @@
+mutation deleteDropOffMapById($deleteDropOffMapId: ID!) {
+  deleteDropOffMap(id: $deleteDropOffMapId) {
+    data {
+      id
+    }
+  }
+}

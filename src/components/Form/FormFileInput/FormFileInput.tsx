@@ -5,9 +5,9 @@ import { ErrorMessage } from "@hookform/error-message";
 import React, { useEffect, useRef, useState } from "react";
 import NextImage from "next/image";
 import {
-  GetFilesPaginationByPathIdDocument,
+  GetUploadFilesDocument,
   useGetAllFoldersHierarchyQuery,
-  useUpdateUploadFileMutation,
+  useUpdateUploadFileByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import {
   isTypename,
@@ -140,7 +140,7 @@ export default function FormFileInput({
       );
 
       if (response === 200) {
-        void UpdateUploadFileDocument({
+        void updateUploadFile({
           variables: {
             updateUploadFileId: file?.id,
             data: {
@@ -153,7 +153,7 @@ export default function FormFileInput({
           },
           refetchQueries: [
             {
-              query: GetFilesPaginationByPathIdDocument,
+              query: GetUploadFilesDocument,
               variables: {
                 filters: {
                   folder: {
@@ -238,7 +238,7 @@ export default function FormFileInput({
     fetchPolicy: "network-only",
   });
   // TODO: try to use loading and error of mutation
-  const [UpdateUploadFileDocument] = useUpdateUploadFileMutation({
+  const [updateUploadFile] = useUpdateUploadFileByIdMutation({
     refetchQueries: ["getAllFoldersHierarchy"],
   });
 

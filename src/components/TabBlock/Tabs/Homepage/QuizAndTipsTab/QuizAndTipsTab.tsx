@@ -7,8 +7,8 @@ import {
   Enum_Tip_Status,
   QuizEntity,
   TipEntity,
-  useGetQuizAndTipsBlockTabQuery,
-  useUpdateQuizAndTipsBlockTabMutation,
+  useGetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+  useUpdateQuizAndTipsBlockByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../../lib/utilities";
 import { extractQuizAndTipsBlock } from "../../../../../lib/graphql-data";
@@ -157,15 +157,16 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
   if (audience && audience.id) {
     getQuizAndTipsBlockTabVariables.audienceId = audience.id;
   }
-  const { loading, error, data } = useGetQuizAndTipsBlockTabQuery({
-    variables: getQuizAndTipsBlockTabVariables,
-    fetchPolicy: "network-only",
-  });
+  const { loading, error, data } =
+    useGetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery({
+      variables: getQuizAndTipsBlockTabVariables,
+      fetchPolicy: "network-only",
+    });
   const [
     updateQuizAndTipsBlock,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateQuizAndTipsBlockTabMutation({
-    refetchQueries: ["getQuizAndTipsBlockTab"],
+  ] = useUpdateQuizAndTipsBlockByIdMutation({
+    refetchQueries: ["getQuizAndTipsBlockTabByContractIdAndAudienceId"],
     awaitRefetchQueries: true,
   });
 

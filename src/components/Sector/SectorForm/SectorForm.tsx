@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import {
   CityEntity,
-  GetSectorizationByContractIdQueryVariables,
-  useGetCitiesQuery,
-  useGetSectorizationByContractIdQuery,
+  GetSectorizationByIdQueryVariables,
+  useGetCitiesByContractIdQuery,
+  useGetSectorizationByIdQuery,
 } from "../../../graphql/codegen/generated-types";
 import { ISectorsTableRow } from "../../../lib/sectors";
 import { useContract } from "../../../hooks/useContract";
@@ -45,17 +45,17 @@ export default function SectorForm({
       "Dessinez un secteur sur la carte ou bien saisissez les communes du secteur :",
   };
   const maxCharacters = 30;
-  const defaultQueryVariables: GetSectorizationByContractIdQueryVariables = {
+  const defaultQueryVariables: GetSectorizationByIdQueryVariables = {
     sectorizationId: defaultValue?.id,
   };
 
   /* Local Data */
   const { contractId } = useContract();
-  const { data } = useGetSectorizationByContractIdQuery({
+  const { data } = useGetSectorizationByIdQuery({
     variables: defaultQueryVariables,
     fetchPolicy: "network-only",
   });
-  const { data: cities } = useGetCitiesQuery({
+  const { data: cities } = useGetCitiesByContractIdQuery({
     variables: {
       contractId: contractId,
     },

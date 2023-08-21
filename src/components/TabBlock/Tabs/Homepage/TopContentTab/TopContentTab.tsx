@@ -5,8 +5,8 @@ import React, { ReactNode, useEffect, useState } from "react";
 import {
   AudienceEntity,
   EditoContentDto,
-  useGetTopContentBlockTabQuery,
-  useUpdateTopContentBlockTabMutation,
+  useGetTopContentBlockTabByContractIdAndAudienceIdQuery,
+  useUpdateTopContentBlockByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { extractTopContentBlock } from "../../../../../lib/graphql-data";
 import { formatDate } from "../../../../../lib/utilities";
@@ -148,15 +148,16 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
   if (audience && audience.id) {
     getTopContentBlockVariables.audienceId = audience.id;
   }
-  const { loading, error, data } = useGetTopContentBlockTabQuery({
-    variables: getTopContentBlockVariables,
-    fetchPolicy: "no-cache",
-  });
+  const { loading, error, data } =
+    useGetTopContentBlockTabByContractIdAndAudienceIdQuery({
+      variables: getTopContentBlockVariables,
+      fetchPolicy: "no-cache",
+    });
   const [
     updateTopContentBlock,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateTopContentBlockTabMutation({
-    refetchQueries: ["getTopContentBlockTab"],
+  ] = useUpdateTopContentBlockByIdMutation({
+    refetchQueries: ["getTopContentBlockTabByContractIdAndAudienceId"],
     awaitRefetchQueries: true,
   });
 

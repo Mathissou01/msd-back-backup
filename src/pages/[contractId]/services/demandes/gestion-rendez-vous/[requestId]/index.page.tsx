@@ -6,8 +6,8 @@ import { removeNulls } from "../../../../../../lib/utilities";
 import { useRoutingQueryId } from "../../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../../layouts/ContractLayout/ContractLayout";
 import {
-  useDeleteRequestTakedMutation,
-  useGetAppointmentsDetailsLazyQuery,
+  useDeleteRequestTakedByIdMutation,
+  useGetAppointmentsDetailsByRequestIdLazyQuery,
 } from "../../../../../../graphql/codegen/generated-types";
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
 import { IDataTableAction } from "../../../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
@@ -275,7 +275,7 @@ export function AppointmentManagementPage({
   const [nbAppointmentsDisplayed, setNbAppointmentsDisplayed] =
     useState<number>(6);
   const [getAppointmentsDetails, { data, loading, error }] =
-    useGetAppointmentsDetailsLazyQuery({
+    useGetAppointmentsDetailsByRequestIdLazyQuery({
       variables: {
         requestId,
       },
@@ -287,8 +287,8 @@ export function AppointmentManagementPage({
       loading: deleteRequestTakedLoading,
       error: deleteRequestTakedRequestError,
     },
-  ] = useDeleteRequestTakedMutation({
-    refetchQueries: ["GetAppointmentsDetails"],
+  ] = useDeleteRequestTakedByIdMutation({
+    refetchQueries: ["getAppointmentsDetailsByRequestId"],
     awaitRefetchQueries: true,
   });
   const isLoading = loading || deleteRequestTakedLoading;

@@ -2,13 +2,13 @@ import React from "react";
 import { useRouter } from "next/router";
 import client from "../../../../../../graphql/client";
 import {
-  useUpdateFreeContentMutation,
+  useUpdateFreeContentByIdMutation,
   Enum_Freecontent_Status,
   useGetFreeContentByIdLazyQuery,
   useCreateFreeContentMutation,
   FreeContentSubServiceEntity,
-  GetFreeContentDraftQuery,
-  GetFreeContentDraftDocument,
+  GetFreeContentsDraftByCustomIdQuery,
+  GetFreeContentsDraftByCustomIdDocument,
 } from "../../../../../../graphql/codegen/generated-types";
 import { useNavigation } from "../../../../../../hooks/useNavigation";
 import { useContract } from "../../../../../../hooks/useContract";
@@ -96,8 +96,8 @@ export function EditoFreeContentEditPage({
           result.versioningHandler.data.attributes?.customId
         ) {
           client
-            .query<GetFreeContentDraftQuery>({
-              query: GetFreeContentDraftDocument,
+            .query<GetFreeContentsDraftByCustomIdQuery>({
+              query: GetFreeContentsDraftByCustomIdDocument,
               variables: {
                 customId: result.versioningHandler.data.attributes.customId,
               },
@@ -173,7 +173,7 @@ export function EditoFreeContentEditPage({
 
   const getFreeContentByIdLazyQuery = useGetFreeContentByIdLazyQuery();
   const createFreeContentMutation = useCreateFreeContentMutation();
-  const updateFreeContentMutation = useUpdateFreeContentMutation({
+  const updateFreeContentMutation = useUpdateFreeContentByIdMutation({
     refetchQueries: ["getFreeContentById", "getTagsByContractId"],
     awaitRefetchQueries: true,
   });

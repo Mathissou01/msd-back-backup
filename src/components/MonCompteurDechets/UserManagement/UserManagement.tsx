@@ -2,7 +2,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import React, { useState } from "react";
 import {
   SearchResultAddress,
-  useGetBanAddressesAutoCompleteLazyQuery,
+  useGetAddressCoordinatesLazyQuery,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import useFetchUsers from "../../../hooks/User/useFetchUsers";
@@ -30,8 +30,8 @@ export default function UserManagement() {
     refetch,
   } = useFetchUsers();
 
-  const [getBanAddresses, { loading }] =
-    useGetBanAddressesAutoCompleteLazyQuery({
+  const [getAddressCoordinates, { loading }] =
+    useGetAddressCoordinatesLazyQuery({
       fetchPolicy: "network-only",
     });
 
@@ -41,7 +41,7 @@ export default function UserManagement() {
     searchValue: string,
   ): Promise<Array<SearchResultAddress>> {
     let searchResults: Array<SearchResultAddress> = [];
-    await getBanAddresses({
+    await getAddressCoordinates({
       variables: { searchTerm: searchValue },
       onCompleted: (results) => {
         if (results.getAddressCoordinates) {

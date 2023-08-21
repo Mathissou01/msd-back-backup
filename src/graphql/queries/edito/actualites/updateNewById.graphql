@@ -1,0 +1,12 @@
+mutation updateNewById($updateNewId: ID!, $data: JSON!) {
+  versioningHandler(data: { id: $updateNewId, data: $data }, entity: "new") {
+    data {
+      ... on NewEntity {
+        id
+        attributes {
+          customId
+        }
+      }
+    }
+  }
+}

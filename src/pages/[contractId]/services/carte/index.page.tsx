@@ -3,10 +3,10 @@ import router from "next/router";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
 import {
-  GetDropOffMapByDropOffMapByServiceIdQuery,
-  GetDropOffMapByDropOffMapByServiceIdQueryVariables,
-  useDeleteDropOffMapMutation,
-  useGetDropOffMapByDropOffMapByServiceIdLazyQuery,
+  GetDropOffMapsByContractIdQuery,
+  GetDropOffMapsByContractIdQueryVariables,
+  useDeleteDropOffMapByIdMutation,
+  useGetDropOffMapsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
@@ -80,15 +80,14 @@ export function CartePage() {
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
-  const defaultQueryVariables: GetDropOffMapByDropOffMapByServiceIdQueryVariables =
-    {
-      contractId: contractId,
-      sort: "createdAt:asc",
-      pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
-    };
+  const defaultQueryVariables: GetDropOffMapsByContractIdQueryVariables = {
+    contractId: contractId,
+    sort: "createdAt:asc",
+    pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
+  };
 
   const [getDropOffMapsQuery, { data, loading, error }] =
-    useGetDropOffMapByDropOffMapByServiceIdLazyQuery({
+    useGetDropOffMapsByContractIdLazyQuery({
       variables: defaultQueryVariables,
       fetchPolicy: "network-only",
     });
@@ -98,15 +97,15 @@ export function CartePage() {
       loading: deleteDropOffMapMutationLoading,
       error: deleteDropOffMapMutationError,
     },
-  ] = useDeleteDropOffMapMutation({
-    refetchQueries: ["getDropOffMapByDropOffMapByServiceId"],
+  ] = useDeleteDropOffMapByIdMutation({
+    refetchQueries: ["getDropOffMapsByContractId"],
     awaitRefetchQueries: true,
   });
 
   /* Local Data */
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
-    GetDropOffMapByDropOffMapByServiceIdQuery | undefined
+    GetDropOffMapsByContractIdQuery | undefined
   >(data);
   const [tableData, setTableData] = useState<Array<ISectorsTableRow>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);

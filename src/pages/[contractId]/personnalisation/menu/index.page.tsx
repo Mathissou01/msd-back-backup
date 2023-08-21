@@ -2,9 +2,9 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
-  GetMenuPageDocument,
-  useGetMenuPageQuery,
-  useUpdateMenuPageMutation,
+  GetContractMenuByContractIdDocument,
+  useGetContractMenuByContractIdQuery,
+  useUpdateContractMenuByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import {
   IServiceLink,
@@ -52,11 +52,11 @@ export function PersonnalisationMenuPage() {
           serviceLinks: returnValues,
         },
       };
-      return updateMenuPage({
+      return updateContractMenu({
         variables,
         refetchQueries: [
           {
-            query: GetMenuPageDocument,
+            query: GetContractMenuByContractIdDocument,
             variables: { contractId },
           },
         ],
@@ -71,11 +71,13 @@ export function PersonnalisationMenuPage() {
   /* External Data */
   const { contract } = useContract();
   const contractId = contract.id ?? "";
-  const { loading, error, data } = useGetMenuPageQuery({
+  const { loading, error, data } = useGetContractMenuByContractIdQuery({
     variables: { contractId },
   });
-  const [updateMenuPage, { loading: mutationLoading, error: mutationError }] =
-    useUpdateMenuPageMutation();
+  const [
+    updateContractMenu,
+    { loading: mutationLoading, error: mutationError },
+  ] = useUpdateContractMenuByIdMutation();
 
   /* Local Data */
   const formValidationMode = "onChange";

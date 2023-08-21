@@ -4,12 +4,12 @@ import { FieldValues } from "react-hook-form";
 import {
   ComponentBlocksRequestTypeInput,
   RequestInput,
-  useCreateRequestByContractIdMutation,
+  useCreateRequestMutation,
   useCreateRequestSlotMutation,
-  useDeleteRequestSlotMutation,
+  useDeleteRequestSlotByIdMutation,
   useGetRequestByIdLazyQuery,
   useUpdateRequestByIdMutation,
-  useUpdateRequestSlotMutation,
+  useUpdateRequestSlotByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../../lib/utilities";
 import { EStatus } from "../../../../../lib/status";
@@ -398,7 +398,7 @@ export function RequestFormPage({
       awaitRefetchQueries: true,
     });
   const [createRequest, { loading: loadingCreate, error: errorCreate }] =
-    useCreateRequestByContractIdMutation({
+    useCreateRequestMutation({
       refetchQueries: ["getRequestById"],
       awaitRefetchQueries: true,
     });
@@ -409,11 +409,11 @@ export function RequestFormPage({
   const [
     updateRequestSlot,
     { loading: loadingUpdateSlot, error: errorUpdateSlot },
-  ] = useUpdateRequestSlotMutation();
+  ] = useUpdateRequestSlotByIdMutation();
   const [
     deleteRequestSlot,
     { loading: loadingDeleteSlot, error: errorDeleteSlot },
-  ] = useDeleteRequestSlotMutation();
+  ] = useDeleteRequestSlotByIdMutation();
   const isLoading =
     loading ||
     loadingUpdate ||

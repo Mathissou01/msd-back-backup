@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import {
   GetWasteFamiliesByContractIdDocument,
-  useGetWasteFamiliesQuery,
-  useUpdateWasteFamilyMutation,
+  useGetWasteFamiliesByContractIdQuery,
+  useUpdateWasteFamilyByIdMutation,
   WasteFamilyEntity,
   WasteFormEntity,
 } from "../../../../../graphql/codegen/generated-types";
@@ -52,7 +52,7 @@ export default function WasteFamilyTab() {
         updateWasteFamilyId: defaultValue?.id,
       };
 
-      await updateWasteFamilyMutation({
+      await updateWasteFamily({
         variables,
         refetchQueries: [
           {
@@ -112,19 +112,16 @@ export default function WasteFamilyTab() {
     data: getWasteFamiliesData,
     loading: getWasteFamiliesLoading,
     error: getWasteFamiliesError,
-  } = useGetWasteFamiliesQuery({
+  } = useGetWasteFamiliesByContractIdQuery({
     variables: {
       contractId,
       sort: "familyName:asc",
     },
   });
   const [
-    updateWasteFamilyMutation,
-    {
-      loading: updateWasteFamilyMutationLoading,
-      error: updateWasteFamilyMutationError,
-    },
-  ] = useUpdateWasteFamilyMutation();
+    updateWasteFamily,
+    { loading: updateWasteFamilyLoading, error: updateWasteFamilyError },
+  ] = useUpdateWasteFamilyByIdMutation();
 
   useEffect(() => {
     if (getWasteFamiliesData) {
@@ -149,9 +146,9 @@ export default function WasteFamilyTab() {
   return (
     <div className="c-WasteFamily">
       <CommonLoader
-        isLoading={getWasteFamiliesLoading || updateWasteFamilyMutationLoading}
+        isLoading={getWasteFamiliesLoading || updateWasteFamilyLoading}
         hasDelay={false}
-        errors={[getWasteFamiliesError, updateWasteFamilyMutationError]}
+        errors={[getWasteFamiliesError, updateWasteFamilyError]}
         isFlexGrow={false}
       >
         <p>{tableLabels.hintText}</p>
@@ -159,9 +156,7 @@ export default function WasteFamilyTab() {
           columns={tableColumns}
           data={tableData}
           actionColumn={actionColumn}
-          isLoading={
-            getWasteFamiliesLoading || updateWasteFamilyMutationLoading
-          }
+          isLoading={getWasteFamiliesLoading || updateWasteFamilyLoading}
           defaultSortFieldId={"familyName"}
         />
       </CommonLoader>

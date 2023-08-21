@@ -1,4 +1,4 @@
-mutation SendSMS(
+mutation sendSMS(
   $content: String!
   $scheduledAt: String
   $sendMultiple: Boolean

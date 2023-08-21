@@ -1,6 +1,6 @@
 import {
   GetAllFoldersHierarchyDocument,
-  GetAudiencesByContractIdDocument,
+  GetAudiencesDocument,
   GetTagsByContractIdDocument,
 } from "../src/graphql/codegen/generated-types";
 
@@ -247,7 +247,7 @@ export const defaultMockData = [
   },
   {
     request: {
-      query: GetAudiencesByContractIdDocument,
+      query: GetAudiencesDocument,
       variables: {
         filters: { contract: { id: { eq: "1" } }, isActive: { eq: true } },
       },

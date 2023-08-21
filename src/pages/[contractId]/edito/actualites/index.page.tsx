@@ -7,7 +7,7 @@ import {
   Enum_New_Status,
   GetNewsByContractIdQueryVariables,
   useCreateNewMutation,
-  useDeleteNewMutation,
+  useDeleteNewByIdMutation,
   useGetNewByIdLazyQuery,
   useGetNewsByContractIdLazyQuery,
   GetNewsByContractIdQuery,
@@ -73,7 +73,7 @@ export function EditoActualitesPage() {
     });
   const [
     getNewByIdQuery,
-    { loading: prepareDuplicateLoading, error: prepareDuplicateError },
+    { loading: getNewByIdLoading, error: getNewByIdError },
   ] = useGetNewByIdLazyQuery();
   const [
     createNewMutation,
@@ -82,13 +82,11 @@ export function EditoActualitesPage() {
     refetchQueries: ["getNewsByContractId"],
     awaitRefetchQueries: true,
   });
-  const [
-    deleteNewMutation,
-    { loading: deleteNewMutationLoading, error: deleteNewMutationError },
-  ] = useDeleteNewMutation({
-    refetchQueries: ["getNewsByContractId"],
-    awaitRefetchQueries: true,
-  });
+  const [deleteNew, { loading: deleteNewLoading, error: deleteNewError }] =
+    useDeleteNewByIdMutation({
+      refetchQueries: ["getNewsByContractId"],
+      awaitRefetchQueries: true,
+    });
 
   /* Local Data */
   const router = useRouter();
@@ -101,15 +99,15 @@ export function EditoActualitesPage() {
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
     isUpdatingData ||
-    prepareDuplicateLoading ||
+    getNewByIdLoading ||
     createNewMutationLoading ||
-    deleteNewMutationLoading;
+    deleteNewLoading;
   const isLoading = loading || isLoadingMutation;
   const errors = [
     error,
-    prepareDuplicateError,
+    getNewByIdError,
     createNewMutationError,
-    deleteNewMutationError,
+    deleteNewError,
   ];
 
   const tableColumns: Array<TableColumn<INewsTableRow>> = [
@@ -235,7 +233,7 @@ export function EditoActualitesPage() {
 
   async function onDelete(row: INewsTableRow) {
     setIsUpdatingData(true);
-    return deleteNewMutation({
+    return deleteNew({
       variables: { deleteNewId: row.id },
     });
   }
