@@ -150,7 +150,6 @@ export default function EditoTipsEditPage() {
   /* Local data */
   const router = useRouter();
   const { currentRoot } = useNavigation();
-  console.log({ currentRoot });
   const { contract } = useContract();
 
   const getTipByIdLazyQuery = useGetTipByIdLazyQuery({
