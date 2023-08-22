@@ -123,7 +123,9 @@ export default function RootHomePage() {
   useEffect(() => {
     if (data) {
       if (data.contracts?.data.length === 1) {
-        router.push(`/${data.contracts.data[0].id}/gestion/informations`);
+        const contractId = data.contracts.data[0].id;
+        setHeaderContractId(+`${contractId}`);
+        router.push(`/${contractId}/gestion/informations`);
       }
 
       const tableData =
@@ -153,6 +155,7 @@ export default function RootHomePage() {
       setTableData(tableData);
       tableDataRef.current = tableData;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, router]);
 
   useEffect(() => {
