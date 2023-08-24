@@ -9,7 +9,7 @@ exports[`Footer renders a basic footer 1`] = `
       class="c-Footer__Version"
     >
       Version - 
-      0.0.1
+      1.0.0
     </span>
     <footer
       class="c-Footer__ContentContainer"
