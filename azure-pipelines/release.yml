@@ -50,3 +50,7 @@ jobs:
                 azureSubscription: msd-${{ parameters.env }}-spn
                 appName: app-msd-${{ parameters.env }}-bowebsite
                 imageName: crmsd${{ parameters.env }}.azurecr.io/msd-bowebsite:${{ parameters.tag }}
+                ${{ if and(eq(parameters.instance, 'smile'), eq(parameters.env, 'rec'))}}:
+                  deployToSlotOrASE: true
+                  resourceGroupName: rg-msd-${{ parameters.env }}
+                  slotName: ${{ parameters.instance }}
