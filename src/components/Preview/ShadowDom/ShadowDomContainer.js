@@ -1,7 +1,18 @@
 import React, { useEffect } from "react";
+import { useGetContractByIdQuery } from "../../../graphql/codegen/generated-types";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import "./shadow-dom-format.scss";
 
 const ShadowDomContainer = ({ id, type, width, height }) => {
+  const { data, loading, error } = useGetContractByIdQuery({
+    variables: {
+      contractId:
+        typeof window !== "undefined"
+          ? window.location.pathname.split("/")[1]
+          : "",
+    },
+  });
+
   useEffect(() => {
     window.addEventListener("DOMContentLoaded", () => {
       const iframe = document.querySelector("#external-iframe");
@@ -16,12 +27,14 @@ const ShadowDomContainer = ({ id, type, width, height }) => {
   }, []);
 
   return (
-    <iframe
-      id="external-iframe"
-      src={`${process.env.NEXT_PUBLIC_FO_URL}/preview?type=${type}&id=${id}`}
-      width={width}
-      height={height}
-    />
+    <CommonLoader isLoading={loading} errors={error}>
+      <iframe
+        id="external-iframe"
+        src={`${process.env.NEXT_PUBLIC_FO_URL}/${data?.contract?.data?.attributes.clientName}/preview?type=${type}&id=${id}`}
+        width={width}
+        height={height}
+      />
+    </CommonLoader>
   );
 };
 
