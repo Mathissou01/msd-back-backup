@@ -13,6 +13,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -26,6 +27,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -39,6 +41,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -52,6 +55,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -65,6 +69,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -78,6 +83,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -91,6 +97,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -104,6 +111,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -117,6 +125,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -130,6 +139,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -143,6 +153,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -156,6 +167,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText

@@ -120,7 +120,9 @@ export default function RequestSlotEntityBlock({
             label: result.createSectorization?.data?.attributes?.name,
             value: result.createSectorization?.data?.id,
           });
-          setValue(sectorizationsFieldName, newSecorizationsValues);
+          setValue(sectorizationsFieldName, newSecorizationsValues, {
+            shouldDirty: true,
+          });
           onSectorsChange(newSecorizationsValues);
         }
       },

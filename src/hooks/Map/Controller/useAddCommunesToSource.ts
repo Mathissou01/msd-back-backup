@@ -47,23 +47,25 @@ export const useAddCommunesToSource = ({
       for (const commune of communesToAdd) {
         // Fetch commune GeoJSON data
         const response = await getCommunes({
-          variables: { postalCode: commune.value },
+          variables: { postalCode: +commune.value },
         });
 
         const communeData = response?.data?.sectorizationByCity?.GeoJson;
-        const reader = new GeoJSON();
-        const features = reader.readFeatures(communeData, {
-          featureProjection: "EPSG:3857",
-        });
+        if (communeData) {
+          const reader = new GeoJSON();
+          const features = reader.readFeatures(communeData, {
+            featureProjection: "EPSG:3857",
+          });
 
-        features.forEach((feature, index) => {
-          // Give each feature a unique id based on the commune
-          feature.setId(`feature-${commune.value}-${index}`);
-          // Store the commune in the feature properties so we can access it later
-          feature.set("dynamicCommune", commune.value);
-        });
+          features.forEach((feature, index) => {
+            // Give each feature a unique id based on the commune
+            feature.setId(`feature-${commune.value}-${index}`);
+            // Store the commune in the feature properties so we can access it later
+            feature.set("dynamicCommune", commune.value);
+          });
 
-        featuresToAdd.push(...features);
+          featuresToAdd.push(...features);
+        }
       }
 
       // Add all the features to the source
