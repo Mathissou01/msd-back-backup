@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { isString, removeNulls } from "../../../lib/utilities";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import FormLabel from "../FormLabel/FormLabel";
 import "./form-multiselect.scss";
 
@@ -204,7 +204,7 @@ export default function FormMultiselect<T>({
             errors={errors}
             name={`${name}_${i}`}
             render={({ message }: { message: string }) => (
-              <CommonErrorText
+              <CommonFormErrorText
                 message={message}
                 errorId={`${name}_${i}_error`}
               />

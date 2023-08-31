@@ -1,0 +1,37 @@
+.c-CumbersomeBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__CumbersomeLabel {
+    > span {
+      display: block;
+      margin-bottom: 12px;
+    }
+  }
+
+  &__MaxVolumeOfCumbersome {
+    > span {
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    &_input {
+      width: 55%;
+    }
+  }
+
+  &__MaxNumberOfCumbersome {
+    width: calc(55% - 34px);
+  }
+
+  &__IsNumberAndVolume {
+    .c-FormLabel legend {
+      margin-bottom: 1em;
+    }
+
+    .c-FormRadioInput__Options {
+      gap: 10px;
+    }
+  }
+}

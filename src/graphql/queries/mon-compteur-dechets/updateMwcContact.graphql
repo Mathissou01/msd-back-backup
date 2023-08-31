@@ -1,0 +1,26 @@
+mutation updateMwcContact(
+  $contractId: ID!
+  $serviceName: String
+  $postalAddress: String
+  $postalCode: String
+  $city: String
+  $contactEmail: String
+  $phoneNumber: String
+) {
+  updateContactMwc(
+    contractId: $contractId
+    serviceName: $serviceName
+    postalAddress: $postalAddress
+    postalCode: $postalCode
+    city: $city
+    contactEmail: $contactEmail
+    phoneNumber: $phoneNumber
+  ) {
+    serviceName
+    postalAddress
+    postalCode
+    city
+    contactEmail
+    phoneNumber
+  }
+}

@@ -4,11 +4,59 @@ query getContractById($contractId: ID!) {
       id
       attributes {
         clientName
-        isRVFrance
-        contractStatus
         clientType
+        contractStatus
+        siret
+        clear
+        ccap
         isNonExclusive
+        isRVFrance
+        isFreemium
         pathId
+        logo {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+            }
+          }
+        }
+        channelType {
+          data {
+            id
+            attributes {
+              hasWebApp
+              hasWebSite
+            }
+          }
+        }
+        clientContact {
+          data {
+            id
+            attributes {
+              firstName
+              lastName
+              email
+              phoneNumber
+            }
+          }
+        }
+        contractCustomization {
+          data {
+            id
+            attributes {
+              primaryColor
+              secondaryColor
+              textContrast
+            }
+          }
+        }
         editorialService {
           data {
             id
@@ -67,6 +115,7 @@ query getContractById($contractId: ID!) {
             attributes {
               name
               isActivated
+              memoName
             }
           }
         }
@@ -94,6 +143,15 @@ query getContractById($contractId: ID!) {
             attributes {
               name
               isActivated
+            }
+          }
+        }
+        audiences(filters: { isActive: { eq: true } }) {
+          data {
+            id
+            attributes {
+              type
+              isActive
             }
           }
         }

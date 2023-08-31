@@ -1,8 +1,0 @@
-query getFolderBreadcrumb($path: String!) {
-  libraryBreadcrumbTrail(path: $path) {
-    id
-    name
-    path
-    pathId
-  }
-}

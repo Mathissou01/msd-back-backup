@@ -30,12 +30,7 @@ exports[`FormWysiwyg renders 1`] = `
           class="c-FormWysiwyg__Input"
           data-testid="form-wysiwyg"
           id="form-wysiwyg"
-        >
-          <textarea
-            id="wysiwyg-editor-form-wysiwyg"
-            style="visibility: hidden;"
-          />
-        </div>
+        />
       </div>
     </div>
   </div>

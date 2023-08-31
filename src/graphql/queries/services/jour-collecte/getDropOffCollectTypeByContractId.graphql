@@ -1,0 +1,9 @@
+query getDropOffCollectTypeByContractId($contractId: ID!) {
+  getDropOffCollectType(contractId: $contractId) {
+    entityTypeName
+    uniqueId
+    grammaticalGender
+    name
+    originalId
+  }
+}

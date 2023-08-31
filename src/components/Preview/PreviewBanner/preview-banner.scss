@@ -1,0 +1,30 @@
+@use "src/styles/02-tools/tools.focus" as focus;
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-PreviewBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  padding: 0 24px;
+  background-color: colors.$blue-sky-light;
+
+  > * {
+    width: 33.3vw;
+  }
+
+  &__Right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__Button {
+    @include p.get-picto("no");
+
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+  }
+}

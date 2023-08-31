@@ -1,0 +1,23 @@
+mutation updateAlertNotificationById(
+  $updateAlertNotificationId: ID!
+  $data: AlertNotificationInput!
+) {
+  updateAlertNotification(id: $updateAlertNotificationId, data: $data) {
+    data {
+      id
+      attributes {
+        alertUserStorages {
+          data {
+            attributes {
+              alertNotificationServiceId
+              email
+              phoneNumber
+              isSMS
+              isEmail
+            }
+          }
+        }
+      }
+    }
+  }
+}

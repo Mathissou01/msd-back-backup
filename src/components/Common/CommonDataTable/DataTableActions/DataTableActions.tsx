@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import Image from "next/image";
-import "./data-table-actions.scss";
-import { ICommonDataTableValidation } from "../CommonDataTable";
 import Link from "next/link";
+import { ICommonDataTableValidation } from "../../../../lib/common-data-table";
+import { TActionPictoStyles } from "../../../../lib/pictos";
+import PseudoImageFallback from "../../../Accessibility/PseudoImageFallback/PseudoImageFallback";
+import "./data-table-actions.scss";
 
 export interface IConfirmStateOptions {
   onConfirm: () => void;
@@ -15,9 +16,10 @@ export interface IConfirmStateOptions {
 
 export interface IDataTableAction {
   id: string;
-  picto: string;
+  picto: TActionPictoStyles;
   onClick?: () => void;
   href?: string;
+  alt?: string;
   isDisabled?: boolean;
   confirmStateOptions?: IConfirmStateOptions;
 }
@@ -27,6 +29,12 @@ interface IDataTableActionsProps {
 }
 
 export default function DataTableActions({ actions }: IDataTableActionsProps) {
+  /* Static Data */
+  const altTexts = {
+    confirm: "Confirmer",
+    cancel: "Annuler",
+  };
+
   /* Methods */
   function handleClick(action: IDataTableAction) {
     if (action.confirmStateOptions) {
@@ -72,22 +80,26 @@ export default function DataTableActions({ actions }: IDataTableActionsProps) {
               key={`${action.id}_${index}`}
               className={classNames("c-DataTableActions__Button", {
                 "c-DataTableActions__Button_disabled": action.isDisabled,
+                [`c-DataTableActions__Button_${action.picto}`]: action.picto,
               })}
               href={action.href}
               onClick={() => handleClick(action)}
+              title={action.alt ?? ""}
             >
-              <Image src={action.picto} alt={""} width={16} height={16} />
+              <PseudoImageFallback alt={action.alt ?? ""} />
             </Link>
           ) : (
             <button
               key={`${action.id}_${index}`}
               className={classNames("c-DataTableActions__Button", {
                 "c-DataTableActions__Button_disabled": action.isDisabled,
+                [`c-DataTableActions__Button_${action.picto}`]: action.picto,
               })}
               type="button"
               onClick={() => handleClick(action)}
+              title={action.alt ?? ""}
             >
-              <Image src={action.picto} alt={""} width={16} height={16} />
+              <PseudoImageFallback alt={action.alt ?? ""} />
             </button>
           ),
         )}
@@ -95,28 +107,20 @@ export default function DataTableActions({ actions }: IDataTableActionsProps) {
       {currentAction && (
         <div className="c-DataTableActions__EditActions">
           <button
-            className="c-DataTableActions__Button"
+            className="c-DataTableActions__Button c-DataTableActions__Button_yes"
             type="button"
             onClick={() => handleConfirm(true)}
+            title={altTexts.confirm}
           >
-            <Image
-              src={"/images/pictos/yes.svg"}
-              alt={""}
-              width={16}
-              height={16}
-            />
+            <PseudoImageFallback alt={altTexts.confirm} />
           </button>
           <button
-            className="c-DataTableActions__Button"
+            className="c-DataTableActions__Button c-DataTableActions__Button_no"
             type="button"
             onClick={() => handleConfirm(false)}
+            title={altTexts.cancel}
           >
-            <Image
-              src={"/images/pictos/no.svg"}
-              alt={""}
-              width={16}
-              height={16}
-            />
+            <PseudoImageFallback alt={altTexts.cancel} />
           </button>
         </div>
       )}

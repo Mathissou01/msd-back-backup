@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonAccordion renders 1`] = `
+<div>
+  <div
+    class="c-CommonAccordion"
+  >
+    <div
+      class="c-CommonAccordion__ContentRow"
+    >
+      <div
+        class="c-CommonAccordion__ContentRow_content"
+        data-testid="accordion-content"
+      >
+        <span>
+          Mocked content
+        </span>
+      </div>
+      <div
+        class="c-CommonAccordion__ContentRow_expander"
+        data-testid="accordion-expander"
+      >
+        <span
+          class="c-CommonAccordion__ContentRow_expander_icon"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

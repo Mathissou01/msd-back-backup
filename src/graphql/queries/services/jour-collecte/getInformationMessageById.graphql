@@ -1,0 +1,20 @@
+query getInformationMessageById($informationMessageId: ID) {
+  informationMessage(id: $informationMessageId) {
+    data {
+      id
+      attributes {
+        dateStart
+        dateEnd
+        infoMessage
+        pickUpDays {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

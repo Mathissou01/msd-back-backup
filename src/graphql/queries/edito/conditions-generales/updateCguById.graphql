@@ -1,0 +1,7 @@
+mutation updateCguById($updateCguId: ID!, $data: CguInput!) {
+  updateCgu(id: $updateCguId, data: $data) {
+    data {
+      id
+    }
+  }
+}

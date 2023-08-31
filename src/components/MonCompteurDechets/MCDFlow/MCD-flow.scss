@@ -1,0 +1,187 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-Flow {
+  width: 100%;
+
+  .c-FormSelect {
+    width: 550px;
+    max-width: 550px;
+  }
+
+  &__Title {
+    margin-bottom: 24px;
+  }
+
+  &__Options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    border: 1px solid colors.$blue-4;
+    border-radius: 8px;
+  }
+
+  &__Buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+  }
+
+  &__ButtonsSave {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  &__ListFlows {
+    @include shadows.shadow(1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+
+  &__ListFlowsHead,
+  &__ListFlowsHeadButtons {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  &__ListFlowsInputs {
+    display: flex;
+  }
+
+  &__ListFlowsField {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: flex-start;
+
+    .c-FormSelect,
+    .c-FormInput {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    &:not(:last-child) {
+      margin-right: 30px;
+    }
+  }
+
+  &__ListFlowsUnity {
+    flex: none;
+    align-self: center;
+    margin-top: 25px;
+    margin-left: 10px;
+    font-weight: 600;
+  }
+
+  &__ListFlowsDashed {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    height: 100%;
+    margin-top: 16px;
+    padding: 24px;
+    border: 2px dashed colors.$blue-5;
+    border-radius: 1rem;
+
+    select {
+      width: 545px;
+    }
+  }
+
+  &__ListFlowsMedia {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__ListFlowsMediaContent {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__ConfirmationPopin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1992;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 500px;
+    max-width: 500px;
+    margin-bottom: 24px;
+    padding: 24px;
+    background-color: colors.$white;
+    border-radius: 8px;
+    box-shadow: 0 0 1px rgb(17 95 251 / 5%), 0 1px 3px rgb(17 95 251 / 10%);
+    transform: translate(-50%, -50%);
+
+    p {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    div {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+  }
+
+  &__OverlayPopin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1991;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 / 60%);
+    transform: translate(-50%, -50%);
+  }
+
+  &__ConfirmationMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+    display: none;
+    width: 200px;
+    height: 70px;
+    padding: 10px;
+    color: colors.$expert-blue;
+    font-weight: 600;
+    background-color: colors.$success-light;
+    border-radius: 4px;
+    box-shadow: 0 0 13px colors.$success-light, 0 0 1px colors.$success-light;
+    transform: translate(-50%, -50%);
+  }
+
+  &_showPopin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-out 5s forwards;
+  }
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      display: none;
+      opacity: 0;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+mutation deleteRequestSlotById($id: ID!) {
+  deleteRequestSlot(id: $id) {
+    data {
+      id
+    }
+  }
+}

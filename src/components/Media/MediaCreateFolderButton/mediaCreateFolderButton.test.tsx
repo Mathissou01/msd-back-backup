@@ -16,6 +16,7 @@ const mockData = {
     } as unknown as RequestFolders,
   ],
   activePathId: 2,
+  activePath: "1",
 };
 
 describe("MediaCreateFolderButton", () => {
@@ -25,6 +26,7 @@ describe("MediaCreateFolderButton", () => {
         <MediaCreateFolderButton
           folderHierarchy={mockData.folderHierarchy}
           activePathId={mockData.activePathId}
+          activePath={mockData.activePath}
         />
       </MockedProvider>,
     );

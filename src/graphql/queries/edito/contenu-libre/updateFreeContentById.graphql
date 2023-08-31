@@ -1,0 +1,15 @@
+mutation updateFreeContentById($updateFreeContentId: ID!, $data: JSON!) {
+  versioningHandler(
+    data: { id: $updateFreeContentId, data: $data }
+    entity: "freeContent"
+  ) {
+    data {
+      ... on FreeContentEntity {
+        id
+        attributes {
+          customId
+        }
+      }
+    }
+  }
+}

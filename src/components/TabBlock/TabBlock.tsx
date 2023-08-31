@@ -1,27 +1,29 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import TabHeader from "./TabHeader/TabHeader";
+import TabHeader, { ITabHeader } from "./TabHeader/TabHeader";
 import "./tab-block.scss";
 
-export interface Tab {
-  name: string;
-  title: string;
+export interface ITab extends ITabHeader {
   content: ReactElement;
-  isEnabled: boolean;
 }
 
 interface ITabBlockProps {
-  tabs: Array<Tab>;
+  tabs: Array<ITab>;
   initialTabName: string;
   isAlignLeftMediaLibrary?: boolean;
+  onTabChanged?: (tabIndex: string) => void;
 }
 
 export default function TabBlock({
   tabs,
   initialTabName,
   isAlignLeftMediaLibrary = false,
+  onTabChanged,
 }: ITabBlockProps) {
   function clickTab(tabIndex: number) {
     setActiveTab(tabIndex);
+    if (onTabChanged) {
+      onTabChanged(tabs[tabIndex].name);
+    }
   }
 
   const CurrentTabComponent = () => {

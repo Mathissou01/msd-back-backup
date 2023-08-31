@@ -1,0 +1,20 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-SelectingModalContent {
+  position: relative;
+
+  &__ModalButtons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+
+    div {
+      margin-left: 10px;
+    }
+  }
+
+  &__Content {
+    padding-top: 20px;
+  }
+}

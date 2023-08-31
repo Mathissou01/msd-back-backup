@@ -1,0 +1,31 @@
+query getRequestAggregatesByContractId(
+  $contractId: ID!
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  requestAggregates(
+    filters: { requestService: { contract: { id: { eq: $contractId } } } }
+    pagination: $pagination
+    sort: $sort
+  ) {
+    data {
+      id
+      attributes {
+        name
+        requests {
+          data {
+            id
+          }
+        }
+      }
+    }
+    meta {
+      pagination {
+        total
+        page
+        pageSize
+        pageCount
+      }
+    }
+  }
+}

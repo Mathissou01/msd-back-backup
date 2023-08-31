@@ -4,6 +4,36 @@ query getContracts {
       id
       attributes {
         clientName
+        contractStatus
+        dueDate
+        hasYesWeScan
+        clientType
+        isNonExclusive
+        isRVFrance
+        isFreemium
+        logo {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+            }
+          }
+        }
+        channelType {
+          data {
+            id
+            attributes {
+              hasWebApp
+              hasWebSite
+            }
+          }
+        }
       }
     }
   }

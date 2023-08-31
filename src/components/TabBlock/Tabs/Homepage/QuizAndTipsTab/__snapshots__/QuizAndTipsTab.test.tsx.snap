@@ -1,0 +1,281 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuizAndTipsTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    aria-labelledby="tab-quizAndTips"
+    class="c-QuizAndTipsTab"
+    id="panel-quizAndTips"
+    role="tabpanel"
+  >
+    <div
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
+    >
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`QuizAndTipsTab renders loading and loaded state 2`] = `
+<div>
+  <div
+    aria-labelledby="tab-quizAndTips"
+    class="c-QuizAndTipsTab"
+    id="panel-quizAndTips"
+    role="tabpanel"
+  >
+    <h2
+      class="c-QuizAndTipsTab__Title"
+    >
+      Quiz & Astuces
+    </h2>
+    <form
+      class="c-QuizAndTipsTab__Form"
+    >
+      <div
+        class="c-QuizAndTipsTab__Group c-QuizAndTipsTab__Group_short"
+      >
+        <div
+          class="c-FormCheckbox"
+        >
+          <input
+            class="c-FormCheckbox__Input c-FormCheckbox__Input_checked"
+            data-testid="form-checkbox"
+            id="displayBlock"
+            name="displayBlock"
+            type="checkbox"
+          />
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="displayBlock"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Afficher ce bloc
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="c-FormInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="titleContent"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Titre du bloc *
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-errormessage="titleContent_error"
+                aria-invalid="false"
+                class="c-FormInput__Input"
+                data-testid="form-input"
+                id="titleContent"
+                name="titleContent"
+                type="text"
+                value="Titre modifié"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-QuizAndTipsTab__Group"
+      >
+        <div
+          class="c-FormCheckbox"
+        >
+          <input
+            class="c-FormCheckbox__Input "
+            data-testid="form-checkbox"
+            id="displayQuiz"
+            name="displayQuiz"
+            type="checkbox"
+          />
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="displayQuiz"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Afficher un quiz
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="c-FormModalButtonInput"
+          data-testid="form-modal-input"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="quiz"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Quiz à afficher
+              </span>
+            </label>
+          </div>
+          <input
+            disabled=""
+            name="quiz"
+            type="hidden"
+            value="[object Object]"
+          />
+          <div
+            class="c-FormModalButtonInput__Container"
+          >
+            <p>
+              Nom du quiz
+            </p>
+            <div
+              aria-errormessage="quiz_error"
+              aria-invalid="false"
+            >
+              <button
+                class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+                id="quiz"
+                type="button"
+              >
+                Choisir le quiz
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-QuizAndTipsTab__Group"
+      >
+        <div
+          class="c-FormCheckbox"
+        >
+          <input
+            class="c-FormCheckbox__Input c-FormCheckbox__Input_checked"
+            data-testid="form-checkbox"
+            id="displayTips"
+            name="displayTips"
+            type="checkbox"
+          />
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="displayTips"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Afficher des astuces
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="c-FormModalButtonInput"
+          data-testid="form-modal-input"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="tips"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Astuces à afficher
+              </span>
+            </label>
+          </div>
+          <input
+            disabled=""
+            name="tips"
+            type="hidden"
+            value="[object Object],[object Object]"
+          />
+          <div
+            class="c-FormModalButtonInput__Container"
+          >
+            <p>
+              Pas besoin de nettoyer vos pots de yaourts avant de les jeter - 19/11/2022
+            </p>
+            <p>
+              Titre de l'astuce 3 - 19/11/2022
+            </p>
+            <div
+              aria-errormessage="tips_error"
+              aria-invalid="false"
+            >
+              <button
+                class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+                id="tips"
+                type="button"
+              >
+                Sélectionner les astuces à afficher
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-QuizAndTipsTab__Buttons"
+      >
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
+          Enregistrer les modifications
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+          disabled=""
+          type="button"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
+          Annuler les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

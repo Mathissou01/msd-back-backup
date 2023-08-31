@@ -1,0 +1,27 @@
+mutation updateTopContentBlockById(
+  $updateTopContentBlockId: ID!
+  $data: TopContentBlockInput!
+) {
+  updateTopContentBlock(id: $updateTopContentBlockId, data: $data) {
+    data {
+      attributes {
+        homepage {
+          data {
+            attributes {
+              topContentBlocks {
+                data {
+                  attributes {
+                    displayBlock
+                    titleContent
+                    hasTopContent
+                    displayLastThreeContents
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

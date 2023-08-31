@@ -1,0 +1,21 @@
+mutation updateWasteFormById($updateWasteFormId: ID!, $data: WasteFormInput!) {
+  versioningHandler(
+    data: { id: $updateWasteFormId, data: $data }
+    entity: "wasteForm"
+  ) {
+    data {
+      ... on WasteFormEntity {
+        id
+        attributes {
+          customId
+          isHidden
+          audiences {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}

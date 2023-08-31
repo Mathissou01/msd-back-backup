@@ -1,0 +1,55 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-FormMultiCheckbox {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+
+  &__Options {
+    display: flex;
+    gap: 20px;
+
+    &_vertical {
+      flex-direction: column;
+    }
+
+    &_horizontal {
+      flex-direction: row;
+    }
+  }
+
+  &__Option {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__Label {
+    color: colors.$expert-blue;
+    font-weight: 400;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  &__Input {
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+    border: 2px solid colors.$expert-blue;
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: none;
+
+    &_checked {
+      background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23030f40' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e")
+        no-repeat;
+      background-position: 50% 50%;
+      background-size: 60%;
+    }
+
+    &_invalid {
+      border-color: colors.$error;
+    }
+  }
+}

@@ -3,14 +3,14 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useEffect, useState } from "react";
 import {
   Enum_Footer_Accessibilitylevel,
-  GetFooterPageDocument,
-  useGetFooterPageQuery,
-  useUpdateFooterPageMutation,
+  GetFooterByContractIdDocument,
+  useGetFooterByContractIdQuery,
+  useUpdateFooterPageByIdAndContactUsSubServiceIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { extractFooter } from "../../../../lib/graphql-data";
 import { useContract } from "../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import FormInput from "../../../../components/Form/FormInput/FormInput";
@@ -44,11 +44,6 @@ export function PersonnalisationFooterPage() {
     accessibilityLevelOptionNo: "Non conforme (moins de 50 %)",
     accessibilityLevelOptionHalf: "Partiellement conforme  (de 50 % à 99 %)",
     accessibilityLevelOptionYes: "Totalement conforme (100 %)",
-    legalContentTitle: "Contenus légaux",
-    accessibilityLinkLabel: "Lien vers la page Accessibilité",
-    CGULinkLabel: "Lien vers la page des Conditions générales",
-    cookiesPolicyLabel: "Lien vers la page de Politique de cookie",
-    confidentialityLabel: "Lien vers la page de Confidentialité",
     contactUsTitle: "Contactez-nous",
     contactUsLabel: "Texte du lien",
     contactUsLink: "Lien vers la page de contact",
@@ -64,24 +59,6 @@ export function PersonnalisationFooterPage() {
         updateFooterData: {
           accessibilityLevel: submitData["accessibilityLevel"],
         },
-        updateCguSubServiceId: submitData["accessibilitySubService"]["id"],
-        updateCguSubServiceData: {
-          link: submitData["accessibilitySubService"]["link"],
-        },
-        updateAccessibilitySubServiceId:
-          submitData["accessibilitySubService"]["id"],
-        updateAccessibilitySubServiceData: {
-          link: submitData["accessibilitySubService"]["link"],
-        },
-        updateConfidentialitySubServiceId:
-          submitData["confidentialitySubService"]["id"],
-        updateConfidentialitySubServiceData: {
-          link: submitData["confidentialitySubService"]["link"],
-        },
-        updateCookiesSubServiceId: submitData["cookiesSubService"]["id"],
-        updateCookiesSubServiceData: {
-          link: submitData["cookiesSubService"]["link"],
-        },
         updateContactUsSubServiceId: submitData["contactUsSubService"]["id"],
         updateContactUsSubServiceData: {
           label: submitData["contactUsSubService"]["label"],
@@ -92,7 +69,7 @@ export function PersonnalisationFooterPage() {
         variables,
         refetchQueries: [
           {
-            query: GetFooterPageDocument,
+            query: GetFooterByContractIdDocument,
             variables: { contractId },
           },
         ],
@@ -107,11 +84,11 @@ export function PersonnalisationFooterPage() {
   /* External Data */
   const { contract } = useContract();
   const contractId = contract.id ?? "";
-  const { loading, error, data } = useGetFooterPageQuery({
+  const { loading, error, data } = useGetFooterByContractIdQuery({
     variables: { contractId },
   });
   const [updateFooterPage, { loading: mutationLoading, error: mutationError }] =
-    useUpdateFooterPageMutation();
+    useUpdateFooterPageByIdAndContactUsSubServiceIdMutation();
 
   /* Local Data */
   const [footerData, setFooterData] = useState<IFooterData>();
@@ -131,46 +108,6 @@ export function PersonnalisationFooterPage() {
           accessibilityLevel:
             footer.attributes.accessibilityLevel ??
             Enum_Footer_Accessibilitylevel.NotConform,
-          ...(footer.attributes.cguSubService?.data?.id
-            ? {
-                cguSubService: {
-                  id: footer.attributes.cguSubService.data.id,
-                  link:
-                    footer.attributes.cguSubService.data.attributes?.link ??
-                    undefined,
-                },
-              }
-            : {}),
-          ...(footer.attributes.accessibilitySubService?.data?.id
-            ? {
-                accessibilitySubService: {
-                  id: footer.attributes.accessibilitySubService.data.id,
-                  link:
-                    footer.attributes.accessibilitySubService.data.attributes
-                      ?.link ?? undefined,
-                },
-              }
-            : {}),
-          ...(footer.attributes.confidentialitySubService?.data?.id
-            ? {
-                confidentialitySubService: {
-                  id: footer.attributes.confidentialitySubService.data.id,
-                  link:
-                    footer.attributes.confidentialitySubService.data.attributes
-                      ?.link ?? undefined,
-                },
-              }
-            : {}),
-          ...(footer.attributes.cookiesSubService?.data?.id
-            ? {
-                cookiesSubService: {
-                  id: footer.attributes.cookiesSubService.data.id,
-                  link:
-                    footer.attributes.cookiesSubService.data.attributes?.link ??
-                    undefined,
-                },
-              }
-            : {}),
           ...(footer.attributes.contactUsSubService?.data?.id
             ? {
                 contactUsSubService: {
@@ -238,45 +175,6 @@ export function PersonnalisationFooterPage() {
                       },
                     ]}
                     defaultValue={footerData?.accessibilityLevel.toString()}
-                  />
-                </div>
-              </div>
-              <div className="c-PersonnalisationFooterPage__Group">
-                <h2 className="c-PersonnalisationFooterPage__Title">
-                  {formLabels.legalContentTitle}
-                </h2>
-                <div className="c-PersonnalisationFooterPage__SubGroup c-PersonnalisationFooterPage__SubGroup_short">
-                  <FormInput
-                    type="text"
-                    name="accessibilitySubService.link"
-                    label={formLabels.accessibilityLinkLabel}
-                    isRequired={true}
-                    isDisabled={mutationLoading}
-                    defaultValue={footerData?.accessibilitySubService?.link}
-                  />
-                  <FormInput
-                    type="text"
-                    name="cguSubService.link"
-                    label={formLabels.CGULinkLabel}
-                    isRequired={true}
-                    isDisabled={mutationLoading}
-                    defaultValue={footerData?.cguSubService?.link}
-                  />
-                  <FormInput
-                    type="text"
-                    name="cookiesSubService.link"
-                    label={formLabels.cookiesPolicyLabel}
-                    isRequired={true}
-                    isDisabled={mutationLoading}
-                    defaultValue={footerData?.cookiesSubService?.link}
-                  />
-                  <FormInput
-                    type="text"
-                    name="confidentialitySubService.link"
-                    label={formLabels.confidentialityLabel}
-                    isRequired={true}
-                    isDisabled={mutationLoading}
-                    defaultValue={footerData?.confidentialitySubService?.link}
                   />
                 </div>
               </div>

@@ -5,39 +5,40 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   Enum_New_Status,
-  GetNewsByContractIdDocument,
   GetNewsByContractIdQueryVariables,
   useCreateNewMutation,
-  useDeleteNewMutation,
+  useDeleteNewByIdMutation,
   useGetNewByIdLazyQuery,
   useGetNewsByContractIdLazyQuery,
+  GetNewsByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../lib/utilities";
-import { useContract } from "../../../../hooks/useContract";
-import { useNavigation } from "../../../../hooks/useNavigation";
-import ContractLayout from "../../contract-layout";
-import CommonDataTable, {
+import {
   ICurrentPagination,
   IDefaultTableRow,
-} from "../../../../components/Common/CommonDataTable/CommonDataTable";
-import { IDataTableFilter } from "../../../../components/Common/CommonDataTable/DataTableFilters/DataTableFilters";
+} from "../../../../lib/common-data-table";
+import { EStatusLabel } from "../../../../lib/status";
+import { useContract } from "../../../../hooks/useContract";
+import { useNavigation } from "../../../../hooks/useNavigation";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
+import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
-import "./edito-actualites-page.scss";
-
-enum EStatusLabel {
-  draft = "Brouillon",
-  published = "Publié",
-  archived = "Archivé",
-}
+import CommonButtonGroup, {
+  ICommonButtonGroupSingle,
+} from "../../../../components/Common/CommonButtonGroup/CommonButtonGroup";
 
 interface INewsTableRow extends IDefaultTableRow {
   title: string;
   status: EStatusLabel;
   publishedDate: string;
   unpublishedDate: string;
+}
+
+interface IFilters extends Record<string, unknown> {
+  status?: string;
 }
 
 export function EditoActualitesPage() {
@@ -54,71 +55,10 @@ export function EditoActualitesPage() {
     },
   };
 
-  /* Methods */
-  async function handleLazyLoad(params: ICurrentPagination<INewsTableRow>) {
-    return getNewsQuery({
-      variables: {
-        ...defaultQueryVariables,
-        pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(typeof params.filter?.lazyLoadSelector?.["value"] === "string" && {
-          statusFilter: { eq: params.filter.lazyLoadSelector["value"] },
-        }),
-        ...(params.sort?.column && {
-          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
-        }),
-      },
-    });
-  }
-
-  function onDuplicate(row: INewsTableRow) {
-    getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
-      const originalNew = data.data?.new?.data?.attributes;
-      if (originalNew) {
-        createNewMutation({
-          variables: {
-            data: {
-              title: `${originalNew.title} Ajout`,
-              shortDescription: originalNew.shortDescription,
-              newsSubService: originalNew.newsSubService?.data?.id,
-              image: originalNew.image?.data?.id,
-              blocks: originalNew.blocks?.map((block) => {
-                return {
-                  ...block,
-                  id: undefined,
-                };
-              }),
-            },
-          },
-          refetchQueries: [
-            {
-              query: GetNewsByContractIdDocument,
-              variables: { contractId },
-            },
-          ],
-        });
-      }
-    });
-  }
-
-  async function onDelete(row: INewsTableRow) {
-    setIsUpdatingData(true);
-    const variables = {
-      deleteNewId: row.id,
-    };
-    return deleteNewMutation({
-      variables,
-      refetchQueries: [
-        {
-          query: GetNewsByContractIdDocument,
-          variables: { contractId },
-        },
-      ],
-    });
-  }
-
   /* External Data */
-  const { currentRoot, currentPage } = useNavigation();
+  const { currentRoot } = useNavigation();
   const { contractId } = useContract();
+
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
   const defaultQueryVariables: GetNewsByContractIdQueryVariables = {
@@ -129,40 +69,45 @@ export function EditoActualitesPage() {
   const [getNewsQuery, { data, loading, error }] =
     useGetNewsByContractIdLazyQuery({
       variables: defaultQueryVariables,
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
     });
   const [
     getNewByIdQuery,
-    { loading: prepareDuplicateLoading, error: prepareDuplicateError },
+    { loading: getNewByIdLoading, error: getNewByIdError },
   ] = useGetNewByIdLazyQuery();
   const [
     createNewMutation,
     { loading: createNewMutationLoading, error: createNewMutationError },
-  ] = useCreateNewMutation();
-  const [
-    deleteNewMutation,
-    { loading: deleteNewMutationLoading, error: deleteNewMutationError },
-  ] = useDeleteNewMutation();
+  ] = useCreateNewMutation({
+    refetchQueries: ["getNewsByContractId"],
+    awaitRefetchQueries: true,
+  });
+  const [deleteNew, { loading: deleteNewLoading, error: deleteNewError }] =
+    useDeleteNewByIdMutation({
+      refetchQueries: ["getNewsByContractId"],
+      awaitRefetchQueries: true,
+    });
 
   /* Local Data */
   const router = useRouter();
   const isInitialized = useRef(false);
+  const [pageData, setPageData] = useState<
+    GetNewsByContractIdQuery | undefined
+  >(data);
   const [tableData, setTableData] = useState<Array<INewsTableRow>>([]);
-  const [filterData, setFilterData] = useState<
-    Array<IDataTableFilter<INewsTableRow>>
-  >([]);
+  const [filters, setFilters] = useState<IFilters>({});
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
     isUpdatingData ||
-    prepareDuplicateLoading ||
+    getNewByIdLoading ||
     createNewMutationLoading ||
-    deleteNewMutationLoading;
+    deleteNewLoading;
   const isLoading = loading || isLoadingMutation;
   const errors = [
     error,
-    prepareDuplicateError,
+    getNewByIdError,
     createNewMutationError,
-    deleteNewMutationError,
+    deleteNewError,
   ];
 
   const tableColumns: Array<TableColumn<INewsTableRow>> = [
@@ -177,8 +122,8 @@ export function EditoActualitesPage() {
       selector: (row) => row.title,
       cell: (row) => (
         <Link
-          href={`${currentRoot}${currentPage}/${row.id}`}
-          className="c-EditoActualitesPage__Link"
+          href={`${currentRoot}/edito/actualites/${row.id}`}
+          className="o-TablePage__Link"
         >
           {row.title}
         </Link>
@@ -208,26 +153,90 @@ export function EditoActualitesPage() {
     },
   ];
   const actionColumn = (row: INewsTableRow): Array<IDataTableAction> => [
-    // TODO: try to use picto scss or DS icons instead of /public/
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
-      href: `${currentRoot}${currentPage}/${row.id}`,
+      picto: "edit",
+      alt: "Modifier",
+      href: `${currentRoot}/edito/actualites/${row.id}`,
     },
     {
       id: "duplicate",
-      picto: "/images/pictos/duplicate.svg",
+      picto: "fileDouble",
+      alt: "Dupliquer",
       onClick: () => onDuplicate(row),
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
       },
     },
   ];
+
+  const [filterButtonGroup, setFilterButtonGroup] =
+    useState<Array<ICommonButtonGroupSingle>>();
+
+  const filtersNode = (
+    <>
+      <CommonButtonGroup
+        buttons={filterButtonGroup ?? []}
+        onChange={(button) => setFilters({ ...filters, status: button.value })}
+      />
+    </>
+  );
+
+  /* Methods */
+  async function handleLazyLoad(
+    params: ICurrentPagination,
+    filters?: IFilters,
+  ) {
+    return getNewsQuery({
+      variables: {
+        ...defaultQueryVariables,
+        pagination: { page: params.page, pageSize: params.rowsPerPage },
+        ...(filters?.status && {
+          statusFilter: { eq: filters?.status },
+        }),
+        ...(params.sort?.column && {
+          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
+        }),
+      },
+    });
+  }
+
+  function onDuplicate(row: INewsTableRow) {
+    getNewByIdQuery({ variables: { newId: row.id } }).then((data) => {
+      const originalNew = data.data?.new?.data?.attributes;
+      if (originalNew) {
+        void createNewMutation({
+          variables: {
+            data: {
+              title: `${originalNew.title} Ajout`,
+              shortDescription: originalNew.shortDescription,
+              newsSubService: originalNew.newsSubService?.data?.id,
+              image: originalNew.image?.data?.id,
+              blocks: originalNew.blocks?.map((block) => {
+                return {
+                  ...block,
+                  id: undefined,
+                };
+              }),
+            },
+          },
+        });
+      }
+    });
+  }
+
+  async function onDelete(row: INewsTableRow) {
+    setIsUpdatingData(true);
+    return deleteNew({
+      variables: { deleteNewId: row.id },
+    });
+  }
 
   useEffect(() => {
     if (data) {
@@ -253,34 +262,30 @@ export function EditoActualitesPage() {
           })
           .filter(removeNulls) ?? [],
       );
-      setFilterData([
+    }
+    if (pageData) {
+      setFilterButtonGroup([
         {
-          label: "Tous",
-          count: data?.newsCount?.meta.pagination.total,
+          label: `Tous (${pageData.newsCount?.meta.pagination.total})`,
         },
         {
-          label: "Publiés",
-          count: data?.newsCountPublished?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_New_Status.Published,
-          },
+          label: `Publiés (${pageData.newsCountPublished?.meta.pagination.total})`,
+          value: Enum_New_Status.Published,
         },
         {
-          label: "Brouillons",
-          count: data?.newsCountDraft?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_New_Status.Draft,
-          },
+          label: `Brouillons (${pageData.newsCountDraft?.meta.pagination.total})`,
+          value: Enum_New_Status.Draft,
         },
         {
-          label: "Archivés",
-          count: data?.newsCountArchived?.meta.pagination.total,
-          lazyLoadSelector: {
-            value: Enum_New_Status.Archived,
-          },
+          label: `Archivés (${pageData.newsCountArchived?.meta.pagination.total})`,
+          value: Enum_New_Status.Archived,
         },
       ]);
     }
+  }, [data, pageData]);
+
+  useEffect(() => {
+    setPageData(data);
   }, [data]);
 
   useEffect(() => {
@@ -295,16 +300,18 @@ export function EditoActualitesPage() {
   }, [getNewsQuery, isInitialized]);
 
   return (
-    <div className="c-EditoActualitesPage">
+    <div className="o-TablePage">
       <PageTitle title={title} />
-      <CommonButton
-        label={addButton}
-        style="primary"
-        picto="add"
-        onClick={() => router.push(`${currentRoot}/edito/actualites/create`)}
-      />
-      <h2 className="c-EditoActualitesPage__Title">{tableLabels.title}</h2>
-      <div className="c-EditoActualitesPage__Table">
+      <div>
+        <CommonButton
+          label={addButton}
+          style="primary"
+          picto="add"
+          onClick={() => router.push(`${currentRoot}/edito/actualites/create`)}
+        />
+      </div>
+      <h2 className="o-TablePage__Title">{tableLabels.title}</h2>
+      <div className="o-TablePage__Table">
         <CommonLoader isLoading={!isInitialized.current} errors={errors}>
           <CommonDataTable<INewsTableRow>
             columns={tableColumns}
@@ -312,10 +319,11 @@ export function EditoActualitesPage() {
             data={tableData}
             lazyLoadingOptions={{
               isRemote: true,
-              totalRows: data?.news?.meta.pagination.total ?? 0,
+              totalRows: pageData?.news?.meta.pagination.total ?? 0,
             }}
             isLoading={isLoading}
-            filters={filterData}
+            filters={filters}
+            filtersNode={filtersNode}
             defaultSortFieldId={"title"}
             paginationOptions={{
               hasPagination: true,

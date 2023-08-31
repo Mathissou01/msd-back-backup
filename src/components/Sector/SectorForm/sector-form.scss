@@ -1,0 +1,53 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-SectorForm {
+  display: flex;
+
+  &__Informations {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__InformationsTitle {
+    margin-bottom: 36px;
+    color: colors.$expert-blue;
+    font-weight: 500;
+    font-size: 30px;
+    font-family: DINPro-Regular, sans-serif;
+  }
+
+  &__InformationsSectorName {
+    margin-bottom: 26px;
+  }
+
+  &__InformationsSectorCommunes {
+    display: flex;
+    margin-top: 60px;
+    margin-bottom: 80px;
+    padding: 50px;
+    background: colors.$gray-100;
+  }
+
+  &__InformationsSectorCommunesInfo {
+    @include p.get-picto(
+      "polygon",
+      $backgroundSize: 30px,
+      $backgroundPosition: top left
+    );
+
+    padding-left: 60px;
+  }
+
+  &__InformationsButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__InformationsSaveAndCancel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

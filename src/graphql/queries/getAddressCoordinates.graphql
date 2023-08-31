@@ -1,0 +1,8 @@
+query getAddressCoordinates($searchTerm: String!) {
+  getAddressCoordinates(searchTerm: $searchTerm) {
+    name
+    latitude
+    longitude
+    banFeaturesProperties
+  }
+}

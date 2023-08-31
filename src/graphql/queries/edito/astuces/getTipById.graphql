@@ -1,0 +1,122 @@
+query getTipById($tipId: ID) {
+  tip(id: $tipId) {
+    data {
+      id
+      attributes {
+        customId
+        draftCreationId
+        title
+        shortDescription
+        tipSubService {
+          data {
+            id
+          }
+        }
+        status
+        publishedDate
+        unpublishedDate
+        createdAt
+        updatedAt
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        image {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+              ext
+              height
+              width
+              createdAt
+            }
+          }
+        }
+        audiences {
+          data {
+            id
+            attributes {
+              type
+              isActive
+            }
+          }
+        }
+        blocks {
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingText
+            subHeadingTag
+          }
+          ... on ComponentBlocksVideo {
+            id
+            videoLink
+            transcriptText
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksHorizontalRule {
+            id
+            hr
+          }
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
+                }
+              }
+            }
+            isDecorative
+            altText
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

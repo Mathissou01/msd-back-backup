@@ -1,0 +1,72 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.z-index" as index;
+
+.c-FormAutoCompleteInput {
+  display: flex;
+  flex-direction: column;
+
+  &__Container {
+    position: relative;
+    z-index: index.z("site-content");
+    flex: 1;
+  }
+
+  &__Results {
+    position: absolute;
+    top: calc(100% - 4px);
+    z-index: -1;
+    width: 100%;
+    margin: 0;
+    padding: 12px 5px 8px;
+    color: colors.$blue-2;
+    list-style: none;
+    background-color: colors.$gray-100;
+    border: 1px solid colors.$blue-3;
+    border-radius: 0 0 4px 4px;
+
+    li {
+      padding: 4px 10px;
+      cursor: pointer;
+      user-select: none;
+
+      &:not(:last-child) {
+        border-bottom: 1px dashed colors.$gray-500;
+      }
+
+      &:hover {
+        background-color: colors.$gray-200;
+      }
+    }
+
+    &_noResults,
+    &_loading {
+      color: colors.$gray-600;
+      font-weight: normal;
+      background-color: colors.$gray-0;
+
+      span {
+        padding: 4px 0 4px 10px;
+      }
+    }
+
+    &_loading {
+      &::after {
+        display: inline-block;
+        width: 0;
+        margin-left: 2px;
+        overflow: hidden;
+        font-weight: 700;
+        vertical-align: bottom;
+        animation: ellipsis steps(4, end) 600ms infinite;
+        content: "\2026"; /* ascii code for the ellipsis character */
+      }
+
+      @keyframes ellipsis {
+        // stylelint-disable-next-line
+        to {
+          width: 1.25em;
+        }
+      }
+    }
+  }
+}

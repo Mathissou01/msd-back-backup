@@ -1,0 +1,10 @@
+query getCollectVoluntariesByFlowId($flowId: ID) {
+  collectVoluntaries(filters: { flows: { id: { eq: $flowId } } }) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

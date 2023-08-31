@@ -1,0 +1,6 @@
+query getSearchCitiesByContractId($searchTerm: String!, $contractId: ID!) {
+  searchCities(searchTerm: $searchTerm, contractId: $contractId) {
+    id
+    name
+  }
+}

@@ -85,4 +85,14 @@
       flex-grow: 7;
     }
   }
+
+  &__ContentWithSuffix {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  &__SuffixData {
+    width: 95%;
+  }
 }

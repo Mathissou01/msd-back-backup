@@ -1,0 +1,14 @@
+query getMwcContact($filters: MwCounterServiceFiltersInput) {
+  mwCounterServices(filters: $filters) {
+    data {
+      attributes {
+        serviceName
+        contactEmail
+        phoneNumber
+        postalAddress
+        postalCode
+        city
+      }
+    }
+  }
+}

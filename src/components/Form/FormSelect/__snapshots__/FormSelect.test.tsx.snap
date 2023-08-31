@@ -23,7 +23,7 @@ exports[`FormSelect renders 1`] = `
         for="form-select"
       >
         <span
-          class="c-FormLabel__Secondary"
+          class="FormLabel__Secondary"
         >
           secondary label
         </span>

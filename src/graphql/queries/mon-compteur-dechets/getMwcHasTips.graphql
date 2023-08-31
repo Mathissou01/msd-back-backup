@@ -1,0 +1,9 @@
+query getMwcHasTips($filters: MwCounterServiceFiltersInput) {
+  mwCounterServices(filters: $filters) {
+    data {
+      attributes {
+        hasTips
+      }
+    }
+  }
+}

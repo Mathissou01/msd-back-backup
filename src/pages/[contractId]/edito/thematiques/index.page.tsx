@@ -2,29 +2,29 @@ import { TableColumn } from "react-data-table-component";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { createRef, useEffect, useRef, useState } from "react";
 import {
-  CountContentPerTagDocument,
-  useCountContentPerTagQuery,
+  GetCountContentPerTagByContractIdDocument,
+  useGetCountContentPerTagByContractIdQuery,
   useCreateNewTagMutation,
-  useDeleteTagMutation,
-  useUpdateTagMutation,
+  useDeleteTagByIdMutation,
+  useUpdateTagByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
+import {
+  IDefaultTableRow,
+  ICommonDataTableValidation,
+} from "../../../../lib/common-data-table";
 import { useContract } from "../../../../hooks/useContract";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
-import CommonDataTable, {
-  ICommonDataTableValidation,
-} from "../../../../components/Common/CommonDataTable/CommonDataTable";
+import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import DataTableInput from "../../../../components/Common/CommonDataTable/Inputs/DataTableInput/DataTableInput";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import DataTableForm from "../../../../components/Common/CommonDataTable/DataTableForm/DataTableForm";
 import FormInput from "../../../../components/Form/FormInput/FormInput";
 import "./edito-thematiques-page.scss";
 
-interface ITagTableRow {
-  id: string;
-  editState: boolean;
+interface ITagTableRow extends IDefaultTableRow {
   name: string;
   count: number;
 }
@@ -101,11 +101,11 @@ export function EditoThematiquesPage() {
         name: inputRefs.current[i].current?.value,
       },
     };
-    return updateTagMutation({
+    return updateTag({
       variables,
       refetchQueries: [
         {
-          query: CountContentPerTagDocument,
+          query: GetCountContentPerTagByContractIdDocument,
           variables: { contractId },
         },
       ],
@@ -117,11 +117,11 @@ export function EditoThematiquesPage() {
     const variables = {
       deleteTagId: row.id,
     };
-    return deleteTagMutation({
+    return deleteTag({
       variables,
       refetchQueries: [
         {
-          query: CountContentPerTagDocument,
+          query: GetCountContentPerTagByContractIdDocument,
           variables: { contractId: contract.id },
         },
       ],
@@ -139,11 +139,11 @@ export function EditoThematiquesPage() {
       contractId,
       tagName: data["name"],
     };
-    return createNewTagMutation({
+    return createNewTag({
       variables,
       refetchQueries: [
         {
-          query: CountContentPerTagDocument,
+          query: GetCountContentPerTagByContractIdDocument,
           variables: { contractId },
         },
       ],
@@ -157,21 +157,15 @@ export function EditoThematiquesPage() {
     loading: dataLoading,
     error,
     data,
-  } = useCountContentPerTagQuery({
+  } = useGetCountContentPerTagByContractIdQuery({
     variables: { contractId },
   });
-  const [
-    updateTagMutation,
-    { loading: updateTagMutationLoading, error: updateTagMutationError },
-  ] = useUpdateTagMutation();
-  const [
-    deleteTagMutation,
-    { loading: deleteTagMutationLoading, error: deleteTagMutationError },
-  ] = useDeleteTagMutation();
-  const [
-    createNewTagMutation,
-    { loading: newTagMutationLoading, error: newTagMutationError },
-  ] = useCreateNewTagMutation();
+  const [updateTag, { loading: updateTagLoading, error: updateTagError }] =
+    useUpdateTagByIdMutation();
+  const [deleteTag, { loading: deleteTagLoading, error: deleteTagError }] =
+    useDeleteTagByIdMutation();
+  const [createNewTag, { loading: newTagLoading, error: newTagError }] =
+    useCreateNewTagMutation();
 
   /* Local Data */
   const inputRefs = useRef<Array<React.RefObject<HTMLInputElement>>>([]);
@@ -181,17 +175,9 @@ export function EditoThematiquesPage() {
   const confirmStatesRef = useRef<Array<boolean>>([]);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const isLoadingMutation =
-    isUpdatingData ||
-    updateTagMutationLoading ||
-    deleteTagMutationLoading ||
-    newTagMutationLoading;
+    isUpdatingData || updateTagLoading || deleteTagLoading || newTagLoading;
   const isLoading = dataLoading || isLoadingMutation;
-  const errors = [
-    error,
-    updateTagMutationError,
-    deleteTagMutationError,
-    newTagMutationError,
-  ];
+  const errors = [error, updateTagError, deleteTagError, newTagError];
 
   const tableColumns: Array<TableColumn<ITagTableRow>> = [
     {
@@ -225,7 +211,8 @@ export function EditoThematiquesPage() {
   ): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirmValidation: () => confirmValidation(row, rowIndex),
@@ -235,7 +222,8 @@ export function EditoThematiquesPage() {
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       isDisabled: row.count !== 0,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
@@ -300,7 +288,7 @@ export function EditoThematiquesPage() {
                 validationLabel={`${30} ${
                   tableLabels.addRow.maxCharactersLabel
                 }`}
-                isDisabled={newTagMutationLoading}
+                isDisabled={newTagLoading}
                 flexStyle="row"
                 labelStyle="table"
               />

@@ -1,0 +1,7 @@
+mutation deleteRequestAggregateById($deleteRequestAggregateId: ID!) {
+  deleteRequestAggregate(id: $deleteRequestAggregateId) {
+    data {
+      id
+    }
+  }
+}

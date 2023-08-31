@@ -1,0 +1,9 @@
+query getMwcBarometerParams($mwCounterServiceId: ID) {
+  mwCounterService(id: $mwCounterServiceId) {
+    data {
+      attributes {
+        barometerParams
+      }
+    }
+  }
+}

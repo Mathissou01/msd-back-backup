@@ -1,15 +1,9 @@
 import { format } from "date-fns";
 
 export const removeNulls = <S>(
-  value: S | undefined,
-): value is Exclude<S, null> => value != null;
-
-export function isAbsoluteOrRelativeUrl(url: string) {
-  const regex = new RegExp(
-    "^((http|https)\\/\\/(www\\.)?[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,})|((\\/)?\\S\\s?)+$",
-  );
-  return regex.test(url);
-}
+  value: S | undefined | Record<string, never>,
+): value is Exclude<S, null> =>
+  value != null && Object.keys(value).length !== 0;
 
 export function FocusFirstElement(node: Element) {
   if (node) {
@@ -75,18 +69,8 @@ export function comparePropertyValueByPriority(
   };
 }
 
-export function compareArraysOfObjects(
-  a: Array<unknown>,
-  b: Array<unknown>,
-): boolean {
-  return (
-    Array.isArray(a) &&
-    Array.isArray(b) &&
-    a.length === b.length &&
-    a.every((val, i) =>
-      Object.keys(val).every((prop) => b[i][prop] && b[i][prop] === val[prop]),
-    )
-  );
+export function removeQuotesInString(arg: string) {
+  return arg.replace(/['"]/g, "") ?? arg;
 }
 
 export function formatDate(
@@ -101,4 +85,27 @@ export function formatDate(
   }
 
   return "";
+}
+
+export const commonDateStringFormat = "dd/MM/yyyy HH:mm";
+
+export function formatFileSize(size: number): string {
+  const i = Math.floor(Math.log(size) / Math.log(1024));
+  return (
+    (size / Math.pow(1024, i)).toFixed(2) +
+    " " +
+    (i > -1 ? ["B", "KB", "MB", "GB", "TB"][i] : "Bit")
+  );
+}
+
+export function isTypename<Typename>(
+  entity: unknown,
+  typename: string,
+): entity is Typename {
+  return (
+    typeof entity === "object" &&
+    !!entity &&
+    "__typename" in entity &&
+    entity.__typename === typename
+  );
 }

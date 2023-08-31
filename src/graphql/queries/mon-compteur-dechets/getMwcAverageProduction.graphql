@@ -1,0 +1,3 @@
+query getMwcAverageProduction($contractId: ID) {
+  getMwcAverageProduction(contractId: $contractId)
+}

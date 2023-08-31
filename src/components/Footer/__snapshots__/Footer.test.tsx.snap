@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer renders a basic footer 1`] = `
+<div>
+  <div
+    class="c-Footer"
+  >
+    <span
+      class="c-Footer__Version"
+    >
+      Version - 
+      1.0.0
+    </span>
+    <footer
+      class="c-Footer__ContentContainer"
+    >
+      <div
+        class="c-Footer__Content"
+      >
+        <img
+          alt="logo_footer"
+          class="c-Footer__LogoSuez"
+          data-nimg="1"
+          decoding="async"
+          height="50"
+          loading="lazy"
+          src="/images/suez-logo.svg"
+          style="color: transparent;"
+          width="110"
+        />
+      </div>
+    </footer>
+  </div>
+</div>
+`;

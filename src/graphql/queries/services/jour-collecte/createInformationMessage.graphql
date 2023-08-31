@@ -1,0 +1,17 @@
+mutation createInformationMessage($data: InformationMessageInput!) {
+  createInformationMessage(data: $data) {
+    data {
+      id
+      attributes {
+        dateStart
+        infoMessage
+        dateEnd
+        pickUpDays {
+          data {
+            id
+          }
+        }
+      }
+    }
+  }
+}

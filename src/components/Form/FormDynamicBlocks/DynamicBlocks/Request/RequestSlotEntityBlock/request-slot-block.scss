@@ -1,0 +1,15 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-RequestSlotEntityBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__Warning {
+    color: colors.$blue-2;
+  }
+
+  &__CreateButton {
+    margin-top: 10px;
+  }
+}

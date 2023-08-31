@@ -1,0 +1,17 @@
+mutation updateSectorizationById(
+  $updateSectorizationId: ID!
+  $data: SectorizationInput!
+) {
+  updateSectorization(id: $updateSectorizationId, data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+        polygonCoordinates
+        updatedAt
+        createdAt
+      }
+    }
+  }
+}

@@ -22,14 +22,14 @@ exports[`FormRadioInput renders 1`] = `
           class="c-FormLabel__LabelWrapper"
         >
           <span
-            class="c-FormLabel__Secondary"
+            class="FormLabel__Secondary"
           >
             secondary display name
           </span>
         </legend>
       </div>
       <div
-        class="c-FormRadioInput__Options"
+        class="c-FormRadioInput__Options c-FormRadioInput__Options_horizontal"
       >
         <div
           class="c-FormRadioInput__Option"

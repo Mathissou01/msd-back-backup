@@ -1,0 +1,30 @@
+query getRecyclingGuideServiceById($recyclingGuideServiceId: ID) {
+  recyclingGuideService(id: $recyclingGuideServiceId) {
+    data {
+      id
+      attributes {
+        orderExtension
+        memoName
+        memoDesc
+        memoFile {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+              ext
+              height
+              width
+              createdAt
+            }
+          }
+        }
+      }
+    }
+  }
+}

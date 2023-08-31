@@ -19,13 +19,9 @@
   background-color: colors.$white;
   clip-path: inset(0 -5px 0 0);
 
-  &__Logo {
+  &__LogoContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 30px;
-    max-height: 62px;
-    padding: 20px 0;
   }
 }

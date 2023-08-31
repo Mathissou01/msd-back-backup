@@ -1,0 +1,12 @@
+mutation updateTipById($updateTipId: ID!, $data: JSON!) {
+  versioningHandler(data: { id: $updateTipId, data: $data }, entity: "tip") {
+    data {
+      ... on TipEntity {
+        id
+        attributes {
+          customId
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-SectorFormMap {
+  width: 65%;
+  margin: 0 36px;
+  background-color: colors.$blue-4;
+}

@@ -1,0 +1,10 @@
+.c-InformationMessageFormButtons {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+
+  &__ArrowImage {
+    margin-right: 10px;
+    transform: rotate(90deg);
+  }
+}

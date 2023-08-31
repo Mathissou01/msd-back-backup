@@ -1,0 +1,23 @@
+mutation programmedSend(
+  $isEmail: Boolean
+  $isSms: Boolean
+  $mailSubject: String
+  $smsTitle: String
+  $alertMessage: String
+  $scheduledAt: Date
+  $time: String
+  $recipientEmails: [String]
+  $recipientnumbers: [String]
+) {
+  programmedSend(
+    isEmail: $isEmail
+    isSMS: $isSms
+    mailSubject: $mailSubject
+    smsTitle: $smsTitle
+    alertMessage: $alertMessage
+    scheduledAt: $scheduledAt
+    time: $time
+    recipientEmails: $recipientEmails
+    recipientnumbers: $recipientnumbers
+  )
+}

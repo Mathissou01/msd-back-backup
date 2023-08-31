@@ -1,0 +1,34 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-DragDropModal {
+  &__Title {
+    margin-bottom: 30px;
+    color: colors.$expert-blue;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 35px;
+  }
+
+  &__Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  &__Body {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+
+  &__Footer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+}

@@ -1,0 +1,80 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.inputs" as inputs;
+
+.c-BarometerForm {
+  &__ProductionFormBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__TextContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__TextInput {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__Input {
+    width: 50px;
+    height: 40px;
+    padding: 0 8px;
+    color: colors.$blue-1;
+    background-color: colors.$white;
+    border: 1px solid colors.$blue-3;
+    border-radius: 4px;
+    outline: 2px solid transparent;
+
+    &::placeholder {
+      color: colors.$blue-1;
+      font-family: DINPro-Regular, serif;
+    }
+
+    &:placeholder-shown {
+      background-color: colors.$gray-0;
+    }
+
+    &:focus-visible {
+      color: colors.$expert-blue;
+      outline-color: colors.$blue-clear;
+    }
+
+    &:disabled {
+      background-color: colors.$gray-200;
+      border-color: colors.$blue-4;
+    }
+
+    &_invalid {
+      @include inputs.input("invalid");
+    }
+
+    &[type="number"] {
+      appearance: textfield;
+    }
+
+    /* Chrome */
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      margin: 0;
+      appearance: none;
+    }
+
+    /* Opéra */
+    &::-o-inner-spin-button,
+    &::-o-outer-spin-button {
+      margin: 0;
+      appearance: none;
+    }
+  }
+
+  &__Error {
+    color: colors.$error;
+    font-size: 14px;
+    font-style: italic;
+  }
+}

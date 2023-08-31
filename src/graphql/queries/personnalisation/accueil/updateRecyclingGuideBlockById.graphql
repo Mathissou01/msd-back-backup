@@ -1,0 +1,21 @@
+mutation updateRecyclingGuideBlockById(
+  $updateRecyclingGuideBlockId: ID!
+  $data: RecyclingGuideBlockInput!
+) {
+  updateRecyclingGuideBlock(id: $updateRecyclingGuideBlockId, data: $data) {
+    data {
+      attributes {
+        titleContent
+        subtitleContent
+        recyclingGuideDisplayContent
+        tags {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

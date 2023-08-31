@@ -1,0 +1,15 @@
+mutation uploadGraphQL(
+  $refId: ID
+  $ref: String
+  $field: String
+  $info: FileInfoInput
+  $file: Upload!
+) {
+  uploadGraphQL(
+    refId: $refId
+    ref: $ref
+    field: $field
+    info: $info
+    file: $file
+  )
+}

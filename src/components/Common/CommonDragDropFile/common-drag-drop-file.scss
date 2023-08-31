@@ -1,6 +1,7 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 @use "src/styles/02-tools/tools.buttons" as buttons;
 @use "src/styles/02-tools/tools.typography" as typo;
+@use "src/styles/02-tools/tools.pictos" as p;
 
 .c-CommonDragDropFile {
   position: relative;
@@ -12,15 +13,27 @@
     justify-content: center;
     height: 100%;
     padding: 15px 0;
-    border: 2px dashed #cbd5e1;
+    border: 2px dashed colors.$blue-5;
     border-radius: 1rem;
+    cursor: pointer;
   }
 
   &__Drag {
+    @include p.get-picto(
+      "addPhoto",
+      $backgroundSize: 50px,
+      $backgroundPosition: top
+    );
+
     display: flex;
     flex-direction: column;
     gap: 18px;
     align-items: center;
+    padding-top: 68px;
+    color: colors.$expert-blue;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
   }
 
   &__LabelInfo {

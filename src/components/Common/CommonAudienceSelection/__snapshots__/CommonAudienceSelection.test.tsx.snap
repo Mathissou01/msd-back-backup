@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonAudienceSelection has working behaviour when having single audience and clicking button 1`] = `
+<div>
+  <div
+    class="c-CommonAudienceSelection__Label"
+  >
+    Usagers *
+  </div>
+  <ul
+    class="c-CommonAudienceSelection__List"
+  >
+    <li>
+      Particuliers
+    </li>
+  </ul>
+  <button
+    class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+    disabled=""
+    type="button"
+  >
+    Sélectionner les usagers
+  </button>
+   
+  <div
+    id="modal-portal"
+  />
+</div>
+`;
+
+exports[`CommonAudienceSelection has working behaviour when having two audiences already selected matching all available audiences 1`] = `
+<div>
+  <div
+    class="c-CommonAudienceSelection__Label"
+  >
+    Usagers *
+  </div>
+  <ul
+    class="c-CommonAudienceSelection__List"
+  >
+    <li>
+      Tous
+    </li>
+  </ul>
+  <button
+    class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+    type="button"
+  >
+    Sélectionner les usagers
+  </button>
+  <div
+    id="modal-portal"
+  />
+</div>
+`;
+
+exports[`CommonAudienceSelection has working behaviour when having two audiences already selected not matching all available audiences 1`] = `
+<div>
+  <div
+    class="c-CommonAudienceSelection__Label"
+  >
+    Usagers *
+  </div>
+  <ul
+    class="c-CommonAudienceSelection__List"
+  >
+    <li>
+      Particuliers
+    </li>
+    <li>
+      Collectifs
+    </li>
+  </ul>
+  <button
+    class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+    type="button"
+  >
+    Sélectionner les usagers
+  </button>
+  <div
+    id="modal-portal"
+  />
+</div>
+`;
+
+exports[`CommonAudienceSelection has working behaviour when having two audiences selected and clicking on submitButton in AudienceModal 1`] = `
+<div>
+  <div
+    class="c-CommonAudienceSelection__Label"
+  >
+    Usagers *
+  </div>
+  <ul
+    class="c-CommonAudienceSelection__List"
+  >
+    <li>
+      Tous
+    </li>
+  </ul>
+  <button
+    class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+    type="button"
+  >
+    Sélectionner les usagers
+  </button>
+  <div
+    id="modal-portal"
+  />
+</div>
+`;
+
+exports[`CommonAudienceSelection renders 1`] = `
+<div>
+  <div
+    class="c-CommonAudienceSelection__Label"
+  >
+    Usagers *
+  </div>
+   
+  <div
+    id="modal-portal"
+  />
+</div>
+`;
+
+exports[`CommonAudienceSelection renders without audiences 1`] = `
+<div>
+  <div
+    class="c-CommonAudienceSelection__Label"
+  >
+    Usagers *
+  </div>
+  <span
+    class="c-CommonAudienceSelection__NoAudienceAvailableMessage"
+  >
+    Merci d'activer au moins un usager afin de pouvoir enregistrer ce formulaire
+  </span>
+  <button
+    class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+    disabled=""
+    type="button"
+  >
+    Sélectionner les usagers
+  </button>
+   
+  <div
+    id="modal-portal"
+  />
+</div>
+`;

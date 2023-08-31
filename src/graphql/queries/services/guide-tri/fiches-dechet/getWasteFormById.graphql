@@ -1,0 +1,139 @@
+query getWasteFormById($wasteFormId: ID) {
+  wasteForm(id: $wasteFormId) {
+    data {
+      id
+      attributes {
+        customId
+        name
+        updatedAt
+        status
+        createdAt
+        publishedDate
+        unpublishedDate
+        versionNumber
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        draftCreationId
+        flow {
+          data {
+            id
+            attributes {
+              name
+              recyclingGesture
+            }
+          }
+        }
+        isHidden
+        picto {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+              createdAt
+              ext
+              width
+              height
+            }
+          }
+        }
+        recyclingGestureText
+        wasteFamily {
+          data {
+            id
+            attributes {
+              familyName
+              isSystem
+              createdAt
+              updatedAt
+            }
+          }
+        }
+        audiences {
+          data {
+            id
+            attributes {
+              type
+              isActive
+            }
+          }
+        }
+        contentBlock {
+          ... on ComponentBlocksImage {
+            id
+            picture {
+              data {
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
+                }
+                id
+              }
+            }
+            altText
+            isDecorative
+          }
+          ... on ComponentBlocksFile {
+            id
+            document {
+              data {
+                id
+                attributes {
+                  hash
+                  mime
+                  name
+                  provider
+                  size
+                  url
+                  alternativeText
+                  createdAt
+                  ext
+                  width
+                  height
+                }
+              }
+            }
+          }
+          ... on ComponentBlocksWysiwyg {
+            id
+            textEditor
+          }
+          ... on ComponentBlocksVideo {
+            id
+            transcriptText
+            videoLink
+          }
+          ... on ComponentBlocksSubHeading {
+            id
+            subHeadingTag
+            subHeadingText
+          }
+          ... on ComponentBlocksHorizontalRule {
+            hr
+            id
+          }
+        }
+      }
+    }
+  }
+}

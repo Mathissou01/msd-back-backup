@@ -1,0 +1,14 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-PickUpDaysSideBar {
+  &__Users {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: 400;
+  }
+
+  &__Alert {
+    height: 156px;
+  }
+}

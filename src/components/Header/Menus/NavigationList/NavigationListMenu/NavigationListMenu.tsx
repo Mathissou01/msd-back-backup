@@ -1,21 +1,17 @@
 import classNames from "classnames";
 import { ReactNode } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { isAbsoluteOrRelativeUrl } from "../../../../../lib/utilities";
-import {
-  ENavigationPages,
-  useNavigation,
-} from "../../../../../hooks/useNavigation";
+import { ENavigationPages } from "../../../../../lib/navigation";
+import { useNavigation } from "../../../../../hooks/useNavigation";
 import { IActiveMenu } from "../NavigationList";
 import "./navigation-list-menu.scss";
+import { TNavigationPictoStyles } from "../../../../../lib/pictos";
 
 interface INavigationListButtonProps {
   children?: ReactNode;
   path: keyof typeof ENavigationPages;
   activeMenu: IActiveMenu;
-  pictoUrl: string;
-  pictoAlt?: string;
+  picto: TNavigationPictoStyles;
   onClick?: (path: keyof typeof ENavigationPages) => void;
 }
 
@@ -23,8 +19,7 @@ export default function NavigationListMenu({
   children,
   path,
   activeMenu,
-  pictoUrl,
-  pictoAlt = "",
+  picto,
   onClick,
 }: INavigationListButtonProps) {
   const { currentRoot, currentPage, setCurrentPage } = useNavigation();
@@ -35,7 +30,9 @@ export default function NavigationListMenu({
       : currentPage === path,
     "c-NavigationListMenu_menu": isMenu,
   });
-  const isValidUrl = pictoUrl && isAbsoluteOrRelativeUrl(pictoUrl);
+  const pictoClassNames = classNames("c-NavigationListMenu__Picto", {
+    [`c-NavigationListMenu__Picto_${picto}`]: picto,
+  });
 
   return (
     <div className={menuClassNames}>
@@ -45,11 +42,7 @@ export default function NavigationListMenu({
             className="c-NavigationListMenu__Button"
             onClick={() => onClick && onClick(path)}
           >
-            {isValidUrl && (
-              <div className="c-NavigationListMenu__Picto">
-                <Image src={pictoUrl} alt={pictoAlt} width={18} height={18} />
-              </div>
-            )}
+            <div className={pictoClassNames} />
             <span className="c-NavigationListMenu__Label">
               {ENavigationPages[path]}
             </span>
@@ -62,11 +55,7 @@ export default function NavigationListMenu({
           href={`${currentRoot}${path}`}
           onClick={() => setCurrentPage(path)}
         >
-          {isValidUrl && (
-            <div className="c-NavigationListMenu__Picto">
-              <Image src={pictoUrl} alt={pictoAlt} width={18} height={18} />
-            </div>
-          )}
+          <div className={pictoClassNames} />
           <span className="c-NavigationListMenu__Label">
             {ENavigationPages[path]}
           </span>

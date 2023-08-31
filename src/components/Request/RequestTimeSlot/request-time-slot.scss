@@ -1,0 +1,23 @@
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-RequestTimeSlot {
+  display: flex;
+  line-height: 32px;
+
+  > span {
+    width: 20%;
+  }
+
+  &__Slots {
+    display: flex;
+    width: 80%;
+
+    div {
+      width: 50%;
+
+      > span:last-of-type {
+        margin-left: 10px;
+      }
+    }
+  }
+}

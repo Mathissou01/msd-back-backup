@@ -1,24 +1,26 @@
 import classNames from "classnames";
 import React from "react";
-import { TPictoStyles } from "../../../lib/pictos";
+import { TAllPictoStyles } from "../../../lib/pictos";
 import "./common-button.scss";
 
 interface ICommonButtonProps {
   label?: string;
   type?: "button" | "submit" | "reset" | undefined;
-  picto?: TPictoStyles;
+  picto?: TAllPictoStyles;
+  pictoPosition?: "left" | "right";
   isDisabled?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent) => void;
   formLabelId?: string;
   buttonRef?: React.RefObject<HTMLButtonElement>;
-  style?: "primary" | "secondary" | null;
+  style?: "primary" | "secondary" | "tertiary" | null;
   fontStyle?: "fontSmall" | "fontLarge";
-  paddingStyle?: "paddingSmall" | "paddingLarge";
+  paddingStyle?: "paddingSmall" | "paddingLarge" | "paddingMedium";
 }
 
 export default function CommonButton({
   label,
   picto,
+  pictoPosition = "left",
   type = "button",
   isDisabled = false,
   onClick,
@@ -47,8 +49,11 @@ export default function CommonButton({
       id={formLabelId}
       ref={buttonRef}
     >
-      {picto && <div className={pictoClassNames} />}
+      {picto && pictoPosition === "left" && <div className={pictoClassNames} />}
       {label}
+      {picto && pictoPosition === "right" && (
+        <div className={pictoClassNames} />
+      )}
     </button>
   );
 }

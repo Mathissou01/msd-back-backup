@@ -13,63 +13,33 @@ exports[`Header renders 1`] = `
       <a
         href="/"
       >
-        [Logo Collectivité]
+        <img
+          alt="logo suez"
+          data-nimg="1"
+          decoding="async"
+          fetchpriority="high"
+          height="56"
+          src="/images/suez-logo.svg"
+          style="color: transparent;"
+          width="160"
+        />
       </a>
     </div>
     <ul
       class="c-HeaderTopBar__List"
     >
-      <li
-        class="c-HeaderTopBar__Item"
-        style="min-width: 151px;"
-      >
-        <a
-          href="/"
-        >
-          [Client]
-        </a>
-      </li>
       <div
         aria-hidden="true"
         class="c-HeaderTopBar__Filler"
       />
-      <li
-        class="c-HeaderTopBar__Item"
-        style="min-width: 316px;"
-      >
-        <a
-          href="/"
-        >
-          [Recherche]
-        </a>
-      </li>
       <div
         aria-hidden="true"
         class="c-HeaderTopBar__Filler"
       />
-      <li
-        class="c-HeaderTopBar__Item"
-        style="min-width: 115px;"
-      >
-        <a
-          href="/"
-        >
-          [Site]
-        </a>
-      </li>
       <div
         aria-hidden="true"
         class="c-HeaderTopBar__Separator"
       />
-      <li
-        class="c-HeaderTopBar__Item"
-      >
-        <a
-          href="/"
-        >
-          [Us]
-        </a>
-      </li>
     </ul>
   </header>
   <nav
@@ -90,19 +60,8 @@ exports[`Header renders 1`] = `
             href="null/"
           >
             <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/homepage.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_house"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >
@@ -121,19 +80,8 @@ exports[`Header renders 1`] = `
             class="c-NavigationListMenu__Button"
           >
             <div
-              class="c-NavigationListMenu__Picto"
-            >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/edito.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_file"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >
@@ -173,6 +121,46 @@ exports[`Header renders 1`] = `
                 Type de contenu
               </span>
             </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/edito/conditions-generales"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Conditions générales
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/edito/politique-cookies"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Politique de cookies
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/edito/confidentialite"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Confidentialité
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/edito/contact"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Contact
+              </span>
+            </a>
           </div>
         </div>
       </li>
@@ -186,19 +174,92 @@ exports[`Header renders 1`] = `
             class="c-NavigationListMenu__Button"
           >
             <div
-              class="c-NavigationListMenu__Picto"
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_dashboard"
+            />
+            <span
+              class="c-NavigationListMenu__Label"
             >
-              <img
-                alt=""
-                data-nimg="1"
-                decoding="async"
-                height="18"
-                loading="lazy"
-                src="/images/pictos-temp/personnalisation.svg"
-                style="color: transparent;"
-                width="18"
-              />
-            </div>
+              Services
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <a
+              class="c-NavigationListLink"
+              href="null/services/carte"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Carte
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/services/guide-tri"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Guide du tri
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/services/mon-compteur-dechets"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Mon compteur dechets
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/services/jour-collecte"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Jour de collecte
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/services/demandes"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Demandes
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/services/alertes"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Alertes
+              </span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_appWindowSettings"
+            />
             <span
               class="c-NavigationListMenu__Label"
             >
@@ -208,6 +269,16 @@ exports[`Header renders 1`] = `
           <div
             class="c-NavigationListMenu__List"
           >
+            <a
+              class="c-NavigationListLink"
+              href="null/personnalisation/couleurs"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Couleurs, logo, lien
+              </span>
+            </a>
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/menu"
@@ -241,14 +312,112 @@ exports[`Header renders 1`] = `
           </div>
         </div>
       </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_pin"
+            />
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Secteurs et Usagers
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <a
+              class="c-NavigationListLink"
+              href="null/secteurs-usagers/secteurs"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Secteurs
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/secteurs-usagers/usagers"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Usagers
+              </span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li
+        class="c-NavigationList__Item"
+      >
+        <div
+          class="c-NavigationListMenu c-NavigationListMenu_menu"
+        >
+          <button
+            class="c-NavigationListMenu__Button"
+          >
+            <div
+              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_bank"
+            />
+            <span
+              class="c-NavigationListMenu__Label"
+            >
+              Gestion
+            </span>
+          </button>
+          <div
+            class="c-NavigationListMenu__List"
+          >
+            <a
+              class="c-NavigationListLink"
+              href="null/gestion/informations"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Informations
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/gestion/flux"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Activation des flux
+              </span>
+            </a>
+          </div>
+        </div>
+      </li>
     </ul>
     <div
-      class="c-HeaderSideBar__Logo"
+      class="c-HeaderSideBar__LogoContainer"
     >
       <a
-        href="/"
+        href="https://www.monservicedechets.com/"
       >
-        [Logo MSD]
+        <img
+          alt="Aller sur https://www.monservicedechets.com/"
+          class="c-HeaderSideBar__LogoSuez"
+          data-nimg="1"
+          decoding="async"
+          height="72"
+          loading="lazy"
+          src="/images/monservicedechets-logo.svg"
+          style="color: transparent;"
+          width="150"
+        />
       </a>
     </div>
   </nav>

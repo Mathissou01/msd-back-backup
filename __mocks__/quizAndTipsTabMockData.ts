@@ -1,11 +1,13 @@
-import { GetQuizAndTipsBlockTabDocument } from "../src/graphql/codegen/generated-types";
+import { GetQuizAndTipsBlockTabByContractIdAndAudienceIdDocument } from "../src/graphql/codegen/generated-types";
 
 export const defaultMockData = [
   {
     request: {
-      query: GetQuizAndTipsBlockTabDocument,
+      query: GetQuizAndTipsBlockTabByContractIdAndAudienceIdDocument,
       variables: {
         contractId: "0",
+        status: "published",
+        audienceId: "",
       },
     },
     result: {
@@ -17,53 +19,55 @@ export const defaultMockData = [
                 homepage: {
                   data: {
                     attributes: {
-                      quizAndTipsBlock: {
-                        data: {
-                          id: "1",
-                          attributes: {
-                            titleContent: "Titre modifié",
-                            displayBlock: true,
-                            displayQuiz: false,
-                            quiz: {
-                              data: {
-                                id: "2",
-                                attributes: {
-                                  title: "Nom du quiz",
-                                  status: "published",
-                                  publishedDate: "2022-11-20T02:34:14.535Z",
+                      quizAndTipsBlocks: {
+                        data: [
+                          {
+                            id: "1",
+                            attributes: {
+                              titleContent: "Titre modifié",
+                              displayBlock: true,
+                              displayQuiz: false,
+                              quiz: {
+                                data: {
+                                  id: "2",
+                                  attributes: {
+                                    title: "Nom du quiz",
+                                    status: "published",
+                                    publishedDate: "2022-11-20T02:34:14.535Z",
+                                  },
                                 },
                               },
-                            },
-                            displayTips: true,
-                            tips: {
-                              data: [
-                                {
-                                  id: "5",
-                                  attributes: {
-                                    title:
-                                      "Pas besoin de nettoyer vos pots de yaourts avant de les jeter",
-                                    status: "published",
-                                    publishedDate: "2022-11-19T00:14:37.403Z",
-                                    image: {
-                                      data: null,
+                              displayTips: true,
+                              tips: {
+                                data: [
+                                  {
+                                    id: "5",
+                                    attributes: {
+                                      title:
+                                        "Pas besoin de nettoyer vos pots de yaourts avant de les jeter",
+                                      status: "published",
+                                      publishedDate: "2022-11-19T00:14:37.403Z",
+                                      image: {
+                                        data: null,
+                                      },
                                     },
                                   },
-                                },
-                                {
-                                  id: "3",
-                                  attributes: {
-                                    title: "Titre de l'astuce 3",
-                                    status: "published",
-                                    publishedDate: "2022-11-19T00:14:20.490Z",
-                                    image: {
-                                      data: null,
+                                  {
+                                    id: "3",
+                                    attributes: {
+                                      title: "Titre de l'astuce 3",
+                                      status: "published",
+                                      publishedDate: "2022-11-19T00:14:20.490Z",
+                                      image: {
+                                        data: null,
+                                      },
                                     },
                                   },
-                                },
-                              ],
+                                ],
+                              },
                             },
                           },
-                        },
+                        ],
                       },
                     },
                   },

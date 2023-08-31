@@ -1,0 +1,7 @@
+mutation createMwcFlow($data: MwcFlowInput!) {
+  createMwcFlow(data: $data) {
+    data {
+      id
+    }
+  }
+}

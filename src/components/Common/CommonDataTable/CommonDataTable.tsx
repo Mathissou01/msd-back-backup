@@ -1,13 +1,19 @@
-import classNames from "classnames";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import DataTable, {
+  ConditionalStyles,
+  ExpanderComponentProps,
   PaginationComponentProps,
   SortOrder,
   TableColumn,
 } from "react-data-table-component";
-import React, { useEffect, useRef, useState } from "react";
-import DataTableFilters, {
-  IDataTableFilter,
-} from "./DataTableFilters/DataTableFilters";
+import classNames from "classnames";
+import { removeNulls } from "../../../lib/utilities";
+import {
+  ICurrentPagination,
+  IDefaultTableRow,
+  ILazyLoadingOptions,
+  IPaginationOptions,
+} from "../../../lib/common-data-table";
 import CommonPagination from "../CommonPagination/CommonPagination";
 import CommonSpinner from "../CommonSpinner/CommonSpinner";
 import DataTableActions, {
@@ -15,63 +21,39 @@ import DataTableActions, {
 } from "./DataTableActions/DataTableActions";
 import "./common-data-table.scss";
 
-export interface ICommonDataTableValidation {
-  isValid: boolean;
-  errorMessage?: string;
-}
-
-export interface IDefaultTableRow {
-  id: string;
-  editState: boolean;
-}
-
-interface ILazyLoadingOptions {
-  isRemote: boolean;
-  totalRows: number;
-}
-
-interface IPaginationOptions {
-  hasPagination: boolean;
-  hasRowsPerPageOptions?: boolean;
-  defaultRowsPerPage: number;
-  rowsPerPageOptions?: Array<number>;
-  defaultPage?: number;
-}
-
-export interface ISortingParams {
-  column: string;
-  direction?: "asc" | "desc";
-}
-
-export interface ICurrentPagination<T> {
-  page: number;
-  rowsPerPage: number;
-  filter?: IDataTableFilter<T>;
-  sort?: ISortingParams;
-}
-
 interface ICommonDataTableProps<T> {
   columns: Array<TableColumn<T>>;
   actionColumn?: (row: T, rowIndex: number) => Array<IDataTableAction>;
+  conditionalRowStyles?: Array<ConditionalStyles<T>>;
+  expandableRows?: boolean;
+  expandableRowsComponent?: React.FC<ExpanderComponentProps<T>>;
   data: Array<T>;
   lazyLoadingOptions?: ILazyLoadingOptions;
   // State
   isLoading?: boolean;
   // Filters
-  filters?: Array<IDataTableFilter<T>>;
+  filtersNode?: ReactNode;
+  filters?: Record<string, unknown>;
   // Sorting
   defaultSortFieldId?: string | number;
   // Pagination
   paginationOptions?: IPaginationOptions;
-  onLazyLoad?: (params: ICurrentPagination<T>) => void;
+  onLazyLoad?: (
+    params: ICurrentPagination,
+    filters?: Record<string, unknown>,
+  ) => void;
 }
 
 export default function CommonDataTable<T extends IDefaultTableRow>({
   columns,
   actionColumn,
+  conditionalRowStyles,
+  expandableRows = false,
+  expandableRowsComponent,
   data,
   lazyLoadingOptions,
   isLoading,
+  filtersNode,
   filters,
   defaultSortFieldId,
   paginationOptions,
@@ -86,15 +68,6 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
   );
 
   /* Methods */
-  function handleFilter(filter: IDataTableFilter<T>) {
-    if (lazyLoadingOptions?.isRemote) {
-      setCurrentPagination({ ...currentPagination, filter });
-      setResetDefaultPage(true);
-    } else {
-      setTableData(data.filter((row) => filter.selector?.(row) ?? true));
-    }
-  }
-
   function handleSort(
     selectedColumn: TableColumn<T>,
     sortDirection: SortOrder,
@@ -113,15 +86,13 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
 
   /* Local Data */
   const [tableData, setTableData] = useState<Array<T>>(data);
-  const [filterTabs, setFilterTabs] = useState<Array<IDataTableFilter<T>>>([]);
   const [resetDefaultPage, setResetDefaultPage] = useState(false);
-  const [currentPagination, setCurrentPagination] = useState<
-    ICurrentPagination<T>
-  >({
-    page: paginationOptions?.defaultPage ?? 1,
-    rowsPerPage: paginationOptions?.defaultRowsPerPage ?? 10,
-  });
-  const prevPagination = useRef<ICurrentPagination<T>>(currentPagination);
+  const [currentPagination, setCurrentPagination] =
+    useState<ICurrentPagination>({
+      page: paginationOptions?.defaultPage ?? 1,
+      rowsPerPage: paginationOptions?.defaultRowsPerPage ?? 10,
+    });
+  const prevPagination = useRef<ICurrentPagination>(currentPagination);
   const tableColumns: Array<TableColumn<T>> = [
     ...columns,
     ...[
@@ -139,7 +110,12 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
           }
         : {},
     ],
-  ];
+  ].filter(removeNulls);
+
+  useEffect(() => {
+    setCurrentPagination({ ...currentPagination, filters });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   // Parent data change
   useEffect(() => {
@@ -147,35 +123,13 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
     setResetDefaultPage(false);
   }, [data]);
 
-  // Filters change
-  useEffect(() => {
-    if (tableData && tableData.length > 0 && filters && filters.length > 0) {
-      setFilterTabs(
-        lazyLoadingOptions?.isRemote
-          ? filters
-          : filters?.map((filter) => {
-              return {
-                ...filter,
-                count:
-                  filter.count ?? filter.selector
-                    ? data.filter((row) => filter.selector?.(row)).length
-                    : null,
-              };
-            }),
-      );
-    }
-  }, [data, filters, lazyLoadingOptions?.isRemote, tableData]);
-
   // Pagination change
   useEffect(() => {
-    if (
-      lazyLoadingOptions?.isRemote &&
-      currentPagination !== prevPagination.current
-    ) {
+    if (currentPagination !== prevPagination.current) {
       prevPagination.current = currentPagination;
-      onLazyLoad?.({ ...currentPagination });
+      onLazyLoad?.({ ...currentPagination }, filters);
     }
-  }, [lazyLoadingOptions?.isRemote, currentPagination, onLazyLoad]);
+  }, [filters, lazyLoadingOptions?.isRemote, currentPagination, onLazyLoad]);
 
   const CustomPagination = ({
     rowsPerPage,
@@ -203,11 +157,8 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
 
   return (
     <>
-      {filterTabs && filterTabs.length > 0 && (
-        <DataTableFilters<T>
-          tabs={filterTabs}
-          onFilter={(filter) => handleFilter(filter)}
-        />
+      {filtersNode && (
+        <div className="c-CommonDataTable__Filters">{filtersNode}</div>
       )}
       <div
         className={classNames("c-CommonDataTable", {
@@ -216,6 +167,7 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
       >
         <DataTable<T>
           columns={tableColumns}
+          conditionalRowStyles={conditionalRowStyles}
           data={tableData}
           progressPending={isLoading}
           progressComponent={<CommonSpinner />}
@@ -225,6 +177,10 @@ export default function CommonDataTable<T extends IDefaultTableRow>({
           onSort={(selectedColumn, sortDirection) =>
             handleSort(selectedColumn, sortDirection)
           }
+          expandableRows={expandableRows}
+          expandableRowExpanded={(row) => row.expandableRow ?? false}
+          expandableRowsComponent={expandableRowsComponent}
+          expandableRowsHideExpander={true}
           {...(paginationOptions &&
             paginationOptions.hasPagination && {
               pagination: true,

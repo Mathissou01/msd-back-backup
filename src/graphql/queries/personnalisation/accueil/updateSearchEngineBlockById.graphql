@@ -1,0 +1,12 @@
+mutation updateSearchEngineBlockById(
+  $updateSearchEngineBlockId: ID!
+  $data: SearchEngineBlockInput!
+) {
+  updateSearchEngineBlock(id: $updateSearchEngineBlockId, data: $data) {
+    data {
+      attributes {
+        titleContent
+      }
+    }
+  }
+}

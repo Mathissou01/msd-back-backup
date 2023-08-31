@@ -1,0 +1,7 @@
+query getTipsDraftByCustomId($customId: String!) {
+  tips(filters: { customId: { eq: $customId }, status: { eq: "draft" } }) {
+    data {
+      id
+    }
+  }
+}

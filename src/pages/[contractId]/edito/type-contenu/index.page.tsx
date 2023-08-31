@@ -2,14 +2,14 @@ import { TableColumn } from "react-data-table-component";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { createRef, useEffect, useRef, useState } from "react";
 import {
-  GetContentTypeDtOsDocument,
-  useGetContentTypeDtOsQuery,
+  GetContentTypesByContractIdDocument,
+  useGetContentTypesByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import { useContract } from "../../../../hooks/useContract";
 import { useContentTypeMutations } from "../../../../hooks/useContentTypeMutations";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
-import ContractLayout from "../../contract-layout";
+import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
@@ -120,7 +120,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -130,7 +130,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -140,7 +140,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -150,7 +150,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -160,7 +160,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -170,7 +170,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -180,7 +180,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -190,7 +190,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -200,7 +200,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -210,7 +210,7 @@ export function EditoTypeContenuPage() {
           variables,
           refetchQueries: [
             {
-              query: GetContentTypeDtOsDocument,
+              query: GetContentTypesByContractIdDocument,
               variables: { contractId },
             },
           ],
@@ -228,7 +228,7 @@ export function EditoTypeContenuPage() {
     //   variables,
     //   refetchQueries: [
     //     {
-    //       query: GetContentTypeDtOsDocument,
+    //       query: GetContentTypesByContractIdDocument,
     //       variables: { contractId },
     //     },
     //   ],
@@ -242,11 +242,11 @@ export function EditoTypeContenuPage() {
       name: data["name"],
       description: data["description"],
     };
-    return createContentTypeMutation({
+    return createContentType({
       variables,
       refetchQueries: [
         {
-          query: GetContentTypeDtOsDocument,
+          query: GetContentTypesByContractIdDocument,
           variables: { contractId },
         },
       ],
@@ -260,7 +260,7 @@ export function EditoTypeContenuPage() {
     loading: dataLoading,
     error,
     data,
-  } = useGetContentTypeDtOsQuery({
+  } = useGetContentTypesByContractIdQuery({
     variables: { contractId },
   });
   const {
@@ -279,7 +279,7 @@ export function EditoTypeContenuPage() {
     updateQuiz,
     updateEvent,
     updateFreeContent,
-    createContentTypeMutation,
+    createContentType,
   } = mutations;
 
   /* Local Data */
@@ -335,7 +335,8 @@ export function EditoTypeContenuPage() {
   ): Array<IDataTableAction> => [
     {
       id: "edit",
-      picto: "/images/pictos/edit.svg",
+      picto: "edit",
+      alt: "Modifier",
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirm: () => onConfirm(row, rowIndex),
@@ -344,7 +345,8 @@ export function EditoTypeContenuPage() {
     },
     {
       id: "delete",
-      picto: "/images/pictos/delete.svg",
+      picto: "trash",
+      alt: "Supprimer",
       isDisabled: true,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
@@ -403,7 +405,7 @@ export function EditoTypeContenuPage() {
             />
             <DataTableForm
               title={tableLabels.addRow.title}
-              onFormSubmit={(data) => onAddRow(data)}
+              onFormSubmit={onAddRow}
             >
               <FormInput
                 type="text"

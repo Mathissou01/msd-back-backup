@@ -1,0 +1,26 @@
+query getWasteFamiliesByContractId($contractId: ID, $sort: [String]) {
+  recyclingGuideService(id: $contractId) {
+    data {
+      id
+      attributes {
+        wasteFamilies(sort: $sort) {
+          data {
+            id
+            attributes {
+              familyName
+              isSystem
+              wasteForms {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

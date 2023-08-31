@@ -1,39 +1,45 @@
 import _ from "lodash";
 import classNames from "classnames";
 import React from "react";
-import Select from "react-select";
+import Select, { MultiValue } from "react-select";
 import { Controller, useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FormLabel from "../FormLabel/FormLabel";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import "./form-single-multiselect.scss";
 
-export type ICommonSelectOption = {
-  value: string; // Suez component library only supports a value which is a string
+export type IFormSingleMultiselectOption = {
+  value: string | number;
   label: string;
 };
 
-interface ICommonSelectProps {
-  label: string;
+interface IFormSingleMultiselectProps {
+  label?: string;
   labelDescription?: string;
+  validationLabel?: string;
   name: string;
-  options: Array<ICommonSelectOption>;
+  options: Array<IFormSingleMultiselectOption>;
   isMulti: boolean;
   maxMultiSelection?: number;
   isRequired?: boolean;
   isDisabled?: boolean;
+  onInputChange?: (value: string) => void;
+  onSelectChange?: (value: MultiValue<IFormSingleMultiselectOption>) => void;
 }
 
-export default function FormMultiselect({
+export default function FormSingleMultiselect({
   label,
   labelDescription,
+  validationLabel,
   name,
   options,
   isMulti,
   maxMultiSelection,
   isRequired = false,
   isDisabled = false,
-}: ICommonSelectProps) {
+  onInputChange,
+  onSelectChange,
+}: IFormSingleMultiselectProps) {
   /* Static Data */
   const errorMessages = {
     required: "Ce champ est obligatoire",
@@ -48,9 +54,11 @@ export default function FormMultiselect({
   return (
     <>
       <FormLabel
+        forId={name}
         label={label}
-        labelDescription={labelDescription}
         isRequired={isRequired}
+        labelDescription={labelDescription}
+        validationLabel={validationLabel}
       >
         <Controller
           control={control}
@@ -69,12 +77,17 @@ export default function FormMultiselect({
                 className={classNames("c-FormSingleMultiselect__Input", {
                   "c-FormSingleMultiselect__Input_invalid": _.get(errors, name),
                 })}
+                id={name}
                 options={options}
                 value={value}
                 placeholder=""
                 name="tags"
                 isMulti
-                onChange={onChange}
+                onInputChange={onInputChange}
+                onChange={(value) => {
+                  onChange(value);
+                  onSelectChange?.(value);
+                }}
                 defaultValue={value}
                 filterOption={() => !isMaxOptionsSelected}
                 noOptionsMessage={() =>
@@ -94,8 +107,8 @@ export default function FormMultiselect({
       <ErrorMessage
         errors={errors}
         name={name}
-        render={({ message }) => (
-          <CommonErrorText message={message} errorId={`${name}_error`} />
+        render={({ message }: { message: string }) => (
+          <CommonFormErrorText message={message} errorId={`${name}_error`} />
         )}
       />
     </>

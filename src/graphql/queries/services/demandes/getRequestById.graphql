@@ -1,0 +1,131 @@
+query getRequestById($requestId: ID) {
+  request(id: $requestId) {
+    data {
+      id
+      attributes {
+        name
+        description
+        blockText
+        isActivated
+        requestService {
+          data {
+            id
+          }
+        }
+        hasSeveralRequestTypes
+        requestAggregate {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        requestType {
+          id
+          title
+          isEmail
+          email
+          isTSMS
+        }
+        hasAddress
+        fieldAddressLabel
+        addableBlocks {
+          ... on ComponentBlocksAttachments {
+            id
+            attachmentLabel
+            isMandatory
+            multipleAttachments
+          }
+          ... on ComponentBlocksCommentary {
+            id
+            commentaryStatus
+            commentaryLabel
+            commentaryPlaceholder
+          }
+          ... on ComponentBlocksQuestions {
+            id
+            height
+            questionTextLabel
+            questionTextPlaceholder
+            textStatus
+          }
+          ... on ComponentBlocksDateChoice {
+            id
+            fieldStatus
+            fieldLabelDateChoice
+          }
+          ... on ComponentBlocksQcm {
+            id
+            fieldStatusQCM
+            fieldLabelQCM
+            responses
+            multipleChoice
+          }
+          ... on ComponentBlocksCheckbox {
+            id
+            fieldStatusCheckbox
+            labelCheckbox
+          }
+          ... on ComponentBlocksCumbersome {
+            id
+            cumbersomeLabel
+            maxVolumeOfCumbersome
+            maxNumberOfCumbersome
+            isNumberAndVolume
+            cumbersomeLimitMessage
+          }
+        }
+        hasUser
+        displayUserCivility
+        isUserNameMandatory
+        isUserEmailMandatory
+        isUserPhoneMandatory
+        userAllowSMSNotification
+        confirmationMessage
+        sendProofOfReceipt
+        proofOfReceiptSubject
+        proofOfReceiptHeader
+        hasAppointmentSlots
+        numberOfRequiredSlots
+        hoursBeforeReservationIsActivated
+        slotsReservationRules
+        requestSlots {
+          data {
+            id
+            attributes {
+              slotType
+              sectorizations {
+                data {
+                  id
+                  attributes {
+                    name
+                    description
+                    polygonCoordinates
+                  }
+                }
+              }
+              timeSlots
+              slotsExceptions {
+                exceptionType
+                id
+                slotException
+              }
+              slotMessage
+              noSlotMessage
+              requestTakeds {
+                data {
+                  id
+                  attributes {
+                    name
+                    isActivated
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

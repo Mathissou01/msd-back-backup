@@ -1,22 +1,30 @@
+import { useState } from "react";
 import Image from "next/image";
 import { RequestFolders } from "../../../../../graphql/codegen/generated-types";
+import { formatFileSize } from "../../../../../lib/utilities";
+import { ILocalFile } from "../../../../../lib/media";
+import { removeQuotesInString } from "../../../../../lib/utilities";
 import FormInput from "../../../../Form/FormInput/FormInput";
 import FormSelect from "../../../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../../../Form/FormMultiselect/FormMultiselect";
-import { IFileToEdit } from "../../MediaImportButton";
+import CommonImageCropper from "../../../../Common/CommonImageCropper/CommonImageCropper";
+import "react-image-crop/src/ReactCrop.scss";
+import "./edit-modal.scss";
 
 interface IEditModalProps {
-  fileToEdit: IFileToEdit | undefined;
+  fileToEdit?: ILocalFile;
   folderHierarchy: Array<RequestFolders>;
   activePathId: number;
-  handleReplaceSpecialChars: (arg: string) => string;
+  onFileEdited?: (file: ILocalFile) => void;
+  setCroppedImg: (croppedImg: boolean) => void;
 }
 
 export default function EditModal({
   fileToEdit,
   folderHierarchy,
   activePathId,
-  handleReplaceSpecialChars,
+  onFileEdited,
+  setCroppedImg,
 }: IEditModalProps) {
   /* Static Data */
   const labels = {
@@ -34,6 +42,9 @@ export default function EditModal({
     SaveInfoBtn: "Enregistrer les informations",
     cancelBtn: "Annuler",
   };
+
+  /* Local Data */
+  const [showCrop, setShowCrop] = useState(false);
 
   /* Methods */
   const folderHierarchyDisplayTransformFunction = (
@@ -58,17 +69,11 @@ export default function EditModal({
     return mapOptionsInWrappers(sortedFolderHierarchy);
   };
 
-  const handleCalculateFileSize = (size: number): string => {
-    const i = Math.floor(Math.log(size) / Math.log(1024));
-    return (
-      (size / Math.pow(1024, i)).toFixed(2) +
-      " " +
-      ["B", "KB", "MB", "GB", "TB"][i]
-    );
-  };
-
-  /* Local Data */
   const isImageToUpload = () => fileToEdit?.mime.split("/")[0] === "image";
+
+  const activateCrop = () => {
+    setShowCrop(true);
+  };
 
   return (
     <>
@@ -77,7 +82,7 @@ export default function EditModal({
           <div className="c-MediaImportButton__FormControl">
             <FormInput
               type="text"
-              name={handleReplaceSpecialChars(labels.formNameLabel)}
+              name={removeQuotesInString(labels.formNameLabel)}
               label={labels.formNameLabel}
               isRequired={true}
               defaultValue={fileToEdit?.name}
@@ -87,7 +92,7 @@ export default function EditModal({
             <div className="c-MediaImportButton__FormControl">
               <FormInput
                 type="text"
-                name={handleReplaceSpecialChars(labels.formDescLabel)}
+                name={removeQuotesInString(labels.formDescLabel)}
                 label={labels.formDescLabel}
                 secondaryLabel={labels.formDescHint}
                 isRequired={true}
@@ -98,7 +103,7 @@ export default function EditModal({
           )}
           <div className="c-MediaImportButton__FormControl">
             <FormSelect<RequestFolders>
-              name={handleReplaceSpecialChars(labels.formSelectLabel)}
+              name={removeQuotesInString(labels.formSelectLabel)}
               label={labels.formSelectLabel}
               displayTransform={folderHierarchyDisplayTransformFunction}
               options={sortFolderHierarchy(folderHierarchy)}
@@ -117,8 +122,7 @@ export default function EditModal({
                 <tr>
                   <th>Taille</th>
                   <td>
-                    {fileToEdit?.size &&
-                      handleCalculateFileSize(fileToEdit?.size)}
+                    {fileToEdit?.size && formatFileSize(fileToEdit?.size)}
                   </td>
                 </tr>
                 {isImageToUpload() && (
@@ -129,7 +133,7 @@ export default function EditModal({
                 )}
                 <tr>
                   <th>Date</th>
-                  <td>{fileToEdit?.date}</td>
+                  <td>{fileToEdit?.createdAt}</td>
                 </tr>
                 <tr>
                   <th>Extension</th>
@@ -142,24 +146,42 @@ export default function EditModal({
         {isImageToUpload() && (
           <div className="c-MediaImportButton__Block">
             <div className="c-MediaImportButton__EditImg">
-              <div className="c-MediaImportButton__ToolsIcon">
-                <button
-                  type="button"
-                  className="c-MediaImportButton_crop"
-                  onClick={() => console.log("clicked")}
-                />
-                <button
-                  type="button"
-                  className="c-MediaImportButton_trash"
-                  onClick={() => console.log("clicked")}
-                />
-              </div>
-              {fileToEdit?.url && (
-                <Image
-                  src={fileToEdit?.url}
-                  width={245}
-                  height={158}
-                  alt={fileToEdit?.name}
+              {!showCrop && (
+                <div className="c-MediaImportButton__ToolsIcon">
+                  <button
+                    type="button"
+                    className="c-MediaImportButton_crop"
+                    onClick={activateCrop}
+                  />
+                </div>
+              )}
+              {!showCrop && (
+                <div className="c-EditModal__ImageWrapper">
+                  {fileToEdit?.url && (
+                    <Image
+                      className="c-EditModal__Image"
+                      src={fileToEdit?.url}
+                      width={300}
+                      height={300}
+                      alt={fileToEdit?.name}
+                    />
+                  )}
+                </div>
+              )}
+              {showCrop && fileToEdit !== undefined && (
+                <CommonImageCropper
+                  fileToEdit={fileToEdit}
+                  activateCrop={activateCrop}
+                  onCropCanceled={() => setShowCrop(false)}
+                  onCropCompleted={(croppedFile) => {
+                    setShowCrop(false);
+                    setCroppedImg(true);
+                    if (fileToEdit && onFileEdited) {
+                      onFileEdited({
+                        ...croppedFile,
+                      });
+                    }
+                  }}
                 />
               )}
             </div>

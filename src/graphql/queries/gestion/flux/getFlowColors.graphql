@@ -1,0 +1,12 @@
+query getFlowColors($filters: FlowColorFiltersInput) {
+  flowColors(filters: $filters) {
+    data {
+      id
+      attributes {
+        name
+        hexaCode
+        shouldChangeHexaCode
+      }
+    }
+  }
+}

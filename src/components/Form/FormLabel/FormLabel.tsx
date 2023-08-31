@@ -6,12 +6,14 @@ export type LabelStyle = "default" | "table";
 
 export type ValidationStyle = "inline" | "multiline";
 
-interface IFormLabelProps {
+export interface IFormLabelProps {
   children?: React.ReactNode;
-  label: string;
+  label?: string;
   labelDescription?: string;
   secondaryLabel?: string;
   validationLabel?: string;
+  informationLabel?: string;
+  suffixLabel?: string;
   forId?: string;
   tagType?: "label" | "legend";
   isRequired?: boolean;
@@ -26,6 +28,8 @@ export default function FormLabel({
   labelDescription,
   secondaryLabel,
   validationLabel,
+  informationLabel,
+  suffixLabel,
   forId,
   tagType = "label",
   isRequired = false,
@@ -43,7 +47,7 @@ export default function FormLabel({
     <div className={labelClassNames}>
       <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
         <span className="c-FormLabel__Label">
-          {`${label}${isRequired ? " *" : ""}`}
+          {label && `${label}${isRequired ? " *" : ""}`}
           {labelDescription && (
             <span className="c-FormLabel__LabelDescription">
               {labelDescription}
@@ -55,6 +59,11 @@ export default function FormLabel({
           validationLabel && (
             <span className="c-FormLabel__Validation">{validationLabel}</span>
           )}
+        {validationStyle === "inline" &&
+          flexStyle === "column" &&
+          informationLabel && (
+            <span className="c-FormLabel__Validation">{informationLabel}</span>
+          )}
       </Tag>
       {validationStyle === "multiline" &&
         flexStyle === "column" &&
@@ -65,10 +74,20 @@ export default function FormLabel({
         )}
       {secondaryLabel && (
         <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
-          <span className="c-FormLabel__Secondary">{secondaryLabel}</span>
+          <span className="FormLabel__Secondary">{secondaryLabel}</span>
         </Tag>
       )}
-      {children && <div className="c-FormLabel__Content">{children}</div>}
+      {children && !suffixLabel && (
+        <div className="c-FormLabel__Content">{children}</div>
+      )}
+      {children && suffixLabel && (
+        <div className="c-FormLabel__ContentWithSuffix">
+          <div className="c-FormLabel__SuffixData">{children}</div>
+          <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
+            <span className="c-FormLabel__Suffix">{suffixLabel}</span>
+          </Tag>
+        </div>
+      )}
       {flexStyle === "row" && (
         <Tag className="c-FormLabel__LabelWrapper" htmlFor={forId}>
           {validationLabel && (

@@ -27,7 +27,7 @@
     color: colors.$blue-1;
     text-overflow: ellipsis;
     background-color: colors.$white;
-    border: 1px solid colors.$blue-2;
+    border: 1px solid colors.$blue-3;
     border-radius: 4px;
     cursor: pointer;
     appearance: none;
@@ -40,7 +40,7 @@
 
     &:focus-visible {
       color: colors.$expert-blue;
-      outline-color: colors.$expert-blue;
+      outline-color: colors.$blue-clear;
     }
 
     &:disabled {

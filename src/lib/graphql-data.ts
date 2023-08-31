@@ -1,28 +1,43 @@
 import {
-  GetEditoBlockTabQuery,
-  GetFooterPageQuery,
-  GetMenuPageQuery,
-  GetQuizAndTipsBlockTabQuery,
-  GetRecyclingBlockTabQuery,
-  GetSearchEngineTabQuery,
-  GetServicesBlockTabQuery,
-  GetTopContentTabQuery,
+  GetEditoBlockTabByContractIdAndAudienceIdQuery,
+  GetFooterByContractIdQuery,
+  GetContractMenuByContractIdQuery,
+  GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+  GetRecyclingGuideBlockByContractIdQuery,
+  GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+  GetServicesBlocksByContractIdAndAudienceIdQuery,
+  GetTopContentBlockTabByContractIdAndAudienceIdQuery,
   QuizAndTipsBlockEntity,
   QuizEntity,
   RecyclingGuideBlockEntity,
   SearchEngineBlockEntity,
   TipEntity,
-  GetAllFoldersHierarchyQuery,
+  WelcomeMessageBlockEntity,
 } from "../graphql/codegen/generated-types";
-import { IServiceLink, remapServiceLinksDynamicZone } from "./service-links";
+import {
+  IServiceLink,
+  remapServicesLinkDynamicZonePicto,
+} from "./service-links";
 
 /* Menu */
-export function extractMenu(data: GetMenuPageQuery) {
+export function extractMenu(data: GetContractMenuByContractIdQuery) {
   return data.contract?.data?.attributes?.contractMenu?.data ?? null;
 }
 
 /* Homepage */
-export function extractSearchEngineBlock(data: GetSearchEngineTabQuery) {
+export function extractWelcomeMessageBlock(
+  data: GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+) {
+  const welcomeMessageBlock: WelcomeMessageBlockEntity | null =
+    data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
+      ?.welcomeMessageBlock?.data ?? null;
+
+  return { welcomeMessageBlock };
+}
+
+export function extractSearchEngineBlock(
+  data: GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
+) {
   const searchEngineBlock: SearchEngineBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.searchEngineBlock?.data ?? null;
@@ -30,7 +45,9 @@ export function extractSearchEngineBlock(data: GetSearchEngineTabQuery) {
   return { searchEngineBlock };
 }
 
-export function extractRecyclingGuideBlock(data: GetRecyclingBlockTabQuery) {
+export function extractRecyclingGuideBlock(
+  data: GetRecyclingGuideBlockByContractIdQuery,
+) {
   const recyclingGuideBlock: RecyclingGuideBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
       ?.recyclingGuideBlock?.data ?? null;
@@ -38,13 +55,16 @@ export function extractRecyclingGuideBlock(data: GetRecyclingBlockTabQuery) {
   return { recyclingGuideBlock };
 }
 
-export function extractServicesBlock(data: GetServicesBlockTabQuery) {
+export function extractServicesBlock(
+  data: GetServicesBlocksByContractIdAndAudienceIdQuery,
+) {
   const serviceBlock =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
-      ?.servicesBlock?.data ?? null;
-  const serviceLinks: Array<IServiceLink> | null = remapServiceLinksDynamicZone(
-    serviceBlock?.attributes?.serviceLinks ?? null,
-  );
+      ?.servicesBlocks?.data[0] ?? null;
+  const serviceLinks: Array<IServiceLink> | null =
+    remapServicesLinkDynamicZonePicto(
+      serviceBlock?.attributes?.serviceLinks ?? null,
+    );
 
   return {
     id: serviceBlock?.id ?? null,
@@ -53,17 +73,21 @@ export function extractServicesBlock(data: GetServicesBlockTabQuery) {
   };
 }
 
-export function extractTopContentBlock(data: GetTopContentTabQuery) {
+export function extractTopContentBlock(
+  data: GetTopContentBlockTabByContractIdAndAudienceIdQuery,
+) {
   const topContentBlock = data.getTopContentBlockDTO ?? null;
   const topContents = data.getTopContentDTOs ?? null;
 
   return { topContentBlock, topContents };
 }
 
-export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockTabQuery) {
+export function extractQuizAndTipsBlock(
+  data: GetQuizAndTipsBlockTabByContractIdAndAudienceIdQuery,
+) {
   const quizAndTipsBlock: QuizAndTipsBlockEntity | null =
     data.contractCustomizations?.data[0]?.attributes?.homepage?.data?.attributes
-      ?.quizAndTipsBlock?.data ?? null;
+      ?.quizAndTipsBlocks?.data[0] ?? null;
   const quizzes: Array<QuizEntity> | null =
     data.quizSubServices?.data[0]?.attributes?.quizzes?.data ?? null;
   const tips: Array<TipEntity> | null =
@@ -72,22 +96,17 @@ export function extractQuizAndTipsBlock(data: GetQuizAndTipsBlockTabQuery) {
   return { quizAndTipsBlock, quizzes, tips };
 }
 
-export function extractEditoBlock(data: GetEditoBlockTabQuery) {
+export function extractEditoBlock(
+  data: GetEditoBlockTabByContractIdAndAudienceIdQuery,
+) {
   const editoBlock = data.getEditoBlockDTO ?? null;
   const editoContents = data.getEditoContentDTOs ?? null;
 
   return { editoBlock, editoContents };
 }
 
-/* Edito */
-export function extractFoldersHierarchy(data: GetAllFoldersHierarchyQuery) {
-  const folderHierarchy = data.getAllFoldersHierarchy ?? null;
-  // const pathFolder = data.getAllFoldersHierarchy[0]?.path ?? null;
-  return folderHierarchy;
-}
-
 /* Footer */
-export function extractFooter(data: GetFooterPageQuery) {
+export function extractFooter(data: GetFooterByContractIdQuery) {
   const footer =
     data.contractCustomizations?.data[0]?.attributes?.footer?.data ?? null;
   return { footer };

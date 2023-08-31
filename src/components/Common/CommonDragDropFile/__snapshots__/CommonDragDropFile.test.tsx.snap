@@ -7,7 +7,6 @@ exports[`CommonDragDropFile renders component 1`] = `
     data-testid="common-drag-drop-file-form"
   >
     <input
-      accept="image/png,image/jpeg,image/gif,image/svg,image/tiff,image/ico,image/dvu,.pdf,.csv,.zip,.xls,.xlsx,.json"
       data-testid="common-drag-drop-file-input"
       hidden=""
       id="input-file-upload"
@@ -21,16 +20,6 @@ exports[`CommonDragDropFile renders component 1`] = `
       <div
         class="c-CommonDragDropFile__Drag"
       >
-        <img
-          alt=""
-          data-nimg="1"
-          decoding="async"
-          height="50"
-          loading="lazy"
-          src="/images/pictos/add-photo.svg"
-          style="color: transparent;"
-          width="50"
-        />
         <span
           class="c-CommonDragDropFile__LabelInfo"
         >

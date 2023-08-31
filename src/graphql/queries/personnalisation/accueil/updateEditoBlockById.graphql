@@ -1,0 +1,14 @@
+mutation updateEditoBlockById(
+  $updateEditoBlockId: ID!
+  $data: EditoBlockInput!
+) {
+  updateEditoBlock(id: $updateEditoBlockId, data: $data) {
+    data {
+      id
+      attributes {
+        displayBlock
+        titleContent
+      }
+    }
+  }
+}

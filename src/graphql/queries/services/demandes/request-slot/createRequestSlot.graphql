@@ -1,0 +1,25 @@
+mutation createRequestSlot($data: RequestSlotInput!) {
+  createRequestSlot(data: $data) {
+    data {
+      id
+      attributes {
+        slotType
+        sectorizations {
+          data {
+            id
+          }
+        }
+        timeSlots
+        slotsExceptions {
+          id
+          slotException
+          exceptionType
+        }
+        slotMessage
+        noSlotMessage
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

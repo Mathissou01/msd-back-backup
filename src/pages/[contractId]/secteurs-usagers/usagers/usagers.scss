@@ -1,0 +1,11 @@
+.c-UsagersPage {
+  &__Title {
+    margin-bottom: 20px;
+  }
+
+  &__Block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

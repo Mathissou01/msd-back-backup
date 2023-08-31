@@ -1,0 +1,60 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-CommonBibliothequeMedia {
+  margin-bottom: 10px;
+
+  &_modal {
+    width: 100%;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__Content {
+    height: auto;
+  }
+
+  &__ActionButtons {
+    display: flex;
+    justify-content: flex-end;
+
+    div {
+      margin-left: 10px;
+    }
+  }
+
+  &__FolderCards {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  &__Folders {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__HrColor {
+    height: 1px;
+    background-color: colors.$gray-500;
+    border: initial;
+  }
+
+  &__MediaList {
+    margin: 20px 0;
+    padding-top: 20px;
+  }
+
+  &__MediaCards {
+    display: flex;
+    flex-flow: row wrap;
+  }
+}

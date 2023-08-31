@@ -17,11 +17,14 @@ $blue-1: #3d466c;
 $blue-2: #767c97;
 $blue-3: #abafbf;
 $blue-4: #d5d6de;
+$blue-5: #cbd5e1;
+$blue-sky-light: #c9e6fb;
 
 // Gray shades
 $gray-0: #f4f8ff;
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
+$gray-250: #d5d6de;
 $gray-500: #adb5bd;
 $gray-600: #6c757d;
 $gray-800: #343a40;
@@ -40,3 +43,21 @@ $success-dark: #107d2b;
 $error: #eb4a65ff;
 $error-light: #f5c4cc;
 $error-dark: #800e21;
+
+// Other
+$pdf-thumbnail: #d9822f;
+
+// Graph
+$graph-low: #4bc068;
+$graph-medium: #f5c500;
+$graph-hot: #ff8363;
+$graph-veryhot: #eb4a65;
+
+:root {
+  --graph-low: #{$graph-low};
+  --graph-medium: #{$graph-medium};
+  --graph-hot: #{$graph-hot};
+  --graph-veryhot: #{$graph-veryhot};
+
+  /* Autres variables de couleur */
+}

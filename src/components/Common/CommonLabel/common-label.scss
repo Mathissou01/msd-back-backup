@@ -1,0 +1,8 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-CommonLabel {
+  margin-right: 5px;
+  padding: 3px 10px;
+  border: 1px solid colors.$gray-600;
+  border-radius: 18px;
+}

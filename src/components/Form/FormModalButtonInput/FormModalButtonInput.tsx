@@ -5,35 +5,40 @@ import { Validate } from "react-hook-form/dist/types/validator";
 import { FieldErrors } from "react-hook-form/dist/types/errors";
 import { ErrorMessage } from "@hookform/error-message";
 import React, { ReactNode, useEffect, useRef } from "react";
-import { isTruthyObjectOrArray } from "../../../lib/utilities";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import FormLabel from "../FormLabel/FormLabel";
-import FormModal from "../FormModal/FormModal";
+import FormModal, { TFormModalButtonsStyle } from "../FormModal/FormModal";
 import "./form-modal-button-input.scss";
 
-interface IFormModalButtonInputProps<T> {
+interface IFormModalButtonInputProps<InputType, FormType> {
   name: string;
   label: string;
   secondaryLabel?: string;
   buttonLabel: string;
   isStyleRow?: boolean;
-  displayTransform: (...args: Array<Partial<T>>) => ReactNode;
-  defaultValue?: Partial<T> | null;
+  displayTransform: (data?: InputType) => ReactNode;
+  defaultValue?: Partial<InputType> | null;
   isRequired?: boolean;
   isDisabled?: boolean;
-  onValidate?: Validate<string, FieldValues>;
-  modalTitle: string;
+  onValidate?: Validate<InputType, FieldValues>;
+  modalTitle?: string;
   modalSubtitle?: string;
   modalHasRequiredChildren?: "some" | "all" | null;
   children: ReactNode;
   modalFormValidationMode?: Mode;
-  onModalSubmit: (data: { [key: string]: Partial<T> }) => void;
+  onModalSubmit: (data: FormType) => InputType;
   onModalInvalid?: (errors: Partial<FieldErrors>) => void;
+  modalButtonsStyle?: TFormModalButtonsStyle;
+  modalSubmitButtonLabel?: string;
+  modalCancelButtonLabel?: string;
 }
 
-export default function FormModalButtonInput<T extends FieldValues>({
+export default function FormModalButtonInput<
+  InputType,
+  FormType extends FieldValues,
+>({
   name,
   label,
   secondaryLabel,
@@ -51,7 +56,10 @@ export default function FormModalButtonInput<T extends FieldValues>({
   modalFormValidationMode = "onChange",
   onModalSubmit,
   onModalInvalid,
-}: IFormModalButtonInputProps<T>) {
+  modalButtonsStyle,
+  modalSubmitButtonLabel,
+  modalCancelButtonLabel,
+}: IFormModalButtonInputProps<InputType, FormType>) {
   const childRef = useRef<CommonModalWrapperRef>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -71,7 +79,7 @@ export default function FormModalButtonInput<T extends FieldValues>({
     watch,
     formState: { isSubmitting, errors },
   } = useFormContext();
-  const currentParentValues = watch(name);
+  const currentParentValues = watch(name) as InputType;
   useEffect(() => {
     if (defaultValue && currentParentValues === undefined) {
       setValue(name, defaultValue);
@@ -82,7 +90,7 @@ export default function FormModalButtonInput<T extends FieldValues>({
     <>
       <div className="c-FormModalButtonInput" data-testid="form-modal-input">
         <FormLabel
-          forId={`${name}_button`}
+          forId={name}
           label={label}
           isRequired={isRequired}
           secondaryLabel={secondaryLabel}
@@ -100,9 +108,7 @@ export default function FormModalButtonInput<T extends FieldValues>({
             "c-FormModalButtonInput__Container_row": isStyleRow,
           })}
         >
-          {isTruthyObjectOrArray(currentParentValues)
-            ? displayTransform(currentParentValues)
-            : ""}
+          {displayTransform(currentParentValues)}
           <div
             aria-invalid={!!_.get(errors, name)}
             aria-errormessage={`${name}_error`}
@@ -111,7 +117,7 @@ export default function FormModalButtonInput<T extends FieldValues>({
               label={buttonLabel}
               onClick={() => childRef.current?.toggleModal(true)}
               isDisabled={isSubmitting || isDisabled}
-              formLabelId={`${name}_button`}
+              formLabelId={name}
               buttonRef={buttonRef}
             />
           </div>
@@ -120,20 +126,25 @@ export default function FormModalButtonInput<T extends FieldValues>({
           errors={errors}
           name={name}
           render={({ message }: { message: string }) => (
-            <CommonErrorText message={message} errorId={`${name}_error`} />
+            <CommonFormErrorText message={message} errorId={`${name}_error`} />
           )}
         />
       </div>
-      <FormModal<T>
+      <FormModal<FormType>
         modalRef={childRef}
         modalTitle={modalTitle}
         modalSubtitle={modalSubtitle}
         isRequired={isRequired}
         hasRequiredChildren={modalHasRequiredChildren}
         onClose={onModalClose}
-        onSubmit={onModalSubmit}
+        onSubmit={(data) => {
+          setValue(name, onModalSubmit(data), { shouldDirty: true });
+        }}
         onInvalid={onModalInvalid}
         formValidationMode={modalFormValidationMode}
+        buttonsStyle={modalButtonsStyle}
+        submitButtonLabel={modalSubmitButtonLabel}
+        cancelButtonLabel={modalCancelButtonLabel}
       >
         {children}
       </FormModal>

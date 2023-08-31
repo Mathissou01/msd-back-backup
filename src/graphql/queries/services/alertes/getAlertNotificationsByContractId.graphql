@@ -1,0 +1,92 @@
+query getAlertNotificationsByContractId(
+  $contractId: ID!
+  $nowDate: Date!
+  $nowTime: String!
+  $filters: AlertNotificationFiltersInput!
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  sentCount: alertNotifications(
+    filters: {
+      alertNotifService: { contract: { id: { eq: $contractId } } }
+      or: [
+        {
+          and: [
+            { scheduledAt: { eq: $nowDate } }
+            { scheduledAtTime: { lte: $nowTime } }
+          ]
+        }
+        { scheduledAt: { lt: $nowDate } }
+      ]
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+    data {
+      attributes {
+        sendMail
+        sendSMS
+        scheduledAt
+        alertMessage
+        alertDescription
+        scheduledAtTime
+      }
+      id
+    }
+  }
+  notSentCount: alertNotifications(
+    filters: {
+      alertNotifService: { contract: { id: { eq: $contractId } } }
+      or: [
+        { and: [{ scheduledAt: { gt: $nowDate } }] }
+        {
+          and: [
+            { scheduledAt: { eq: $nowDate } }
+            { scheduledAtTime: { gt: $nowTime } }
+          ]
+        }
+      ]
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+    data {
+      attributes {
+        sendMail
+        sendSMS
+        scheduledAt
+        alertMessage
+        alertDescription
+        scheduledAtTime
+      }
+      id
+    }
+  }
+  alertNotifications(filters: $filters, sort: $sort, pagination: $pagination) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      attributes {
+        sendMail
+        sendSMS
+        scheduledAt
+        alertMessage
+        alertDescription
+        scheduledAtTime
+      }
+      id
+    }
+  }
+}

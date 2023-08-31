@@ -7,6 +7,7 @@ type Accessibility {
   publishedDate: DateTime
   status: ENUM_ACCESSIBILITY_STATUS
   title: String!
+  toBeUpdated: Boolean
   updatedAt: DateTime
   versionNumber: Int
 }
@@ -46,6 +47,7 @@ input AccessibilityFiltersInput {
   publishedDate: DateTimeFilterInput
   status: StringFilterInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
 }
@@ -58,6 +60,7 @@ input AccessibilityInput {
   publishedDate: DateTime
   status: ENUM_ACCESSIBILITY_STATUS
   title: String
+  toBeUpdated: Boolean
   versionNumber: Int
 }
 
@@ -71,11 +74,6 @@ type AccessibilitySubService {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): AccessibilityRelationResponseCollection
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   createdAt: DateTime
   description: String
   editorialService: EditorialServiceEntityResponse
@@ -101,7 +99,6 @@ type AccessibilitySubServiceEntityResponseCollection {
 input AccessibilitySubServiceFiltersInput {
   accessibilities: AccessibilityFiltersInput
   and: [AccessibilitySubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   editorialService: EditorialServiceFiltersInput
@@ -115,7 +112,6 @@ input AccessibilitySubServiceFiltersInput {
 
 input AccessibilitySubServiceInput {
   accessibilities: [ID]
-  audienceTypes: [ID]
   description: String
   editorialService: ID
   link: String
@@ -131,10 +127,31 @@ type Activation {
 union ActivationAndService = Activation | Service
 
 type AlertNotification {
+  alertDescription: String!
+  alertMessage: String
+  alertNotifService: AlertNotificationServiceEntityResponse
+  alertTitle: String
+  alertUserStorages(
+    filters: AlertUserStorageFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AlertUserStorageRelationResponseCollection
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
   createdAt: DateTime
-  description: String
-  name: String
-  publishedAt: DateTime
+  scheduledAt: Date!
+  scheduledAtTime: String!
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationRelationResponseCollection
+  sendMail: Boolean
+  sendSMS: Boolean
+  subject: String
   updatedAt: DateTime
 }
 
@@ -153,21 +170,39 @@ type AlertNotificationEntityResponseCollection {
 }
 
 input AlertNotificationFiltersInput {
+  alertDescription: StringFilterInput
+  alertMessage: StringFilterInput
+  alertNotifService: AlertNotificationServiceFiltersInput
+  alertTitle: StringFilterInput
+  alertUserStorages: AlertUserStorageFiltersInput
   and: [AlertNotificationFiltersInput]
+  cities: CityFiltersInput
   createdAt: DateTimeFilterInput
-  description: StringFilterInput
   id: IDFilterInput
-  name: StringFilterInput
   not: AlertNotificationFiltersInput
   or: [AlertNotificationFiltersInput]
-  publishedAt: DateTimeFilterInput
+  scheduledAt: DateFilterInput
+  scheduledAtTime: StringFilterInput
+  sectorizations: SectorizationFiltersInput
+  sendMail: BooleanFilterInput
+  sendSMS: BooleanFilterInput
+  subject: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input AlertNotificationInput {
-  description: String
-  name: String
-  publishedAt: DateTime
+  alertDescription: String
+  alertMessage: String
+  alertNotifService: ID
+  alertTitle: String
+  alertUserStorages: [ID]
+  cities: [ID]
+  scheduledAt: Date
+  scheduledAtTime: String
+  sectorizations: [ID]
+  sendMail: Boolean
+  sendSMS: Boolean
+  subject: String
 }
 
 type AlertNotificationRelationResponseCollection {
@@ -178,14 +213,8 @@ type AlertNotificationService {
   alertNotifications(
     filters: AlertNotificationFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): AlertNotificationRelationResponseCollection
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -217,7 +246,6 @@ type AlertNotificationServiceEntityResponseCollection {
 input AlertNotificationServiceFiltersInput {
   alertNotifications: AlertNotificationFiltersInput
   and: [AlertNotificationServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -233,7 +261,6 @@ input AlertNotificationServiceFiltersInput {
 
 input AlertNotificationServiceInput {
   alertNotifications: [ID]
-  audienceTypes: [ID]
   cities: [ID]
   contract: ID
   endDate: Date
@@ -242,42 +269,134 @@ input AlertNotificationServiceInput {
   startDate: Date
 }
 
-type AudienceType {
+type AlertUserStorage {
+  alertNotificationServiceId: String!
+  alertNotifications(
+    filters: AlertNotificationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AlertNotificationRelationResponseCollection
   createdAt: DateTime
-  type: String
+  email: String
+  isEmail: Boolean!
+  isSMS: Boolean!
+  latitude: String
+  longitude: String
+  phoneNumber: String
   updatedAt: DateTime
 }
 
-type AudienceTypeEntity {
-  attributes: AudienceType
+type AlertUserStorageEntity {
+  attributes: AlertUserStorage
   id: ID
 }
 
-type AudienceTypeEntityResponse {
-  data: AudienceTypeEntity
+type AlertUserStorageEntityResponse {
+  data: AlertUserStorageEntity
 }
 
-type AudienceTypeEntityResponseCollection {
-  data: [AudienceTypeEntity!]!
+type AlertUserStorageEntityResponseCollection {
+  data: [AlertUserStorageEntity!]!
   meta: ResponseCollectionMeta!
 }
 
-input AudienceTypeFiltersInput {
-  and: [AudienceTypeFiltersInput]
+input AlertUserStorageFiltersInput {
+  alertNotificationServiceId: StringFilterInput
+  alertNotifications: AlertNotificationFiltersInput
+  and: [AlertUserStorageFiltersInput]
+  createdAt: DateTimeFilterInput
+  email: StringFilterInput
+  id: IDFilterInput
+  isEmail: BooleanFilterInput
+  isSMS: BooleanFilterInput
+  latitude: StringFilterInput
+  longitude: StringFilterInput
+  not: AlertUserStorageFiltersInput
+  or: [AlertUserStorageFiltersInput]
+  phoneNumber: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input AlertUserStorageInput {
+  alertNotificationServiceId: String
+  alertNotifications: [ID]
+  email: String
+  isEmail: Boolean
+  isSMS: Boolean
+  latitude: String
+  longitude: String
+  phoneNumber: String
+}
+
+type AlertUserStorageRelationResponseCollection {
+  data: [AlertUserStorageEntity!]!
+}
+
+type Appointment {
+  sectorNames: [String]
+  timeSlotsWithUsers: [TimeSlotWithUser]
+}
+
+type AppointmentDetails {
+  appointments: [Appointment]
+  title: String
+}
+
+type Audience {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  isActive: Boolean!
+  type: ENUM_AUDIENCE_TYPE!
+  updatedAt: DateTime
+}
+
+type AudienceDTO {
+  id: ID!
+  isActive: Boolean!
+  type: String!
+}
+
+type AudienceEntity {
+  attributes: Audience
+  id: ID
+}
+
+type AudienceEntityResponse {
+  data: AudienceEntity
+}
+
+type AudienceEntityResponseCollection {
+  data: [AudienceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input AudienceFiltersInput {
+  and: [AudienceFiltersInput]
+  contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
-  not: AudienceTypeFiltersInput
-  or: [AudienceTypeFiltersInput]
+  isActive: BooleanFilterInput
+  not: AudienceFiltersInput
+  or: [AudienceFiltersInput]
   type: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
-input AudienceTypeInput {
-  type: String
+input AudienceInput {
+  contract: ID
+  isActive: Boolean
+  type: ENUM_AUDIENCE_TYPE
 }
 
-type AudienceTypeRelationResponseCollection {
-  data: [AudienceTypeEntity!]!
+type AudienceRelationResponseCollection {
+  data: [AudienceEntity!]!
+}
+
+type AvailableSlot {
+  day: String
+  exceptionId: ID
+  openingTime: String
+  slotId: ID!
 }
 
 input BooleanFilterInput {
@@ -305,23 +424,21 @@ input BooleanFilterInput {
 }
 
 type Cgu {
-  CustomId: String
   blocks: [CguBlocksDynamicZone]
   cguSubService: CguSubServiceEntityResponse
   createdAt: DateTime
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
-  status: ENUM_CGU_STATUS
+  hasMobile: Boolean
+  isActivated: Boolean
   title: String!
   updatedAt: DateTime
-  versionNumber: Int
 }
 
 union CguBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
 
@@ -342,32 +459,24 @@ type CguEntityResponseCollection {
 }
 
 input CguFiltersInput {
-  CustomId: StringFilterInput
   and: [CguFiltersInput]
   cguSubService: CguSubServiceFiltersInput
   createdAt: DateTimeFilterInput
-  draftCreationId: StringFilterInput
-  hasDraft: BooleanFilterInput
+  hasMobile: BooleanFilterInput
   id: IDFilterInput
+  isActivated: BooleanFilterInput
   not: CguFiltersInput
   or: [CguFiltersInput]
-  publishedDate: DateTimeFilterInput
-  status: StringFilterInput
   title: StringFilterInput
   updatedAt: DateTimeFilterInput
-  versionNumber: IntFilterInput
 }
 
 input CguInput {
-  CustomId: String
   blocks: [CguBlocksDynamicZoneInput!]
   cguSubService: ID
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
-  status: ENUM_CGU_STATUS
+  hasMobile: Boolean
+  isActivated: Boolean
   title: String
-  versionNumber: Int
 }
 
 type CguRelationResponseCollection {
@@ -375,11 +484,6 @@ type CguRelationResponseCollection {
 }
 
 type CguSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   cgus(
     filters: CguFiltersInput
     pagination: PaginationArg = {}
@@ -409,7 +513,6 @@ type CguSubServiceEntityResponseCollection {
 
 input CguSubServiceFiltersInput {
   and: [CguSubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   cgus: CguFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -423,7 +526,6 @@ input CguSubServiceFiltersInput {
 }
 
 input CguSubServiceInput {
-  audienceTypes: [ID]
   cgus: [ID]
   description: String
   editorialService: ID
@@ -432,6 +534,7 @@ input CguSubServiceInput {
 }
 
 type ChannelType {
+  contract: ContractEntityResponse
   createdAt: DateTime
   hasWebApp: Boolean
   hasWebSite: Boolean
@@ -454,6 +557,7 @@ type ChannelTypeEntityResponseCollection {
 
 input ChannelTypeFiltersInput {
   and: [ChannelTypeFiltersInput]
+  contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   hasWebApp: BooleanFilterInput
   hasWebSite: BooleanFilterInput
@@ -464,6 +568,7 @@ input ChannelTypeFiltersInput {
 }
 
 input ChannelTypeInput {
+  contract: ID
   hasWebApp: Boolean
   hasWebSite: Boolean
 }
@@ -473,14 +578,26 @@ type ChannelTypeRelationResponseCollection {
 }
 
 type City {
+  GeoJSON: JSON
+  MwCounter: MwCounterServiceEntityResponse
   createdAt: DateTime
   department: String
-  epci: EpciEntityResponse
+  epci(
+    filters: EpciFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): EpciRelationResponseCollection
   insee: Long
   name: String
+  pickUpDay: PickUpDayEntityResponse
   postalCode: Long
   region: String
   siren: Long
+  territories(
+    filters: TerritoryFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): TerritoryRelationResponseCollection
   updatedAt: DateTime
 }
 
@@ -499,6 +616,8 @@ type CityEntityResponseCollection {
 }
 
 input CityFiltersInput {
+  GeoJSON: JSONFilterInput
+  MwCounter: MwCounterServiceFiltersInput
   and: [CityFiltersInput]
   createdAt: DateTimeFilterInput
   department: StringFilterInput
@@ -508,24 +627,42 @@ input CityFiltersInput {
   name: StringFilterInput
   not: CityFiltersInput
   or: [CityFiltersInput]
+  pickUpDay: PickUpDayFiltersInput
   postalCode: LongFilterInput
   region: StringFilterInput
   siren: LongFilterInput
+  territories: TerritoryFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
 input CityInput {
+  GeoJSON: JSON
+  MwCounter: ID
   department: String
-  epci: ID
+  epci: [ID]
   insee: Long
   name: String
+  pickUpDay: ID
   postalCode: Long
   region: String
   siren: Long
+  territories: [ID]
 }
 
 type CityRelationResponseCollection {
   data: [CityEntity!]!
+}
+
+type CityResult {
+  id: ID!
+  insee: String
+  name: String
+  postalCode: String
+  siren: String
+}
+
+type CitySectorization {
+  GeoJson: String
 }
 
 type ClientContact {
@@ -538,7 +675,7 @@ type ClientContact {
   updatedAt: DateTime
 }
 
-type ClientContactCreateInput {
+type ClientContactCreateOutput {
   email: String
   firstName: String
   lastName: String
@@ -581,6 +718,237 @@ input ClientContactInput {
   phoneNumber: String
 }
 
+type CollectDoorToDoor {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowRelationResponseCollection
+  grammaticalGender: ENUM_COLLECTDOORTODOOR_GRAMMATICALGENDER
+  name: String
+  picto: UploadFileEntityResponse
+  updatedAt: DateTime
+}
+
+type CollectDoorToDoorEntity {
+  attributes: CollectDoorToDoor
+  id: ID
+}
+
+type CollectDoorToDoorEntityResponse {
+  data: CollectDoorToDoorEntity
+}
+
+type CollectDoorToDoorEntityResponseCollection {
+  data: [CollectDoorToDoorEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CollectDoorToDoorFiltersInput {
+  and: [CollectDoorToDoorFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  flows: FlowFiltersInput
+  grammaticalGender: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: CollectDoorToDoorFiltersInput
+  or: [CollectDoorToDoorFiltersInput]
+  updatedAt: DateTimeFilterInput
+}
+
+input CollectDoorToDoorInput {
+  contract: ID
+  flows: [ID]
+  grammaticalGender: ENUM_COLLECTDOORTODOOR_GRAMMATICALGENDER
+  name: String
+  picto: ID
+}
+
+type CollectDoorToDoorRelationResponseCollection {
+  data: [CollectDoorToDoorEntity!]!
+}
+
+type CollectDropOff {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowRelationResponseCollection
+  grammaticalGender: ENUM_COLLECTDROPOFF_GRAMMATICALGENDER
+  name: String
+  picto: UploadFileEntityResponse
+  updatedAt: DateTime
+}
+
+type CollectDropOffEntity {
+  attributes: CollectDropOff
+  id: ID
+}
+
+type CollectDropOffEntityResponse {
+  data: CollectDropOffEntity
+}
+
+type CollectDropOffEntityResponseCollection {
+  data: [CollectDropOffEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CollectDropOffFiltersInput {
+  and: [CollectDropOffFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  flows: FlowFiltersInput
+  grammaticalGender: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: CollectDropOffFiltersInput
+  or: [CollectDropOffFiltersInput]
+  updatedAt: DateTimeFilterInput
+}
+
+input CollectDropOffInput {
+  contract: ID
+  flows: [ID]
+  grammaticalGender: ENUM_COLLECTDROPOFF_GRAMMATICALGENDER
+  name: String
+  picto: ID
+}
+
+type CollectDropOffRelationResponseCollection {
+  data: [CollectDropOffEntity!]!
+}
+
+type CollectEntity {
+  entityTypeName: String!
+  grammaticalGender: String!
+  name: String!
+  originalId: ID!
+  picto: PictoDTO!
+  uniqueId: String!
+}
+
+type CollectVoluntary {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowRelationResponseCollection
+  grammaticalGender: ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER
+  name: String
+  picto: UploadFileEntityResponse
+  updatedAt: DateTime
+}
+
+type CollectVoluntaryEntity {
+  attributes: CollectVoluntary
+  id: ID
+}
+
+type CollectVoluntaryEntityResponse {
+  data: CollectVoluntaryEntity
+}
+
+type CollectVoluntaryEntityResponseCollection {
+  data: [CollectVoluntaryEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CollectVoluntaryFiltersInput {
+  and: [CollectVoluntaryFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  flows: FlowFiltersInput
+  grammaticalGender: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: CollectVoluntaryFiltersInput
+  or: [CollectVoluntaryFiltersInput]
+  updatedAt: DateTimeFilterInput
+}
+
+input CollectVoluntaryInput {
+  contract: ID
+  flows: [ID]
+  grammaticalGender: ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER
+  name: String
+  picto: ID
+}
+
+type CollectVoluntaryRelationResponseCollection {
+  data: [CollectVoluntaryEntity!]!
+}
+
+input CommuneInput {
+  insee: Int!
+}
+
+type ComponentBlocksAttachments {
+  attachment(
+    filters: UploadFileFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): UploadFileRelationResponseCollection
+  attachmentLabel: String!
+  id: ID!
+  isMandatory: Boolean!
+  multipleAttachments: Boolean
+}
+
+type ComponentBlocksCheckbox {
+  fieldStatusCheckbox: ENUM_COMPONENTBLOCKSCHECKBOX_FIELDSTATUSCHECKBOX!
+  id: ID!
+  labelCheckbox: String!
+}
+
+type ComponentBlocksCommentary {
+  commentaryLabel: String!
+  commentaryPlaceholder: String
+  commentaryStatus: ENUM_COMPONENTBLOCKSCOMMENTARY_COMMENTARYSTATUS!
+  id: ID!
+}
+
+type ComponentBlocksCumbersome {
+  cumbersomeLabel: String!
+  cumbersomeLimitMessage: String!
+  id: ID!
+  isNumberAndVolume: Boolean!
+  maxNumberOfCumbersome: Int
+  maxVolumeOfCumbersome: Float
+}
+
+type ComponentBlocksDateChoice {
+  fieldLabelDateChoice: String!
+  fieldStatus: ENUM_COMPONENTBLOCKSDATECHOICE_FIELDSTATUS!
+  id: ID!
+}
+
+type ComponentBlocksDownloadBlock {
+  file: UploadFileEntityResponse!
+  id: ID!
+  linkText: String!
+}
+
+input ComponentBlocksDownloadBlockFiltersInput {
+  and: [ComponentBlocksDownloadBlockFiltersInput]
+  linkText: StringFilterInput
+  not: ComponentBlocksDownloadBlockFiltersInput
+  or: [ComponentBlocksDownloadBlockFiltersInput]
+}
+
+input ComponentBlocksDownloadBlockInput {
+  file: ID
+  id: ID
+  linkText: String
+}
+
 type ComponentBlocksFile {
   document: UploadFileEntityResponse
   id: ID!
@@ -598,10 +966,95 @@ type ComponentBlocksImage {
   picture: UploadFileEntityResponse
 }
 
+type ComponentBlocksOpeningDay {
+  afterNoonEnd: Time
+  afterNoonStart: Time
+  id: ID!
+  morningEnd: Time
+  morningStart: Time
+  weekDay: ENUM_COMPONENTBLOCKSOPENINGDAY_WEEKDAY!
+}
+
+type ComponentBlocksQcm {
+  fieldLabelQCM: String!
+  fieldStatusQCM: ENUM_COMPONENTBLOCKSQCM_FIELDSTATUSQCM!
+  id: ID!
+  multipleChoice: Boolean!
+  responses: String!
+}
+
+type ComponentBlocksQuestions {
+  height: Boolean!
+  id: ID!
+  questionTextLabel: String!
+  questionTextPlaceholder: String!
+  textStatus: ENUM_COMPONENTBLOCKSQUESTIONS_TEXTSTATUS!
+}
+
+type ComponentBlocksRequestSlotsExceptions {
+  exceptionType: ENUM_COMPONENTBLOCKSREQUESTSLOTSEXCEPTIONS_EXCEPTIONTYPE
+  id: ID!
+  slotException: JSON
+}
+
+input ComponentBlocksRequestSlotsExceptionsFiltersInput {
+  and: [ComponentBlocksRequestSlotsExceptionsFiltersInput]
+  exceptionType: StringFilterInput
+  not: ComponentBlocksRequestSlotsExceptionsFiltersInput
+  or: [ComponentBlocksRequestSlotsExceptionsFiltersInput]
+  slotException: JSONFilterInput
+}
+
+input ComponentBlocksRequestSlotsExceptionsInput {
+  exceptionType: ENUM_COMPONENTBLOCKSREQUESTSLOTSEXCEPTIONS_EXCEPTIONTYPE
+  id: ID
+  slotException: JSON
+}
+
+type ComponentBlocksRequestType {
+  email: String
+  id: ID!
+  isEmail: Boolean
+  isTSMS: Boolean
+  title: String!
+}
+
+input ComponentBlocksRequestTypeFiltersInput {
+  and: [ComponentBlocksRequestTypeFiltersInput]
+  email: StringFilterInput
+  isEmail: BooleanFilterInput
+  isTSMS: BooleanFilterInput
+  not: ComponentBlocksRequestTypeFiltersInput
+  or: [ComponentBlocksRequestTypeFiltersInput]
+  title: StringFilterInput
+}
+
+input ComponentBlocksRequestTypeInput {
+  email: String
+  id: ID
+  isEmail: Boolean
+  isTSMS: Boolean
+  title: String
+}
+
+type ComponentBlocksServices {
+  alertS: AlertNotificationServiceEntityResponse
+  dropOffS: DropOffMapServiceEntityResponse
+  editoS: EditorialServiceEntityResponse
+  id: ID!
+  pickUpS: PickUpDayServiceEntityResponse
+  recyclingS: RecyclingGuideServiceEntityResponse
+  requestS: RequestServiceEntityResponse
+}
+
 type ComponentBlocksSubHeading {
   id: ID!
   subHeadingTag: ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG
   subHeadingText: String
+}
+
+type ComponentBlocksTest {
+  id: ID!
 }
 
 type ComponentBlocksVideo {
@@ -646,6 +1099,15 @@ type ComponentLinksDropOffMap {
   name: String
   picto: UploadFileEntityResponse
   pointToDisplayOnTheMap: ENUM_COMPONENTLINKSDROPOFFMAP_POINTTODISPLAYONTHEMAP
+}
+
+type ComponentLinksEditoContent {
+  event: EventEntityResponse
+  freeContent: FreeContentEntityResponse
+  id: ID!
+  new: NewEntityResponse
+  quiz: QuizEntityResponse
+  tip: TipEntityResponse
 }
 
 type ComponentLinksEditorial {
@@ -696,6 +1158,18 @@ type ComponentLinksKeyMetrics {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): KeyMetricsServiceRelationResponseCollection
+  name: String
+  picto: UploadFileEntityResponse
+}
+
+type ComponentLinksMyWasteCounter {
+  id: ID!
+  isDisplayed: Boolean!
+  myWCounter(
+    filters: MwCounterServiceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwCounterServiceRelationResponseCollection
   name: String
   picto: UploadFileEntityResponse
 }
@@ -773,24 +1247,28 @@ type ComponentLinksTips {
   ): TipSubServiceRelationResponseCollection
 }
 
+type ComponentLinksTopContent {
+  event: EventEntityResponse
+  id: ID!
+  new: NewEntityResponse
+}
+
 type Confidentiality {
   blocks: [ConfidentialityBlocksDynamicZone]
   confidentialitySubService: ConfidentialitySubServiceEntityResponse
   createdAt: DateTime
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
-  status: ENUM_CONFIDENTIALITY_STATUS
+  hasMobile: Boolean
+  isActivated: Boolean
   title: String!
   updatedAt: DateTime
-  versionNumber: Int
 }
 
 union ConfidentialityBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
 
@@ -814,29 +1292,21 @@ input ConfidentialityFiltersInput {
   and: [ConfidentialityFiltersInput]
   confidentialitySubService: ConfidentialitySubServiceFiltersInput
   createdAt: DateTimeFilterInput
-  customId: StringFilterInput
-  draftCreationId: StringFilterInput
-  hasDraft: BooleanFilterInput
+  hasMobile: BooleanFilterInput
   id: IDFilterInput
+  isActivated: BooleanFilterInput
   not: ConfidentialityFiltersInput
   or: [ConfidentialityFiltersInput]
-  publishedDate: DateTimeFilterInput
-  status: StringFilterInput
   title: StringFilterInput
   updatedAt: DateTimeFilterInput
-  versionNumber: IntFilterInput
 }
 
 input ConfidentialityInput {
   blocks: [ConfidentialityBlocksDynamicZoneInput!]
   confidentialitySubService: ID
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
-  status: ENUM_CONFIDENTIALITY_STATUS
+  hasMobile: Boolean
+  isActivated: Boolean
   title: String
-  versionNumber: Int
 }
 
 type ConfidentialityRelationResponseCollection {
@@ -844,11 +1314,6 @@ type ConfidentialityRelationResponseCollection {
 }
 
 type ConfidentialitySubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   confidentialities(
     filters: ConfidentialityFiltersInput
     pagination: PaginationArg = {}
@@ -878,7 +1343,6 @@ type ConfidentialitySubServiceEntityResponseCollection {
 
 input ConfidentialitySubServiceFiltersInput {
   and: [ConfidentialitySubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   confidentialities: ConfidentialityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -892,7 +1356,6 @@ input ConfidentialitySubServiceFiltersInput {
 }
 
 input ConfidentialitySubServiceInput {
-  audienceTypes: [ID]
   confidentialities: [ID]
   description: String
   editorialService: ID
@@ -900,23 +1363,27 @@ input ConfidentialitySubServiceInput {
   name: String
 }
 
+type ContactResponse {
+  city: String
+  contactEmail: String
+  phoneNumber: String
+  postalAddress: String
+  postalCode: String
+  serviceName: String
+}
+
 type ContactUs {
   blocks: [ContactUsBlocksDynamicZone]
+  contactUsSubService: ContactUsSubServiceEntityResponse
   createdAt: DateTime
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
-  status: ENUM_CONTACTUS_STATUS
+  isActivated: Boolean
   tags(
     filters: TagFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
-  unpublishedDate: DateTime
   updatedAt: DateTime
-  versionNumber: Int
 }
 
 union ContactUsBlocksDynamicZone =
@@ -946,33 +1413,23 @@ type ContactUsEntityResponseCollection {
 
 input ContactUsFiltersInput {
   and: [ContactUsFiltersInput]
+  contactUsSubService: ContactUsSubServiceFiltersInput
   createdAt: DateTimeFilterInput
-  customId: StringFilterInput
-  draftCreationId: StringFilterInput
-  hasDraft: BooleanFilterInput
   id: IDFilterInput
+  isActivated: BooleanFilterInput
   not: ContactUsFiltersInput
   or: [ContactUsFiltersInput]
-  publishedDate: DateTimeFilterInput
-  status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
-  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
-  versionNumber: IntFilterInput
 }
 
 input ContactUsInput {
   blocks: [ContactUsBlocksDynamicZoneInput!]
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
-  status: ENUM_CONTACTUS_STATUS
+  contactUsSubService: ID
+  isActivated: Boolean
   tags: [ID]
   title: String
-  unpublishedDate: DateTime
-  versionNumber: Int
 }
 
 type ContactUsRelationResponseCollection {
@@ -980,11 +1437,6 @@ type ContactUsRelationResponseCollection {
 }
 
 type ContactUsSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   contactUses(
     filters: ContactUsFiltersInput
     pagination: PaginationArg = {}
@@ -994,7 +1446,7 @@ type ContactUsSubService {
   description: String
   editorialService: EditorialServiceEntityResponse
   endDate: Date
-  isActivated: Boolean!
+  isActivated: Boolean
   label: String!
   link: String
   name: String!
@@ -1018,7 +1470,6 @@ type ContactUsSubServiceEntityResponseCollection {
 
 input ContactUsSubServiceFiltersInput {
   and: [ContactUsSubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   contactUses: ContactUsFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -1036,7 +1487,6 @@ input ContactUsSubServiceFiltersInput {
 }
 
 input ContactUsSubServiceInput {
-  audienceTypes: [ID]
   contactUses: [ID]
   description: String
   editorialService: ID
@@ -1060,34 +1510,64 @@ type ContentTypeDTO {
 }
 
 type Contract {
+  MwCounterService: MwCounterServiceEntityResponse
   alertNotificationService: AlertNotificationServiceEntityResponse
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   ccap: Long
   channelType: ChannelTypeEntityResponse
   clear: Long
   clientContact: ClientContactEntityResponse
   clientName: String!
   clientType: ENUM_CONTRACT_CLIENTTYPE!
+  collectDoorToDoors(
+    filters: CollectDoorToDoorFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDoorToDoorRelationResponseCollection
+  collectDropOffs(
+    filters: CollectDropOffFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDropOffRelationResponseCollection
+  collectVoluntaries(
+    filters: CollectVoluntaryFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectVoluntaryRelationResponseCollection
   contractCustomization: ContractCustomizationEntityResponse
   contractMenu: ContractMenuEntityResponse
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS!
-  contracts(
-    filters: ContractFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): ContractRelationResponseCollection
   createdAt: DateTime
   dropOffMapService: DropOffMapServiceEntityResponse
+  dueDate: DateTime
   editorialService: EditorialServiceEntityResponse
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowRelationResponseCollection
+  hasYesWeScan: Boolean
+  isFreemium: Boolean!
   isNonExclusive: Boolean!
   isRVFrance: Boolean!
   keyMetricsService: KeyMetricsServiceEntityResponse
   logicalDelete: Boolean
+  logo: UploadFileEntityResponse!
   numberOfInhabitants: Long
   oldClientName: String
   pathId: Long
   pickUpDayService: PickUpDayServiceEntityResponse
   recyclingGuideService: RecyclingGuideServiceEntityResponse
   requestService: RequestServiceEntityResponse
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationRelationResponseCollection
   siret: Long
   tags(
     filters: TagFiltersInput
@@ -1101,11 +1581,18 @@ type Contract {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserRelationResponseCollection
+  yes_we_scan_service(
+    filters: YesWeScanServiceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): YesWeScanServiceRelationResponseCollection
 }
 
-union ContractAndClientContact = ClientContactCreateInput | ContractCreateInput
+union ContractAndClientContact =
+    ClientContactCreateOutput
+  | ContractCreateOutput
 
-type ContractCreateInput {
+type ContractCreateOutput {
   ccap: Long
   clear: Long
   clientName: String!
@@ -1120,6 +1607,9 @@ type ContractCustomization {
   createdAt: DateTime
   footer: FooterEntityResponse
   homepage: HomepageEntityResponse
+  primaryColor: String!
+  secondaryColor: String
+  textContrast: String!
   updatedAt: DateTime
 }
 
@@ -1146,6 +1636,9 @@ input ContractCustomizationFiltersInput {
   id: IDFilterInput
   not: ContractCustomizationFiltersInput
   or: [ContractCustomizationFiltersInput]
+  primaryColor: StringFilterInput
+  secondaryColor: StringFilterInput
+  textContrast: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -1153,6 +1646,9 @@ input ContractCustomizationInput {
   contract: ID
   footer: ID
   homepage: ID
+  primaryColor: String
+  secondaryColor: String
+  textContrast: String
 }
 
 type ContractEntity {
@@ -1170,22 +1666,30 @@ type ContractEntityResponseCollection {
 }
 
 input ContractFiltersInput {
+  MwCounterService: MwCounterServiceFiltersInput
   alertNotificationService: AlertNotificationServiceFiltersInput
   and: [ContractFiltersInput]
+  audiences: AudienceFiltersInput
   ccap: LongFilterInput
   channelType: ChannelTypeFiltersInput
   clear: LongFilterInput
   clientContact: ClientContactFiltersInput
   clientName: StringFilterInput
   clientType: StringFilterInput
+  collectDoorToDoors: CollectDoorToDoorFiltersInput
+  collectDropOffs: CollectDropOffFiltersInput
+  collectVoluntaries: CollectVoluntaryFiltersInput
   contractCustomization: ContractCustomizationFiltersInput
   contractMenu: ContractMenuFiltersInput
   contractStatus: StringFilterInput
-  contracts: ContractFiltersInput
   createdAt: DateTimeFilterInput
   dropOffMapService: DropOffMapServiceFiltersInput
+  dueDate: DateTimeFilterInput
   editorialService: EditorialServiceFiltersInput
+  flows: FlowFiltersInput
+  hasYesWeScan: BooleanFilterInput
   id: IDFilterInput
+  isFreemium: BooleanFilterInput
   isNonExclusive: BooleanFilterInput
   isRVFrance: BooleanFilterInput
   keyMetricsService: KeyMetricsServiceFiltersInput
@@ -1198,41 +1702,54 @@ input ContractFiltersInput {
   pickUpDayService: PickUpDayServiceFiltersInput
   recyclingGuideService: RecyclingGuideServiceFiltersInput
   requestService: RequestServiceFiltersInput
+  sectorizations: SectorizationFiltersInput
   siret: LongFilterInput
   tags: TagFiltersInput
   territory: TerritoryFiltersInput
   updatedAt: DateTimeFilterInput
   users: UsersPermissionsUserFiltersInput
+  yes_we_scan_service: YesWeScanServiceFiltersInput
 }
 
 input ContractInput {
+  MwCounterService: ID
   alertNotificationService: ID
+  audiences: [ID]
   ccap: Long
   channelType: ID
   clear: Long
   clientContact: ID
   clientName: String
   clientType: ENUM_CONTRACT_CLIENTTYPE
+  collectDoorToDoors: [ID]
+  collectDropOffs: [ID]
+  collectVoluntaries: [ID]
   contractCustomization: ID
   contractMenu: ID
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS
-  contracts: [ID]
   dropOffMapService: ID
+  dueDate: DateTime
   editorialService: ID
+  flows: [ID]
+  hasYesWeScan: Boolean
+  isFreemium: Boolean
   isNonExclusive: Boolean
   isRVFrance: Boolean
   keyMetricsService: ID
   logicalDelete: Boolean
+  logo: ID
   numberOfInhabitants: Long
   oldClientName: String
   pathId: Long
   pickUpDayService: ID
   recyclingGuideService: ID
   requestService: ID
+  sectorizations: [ID]
   siret: Long
   tags: [ID]
   territory: ID
   users: [ID]
+  yes_we_scan_service: [ID]
 }
 
 type ContractMenu {
@@ -1279,6 +1796,7 @@ union ContractMenuServiceLinksDynamicZone =
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
@@ -1289,27 +1807,21 @@ union ContractMenuServiceLinksDynamicZone =
 
 scalar ContractMenuServiceLinksDynamicZoneInput
 
-type ContractRelationResponseCollection {
-  data: [ContractEntity!]!
-}
-
 type Cookie {
   blocks: [CookieBlocksDynamicZone]
   createdAt: DateTime
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
-  status: ENUM_COOKIE_STATUS
+  hasMobile: Boolean!
+  isActivated: Boolean
   title: String!
   updatedAt: DateTime
-  versionNumber: Int
 }
 
 union CookieBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
   | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error
 
@@ -1332,28 +1844,20 @@ type CookieEntityResponseCollection {
 input CookieFiltersInput {
   and: [CookieFiltersInput]
   createdAt: DateTimeFilterInput
-  customId: StringFilterInput
-  draftCreationId: StringFilterInput
-  hasDraft: BooleanFilterInput
+  hasMobile: BooleanFilterInput
   id: IDFilterInput
+  isActivated: BooleanFilterInput
   not: CookieFiltersInput
   or: [CookieFiltersInput]
-  publishedDate: DateTimeFilterInput
-  status: StringFilterInput
   title: StringFilterInput
   updatedAt: DateTimeFilterInput
-  versionNumber: IntFilterInput
 }
 
 input CookieInput {
   blocks: [CookieBlocksDynamicZoneInput!]
-  customId: String
-  draftCreationId: String
-  hasDraft: Boolean
-  publishedDate: DateTime
-  status: ENUM_COOKIE_STATUS
+  hasMobile: Boolean
+  isActivated: Boolean
   title: String
-  versionNumber: Int
 }
 
 type CookieRelationResponseCollection {
@@ -1361,11 +1865,6 @@ type CookieRelationResponseCollection {
 }
 
 type CookiesSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   cookies(
     filters: CookieFiltersInput
     pagination: PaginationArg = {}
@@ -1395,7 +1894,6 @@ type CookiesSubServiceEntityResponseCollection {
 
 input CookiesSubServiceFiltersInput {
   and: [CookiesSubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   cookies: CookieFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -1409,12 +1907,17 @@ input CookiesSubServiceFiltersInput {
 }
 
 input CookiesSubServiceInput {
-  audienceTypes: [ID]
   cookies: [ID]
   description: String
   editorialService: ID
   link: String
   name: String
+}
+
+type Cumbersome {
+  category: String!
+  cumbersomeName: String!
+  volume: String!
 }
 
 """
@@ -1487,11 +1990,11 @@ type DeletedMessage {
 }
 
 type DescriptionService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
+  audiences(
+    filters: AudienceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
+  ): AudienceRelationResponseCollection
   createdAt: DateTime
   name: String
   updatedAt: DateTime
@@ -1513,7 +2016,7 @@ type DescriptionServiceEntityResponseCollection {
 
 input DescriptionServiceFiltersInput {
   and: [DescriptionServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
   name: StringFilterInput
@@ -1523,7 +2026,7 @@ input DescriptionServiceFiltersInput {
 }
 
 input DescriptionServiceInput {
-  audienceTypes: [ID]
+  audiences: [ID]
   name: String
 }
 
@@ -1571,11 +2074,52 @@ type DocumentRelationResponseCollection {
 }
 
 type DropOffMap {
+  BANFeatureProperties: JSON
+  address: String
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
+  city: String
+  collectDropOff: CollectDropOffEntityResponse
+  collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
   description: String
+  downloadableFiles(
+    filters: ComponentBlocksDownloadBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksDownloadBlock]
+  dropOffMapService: DropOffMapServiceEntityResponse
+  latitude: Float
+  longitude: Float
+  mustKnow: String
   name: String
-  publishedAt: DateTime
+  openingHoursBlocks: [DropOffMapOpeningHoursBlocksDynamicZone]
+  phoneNumber: String
   updatedAt: DateTime
+}
+
+type DropOffMapDTO {
+  BANFeatureProperties: JSON
+  address: String!
+  audiences: [AudienceDTO]
+  city: String!
+  collect: CollectEntity
+  description: String
+  downloadableFiles(
+    filters: ComponentBlocksDownloadBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksDownloadBlock]
+  id: String!
+  latitude: Float!
+  longitude: Float!
+  mustKnow: String
+  name: String!
+  openingHoursBlocks: [DropOffMapOpeningHoursBlocksDynamicZone]
+  phoneNumber: String
 }
 
 type DropOffMapEntity {
@@ -1593,33 +2137,62 @@ type DropOffMapEntityResponseCollection {
 }
 
 input DropOffMapFiltersInput {
+  BANFeatureProperties: JSONFilterInput
+  address: StringFilterInput
   and: [DropOffMapFiltersInput]
+  audiences: AudienceFiltersInput
+  city: StringFilterInput
+  collectDropOff: CollectDropOffFiltersInput
+  collectVoluntary: CollectVoluntaryFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
+  downloadableFiles: ComponentBlocksDownloadBlockFiltersInput
+  dropOffMapService: DropOffMapServiceFiltersInput
   id: IDFilterInput
+  latitude: FloatFilterInput
+  longitude: FloatFilterInput
+  mustKnow: StringFilterInput
   name: StringFilterInput
   not: DropOffMapFiltersInput
   or: [DropOffMapFiltersInput]
-  publishedAt: DateTimeFilterInput
+  phoneNumber: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input DropOffMapInput {
+  BANFeatureProperties: JSON
+  address: String
+  audiences: [ID]
+  city: String
+  collectDropOff: ID
+  collectVoluntary: ID
   description: String
+  downloadableFiles: [ComponentBlocksDownloadBlockInput]
+  dropOffMapService: ID
+  latitude: Float
+  longitude: Float
+  mustKnow: String
   name: String
-  publishedAt: DateTime
+  openingHoursBlocks: [DropOffMapOpeningHoursBlocksDynamicZoneInput!]
+  phoneNumber: String
 }
+
+union DropOffMapOpeningHoursBlocksDynamicZone =
+    ComponentBlocksOpeningDay
+  | Error
+
+scalar DropOffMapOpeningHoursBlocksDynamicZoneInput
 
 type DropOffMapRelationResponseCollection {
   data: [DropOffMapEntity!]!
 }
 
 type DropOffMapService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
+  audiences(
+    filters: AudienceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
+  ): AudienceRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -1630,7 +2203,6 @@ type DropOffMapService {
   dropOffMaps(
     filters: DropOffMapFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): DropOffMapRelationResponseCollection
   endDate: Date
@@ -1656,7 +2228,7 @@ type DropOffMapServiceEntityResponseCollection {
 
 input DropOffMapServiceFiltersInput {
   and: [DropOffMapServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
+  audiences: AudienceFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -1672,7 +2244,7 @@ input DropOffMapServiceFiltersInput {
 }
 
 input DropOffMapServiceInput {
-  audienceTypes: [ID]
+  audiences: [ID]
   cities: [ID]
   contract: ID
   dropOffMaps: [ID]
@@ -1692,10 +2264,65 @@ enum ENUM_ACCESSIBILITY_STATUS {
   published
 }
 
-enum ENUM_CGU_STATUS {
-  archived
-  draft
-  published
+enum ENUM_AUDIENCE_TYPE {
+  Collectifs
+  Particuliers
+  Professionnels
+}
+
+enum ENUM_COLLECTDOORTODOOR_GRAMMATICALGENDER {
+  feminin
+  masculin
+}
+
+enum ENUM_COLLECTDROPOFF_GRAMMATICALGENDER {
+  feminin
+  masculin
+}
+
+enum ENUM_COLLECTVOLUNTARY_GRAMMATICALGENDER {
+  feminin
+  masculin
+}
+
+enum ENUM_COMPONENTBLOCKSCHECKBOX_FIELDSTATUSCHECKBOX {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSCOMMENTARY_COMMENTARYSTATUS {
+  Facultatif
+  Obligatoire
+}
+
+enum ENUM_COMPONENTBLOCKSDATECHOICE_FIELDSTATUS {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSOPENINGDAY_WEEKDAY {
+  Dimanche
+  Jeudi
+  Lundi
+  Mardi
+  Mercredi
+  Samedi
+  Vendredi
+}
+
+enum ENUM_COMPONENTBLOCKSQCM_FIELDSTATUSQCM {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSQUESTIONS_TEXTSTATUS {
+  Obligatoire
+  Optionnel
+}
+
+enum ENUM_COMPONENTBLOCKSREQUESTSLOTSEXCEPTIONS_EXCEPTIONTYPE {
+  daily
+  dateRange
 }
 
 enum ENUM_COMPONENTBLOCKSSUBHEADING_SUBHEADINGTAG {
@@ -1722,18 +2349,6 @@ enum ENUM_COMPONENTLINKSREQUEST_DEMAND {
   E
 }
 
-enum ENUM_CONFIDENTIALITY_STATUS {
-  archived
-  draft
-  published
-}
-
-enum ENUM_CONTACTUS_STATUS {
-  archived
-  draft
-  published
-}
-
 enum ENUM_CONTRACT_CLIENTTYPE {
   city
   epci
@@ -1744,12 +2359,6 @@ enum ENUM_CONTRACT_CONTRACTSTATUS {
   Actif
   En_cours
   Initialisation
-}
-
-enum ENUM_COOKIE_STATUS {
-  archived
-  draft
-  published
 }
 
 enum ENUM_EDITOCONTENTDTO_STATUS {
@@ -1770,6 +2379,12 @@ enum ENUM_EXPORTENTITY_STATUS {
   New
 }
 
+enum ENUM_FLOW_RECYCLINGGESTURE {
+  no_trash
+  to_sort
+  to_trash
+}
+
 enum ENUM_FOOTER_ACCESSIBILITYLEVEL {
   conform
   not_conform
@@ -1782,16 +2397,31 @@ enum ENUM_FREECONTENT_STATUS {
   published
 }
 
+enum ENUM_MWCFLOW_WEIGHTSYSTEM {
+  Dynamic
+  Outlet
+}
+
 enum ENUM_NEW_STATUS {
   archived
   draft
   published
 }
 
+enum ENUM_PICKUPDAY_PERIODICITY {
+  hebdomadaire
+  mensuel
+}
+
 enum ENUM_QUIZ_STATUS {
   archived
   draft
   published
+}
+
+enum ENUM_REQUESTSLOT_SLOTTYPE {
+  personalized
+  weekly
 }
 
 enum ENUM_TIP_STATUS {
@@ -1806,25 +2436,33 @@ enum ENUM_TOPCONTENTDTO_STATUS {
   published
 }
 
+enum ENUM_WASTEFORM_STATUS {
+  archived
+  draft
+  published
+}
+
 type EditoBlock {
+  audience: AudienceEntityResponse
   createdAt: DateTime
   displayBlock: Boolean!
-  editoContents(
-    filters: EditoContentFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): EditoContentRelationResponseCollection
+  editoContents: [EditoBlockEditoContentsDynamicZone]
   homepage: HomepageEntityResponse
   titleContent: String!
   updatedAt: DateTime
 }
 
 type EditoBlockDTO {
+  audienceId: ID!
   displayBlock: Boolean!
   editoContents: [EditoContentDTO]
   id: ID!
   titleContent: String!
 }
+
+union EditoBlockEditoContentsDynamicZone = ComponentLinksEditoContent | Error
+
+scalar EditoBlockEditoContentsDynamicZoneInput
 
 type EditoBlockEntity {
   attributes: EditoBlock
@@ -1842,9 +2480,9 @@ type EditoBlockEntityResponseCollection {
 
 input EditoBlockFiltersInput {
   and: [EditoBlockFiltersInput]
+  audience: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   displayBlock: BooleanFilterInput
-  editoContents: EditoContentFiltersInput
   homepage: HomepageFiltersInput
   id: IDFilterInput
   not: EditoBlockFiltersInput
@@ -1854,79 +2492,31 @@ input EditoBlockFiltersInput {
 }
 
 input EditoBlockInput {
+  audience: ID
   displayBlock: Boolean
-  editoContents: [ID]
+  editoContents: [EditoBlockEditoContentsDynamicZoneInput!]
   homepage: ID
   titleContent: String
 }
 
-type EditoContent {
-  createdAt: DateTime
-  editoBlock: EditoBlockEntityResponse
-  editorialService: EditorialServiceEntityResponse
-  event: EventEntityResponse
-  freeContent: FreeContentEntityResponse
-  news: NewEntityResponse
-  quiz: QuizEntityResponse
-  tip: TipEntityResponse
-  updatedAt: DateTime
+type EditoBlockRelationResponseCollection {
+  data: [EditoBlockEntity!]!
 }
 
 type EditoContentDTO {
   attributes: EditoContentDTOAttributes!
+  audienceId: ID
+  componentId: ID
   contentType: String!
   id: ID!
   typeName: String!
+  uniqueId: ID!
 }
 
 type EditoContentDTOAttributes {
   publishedDate: DateTime
   status: ENUM_EDITOCONTENTDTO_STATUS
   title: String!
-}
-
-type EditoContentEntity {
-  attributes: EditoContent
-  id: ID
-}
-
-type EditoContentEntityResponse {
-  data: EditoContentEntity
-}
-
-type EditoContentEntityResponseCollection {
-  data: [EditoContentEntity!]!
-  meta: ResponseCollectionMeta!
-}
-
-input EditoContentFiltersInput {
-  and: [EditoContentFiltersInput]
-  createdAt: DateTimeFilterInput
-  editoBlock: EditoBlockFiltersInput
-  editorialService: EditorialServiceFiltersInput
-  event: EventFiltersInput
-  freeContent: FreeContentFiltersInput
-  id: IDFilterInput
-  news: NewFiltersInput
-  not: EditoContentFiltersInput
-  or: [EditoContentFiltersInput]
-  quiz: QuizFiltersInput
-  tip: TipFiltersInput
-  updatedAt: DateTimeFilterInput
-}
-
-input EditoContentInput {
-  editoBlock: ID
-  editorialService: ID
-  event: ID
-  freeContent: ID
-  news: ID
-  quiz: ID
-  tip: ID
-}
-
-type EditoContentRelationResponseCollection {
-  data: [EditoContentEntity!]!
 }
 
 type EditorialService {
@@ -1942,11 +2532,6 @@ type EditorialService {
   contract: ContractEntityResponse
   cookiesSubService: CookiesSubServiceEntityResponse
   createdAt: DateTime
-  editoContents(
-    filters: EditoContentFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): EditoContentRelationResponseCollection
   eventSubService: EventSubServiceEntityResponse
   freeContentSubServices(
     filters: FreeContentSubServiceFiltersInput
@@ -1956,11 +2541,6 @@ type EditorialService {
   newsSubService: NewsSubServiceEntityResponse
   quizSubService: QuizSubServiceEntityResponse
   tipSubService: TipSubServiceEntityResponse
-  topContents(
-    filters: TopContentFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): TopContentRelationResponseCollection
   updatedAt: DateTime
 }
 
@@ -1988,7 +2568,6 @@ input EditorialServiceFiltersInput {
   contract: ContractFiltersInput
   cookiesSubService: CookiesSubServiceFiltersInput
   createdAt: DateTimeFilterInput
-  editoContents: EditoContentFiltersInput
   eventSubService: EventSubServiceFiltersInput
   freeContentSubServices: FreeContentSubServiceFiltersInput
   id: IDFilterInput
@@ -1997,7 +2576,6 @@ input EditorialServiceFiltersInput {
   or: [EditorialServiceFiltersInput]
   quizSubService: QuizSubServiceFiltersInput
   tipSubService: TipSubServiceFiltersInput
-  topContents: TopContentFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -2009,17 +2587,21 @@ input EditorialServiceInput {
   contactUsSubService: ID
   contract: ID
   cookiesSubService: ID
-  editoContents: [ID]
   eventSubService: ID
   freeContentSubServices: [ID]
   newsSubService: ID
   quizSubService: ID
   tipSubService: ID
-  topContents: [ID]
+}
+
+type EnrichRequest {
+  dynamicAppointments: Int
+  requestId: ID
+  requestName: String
 }
 
 type Epci {
-  city: CityEntityResponse
+  cities: CityEntityResponse
   createdAt: DateTime
   name: String
   territories(
@@ -2046,7 +2628,7 @@ type EpciEntityResponseCollection {
 
 input EpciFiltersInput {
   and: [EpciFiltersInput]
-  city: CityFiltersInput
+  cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   id: IDFilterInput
   name: StringFilterInput
@@ -2057,7 +2639,7 @@ input EpciFiltersInput {
 }
 
 input EpciInput {
-  city: ID
+  cities: ID
   name: String
   territories: [ID]
 }
@@ -2072,15 +2654,20 @@ type Error {
 }
 
 type Event {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   blocks: [EventBlocksDynamicZone]
   createdAt: DateTime
+  customId: String
   documents(
     filters: DocumentFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): DocumentRelationResponseCollection
   draftCreationId: String
-  editoContent: EditoContentEntityResponse
   eventSubService: EventSubServiceEntityResponse
   events(
     filters: EventFiltersInput
@@ -2089,7 +2676,6 @@ type Event {
   ): EventRelationResponseCollection
   hasDraft: Boolean
   image: UploadFileEntityResponse!
-  linkToServices: [EventLinkToServicesDynamicZone]
   publishedDate: DateTime
   shortDescription: String
   status: ENUM_EVENT_STATUS
@@ -2099,15 +2685,17 @@ type Event {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
-  topContent: TopContentEntityResponse
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union EventBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksServices
   | ComponentBlocksSubHeading
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
@@ -2131,10 +2719,11 @@ type EventEntityResponseCollection {
 
 input EventFiltersInput {
   and: [EventFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   documents: DocumentFiltersInput
   draftCreationId: StringFilterInput
-  editoContent: EditoContentFiltersInput
   eventSubService: EventSubServiceFiltersInput
   events: EventFiltersInput
   hasDraft: BooleanFilterInput
@@ -2146,40 +2735,31 @@ input EventFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
-  topContent: TopContentFiltersInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input EventInput {
+  audiences: [ID]
   blocks: [EventBlocksDynamicZoneInput!]
+  customId: String
   documents: [ID]
   draftCreationId: String
-  editoContent: ID
   eventSubService: ID
   events: [ID]
   hasDraft: Boolean
   image: ID
-  linkToServices: [EventLinkToServicesDynamicZoneInput!]
   publishedDate: DateTime
   shortDescription: String
   status: ENUM_EVENT_STATUS
   tags: [ID]
   title: String
-  topContent: ID
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
+  versionNumber: Int
 }
-
-union EventLinkToServicesDynamicZone =
-    ComponentLinksAlertNotification
-  | ComponentLinksDropOffMap
-  | ComponentLinksEditorial
-  | ComponentLinksPickUpDay
-  | ComponentLinksRecyclingGuide
-  | ComponentLinksRequest
-  | Error
-
-scalar EventLinkToServicesDynamicZoneInput
 
 type EventOrNews {
   image: UploadFile
@@ -2188,6 +2768,7 @@ type EventOrNews {
   shortDescription: String
   tags: [Tag]
   title: String!
+  type: EventsOrNewsType!
 }
 
 type EventRelationResponseCollection {
@@ -2195,11 +2776,6 @@ type EventRelationResponseCollection {
 }
 
 type EventSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -2236,7 +2812,6 @@ type EventSubServiceEntityResponseCollection {
 
 input EventSubServiceFiltersInput {
   and: [EventSubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -2253,7 +2828,6 @@ input EventSubServiceFiltersInput {
 }
 
 input EventSubServiceInput {
-  audienceTypes: [ID]
   cities: [ID]
   description: String
   editorialService: ID
@@ -2266,6 +2840,11 @@ input EventSubServiceInput {
 
 type EventSubServiceRelationResponseCollection {
   data: [EventSubServiceEntity!]!
+}
+
+enum EventsOrNewsType {
+  event
+  new
 }
 
 type ExportEntity {
@@ -2311,9 +2890,16 @@ input ExportEntityInput {
   status: ENUM_EXPORTENTITY_STATUS
 }
 
+type File {
+  id: Int!
+  name: String!
+  url: String!
+}
+
 input FileInfoInput {
   alternativeText: String
   caption: String
+  folder: ID
   name: String
 }
 
@@ -2348,6 +2934,140 @@ input FloatFilterInput {
   null: Boolean
   or: [Float]
   startsWith: Float
+}
+
+type Flow {
+  code: String
+  collectDoorToDoors(
+    filters: CollectDoorToDoorFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDoorToDoorRelationResponseCollection
+  collectDropOffs(
+    filters: CollectDropOffFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDropOffRelationResponseCollection
+  collectVoluntaries(
+    filters: CollectVoluntaryFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectVoluntaryRelationResponseCollection
+  color: FlowColorEntityResponse
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  isActivated: Boolean
+  mwcFlow: MwcFlowEntityResponse
+  name: String
+  pickUpDays(
+    filters: PickUpDayFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): PickUpDayRelationResponseCollection
+  recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE!
+  updatedAt: DateTime
+  wasteForms(
+    filters: WasteFormFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WasteFormRelationResponseCollection
+}
+
+type FlowColor {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  hexaCode: String!
+  name: String!
+  shouldChangeHexaCode: Boolean!
+  updatedAt: DateTime
+}
+
+type FlowColorEntity {
+  attributes: FlowColor
+  id: ID
+}
+
+type FlowColorEntityResponse {
+  data: FlowColorEntity
+}
+
+type FlowColorEntityResponseCollection {
+  data: [FlowColorEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input FlowColorFiltersInput {
+  and: [FlowColorFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  hexaCode: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: FlowColorFiltersInput
+  or: [FlowColorFiltersInput]
+  shouldChangeHexaCode: BooleanFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input FlowColorInput {
+  contract: ID
+  hexaCode: String
+  name: String
+  shouldChangeHexaCode: Boolean
+}
+
+type FlowEntity {
+  attributes: Flow
+  id: ID
+}
+
+type FlowEntityResponse {
+  data: FlowEntity
+}
+
+type FlowEntityResponseCollection {
+  data: [FlowEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input FlowFiltersInput {
+  and: [FlowFiltersInput]
+  code: StringFilterInput
+  collectDoorToDoors: CollectDoorToDoorFiltersInput
+  collectDropOffs: CollectDropOffFiltersInput
+  collectVoluntaries: CollectVoluntaryFiltersInput
+  color: FlowColorFiltersInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  isActivated: BooleanFilterInput
+  mwcFlow: MwcFlowFiltersInput
+  name: StringFilterInput
+  not: FlowFiltersInput
+  or: [FlowFiltersInput]
+  pickUpDays: PickUpDayFiltersInput
+  recyclingGesture: StringFilterInput
+  updatedAt: DateTimeFilterInput
+  wasteForms: WasteFormFiltersInput
+}
+
+input FlowInput {
+  code: String
+  collectDoorToDoors: [ID]
+  collectDropOffs: [ID]
+  collectVoluntaries: [ID]
+  color: ID
+  contract: ID
+  isActivated: Boolean
+  mwcFlow: ID
+  name: String
+  pickUpDays: [ID]
+  recyclingGesture: ENUM_FLOW_RECYCLINGGESTURE
+  wasteForms: [ID]
+}
+
+type FlowRelationResponseCollection {
+  data: [FlowEntity!]!
 }
 
 type Folders {
@@ -2410,14 +3130,18 @@ input FooterInput {
 }
 
 type FreeContent {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   blocks: [FreeContentBlocksDynamicZone]
   createdAt: DateTime
+  customId: String
   draftCreationId: String
-  editoContent: EditoContentEntityResponse
   freeContentSubService: FreeContentSubServiceEntityResponse
   hasDraft: Boolean
   image: UploadFileEntityResponse!
-  linkToServices: [FreeContentLinkToServicesDynamicZone]
   publishedDate: DateTime
   shortDescription: String
   status: ENUM_FREECONTENT_STATUS
@@ -2427,14 +3151,17 @@ type FreeContent {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union FreeContentBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksServices
   | ComponentBlocksSubHeading
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
@@ -2458,9 +3185,10 @@ type FreeContentEntityResponseCollection {
 
 input FreeContentFiltersInput {
   and: [FreeContentFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   draftCreationId: StringFilterInput
-  editoContent: EditoContentFiltersInput
   freeContentSubService: FreeContentSubServiceFiltersInput
   hasDraft: BooleanFilterInput
   id: IDFilterInput
@@ -2471,47 +3199,35 @@ input FreeContentFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input FreeContentInput {
+  audiences: [ID]
   blocks: [FreeContentBlocksDynamicZoneInput!]
+  customId: String
   draftCreationId: String
-  editoContent: ID
   freeContentSubService: ID
   hasDraft: Boolean
   image: ID
-  linkToServices: [FreeContentLinkToServicesDynamicZoneInput!]
   publishedDate: DateTime
   shortDescription: String
   status: ENUM_FREECONTENT_STATUS
   tags: [ID]
   title: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
+  versionNumber: Int
 }
-
-union FreeContentLinkToServicesDynamicZone =
-    ComponentLinksAlertNotification
-  | ComponentLinksDropOffMap
-  | ComponentLinksEditorial
-  | ComponentLinksPickUpDay
-  | ComponentLinksRecyclingGuide
-  | ComponentLinksRequest
-  | Error
-
-scalar FreeContentLinkToServicesDynamicZoneInput
 
 type FreeContentRelationResponseCollection {
   data: [FreeContentEntity!]!
 }
 
 type FreeContentSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -2548,7 +3264,6 @@ type FreeContentSubServiceEntityResponseCollection {
 
 input FreeContentSubServiceFiltersInput {
   and: [FreeContentSubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -2565,7 +3280,6 @@ input FreeContentSubServiceFiltersInput {
 }
 
 input FreeContentSubServiceInput {
-  audienceTypes: [ID]
   cities: [ID]
   description: String
   editorialService: ID
@@ -2585,32 +3299,52 @@ union GenericMorph =
   | AccessibilitySubService
   | AlertNotification
   | AlertNotificationService
-  | AudienceType
+  | AlertUserStorage
+  | Audience
   | Cgu
   | CguSubService
   | ChannelType
   | City
   | ClientContact
+  | CollectDoorToDoor
+  | CollectDropOff
+  | CollectVoluntary
+  | ComponentBlocksAttachments
+  | ComponentBlocksCheckbox
+  | ComponentBlocksCommentary
+  | ComponentBlocksCumbersome
+  | ComponentBlocksDateChoice
+  | ComponentBlocksDownloadBlock
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksOpeningDay
+  | ComponentBlocksQcm
+  | ComponentBlocksQuestions
+  | ComponentBlocksRequestSlotsExceptions
+  | ComponentBlocksRequestType
+  | ComponentBlocksServices
   | ComponentBlocksSubHeading
+  | ComponentBlocksTest
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | ComponentLinksAlertNotification
   | ComponentLinksContactUs
   | ComponentLinksDropOffMap
+  | ComponentLinksEditoContent
   | ComponentLinksEditorial
   | ComponentLinksEvents
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
   | ComponentLinksRecyclingGuide
   | ComponentLinksRequest
   | ComponentLinksTips
+  | ComponentLinksTopContent
   | Confidentiality
   | ConfidentialitySubService
   | ContactUs
@@ -2625,20 +3359,24 @@ union GenericMorph =
   | DropOffMap
   | DropOffMapService
   | EditoBlock
-  | EditoContent
   | EditorialService
   | Epci
   | Event
   | EventSubService
   | ExportEntity
+  | Flow
+  | FlowColor
   | Footer
   | FreeContent
   | FreeContentSubService
   | Global
   | Homepage
   | I18NLocale
+  | InformationMessage
   | KeyMetric
   | KeyMetricsService
+  | MwCounterService
+  | MwcFlow
   | New
   | NewsSubService
   | PickUpDay
@@ -2649,22 +3387,29 @@ union GenericMorph =
   | RecyclingGuideBlock
   | RecyclingGuideService
   | Request
+  | RequestAggregate
   | RequestService
+  | RequestSlot
+  | RequestTaked
   | SearchEngineBlock
+  | Sectorization
   | ServicesBlock
   | Tag
   | Territory
   | TerritoryType
   | Tip
   | TipSubService
-  | TopContent
   | TopContentBlock
   | UploadFile
   | UploadFolder
+  | UserDataStorage
   | UsersPermissionsPermission
   | UsersPermissionsRole
   | UsersPermissionsUser
+  | WasteFamily
   | WasteForm
+  | WelcomeMessageBlock
+  | YesWeScanService
 
 type Global {
   createdAt: DateTime
@@ -2689,16 +3434,41 @@ input GlobalInput {
   siteName: String
 }
 
+type Historic {
+  city: String
+  date: String
+  name: String
+  recipient: String
+  type: String
+}
+
 type Homepage {
   contractCustomization: ContractCustomizationEntityResponse
   createdAt: DateTime
-  editoBlock: EditoBlockEntityResponse
-  quizAndTipsBlock: QuizAndTipsBlockEntityResponse
+  editoBlocks(
+    filters: EditoBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): EditoBlockRelationResponseCollection
+  quizAndTipsBlocks(
+    filters: QuizAndTipsBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): QuizAndTipsBlockRelationResponseCollection
   recyclingGuideBlock: RecyclingGuideBlockEntityResponse
   searchEngineBlock: SearchEngineBlockEntityResponse
-  servicesBlock: ServicesBlockEntityResponse
-  topContentBlock: TopContentBlockEntityResponse
+  servicesBlocks(
+    filters: ServicesBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): ServicesBlockRelationResponseCollection
+  topContentBlocks(
+    filters: TopContentBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): TopContentBlockRelationResponseCollection
   updatedAt: DateTime
+  welcomeMessageBlock: WelcomeMessageBlockEntityResponse
 }
 
 type HomepageEntity {
@@ -2719,26 +3489,28 @@ input HomepageFiltersInput {
   and: [HomepageFiltersInput]
   contractCustomization: ContractCustomizationFiltersInput
   createdAt: DateTimeFilterInput
-  editoBlock: EditoBlockFiltersInput
+  editoBlocks: EditoBlockFiltersInput
   id: IDFilterInput
   not: HomepageFiltersInput
   or: [HomepageFiltersInput]
-  quizAndTipsBlock: QuizAndTipsBlockFiltersInput
+  quizAndTipsBlocks: QuizAndTipsBlockFiltersInput
   recyclingGuideBlock: RecyclingGuideBlockFiltersInput
   searchEngineBlock: SearchEngineBlockFiltersInput
-  servicesBlock: ServicesBlockFiltersInput
-  topContentBlock: TopContentBlockFiltersInput
+  servicesBlocks: ServicesBlockFiltersInput
+  topContentBlocks: TopContentBlockFiltersInput
   updatedAt: DateTimeFilterInput
+  welcomeMessageBlock: WelcomeMessageBlockFiltersInput
 }
 
 input HomepageInput {
   contractCustomization: ID
-  editoBlock: ID
-  quizAndTipsBlock: ID
+  editoBlocks: [ID]
+  quizAndTipsBlocks: [ID]
   recyclingGuideBlock: ID
   searchEngineBlock: ID
-  servicesBlock: ID
-  topContentBlock: ID
+  servicesBlocks: [ID]
+  topContentBlocks: [ID]
+  welcomeMessageBlock: ID
 }
 
 type I18NLocale {
@@ -2795,6 +3567,64 @@ input IDFilterInput {
   null: Boolean
   or: [ID]
   startsWith: ID
+}
+
+type Image {
+  alternativeText: String
+  hash: String
+  height: String
+  mime: String
+  name: String
+  size: String
+  url: String
+  width: String
+}
+
+type InformationMessage {
+  createdAt: DateTime
+  dateEnd: String
+  dateStart: String!
+  infoMessage: String!
+  pickUpDays(
+    filters: PickUpDayFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): PickUpDayRelationResponseCollection
+  updatedAt: DateTime
+}
+
+type InformationMessageEntity {
+  attributes: InformationMessage
+  id: ID
+}
+
+type InformationMessageEntityResponse {
+  data: InformationMessageEntity
+}
+
+type InformationMessageEntityResponseCollection {
+  data: [InformationMessageEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input InformationMessageFiltersInput {
+  and: [InformationMessageFiltersInput]
+  createdAt: DateTimeFilterInput
+  dateEnd: StringFilterInput
+  dateStart: StringFilterInput
+  id: IDFilterInput
+  infoMessage: StringFilterInput
+  not: InformationMessageFiltersInput
+  or: [InformationMessageFiltersInput]
+  pickUpDays: PickUpDayFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input InformationMessageInput {
+  dateEnd: String
+  dateStart: String
+  infoMessage: String
+  pickUpDays: [ID]
 }
 
 input IntFilterInput {
@@ -2892,11 +3722,11 @@ type KeyMetricRelationResponseCollection {
 }
 
 type KeyMetricsService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
+  audiences(
+    filters: AudienceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
+  ): AudienceRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -2933,7 +3763,7 @@ type KeyMetricsServiceEntityResponseCollection {
 
 input KeyMetricsServiceFiltersInput {
   and: [KeyMetricsServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
+  audiences: AudienceFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -2949,7 +3779,7 @@ input KeyMetricsServiceFiltersInput {
 }
 
 input KeyMetricsServiceInput {
-  audienceTypes: [ID]
+  audiences: [ID]
   cities: [ID]
   contract: ID
   endDate: Date
@@ -2961,6 +3791,11 @@ input KeyMetricsServiceInput {
 
 type KeyMetricsServiceRelationResponseCollection {
   data: [KeyMetricsServiceEntity!]!
+}
+
+type LinkedServices {
+  id: ID
+  name: String
 }
 
 """
@@ -2993,6 +3828,7 @@ input LongFilterInput {
 }
 
 type Mutation {
+  addCommuneToContract(ContractId: ID!, commune: CommuneInput!): ContractEntity
   bulkDeleteMedias(
     fileRequests: [RequestFile]!
     folderRequests: [RequestFolder]!
@@ -3028,12 +3864,22 @@ type Mutation {
   createAlertNotificationService(
     data: AlertNotificationServiceInput!
   ): AlertNotificationServiceEntityResponse
-  createAudienceType(data: AudienceTypeInput!): AudienceTypeEntityResponse
+  createAlertUserStorage(
+    data: AlertUserStorageInput!
+  ): AlertUserStorageEntityResponse
+  createAudience(data: AudienceInput!): AudienceEntityResponse
   createCgu(data: CguInput!): CguEntityResponse
   createCguSubService(data: CguSubServiceInput!): CguSubServiceEntityResponse
   createChannelType(data: ChannelTypeInput!): ChannelTypeEntityResponse
   createCity(data: CityInput!): CityEntityResponse
   createClientContact(data: ClientContactInput!): ClientContactEntityResponse
+  createCollectDoorToDoor(
+    data: CollectDoorToDoorInput!
+  ): CollectDoorToDoorEntityResponse
+  createCollectDropOff(data: CollectDropOffInput!): CollectDropOffEntityResponse
+  createCollectVoluntary(
+    data: CollectVoluntaryInput!
+  ): CollectVoluntaryEntityResponse
   createConfidentiality(
     data: ConfidentialityInput!
   ): ConfidentialityEntityResponse
@@ -3067,7 +3913,6 @@ type Mutation {
     data: DropOffMapServiceInput!
   ): DropOffMapServiceEntityResponse
   createEditoBlock(data: EditoBlockInput!): EditoBlockEntityResponse
-  createEditoContent(data: EditoContentInput!): EditoContentEntityResponse
   createEditorialService(
     data: EditorialServiceInput!
   ): EditorialServiceEntityResponse
@@ -3080,7 +3925,10 @@ type Mutation {
     contactFirstName: String!
     contactLastName: String!
     contactPhoneNumber: String!
+    isFreemium: Boolean!
+    isNonExclusive: Boolean!
     isRVFrance: Boolean!
+    servicesToActivate: [ServiceType]!
     siretNumber: Long
   ): [ContractAndClientContact]
   createEpci(data: EpciInput!): EpciEntityResponse
@@ -3089,16 +3937,25 @@ type Mutation {
     data: EventSubServiceInput!
   ): EventSubServiceEntityResponse
   createExportEntity(data: ExportEntityInput!): ExportEntityEntityResponse
+  createFlow(data: FlowInput!): FlowEntityResponse
+  createFlowColor(data: FlowColorInput!): FlowColorEntityResponse
   createFooter(data: FooterInput!): FooterEntityResponse
   createFreeContent(data: FreeContentInput!): FreeContentEntityResponse
   createFreeContentSubService(
     data: FreeContentSubServiceInput!
   ): FreeContentSubServiceEntityResponse
   createHomepage(data: HomepageInput!): HomepageEntityResponse
+  createInformationMessage(
+    data: InformationMessageInput!
+  ): InformationMessageEntityResponse
   createKeyMetric(data: KeyMetricInput!): KeyMetricEntityResponse
   createKeyMetricsService(
     data: KeyMetricsServiceInput!
   ): KeyMetricsServiceEntityResponse
+  createMwCounterService(
+    data: MwCounterServiceInput!
+  ): MwCounterServiceEntityResponse
+  createMwcFlow(data: MwcFlowInput!): MwcFlowEntityResponse
   createNew(data: NewInput!): NewEntityResponse
   createNewFolder(
     name: String!
@@ -3123,22 +3980,30 @@ type Mutation {
     data: RecyclingGuideServiceInput!
   ): RecyclingGuideServiceEntityResponse
   createRequest(data: RequestInput!): RequestEntityResponse
+  createRequestAggregate(
+    data: RequestAggregateInput!
+  ): RequestAggregateEntityResponse
   createRequestService(data: RequestServiceInput!): RequestServiceEntityResponse
+  createRequestSlot(data: RequestSlotInput!): RequestSlotEntityResponse
+  createRequestTaked(data: RequestTakedInput!): RequestTakedEntityResponse
   createSearchEngineBlock(
     data: SearchEngineBlockInput!
   ): SearchEngineBlockEntityResponse
+  createSectorization(data: SectorizationInput!): SectorizationEntityResponse
   createServicesBlock(data: ServicesBlockInput!): ServicesBlockEntityResponse
   createTag(data: TagInput!): TagEntityResponse
   createTerritory(data: TerritoryInput!): TerritoryEntityResponse
   createTerritoryType(data: TerritoryTypeInput!): TerritoryTypeEntityResponse
   createTip(data: TipInput!): TipEntityResponse
   createTipSubService(data: TipSubServiceInput!): TipSubServiceEntityResponse
-  createTopContent(data: TopContentInput!): TopContentEntityResponse
   createTopContentBlock(
     data: TopContentBlockInput!
   ): TopContentBlockEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
+  createUserDataStorage(
+    data: UserDataStorageInput!
+  ): UserDataStorageEntityResponse
 
   """
   Create a new role
@@ -3153,19 +4018,32 @@ type Mutation {
   createUsersPermissionsUser(
     data: UsersPermissionsUserInput!
   ): UsersPermissionsUserEntityResponse!
+  createWasteFamily(data: WasteFamilyInput!): WasteFamilyEntityResponse
   createWasteForm(data: WasteFormInput!): WasteFormEntityResponse
+  createWelcomeMessageBlock(
+    data: WelcomeMessageBlockInput!
+  ): WelcomeMessageBlockEntityResponse
+  createYesWeScanService(
+    data: YesWeScanServiceInput!
+  ): YesWeScanServiceEntityResponse
+  createYwsService(contractId: ID!, service: ServiceInput!): Boolean
   deleteAccessibility(id: ID!): AccessibilityEntityResponse
   deleteAccessibilitySubService(id: ID!): AccessibilitySubServiceEntityResponse
   deleteAlertNotification(id: ID!): AlertNotificationEntityResponse
   deleteAlertNotificationService(
     id: ID!
   ): AlertNotificationServiceEntityResponse
-  deleteAudienceType(id: ID!): AudienceTypeEntityResponse
+  deleteAlertUserStorage(id: ID!): AlertUserStorageEntityResponse
+  deleteAlertUserStorageComplete(email: String, phoneNumber: String): Int
+  deleteAudience(id: ID!): AudienceEntityResponse
   deleteCgu(id: ID!): CguEntityResponse
   deleteCguSubService(id: ID!): CguSubServiceEntityResponse
   deleteChannelType(id: ID!): ChannelTypeEntityResponse
   deleteCity(id: ID!): CityEntityResponse
   deleteClientContact(id: ID!): ClientContactEntityResponse
+  deleteCollectDoorToDoor(id: ID!): CollectDoorToDoorEntityResponse
+  deleteCollectDropOff(id: ID!): CollectDropOffEntityResponse
+  deleteCollectVoluntary(id: ID!): CollectVoluntaryEntityResponse
   deleteConfidentiality(id: ID!): ConfidentialityEntityResponse
   deleteConfidentialitySubService(
     id: ID!
@@ -3183,19 +4061,23 @@ type Mutation {
   deleteDropOffMap(id: ID!): DropOffMapEntityResponse
   deleteDropOffMapService(id: ID!): DropOffMapServiceEntityResponse
   deleteEditoBlock(id: ID!): EditoBlockEntityResponse
-  deleteEditoContent(id: ID!): EditoContentEntityResponse
   deleteEditorialService(id: ID!): EditorialServiceEntityResponse
   deleteEpci(id: ID!): EpciEntityResponse
   deleteEvent(id: ID!): EventEntityResponse
   deleteEventSubService(id: ID!): EventSubServiceEntityResponse
   deleteExportEntity(id: ID!): ExportEntityEntityResponse
+  deleteFlow(id: ID!): FlowEntityResponse
+  deleteFlowColor(id: ID!): FlowColorEntityResponse
   deleteFooter(id: ID!): FooterEntityResponse
   deleteFreeContent(id: ID!): FreeContentEntityResponse
   deleteFreeContentSubService(id: ID!): FreeContentSubServiceEntityResponse
   deleteGlobal: GlobalEntityResponse
   deleteHomepage(id: ID!): HomepageEntityResponse
+  deleteInformationMessage(id: ID!): InformationMessageEntityResponse
   deleteKeyMetric(id: ID!): KeyMetricEntityResponse
   deleteKeyMetricsService(id: ID!): KeyMetricsServiceEntityResponse
+  deleteMwCounterService(id: ID!): MwCounterServiceEntityResponse
+  deleteMwcFlow(id: ID!): MwcFlowEntityResponse
   deleteNew(id: ID!): NewEntityResponse
   deleteNewsSubService(id: ID!): NewsSubServiceEntityResponse
   deletePickUpDay(id: ID!): PickUpDayEntityResponse
@@ -3206,18 +4088,23 @@ type Mutation {
   deleteRecyclingGuideBlock(id: ID!): RecyclingGuideBlockEntityResponse
   deleteRecyclingGuideService(id: ID!): RecyclingGuideServiceEntityResponse
   deleteRequest(id: ID!): RequestEntityResponse
+  deleteRequestAggregate(id: ID!): RequestAggregateEntityResponse
   deleteRequestService(id: ID!): RequestServiceEntityResponse
+  deleteRequestSlot(id: ID!): RequestSlotEntityResponse
+  deleteRequestTaked(id: ID!): RequestTakedEntityResponse
   deleteSearchEngineBlock(id: ID!): SearchEngineBlockEntityResponse
+  deleteSectorization(id: ID!): SectorizationEntityResponse
   deleteServicesBlock(id: ID!): ServicesBlockEntityResponse
   deleteTag(id: ID!): TagEntityResponse
   deleteTerritory(id: ID!): TerritoryEntityResponse
   deleteTerritoryType(id: ID!): TerritoryTypeEntityResponse
   deleteTip(id: ID!): TipEntityResponse
   deleteTipSubService(id: ID!): TipSubServiceEntityResponse
-  deleteTopContent(id: ID!): TopContentEntityResponse
   deleteTopContentBlock(id: ID!): TopContentBlockEntityResponse
+  deleteUnusedSectors(id: ID!): Sectorization
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
+  deleteUserDataStorage(id: ID!): UserDataStorageEntityResponse
 
   """
   Delete an existing role
@@ -3228,21 +4115,27 @@ type Mutation {
   Delete an existing user
   """
   deleteUsersPermissionsUser(id: ID!): UsersPermissionsUserEntityResponse!
+  deleteWasteFamily(id: ID!): WasteFamilyEntityResponse
   deleteWasteForm(id: ID!): WasteFormEntityResponse
+  deleteWelcomeMessageBlock(id: ID!): WelcomeMessageBlockEntityResponse
+  deleteYesWeScanService(id: ID!): YesWeScanServiceEntityResponse
+  deleteYwsService(id: ID!): Boolean
   duplicateContent(id: ID!, type: String): Boolean
 
   """
   Confirm an email users email address
   """
   emailConfirmation(confirmation: String!): UsersPermissionsLoginPayload
-  endDateServices: Boolean
+  endDateServices: [ServicesDeactivated]
   exportMunicipalities: ID
 
   """
   Request a reset password token
   """
   forgotPassword(email: String!): UsersPermissionsPasswordPayload
-  logicalDeleteContract(clientName: String!): Boolean
+  importMunicipalities(contractId: ID, file: String!): String
+  importSiren(contractId: ID, file: String!): Boolean
+  logicalDeleteContract(contractId: ID!): Boolean
   login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
   multipleUpload(
     field: String
@@ -3250,6 +4143,17 @@ type Mutation {
     ref: String
     refId: ID
   ): [UploadFileEntityResponse]!
+  programmedSend(
+    alertMessage: String
+    isEmail: Boolean
+    isSMS: Boolean
+    mailSubject: String
+    recipientEmails: [String]
+    recipientnumbers: [String]
+    scheduledAt: Date
+    smsTitle: String
+    time: String
+  ): String
 
   """
   Register a user
@@ -3265,6 +4169,18 @@ type Mutation {
     password: String!
     passwordConfirmation: String!
   ): UsersPermissionsLoginPayload
+  sendEmail(
+    content: String
+    recipientEmails: [String]!
+    subject: String
+    templateId: Int
+  ): String
+  sendSMS(
+    content: String!
+    phoneNumber: [String]!
+    scheduledAt: String
+    sendMultiple: Boolean
+  ): String
   servicesActivation(
     ServiceName: String!
     contractId: ID!
@@ -3273,6 +4189,8 @@ type Mutation {
     serviceId: ID!
     startDate: Date
   ): ServiceActivated
+  setFlowIsActivated(code: String!, id: ID!, isActivated: Boolean!): FlowEntity
+  singleUploadCustom(file: Upload!): File!
   updateAccessibility(
     data: AccessibilityInput!
     id: ID!
@@ -3289,10 +4207,26 @@ type Mutation {
     data: AlertNotificationServiceInput!
     id: ID!
   ): AlertNotificationServiceEntityResponse
-  updateAudienceType(
-    data: AudienceTypeInput!
+  updateAlertNotificationsX(
+    alertDescription: String
+    alertMessage: String
+    alertNotifService: ID
+    alertTitle: String
+    alertUserStorages: [ID]
+    cities: String
+    idAlertNotification: ID
+    scheduledAt: Date
+    scheduledAtTime: String
+    sectorizations: [ID]
+    sendMail: Boolean
+    sendSMS: Boolean
+    subject: String
+  ): AlertNotification
+  updateAlertUserStorage(
+    data: AlertUserStorageInput!
     id: ID!
-  ): AudienceTypeEntityResponse
+  ): AlertUserStorageEntityResponse
+  updateAudience(data: AudienceInput!, id: ID!): AudienceEntityResponse
   updateCgu(data: CguInput!, id: ID!): CguEntityResponse
   updateCguSubService(
     data: CguSubServiceInput!
@@ -3304,6 +4238,18 @@ type Mutation {
     data: ClientContactInput!
     id: ID!
   ): ClientContactEntityResponse
+  updateCollectDoorToDoor(
+    data: CollectDoorToDoorInput!
+    id: ID!
+  ): CollectDoorToDoorEntityResponse
+  updateCollectDropOff(
+    data: CollectDropOffInput!
+    id: ID!
+  ): CollectDropOffEntityResponse
+  updateCollectVoluntary(
+    data: CollectVoluntaryInput!
+    id: ID!
+  ): CollectVoluntaryEntityResponse
   updateConfidentiality(
     data: ConfidentialityInput!
     id: ID!
@@ -3312,6 +4258,15 @@ type Mutation {
     data: ConfidentialitySubServiceInput!
     id: ID!
   ): ConfidentialitySubServiceEntityResponse
+  updateContactMwc(
+    city: String
+    contactEmail: String
+    contractId: ID!
+    phoneNumber: String
+    postalAddress: String
+    postalCode: String
+    serviceName: String
+  ): ContactResponse
   updateContactUs(data: ContactUsInput!, id: ID!): ContactUsEntityResponse
   updateContactUsSubService(
     data: ContactUsSubServiceInput!
@@ -3346,10 +4301,6 @@ type Mutation {
     id: ID!
   ): DropOffMapServiceEntityResponse
   updateEditoBlock(data: EditoBlockInput!, id: ID!): EditoBlockEntityResponse
-  updateEditoContent(
-    data: EditoContentInput!
-    id: ID!
-  ): EditoContentEntityResponse
   updateEditorialService(
     data: EditorialServiceInput!
     id: ID!
@@ -3365,6 +4316,8 @@ type Mutation {
     id: ID!
   ): ExportEntityEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
+  updateFlow(data: FlowInput!, id: ID!): FlowEntityResponse
+  updateFlowColor(data: FlowColorInput!, id: ID!): FlowColorEntityResponse
   updateFooter(data: FooterInput!, id: ID!): FooterEntityResponse
   updateFreeContent(data: FreeContentInput!, id: ID!): FreeContentEntityResponse
   updateFreeContentSubService(
@@ -3378,11 +4331,20 @@ type Mutation {
   ): Boolean
   updateGlobal(data: GlobalInput!): GlobalEntityResponse
   updateHomepage(data: HomepageInput!, id: ID!): HomepageEntityResponse
+  updateInformationMessage(
+    data: InformationMessageInput!
+    id: ID!
+  ): InformationMessageEntityResponse
   updateKeyMetric(data: KeyMetricInput!, id: ID!): KeyMetricEntityResponse
   updateKeyMetricsService(
     data: KeyMetricsServiceInput!
     id: ID!
   ): KeyMetricsServiceEntityResponse
+  updateMwCounterService(
+    data: MwCounterServiceInput!
+    id: ID!
+  ): MwCounterServiceEntityResponse
+  updateMwcFlow(data: MwcFlowInput!, id: ID!): MwcFlowEntityResponse
   updateNew(data: NewInput!, id: ID!): NewEntityResponse
   updateNewsSubService(
     data: NewsSubServiceInput!
@@ -3411,14 +4373,27 @@ type Mutation {
     id: ID!
   ): RecyclingGuideServiceEntityResponse
   updateRequest(data: RequestInput!, id: ID!): RequestEntityResponse
+  updateRequestAggregate(
+    data: RequestAggregateInput!
+    id: ID!
+  ): RequestAggregateEntityResponse
   updateRequestService(
     data: RequestServiceInput!
     id: ID!
   ): RequestServiceEntityResponse
+  updateRequestSlot(data: RequestSlotInput!, id: ID!): RequestSlotEntityResponse
+  updateRequestTaked(
+    data: RequestTakedInput!
+    id: ID!
+  ): RequestTakedEntityResponse
   updateSearchEngineBlock(
     data: SearchEngineBlockInput!
     id: ID!
   ): SearchEngineBlockEntityResponse
+  updateSectorization(
+    data: SectorizationInput!
+    id: ID!
+  ): SectorizationEntityResponse
   updateServicesBlock(
     data: ServicesBlockInput!
     id: ID!
@@ -3434,7 +4409,6 @@ type Mutation {
     data: TipSubServiceInput!
     id: ID!
   ): TipSubServiceEntityResponse
-  updateTopContent(data: TopContentInput!, id: ID!): TopContentEntityResponse
   updateTopContentBlock(
     data: TopContentBlockInput!
     id: ID!
@@ -3444,6 +4418,10 @@ type Mutation {
     data: UploadFolderInput!
     id: ID!
   ): UploadFolderEntityResponse
+  updateUserDataStorage(
+    data: UserDataStorageInput!
+    id: ID!
+  ): UserDataStorageEntityResponse
 
   """
   Update an existing role
@@ -3460,7 +4438,16 @@ type Mutation {
     data: UsersPermissionsUserInput!
     id: ID!
   ): UsersPermissionsUserEntityResponse!
+  updateWasteFamily(data: WasteFamilyInput!, id: ID!): WasteFamilyEntityResponse
   updateWasteForm(data: WasteFormInput!, id: ID!): WasteFormEntityResponse
+  updateWelcomeMessageBlock(
+    data: WelcomeMessageBlockInput!
+    id: ID!
+  ): WelcomeMessageBlockEntityResponse
+  updateYesWeScanService(
+    data: YesWeScanServiceInput!
+    id: ID!
+  ): YesWeScanServiceEntityResponse
   upload(
     field: String
     file: Upload!
@@ -3468,15 +4455,176 @@ type Mutation {
     ref: String
     refId: ID
   ): UploadFileEntityResponse!
+  uploadFileAndGetId(path: String!): UploadResult
+  uploadGraphQL(
+    field: String
+    file: Upload!
+    info: FileInfoInput
+    ref: String
+    refId: ID
+  ): Boolean
   urlUploader(imageName: String!, url: String!): Boolean
+  validateRequest(requestJSON: JSON): Boolean
+  versioningHandler(data: JSON!, entity: String!): VersioningEntityResponse
+  ywsActivation(contractId: ID!): Boolean
+  ywsDeactivation(contractId: ID!): Boolean
+}
+
+type MwCounterService {
+  barometerParams: JSON
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
+  city: String
+  contactEmail: String
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  description: String
+  endDate: Date
+  hasTips: Boolean
+  isActivated: Boolean!
+  mwcFlows(
+    filters: MwcFlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwcFlowRelationResponseCollection
+  name: String
+  phoneNumber: String
+  postalAddress: String
+  postalCode: String
+  serviceName: String
+  startDate: Date
+  updatedAt: DateTime
+}
+
+type MwCounterServiceEntity {
+  attributes: MwCounterService
+  id: ID
+}
+
+type MwCounterServiceEntityResponse {
+  data: MwCounterServiceEntity
+}
+
+type MwCounterServiceEntityResponseCollection {
+  data: [MwCounterServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input MwCounterServiceFiltersInput {
+  and: [MwCounterServiceFiltersInput]
+  barometerParams: JSONFilterInput
+  cities: CityFiltersInput
+  city: StringFilterInput
+  contactEmail: StringFilterInput
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  endDate: DateFilterInput
+  hasTips: BooleanFilterInput
+  id: IDFilterInput
+  isActivated: BooleanFilterInput
+  mwcFlows: MwcFlowFiltersInput
+  name: StringFilterInput
+  not: MwCounterServiceFiltersInput
+  or: [MwCounterServiceFiltersInput]
+  phoneNumber: StringFilterInput
+  postalAddress: StringFilterInput
+  postalCode: StringFilterInput
+  serviceName: StringFilterInput
+  startDate: DateFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input MwCounterServiceInput {
+  barometerParams: JSON
+  cities: [ID]
+  city: String
+  contactEmail: String
+  contract: ID
+  description: String
+  endDate: Date
+  hasTips: Boolean
+  isActivated: Boolean
+  mwcFlows: [ID]
+  name: String
+  phoneNumber: String
+  postalAddress: String
+  postalCode: String
+  serviceName: String
+  startDate: Date
+}
+
+type MwCounterServiceRelationResponseCollection {
+  data: [MwCounterServiceEntity!]!
+}
+
+type MwcFlow {
+  averageProductionPerson: Long
+  blocks: [MwcFlowBlocksDynamicZone]
+  createdAt: DateTime
+  flow: FlowEntityResponse
+  mwCounterService: MwCounterServiceEntityResponse
+  updatedAt: DateTime
+  weightSystem: ENUM_MWCFLOW_WEIGHTSYSTEM
+}
+
+union MwcFlowBlocksDynamicZone =
+    ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar MwcFlowBlocksDynamicZoneInput
+
+type MwcFlowEntity {
+  attributes: MwcFlow
+  id: ID
+}
+
+type MwcFlowEntityResponse {
+  data: MwcFlowEntity
+}
+
+type MwcFlowEntityResponseCollection {
+  data: [MwcFlowEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input MwcFlowFiltersInput {
+  and: [MwcFlowFiltersInput]
+  averageProductionPerson: LongFilterInput
+  createdAt: DateTimeFilterInput
+  flow: FlowFiltersInput
+  id: IDFilterInput
+  mwCounterService: MwCounterServiceFiltersInput
+  not: MwcFlowFiltersInput
+  or: [MwcFlowFiltersInput]
+  updatedAt: DateTimeFilterInput
+  weightSystem: StringFilterInput
+}
+
+input MwcFlowInput {
+  averageProductionPerson: Long
+  blocks: [MwcFlowBlocksDynamicZoneInput!]
+  flow: ID
+  mwCounterService: ID
+  weightSystem: ENUM_MWCFLOW_WEIGHTSYSTEM
+}
+
+type MwcFlowRelationResponseCollection {
+  data: [MwcFlowEntity!]!
 }
 
 type New {
   audiences(
-    filters: AudienceTypeFiltersInput
+    filters: AudienceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
+  ): AudienceRelationResponseCollection
   blocks: [NewBlocksDynamicZone]
   channels(
     filters: ChannelTypeFiltersInput
@@ -3486,10 +4634,8 @@ type New {
   createdAt: DateTime
   customId: String
   draftCreationId: String
-  editoContent: EditoContentEntityResponse
   hasDraft: Boolean
   image: UploadFileEntityResponse
-  linkToServices: [NewLinkToServicesDynamicZone]
   newsSubService: NewsSubServiceEntityResponse
   publishedDate: DateTime
   shortDescription: String
@@ -3500,7 +4646,7 @@ type New {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String!
-  topContent: TopContentEntityResponse
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
   versionNumber: Int
@@ -3510,6 +4656,7 @@ union NewBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksServices
   | ComponentBlocksSubHeading
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
@@ -3533,12 +4680,11 @@ type NewEntityResponseCollection {
 
 input NewFiltersInput {
   and: [NewFiltersInput]
-  audiences: AudienceTypeFiltersInput
+  audiences: AudienceFiltersInput
   channels: ChannelTypeFiltersInput
   createdAt: DateTimeFilterInput
   customId: StringFilterInput
   draftCreationId: StringFilterInput
-  editoContent: EditoContentFiltersInput
   hasDraft: BooleanFilterInput
   id: IDFilterInput
   newsSubService: NewsSubServiceFiltersInput
@@ -3549,7 +4695,7 @@ input NewFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
-  topContent: TopContentFiltersInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   versionNumber: IntFilterInput
@@ -3561,42 +4707,24 @@ input NewInput {
   channels: [ID]
   customId: String
   draftCreationId: String
-  editoContent: ID
   hasDraft: Boolean
   image: ID
-  linkToServices: [NewLinkToServicesDynamicZoneInput!]
   newsSubService: ID
   publishedDate: DateTime
   shortDescription: String
   status: ENUM_NEW_STATUS
   tags: [ID]
   title: String
-  topContent: ID
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   versionNumber: Int
 }
-
-union NewLinkToServicesDynamicZone =
-    ComponentLinksAlertNotification
-  | ComponentLinksDropOffMap
-  | ComponentLinksEditorial
-  | ComponentLinksPickUpDay
-  | ComponentLinksRecyclingGuide
-  | ComponentLinksRequest
-  | Error
-
-scalar NewLinkToServicesDynamicZoneInput
 
 type NewRelationResponseCollection {
   data: [NewEntity!]!
 }
 
 type NewsSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -3633,7 +4761,6 @@ type NewsSubServiceEntityResponseCollection {
 
 input NewsSubServiceFiltersInput {
   and: [NewsSubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -3650,7 +4777,6 @@ input NewsSubServiceFiltersInput {
 }
 
 input NewsSubServiceInput {
-  audienceTypes: [ID]
   cities: [ID]
   description: String
   editorialService: ID
@@ -3663,6 +4789,12 @@ input NewsSubServiceInput {
 
 type NewsSubServiceRelationResponseCollection {
   data: [NewsSubServiceEntity!]!
+}
+
+type NextAvailableSlots {
+  nextAvailableSlots: [AvailableSlot]
+  noSlotMessage: String
+  slotMessage: String
 }
 
 type Pagination {
@@ -3680,10 +4812,37 @@ input PaginationArg {
 }
 
 type PickUpDay {
+  advancedSelection: JSON!
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
+  buttonLabel: String
+  cities(
+    filters: CityFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CityRelationResponseCollection
+  collectDoorToDoor: CollectDoorToDoorEntityResponse
+  collectVoluntary: CollectVoluntaryEntityResponse
+  complementaryMention: String
   createdAt: DateTime
   description: String
-  name: String
-  publishedAt: DateTime
+  externalLink: String
+  flow: FlowEntityResponse!
+  includeHoliday: Boolean!
+  informationMessage: InformationMessageEntityResponse
+  name: String!
+  periodicity: ENUM_PICKUPDAY_PERIODICITY
+  pickUpDayService: PickUpDayServiceEntityResponse
+  pickUpHours: String
+  request: RequestEntityResponse
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationRelationResponseCollection
   updatedAt: DateTime
 }
 
@@ -3702,21 +4861,51 @@ type PickUpDayEntityResponseCollection {
 }
 
 input PickUpDayFiltersInput {
+  advancedSelection: JSONFilterInput
   and: [PickUpDayFiltersInput]
+  audiences: AudienceFiltersInput
+  buttonLabel: StringFilterInput
+  cities: CityFiltersInput
+  collectDoorToDoor: CollectDoorToDoorFiltersInput
+  collectVoluntary: CollectVoluntaryFiltersInput
+  complementaryMention: StringFilterInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
+  externalLink: StringFilterInput
+  flow: FlowFiltersInput
   id: IDFilterInput
+  includeHoliday: BooleanFilterInput
+  informationMessage: InformationMessageFiltersInput
   name: StringFilterInput
   not: PickUpDayFiltersInput
   or: [PickUpDayFiltersInput]
-  publishedAt: DateTimeFilterInput
+  periodicity: StringFilterInput
+  pickUpDayService: PickUpDayServiceFiltersInput
+  pickUpHours: StringFilterInput
+  request: RequestFiltersInput
+  sectorizations: SectorizationFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
 input PickUpDayInput {
+  advancedSelection: JSON
+  audiences: [ID]
+  buttonLabel: String
+  cities: [ID]
+  collectDoorToDoor: ID
+  collectVoluntary: ID
+  complementaryMention: String
   description: String
+  externalLink: String
+  flow: ID
+  includeHoliday: Boolean
+  informationMessage: ID
   name: String
-  publishedAt: DateTime
+  periodicity: ENUM_PICKUPDAY_PERIODICITY
+  pickUpDayService: ID
+  pickUpHours: String
+  request: ID
+  sectorizations: [ID]
 }
 
 type PickUpDayRelationResponseCollection {
@@ -3724,11 +4913,11 @@ type PickUpDayRelationResponseCollection {
 }
 
 type PickUpDayService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
+  audiences(
+    filters: AudienceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
+  ): AudienceRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -3742,7 +4931,6 @@ type PickUpDayService {
   pickUpDays(
     filters: PickUpDayFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): PickUpDayRelationResponseCollection
   startDate: Date
@@ -3765,7 +4953,7 @@ type PickUpDayServiceEntityResponseCollection {
 
 input PickUpDayServiceFiltersInput {
   and: [PickUpDayServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
+  audiences: AudienceFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -3781,7 +4969,7 @@ input PickUpDayServiceFiltersInput {
 }
 
 input PickUpDayServiceInput {
-  audienceTypes: [ID]
+  audiences: [ID]
   cities: [ID]
   contract: ID
   endDate: Date
@@ -3793,6 +4981,13 @@ input PickUpDayServiceInput {
 
 type PickUpDayServiceRelationResponseCollection {
   data: [PickUpDayServiceEntity!]!
+}
+
+type PictoDTO {
+  alternativeText: String
+  id: String!
+  name: String!
+  url: String!
 }
 
 enum PublicationState {
@@ -3823,15 +5018,20 @@ type Query {
   alertNotifications(
     filters: AlertNotificationFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): AlertNotificationEntityResponseCollection
-  audienceType(id: ID): AudienceTypeEntityResponse
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
+  alertUserStorage(id: ID): AlertUserStorageEntityResponse
+  alertUserStorages(
+    filters: AlertUserStorageFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeEntityResponseCollection
+  ): AlertUserStorageEntityResponseCollection
+  audience(id: ID): AudienceEntityResponse
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceEntityResponseCollection
   cgu(id: ID): CguEntityResponse
   cguSubService(id: ID): CguSubServiceEntityResponse
   cguSubServices(
@@ -3862,6 +5062,24 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): ClientContactEntityResponseCollection
+  collectDoorToDoor(id: ID): CollectDoorToDoorEntityResponse
+  collectDoorToDoors(
+    filters: CollectDoorToDoorFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDoorToDoorEntityResponseCollection
+  collectDropOff(id: ID): CollectDropOffEntityResponse
+  collectDropOffs(
+    filters: CollectDropOffFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectDropOffEntityResponseCollection
+  collectVoluntaries(
+    filters: CollectVoluntaryFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): CollectVoluntaryEntityResponseCollection
+  collectVoluntary(id: ID): CollectVoluntaryEntityResponse
   confidentialities(
     filters: ConfidentialityFiltersInput
     pagination: PaginationArg = {}
@@ -3940,7 +5158,6 @@ type Query {
   dropOffMaps(
     filters: DropOffMapFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): DropOffMapEntityResponseCollection
   editoBlock(id: ID): EditoBlockEntityResponse
@@ -3949,12 +5166,6 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): EditoBlockEntityResponseCollection
-  editoContent(id: ID): EditoContentEntityResponse
-  editoContents(
-    filters: EditoContentFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): EditoContentEntityResponseCollection
   editorialService(id: ID): EditorialServiceEntityResponse
   editorialServices(
     filters: EditorialServiceFiltersInput
@@ -3985,6 +5196,19 @@ type Query {
     sort: [String] = []
   ): ExportEntityEntityResponseCollection
   exportEntity(id: ID): ExportEntityEntityResponse
+  files: [File]!
+  flow(id: ID): FlowEntityResponse
+  flowColor(id: ID): FlowColorEntityResponse
+  flowColors(
+    filters: FlowColorFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowColorEntityResponseCollection
+  flows(
+    filters: FlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): FlowEntityResponseCollection
   footer(id: ID): FooterEntityResponse
   footers(
     filters: FooterFiltersInput
@@ -4003,28 +5227,48 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): FreeContentEntityResponseCollection
+  getAddressCoordinates(searchTerm: String!): [SearchResultAddress]
   getAllFoldersHierarchy(path: String!): [RequestFolders]
+  getAppointmentsDetails(requestId: ID!): AppointmentDetails
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
-  getEditoBlockDTO(
-    contractId: ID!
-    status: ENUM_EDITOCONTENTDTO_STATUS
-  ): EditoBlockDTO
+  getCumbersomeReferential: [Cumbersome]!
+  getDropOffCollectType(contractId: ID!): [CollectEntity]
+  getDropOffMaps(audienceId: ID!, dropOffMapServiceId: ID!): [DropOffMapDTO]
+  getEditoBlockDTO(audienceId: ID!, contractId: ID!): EditoBlockDTO
   getEditoContentDTOs(
+    audienceId: ID!
     contractId: ID!
     status: ENUM_EDITOCONTENTDTO_STATUS
   ): [EditoContentDTO]
+  getEditoContentLinkedServices(
+    contractId: ID
+    linkToServiceId: ID!
+    selectedService: String!
+  ): [LinkedServices]
+  getEnrichRequests(requestServiceId: ID!): [EnrichRequest]
   getFilePath(id: ID!): String
   getFolderHierarchy(path: String!): [RequestFolders]
+  getMwcAverageProduction(contractId: ID): Int
   getNewestTopContents(contractId: ID!): [EventOrNews]
+  getNextAvailableSlots(
+    lat: Float!
+    long: Float!
+    requestId: ID!
+  ): NextAvailableSlots
+  getPickUpDaysByCoordinates(
+    lat: Float!
+    long: Float!
+    pickUpDayServiceId: ID!
+  ): [ID]
+  getRequestsHistoric(requestServiceId: Int!): [Historic]
   getStatusExport(id: ID!): String
-  getTopContentBlockDTO(
-    contractId: ID!
-    status: ENUM_TOPCONTENTDTO_STATUS
-  ): TopContentBlockDTO
+  getThreeRandomTips(contractId: ID!): [Tips]
+  getTopContentBlockDTO(audienceId: ID!, contractId: ID!): TopContentBlockDTO
   getTopContentDTOs(
+    audienceId: ID!
     contractId: ID!
     status: ENUM_TOPCONTENTDTO_STATUS
-  ): [TopContentDTO]
+  ): [EditoContentDTO]
   global: GlobalEntityResponse
   homepage(id: ID): HomepageEntityResponse
   homepages(
@@ -4038,7 +5282,13 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): I18NLocaleEntityResponseCollection
-  importMunicipalities(file: String!): String
+  informationMessage(id: ID): InformationMessageEntityResponse
+  informationMessages(
+    filters: InformationMessageFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): InformationMessageEntityResponseCollection
+  isSlotsUpdatable(requestId: ID!): Boolean
   keyMetric(id: ID): KeyMetricEntityResponse
   keyMetrics(
     filters: KeyMetricFiltersInput
@@ -4055,6 +5305,18 @@ type Query {
   libraryBreadcrumbTrail(path: String!): [Folders]
   librarySearchEngine(path: String!, query: String!): [RequestFileOrFolder]
   me: UsersPermissionsMe
+  mwCounterService(id: ID): MwCounterServiceEntityResponse
+  mwCounterServices(
+    filters: MwCounterServiceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwCounterServiceEntityResponseCollection
+  mwcFlow(id: ID): MwcFlowEntityResponse
+  mwcFlows(
+    filters: MwcFlowFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MwcFlowEntityResponseCollection
   new(id: ID): NewEntityResponse
   news(
     filters: NewFiltersInput
@@ -4077,7 +5339,6 @@ type Query {
   pickUpDays(
     filters: PickUpDayFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): PickUpDayEntityResponseCollection
   quiz(id: ID): QuizEntityResponse
@@ -4104,6 +5365,10 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): RecyclingGuideBlockEntityResponseCollection
+  recyclingGuideSearchEngine(
+    contractId: ID!
+    searchTerm: String!
+  ): [SearchResult]
   recyclingGuideService(id: ID): RecyclingGuideServiceEntityResponse
   recyclingGuideServices(
     filters: RecyclingGuideServiceFiltersInput
@@ -4111,18 +5376,36 @@ type Query {
     sort: [String] = []
   ): RecyclingGuideServiceEntityResponseCollection
   request(id: ID): RequestEntityResponse
+  requestAggregate(id: ID): RequestAggregateEntityResponse
+  requestAggregates(
+    filters: RequestAggregateFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestAggregateEntityResponseCollection
   requestService(id: ID): RequestServiceEntityResponse
   requestServices(
     filters: RequestServiceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): RequestServiceEntityResponseCollection
+  requestSlot(id: ID): RequestSlotEntityResponse
+  requestSlots(
+    filters: RequestSlotFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestSlotEntityResponseCollection
+  requestTaked(id: ID): RequestTakedEntityResponse
+  requestTakeds(
+    filters: RequestTakedFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestTakedEntityResponseCollection
   requests(
     filters: RequestFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): RequestEntityResponseCollection
+  searchCities(contractId: ID!, searchTerm: String!): [CityResult]
   searchClientsByName(name: String!): [clientName]
   searchEngineBlock(id: ID): SearchEngineBlockEntityResponse
   searchEngineBlocks(
@@ -4130,6 +5413,13 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): SearchEngineBlockEntityResponseCollection
+  sectorization(id: ID): SectorizationEntityResponse
+  sectorizationByCity(postalCode: Int!): CitySectorization
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationEntityResponseCollection
   servicesBlock(id: ID): ServicesBlockEntityResponse
   servicesBlocks(
     filters: ServicesBlockFiltersInput
@@ -4166,18 +5456,12 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): TipEntityResponseCollection
-  topContent(id: ID): TopContentEntityResponse
   topContentBlock(id: ID): TopContentBlockEntityResponse
   topContentBlocks(
     filters: TopContentBlockFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): TopContentBlockEntityResponseCollection
-  topContents(
-    filters: TopContentFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): TopContentEntityResponseCollection
   uploadFile(id: ID): UploadFileEntityResponse
   uploadFiles(
     filters: UploadFileFiltersInput
@@ -4190,6 +5474,12 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UploadFolderEntityResponseCollection
+  userDataStorage(id: ID): UserDataStorageEntityResponse
+  userDataStorages(
+    filters: UserDataStorageFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): UserDataStorageEntityResponseCollection
   usersPermissionsRole(id: ID): UsersPermissionsRoleEntityResponse
   usersPermissionsRoles(
     filters: UsersPermissionsRoleFiltersInput
@@ -4202,19 +5492,42 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserEntityResponseCollection
+  wasteFamilies(
+    filters: WasteFamilyFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WasteFamilyEntityResponseCollection
+  wasteFamily(id: ID): WasteFamilyEntityResponse
+  wasteFamilyLength(id: ID!): Int
   wasteForm(id: ID): WasteFormEntityResponse
   wasteForms(
     filters: WasteFormFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): WasteFormEntityResponseCollection
+  welcomeMessageBlock(id: ID): WelcomeMessageBlockEntityResponse
+  welcomeMessageBlocks(
+    filters: WelcomeMessageBlockFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WelcomeMessageBlockEntityResponseCollection
+  yesWeScanService(id: ID): YesWeScanServiceEntityResponse
+  yesWeScanServices(
+    filters: YesWeScanServiceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): YesWeScanServiceEntityResponseCollection
 }
 
 type Quiz {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   createdAt: DateTime
+  customId: String
   draftCreationId: String
-  editoContent: EditoContentEntityResponse
   hasDraft: Boolean
   publishedDate: DateTime
   quizSubService: QuizSubServiceEntityResponse
@@ -4226,11 +5539,14 @@ type Quiz {
     sort: [String] = []
   ): TagRelationResponseCollection
   title: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 type QuizAndTipsBlock {
+  audience: AudienceEntityResponse
   createdAt: DateTime
   displayBlock: Boolean!
   displayQuiz: Boolean!
@@ -4262,6 +5578,7 @@ type QuizAndTipsBlockEntityResponseCollection {
 
 input QuizAndTipsBlockFiltersInput {
   and: [QuizAndTipsBlockFiltersInput]
+  audience: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   displayBlock: BooleanFilterInput
   displayQuiz: BooleanFilterInput
@@ -4277,6 +5594,7 @@ input QuizAndTipsBlockFiltersInput {
 }
 
 input QuizAndTipsBlockInput {
+  audience: ID
   displayBlock: Boolean
   displayQuiz: Boolean
   displayTips: Boolean
@@ -4284,6 +5602,10 @@ input QuizAndTipsBlockInput {
   quiz: ID
   tips: [ID]
   titleContent: String
+}
+
+type QuizAndTipsBlockRelationResponseCollection {
+  data: [QuizAndTipsBlockEntity!]!
 }
 
 type QuizEntity {
@@ -4302,9 +5624,10 @@ type QuizEntityResponseCollection {
 
 input QuizFiltersInput {
   and: [QuizFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   draftCreationId: StringFilterInput
-  editoContent: EditoContentFiltersInput
   hasDraft: BooleanFilterInput
   id: IDFilterInput
   not: QuizFiltersInput
@@ -4315,13 +5638,16 @@ input QuizFiltersInput {
   status: StringFilterInput
   tags: TagFiltersInput
   title: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input QuizInput {
+  audiences: [ID]
+  customId: String
   draftCreationId: String
-  editoContent: ID
   hasDraft: Boolean
   publishedDate: DateTime
   quizSubService: ID
@@ -4329,7 +5655,9 @@ input QuizInput {
   status: ENUM_QUIZ_STATUS
   tags: [ID]
   title: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
+  versionNumber: Int
 }
 
 type QuizRelationResponseCollection {
@@ -4337,11 +5665,6 @@ type QuizRelationResponseCollection {
 }
 
 type QuizSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4378,7 +5701,6 @@ type QuizSubServiceEntityResponseCollection {
 
 input QuizSubServiceFiltersInput {
   and: [QuizSubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -4395,7 +5717,6 @@ input QuizSubServiceFiltersInput {
 }
 
 input QuizSubServiceInput {
-  audienceTypes: [ID]
   cities: [ID]
   description: String
   editorialService: ID
@@ -4461,11 +5782,11 @@ input RecyclingGuideBlockInput {
 }
 
 type RecyclingGuideService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
+  audiences(
+    filters: AudienceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
+  ): AudienceRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4475,13 +5796,21 @@ type RecyclingGuideService {
   createdAt: DateTime
   endDate: Date
   isActivated: Boolean!
+  memoDesc: String
+  memoFile: UploadFileEntityResponse
+  memoName: String!
   name: String!
+  orderExtension: Boolean
   startDate: Date
   updatedAt: DateTime
+  wasteFamilies(
+    filters: WasteFamilyFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WasteFamilyRelationResponseCollection
   wasteForms(
     filters: WasteFormFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): WasteFormRelationResponseCollection
 }
@@ -4502,29 +5831,38 @@ type RecyclingGuideServiceEntityResponseCollection {
 
 input RecyclingGuideServiceFiltersInput {
   and: [RecyclingGuideServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
+  audiences: AudienceFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
   endDate: DateFilterInput
   id: IDFilterInput
   isActivated: BooleanFilterInput
+  memoDesc: StringFilterInput
+  memoName: StringFilterInput
   name: StringFilterInput
   not: RecyclingGuideServiceFiltersInput
   or: [RecyclingGuideServiceFiltersInput]
+  orderExtension: BooleanFilterInput
   startDate: DateFilterInput
   updatedAt: DateTimeFilterInput
+  wasteFamilies: WasteFamilyFiltersInput
   wasteForms: WasteFormFiltersInput
 }
 
 input RecyclingGuideServiceInput {
-  audienceTypes: [ID]
+  audiences: [ID]
   cities: [ID]
   contract: ID
   endDate: Date
   isActivated: Boolean
+  memoDesc: String
+  memoFile: ID
+  memoName: String
   name: String
+  orderExtension: Boolean
   startDate: Date
+  wasteFamilies: [ID]
   wasteForms: [ID]
 }
 
@@ -4533,11 +5871,102 @@ type RecyclingGuideServiceRelationResponseCollection {
 }
 
 type Request {
+  addableBlocks: [RequestAddableBlocksDynamicZone]
+  blockText: String
+  confirmationMessage: String
   createdAt: DateTime
   description: String
+  displayUserCivility: Boolean
+  fieldAddressLabel: String
+  hasAddress: Boolean!
+  hasAppointmentSlots: Boolean
+  hasSeveralRequestTypes: Boolean!
+  hasUser: Boolean!
+  hoursBeforeReservationIsActivated: Int
+  isActivated: Boolean
+  isUserEmailMandatory: Boolean
+  isUserNameMandatory: Boolean
+  isUserPhoneMandatory: Boolean
   name: String
-  publishedAt: DateTime
+  numberOfRequiredSlots: Int
+  proofOfReceiptHeader: String
+  proofOfReceiptSubject: String
+  requestAggregate: RequestAggregateEntityResponse
+  requestService: RequestServiceEntityResponse
+  requestSlots(
+    filters: RequestSlotFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestSlotRelationResponseCollection
+  requestType(
+    filters: ComponentBlocksRequestTypeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksRequestType]
+  sendProofOfReceipt: Boolean
+  slotsReservationRules: JSON
   updatedAt: DateTime
+  userAllowSMSNotification: Boolean
+}
+
+union RequestAddableBlocksDynamicZone =
+    ComponentBlocksAttachments
+  | ComponentBlocksCheckbox
+  | ComponentBlocksCommentary
+  | ComponentBlocksCumbersome
+  | ComponentBlocksDateChoice
+  | ComponentBlocksQcm
+  | ComponentBlocksQuestions
+  | Error
+
+scalar RequestAddableBlocksDynamicZoneInput
+
+type RequestAggregate {
+  createdAt: DateTime
+  name: String!
+  requestService: RequestServiceEntityResponse
+  requests(
+    filters: RequestFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestRelationResponseCollection
+  updatedAt: DateTime
+}
+
+type RequestAggregateEntity {
+  attributes: RequestAggregate
+  id: ID
+}
+
+type RequestAggregateEntityResponse {
+  data: RequestAggregateEntity
+}
+
+type RequestAggregateEntityResponseCollection {
+  data: [RequestAggregateEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input RequestAggregateFiltersInput {
+  and: [RequestAggregateFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: RequestAggregateFiltersInput
+  or: [RequestAggregateFiltersInput]
+  requestService: RequestServiceFiltersInput
+  requests: RequestFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input RequestAggregateInput {
+  name: String
+  requestService: ID
+  requests: [ID]
+}
+
+type RequestAggregateRelationResponseCollection {
+  data: [RequestAggregateEntity!]!
 }
 
 type RequestEntity {
@@ -4562,14 +5991,36 @@ union RequestFileOrFolder = Files | Folders
 
 input RequestFiltersInput {
   and: [RequestFiltersInput]
+  blockText: StringFilterInput
+  confirmationMessage: StringFilterInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
+  displayUserCivility: BooleanFilterInput
+  fieldAddressLabel: StringFilterInput
+  hasAddress: BooleanFilterInput
+  hasAppointmentSlots: BooleanFilterInput
+  hasSeveralRequestTypes: BooleanFilterInput
+  hasUser: BooleanFilterInput
+  hoursBeforeReservationIsActivated: IntFilterInput
   id: IDFilterInput
+  isActivated: BooleanFilterInput
+  isUserEmailMandatory: BooleanFilterInput
+  isUserNameMandatory: BooleanFilterInput
+  isUserPhoneMandatory: BooleanFilterInput
   name: StringFilterInput
   not: RequestFiltersInput
+  numberOfRequiredSlots: IntFilterInput
   or: [RequestFiltersInput]
-  publishedAt: DateTimeFilterInput
+  proofOfReceiptHeader: StringFilterInput
+  proofOfReceiptSubject: StringFilterInput
+  requestAggregate: RequestAggregateFiltersInput
+  requestService: RequestServiceFiltersInput
+  requestSlots: RequestSlotFiltersInput
+  requestType: ComponentBlocksRequestTypeFiltersInput
+  sendProofOfReceipt: BooleanFilterInput
+  slotsReservationRules: JSONFilterInput
   updatedAt: DateTimeFilterInput
+  userAllowSMSNotification: BooleanFilterInput
 }
 
 input RequestFolder {
@@ -4591,9 +6042,32 @@ type RequestFolders {
 }
 
 input RequestInput {
+  addableBlocks: [RequestAddableBlocksDynamicZoneInput!]
+  blockText: String
+  confirmationMessage: String
   description: String
+  displayUserCivility: Boolean
+  fieldAddressLabel: String
+  hasAddress: Boolean
+  hasAppointmentSlots: Boolean
+  hasSeveralRequestTypes: Boolean
+  hasUser: Boolean
+  hoursBeforeReservationIsActivated: Int
+  isActivated: Boolean
+  isUserEmailMandatory: Boolean
+  isUserNameMandatory: Boolean
+  isUserPhoneMandatory: Boolean
   name: String
-  publishedAt: DateTime
+  numberOfRequiredSlots: Int
+  proofOfReceiptHeader: String
+  proofOfReceiptSubject: String
+  requestAggregate: ID
+  requestService: ID
+  requestSlots: [ID]
+  requestType: [ComponentBlocksRequestTypeInput]
+  sendProofOfReceipt: Boolean
+  slotsReservationRules: JSON
+  userAllowSMSNotification: Boolean
 }
 
 type RequestRelationResponseCollection {
@@ -4601,11 +6075,11 @@ type RequestRelationResponseCollection {
 }
 
 type RequestService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
+  audiences(
+    filters: AudienceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
+  ): AudienceRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -4616,10 +6090,14 @@ type RequestService {
   endDate: Date
   isActivated: Boolean!
   name: String!
+  requestAggregates(
+    filters: RequestAggregateFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestAggregateRelationResponseCollection
   requests(
     filters: RequestFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): RequestRelationResponseCollection
   startDate: Date
@@ -4642,7 +6120,7 @@ type RequestServiceEntityResponseCollection {
 
 input RequestServiceFiltersInput {
   and: [RequestServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
+  audiences: AudienceFiltersInput
   cities: CityFiltersInput
   contract: ContractFiltersInput
   createdAt: DateTimeFilterInput
@@ -4652,18 +6130,20 @@ input RequestServiceFiltersInput {
   name: StringFilterInput
   not: RequestServiceFiltersInput
   or: [RequestServiceFiltersInput]
+  requestAggregates: RequestAggregateFiltersInput
   requests: RequestFiltersInput
   startDate: DateFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input RequestServiceInput {
-  audienceTypes: [ID]
+  audiences: [ID]
   cities: [ID]
   contract: ID
   endDate: Date
   isActivated: Boolean
   name: String
+  requestAggregates: [ID]
   requests: [ID]
   startDate: Date
 }
@@ -4672,10 +6152,144 @@ type RequestServiceRelationResponseCollection {
   data: [RequestServiceEntity!]!
 }
 
+type RequestSlot {
+  createdAt: DateTime
+  noSlotMessage: String
+  requestTakeds(
+    filters: RequestTakedFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestTakedRelationResponseCollection
+  sectorizations(
+    filters: SectorizationFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): SectorizationRelationResponseCollection
+  slotMessage: String
+  slotType: ENUM_REQUESTSLOT_SLOTTYPE
+  slotsExceptions(
+    filters: ComponentBlocksRequestSlotsExceptionsFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksRequestSlotsExceptions]
+  timeSlots: JSON
+  updatedAt: DateTime
+}
+
+type RequestSlotEntity {
+  attributes: RequestSlot
+  id: ID
+}
+
+type RequestSlotEntityResponse {
+  data: RequestSlotEntity
+}
+
+type RequestSlotEntityResponseCollection {
+  data: [RequestSlotEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input RequestSlotFiltersInput {
+  and: [RequestSlotFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  noSlotMessage: StringFilterInput
+  not: RequestSlotFiltersInput
+  or: [RequestSlotFiltersInput]
+  requestTakeds: RequestTakedFiltersInput
+  sectorizations: SectorizationFiltersInput
+  slotMessage: StringFilterInput
+  slotType: StringFilterInput
+  slotsExceptions: ComponentBlocksRequestSlotsExceptionsFiltersInput
+  timeSlots: JSONFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input RequestSlotInput {
+  noSlotMessage: String
+  requestTakeds: [ID]
+  sectorizations: [ID]
+  slotMessage: String
+  slotType: ENUM_REQUESTSLOT_SLOTTYPE
+  slotsExceptions: [ComponentBlocksRequestSlotsExceptionsInput]
+  timeSlots: JSON
+}
+
+type RequestSlotRelationResponseCollection {
+  data: [RequestSlotEntity!]!
+}
+
 type RequestTagEntity {
   contractId: String
   id: ID
   name: String
+}
+
+type RequestTaked {
+  city: String
+  createdAt: DateTime
+  isActivated: Boolean
+  name: String!
+  requestServiceId: Int
+  requestSlot: RequestSlotEntityResponse
+  requestType: ComponentBlocksRequestType
+  slotTaken: JSON
+  updatedAt: DateTime
+  userDataStorage: UserDataStorageEntityResponse
+}
+
+type RequestTakedEntity {
+  attributes: RequestTaked
+  id: ID
+}
+
+type RequestTakedEntityResponse {
+  data: RequestTakedEntity
+}
+
+type RequestTakedEntityResponseCollection {
+  data: [RequestTakedEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input RequestTakedFiltersInput {
+  and: [RequestTakedFiltersInput]
+  city: StringFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  isActivated: BooleanFilterInput
+  name: StringFilterInput
+  not: RequestTakedFiltersInput
+  or: [RequestTakedFiltersInput]
+  requestServiceId: IntFilterInput
+  requestSlot: RequestSlotFiltersInput
+  requestType: ComponentBlocksRequestTypeFiltersInput
+  slotTaken: JSONFilterInput
+  updatedAt: DateTimeFilterInput
+  userDataStorage: UserDataStorageFiltersInput
+}
+
+input RequestTakedInput {
+  city: String
+  isActivated: Boolean
+  name: String
+  requestServiceId: Int
+  requestSlot: ID
+  requestType: ComponentBlocksRequestTypeInput
+  slotTaken: JSON
+  userDataStorage: ID
+}
+
+type RequestTakedRelationResponseCollection {
+  data: [RequestTakedEntity!]!
+}
+
+type RequestTakeds {
+  city: String
+  id: String
+  name: String
+  user: User
 }
 
 type ResponseCollectionMeta {
@@ -4719,6 +6333,67 @@ input SearchEngineBlockInput {
   titleContent: String
 }
 
+type SearchResult {
+  id: ID!
+  name: String!
+  typeName: String!
+  wasteFamilyName: String
+}
+
+type SearchResultAddress {
+  banFeaturesProperties: JSON
+  latitude: Float
+  longitude: Float
+  name: String
+}
+
+type Sectorization {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  description: String!
+  name: String!
+  polygonCoordinates: JSON
+  updatedAt: DateTime
+}
+
+type SectorizationEntity {
+  attributes: Sectorization
+  id: ID
+}
+
+type SectorizationEntityResponse {
+  data: SectorizationEntity
+}
+
+type SectorizationEntityResponseCollection {
+  data: [SectorizationEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input SectorizationFiltersInput {
+  and: [SectorizationFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: SectorizationFiltersInput
+  or: [SectorizationFiltersInput]
+  polygonCoordinates: JSONFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input SectorizationInput {
+  contract: ID
+  description: String
+  name: String
+  polygonCoordinates: JSON
+}
+
+type SectorizationRelationResponseCollection {
+  data: [SectorizationEntity!]!
+}
+
 type Service {
   id: ID
   name: String
@@ -4734,7 +6409,30 @@ type ServiceActivated {
   startDate: Date
 }
 
+input ServiceInput {
+  endDate: String!
+  name: String!
+  startDate: String!
+}
+
+enum ServiceType {
+  alert
+  dropOffMap
+  event
+  freeContent1
+  freeContent2
+  keyMetrics
+  mwc
+  news
+  pickUpDay
+  quizz
+  recycling
+  request
+  tip
+}
+
 type ServicesBlock {
+  audience: AudienceEntityResponse
   createdAt: DateTime
   homepage: HomepageEntityResponse
   serviceLinks: [ServicesBlockServiceLinksDynamicZone]
@@ -4758,6 +6456,7 @@ type ServicesBlockEntityResponseCollection {
 
 input ServicesBlockFiltersInput {
   and: [ServicesBlockFiltersInput]
+  audience: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   homepage: HomepageFiltersInput
   id: IDFilterInput
@@ -4768,9 +6467,14 @@ input ServicesBlockFiltersInput {
 }
 
 input ServicesBlockInput {
+  audience: ID
   homepage: ID
   serviceLinks: [ServicesBlockServiceLinksDynamicZoneInput!]
   titleContent: String
+}
+
+type ServicesBlockRelationResponseCollection {
+  data: [ServicesBlockEntity!]!
 }
 
 union ServicesBlockServiceLinksDynamicZone =
@@ -4781,6 +6485,7 @@ union ServicesBlockServiceLinksDynamicZone =
   | ComponentLinksExternal
   | ComponentLinksFrees
   | ComponentLinksKeyMetrics
+  | ComponentLinksMyWasteCounter
   | ComponentLinksNews
   | ComponentLinksPickUpDay
   | ComponentLinksQuizzes
@@ -4790,6 +6495,12 @@ union ServicesBlockServiceLinksDynamicZone =
   | Error
 
 scalar ServicesBlockServiceLinksDynamicZoneInput
+
+type ServicesDeactivated {
+  contractId: ID
+  serviceId: ID
+  serviceName: String
+}
 
 input StringFilterInput {
   and: [String]
@@ -4948,15 +6659,32 @@ input TerritoryTypeInput {
   territoryType: String
 }
 
+"""
+A time string with format HH:mm:ss.SSS
+"""
+scalar Time
+
+type TimeSlotWithUser {
+  date: String
+  dynamic: String
+  fixed: String
+  requestTakeds: [RequestTakeds]
+  slot: String
+}
+
 type Tip {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
   blocks: [TipBlocksDynamicZone]
   createdAt: DateTime
+  customId: String
   draftCreationId: String
-  editoContent: EditoContentEntityResponse
   hasDraft: Boolean
   image: UploadFileEntityResponse!
   link: String
-  linkToServices: [TipLinkToServicesDynamicZone]
   publishedDate: DateTime
   shortDescription: String
   status: ENUM_TIP_STATUS
@@ -4968,14 +6696,17 @@ type Tip {
   tipSubService: TipSubServiceEntityResponse
   title: String!
   titleLabel: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
   updatedAt: DateTime
+  versionNumber: Int
 }
 
 union TipBlocksDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksServices
   | ComponentBlocksSubHeading
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
@@ -4999,9 +6730,10 @@ type TipEntityResponseCollection {
 
 input TipFiltersInput {
   and: [TipFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
+  customId: StringFilterInput
   draftCreationId: StringFilterInput
-  editoContent: EditoContentFiltersInput
   hasDraft: BooleanFilterInput
   id: IDFilterInput
   isSystem: BooleanFilterInput
@@ -5015,19 +6747,21 @@ input TipFiltersInput {
   tipSubService: TipSubServiceFiltersInput
   title: StringFilterInput
   titleLabel: StringFilterInput
+  toBeUpdated: BooleanFilterInput
   unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
 }
 
 input TipInput {
+  audiences: [ID]
   blocks: [TipBlocksDynamicZoneInput!]
+  customId: String
   draftCreationId: String
-  editoContent: ID
   hasDraft: Boolean
   image: ID
   isSystem: Boolean
   link: String
-  linkToServices: [TipLinkToServicesDynamicZoneInput!]
   publishedDate: DateTime
   shortDescription: String
   status: ENUM_TIP_STATUS
@@ -5035,30 +6769,16 @@ input TipInput {
   tipSubService: ID
   title: String
   titleLabel: String
+  toBeUpdated: Boolean
   unpublishedDate: DateTime
+  versionNumber: Int
 }
-
-union TipLinkToServicesDynamicZone =
-    ComponentLinksAlertNotification
-  | ComponentLinksDropOffMap
-  | ComponentLinksEditorial
-  | ComponentLinksPickUpDay
-  | ComponentLinksRecyclingGuide
-  | ComponentLinksRequest
-  | Error
-
-scalar TipLinkToServicesDynamicZoneInput
 
 type TipRelationResponseCollection {
   data: [TipEntity!]!
 }
 
 type TipSubService {
-  audienceTypes(
-    filters: AudienceTypeFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): AudienceTypeRelationResponseCollection
   cities(
     filters: CityFiltersInput
     pagination: PaginationArg = {}
@@ -5095,7 +6815,6 @@ type TipSubServiceEntityResponseCollection {
 
 input TipSubServiceFiltersInput {
   and: [TipSubServiceFiltersInput]
-  audienceTypes: AudienceTypeFiltersInput
   cities: CityFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -5112,7 +6831,6 @@ input TipSubServiceFiltersInput {
 }
 
 input TipSubServiceInput {
-  audienceTypes: [ID]
   cities: [ID]
   description: String
   editorialService: ID
@@ -5127,33 +6845,34 @@ type TipSubServiceRelationResponseCollection {
   data: [TipSubServiceEntity!]!
 }
 
-type TopContent {
-  createdAt: DateTime
-  editorialService: EditorialServiceEntityResponse
-  event: EventEntityResponse
-  news: NewEntityResponse
-  topContentBlock: TopContentBlockEntityResponse
-  updatedAt: DateTime
+type Tips {
+  image: Image
+  originalId: ID!
+  shortDescription: String
+  tags: [Tag]
+  title: String!
 }
 
 type TopContentBlock {
+  audience: AudienceEntityResponse
   createdAt: DateTime
   displayBlock: Boolean!
   displayLastThreeContents: Boolean!
   hasTopContent: Boolean!
   homepage: HomepageEntityResponse
   titleContent: String!
-  topContent: TopContentEntityResponse
+  topContent: [TopContentBlockTopContentDynamicZone]
   updatedAt: DateTime
 }
 
 type TopContentBlockDTO {
+  audienceId: ID!
   displayBlock: Boolean!
   displayLastThreeContents: Boolean!
   hasTopContent: Boolean!
   id: ID!
   titleContent: String!
-  topContent: TopContentDTO
+  topContent: EditoContentDTO
 }
 
 type TopContentBlockEntity {
@@ -5172,6 +6891,7 @@ type TopContentBlockEntityResponseCollection {
 
 input TopContentBlockFiltersInput {
   and: [TopContentBlockFiltersInput]
+  audience: AudienceFiltersInput
   createdAt: DateTimeFilterInput
   displayBlock: BooleanFilterInput
   displayLastThreeContents: BooleanFilterInput
@@ -5181,73 +6901,27 @@ input TopContentBlockFiltersInput {
   not: TopContentBlockFiltersInput
   or: [TopContentBlockFiltersInput]
   titleContent: StringFilterInput
-  topContent: TopContentFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
 input TopContentBlockInput {
+  audience: ID
   displayBlock: Boolean
   displayLastThreeContents: Boolean
   hasTopContent: Boolean
   homepage: ID
   titleContent: String
-  topContent: ID
+  topContent: [TopContentBlockTopContentDynamicZoneInput!]
 }
 
-type TopContentDTO {
-  attributes: TopContentDTOAttributes!
-  contentType: String!
-  id: ID!
-  typeName: String!
+type TopContentBlockRelationResponseCollection {
+  data: [TopContentBlockEntity!]!
 }
 
-type TopContentDTOAttributes {
-  publishedDate: DateTime
-  status: ENUM_TOPCONTENTDTO_STATUS
-  title: String!
-}
+union TopContentBlockTopContentDynamicZone = ComponentLinksTopContent | Error
 
-type TopContentEntity {
-  attributes: TopContent
-  id: ID
-}
+scalar TopContentBlockTopContentDynamicZoneInput
 
-type TopContentEntityResponse {
-  data: TopContentEntity
-}
-
-type TopContentEntityResponseCollection {
-  data: [TopContentEntity!]!
-  meta: ResponseCollectionMeta!
-}
-
-input TopContentFiltersInput {
-  and: [TopContentFiltersInput]
-  createdAt: DateTimeFilterInput
-  editorialService: EditorialServiceFiltersInput
-  event: EventFiltersInput
-  id: IDFilterInput
-  news: NewFiltersInput
-  not: TopContentFiltersInput
-  or: [TopContentFiltersInput]
-  topContentBlock: TopContentBlockFiltersInput
-  updatedAt: DateTimeFilterInput
-}
-
-input TopContentInput {
-  editorialService: ID
-  event: ID
-  news: ID
-  topContentBlock: ID
-}
-
-type TopContentRelationResponseCollection {
-  data: [TopContentEntity!]!
-}
-
-"""
-The `Upload` scalar type represents a file upload.
-"""
 scalar Upload
 
 type UploadFile {
@@ -5391,6 +7065,68 @@ input UploadFolderInput {
 
 type UploadFolderRelationResponseCollection {
   data: [UploadFolderEntity!]!
+}
+
+type UploadResult {
+  id: String!
+}
+
+type User {
+  email: String
+  id: String
+  name: String
+  phone: String
+  surname: String
+}
+
+type UserDataStorage {
+  createdAt: DateTime
+  email: String!
+  firstname: String
+  name: String
+  phone: String
+  requestTakeds(
+    filters: RequestTakedFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): RequestTakedRelationResponseCollection
+  updatedAt: DateTime
+}
+
+type UserDataStorageEntity {
+  attributes: UserDataStorage
+  id: ID
+}
+
+type UserDataStorageEntityResponse {
+  data: UserDataStorageEntity
+}
+
+type UserDataStorageEntityResponseCollection {
+  data: [UserDataStorageEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UserDataStorageFiltersInput {
+  and: [UserDataStorageFiltersInput]
+  createdAt: DateTimeFilterInput
+  email: StringFilterInput
+  firstname: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: UserDataStorageFiltersInput
+  or: [UserDataStorageFiltersInput]
+  phone: StringFilterInput
+  requestTakeds: RequestTakedFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input UserDataStorageInput {
+  email: String
+  firstname: String
+  name: String
+  phone: String
+  requestTakeds: [ID]
 }
 
 type UsersPermissionsCreateRolePayload {
@@ -5585,13 +7321,110 @@ type UsersPermissionsUserRelationResponseCollection {
   data: [UsersPermissionsUserEntity!]!
 }
 
-type WasteForm {
-  createdAt: DateTime
-  description: String
-  name: String
-  publishedAt: DateTime
-  updatedAt: DateTime
+union VersioningEntity =
+    EventEntity
+  | FreeContentEntity
+  | NewEntity
+  | QuizEntity
+  | TipEntity
+  | WasteFormEntity
+
+type VersioningEntityResponse {
+  data: VersioningEntity
 }
+
+type WasteFamily {
+  createdAt: DateTime
+  familyName: String!
+  isSystem: Boolean!
+  recyclingGuideService: RecyclingGuideServiceEntityResponse
+  updatedAt: DateTime
+  wasteForms(
+    filters: WasteFormFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): WasteFormRelationResponseCollection
+}
+
+type WasteFamilyEntity {
+  attributes: WasteFamily
+  id: ID
+}
+
+type WasteFamilyEntityResponse {
+  data: WasteFamilyEntity
+}
+
+type WasteFamilyEntityResponseCollection {
+  data: [WasteFamilyEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input WasteFamilyFiltersInput {
+  and: [WasteFamilyFiltersInput]
+  createdAt: DateTimeFilterInput
+  familyName: StringFilterInput
+  id: IDFilterInput
+  isSystem: BooleanFilterInput
+  not: WasteFamilyFiltersInput
+  or: [WasteFamilyFiltersInput]
+  recyclingGuideService: RecyclingGuideServiceFiltersInput
+  updatedAt: DateTimeFilterInput
+  wasteForms: WasteFormFiltersInput
+}
+
+input WasteFamilyInput {
+  familyName: String
+  isSystem: Boolean
+  recyclingGuideService: ID
+  wasteForms: [ID]
+}
+
+type WasteFamilyRelationResponseCollection {
+  data: [WasteFamilyEntity!]!
+}
+
+type WasteForm {
+  audiences(
+    filters: AudienceFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): AudienceRelationResponseCollection
+  contentBlock: [WasteFormContentBlockDynamicZone]
+  createdAt: DateTime
+  customId: String
+  draftCreationId: String
+  flow: FlowEntityResponse
+  hasDraft: Boolean
+  isHidden: Boolean
+  name: String
+  picto: UploadFileEntityResponse
+  publishedDate: DateTime
+  recyclingGestureText: String
+  recyclingGuideService: RecyclingGuideServiceEntityResponse
+  status: ENUM_WASTEFORM_STATUS
+  tags(
+    filters: TagFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): TagRelationResponseCollection
+  toBeUpdated: Boolean
+  unpublishedDate: DateTime
+  updatedAt: DateTime
+  versionNumber: Int
+  wasteFamily: WasteFamilyEntityResponse
+}
+
+union WasteFormContentBlockDynamicZone =
+    ComponentBlocksFile
+  | ComponentBlocksHorizontalRule
+  | ComponentBlocksImage
+  | ComponentBlocksSubHeading
+  | ComponentBlocksVideo
+  | ComponentBlocksWysiwyg
+  | Error
+
+scalar WasteFormContentBlockDynamicZoneInput
 
 type WasteFormEntity {
   attributes: WasteForm
@@ -5609,24 +7442,142 @@ type WasteFormEntityResponseCollection {
 
 input WasteFormFiltersInput {
   and: [WasteFormFiltersInput]
+  audiences: AudienceFiltersInput
   createdAt: DateTimeFilterInput
-  description: StringFilterInput
+  customId: StringFilterInput
+  draftCreationId: StringFilterInput
+  flow: FlowFiltersInput
+  hasDraft: BooleanFilterInput
   id: IDFilterInput
+  isHidden: BooleanFilterInput
   name: StringFilterInput
   not: WasteFormFiltersInput
   or: [WasteFormFiltersInput]
-  publishedAt: DateTimeFilterInput
+  publishedDate: DateTimeFilterInput
+  recyclingGestureText: StringFilterInput
+  recyclingGuideService: RecyclingGuideServiceFiltersInput
+  status: StringFilterInput
+  tags: TagFiltersInput
+  toBeUpdated: BooleanFilterInput
+  unpublishedDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  versionNumber: IntFilterInput
+  wasteFamily: WasteFamilyFiltersInput
 }
 
 input WasteFormInput {
-  description: String
+  audiences: [ID]
+  contentBlock: [WasteFormContentBlockDynamicZoneInput!]
+  customId: String
+  draftCreationId: String
+  flow: ID
+  hasDraft: Boolean
+  isHidden: Boolean
   name: String
-  publishedAt: DateTime
+  picto: ID
+  publishedDate: DateTime
+  recyclingGestureText: String
+  recyclingGuideService: ID
+  status: ENUM_WASTEFORM_STATUS
+  tags: [ID]
+  toBeUpdated: Boolean
+  unpublishedDate: DateTime
+  versionNumber: Int
+  wasteFamily: ID
 }
 
 type WasteFormRelationResponseCollection {
   data: [WasteFormEntity!]!
+}
+
+type WelcomeMessageBlock {
+  createdAt: DateTime
+  homepage: HomepageEntityResponse
+  showBlock: Boolean!
+  subtitle: String!
+  title: String!
+  updatedAt: DateTime
+}
+
+type WelcomeMessageBlockEntity {
+  attributes: WelcomeMessageBlock
+  id: ID
+}
+
+type WelcomeMessageBlockEntityResponse {
+  data: WelcomeMessageBlockEntity
+}
+
+type WelcomeMessageBlockEntityResponseCollection {
+  data: [WelcomeMessageBlockEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input WelcomeMessageBlockFiltersInput {
+  and: [WelcomeMessageBlockFiltersInput]
+  createdAt: DateTimeFilterInput
+  homepage: HomepageFiltersInput
+  id: IDFilterInput
+  not: WelcomeMessageBlockFiltersInput
+  or: [WelcomeMessageBlockFiltersInput]
+  showBlock: BooleanFilterInput
+  subtitle: StringFilterInput
+  title: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input WelcomeMessageBlockInput {
+  homepage: ID
+  showBlock: Boolean
+  subtitle: String
+  title: String
+}
+
+type YesWeScanService {
+  contract: ContractEntityResponse
+  createdAt: DateTime
+  endDate: DateTime
+  serviceName: String
+  startDate: DateTime
+  updatedAt: DateTime
+}
+
+type YesWeScanServiceEntity {
+  attributes: YesWeScanService
+  id: ID
+}
+
+type YesWeScanServiceEntityResponse {
+  data: YesWeScanServiceEntity
+}
+
+type YesWeScanServiceEntityResponseCollection {
+  data: [YesWeScanServiceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input YesWeScanServiceFiltersInput {
+  and: [YesWeScanServiceFiltersInput]
+  contract: ContractFiltersInput
+  createdAt: DateTimeFilterInput
+  endDate: DateTimeFilterInput
+  id: IDFilterInput
+  not: YesWeScanServiceFiltersInput
+  or: [YesWeScanServiceFiltersInput]
+  serviceName: StringFilterInput
+  startDate: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input YesWeScanServiceInput {
+  contract: ID
+  endDate: DateTime
+  serviceName: String
+  startDate: DateTime
+}
+
+type YesWeScanServiceRelationResponseCollection {
+  data: [YesWeScanServiceEntity!]!
 }
 
 type clientName {

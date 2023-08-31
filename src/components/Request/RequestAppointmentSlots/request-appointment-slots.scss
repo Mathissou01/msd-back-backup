@@ -1,0 +1,39 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-RequestAppointmentSlots {
+  &__RequiredSlots {
+    width: 50%;
+  }
+
+  &__Hours {
+    .c-FormLabel__SuffixData {
+      width: 50%;
+    }
+  }
+
+  &__SlotsTitle {
+    display: block;
+    margin-bottom: 12px;
+    color: colors.$blue-2;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  &__SlotsLine {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .c-FormSelect {
+      flex-direction: row;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .c-FormLabel {
+      min-width: 330px;
+    }
+  }
+}

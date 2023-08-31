@@ -3,10 +3,10 @@
 exports[`CommonLoader renders error state 1`] = `
 <div>
   <div
-    class="c-CommonLoader__Errors"
+    class="c-CommonErrors"
   >
     <span>
-      error message
+      ApolloError: error message
     </span>
   </div>
 </div>

@@ -1,0 +1,37 @@
+query getUploadFolders($filters: UploadFolderFiltersInput) {
+  uploadFolders(filters: $filters) {
+    data {
+      id
+      attributes {
+        name
+        pathId
+        path
+        files {
+          data {
+            id
+          }
+        }
+        children {
+          data {
+            id
+            attributes {
+              name
+              pathId
+              path
+              files {
+                data {
+                  id
+                }
+              }
+              children {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

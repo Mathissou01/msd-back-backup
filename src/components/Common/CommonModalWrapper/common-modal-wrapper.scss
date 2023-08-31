@@ -2,6 +2,9 @@
 @use "src/styles/02-tools/tools.shadows" as shadows;
 
 .c-CommonModalWrapper {
+  height: 100%;
+  overflow: hidden;
+
   &:not(:empty) {
     position: absolute;
     top: 0;
@@ -11,6 +14,7 @@
     justify-content: center;
     width: 100vw;
     height: 100vh;
+    padding: 20px 0;
     background-color: rgb(0 0 0 / 50%);
   }
 
@@ -20,10 +24,17 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 58%;
     padding: 36px;
     background-color: colors.$white;
     border-radius: 10px;
+
+    &_sizeMedium {
+      width: 58%;
+    }
+
+    &_sizeLarge {
+      width: 95%;
+    }
   }
 
   &__Close {
@@ -36,9 +47,5 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 23px;
-  }
-
-  hgroup {
-    margin-bottom: 30px;
   }
 }

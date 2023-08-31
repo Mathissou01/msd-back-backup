@@ -1,0 +1,7 @@
+mutation updateCookieById($updateCookieId: ID!, $data: CookieInput!) {
+  updateCookie(id: $updateCookieId, data: $data) {
+    data {
+      id
+    }
+  }
+}

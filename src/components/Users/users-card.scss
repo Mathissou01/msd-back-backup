@@ -1,0 +1,106 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-UsersBlock {
+  @include shadows.shadow(1);
+
+  width: 450px;
+  padding: 15px;
+  background-color: colors.$white;
+  border-radius: 10px;
+  animation: fade-in 0.3s forwards;
+
+  &__Head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 0 20px;
+  }
+
+  &__Content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid colors.$black;
+  }
+
+  &__PictoContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: right;
+    margin-right: 5px;
+  }
+
+  &__EditPicto {
+    @include p.get-picto("edit", $backgroundSize: 16px);
+
+    width: 20px;
+    height: 20px;
+  }
+
+  &__EditPicto:hover {
+    width: 20px;
+    height: 20px;
+    background-color: colors.$gray-200;
+    border-radius: 20%;
+  }
+
+  &__RemovePicto {
+    @include p.get-picto("trash", $backgroundSize: 16px);
+
+    width: 20px;
+    height: 20px;
+  }
+
+  &__RemovePicto:hover {
+    width: 20px;
+    height: 20px;
+    background-color: colors.$gray-200;
+    border-radius: 20%;
+  }
+
+  &__AddContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    border: 1px dotted colors.$gray-800;
+    transform: translateY(20px); /* translation initiale */
+    opacity: 0; /* opacité initiale */
+    transition: opacity 0.3s, transform 0.3s; /* animation de transition */
+  }
+
+  &__AddPicto {
+    @include p.get-picto("add", $backgroundSize: 16px);
+
+    width: 20px;
+    height: 20px;
+  }
+
+  &__AddPicto:hover {
+    width: 20px;
+    height: 20px;
+    background-color: colors.$gray-200;
+    border-radius: 20%;
+  }
+}
+
+/* Animation d'apparition pour .c-UsersBlock */
+@keyframes fade-in {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

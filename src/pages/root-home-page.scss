@@ -1,0 +1,33 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.inputs" as input;
+
+.c-RootHomePage {
+  &__Content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 37px;
+  }
+
+  &__SearchContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 38px;
+    padding: 0;
+    border-radius: 2px;
+  }
+
+  &__Search {
+    @include input.input;
+
+    width: 404px;
+    color: colors.$blue-1;
+    border: 1px solid colors.$blue-4;
+
+    &::placeholder {
+      color: colors.$blue-1;
+    }
+  }
+}

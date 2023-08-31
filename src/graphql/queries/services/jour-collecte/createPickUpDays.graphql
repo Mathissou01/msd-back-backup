@@ -1,0 +1,56 @@
+mutation createPickUpDay($data: PickUpDayInput!) {
+  createPickUpDay(data: $data) {
+    data {
+      id
+      attributes {
+        name
+        description
+        periodicity
+        advancedSelection
+        pickUpHours
+        includeHoliday
+        complementaryMention
+        createdAt
+        updatedAt
+        buttonLabel
+        externalLink
+        request {
+          data {
+            id
+          }
+        }
+        flow {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        pickUpDayService {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        sectorizations {
+          data {
+            id
+            attributes {
+              name
+              description
+              polygonCoordinates
+            }
+          }
+        }
+        audiences {
+          data {
+            id
+          }
+        }
+      }
+    }
+  }
+}

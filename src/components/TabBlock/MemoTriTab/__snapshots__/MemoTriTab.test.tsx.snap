@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MemoTriTab renders loading and loaded state 1`] = `
+<div>
+  <div
+    aria-labelledby="tab-memoTri"
+    class="c-MemoTriTab"
+    id="panel-memoTri"
+    role="tabpanel"
+  >
+    <div
+      class="c-CommonLoader c-CommonLoader_cover c-CommonLoader_grow"
+    >
+      <div
+        class="c-CommonSpinner"
+        data-testid="common-spinner"
+      >
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MemoTriTab renders loading and loaded state 2`] = `
+<div>
+  <div
+    aria-labelledby="tab-memoTri"
+    class="c-MemoTriTab"
+    id="panel-memoTri"
+    role="tabpanel"
+  >
+    <h2
+      class="c-MemoTriTab__Title"
+    >
+      Mémotri
+    </h2>
+    <form
+      class="c-MemoTriTab__Form"
+    >
+      <div
+        class="c-MemoTriTab__Group c-MemoTriTab__Group_short"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="memoName"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Nom du mémotri *
+              </span>
+              <span
+                class="c-FormLabel__Validation"
+              >
+                20 caractères maximum
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-errormessage="memoName_error"
+                aria-invalid="false"
+                class="c-FormInput__Input"
+                data-testid="form-input"
+                id="memoName"
+                maxlength="20"
+                name="memoName"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-MemoTriTab__Group c-MemoTriTab__Group_short"
+      >
+        <div
+          class="c-FormInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="memoDesc"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Description du mémotri
+              </span>
+              <span
+                class="c-FormLabel__Validation"
+              >
+                50 caractères maximum
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <textarea
+                aria-errormessage="memoDesc_error"
+                aria-invalid="false"
+                class="c-FormInput__Input"
+                data-testid="form-input"
+                id="memoDesc"
+                maxlength="50"
+                name="memoDesc"
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-MemoTriTab__Group c-MemoTriTab__Group_short"
+      >
+        <div
+          class="c-FormFileInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="memoFile"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Fichier *
+              </span>
+              <span
+                class="c-FormLabel__Validation"
+              >
+                20 Mo maximum
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-invalid="false"
+                name="memoFile"
+                type="hidden"
+                value=""
+              />
+              <div
+                aria-errormessage="memoFile_error"
+                aria-invalid="false"
+                class="c-FormFileInput__DragDrop"
+                id="memoFile"
+              >
+                <span
+                  class="c-FormFileInput__Placeholder"
+                >
+                  Cliquer pour ajouter un fichier depuis la bibliothèque de média ou glissez-déposez un fichier dans cette zone.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-MemoTriTab__Buttons"
+      >
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_primary c-CommonButton_fontSmall"
+          disabled=""
+          type="submit"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_check"
+          />
+          Enregistrer les modifications
+        </button>
+        <button
+          class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+          disabled=""
+          type="button"
+        >
+          <div
+            class="c-CommonButton__Picto c-CommonButton__Picto_cross"
+          />
+          Annuler les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

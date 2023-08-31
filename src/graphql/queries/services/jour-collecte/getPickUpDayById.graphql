@@ -1,0 +1,86 @@
+query getPickUpDayById($pickUpDayId: ID) {
+  pickUpDay(id: $pickUpDayId) {
+    data {
+      id
+      attributes {
+        name
+        periodicity
+        advancedSelection
+        pickUpHours
+        includeHoliday
+        complementaryMention
+        buttonLabel
+        externalLink
+        request {
+          data {
+            id
+          }
+        }
+        flow {
+          data {
+            id
+            attributes {
+              name
+              recyclingGesture
+            }
+          }
+        }
+        sectorizations {
+          data {
+            id
+            attributes {
+              name
+              description
+              polygonCoordinates
+            }
+          }
+        }
+        cities {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        periodicity
+        advancedSelection
+        collectDoorToDoor {
+          data {
+            id
+            attributes {
+              name
+              picto {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
+        collectVoluntary {
+          data {
+            id
+            attributes {
+              name
+              picto {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
+        audiences {
+          data {
+            id
+            attributes {
+              type
+              isActive
+            }
+          }
+        }
+      }
+    }
+  }
+}

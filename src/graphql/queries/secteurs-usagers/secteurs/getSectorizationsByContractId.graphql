@@ -1,0 +1,30 @@
+query getSectorizationsByContractId(
+  $contractId: ID!
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  sectorizations(
+    filters: { contract: { id: { eq: $contractId } } }
+    pagination: $pagination
+    sort: $sort
+  ) {
+    data {
+      id
+      attributes {
+        createdAt
+        description
+        name
+        updatedAt
+        polygonCoordinates
+      }
+    }
+    meta {
+      pagination {
+        total
+        pageSize
+        page
+        pageCount
+      }
+    }
+  }
+}

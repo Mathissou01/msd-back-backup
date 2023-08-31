@@ -1,0 +1,39 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-BarometerLegend {
+  display: flex;
+  width: 315px;
+
+  p {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+    color: colors.$blue-2;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    border-radius: 50px;
+  }
+
+  &__Low {
+    background-color: colors.$graph-low;
+  }
+
+  &__Medium {
+    background-color: colors.$graph-medium;
+  }
+
+  &__High {
+    background-color: colors.$graph-hot;
+  }
+
+  &__VeryHigh {
+    background-color: colors.$graph-veryhot;
+  }
+}

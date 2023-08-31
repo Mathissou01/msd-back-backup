@@ -1,0 +1,18 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.focus" as focus;
+
+.c-CommonButtonGroup {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+
+  &__Filter {
+    @include focus.focus-ring(true, 2px);
+
+    padding: 0;
+
+    &_active {
+      font-weight: 700;
+    }
+  }
+}

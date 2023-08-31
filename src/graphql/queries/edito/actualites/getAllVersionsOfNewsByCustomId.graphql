@@ -1,0 +1,96 @@
+query getAllVersionsOfNewsByCustomId(
+  $contractId: ID!
+  $customId: String
+  $statusFilter: StringFilterInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  newsCount: news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  newsCountDraft: news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "draft" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  newsCountPublished: news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "published" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  newsCountArchived: news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "archived" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  news(
+    filters: {
+      newsSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: $statusFilter
+    }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        versionNumber
+        status
+        publishedDate
+        updatedAt
+      }
+    }
+  }
+}

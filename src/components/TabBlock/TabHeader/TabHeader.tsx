@@ -1,9 +1,14 @@
 import classNames from "classnames";
 import "./tab-header.scss";
-import { Tab } from "../TabBlock";
+
+export interface ITabHeader {
+  name: string;
+  title: string;
+  isEnabled: boolean;
+}
 
 interface ITabHeaderProps {
-  tabs: Array<Tab>;
+  tabs: Array<ITabHeader>;
   selectedTab: number;
   isAlignStart?: boolean;
   onClick: (tabIndex: number) => void;
@@ -34,6 +39,7 @@ export default function TabHeader({
               aria-controls={`panel-${tab.name}`}
               tabIndex={index === selectedTab ? 0 : -1}
               onClick={() => onClick(index)}
+              type="button"
             >
               <span>{tab.title}</span>
             </button>

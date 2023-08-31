@@ -1,0 +1,82 @@
+query getWasteFormsByContractId(
+  $contractId: ID
+  $statusFilter: String
+  $flowId: ID
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  wasteFormsCount: wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsDraftCount: wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      status: { eq: "draft" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsPublishedCount: wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      status: { eq: "published" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteFormsArchivedCount: wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      status: { eq: "archived" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  wasteForms(
+    filters: {
+      recyclingGuideService: { contract: { id: { eq: $contractId } } }
+      status: { eq: $statusFilter }
+      flow: { id: { eq: $flowId } }
+    }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        name
+        status
+        updatedAt
+        isHidden
+      }
+    }
+  }
+}

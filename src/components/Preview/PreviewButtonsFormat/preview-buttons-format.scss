@@ -1,0 +1,58 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.focus" as focus;
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-PreviewButtonsFormat {
+  @include focus.focus-ring;
+
+  display: flex;
+  justify-content: center;
+
+  &__Button {
+    $self: &;
+
+    width: 36px;
+    height: 36px;
+    border: 1px solid colors.$expert-blue;
+    border-right: unset;
+    border-left: unset;
+
+    &_active {
+      background-color: colors.$expert-blue;
+    }
+
+    &_desktop {
+      @include p.get-picto("screen", $backgroundSize: 25px);
+
+      &#{$self}_active {
+        @include p.get-picto("screen", colors.$white, $backgroundSize: 25px);
+      }
+    }
+
+    &_tablet {
+      @include p.get-picto("tablet", $backgroundSize: 25px);
+
+      &#{$self}_active {
+        @include p.get-picto("tablet", colors.$white, $backgroundSize: 25px);
+      }
+    }
+
+    &_phone {
+      @include p.get-picto("phone", $backgroundSize: 25px);
+
+      &#{$self}_active {
+        @include p.get-picto("phone", colors.$white, $backgroundSize: 25px);
+      }
+    }
+  }
+
+  &__Button:first-child {
+    border: 1px solid colors.$expert-blue;
+    border-radius: 3px 0 0 3px;
+  }
+
+  &__Button:last-child {
+    border: 1px solid colors.$expert-blue;
+    border-radius: 0 4px 4px 0;
+  }
+}

@@ -1,0 +1,59 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-FormSector {
+  display: flex;
+
+  &__Informations {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__Title {
+    margin-bottom: 36px;
+    color: colors.$expert-blue;
+    font-weight: 500;
+    font-size: 30px;
+    font-family: DINPro-Regular, sans-serif;
+  }
+
+  &__Name {
+    margin-bottom: 26px;
+  }
+
+  &__Communes {
+    display: flex;
+    margin-top: 60px;
+    margin-bottom: 80px;
+    padding: 50px;
+    background: colors.$gray-100;
+  }
+
+  &__Info {
+    @include p.get-picto(
+      "polygon",
+      $backgroundSize: 30px,
+      $backgroundPosition: top left
+    );
+
+    padding-left: 60px;
+  }
+
+  &__ButtonsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__SavAndCancel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__Maps {
+    width: 65%;
+    margin: 0 36px;
+    background-color: colors.$blue-4;
+  }
+}

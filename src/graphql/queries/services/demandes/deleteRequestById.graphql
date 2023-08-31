@@ -1,0 +1,7 @@
+mutation deleteRequestById($deleteRequestId: ID!) {
+  deleteRequest(id: $deleteRequestId) {
+    data {
+      id
+    }
+  }
+}

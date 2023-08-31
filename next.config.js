@@ -15,6 +15,7 @@ const nextConfig = {
   },
   env: {
     API_URL: process.env.NEXT_PUBLIC_API_URL,
+    GOOGLE_API: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
   },
   pageExtensions: ["page.js", "page.jsx", "page.ts", "page.tsx"],
   webpack(config) {

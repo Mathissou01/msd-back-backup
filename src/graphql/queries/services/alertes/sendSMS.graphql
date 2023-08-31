@@ -1,0 +1,13 @@
+mutation sendSMS(
+  $content: String!
+  $scheduledAt: String
+  $sendMultiple: Boolean
+  $phoneNumber: [String]!
+) {
+  sendSMS(
+    content: $content
+    scheduledAt: $scheduledAt
+    sendMultiple: $sendMultiple
+    phoneNumber: $phoneNumber
+  )
+}

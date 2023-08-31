@@ -1,0 +1,41 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-RequestTimeSlotsAndExceptions {
+  &__Content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__ExceptionLabel,
+  &__ExceptionDate {
+    color: colors.$blue-2;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &__ExceptionLabel {
+    display: inline-block;
+    width: 20%;
+  }
+
+  &__Modal {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: stretch;
+    max-height: 65vh;
+    margin: -5px;
+    padding: 5px;
+    overflow: auto;
+  }
+
+  &__ModalTimeSlots {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: colors.$gray-100;
+    border-radius: 5px;
+  }
+}

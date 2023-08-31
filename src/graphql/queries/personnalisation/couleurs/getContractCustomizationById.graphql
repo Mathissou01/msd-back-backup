@@ -1,0 +1,33 @@
+query getContractCustomizationById($contractId: ID!) {
+  contract(id: $contractId) {
+    data {
+      id
+      attributes {
+        logo {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+            }
+          }
+        }
+        contractCustomization {
+          data {
+            id
+            attributes {
+              primaryColor
+              secondaryColor
+              textContrast
+            }
+          }
+        }
+      }
+    }
+  }
+}

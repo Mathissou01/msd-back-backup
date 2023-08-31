@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormAutoCompleteInput renders 1`] = `
+<div>
+  <div
+    class="c-FormAutoCompleteInput"
+  >
+    <div
+      class="c-FormLabel"
+    >
+      <label
+        class="c-FormLabel__LabelWrapper"
+      >
+        <span
+          class="c-FormLabel__Label"
+        >
+          form autocomplete input label
+        </span>
+      </label>
+      <div
+        class="c-FormLabel__Content"
+      >
+        <div
+          class="c-FormAutoCompleteInput__Container"
+        >
+          <input
+            aria-errormessage="autocomplete_error"
+            aria-invalid="false"
+            autocomplete="off"
+            class="c-CommonInput"
+            data-testid="form-auto-complete-input"
+            id="autocomplete"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

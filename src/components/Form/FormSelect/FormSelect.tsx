@@ -5,7 +5,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import React, { useEffect, useState } from "react";
 import { IOptionWrapper } from "../FormMultiselect/FormMultiselect";
 import FormLabel from "../FormLabel/FormLabel";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import "./form-select.scss";
 
 interface IFormSelectProps<T> {
@@ -19,6 +19,7 @@ interface IFormSelectProps<T> {
   optionKey?: keyof T & string;
   defaultValue?: T;
   noneSelectedLabel?: string;
+  informationLabel?: string;
 }
 
 export default function FormSelect<T>({
@@ -32,6 +33,7 @@ export default function FormSelect<T>({
   optionKey,
   defaultValue,
   noneSelectedLabel,
+  informationLabel,
 }: IFormSelectProps<T>) {
   /* Static Data */
   noneSelectedLabel = noneSelectedLabel ?? "- Sélectionnez un élément -";
@@ -116,6 +118,7 @@ export default function FormSelect<T>({
         label={label}
         isRequired={isRequired}
         secondaryLabel={secondaryLabel}
+        informationLabel={informationLabel}
       />
       <div className="o-SelectWrapper">
         <select
@@ -149,7 +152,7 @@ export default function FormSelect<T>({
         errors={errors}
         name={name}
         render={({ message }: { message: string }) => (
-          <CommonErrorText message={message} errorId={`${name}_error`} />
+          <CommonFormErrorText message={message} errorId={`${name}_error`} />
         )}
       />
     </div>

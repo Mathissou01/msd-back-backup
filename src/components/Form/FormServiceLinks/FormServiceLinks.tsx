@@ -9,8 +9,9 @@ import React, {
   useState,
 } from "react";
 import Image from "next/image";
-import { IPicto, IServiceLink } from "../../../lib/service-links";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import { IServiceLink } from "../../../lib/service-links";
+import { ILocalFile } from "../../../lib/media";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import FormLabel from "../FormLabel/FormLabel";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import FormServiceLinksList from "./FormServiceLinksList/FormServiceLinksList";
@@ -70,7 +71,7 @@ export default function FormServiceLinks({
     const link = values.filter((value) =>
       filterBool ? value.isDisplayed : !value.isDisplayed,
     )[i];
-    return values.findIndex((value) => value.id === link.id);
+    return values.findIndex((value) => value.localId === link.localId);
   }
 
   function onEdit(i: number) {
@@ -120,11 +121,11 @@ export default function FormServiceLinks({
   }
 
   function modalPictoDisplayTransformFunction(
-    picto: Partial<IPicto>,
+    picto?: Partial<ILocalFile>,
   ): ReactNode {
     return (
       <Image
-        src={picto.data?.attributes.url ?? "/images/pictos/default.svg"}
+        src={picto?.url ?? "/images/pictos/default.svg"}
         alt=""
         width={24}
         height={24}
@@ -132,15 +133,8 @@ export default function FormServiceLinks({
     );
   }
 
-  function onPictoModalSubmit(
-    submitData: { [key: string]: Partial<IPicto> },
-    modalName: string,
-    i: number,
-  ) {
-    // TODO: implement media server, set picto object to be sent in mutation here
-    console.log(submitData, modalName, i);
-    // const contents = Object.values(submitData)?.filter(removeNulls);
-    // setValue(name, contents, { shouldDirty: true });
+  function onPictoModalSubmit(submitData: { picto_select: ILocalFile }) {
+    return submitData.picto_select;
   }
 
   /* Local Data */
@@ -247,13 +241,7 @@ export default function FormServiceLinks({
                 modalPictoDisplayTransformFunction={
                   modalPictoDisplayTransformFunction
                 }
-                onPictoModalSubmit={(submitData, modalName, i) =>
-                  onPictoModalSubmit(
-                    submitData,
-                    modalName,
-                    getOriginalIndex(i, true),
-                  )
-                }
+                onPictoModalSubmit={onPictoModalSubmit}
               />
             )}
             {values?.filter((value) => !value.isDisplayed)?.length > 0 && (
@@ -289,13 +277,7 @@ export default function FormServiceLinks({
                   modalPictoDisplayTransformFunction={
                     modalPictoDisplayTransformFunction
                   }
-                  onPictoModalSubmit={(submitData, modalName, i) =>
-                    onPictoModalSubmit(
-                      submitData,
-                      modalName,
-                      getOriginalIndex(i, false),
-                    )
-                  }
+                  onPictoModalSubmit={onPictoModalSubmit}
                   isToggleDisplayDisabled={hasSixDisplayed}
                   isUpDisabled={true}
                   isDownDisabled={true}
@@ -308,7 +290,7 @@ export default function FormServiceLinks({
           errors={errors}
           name={name}
           render={({ message }: { message: string }) => (
-            <CommonErrorText message={message} errorId={`${name}_error`} />
+            <CommonFormErrorText message={message} errorId={`${name}_error`} />
           )}
         />
       </div>

@@ -1,4 +1,4 @@
-mutation updateContentTypeCookies(
+mutation updateCookiesSubServiceById(
   $updateSubServiceId: ID!
   $data: CookiesSubServiceInput!
 ) {
@@ -13,7 +13,7 @@ mutation updateContentTypeCookies(
   }
 }
 
-mutation updateContentTypeAccessibility(
+mutation updateAccessibilitySubServiceById(
   $updateSubServiceId: ID!
   $data: AccessibilitySubServiceInput!
 ) {
@@ -28,7 +28,7 @@ mutation updateContentTypeAccessibility(
   }
 }
 
-mutation updateContentTypeContactUs(
+mutation updateContactUsSubServiceById(
   $updateSubServiceId: ID!
   $data: ContactUsSubServiceInput!
 ) {
@@ -43,7 +43,7 @@ mutation updateContentTypeContactUs(
   }
 }
 
-mutation updateContentTypeCGU(
+mutation updateCguSubServiceById(
   $updateSubServiceId: ID!
   $data: CguSubServiceInput!
 ) {
@@ -58,7 +58,7 @@ mutation updateContentTypeCGU(
   }
 }
 
-mutation updateContentTypeConfidentiality(
+mutation updateConfidentialitySubServiceById(
   $updateSubServiceId: ID!
   $data: ConfidentialitySubServiceInput!
 ) {
@@ -73,7 +73,7 @@ mutation updateContentTypeConfidentiality(
   }
 }
 
-mutation updateContentTypeNews(
+mutation updateNewsSubServiceById(
   $updateSubServiceId: ID!
   $data: NewsSubServiceInput!
 ) {
@@ -88,7 +88,7 @@ mutation updateContentTypeNews(
   }
 }
 
-mutation updateContentTypeTip(
+mutation updateTipSubServiceById(
   $updateSubServiceId: ID!
   $data: TipSubServiceInput!
 ) {
@@ -103,7 +103,7 @@ mutation updateContentTypeTip(
   }
 }
 
-mutation updateContentTypeQuiz(
+mutation updateQuizSubServiceById(
   $updateSubServiceId: ID!
   $data: QuizSubServiceInput!
 ) {
@@ -118,7 +118,7 @@ mutation updateContentTypeQuiz(
   }
 }
 
-mutation updateContentTypeEvent(
+mutation updateEventSubServiceById(
   $updateSubServiceId: ID!
   $data: EventSubServiceInput!
 ) {
@@ -133,7 +133,7 @@ mutation updateContentTypeEvent(
   }
 }
 
-mutation updateContentTypeFreeContent(
+mutation updateFreeContentSubServiceById(
   $updateSubServiceId: ID!
   $data: FreeContentSubServiceInput!
 ) {

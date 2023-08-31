@@ -1,0 +1,96 @@
+query getAllVersionsOfTipByCustomId(
+  $contractId: ID!
+  $customId: String
+  $statusFilter: StringFilterInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  tipsCount: tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  tipsCountDraft: tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "draft" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  tipsCountPublished: tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "published" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  tipsCountArchived: tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: { eq: "archived" }
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+  }
+  tips(
+    filters: {
+      tipSubService: {
+        editorialService: { contract: { id: { eq: $contractId } } }
+      }
+      customId: { eq: $customId }
+      status: $statusFilter
+    }
+    sort: $sort
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        page
+        pageSize
+        pageCount
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        versionNumber
+        status
+        publishedDate
+        updatedAt
+      }
+    }
+  }
+}

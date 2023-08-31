@@ -1,13 +1,10 @@
-import CommonButton from "../../../../Common/CommonButton/CommonButton";
-import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
-import TabBlock, { Tab } from "../../../../TabBlock/TabBlock";
+import TabBlock, { ITab } from "../../../../TabBlock/TabBlock";
 
 interface IMainModalProps {
-  modalRef: React.RefObject<CommonModalWrapperRef>;
-  tabs: Tab[];
+  tabs: ITab[];
 }
 
-export default function MainModal({ modalRef, tabs }: IMainModalProps) {
+export default function MainModal({ tabs }: IMainModalProps) {
   /** Local Data */
   const labels = {
     homeModalTitle: "Ajouter des médias",
@@ -26,13 +23,6 @@ export default function MainModal({ modalRef, tabs }: IMainModalProps) {
         initialTabName={"FromComputer"}
         isAlignLeftMediaLibrary={true}
       />
-      <div className="c-MediaImportButton__Button">
-        <CommonButton
-          type="button"
-          label={labels.cancelBtn}
-          onClick={() => modalRef.current?.toggleModal(false)}
-        />
-      </div>
     </>
   );
 }

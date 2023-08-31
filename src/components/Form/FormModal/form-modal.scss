@@ -32,5 +32,9 @@
     display: flex;
     flex-direction: row;
     gap: 24px;
+
+    &_flex {
+      justify-content: space-between;
+    }
   }
 }

@@ -1,21 +1,24 @@
+import React, { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "./form-date-picker.scss";
 import { fr } from "date-fns/locale";
 import classNames from "classnames";
-import { useState } from "react";
 import FormLabel from "../FormLabel/FormLabel";
-import { ErrorMessage } from "@hookform/error-message";
-import CommonErrorText from "../../Common/CommonErrorText/CommonErrorText";
+import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
+import "react-datepicker/dist/react-datepicker.css";
+import "./form-date-picker.scss";
 
 interface IDatePickerProps {
   name: string;
   minDate: Date;
   maxDate?: Date;
   endDate?: Date;
-  label: string;
+  label?: string;
+  isDisabled?: boolean;
   isRequired?: boolean;
+  selectsRange?: boolean;
+  onChange?: () => void;
 }
 
 export default function FormDatePicker({
@@ -23,7 +26,10 @@ export default function FormDatePicker({
   maxDate,
   minDate,
   label,
+  onChange,
+  isDisabled = false,
   isRequired = false,
+  selectsRange = false,
 }: IDatePickerProps) {
   const errorMessages = {
     required: "Ce champ est obligatoire",
@@ -51,7 +57,7 @@ export default function FormDatePicker({
               message: errorMessages.required,
             },
           }}
-          render={({ field: { onChange, value } }) => {
+          render={({ field: { onChange: onChangeField, value } }) => {
             return (
               <div
                 className={classNames("c-CommonDatePicker", {
@@ -62,14 +68,25 @@ export default function FormDatePicker({
                 })}
               >
                 <DatePicker
-                  selected={value && new Date(value)}
-                  onChange={onChange}
+                  selected={
+                    value ? (selectsRange ? value[0] : new Date(value)) : null
+                  }
+                  onChange={(value) => {
+                    onChangeField(value);
+                    if (onChange) {
+                      onChange();
+                    }
+                  }}
                   minDate={minDate}
                   maxDate={maxDate}
                   dateFormat="dd-MM-yyyy"
                   locale={fr}
                   onCalendarOpen={toggleCalendar}
                   onCalendarClose={toggleCalendar}
+                  startDate={selectsRange ? value && value[0] : null}
+                  endDate={selectsRange ? value && value[1] : null}
+                  selectsRange={selectsRange}
+                  disabled={isDisabled}
                 />
               </div>
             );
@@ -80,7 +97,7 @@ export default function FormDatePicker({
         errors={errors}
         name={name}
         render={({ message }: { message: string }) => (
-          <CommonErrorText message={message} errorId={`${name}_error`} />
+          <CommonFormErrorText message={message} errorId={`${name}_error`} />
         )}
       />
     </>

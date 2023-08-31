@@ -1,0 +1,22 @@
+query getConfidentialitySubServicesByContractId($contractId: ID!) {
+  confidentialitySubServices(
+    filters: { editorialService: { contract: { id: { eq: $contractId } } } }
+  ) {
+    data {
+      id
+      attributes {
+        confidentialities {
+          data {
+            id
+            attributes {
+              title
+              hasMobile
+              isActivated
+            }
+          }
+        }
+        name
+      }
+    }
+  }
+}

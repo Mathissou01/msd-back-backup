@@ -2,12 +2,12 @@ import { FieldValues } from "react-hook-form";
 import { useRef } from "react";
 import {
   GetAllFoldersHierarchyDocument,
-  GetFolderAndChildrenByIdDocument,
-  GetFolderBreadcrumbDocument,
+  GetUploadFoldersDocument,
+  GetLibraryBreadcrumbTrailDocument,
   RequestFolders,
   UploadFolderEntity,
   useGetAllFoldersHierarchyQuery,
-  useUpdateUploadFolderMutation,
+  useUpdateUploadFolderByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -35,6 +35,7 @@ export default function MediaUpdateFolderButton({
     titleFolderContent: "Nom du dossier",
     locationFolder: "Emplacement",
   };
+
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
     const folderLocation = submitData["folderLocation"];
@@ -52,7 +53,7 @@ export default function MediaUpdateFolderButton({
         refetchQueries: !(folder.childrenAmount && folder.childrenAmount > 0)
           ? [
               {
-                query: GetFolderAndChildrenByIdDocument,
+                query: GetUploadFoldersDocument,
                 variables: { activePathId: activePathId },
               },
               {
@@ -60,7 +61,7 @@ export default function MediaUpdateFolderButton({
                 variables: { path: folder.path },
               },
               {
-                query: GetFolderBreadcrumbDocument,
+                query: GetLibraryBreadcrumbTrailDocument,
                 variables: { path: activePath },
               },
             ]
@@ -100,7 +101,7 @@ export default function MediaUpdateFolderButton({
           )
             ? [
                 {
-                  query: GetFolderAndChildrenByIdDocument,
+                  query: GetUploadFoldersDocument,
                   variables: { activePathId: activePathId },
                 },
                 {
@@ -108,7 +109,7 @@ export default function MediaUpdateFolderButton({
                   variables: { path: folder.path },
                 },
                 {
-                  query: GetFolderBreadcrumbDocument,
+                  query: GetLibraryBreadcrumbTrailDocument,
                   variables: { path: activePath },
                 },
               ]
@@ -157,9 +158,12 @@ export default function MediaUpdateFolderButton({
   // TODO: optimize component, data should only be fetched when modal is opened not on page load
   const { data: folderHierarchy } = useGetAllFoldersHierarchyQuery({
     variables: { path: folder.path },
+    fetchPolicy: "network-only",
   });
   const [updateUploadFolder, { loading: mutationLoading }] =
-    useUpdateUploadFolderMutation();
+    useUpdateUploadFolderByIdMutation({
+      refetchQueries: ["getAllFoldersHierarchy"],
+    });
 
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);

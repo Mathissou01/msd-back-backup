@@ -10,6 +10,7 @@ interface IFormCheckboxProps {
   secondaryLabel?: string;
   defaultChecked?: boolean;
   isDisabled?: boolean;
+  onClick?: () => void;
 }
 
 export default function FormCheckbox({
@@ -18,6 +19,7 @@ export default function FormCheckbox({
   secondaryLabel,
   defaultChecked,
   isDisabled,
+  onClick,
 }: IFormCheckboxProps) {
   /* Local Data */
   const {
@@ -40,6 +42,7 @@ export default function FormCheckbox({
         defaultChecked={defaultChecked}
         disabled={isSubmitting || isDisabled}
         data-testid="form-checkbox"
+        onClick={onClick}
       />
       <FormLabel forId={name} label={label} secondaryLabel={secondaryLabel} />
       <ErrorMessage

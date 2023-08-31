@@ -1,7 +1,8 @@
 import { FieldValues } from "react-hook-form";
 import { useRef } from "react";
 import {
-  GetFolderAndChildrenByIdDocument,
+  GetAllFoldersHierarchyDocument,
+  GetUploadFoldersDocument,
   RequestFolders,
   useCreateNewFolderMutation,
 } from "../../../graphql/codegen/generated-types";
@@ -15,11 +16,13 @@ import { mapOptionsInWrappers } from "../../Form/FormMultiselect/FormMultiselect
 interface IMediaCreateFolderButtonProps {
   folderHierarchy: Array<RequestFolders>;
   activePathId: number;
+  activePath: string;
 }
 
 export default function MediaCreateFolderButton({
   folderHierarchy,
   activePathId,
+  activePath,
 }: IMediaCreateFolderButtonProps) {
   /* Static Data */
   const rootFolderName = "Bibliothèque de média";
@@ -41,8 +44,12 @@ export default function MediaCreateFolderButton({
       variables,
       refetchQueries: [
         {
-          query: GetFolderAndChildrenByIdDocument,
+          query: GetUploadFoldersDocument,
           variables: { activePathId: activePathId },
+        },
+        {
+          query: GetAllFoldersHierarchyDocument,
+          variables: { path: activePath },
         },
       ],
     });
@@ -73,6 +80,7 @@ export default function MediaCreateFolderButton({
   }
 
   /* External Data */
+  // TODO: try to use error of mutation
   const [createNewFolder, { loading: mutationLoading }] =
     useCreateNewFolderMutation();
 

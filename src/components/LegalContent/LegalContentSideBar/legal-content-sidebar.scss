@@ -1,0 +1,19 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-LegalContentSideBar {
+  &__Status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    font-family: DINPro-Medium, sans-serif;
+
+    &_draft {
+      background-color: colors.$warning-light;
+    }
+
+    &_activated {
+      background-color: colors.$success-light;
+    }
+  }
+}
