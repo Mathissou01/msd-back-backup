@@ -6,7 +6,6 @@ query getContracts {
         clientName
         contractStatus
         dueDate
-        hasYesWeScan
         clientType
         isNonExclusive
         isRVFrance
@@ -31,6 +30,7 @@ query getContracts {
             attributes {
               hasWebApp
               hasWebSite
+              hasYesWeScan
             }
           }
         }

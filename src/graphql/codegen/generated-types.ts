@@ -649,6 +649,7 @@ export type ChannelType = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   hasWebApp?: Maybe<Scalars["Boolean"]>;
   hasWebSite?: Maybe<Scalars["Boolean"]>;
+  hasYesWeScan?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -675,6 +676,7 @@ export type ChannelTypeFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   hasWebApp?: InputMaybe<BooleanFilterInput>;
   hasWebSite?: InputMaybe<BooleanFilterInput>;
+  hasYesWeScan?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ChannelTypeFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ChannelTypeFiltersInput>>>;
@@ -685,6 +687,7 @@ export type ChannelTypeInput = {
   contract?: InputMaybe<Scalars["ID"]>;
   hasWebApp?: InputMaybe<Scalars["Boolean"]>;
   hasWebSite?: InputMaybe<Scalars["Boolean"]>;
+  hasYesWeScan?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type ChannelTypeRelationResponseCollection = {
@@ -1795,7 +1798,6 @@ export type Contract = {
   dueDate?: Maybe<Scalars["DateTime"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   flows?: Maybe<FlowRelationResponseCollection>;
-  hasYesWeScan?: Maybe<Scalars["Boolean"]>;
   isFreemium: Scalars["Boolean"];
   isNonExclusive: Scalars["Boolean"];
   isRVFrance: Scalars["Boolean"];
@@ -1813,7 +1815,7 @@ export type Contract = {
   territory?: Maybe<TerritoryEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
-  yes_we_scan_service?: Maybe<YesWeScanServiceRelationResponseCollection>;
+  yesWeScanServices?: Maybe<YesWeScanServiceRelationResponseCollection>;
 };
 
 export type ContractAudiencesArgs = {
@@ -1864,7 +1866,7 @@ export type ContractUsersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type ContractYes_We_Scan_ServiceArgs = {
+export type ContractYesWeScanServicesArgs = {
   filters?: InputMaybe<YesWeScanServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -1977,7 +1979,6 @@ export type ContractFiltersInput = {
   dueDate?: InputMaybe<DateTimeFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
-  hasYesWeScan?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isFreemium?: InputMaybe<BooleanFilterInput>;
   isNonExclusive?: InputMaybe<BooleanFilterInput>;
@@ -1997,7 +1998,7 @@ export type ContractFiltersInput = {
   territory?: InputMaybe<TerritoryFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   users?: InputMaybe<UsersPermissionsUserFiltersInput>;
-  yes_we_scan_service?: InputMaybe<YesWeScanServiceFiltersInput>;
+  yesWeScanServices?: InputMaybe<YesWeScanServiceFiltersInput>;
 };
 
 export type ContractInput = {
@@ -2020,7 +2021,6 @@ export type ContractInput = {
   dueDate?: InputMaybe<Scalars["DateTime"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  hasYesWeScan?: InputMaybe<Scalars["Boolean"]>;
   isFreemium?: InputMaybe<Scalars["Boolean"]>;
   isNonExclusive?: InputMaybe<Scalars["Boolean"]>;
   isRVFrance?: InputMaybe<Scalars["Boolean"]>;
@@ -2037,7 +2037,7 @@ export type ContractInput = {
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   territory?: InputMaybe<Scalars["ID"]>;
   users?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  yes_we_scan_service?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  yesWeScanServices?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type ContractMenu = {
@@ -2697,6 +2697,7 @@ export enum Enum_Contract_Clienttype {
 
 export enum Enum_Contract_Contractstatus {
   Actif = "Actif",
+  Desactive = "Desactive",
   EnCours = "En_cours",
   Initialisation = "Initialisation",
 }
@@ -3510,6 +3511,9 @@ export type Footer = {
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   cookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  displayLink?: Maybe<Scalars["Boolean"]>;
+  linkName?: Maybe<Scalars["String"]>;
+  linkUrl?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -3540,7 +3544,10 @@ export type FooterFiltersInput = {
   contractCustomization?: InputMaybe<ContractCustomizationFiltersInput>;
   cookiesSubService?: InputMaybe<CookiesSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  displayLink?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  linkName?: InputMaybe<StringFilterInput>;
+  linkUrl?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<FooterFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<FooterFiltersInput>>>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -3554,6 +3561,9 @@ export type FooterInput = {
   contactUsSubService?: InputMaybe<Scalars["ID"]>;
   contractCustomization?: InputMaybe<Scalars["ID"]>;
   cookiesSubService?: InputMaybe<Scalars["ID"]>;
+  displayLink?: InputMaybe<Scalars["Boolean"]>;
+  linkName?: InputMaybe<Scalars["String"]>;
+  linkUrl?: InputMaybe<Scalars["String"]>;
 };
 
 export type FreeContent = {
@@ -4398,7 +4408,7 @@ export type Mutation = {
   createWasteForm?: Maybe<WasteFormEntityResponse>;
   createWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   createYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
-  createYwsService?: Maybe<Scalars["Boolean"]>;
+  createYwsService?: Maybe<YesWeScanServiceEntity>;
   deleteAccessibility?: Maybe<AccessibilityEntityResponse>;
   deleteAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   deleteAlertNotification?: Maybe<AlertNotificationEntityResponse>;
@@ -4469,6 +4479,7 @@ export type Mutation = {
   deleteTip?: Maybe<TipEntityResponse>;
   deleteTipSubService?: Maybe<TipSubServiceEntityResponse>;
   deleteTopContentBlock?: Maybe<TopContentBlockEntityResponse>;
+  deleteUnpublishedMedia?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   deleteUnusedSectors?: Maybe<Sectorization>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -4481,7 +4492,6 @@ export type Mutation = {
   deleteWasteForm?: Maybe<WasteFormEntityResponse>;
   deleteWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   deleteYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
-  deleteYwsService?: Maybe<Scalars["Boolean"]>;
   duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
@@ -4595,8 +4605,8 @@ export type Mutation = {
   urlUploader?: Maybe<Scalars["Boolean"]>;
   validateRequest?: Maybe<Scalars["Boolean"]>;
   versioningHandler?: Maybe<VersioningEntityResponse>;
-  ywsActivation?: Maybe<Scalars["Boolean"]>;
-  ywsDeactivation?: Maybe<Scalars["Boolean"]>;
+  ywsActivation?: Maybe<ChannelTypeEntity>;
+  ywsDeactivation?: Maybe<ChannelTypeEntity>;
 };
 
 export type MutationBulkDeleteMediasArgs = {
@@ -5251,6 +5261,10 @@ export type MutationDeleteTopContentBlockArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteUnpublishedMediaArgs = {
+  imageIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
 export type MutationDeleteUnusedSectorsArgs = {
   id: Scalars["ID"];
 };
@@ -5288,10 +5302,6 @@ export type MutationDeleteWelcomeMessageBlockArgs = {
 };
 
 export type MutationDeleteYesWeScanServiceArgs = {
-  id: Scalars["ID"];
-};
-
-export type MutationDeleteYwsServiceArgs = {
   id: Scalars["ID"];
 };
 
@@ -6458,6 +6468,7 @@ export type Query = {
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   cguSubServices?: Maybe<CguSubServiceEntityResponseCollection>;
   cgus?: Maybe<CguEntityResponseCollection>;
+  changeContractStatus?: Maybe<ContractStatus>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
   channelTypes?: Maybe<ChannelTypeEntityResponseCollection>;
   cities?: Maybe<CityEntityResponseCollection>;
@@ -6713,6 +6724,11 @@ export type QueryCgusArgs = {
   filters?: InputMaybe<CguFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryChangeContractStatusArgs = {
+  contractId: Scalars["ID"];
+  status: Statuses;
 };
 
 export type QueryChannelTypeArgs = {
@@ -8662,6 +8678,14 @@ export type ServicesDeactivated = {
   serviceId?: Maybe<Scalars["ID"]>;
   serviceName?: Maybe<Scalars["String"]>;
 };
+
+export enum Statuses {
+  Actif = "Actif",
+  Desactive = "Desactive",
+  En = "En",
+  Initialisation = "Initialisation",
+  Cours = "cours",
+}
 
 export type StringFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -13477,7 +13501,6 @@ export type GetContractsQuery = {
         clientName: string;
         contractStatus: Enum_Contract_Contractstatus;
         dueDate?: any | null;
-        hasYesWeScan?: boolean | null;
         clientType: Enum_Contract_Clienttype;
         isNonExclusive: boolean;
         isRVFrance: boolean;
@@ -13508,6 +13531,7 @@ export type GetContractsQuery = {
               __typename?: "ChannelType";
               hasWebApp?: boolean | null;
               hasWebSite?: boolean | null;
+              hasYesWeScan?: boolean | null;
             } | null;
           } | null;
         } | null;
@@ -24403,7 +24427,6 @@ export const GetContractsDocument = gql`
           clientName
           contractStatus
           dueDate
-          hasYesWeScan
           clientType
           isNonExclusive
           isRVFrance
@@ -24428,6 +24451,7 @@ export const GetContractsDocument = gql`
               attributes {
                 hasWebApp
                 hasWebSite
+                hasYesWeScan
               }
             }
           }

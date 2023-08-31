@@ -547,6 +547,7 @@ type ChannelType {
   createdAt: DateTime
   hasWebApp: Boolean
   hasWebSite: Boolean
+  hasYesWeScan: Boolean
   updatedAt: DateTime
 }
 
@@ -570,6 +571,7 @@ input ChannelTypeFiltersInput {
   createdAt: DateTimeFilterInput
   hasWebApp: BooleanFilterInput
   hasWebSite: BooleanFilterInput
+  hasYesWeScan: BooleanFilterInput
   id: IDFilterInput
   not: ChannelTypeFiltersInput
   or: [ChannelTypeFiltersInput]
@@ -580,6 +582,7 @@ input ChannelTypeInput {
   contract: ID
   hasWebApp: Boolean
   hasWebSite: Boolean
+  hasYesWeScan: Boolean
 }
 
 type ChannelTypeRelationResponseCollection {
@@ -1582,7 +1585,6 @@ type Contract {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): FlowRelationResponseCollection
-  hasYesWeScan: Boolean
   isFreemium: Boolean!
   isNonExclusive: Boolean!
   isRVFrance: Boolean!
@@ -1612,7 +1614,7 @@ type Contract {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserRelationResponseCollection
-  yes_we_scan_service(
+  yesWeScanServices(
     filters: YesWeScanServiceFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
@@ -1718,7 +1720,6 @@ input ContractFiltersInput {
   dueDate: DateTimeFilterInput
   editorialService: EditorialServiceFiltersInput
   flows: FlowFiltersInput
-  hasYesWeScan: BooleanFilterInput
   id: IDFilterInput
   isFreemium: BooleanFilterInput
   isNonExclusive: BooleanFilterInput
@@ -1738,7 +1739,7 @@ input ContractFiltersInput {
   territory: TerritoryFiltersInput
   updatedAt: DateTimeFilterInput
   users: UsersPermissionsUserFiltersInput
-  yes_we_scan_service: YesWeScanServiceFiltersInput
+  yesWeScanServices: YesWeScanServiceFiltersInput
 }
 
 input ContractInput {
@@ -1761,7 +1762,6 @@ input ContractInput {
   dueDate: DateTime
   editorialService: ID
   flows: [ID]
-  hasYesWeScan: Boolean
   isFreemium: Boolean
   isNonExclusive: Boolean
   isRVFrance: Boolean
@@ -1778,7 +1778,7 @@ input ContractInput {
   tags: [ID]
   territory: ID
   users: [ID]
-  yes_we_scan_service: [ID]
+  yesWeScanServices: [ID]
 }
 
 type ContractMenu {
@@ -2391,6 +2391,7 @@ enum ENUM_CONTRACT_CLIENTTYPE {
 
 enum ENUM_CONTRACT_CONTRACTSTATUS {
   Actif
+  Desactive
   En_cours
   Initialisation
 }
@@ -3127,6 +3128,9 @@ type Footer {
   contractCustomization: ContractCustomizationEntityResponse
   cookiesSubService: CookiesSubServiceEntityResponse
   createdAt: DateTime
+  displayLink: Boolean
+  linkName: String
+  linkUrl: String
   updatedAt: DateTime
 }
 
@@ -3154,7 +3158,10 @@ input FooterFiltersInput {
   contractCustomization: ContractCustomizationFiltersInput
   cookiesSubService: CookiesSubServiceFiltersInput
   createdAt: DateTimeFilterInput
+  displayLink: BooleanFilterInput
   id: IDFilterInput
+  linkName: StringFilterInput
+  linkUrl: StringFilterInput
   not: FooterFiltersInput
   or: [FooterFiltersInput]
   updatedAt: DateTimeFilterInput
@@ -3168,6 +3175,9 @@ input FooterInput {
   contactUsSubService: ID
   contractCustomization: ID
   cookiesSubService: ID
+  displayLink: Boolean
+  linkName: String
+  linkUrl: String
 }
 
 type FreeContent {
@@ -4069,7 +4079,10 @@ type Mutation {
   createYesWeScanService(
     data: YesWeScanServiceInput!
   ): YesWeScanServiceEntityResponse
-  createYwsService(contractId: ID!, service: ServiceInput!): Boolean
+  createYwsService(
+    contractId: ID!
+    service: ServiceInput!
+  ): YesWeScanServiceEntity
   deleteAccessibility(id: ID!): AccessibilityEntityResponse
   deleteAccessibilitySubService(id: ID!): AccessibilitySubServiceEntityResponse
   deleteAlertNotification(id: ID!): AlertNotificationEntityResponse
@@ -4144,6 +4157,7 @@ type Mutation {
   deleteTip(id: ID!): TipEntityResponse
   deleteTipSubService(id: ID!): TipSubServiceEntityResponse
   deleteTopContentBlock(id: ID!): TopContentBlockEntityResponse
+  deleteUnpublishedMedia(imageIds: [ID]): [ID]
   deleteUnusedSectors(id: ID!): Sectorization
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
@@ -4162,7 +4176,6 @@ type Mutation {
   deleteWasteForm(id: ID!): WasteFormEntityResponse
   deleteWelcomeMessageBlock(id: ID!): WelcomeMessageBlockEntityResponse
   deleteYesWeScanService(id: ID!): YesWeScanServiceEntityResponse
-  deleteYwsService(id: ID!): Boolean
   duplicateContent(id: ID!, type: String): Boolean
 
   """
@@ -4509,8 +4522,8 @@ type Mutation {
   urlUploader(imageName: String!, url: String!): Boolean
   validateRequest(requestJSON: JSON): Boolean
   versioningHandler(data: JSON!, entity: String!): VersioningEntityResponse
-  ywsActivation(contractId: ID!): Boolean
-  ywsDeactivation(contractId: ID!): Boolean
+  ywsActivation(contractId: ID!): ChannelTypeEntity
+  ywsDeactivation(contractId: ID!): ChannelTypeEntity
 }
 
 type MwCounterService {
@@ -5087,6 +5100,7 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): CguEntityResponseCollection
+  changeContractStatus(contractId: ID!, status: Statuses!): contractStatus
   channelType(id: ID): ChannelTypeEntityResponse
   channelTypes(
     filters: ChannelTypeFiltersInput
@@ -6559,6 +6573,14 @@ type ServicesDeactivated {
   contractId: ID
   serviceId: ID
   serviceName: String
+}
+
+enum Statuses {
+  Actif
+  Desactive
+  En
+  Initialisation
+  cours
 }
 
 input StringFilterInput {

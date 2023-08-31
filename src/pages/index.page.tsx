@@ -143,7 +143,9 @@ export default function RootHomePage() {
                 hasWebSite:
                   contract.attributes.channelType?.data?.attributes
                     ?.hasWebSite ?? false,
-                hasYesWeScan: contract.attributes?.hasYesWeScan ?? false,
+                hasYesWeScan:
+                  contract.attributes.channelType?.data?.attributes
+                    ?.hasYesWeScan ?? false,
                 dueDate: new Intl.DateTimeFormat().format(
                   new Date(contract.attributes?.dueDate),
                 ),
