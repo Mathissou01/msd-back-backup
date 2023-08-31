@@ -14,6 +14,7 @@ import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import FormInput from "../../../../components/Form/FormInput/FormInput";
+import FormCheckbox from "../../../../components/Form/FormCheckbox/FormCheckbox";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
 import FormRadioInput from "../../../../components/Form/FormRadioInput/FormRadioInput";
 import "./personnalisation-footer-page.scss";
@@ -30,6 +31,8 @@ interface IFooterData {
     label: string;
     link?: string;
   };
+  linkName?: string;
+  linkUrl?: string;
 }
 
 export function PersonnalisationFooterPage() {
@@ -37,7 +40,11 @@ export function PersonnalisationFooterPage() {
   const title = "Footer";
   const description = "Paramétrez les liens présents en bas de page.";
   const formLabels = {
-    ecoConceptionTitle: "Eco-conception",
+    linkToClient: {
+      title: "Lien vers le site client",
+      textdisplayClientLink: "Afficher ce lien",
+      linkToClientPage: "Lien vers le site client",
+    },
     accessibilityLevelTitle: "Accessibilité",
     accessibilityLevelLabel:
       "Niveau d’accessibilité (pourcentage des critères RGAA validés)",
@@ -51,6 +58,11 @@ export function PersonnalisationFooterPage() {
     cancelButtonLabel: "Annuler les modifications",
   };
 
+  const externalLinkRegex =
+    //eslint-disable-next-line
+    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+  const externalLintMsgError = "le format d'url n'est pas correct";
+
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
     if (submitData["id"]) {
@@ -58,6 +70,8 @@ export function PersonnalisationFooterPage() {
         updateFooterId: submitData["id"],
         updateFooterData: {
           accessibilityLevel: submitData["accessibilityLevel"],
+          linkName: submitData["linkName"],
+          linkUrl: submitData["linkUrl"],
         },
         updateContactUsSubServiceId: submitData["contactUsSubService"]["id"],
         updateContactUsSubServiceData: {
@@ -96,8 +110,9 @@ export function PersonnalisationFooterPage() {
   const form = useForm({
     mode: formValidationMode,
   });
-  const { handleSubmit, formState } = form;
+  const { handleSubmit, formState, watch } = form;
   const { isDirty, isSubmitting } = formState;
+  const linkToClientWatched = watch("linkToClient");
 
   useEffect(() => {
     if (data) {
@@ -121,7 +136,10 @@ export function PersonnalisationFooterPage() {
                 },
               }
             : {}),
+          linkName: footer.attributes.linkName ?? "",
+          linkUrl: footer.attributes.linkUrl ?? "",
         };
+
         setFooterData(mappedData);
         form.reset(mappedData);
       }
@@ -144,14 +162,43 @@ export function PersonnalisationFooterPage() {
               onSubmit={handleSubmit(onSubmitValid)}
               ref={useFocusFirstElement()}
             >
-              {/*<div className="c-PersonnalisationFooterPage__Group">*/}
-              {/*  <h2 className="c-PersonnalisationFooterPage__Title">*/}
-              {/*    {formLabels.ecoConceptionTitle}*/}
-              {/*  </h2>*/}
-              {/*  <div className="c-PersonnalisationFooterPage__SubGroup">*/}
-              {/*    <span>[...]</span>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
+              <div className="c-PersonnalisationFooterPage__Group">
+                <h2 className="c-PersonnalisationFooterPage__Title">
+                  {formLabels.linkToClient.title}
+                </h2>
+                <div className="c-PersonnalisationFooterPage__SubGroup">
+                  <FormCheckbox
+                    name={"linkToClient"}
+                    label={formLabels.linkToClient.textdisplayClientLink}
+                  />
+                  {linkToClientWatched && (
+                    <>
+                      {" "}
+                      <div className="c-PersonnalisationFooterPage__SubGroup_short">
+                        <div className="c-PersonnalisationFooterPage__SubGroupInput">
+                          <FormInput
+                            type="text"
+                            name="linkName"
+                            label={"Texte du lien"}
+                            defaultValue={footerData?.linkName}
+                            isRequired
+                          />
+                        </div>
+                        <FormInput
+                          type="url"
+                          name="linkUrl"
+                          label={formLabels.linkToClient.linkToClientPage}
+                          defaultValue={footerData?.linkUrl}
+                          placeholder="https://"
+                          patternValidation={externalLinkRegex}
+                          patternValidationErrorMessage={externalLintMsgError}
+                          isRequired
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
               <div className="c-PersonnalisationFooterPage__Group">
                 <h2 className="c-PersonnalisationFooterPage__Title">
                   {formLabels.accessibilityLevelTitle}

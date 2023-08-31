@@ -15239,6 +15239,9 @@ export type GetFooterByContractIdQuery = {
             attributes?: {
               __typename?: "Footer";
               accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
+              linkUrl?: string | null;
+              linkName?: string | null;
+              displayLink?: boolean | null;
               contactUsSubService?: {
                 __typename?: "ContactUsSubServiceEntityResponse";
                 data?: {
@@ -27304,6 +27307,9 @@ export const GetFooterByContractIdDocument = gql`
               id
               attributes {
                 accessibilityLevel
+                linkUrl
+                linkName
+                displayLink
                 contactUsSubService {
                   data {
                     id
