@@ -104,7 +104,7 @@ export function RequestFormPage({
         staticHasAppointmentSlotsLabel: "Afficher des créneaux de rendez-vous",
         staticHasAppointmentSlotsTrueOption: "Oui",
         staticHasAppointmentSlotsFalseOption: "Non",
-        staticNumberOfRequiredSlots: "Nombre de créneaux requis",
+        staticNumberOfRequiredSlots: "Nombre de créneaux affichés",
         staticHoursBeforeReservation:
           "Les usagers ne peuvent pas réserver moins de",
         staticHoursBeforeReservationSuffix:
