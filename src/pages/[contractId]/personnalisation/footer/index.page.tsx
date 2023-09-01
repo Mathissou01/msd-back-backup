@@ -70,8 +70,9 @@ export function PersonnalisationFooterPage() {
         updateFooterId: submitData["id"],
         updateFooterData: {
           accessibilityLevel: submitData["accessibilityLevel"],
-          linkName: submitData["linkName"],
-          linkUrl: submitData["linkUrl"],
+          linkName: submitData["displayLink"] ? submitData["linkName"] : "",
+          linkUrl: submitData["displayLink"] ? submitData["linkUrl"] : "",
+          displayLink: submitData["displayLink"],
         },
         updateContactUsSubServiceId: submitData["contactUsSubService"]["id"],
         updateContactUsSubServiceData: {
@@ -112,7 +113,7 @@ export function PersonnalisationFooterPage() {
   });
   const { handleSubmit, formState, watch } = form;
   const { isDirty, isSubmitting } = formState;
-  const linkToClientWatched = watch("linkToClient");
+  const linkToClientWatched = watch("displayLink");
 
   useEffect(() => {
     if (data) {
@@ -138,6 +139,7 @@ export function PersonnalisationFooterPage() {
             : {}),
           linkName: footer.attributes.linkName ?? "",
           linkUrl: footer.attributes.linkUrl ?? "",
+          displayLink: footer.attributes.displayLink,
         };
 
         setFooterData(mappedData);
@@ -168,7 +170,7 @@ export function PersonnalisationFooterPage() {
                 </h2>
                 <div className="c-PersonnalisationFooterPage__SubGroup">
                   <FormCheckbox
-                    name={"linkToClient"}
+                    name="displayLink"
                     label={formLabels.linkToClient.textdisplayClientLink}
                   />
                   {linkToClientWatched && (
@@ -243,7 +245,7 @@ export function PersonnalisationFooterPage() {
                       type="text"
                       name="contactUsSubService.link"
                       label={formLabels.contactUsLink}
-                      isRequired={true}
+                      isRequired={false}
                       isDisabled={mutationLoading}
                       defaultValue={footerData.contactUsSubService?.link}
                     />
