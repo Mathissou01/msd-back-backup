@@ -11,6 +11,7 @@ type Data = {
   name: string;
   value: number;
   color: string;
+  kg: number;
 };
 
 export default function BarometerInsight({
@@ -32,11 +33,21 @@ export default function BarometerInsight({
   const graphVeryHot = rootStyles.getPropertyValue("--graph-veryhot");
 
   const data: Data[] = [
-    { name: "0", value: 0, color: white },
-    { name: "low", value: maxLow, color: graphLow },
-    { name: "medium", value: maxMedium - maxLow, color: graphMedium },
-    { name: "high", value: maxHigh - maxMedium, color: graphHot },
-    { name: "veryHigh", value: maxVeryHigh - maxHigh, color: graphVeryHot },
+    { name: "0", value: 0, color: white, kg: 0 },
+    { name: "low", value: maxLow, color: graphLow, kg: maxLow },
+    {
+      name: "medium",
+      value: maxMedium - maxLow,
+      color: graphMedium,
+      kg: maxMedium,
+    },
+    { name: "high", value: maxHigh - maxMedium, color: graphHot, kg: maxHigh },
+    {
+      name: "veryHigh",
+      value: maxVeryHigh - maxHigh,
+      color: graphVeryHot,
+      kg: maxVeryHigh,
+    },
   ];
 
   const cx = 155;
@@ -118,8 +129,8 @@ export default function BarometerInsight({
                   fontSize={12}
                 >
                   {data[index].value !== 0
-                    ? data[index].value + "kg"
-                    : data[index].value}
+                    ? data[index].kg + "kg"
+                    : data[index].kg}
                 </text>
               );
             }}

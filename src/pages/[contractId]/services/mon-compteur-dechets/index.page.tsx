@@ -19,7 +19,7 @@ export function MonCompteurDechets() {
     const tabs = [
       {
         name: "fichesDechets",
-        title: "Flow",
+        title: "Flux",
         content: <Flow />,
         isEnabled: true,
       },
