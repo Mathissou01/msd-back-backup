@@ -2477,6 +2477,17 @@ enum ENUM_WASTEFORM_STATUS {
   published
 }
 
+enum ENUM_YESWESCANFORM_PICTURESTATUS {
+  mandatory
+  masked
+  optional
+}
+
+enum ENUM_YESWESCANFORM_TREATMENTMETHOD {
+  mail
+  tsms
+}
+
 type EditoBlock {
   audience: AudienceEntityResponse
   createdAt: DateTime
@@ -3460,6 +3471,7 @@ union GenericMorph =
   | WasteFamily
   | WasteForm
   | WelcomeMessageBlock
+  | YesWeScanForm
   | YesWeScanService
 
 type Global {
@@ -4076,6 +4088,7 @@ type Mutation {
   createWelcomeMessageBlock(
     data: WelcomeMessageBlockInput!
   ): WelcomeMessageBlockEntityResponse
+  createYesWeScanForm(data: YesWeScanFormInput!): YesWeScanFormEntityResponse
   createYesWeScanService(
     data: YesWeScanServiceInput!
   ): YesWeScanServiceEntityResponse
@@ -4175,6 +4188,7 @@ type Mutation {
   deleteWasteFamily(id: ID!): WasteFamilyEntityResponse
   deleteWasteForm(id: ID!): WasteFormEntityResponse
   deleteWelcomeMessageBlock(id: ID!): WelcomeMessageBlockEntityResponse
+  deleteYesWeScanForm(id: ID!): YesWeScanFormEntityResponse
   deleteYesWeScanService(id: ID!): YesWeScanServiceEntityResponse
   duplicateContent(id: ID!, type: String): Boolean
 
@@ -4500,6 +4514,10 @@ type Mutation {
     data: WelcomeMessageBlockInput!
     id: ID!
   ): WelcomeMessageBlockEntityResponse
+  updateYesWeScanForm(
+    data: YesWeScanFormInput!
+    id: ID!
+  ): YesWeScanFormEntityResponse
   updateYesWeScanService(
     data: YesWeScanServiceInput!
     id: ID!
@@ -4621,7 +4639,9 @@ type MwcFlow {
   averageProductionPerson: Long
   blocks: [MwcFlowBlocksDynamicZone]
   createdAt: DateTime
+  editoContent: [MwcFlowEditoContentDynamicZone]
   flow: FlowEntityResponse
+  hasEdito: Boolean
   mwCounterService: MwCounterServiceEntityResponse
   updatedAt: DateTime
   weightSystem: ENUM_MWCFLOW_WEIGHTSYSTEM
@@ -4635,6 +4655,10 @@ union MwcFlowBlocksDynamicZone =
   | Error
 
 scalar MwcFlowBlocksDynamicZoneInput
+
+union MwcFlowEditoContentDynamicZone = ComponentLinksEditoContent | Error
+
+scalar MwcFlowEditoContentDynamicZoneInput
 
 type MwcFlowEntity {
   attributes: MwcFlow
@@ -4655,6 +4679,7 @@ input MwcFlowFiltersInput {
   averageProductionPerson: LongFilterInput
   createdAt: DateTimeFilterInput
   flow: FlowFiltersInput
+  hasEdito: BooleanFilterInput
   id: IDFilterInput
   mwCounterService: MwCounterServiceFiltersInput
   not: MwcFlowFiltersInput
@@ -4666,7 +4691,9 @@ input MwcFlowFiltersInput {
 input MwcFlowInput {
   averageProductionPerson: Long
   blocks: [MwcFlowBlocksDynamicZoneInput!]
+  editoContent: [MwcFlowEditoContentDynamicZoneInput!]
   flow: ID
+  hasEdito: Boolean
   mwCounterService: ID
   weightSystem: ENUM_MWCFLOW_WEIGHTSYSTEM
 }
@@ -5314,7 +5341,7 @@ type Query {
   getFilePath(id: ID!): String
   getFolderHierarchy(path: String!): [RequestFolders]
   getMwcAverageProduction(contractId: ID): Int
-  getNewestTopContents(contractId: ID!): [EventOrNews]
+  getNewestTopContents(audienceId: ID!, contractId: ID!): [EventOrNews]
   getNextAvailableSlots(
     lat: Float!
     long: Float!
@@ -5576,6 +5603,13 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): WelcomeMessageBlockEntityResponseCollection
+  yesWeScanForm(id: ID): YesWeScanFormEntityResponse
+  yesWeScanForms(
+    filters: YesWeScanFormFiltersInput
+    pagination: PaginationArg = {}
+    publicationState: PublicationState = LIVE
+    sort: [String] = []
+  ): YesWeScanFormEntityResponseCollection
   yesWeScanService(id: ID): YesWeScanServiceEntityResponse
   yesWeScanServices(
     filters: YesWeScanServiceFiltersInput
@@ -7617,6 +7651,75 @@ input WelcomeMessageBlockInput {
   title: String
 }
 
+type YesWeScanForm {
+  createdAt: DateTime
+  displayEndingButton: Boolean!
+  endingButtonIntroduction: String
+  endingButtonLabel: String
+  endingButtonLink: String
+  logo: UploadFileEntityResponse
+  mailRecipients: String
+  pictureStatus: ENUM_YESWESCANFORM_PICTURESTATUS!
+  publishedAt: DateTime
+  reportButtons: String!
+  shortName: String
+  thankYouMessage: String!
+  treatmentMethod: ENUM_YESWESCANFORM_TREATMENTMETHOD!
+  updatedAt: DateTime
+  yesWeScanService: YesWeScanServiceEntityResponse
+}
+
+type YesWeScanFormEntity {
+  attributes: YesWeScanForm
+  id: ID
+}
+
+type YesWeScanFormEntityResponse {
+  data: YesWeScanFormEntity
+}
+
+type YesWeScanFormEntityResponseCollection {
+  data: [YesWeScanFormEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input YesWeScanFormFiltersInput {
+  and: [YesWeScanFormFiltersInput]
+  createdAt: DateTimeFilterInput
+  displayEndingButton: BooleanFilterInput
+  endingButtonIntroduction: StringFilterInput
+  endingButtonLabel: StringFilterInput
+  endingButtonLink: StringFilterInput
+  id: IDFilterInput
+  mailRecipients: StringFilterInput
+  not: YesWeScanFormFiltersInput
+  or: [YesWeScanFormFiltersInput]
+  pictureStatus: StringFilterInput
+  publishedAt: DateTimeFilterInput
+  reportButtons: StringFilterInput
+  shortName: StringFilterInput
+  thankYouMessage: StringFilterInput
+  treatmentMethod: StringFilterInput
+  updatedAt: DateTimeFilterInput
+  yesWeScanService: YesWeScanServiceFiltersInput
+}
+
+input YesWeScanFormInput {
+  displayEndingButton: Boolean
+  endingButtonIntroduction: String
+  endingButtonLabel: String
+  endingButtonLink: String
+  logo: ID
+  mailRecipients: String
+  pictureStatus: ENUM_YESWESCANFORM_PICTURESTATUS
+  publishedAt: DateTime
+  reportButtons: String
+  shortName: String
+  thankYouMessage: String
+  treatmentMethod: ENUM_YESWESCANFORM_TREATMENTMETHOD
+  yesWeScanService: ID
+}
+
 type YesWeScanService {
   contract: ContractEntityResponse
   createdAt: DateTime
@@ -7624,6 +7727,7 @@ type YesWeScanService {
   serviceName: String
   startDate: DateTime
   updatedAt: DateTime
+  yesWeScanForm: YesWeScanFormEntityResponse
 }
 
 type YesWeScanServiceEntity {
@@ -7651,6 +7755,7 @@ input YesWeScanServiceFiltersInput {
   serviceName: StringFilterInput
   startDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  yesWeScanForm: YesWeScanFormFiltersInput
 }
 
 input YesWeScanServiceInput {
@@ -7658,6 +7763,7 @@ input YesWeScanServiceInput {
   endDate: DateTime
   serviceName: String
   startDate: DateTime
+  yesWeScanForm: ID
 }
 
 type YesWeScanServiceRelationResponseCollection {

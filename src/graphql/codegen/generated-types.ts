@@ -35,6 +35,7 @@ export type Scalars = {
   JSON: any;
   Long: any;
   MwcFlowBlocksDynamicZoneInput: any;
+  MwcFlowEditoContentDynamicZoneInput: any;
   NewBlocksDynamicZoneInput: any;
   RequestAddableBlocksDynamicZoneInput: any;
   ServicesBlockServiceLinksDynamicZoneInput: any;
@@ -2783,6 +2784,17 @@ export enum Enum_Wasteform_Status {
   Published = "published",
 }
 
+export enum Enum_Yeswescanform_Picturestatus {
+  Mandatory = "mandatory",
+  Masked = "masked",
+  Optional = "optional",
+}
+
+export enum Enum_Yeswescanform_Treatmentmethod {
+  Mail = "mail",
+  Tsms = "tsms",
+}
+
 export type EditoBlock = {
   __typename?: "EditoBlock";
   audience?: Maybe<AudienceEntityResponse>;
@@ -3862,6 +3874,7 @@ export type GenericMorph =
   | WasteFamily
   | WasteForm
   | WelcomeMessageBlock
+  | YesWeScanForm
   | YesWeScanService;
 
 export type Global = {
@@ -4407,6 +4420,7 @@ export type Mutation = {
   createWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   createWasteForm?: Maybe<WasteFormEntityResponse>;
   createWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
+  createYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
   createYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   createYwsService?: Maybe<YesWeScanServiceEntity>;
   deleteAccessibility?: Maybe<AccessibilityEntityResponse>;
@@ -4491,6 +4505,7 @@ export type Mutation = {
   deleteWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   deleteWasteForm?: Maybe<WasteFormEntityResponse>;
   deleteWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
+  deleteYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
   deleteYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
@@ -4598,6 +4613,7 @@ export type Mutation = {
   updateWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
   updateWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
+  updateYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
   updateYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   upload: UploadFileEntityResponse;
   uploadFileAndGetId?: Maybe<UploadResult>;
@@ -4974,6 +4990,10 @@ export type MutationCreateWelcomeMessageBlockArgs = {
   data: WelcomeMessageBlockInput;
 };
 
+export type MutationCreateYesWeScanFormArgs = {
+  data: YesWeScanFormInput;
+};
+
 export type MutationCreateYesWeScanServiceArgs = {
   data: YesWeScanServiceInput;
 };
@@ -5298,6 +5318,10 @@ export type MutationDeleteWasteFormArgs = {
 };
 
 export type MutationDeleteWelcomeMessageBlockArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteYesWeScanFormArgs = {
   id: Scalars["ID"];
 };
 
@@ -5823,6 +5847,11 @@ export type MutationUpdateWelcomeMessageBlockArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateYesWeScanFormArgs = {
+  data: YesWeScanFormInput;
+  id: Scalars["ID"];
+};
+
 export type MutationUpdateYesWeScanServiceArgs = {
   data: YesWeScanServiceInput;
   id: Scalars["ID"];
@@ -5975,7 +6004,9 @@ export type MwcFlow = {
   averageProductionPerson?: Maybe<Scalars["Long"]>;
   blocks?: Maybe<Array<Maybe<MwcFlowBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  editoContent?: Maybe<Array<Maybe<MwcFlowEditoContentDynamicZone>>>;
   flow?: Maybe<FlowEntityResponse>;
+  hasEdito?: Maybe<Scalars["Boolean"]>;
   mwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   weightSystem?: Maybe<Enum_Mwcflow_Weightsystem>;
@@ -5987,6 +6018,8 @@ export type MwcFlowBlocksDynamicZone =
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
+
+export type MwcFlowEditoContentDynamicZone = ComponentLinksEditoContent | Error;
 
 export type MwcFlowEntity = {
   __typename?: "MwcFlowEntity";
@@ -6010,6 +6043,7 @@ export type MwcFlowFiltersInput = {
   averageProductionPerson?: InputMaybe<LongFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
+  hasEdito?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   mwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
   not?: InputMaybe<MwcFlowFiltersInput>;
@@ -6021,7 +6055,11 @@ export type MwcFlowFiltersInput = {
 export type MwcFlowInput = {
   averageProductionPerson?: InputMaybe<Scalars["Long"]>;
   blocks?: InputMaybe<Array<Scalars["MwcFlowBlocksDynamicZoneInput"]>>;
+  editoContent?: InputMaybe<
+    Array<Scalars["MwcFlowEditoContentDynamicZoneInput"]>
+  >;
   flow?: InputMaybe<Scalars["ID"]>;
+  hasEdito?: InputMaybe<Scalars["Boolean"]>;
   mwCounterService?: InputMaybe<Scalars["ID"]>;
   weightSystem?: InputMaybe<Enum_Mwcflow_Weightsystem>;
 };
@@ -6642,6 +6680,8 @@ export type Query = {
   wasteForms?: Maybe<WasteFormEntityResponseCollection>;
   welcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   welcomeMessageBlocks?: Maybe<WelcomeMessageBlockEntityResponseCollection>;
+  yesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  yesWeScanForms?: Maybe<YesWeScanFormEntityResponseCollection>;
   yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   yesWeScanServices?: Maybe<YesWeScanServiceEntityResponseCollection>;
 };
@@ -7108,6 +7148,7 @@ export type QueryGetMwcAverageProductionArgs = {
 };
 
 export type QueryGetNewestTopContentsArgs = {
+  audienceId: Scalars["ID"];
   contractId: Scalars["ID"];
 };
 
@@ -7559,6 +7600,17 @@ export type QueryWelcomeMessageBlockArgs = {
 export type QueryWelcomeMessageBlocksArgs = {
   filters?: InputMaybe<WelcomeMessageBlockFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryYesWeScanFormArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryYesWeScanFormsArgs = {
+  filters?: InputMaybe<YesWeScanFormFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -9824,6 +9876,79 @@ export type WelcomeMessageBlockInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type YesWeScanForm = {
+  __typename?: "YesWeScanForm";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  displayEndingButton: Scalars["Boolean"];
+  endingButtonIntroduction?: Maybe<Scalars["String"]>;
+  endingButtonLabel?: Maybe<Scalars["String"]>;
+  endingButtonLink?: Maybe<Scalars["String"]>;
+  logo?: Maybe<UploadFileEntityResponse>;
+  mailRecipients?: Maybe<Scalars["String"]>;
+  pictureStatus: Enum_Yeswescanform_Picturestatus;
+  publishedAt?: Maybe<Scalars["DateTime"]>;
+  reportButtons: Scalars["String"];
+  shortName?: Maybe<Scalars["String"]>;
+  thankYouMessage: Scalars["String"];
+  treatmentMethod: Enum_Yeswescanform_Treatmentmethod;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
+};
+
+export type YesWeScanFormEntity = {
+  __typename?: "YesWeScanFormEntity";
+  attributes?: Maybe<YesWeScanForm>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type YesWeScanFormEntityResponse = {
+  __typename?: "YesWeScanFormEntityResponse";
+  data?: Maybe<YesWeScanFormEntity>;
+};
+
+export type YesWeScanFormEntityResponseCollection = {
+  __typename?: "YesWeScanFormEntityResponseCollection";
+  data: Array<YesWeScanFormEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type YesWeScanFormFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<YesWeScanFormFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  displayEndingButton?: InputMaybe<BooleanFilterInput>;
+  endingButtonIntroduction?: InputMaybe<StringFilterInput>;
+  endingButtonLabel?: InputMaybe<StringFilterInput>;
+  endingButtonLink?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  mailRecipients?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<YesWeScanFormFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<YesWeScanFormFiltersInput>>>;
+  pictureStatus?: InputMaybe<StringFilterInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  reportButtons?: InputMaybe<StringFilterInput>;
+  shortName?: InputMaybe<StringFilterInput>;
+  thankYouMessage?: InputMaybe<StringFilterInput>;
+  treatmentMethod?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  yesWeScanService?: InputMaybe<YesWeScanServiceFiltersInput>;
+};
+
+export type YesWeScanFormInput = {
+  displayEndingButton?: InputMaybe<Scalars["Boolean"]>;
+  endingButtonIntroduction?: InputMaybe<Scalars["String"]>;
+  endingButtonLabel?: InputMaybe<Scalars["String"]>;
+  endingButtonLink?: InputMaybe<Scalars["String"]>;
+  logo?: InputMaybe<Scalars["ID"]>;
+  mailRecipients?: InputMaybe<Scalars["String"]>;
+  pictureStatus?: InputMaybe<Enum_Yeswescanform_Picturestatus>;
+  publishedAt?: InputMaybe<Scalars["DateTime"]>;
+  reportButtons?: InputMaybe<Scalars["String"]>;
+  shortName?: InputMaybe<Scalars["String"]>;
+  thankYouMessage?: InputMaybe<Scalars["String"]>;
+  treatmentMethod?: InputMaybe<Enum_Yeswescanform_Treatmentmethod>;
+  yesWeScanService?: InputMaybe<Scalars["ID"]>;
+};
+
 export type YesWeScanService = {
   __typename?: "YesWeScanService";
   contract?: Maybe<ContractEntityResponse>;
@@ -9832,6 +9957,7 @@ export type YesWeScanService = {
   serviceName?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  yesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
 };
 
 export type YesWeScanServiceEntity = {
@@ -9862,6 +9988,7 @@ export type YesWeScanServiceFiltersInput = {
   serviceName?: InputMaybe<StringFilterInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  yesWeScanForm?: InputMaybe<YesWeScanFormFiltersInput>;
 };
 
 export type YesWeScanServiceInput = {
@@ -9869,6 +9996,7 @@ export type YesWeScanServiceInput = {
   endDate?: InputMaybe<Scalars["DateTime"]>;
   serviceName?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
+  yesWeScanForm?: InputMaybe<Scalars["ID"]>;
 };
 
 export type YesWeScanServiceRelationResponseCollection = {
@@ -11413,6 +11541,7 @@ export type UpdateUploadFileByIdMutation = {
           | { __typename?: "WasteFamily" }
           | { __typename?: "WasteForm" }
           | { __typename?: "WelcomeMessageBlock" }
+          | { __typename?: "YesWeScanForm" }
           | { __typename?: "YesWeScanService" }
           | null
         > | null;
@@ -15306,6 +15435,7 @@ export type GetContractMenuByContractIdQuery = {
     __typename?: "ContractEntityResponse";
     data?: {
       __typename?: "ContractEntity";
+      id?: string | null;
       attributes?: {
         __typename?: "Contract";
         contractMenu?: {
@@ -27457,6 +27587,7 @@ export const GetContractMenuByContractIdDocument = gql`
   query getContractMenuByContractId($contractId: ID!) {
     contract(id: $contractId) {
       data {
+        id
         attributes {
           contractMenu {
             data {
@@ -27464,6 +27595,20 @@ export const GetContractMenuByContractIdDocument = gql`
               attributes {
                 serviceLinks {
                   ... on ComponentLinksDropOffMap {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksMyWasteCounter {
                     id
                     name
                     isDisplayed
@@ -27590,20 +27735,6 @@ export const GetContractMenuByContractIdDocument = gql`
                     }
                   }
                   ... on ComponentLinksFrees {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        id
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksMyWasteCounter {
                     id
                     name
                     isDisplayed

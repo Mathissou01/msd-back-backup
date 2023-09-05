@@ -1,6 +1,7 @@
 query getContractMenuByContractId($contractId: ID!) {
   contract(id: $contractId) {
     data {
+      id
       attributes {
         contractMenu {
           data {
@@ -8,6 +9,20 @@ query getContractMenuByContractId($contractId: ID!) {
             attributes {
               serviceLinks {
                 ... on ComponentLinksDropOffMap {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksMyWasteCounter {
                   id
                   name
                   isDisplayed
@@ -134,20 +149,6 @@ query getContractMenuByContractId($contractId: ID!) {
                   }
                 }
                 ... on ComponentLinksFrees {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      id
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksMyWasteCounter {
                   id
                   name
                   isDisplayed

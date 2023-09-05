@@ -81,16 +81,19 @@ export function remapServiceLinksDynamicZone(
               name: link?.name,
               ...(link?.externalLink && { externalLink: link?.externalLink }),
               isDisplayed: link?.isDisplayed,
-              picto: {
-                id: link?.picto?.data.id,
-                url: link.picto?.data.attributes?.url ?? "",
-                alternativeText:
-                  link.picto?.data.attributes?.alternativeText ?? "",
-                ext: link.picto?.data.attributes?.ext ?? "",
-                mime: link.picto?.data.attributes?.mime ?? "",
-                name: link.picto?.data.attributes?.name ?? "",
-                size: link.picto?.data.attributes?.size ?? 0,
-              },
+              ...(link?.picto?.data?.id &&
+                !!link.picto.data.attributes && {
+                  picto: {
+                    id: link.picto.data.id,
+                    url: link.picto.data.attributes.url ?? "",
+                    alternativeText:
+                      link.picto.data.attributes.alternativeText ?? "",
+                    ext: link.picto.data.attributes.ext ?? "",
+                    mime: link.picto.data.attributes.mime ?? "",
+                    name: link.picto.data.attributes.name ?? "",
+                    size: link.picto.data.attributes.size ?? 0,
+                  },
+                }),
             };
           }
         }
