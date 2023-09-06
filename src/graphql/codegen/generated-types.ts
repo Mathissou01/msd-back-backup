@@ -35,6 +35,7 @@ export type Scalars = {
   JSON: any;
   Long: any;
   MwcFlowBlocksDynamicZoneInput: any;
+  MwcFlowEditoContentDynamicZoneInput: any;
   NewBlocksDynamicZoneInput: any;
   RequestAddableBlocksDynamicZoneInput: any;
   ServicesBlockServiceLinksDynamicZoneInput: any;
@@ -351,11 +352,14 @@ export type AlertUserStorage = {
   alertNotifications?: Maybe<AlertNotificationRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   email?: Maybe<Scalars["String"]>;
+  firstSubscriptionDate?: Maybe<Scalars["DateTime"]>;
   isEmail: Scalars["Boolean"];
   isSMS: Scalars["Boolean"];
   latitude?: Maybe<Scalars["String"]>;
   longitude?: Maybe<Scalars["String"]>;
   phoneNumber?: Maybe<Scalars["String"]>;
+  reactivatedAt?: Maybe<Scalars["DateTime"]>;
+  reactivationMailSentAt?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -388,6 +392,7 @@ export type AlertUserStorageFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<AlertUserStorageFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   email?: InputMaybe<StringFilterInput>;
+  firstSubscriptionDate?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isEmail?: InputMaybe<BooleanFilterInput>;
   isSMS?: InputMaybe<BooleanFilterInput>;
@@ -396,6 +401,8 @@ export type AlertUserStorageFiltersInput = {
   not?: InputMaybe<AlertUserStorageFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<AlertUserStorageFiltersInput>>>;
   phoneNumber?: InputMaybe<StringFilterInput>;
+  reactivatedAt?: InputMaybe<DateTimeFilterInput>;
+  reactivationMailSentAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -403,11 +410,14 @@ export type AlertUserStorageInput = {
   alertNotificationServiceId?: InputMaybe<Scalars["String"]>;
   alertNotifications?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   email?: InputMaybe<Scalars["String"]>;
+  firstSubscriptionDate?: InputMaybe<Scalars["DateTime"]>;
   isEmail?: InputMaybe<Scalars["Boolean"]>;
   isSMS?: InputMaybe<Scalars["Boolean"]>;
   latitude?: InputMaybe<Scalars["String"]>;
   longitude?: InputMaybe<Scalars["String"]>;
   phoneNumber?: InputMaybe<Scalars["String"]>;
+  reactivatedAt?: InputMaybe<Scalars["DateTime"]>;
+  reactivationMailSentAt?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type AlertUserStorageRelationResponseCollection = {
@@ -640,6 +650,7 @@ export type ChannelType = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   hasWebApp?: Maybe<Scalars["Boolean"]>;
   hasWebSite?: Maybe<Scalars["Boolean"]>;
+  hasYesWeScan?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -666,6 +677,7 @@ export type ChannelTypeFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   hasWebApp?: InputMaybe<BooleanFilterInput>;
   hasWebSite?: InputMaybe<BooleanFilterInput>;
+  hasYesWeScan?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ChannelTypeFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ChannelTypeFiltersInput>>>;
@@ -676,6 +688,7 @@ export type ChannelTypeInput = {
   contract?: InputMaybe<Scalars["ID"]>;
   hasWebApp?: InputMaybe<Scalars["Boolean"]>;
   hasWebSite?: InputMaybe<Scalars["Boolean"]>;
+  hasYesWeScan?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type ChannelTypeRelationResponseCollection = {
@@ -689,21 +702,15 @@ export type City = {
   MwCounter?: Maybe<MwCounterServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   department?: Maybe<Scalars["String"]>;
-  epci?: Maybe<EpciRelationResponseCollection>;
-  insee?: Maybe<Scalars["Long"]>;
+  epci?: Maybe<EpciEntityResponse>;
+  insee?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
   pickUpDay?: Maybe<PickUpDayEntityResponse>;
-  postalCode?: Maybe<Scalars["Long"]>;
+  postalCode?: Maybe<Scalars["String"]>;
   region?: Maybe<Scalars["String"]>;
-  siren?: Maybe<Scalars["Long"]>;
+  siren?: Maybe<Scalars["String"]>;
   territories?: Maybe<TerritoryRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type CityEpciArgs = {
-  filters?: InputMaybe<EpciFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CityTerritoriesArgs = {
@@ -737,29 +744,39 @@ export type CityFiltersInput = {
   department?: InputMaybe<StringFilterInput>;
   epci?: InputMaybe<EpciFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
-  insee?: InputMaybe<LongFilterInput>;
+  insee?: InputMaybe<StringFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<CityFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
   pickUpDay?: InputMaybe<PickUpDayFiltersInput>;
-  postalCode?: InputMaybe<LongFilterInput>;
+  postalCode?: InputMaybe<StringFilterInput>;
   region?: InputMaybe<StringFilterInput>;
-  siren?: InputMaybe<LongFilterInput>;
+  siren?: InputMaybe<StringFilterInput>;
   territories?: InputMaybe<TerritoryFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CityInformation = {
+  __typename?: "CityInformation";
+  department?: Maybe<Department>;
+  insee?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  postalCode?: Maybe<Scalars["String"]>;
+  region?: Maybe<Region>;
+  siren?: Maybe<Scalars["String"]>;
 };
 
 export type CityInput = {
   GeoJSON?: InputMaybe<Scalars["JSON"]>;
   MwCounter?: InputMaybe<Scalars["ID"]>;
   department?: InputMaybe<Scalars["String"]>;
-  epci?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  insee?: InputMaybe<Scalars["Long"]>;
+  epci?: InputMaybe<Scalars["ID"]>;
+  insee?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   pickUpDay?: InputMaybe<Scalars["ID"]>;
-  postalCode?: InputMaybe<Scalars["Long"]>;
+  postalCode?: InputMaybe<Scalars["String"]>;
   region?: InputMaybe<Scalars["String"]>;
-  siren?: InputMaybe<Scalars["Long"]>;
+  siren?: InputMaybe<Scalars["String"]>;
   territories?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -1030,10 +1047,6 @@ export type CollectVoluntaryRelationResponseCollection = {
   data: Array<CollectVoluntaryEntity>;
 };
 
-export type CommuneInput = {
-  insee: Scalars["Int"];
-};
-
 export type ComponentBlocksAttachments = {
   __typename?: "ComponentBlocksAttachments";
   attachment?: Maybe<UploadFileRelationResponseCollection>;
@@ -1210,6 +1223,28 @@ export type ComponentBlocksServices = {
   pickUpS?: Maybe<PickUpDayServiceEntityResponse>;
   recyclingS?: Maybe<RecyclingGuideServiceEntityResponse>;
   requestS?: Maybe<RequestServiceEntityResponse>;
+};
+
+export type ComponentBlocksServicesFiltersInput = {
+  alertS?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  and?: InputMaybe<Array<InputMaybe<ComponentBlocksServicesFiltersInput>>>;
+  dropOffS?: InputMaybe<DropOffMapServiceFiltersInput>;
+  editoS?: InputMaybe<EditorialServiceFiltersInput>;
+  not?: InputMaybe<ComponentBlocksServicesFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentBlocksServicesFiltersInput>>>;
+  pickUpS?: InputMaybe<PickUpDayServiceFiltersInput>;
+  recyclingS?: InputMaybe<RecyclingGuideServiceFiltersInput>;
+  requestS?: InputMaybe<RequestServiceFiltersInput>;
+};
+
+export type ComponentBlocksServicesInput = {
+  alertS?: InputMaybe<Scalars["ID"]>;
+  dropOffS?: InputMaybe<Scalars["ID"]>;
+  editoS?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  pickUpS?: InputMaybe<Scalars["ID"]>;
+  recyclingS?: InputMaybe<Scalars["ID"]>;
+  requestS?: InputMaybe<Scalars["ID"]>;
 };
 
 export type ComponentBlocksSubHeading = {
@@ -1764,14 +1799,12 @@ export type Contract = {
   dueDate?: Maybe<Scalars["DateTime"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   flows?: Maybe<FlowRelationResponseCollection>;
-  hasYesWeScan?: Maybe<Scalars["Boolean"]>;
   isFreemium: Scalars["Boolean"];
   isNonExclusive: Scalars["Boolean"];
   isRVFrance: Scalars["Boolean"];
   keyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   logicalDelete?: Maybe<Scalars["Boolean"]>;
   logo: UploadFileEntityResponse;
-  numberOfInhabitants?: Maybe<Scalars["Long"]>;
   oldClientName?: Maybe<Scalars["String"]>;
   pathId?: Maybe<Scalars["Long"]>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
@@ -1783,7 +1816,7 @@ export type Contract = {
   territory?: Maybe<TerritoryEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
-  yes_we_scan_service?: Maybe<YesWeScanServiceRelationResponseCollection>;
+  yesWeScanServices?: Maybe<YesWeScanServiceRelationResponseCollection>;
 };
 
 export type ContractAudiencesArgs = {
@@ -1834,7 +1867,7 @@ export type ContractUsersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
-export type ContractYes_We_Scan_ServiceArgs = {
+export type ContractYesWeScanServicesArgs = {
   filters?: InputMaybe<YesWeScanServiceFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -1947,7 +1980,6 @@ export type ContractFiltersInput = {
   dueDate?: InputMaybe<DateTimeFilterInput>;
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
-  hasYesWeScan?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isFreemium?: InputMaybe<BooleanFilterInput>;
   isNonExclusive?: InputMaybe<BooleanFilterInput>;
@@ -1955,7 +1987,6 @@ export type ContractFiltersInput = {
   keyMetricsService?: InputMaybe<KeyMetricsServiceFiltersInput>;
   logicalDelete?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<ContractFiltersInput>;
-  numberOfInhabitants?: InputMaybe<LongFilterInput>;
   oldClientName?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
   pathId?: InputMaybe<LongFilterInput>;
@@ -1968,7 +1999,7 @@ export type ContractFiltersInput = {
   territory?: InputMaybe<TerritoryFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   users?: InputMaybe<UsersPermissionsUserFiltersInput>;
-  yes_we_scan_service?: InputMaybe<YesWeScanServiceFiltersInput>;
+  yesWeScanServices?: InputMaybe<YesWeScanServiceFiltersInput>;
 };
 
 export type ContractInput = {
@@ -1991,14 +2022,12 @@ export type ContractInput = {
   dueDate?: InputMaybe<Scalars["DateTime"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  hasYesWeScan?: InputMaybe<Scalars["Boolean"]>;
   isFreemium?: InputMaybe<Scalars["Boolean"]>;
   isNonExclusive?: InputMaybe<Scalars["Boolean"]>;
   isRVFrance?: InputMaybe<Scalars["Boolean"]>;
   keyMetricsService?: InputMaybe<Scalars["ID"]>;
   logicalDelete?: InputMaybe<Scalars["Boolean"]>;
   logo?: InputMaybe<Scalars["ID"]>;
-  numberOfInhabitants?: InputMaybe<Scalars["Long"]>;
   oldClientName?: InputMaybe<Scalars["String"]>;
   pathId?: InputMaybe<Scalars["Long"]>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
@@ -2009,7 +2038,7 @@ export type ContractInput = {
   tags?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   territory?: InputMaybe<Scalars["ID"]>;
   users?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  yes_we_scan_service?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  yesWeScanServices?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type ContractMenu = {
@@ -2253,6 +2282,12 @@ export type DeletedMessage = {
   __typename?: "DeletedMessage";
   id?: Maybe<Scalars["ID"]>;
   message?: Maybe<Scalars["String"]>;
+};
+
+export type Department = {
+  __typename?: "Department";
+  code?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type DescriptionService = {
@@ -2663,6 +2698,7 @@ export enum Enum_Contract_Clienttype {
 
 export enum Enum_Contract_Contractstatus {
   Actif = "Actif",
+  Desactive = "Desactive",
   EnCours = "En_cours",
   Initialisation = "Initialisation",
 }
@@ -2746,6 +2782,22 @@ export enum Enum_Wasteform_Status {
   Archived = "archived",
   Draft = "draft",
   Published = "published",
+}
+
+export enum Enum_Yeswescanform_Picturestatus {
+  Mandatory = "mandatory",
+  Masked = "masked",
+  Optional = "optional",
+}
+
+export enum Enum_Yeswescanform_Treatmentmethod {
+  Mail = "mail",
+  Tsms = "tsms",
+}
+
+export enum Enum_Yeswescanqrcode_Typeassociation {
+  DropOffMap = "dropOffMap",
+  SignalmentZone = "signalmentZone",
 }
 
 export type EditoBlock = {
@@ -2927,11 +2979,18 @@ export type EnrichRequest = {
 
 export type Epci = {
   __typename?: "Epci";
-  cities?: Maybe<CityEntityResponse>;
+  cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   name?: Maybe<Scalars["String"]>;
+  siren: Scalars["String"];
   territories?: Maybe<TerritoryRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type EpciCitiesArgs = {
+  filters?: InputMaybe<CityFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type EpciTerritoriesArgs = {
@@ -2965,13 +3024,15 @@ export type EpciFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<EpciFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<EpciFiltersInput>>>;
+  siren?: InputMaybe<StringFilterInput>;
   territories?: InputMaybe<TerritoryFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type EpciInput = {
-  cities?: InputMaybe<Scalars["ID"]>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   name?: InputMaybe<Scalars["String"]>;
+  siren?: InputMaybe<Scalars["String"]>;
   territories?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
@@ -3467,6 +3528,9 @@ export type Footer = {
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   cookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  displayLink?: Maybe<Scalars["Boolean"]>;
+  linkName?: Maybe<Scalars["String"]>;
+  linkUrl?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -3497,7 +3561,10 @@ export type FooterFiltersInput = {
   contractCustomization?: InputMaybe<ContractCustomizationFiltersInput>;
   cookiesSubService?: InputMaybe<CookiesSubServiceFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  displayLink?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  linkName?: InputMaybe<StringFilterInput>;
+  linkUrl?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<FooterFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<FooterFiltersInput>>>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -3511,6 +3578,9 @@ export type FooterInput = {
   contactUsSubService?: InputMaybe<Scalars["ID"]>;
   contractCustomization?: InputMaybe<Scalars["ID"]>;
   cookiesSubService?: InputMaybe<Scalars["ID"]>;
+  displayLink?: InputMaybe<Scalars["Boolean"]>;
+  linkName?: InputMaybe<Scalars["String"]>;
+  linkUrl?: InputMaybe<Scalars["String"]>;
 };
 
 export type FreeContent = {
@@ -3809,6 +3879,8 @@ export type GenericMorph =
   | WasteFamily
   | WasteForm
   | WelcomeMessageBlock
+  | YesWeScanForm
+  | YesWeScanQrCode
   | YesWeScanService;
 
 export type Global = {
@@ -3854,6 +3926,7 @@ export type Homepage = {
   quizAndTipsBlocks?: Maybe<QuizAndTipsBlockRelationResponseCollection>;
   recyclingGuideBlock?: Maybe<RecyclingGuideBlockEntityResponse>;
   searchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
+  services?: Maybe<ComponentBlocksServices>;
   servicesBlocks?: Maybe<ServicesBlockRelationResponseCollection>;
   topContentBlocks?: Maybe<TopContentBlockRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -3912,6 +3985,7 @@ export type HomepageFiltersInput = {
   quizAndTipsBlocks?: InputMaybe<QuizAndTipsBlockFiltersInput>;
   recyclingGuideBlock?: InputMaybe<RecyclingGuideBlockFiltersInput>;
   searchEngineBlock?: InputMaybe<SearchEngineBlockFiltersInput>;
+  services?: InputMaybe<ComponentBlocksServicesFiltersInput>;
   servicesBlocks?: InputMaybe<ServicesBlockFiltersInput>;
   topContentBlocks?: InputMaybe<TopContentBlockFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -3924,6 +3998,7 @@ export type HomepageInput = {
   quizAndTipsBlocks?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   recyclingGuideBlock?: InputMaybe<Scalars["ID"]>;
   searchEngineBlock?: InputMaybe<Scalars["ID"]>;
+  services?: InputMaybe<ComponentBlocksServicesInput>;
   servicesBlocks?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   topContentBlocks?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   welcomeMessageBlock?: InputMaybe<Scalars["ID"]>;
@@ -4263,7 +4338,6 @@ export type LongFilterInput = {
 
 export type Mutation = {
   __typename?: "Mutation";
-  addCommuneToContract?: Maybe<ContractEntity>;
   bulkDeleteMedias?: Maybe<Array<Maybe<DeletedMessage>>>;
   bulkMoveMedias?: Maybe<Array<Maybe<RequestFileOrFolder>>>;
   /** Change user password. Confirm with the current password. */
@@ -4352,8 +4426,10 @@ export type Mutation = {
   createWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   createWasteForm?: Maybe<WasteFormEntityResponse>;
   createWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
+  createYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  createYesWeScanQrCode?: Maybe<YesWeScanQrCodeEntityResponse>;
   createYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
-  createYwsService?: Maybe<Scalars["Boolean"]>;
+  createYwsService?: Maybe<YesWeScanServiceEntity>;
   deleteAccessibility?: Maybe<AccessibilityEntityResponse>;
   deleteAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   deleteAlertNotification?: Maybe<AlertNotificationEntityResponse>;
@@ -4424,6 +4500,7 @@ export type Mutation = {
   deleteTip?: Maybe<TipEntityResponse>;
   deleteTipSubService?: Maybe<TipSubServiceEntityResponse>;
   deleteTopContentBlock?: Maybe<TopContentBlockEntityResponse>;
+  deleteUnpublishedMedia?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   deleteUnusedSectors?: Maybe<Sectorization>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -4435,8 +4512,9 @@ export type Mutation = {
   deleteWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   deleteWasteForm?: Maybe<WasteFormEntityResponse>;
   deleteWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
+  deleteYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  deleteYesWeScanQrCode?: Maybe<YesWeScanQrCodeEntityResponse>;
   deleteYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
-  deleteYwsService?: Maybe<Scalars["Boolean"]>;
   duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
@@ -4527,6 +4605,7 @@ export type Mutation = {
   updateSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   updateSectorization?: Maybe<SectorizationEntityResponse>;
   updateServicesBlock?: Maybe<ServicesBlockEntityResponse>;
+  updateShortName?: Maybe<YesWeScanFormEntity>;
   updateTag?: Maybe<TagEntityResponse>;
   updateTerritory?: Maybe<TerritoryEntityResponse>;
   updateTerritoryType?: Maybe<TerritoryTypeEntityResponse>;
@@ -4543,6 +4622,8 @@ export type Mutation = {
   updateWasteFamily?: Maybe<WasteFamilyEntityResponse>;
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
   updateWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
+  updateYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  updateYesWeScanQrCode?: Maybe<YesWeScanQrCodeEntityResponse>;
   updateYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   upload: UploadFileEntityResponse;
   uploadFileAndGetId?: Maybe<UploadResult>;
@@ -4550,13 +4631,8 @@ export type Mutation = {
   urlUploader?: Maybe<Scalars["Boolean"]>;
   validateRequest?: Maybe<Scalars["Boolean"]>;
   versioningHandler?: Maybe<VersioningEntityResponse>;
-  ywsActivation?: Maybe<Scalars["Boolean"]>;
-  ywsDeactivation?: Maybe<Scalars["Boolean"]>;
-};
-
-export type MutationAddCommuneToContractArgs = {
-  ContractId: Scalars["ID"];
-  commune: CommuneInput;
+  ywsActivation?: Maybe<ChannelTypeEntity>;
+  ywsDeactivation?: Maybe<ChannelTypeEntity>;
 };
 
 export type MutationBulkDeleteMediasArgs = {
@@ -4924,6 +5000,14 @@ export type MutationCreateWelcomeMessageBlockArgs = {
   data: WelcomeMessageBlockInput;
 };
 
+export type MutationCreateYesWeScanFormArgs = {
+  data: YesWeScanFormInput;
+};
+
+export type MutationCreateYesWeScanQrCodeArgs = {
+  data: YesWeScanQrCodeInput;
+};
+
 export type MutationCreateYesWeScanServiceArgs = {
   data: YesWeScanServiceInput;
 };
@@ -5211,6 +5295,10 @@ export type MutationDeleteTopContentBlockArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationDeleteUnpublishedMediaArgs = {
+  imageIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
 export type MutationDeleteUnusedSectorsArgs = {
   id: Scalars["ID"];
 };
@@ -5247,11 +5335,15 @@ export type MutationDeleteWelcomeMessageBlockArgs = {
   id: Scalars["ID"];
 };
 
-export type MutationDeleteYesWeScanServiceArgs = {
+export type MutationDeleteYesWeScanFormArgs = {
   id: Scalars["ID"];
 };
 
-export type MutationDeleteYwsServiceArgs = {
+export type MutationDeleteYesWeScanQrCodeArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteYesWeScanServiceArgs = {
   id: Scalars["ID"];
 };
 
@@ -5703,6 +5795,11 @@ export type MutationUpdateServicesBlockArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateShortNameArgs = {
+  formId: Scalars["ID"];
+  shortName: Scalars["String"];
+};
+
 export type MutationUpdateTagArgs = {
   data: TagInput;
   id: Scalars["ID"];
@@ -5770,6 +5867,16 @@ export type MutationUpdateWasteFormArgs = {
 
 export type MutationUpdateWelcomeMessageBlockArgs = {
   data: WelcomeMessageBlockInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateYesWeScanFormArgs = {
+  data: YesWeScanFormInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateYesWeScanQrCodeArgs = {
+  data: YesWeScanQrCodeInput;
   id: Scalars["ID"];
 };
 
@@ -5925,7 +6032,9 @@ export type MwcFlow = {
   averageProductionPerson?: Maybe<Scalars["Long"]>;
   blocks?: Maybe<Array<Maybe<MwcFlowBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  editoContent?: Maybe<Array<Maybe<MwcFlowEditoContentDynamicZone>>>;
   flow?: Maybe<FlowEntityResponse>;
+  hasEdito?: Maybe<Scalars["Boolean"]>;
   mwCounterService?: Maybe<MwCounterServiceEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   weightSystem?: Maybe<Enum_Mwcflow_Weightsystem>;
@@ -5937,6 +6046,8 @@ export type MwcFlowBlocksDynamicZone =
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
   | Error;
+
+export type MwcFlowEditoContentDynamicZone = ComponentLinksEditoContent | Error;
 
 export type MwcFlowEntity = {
   __typename?: "MwcFlowEntity";
@@ -5960,6 +6071,7 @@ export type MwcFlowFiltersInput = {
   averageProductionPerson?: InputMaybe<LongFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   flow?: InputMaybe<FlowFiltersInput>;
+  hasEdito?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   mwCounterService?: InputMaybe<MwCounterServiceFiltersInput>;
   not?: InputMaybe<MwcFlowFiltersInput>;
@@ -5971,7 +6083,11 @@ export type MwcFlowFiltersInput = {
 export type MwcFlowInput = {
   averageProductionPerson?: InputMaybe<Scalars["Long"]>;
   blocks?: InputMaybe<Array<Scalars["MwcFlowBlocksDynamicZoneInput"]>>;
+  editoContent?: InputMaybe<
+    Array<Scalars["MwcFlowEditoContentDynamicZoneInput"]>
+  >;
   flow?: InputMaybe<Scalars["ID"]>;
+  hasEdito?: InputMaybe<Scalars["Boolean"]>;
   mwCounterService?: InputMaybe<Scalars["ID"]>;
   weightSystem?: InputMaybe<Enum_Mwcflow_Weightsystem>;
 };
@@ -5990,7 +6106,7 @@ export type New = {
   customId?: Maybe<Scalars["String"]>;
   draftCreationId?: Maybe<Scalars["String"]>;
   hasDraft?: Maybe<Scalars["Boolean"]>;
-  image?: Maybe<UploadFileEntityResponse>;
+  image: UploadFileEntityResponse;
   newsSubService?: Maybe<NewsSubServiceEntityResponse>;
   publishedDate?: Maybe<Scalars["DateTime"]>;
   shortDescription?: Maybe<Scalars["String"]>;
@@ -6418,6 +6534,7 @@ export type Query = {
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   cguSubServices?: Maybe<CguSubServiceEntityResponseCollection>;
   cgus?: Maybe<CguEntityResponseCollection>;
+  changeContractStatus?: Maybe<ContractStatus>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
   channelTypes?: Maybe<ChannelTypeEntityResponseCollection>;
   cities?: Maybe<CityEntityResponseCollection>;
@@ -6484,7 +6601,9 @@ export type Query = {
   getAddressCoordinates?: Maybe<Array<Maybe<SearchResultAddress>>>;
   getAllFoldersHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getAppointmentsDetails?: Maybe<AppointmentDetails>;
+  getCitiesInformations?: Maybe<Array<Maybe<CityInformation>>>;
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
+  getContractIdByInseeCode?: Maybe<ContractEntity>;
   getCumbersomeReferential: Array<Maybe<Cumbersome>>;
   getDropOffCollectType?: Maybe<Array<Maybe<CollectEntity>>>;
   getDropOffMaps?: Maybe<Array<Maybe<DropOffMapDto>>>;
@@ -6558,6 +6677,7 @@ export type Query = {
   sectorization?: Maybe<SectorizationEntityResponse>;
   sectorizationByCity?: Maybe<CitySectorization>;
   sectorizations?: Maybe<SectorizationEntityResponseCollection>;
+  sectorizationsByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   servicesBlock?: Maybe<ServicesBlockEntityResponse>;
   servicesBlocks?: Maybe<ServicesBlockEntityResponseCollection>;
   tag?: Maybe<TagEntityResponse>;
@@ -6589,6 +6709,10 @@ export type Query = {
   wasteForms?: Maybe<WasteFormEntityResponseCollection>;
   welcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   welcomeMessageBlocks?: Maybe<WelcomeMessageBlockEntityResponseCollection>;
+  yesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  yesWeScanForms?: Maybe<YesWeScanFormEntityResponseCollection>;
+  yesWeScanQrCode?: Maybe<YesWeScanQrCodeEntityResponse>;
+  yesWeScanQrCodes?: Maybe<YesWeScanQrCodeEntityResponseCollection>;
   yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   yesWeScanServices?: Maybe<YesWeScanServiceEntityResponseCollection>;
 };
@@ -6671,6 +6795,11 @@ export type QueryCgusArgs = {
   filters?: InputMaybe<CguFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryChangeContractStatusArgs = {
+  contractId: Scalars["ID"];
+  status: Statuses;
 };
 
 export type QueryChannelTypeArgs = {
@@ -6982,6 +7111,7 @@ export type QueryFreeContentsArgs = {
 };
 
 export type QueryGetAddressCoordinatesArgs = {
+  housenumber?: InputMaybe<Scalars["Boolean"]>;
   searchTerm: Scalars["String"];
 };
 
@@ -6993,8 +7123,17 @@ export type QueryGetAppointmentsDetailsArgs = {
   requestId: Scalars["ID"];
 };
 
+export type QueryGetCitiesInformationsArgs = {
+  prehome: Scalars["Boolean"];
+  searchTerm: Scalars["String"];
+};
+
 export type QueryGetContentTypeDtOsArgs = {
   contractId: Scalars["ID"];
+};
+
+export type QueryGetContractIdByInseeCodeArgs = {
+  INSEE: Scalars["String"];
 };
 
 export type QueryGetDropOffCollectTypeArgs = {
@@ -7040,6 +7179,7 @@ export type QueryGetMwcAverageProductionArgs = {
 };
 
 export type QueryGetNewestTopContentsArgs = {
+  audienceId: Scalars["ID"];
   contractId: Scalars["ID"];
 };
 
@@ -7340,6 +7480,12 @@ export type QuerySectorizationsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QuerySectorizationsByCoordinatesArgs = {
+  contractId: Scalars["ID"];
+  lat: Scalars["Float"];
+  long: Scalars["Float"];
+};
+
 export type QueryServicesBlockArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -7490,6 +7636,26 @@ export type QueryWelcomeMessageBlockArgs = {
 
 export type QueryWelcomeMessageBlocksArgs = {
   filters?: InputMaybe<WelcomeMessageBlockFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryYesWeScanFormArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryYesWeScanFormsArgs = {
+  filters?: InputMaybe<YesWeScanFormFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryYesWeScanQrCodeArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryYesWeScanQrCodesArgs = {
+  filters?: InputMaybe<YesWeScanQrCodeFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -7899,6 +8065,12 @@ export type RecyclingGuideServiceRelationResponseCollection = {
   data: Array<RecyclingGuideServiceEntity>;
 };
 
+export type Region = {
+  __typename?: "Region";
+  code?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+};
+
 export type Request = {
   __typename?: "Request";
   addableBlocks?: Maybe<Array<Maybe<RequestAddableBlocksDynamicZone>>>;
@@ -8133,6 +8305,7 @@ export type RequestService = {
   requestAggregates?: Maybe<RequestAggregateRelationResponseCollection>;
   requests?: Maybe<RequestRelationResponseCollection>;
   startDate?: Maybe<Scalars["Date"]>;
+  tsmsApiKey?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
@@ -8192,6 +8365,7 @@ export type RequestServiceFiltersInput = {
   requestAggregates?: InputMaybe<RequestAggregateFiltersInput>;
   requests?: InputMaybe<RequestFiltersInput>;
   startDate?: InputMaybe<DateFilterInput>;
+  tsmsApiKey?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -8205,6 +8379,7 @@ export type RequestServiceInput = {
   requestAggregates?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   requests?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   startDate?: InputMaybe<Scalars["Date"]>;
+  tsmsApiKey?: InputMaybe<Scalars["String"]>;
 };
 
 export type RequestServiceRelationResponseCollection = {
@@ -8602,6 +8777,14 @@ export type ServicesDeactivated = {
   serviceName?: Maybe<Scalars["String"]>;
 };
 
+export enum Statuses {
+  Actif = "Actif",
+  Desactive = "Desactive",
+  En = "En",
+  Initialisation = "Initialisation",
+  Cours = "cours",
+}
+
 export type StringFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
@@ -8679,6 +8862,7 @@ export type Territory = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   epcis?: Maybe<EpciRelationResponseCollection>;
   name?: Maybe<Scalars["String"]>;
+  numberOfInhabitants?: Maybe<Scalars["Long"]>;
   territoryType?: Maybe<TerritoryTypeEntityResponse>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
@@ -8721,6 +8905,7 @@ export type TerritoryFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<TerritoryFiltersInput>;
+  numberOfInhabitants?: InputMaybe<LongFilterInput>;
   or?: InputMaybe<Array<InputMaybe<TerritoryFiltersInput>>>;
   territoryType?: InputMaybe<TerritoryTypeFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -8731,6 +8916,7 @@ export type TerritoryInput = {
   contract?: InputMaybe<Scalars["ID"]>;
   epcis?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   name?: InputMaybe<Scalars["String"]>;
+  numberOfInhabitants?: InputMaybe<Scalars["Long"]>;
   territoryType?: InputMaybe<Scalars["ID"]>;
 };
 
@@ -9736,14 +9922,157 @@ export type WelcomeMessageBlockInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type YesWeScanForm = {
+  __typename?: "YesWeScanForm";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  displayEndingButton: Scalars["Boolean"];
+  endingButtonIntroduction?: Maybe<Scalars["String"]>;
+  endingButtonLabel?: Maybe<Scalars["String"]>;
+  endingButtonLink?: Maybe<Scalars["String"]>;
+  logo?: Maybe<UploadFileEntityResponse>;
+  mailRecipients?: Maybe<Scalars["String"]>;
+  pictureStatus: Enum_Yeswescanform_Picturestatus;
+  reportButtons: Scalars["String"];
+  thankYouMessage: Scalars["String"];
+  treatmentMethod: Enum_Yeswescanform_Treatmentmethod;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
+};
+
+export type YesWeScanFormEntity = {
+  __typename?: "YesWeScanFormEntity";
+  attributes?: Maybe<YesWeScanForm>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type YesWeScanFormEntityResponse = {
+  __typename?: "YesWeScanFormEntityResponse";
+  data?: Maybe<YesWeScanFormEntity>;
+};
+
+export type YesWeScanFormEntityResponseCollection = {
+  __typename?: "YesWeScanFormEntityResponseCollection";
+  data: Array<YesWeScanFormEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type YesWeScanFormFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<YesWeScanFormFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  displayEndingButton?: InputMaybe<BooleanFilterInput>;
+  endingButtonIntroduction?: InputMaybe<StringFilterInput>;
+  endingButtonLabel?: InputMaybe<StringFilterInput>;
+  endingButtonLink?: InputMaybe<StringFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  mailRecipients?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<YesWeScanFormFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<YesWeScanFormFiltersInput>>>;
+  pictureStatus?: InputMaybe<StringFilterInput>;
+  reportButtons?: InputMaybe<StringFilterInput>;
+  thankYouMessage?: InputMaybe<StringFilterInput>;
+  treatmentMethod?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  yesWeScanService?: InputMaybe<YesWeScanServiceFiltersInput>;
+};
+
+export type YesWeScanFormInput = {
+  displayEndingButton?: InputMaybe<Scalars["Boolean"]>;
+  endingButtonIntroduction?: InputMaybe<Scalars["String"]>;
+  endingButtonLabel?: InputMaybe<Scalars["String"]>;
+  endingButtonLink?: InputMaybe<Scalars["String"]>;
+  logo?: InputMaybe<Scalars["ID"]>;
+  mailRecipients?: InputMaybe<Scalars["String"]>;
+  pictureStatus?: InputMaybe<Enum_Yeswescanform_Picturestatus>;
+  reportButtons?: InputMaybe<Scalars["String"]>;
+  thankYouMessage?: InputMaybe<Scalars["String"]>;
+  treatmentMethod?: InputMaybe<Enum_Yeswescanform_Treatmentmethod>;
+  yesWeScanService?: InputMaybe<Scalars["ID"]>;
+};
+
+export type YesWeScanQrCode = {
+  __typename?: "YesWeScanQrCode";
+  address?: Maybe<Scalars["String"]>;
+  city?: Maybe<Scalars["String"]>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  dropOffMap?: Maybe<DropOffMapEntityResponse>;
+  lat?: Maybe<Scalars["Float"]>;
+  long?: Maybe<Scalars["Float"]>;
+  name?: Maybe<Scalars["String"]>;
+  qrCodeUrl?: Maybe<Scalars["String"]>;
+  typeAssociation?: Maybe<Enum_Yeswescanqrcode_Typeassociation>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
+};
+
+export type YesWeScanQrCodeEntity = {
+  __typename?: "YesWeScanQrCodeEntity";
+  attributes?: Maybe<YesWeScanQrCode>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type YesWeScanQrCodeEntityResponse = {
+  __typename?: "YesWeScanQrCodeEntityResponse";
+  data?: Maybe<YesWeScanQrCodeEntity>;
+};
+
+export type YesWeScanQrCodeEntityResponseCollection = {
+  __typename?: "YesWeScanQrCodeEntityResponseCollection";
+  data: Array<YesWeScanQrCodeEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type YesWeScanQrCodeFiltersInput = {
+  address?: InputMaybe<StringFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<YesWeScanQrCodeFiltersInput>>>;
+  city?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  dropOffMap?: InputMaybe<DropOffMapFiltersInput>;
+  id?: InputMaybe<IdFilterInput>;
+  lat?: InputMaybe<FloatFilterInput>;
+  long?: InputMaybe<FloatFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<YesWeScanQrCodeFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<YesWeScanQrCodeFiltersInput>>>;
+  qrCodeUrl?: InputMaybe<StringFilterInput>;
+  typeAssociation?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  yesWeScanService?: InputMaybe<YesWeScanServiceFiltersInput>;
+};
+
+export type YesWeScanQrCodeInput = {
+  address?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]>;
+  dropOffMap?: InputMaybe<Scalars["ID"]>;
+  lat?: InputMaybe<Scalars["Float"]>;
+  long?: InputMaybe<Scalars["Float"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  qrCodeUrl?: InputMaybe<Scalars["String"]>;
+  typeAssociation?: InputMaybe<Enum_Yeswescanqrcode_Typeassociation>;
+  yesWeScanService?: InputMaybe<Scalars["ID"]>;
+};
+
+export type YesWeScanQrCodeRelationResponseCollection = {
+  __typename?: "YesWeScanQrCodeRelationResponseCollection";
+  data: Array<YesWeScanQrCodeEntity>;
+};
+
 export type YesWeScanService = {
   __typename?: "YesWeScanService";
   contract?: Maybe<ContractEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   endDate?: Maybe<Scalars["DateTime"]>;
   serviceName?: Maybe<Scalars["String"]>;
+  shortName: Scalars["String"];
   startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  yesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  yesWeScanQRCodes?: Maybe<YesWeScanQrCodeRelationResponseCollection>;
+};
+
+export type YesWeScanServiceYesWeScanQrCodesArgs = {
+  filters?: InputMaybe<YesWeScanQrCodeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type YesWeScanServiceEntity = {
@@ -9772,15 +10101,21 @@ export type YesWeScanServiceFiltersInput = {
   not?: InputMaybe<YesWeScanServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<YesWeScanServiceFiltersInput>>>;
   serviceName?: InputMaybe<StringFilterInput>;
+  shortName?: InputMaybe<StringFilterInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  yesWeScanForm?: InputMaybe<YesWeScanFormFiltersInput>;
+  yesWeScanQRCodes?: InputMaybe<YesWeScanQrCodeFiltersInput>;
 };
 
 export type YesWeScanServiceInput = {
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["DateTime"]>;
   serviceName?: InputMaybe<Scalars["String"]>;
+  shortName?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
+  yesWeScanForm?: InputMaybe<Scalars["ID"]>;
+  yesWeScanQRCodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type YesWeScanServiceRelationResponseCollection = {
@@ -9841,7 +10176,7 @@ export type CreateNewMutation = {
             attributes?: { __typename?: "Tag"; name: string } | null;
           }>;
         } | null;
-        image?: {
+        image: {
           __typename?: "UploadFileEntityResponse";
           data?: {
             __typename?: "UploadFileEntity";
@@ -9861,7 +10196,7 @@ export type CreateNewMutation = {
               createdAt?: any | null;
             } | null;
           } | null;
-        } | null;
+        };
         audiences?: {
           __typename?: "AudienceRelationResponseCollection";
           data: Array<{ __typename?: "AudienceEntity"; id?: string | null }>;
@@ -9986,7 +10321,7 @@ export type DeleteNewByIdMutation = {
             attributes?: { __typename?: "Tag"; name: string } | null;
           }>;
         } | null;
-        image?: {
+        image: {
           __typename?: "UploadFileEntityResponse";
           data?: {
             __typename?: "UploadFileEntity";
@@ -10006,7 +10341,7 @@ export type DeleteNewByIdMutation = {
               createdAt?: any | null;
             } | null;
           } | null;
-        } | null;
+        };
         blocks?: Array<
           | {
               __typename?: "ComponentBlocksFile";
@@ -10194,7 +10529,7 @@ export type GetNewByIdQuery = {
             attributes?: { __typename?: "Tag"; name: string } | null;
           }>;
         } | null;
-        image?: {
+        image: {
           __typename?: "UploadFileEntityResponse";
           data?: {
             __typename?: "UploadFileEntity";
@@ -10214,7 +10549,7 @@ export type GetNewByIdQuery = {
               createdAt?: any | null;
             } | null;
           } | null;
-        } | null;
+        };
         audiences?: {
           __typename?: "AudienceRelationResponseCollection";
           data: Array<{
@@ -11325,6 +11660,8 @@ export type UpdateUploadFileByIdMutation = {
           | { __typename?: "WasteFamily" }
           | { __typename?: "WasteForm" }
           | { __typename?: "WelcomeMessageBlock" }
+          | { __typename?: "YesWeScanForm" }
+          | { __typename?: "YesWeScanQrCode" }
           | { __typename?: "YesWeScanService" }
           | null
         > | null;
@@ -13413,7 +13750,6 @@ export type GetContractsQuery = {
         clientName: string;
         contractStatus: Enum_Contract_Contractstatus;
         dueDate?: any | null;
-        hasYesWeScan?: boolean | null;
         clientType: Enum_Contract_Clienttype;
         isNonExclusive: boolean;
         isRVFrance: boolean;
@@ -13444,6 +13780,7 @@ export type GetContractsQuery = {
               __typename?: "ChannelType";
               hasWebApp?: boolean | null;
               hasWebSite?: boolean | null;
+              hasYesWeScan?: boolean | null;
             } | null;
           } | null;
         } | null;
@@ -15151,6 +15488,9 @@ export type GetFooterByContractIdQuery = {
             attributes?: {
               __typename?: "Footer";
               accessibilityLevel?: Enum_Footer_Accessibilitylevel | null;
+              linkUrl?: string | null;
+              linkName?: string | null;
+              displayLink?: boolean | null;
               contactUsSubService?: {
                 __typename?: "ContactUsSubServiceEntityResponse";
                 data?: {
@@ -15215,6 +15555,7 @@ export type GetContractMenuByContractIdQuery = {
     __typename?: "ContractEntityResponse";
     data?: {
       __typename?: "ContractEntity";
+      id?: string | null;
       attributes?: {
         __typename?: "Contract";
         contractMenu?: {
@@ -15235,6 +15576,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15252,6 +15594,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15269,6 +15612,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15287,6 +15631,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15304,6 +15649,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15322,6 +15668,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15339,6 +15686,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15356,6 +15704,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15373,6 +15722,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15390,6 +15740,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15407,6 +15758,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15424,6 +15776,7 @@ export type GetContractMenuByContractIdQuery = {
                       __typename?: "UploadFileEntityResponse";
                       data?: {
                         __typename?: "UploadFileEntity";
+                        id?: string | null;
                         attributes?: {
                           __typename?: "UploadFile";
                           url: string;
@@ -15710,7 +16063,7 @@ export type GetCitiesByContractIdQuery = {
             __typename?: "CityEntity";
             attributes?: {
               __typename?: "City";
-              postalCode?: any | null;
+              postalCode?: string | null;
               name?: string | null;
               GeoJSON?: any | null;
             } | null;
@@ -24327,7 +24680,6 @@ export const GetContractsDocument = gql`
           clientName
           contractStatus
           dueDate
-          hasYesWeScan
           clientType
           isNonExclusive
           isRVFrance
@@ -24352,6 +24704,7 @@ export const GetContractsDocument = gql`
               attributes {
                 hasWebApp
                 hasWebSite
+                hasYesWeScan
               }
             }
           }
@@ -27204,6 +27557,9 @@ export const GetFooterByContractIdDocument = gql`
               id
               attributes {
                 accessibilityLevel
+                linkUrl
+                linkName
+                displayLink
                 contactUsSubService {
                   data {
                     id
@@ -27351,6 +27707,7 @@ export const GetContractMenuByContractIdDocument = gql`
   query getContractMenuByContractId($contractId: ID!) {
     contract(id: $contractId) {
       data {
+        id
         attributes {
           contractMenu {
             data {
@@ -27363,123 +27720,7 @@ export const GetContractMenuByContractIdDocument = gql`
                     isDisplayed
                     picto {
                       data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksPickUpDay {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksRecyclingGuide {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksRequest {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksContactUs {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksNews {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksEvents {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksQuizzes {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksTips {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
-                        attributes {
-                          url
-                          alternativeText
-                        }
-                      }
-                    }
-                  }
-                  ... on ComponentLinksFrees {
-                    id
-                    name
-                    isDisplayed
-                    picto {
-                      data {
+                        id
                         attributes {
                           url
                           alternativeText
@@ -27493,6 +27734,133 @@ export const GetContractMenuByContractIdDocument = gql`
                     isDisplayed
                     picto {
                       data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksPickUpDay {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksRecyclingGuide {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksRequest {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksContactUs {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksNews {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksEvents {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksQuizzes {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksTips {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
+                  }
+                  ... on ComponentLinksFrees {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
                         attributes {
                           url
                           alternativeText
@@ -27506,6 +27874,7 @@ export const GetContractMenuByContractIdDocument = gql`
                     isDisplayed
                     picto {
                       data {
+                        id
                         attributes {
                           url
                           alternativeText

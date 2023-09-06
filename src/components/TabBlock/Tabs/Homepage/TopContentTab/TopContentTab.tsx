@@ -7,6 +7,7 @@ import {
   EditoContentDto,
   useGetTopContentBlockTabByContractIdAndAudienceIdQuery,
   useUpdateTopContentBlockByIdMutation,
+  Enum_Topcontentdto_Status,
 } from "../../../../../graphql/codegen/generated-types";
 import { extractTopContentBlock } from "../../../../../lib/graphql-data";
 import { formatDate } from "../../../../../lib/utilities";
@@ -141,12 +142,16 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
   const getTopContentBlockVariables: {
     contractId: string;
     audienceId: string;
+    status: Enum_Topcontentdto_Status;
   } = {
     contractId,
     audienceId: "",
+    status: "published" as Enum_Topcontentdto_Status,
   };
   if (audience && audience.id) {
     getTopContentBlockVariables.audienceId = audience.id;
+    getTopContentBlockVariables.status =
+      "published" as Enum_Topcontentdto_Status;
   }
   const { loading, error, data } =
     useGetTopContentBlockTabByContractIdAndAudienceIdQuery({

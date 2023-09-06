@@ -24,6 +24,16 @@ export interface IServiceLink {
   picto?: ILocalFile | null;
 }
 
+export interface IServiceLinkFromServer {
+  type?: string;
+  id?: string;
+  localId?: string;
+  name: string;
+  externalLink?: string;
+  isDisplayed: boolean;
+  picto?: { data: { id: string; attributes: ILocalFile | null } };
+}
+
 export interface IStateServiceLink {
   externalLink?: string;
   id?: string;
@@ -45,7 +55,7 @@ export interface IPartialServiceLink {
 
 export function isServiceLink(
   link: Partial<IPartialServiceLink>,
-): link is IServiceLink {
+): link is IServiceLinkFromServer {
   return "name" in link && "isDisplayed" in link;
 }
 
@@ -71,7 +81,19 @@ export function remapServiceLinksDynamicZone(
               name: link?.name,
               ...(link?.externalLink && { externalLink: link?.externalLink }),
               isDisplayed: link?.isDisplayed,
-              picto: link?.picto,
+              ...(link?.picto?.data?.id &&
+                !!link.picto.data.attributes && {
+                  picto: {
+                    id: link.picto.data.id,
+                    url: link.picto.data.attributes.url ?? "",
+                    alternativeText:
+                      link.picto.data.attributes.alternativeText ?? "",
+                    ext: link.picto.data.attributes.ext ?? "",
+                    mime: link.picto.data.attributes.mime ?? "",
+                    name: link.picto.data.attributes.name ?? "",
+                    size: link.picto.data.attributes.size ?? 0,
+                  },
+                }),
             };
           }
         }

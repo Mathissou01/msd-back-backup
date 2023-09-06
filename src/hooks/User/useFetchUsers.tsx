@@ -43,7 +43,7 @@ export default function useFetchUsers(): IUseUsersResult {
 
       const queryString = transformParamsToQueryString(params);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_USER_API_URL}/user?${queryString}`,
+        `${process.env.NEXT_PUBLIC_USER_API_URL}/users?${queryString}`,
       );
       const { data, count } = await response.json();
       setUsers(data);

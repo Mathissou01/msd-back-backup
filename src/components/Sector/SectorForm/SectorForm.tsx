@@ -63,10 +63,10 @@ export default function SectorForm({
   });
   const [currentSectorContents, setCurrentSectorContents] = useState<
     {
-      value: number;
+      value: string;
       label: string;
     }[]
-  >([{ value: 0, label: "" }]);
+  >([{ value: "", label: "" }]);
 
   const form = useForm({
     mode: "onChange",
@@ -80,7 +80,7 @@ export default function SectorForm({
   useEffect(() => {
     const mappedTags =
       cities?.territories?.data[0]?.attributes?.cities?.data.reduce(
-        (result: { value: number; label: string }[], city: CityEntity) => {
+        (result: { value: string; label: string }[], city: CityEntity) => {
           if (
             city.attributes &&
             city.attributes.postalCode !== undefined &&

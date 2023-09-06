@@ -7,6 +7,9 @@ query getFooterByContractId($contractId: ID!) {
             id
             attributes {
               accessibilityLevel
+              linkUrl
+              linkName
+              displayLink
               contactUsSubService {
                 data {
                   id

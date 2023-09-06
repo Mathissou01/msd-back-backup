@@ -1,6 +1,7 @@
 query getContractMenuByContractId($contractId: ID!) {
   contract(id: $contractId) {
     data {
+      id
       attributes {
         contractMenu {
           data {
@@ -13,123 +14,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksPickUpDay {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksRecyclingGuide {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksRequest {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksContactUs {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksNews {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksEvents {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksQuizzes {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksTips {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
-                      attributes {
-                        url
-                        alternativeText
-                      }
-                    }
-                  }
-                }
-                ... on ComponentLinksFrees {
-                  id
-                  name
-                  isDisplayed
-                  picto {
-                    data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -143,6 +28,133 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksPickUpDay {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksRecyclingGuide {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksRequest {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksContactUs {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksNews {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksEvents {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksQuizzes {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksTips {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
+                ... on ComponentLinksFrees {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
                       attributes {
                         url
                         alternativeText
@@ -156,6 +168,7 @@ query getContractMenuByContractId($contractId: ID!) {
                   isDisplayed
                   picto {
                     data {
+                      id
                       attributes {
                         url
                         alternativeText

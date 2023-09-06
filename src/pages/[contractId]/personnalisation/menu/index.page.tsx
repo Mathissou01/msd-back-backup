@@ -43,6 +43,8 @@ export function PersonnalisationMenuPage() {
             __typename: link.type,
             id: link.id,
             name: link.name,
+            picto: link.picto,
+            isDisplayed: link.isDisplayed,
           };
         },
       );
