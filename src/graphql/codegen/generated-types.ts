@@ -13780,6 +13780,7 @@ export type GetContractsQuery = {
               __typename?: "ChannelType";
               hasWebApp?: boolean | null;
               hasWebSite?: boolean | null;
+              hasYesWeScan?: boolean | null;
             } | null;
           } | null;
         } | null;
@@ -24703,6 +24704,7 @@ export const GetContractsDocument = gql`
               attributes {
                 hasWebApp
                 hasWebSite
+                hasYesWeScan
               }
             }
           }
