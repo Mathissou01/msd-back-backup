@@ -30,7 +30,6 @@ query getContracts {
             attributes {
               hasWebApp
               hasWebSite
-              hasYesWeScan
             }
           }
         }
