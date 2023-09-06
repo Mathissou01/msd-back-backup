@@ -2488,6 +2488,11 @@ enum ENUM_YESWESCANFORM_TREATMENTMETHOD {
   tsms
 }
 
+enum ENUM_YESWESCANQRCODE_TYPEASSOCIATION {
+  dropOffMap
+  signalmentZone
+}
+
 type EditoBlock {
   audience: AudienceEntityResponse
   createdAt: DateTime
@@ -3472,6 +3477,7 @@ union GenericMorph =
   | WasteForm
   | WelcomeMessageBlock
   | YesWeScanForm
+  | YesWeScanQrCode
   | YesWeScanService
 
 type Global {
@@ -4089,6 +4095,9 @@ type Mutation {
     data: WelcomeMessageBlockInput!
   ): WelcomeMessageBlockEntityResponse
   createYesWeScanForm(data: YesWeScanFormInput!): YesWeScanFormEntityResponse
+  createYesWeScanQrCode(
+    data: YesWeScanQrCodeInput!
+  ): YesWeScanQrCodeEntityResponse
   createYesWeScanService(
     data: YesWeScanServiceInput!
   ): YesWeScanServiceEntityResponse
@@ -4189,6 +4198,7 @@ type Mutation {
   deleteWasteForm(id: ID!): WasteFormEntityResponse
   deleteWelcomeMessageBlock(id: ID!): WelcomeMessageBlockEntityResponse
   deleteYesWeScanForm(id: ID!): YesWeScanFormEntityResponse
+  deleteYesWeScanQrCode(id: ID!): YesWeScanQrCodeEntityResponse
   deleteYesWeScanService(id: ID!): YesWeScanServiceEntityResponse
   duplicateContent(id: ID!, type: String): Boolean
 
@@ -4468,6 +4478,7 @@ type Mutation {
     data: ServicesBlockInput!
     id: ID!
   ): ServicesBlockEntityResponse
+  updateShortName(formId: ID!, shortName: String!): YesWeScanFormEntity
   updateTag(data: TagInput!, id: ID!): TagEntityResponse
   updateTerritory(data: TerritoryInput!, id: ID!): TerritoryEntityResponse
   updateTerritoryType(
@@ -4518,6 +4529,10 @@ type Mutation {
     data: YesWeScanFormInput!
     id: ID!
   ): YesWeScanFormEntityResponse
+  updateYesWeScanQrCode(
+    data: YesWeScanQrCodeInput!
+    id: ID!
+  ): YesWeScanQrCodeEntityResponse
   updateYesWeScanService(
     data: YesWeScanServiceInput!
     id: ID!
@@ -5512,6 +5527,7 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): SectorizationEntityResponseCollection
+  sectorizationsByCoordinates(contractId: ID!, lat: Float!, long: Float!): [ID]
   servicesBlock(id: ID): ServicesBlockEntityResponse
   servicesBlocks(
     filters: ServicesBlockFiltersInput
@@ -5607,9 +5623,14 @@ type Query {
   yesWeScanForms(
     filters: YesWeScanFormFiltersInput
     pagination: PaginationArg = {}
-    publicationState: PublicationState = LIVE
     sort: [String] = []
   ): YesWeScanFormEntityResponseCollection
+  yesWeScanQrCode(id: ID): YesWeScanQrCodeEntityResponse
+  yesWeScanQrCodes(
+    filters: YesWeScanQrCodeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): YesWeScanQrCodeEntityResponseCollection
   yesWeScanService(id: ID): YesWeScanServiceEntityResponse
   yesWeScanServices(
     filters: YesWeScanServiceFiltersInput
@@ -7660,9 +7681,7 @@ type YesWeScanForm {
   logo: UploadFileEntityResponse
   mailRecipients: String
   pictureStatus: ENUM_YESWESCANFORM_PICTURESTATUS!
-  publishedAt: DateTime
   reportButtons: String!
-  shortName: String
   thankYouMessage: String!
   treatmentMethod: ENUM_YESWESCANFORM_TREATMENTMETHOD!
   updatedAt: DateTime
@@ -7695,9 +7714,7 @@ input YesWeScanFormFiltersInput {
   not: YesWeScanFormFiltersInput
   or: [YesWeScanFormFiltersInput]
   pictureStatus: StringFilterInput
-  publishedAt: DateTimeFilterInput
   reportButtons: StringFilterInput
-  shortName: StringFilterInput
   thankYouMessage: StringFilterInput
   treatmentMethod: StringFilterInput
   updatedAt: DateTimeFilterInput
@@ -7712,12 +7729,72 @@ input YesWeScanFormInput {
   logo: ID
   mailRecipients: String
   pictureStatus: ENUM_YESWESCANFORM_PICTURESTATUS
-  publishedAt: DateTime
   reportButtons: String
-  shortName: String
   thankYouMessage: String
   treatmentMethod: ENUM_YESWESCANFORM_TREATMENTMETHOD
   yesWeScanService: ID
+}
+
+type YesWeScanQrCode {
+  address: String
+  city: String
+  createdAt: DateTime
+  dropOffMap: DropOffMapEntityResponse
+  lat: Float
+  long: Float
+  name: String
+  qrCodeUrl: String
+  typeAssociation: ENUM_YESWESCANQRCODE_TYPEASSOCIATION
+  updatedAt: DateTime
+  yesWeScanService: YesWeScanServiceEntityResponse
+}
+
+type YesWeScanQrCodeEntity {
+  attributes: YesWeScanQrCode
+  id: ID
+}
+
+type YesWeScanQrCodeEntityResponse {
+  data: YesWeScanQrCodeEntity
+}
+
+type YesWeScanQrCodeEntityResponseCollection {
+  data: [YesWeScanQrCodeEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input YesWeScanQrCodeFiltersInput {
+  address: StringFilterInput
+  and: [YesWeScanQrCodeFiltersInput]
+  city: StringFilterInput
+  createdAt: DateTimeFilterInput
+  dropOffMap: DropOffMapFiltersInput
+  id: IDFilterInput
+  lat: FloatFilterInput
+  long: FloatFilterInput
+  name: StringFilterInput
+  not: YesWeScanQrCodeFiltersInput
+  or: [YesWeScanQrCodeFiltersInput]
+  qrCodeUrl: StringFilterInput
+  typeAssociation: StringFilterInput
+  updatedAt: DateTimeFilterInput
+  yesWeScanService: YesWeScanServiceFiltersInput
+}
+
+input YesWeScanQrCodeInput {
+  address: String
+  city: String
+  dropOffMap: ID
+  lat: Float
+  long: Float
+  name: String
+  qrCodeUrl: String
+  typeAssociation: ENUM_YESWESCANQRCODE_TYPEASSOCIATION
+  yesWeScanService: ID
+}
+
+type YesWeScanQrCodeRelationResponseCollection {
+  data: [YesWeScanQrCodeEntity!]!
 }
 
 type YesWeScanService {
@@ -7725,9 +7802,15 @@ type YesWeScanService {
   createdAt: DateTime
   endDate: DateTime
   serviceName: String
+  shortName: String!
   startDate: DateTime
   updatedAt: DateTime
   yesWeScanForm: YesWeScanFormEntityResponse
+  yesWeScanQRCodes(
+    filters: YesWeScanQrCodeFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): YesWeScanQrCodeRelationResponseCollection
 }
 
 type YesWeScanServiceEntity {
@@ -7753,17 +7836,21 @@ input YesWeScanServiceFiltersInput {
   not: YesWeScanServiceFiltersInput
   or: [YesWeScanServiceFiltersInput]
   serviceName: StringFilterInput
+  shortName: StringFilterInput
   startDate: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   yesWeScanForm: YesWeScanFormFiltersInput
+  yesWeScanQRCodes: YesWeScanQrCodeFiltersInput
 }
 
 input YesWeScanServiceInput {
   contract: ID
   endDate: DateTime
   serviceName: String
+  shortName: String
   startDate: DateTime
   yesWeScanForm: ID
+  yesWeScanQRCodes: [ID]
 }
 
 type YesWeScanServiceRelationResponseCollection {

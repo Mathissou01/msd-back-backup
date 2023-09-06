@@ -2795,6 +2795,11 @@ export enum Enum_Yeswescanform_Treatmentmethod {
   Tsms = "tsms",
 }
 
+export enum Enum_Yeswescanqrcode_Typeassociation {
+  DropOffMap = "dropOffMap",
+  SignalmentZone = "signalmentZone",
+}
+
 export type EditoBlock = {
   __typename?: "EditoBlock";
   audience?: Maybe<AudienceEntityResponse>;
@@ -3875,6 +3880,7 @@ export type GenericMorph =
   | WasteForm
   | WelcomeMessageBlock
   | YesWeScanForm
+  | YesWeScanQrCode
   | YesWeScanService;
 
 export type Global = {
@@ -4421,6 +4427,7 @@ export type Mutation = {
   createWasteForm?: Maybe<WasteFormEntityResponse>;
   createWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   createYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  createYesWeScanQrCode?: Maybe<YesWeScanQrCodeEntityResponse>;
   createYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   createYwsService?: Maybe<YesWeScanServiceEntity>;
   deleteAccessibility?: Maybe<AccessibilityEntityResponse>;
@@ -4506,6 +4513,7 @@ export type Mutation = {
   deleteWasteForm?: Maybe<WasteFormEntityResponse>;
   deleteWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   deleteYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  deleteYesWeScanQrCode?: Maybe<YesWeScanQrCodeEntityResponse>;
   deleteYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   duplicateContent?: Maybe<Scalars["Boolean"]>;
   /** Confirm an email users email address */
@@ -4597,6 +4605,7 @@ export type Mutation = {
   updateSearchEngineBlock?: Maybe<SearchEngineBlockEntityResponse>;
   updateSectorization?: Maybe<SectorizationEntityResponse>;
   updateServicesBlock?: Maybe<ServicesBlockEntityResponse>;
+  updateShortName?: Maybe<YesWeScanFormEntity>;
   updateTag?: Maybe<TagEntityResponse>;
   updateTerritory?: Maybe<TerritoryEntityResponse>;
   updateTerritoryType?: Maybe<TerritoryTypeEntityResponse>;
@@ -4614,6 +4623,7 @@ export type Mutation = {
   updateWasteForm?: Maybe<WasteFormEntityResponse>;
   updateWelcomeMessageBlock?: Maybe<WelcomeMessageBlockEntityResponse>;
   updateYesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  updateYesWeScanQrCode?: Maybe<YesWeScanQrCodeEntityResponse>;
   updateYesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   upload: UploadFileEntityResponse;
   uploadFileAndGetId?: Maybe<UploadResult>;
@@ -4994,6 +5004,10 @@ export type MutationCreateYesWeScanFormArgs = {
   data: YesWeScanFormInput;
 };
 
+export type MutationCreateYesWeScanQrCodeArgs = {
+  data: YesWeScanQrCodeInput;
+};
+
 export type MutationCreateYesWeScanServiceArgs = {
   data: YesWeScanServiceInput;
 };
@@ -5322,6 +5336,10 @@ export type MutationDeleteWelcomeMessageBlockArgs = {
 };
 
 export type MutationDeleteYesWeScanFormArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteYesWeScanQrCodeArgs = {
   id: Scalars["ID"];
 };
 
@@ -5777,6 +5795,11 @@ export type MutationUpdateServicesBlockArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateShortNameArgs = {
+  formId: Scalars["ID"];
+  shortName: Scalars["String"];
+};
+
 export type MutationUpdateTagArgs = {
   data: TagInput;
   id: Scalars["ID"];
@@ -5849,6 +5872,11 @@ export type MutationUpdateWelcomeMessageBlockArgs = {
 
 export type MutationUpdateYesWeScanFormArgs = {
   data: YesWeScanFormInput;
+  id: Scalars["ID"];
+};
+
+export type MutationUpdateYesWeScanQrCodeArgs = {
+  data: YesWeScanQrCodeInput;
   id: Scalars["ID"];
 };
 
@@ -6649,6 +6677,7 @@ export type Query = {
   sectorization?: Maybe<SectorizationEntityResponse>;
   sectorizationByCity?: Maybe<CitySectorization>;
   sectorizations?: Maybe<SectorizationEntityResponseCollection>;
+  sectorizationsByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   servicesBlock?: Maybe<ServicesBlockEntityResponse>;
   servicesBlocks?: Maybe<ServicesBlockEntityResponseCollection>;
   tag?: Maybe<TagEntityResponse>;
@@ -6682,6 +6711,8 @@ export type Query = {
   welcomeMessageBlocks?: Maybe<WelcomeMessageBlockEntityResponseCollection>;
   yesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
   yesWeScanForms?: Maybe<YesWeScanFormEntityResponseCollection>;
+  yesWeScanQrCode?: Maybe<YesWeScanQrCodeEntityResponse>;
+  yesWeScanQrCodes?: Maybe<YesWeScanQrCodeEntityResponseCollection>;
   yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
   yesWeScanServices?: Maybe<YesWeScanServiceEntityResponseCollection>;
 };
@@ -7449,6 +7480,12 @@ export type QuerySectorizationsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type QuerySectorizationsByCoordinatesArgs = {
+  contractId: Scalars["ID"];
+  lat: Scalars["Float"];
+  long: Scalars["Float"];
+};
+
 export type QueryServicesBlockArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -7610,7 +7647,16 @@ export type QueryYesWeScanFormArgs = {
 export type QueryYesWeScanFormsArgs = {
   filters?: InputMaybe<YesWeScanFormFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryYesWeScanQrCodeArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type QueryYesWeScanQrCodesArgs = {
+  filters?: InputMaybe<YesWeScanQrCodeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -9886,9 +9932,7 @@ export type YesWeScanForm = {
   logo?: Maybe<UploadFileEntityResponse>;
   mailRecipients?: Maybe<Scalars["String"]>;
   pictureStatus: Enum_Yeswescanform_Picturestatus;
-  publishedAt?: Maybe<Scalars["DateTime"]>;
   reportButtons: Scalars["String"];
-  shortName?: Maybe<Scalars["String"]>;
   thankYouMessage: Scalars["String"];
   treatmentMethod: Enum_Yeswescanform_Treatmentmethod;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -9924,9 +9968,7 @@ export type YesWeScanFormFiltersInput = {
   not?: InputMaybe<YesWeScanFormFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<YesWeScanFormFiltersInput>>>;
   pictureStatus?: InputMaybe<StringFilterInput>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   reportButtons?: InputMaybe<StringFilterInput>;
-  shortName?: InputMaybe<StringFilterInput>;
   thankYouMessage?: InputMaybe<StringFilterInput>;
   treatmentMethod?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -9941,12 +9983,77 @@ export type YesWeScanFormInput = {
   logo?: InputMaybe<Scalars["ID"]>;
   mailRecipients?: InputMaybe<Scalars["String"]>;
   pictureStatus?: InputMaybe<Enum_Yeswescanform_Picturestatus>;
-  publishedAt?: InputMaybe<Scalars["DateTime"]>;
   reportButtons?: InputMaybe<Scalars["String"]>;
-  shortName?: InputMaybe<Scalars["String"]>;
   thankYouMessage?: InputMaybe<Scalars["String"]>;
   treatmentMethod?: InputMaybe<Enum_Yeswescanform_Treatmentmethod>;
   yesWeScanService?: InputMaybe<Scalars["ID"]>;
+};
+
+export type YesWeScanQrCode = {
+  __typename?: "YesWeScanQrCode";
+  address?: Maybe<Scalars["String"]>;
+  city?: Maybe<Scalars["String"]>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  dropOffMap?: Maybe<DropOffMapEntityResponse>;
+  lat?: Maybe<Scalars["Float"]>;
+  long?: Maybe<Scalars["Float"]>;
+  name?: Maybe<Scalars["String"]>;
+  qrCodeUrl?: Maybe<Scalars["String"]>;
+  typeAssociation?: Maybe<Enum_Yeswescanqrcode_Typeassociation>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+  yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
+};
+
+export type YesWeScanQrCodeEntity = {
+  __typename?: "YesWeScanQrCodeEntity";
+  attributes?: Maybe<YesWeScanQrCode>;
+  id?: Maybe<Scalars["ID"]>;
+};
+
+export type YesWeScanQrCodeEntityResponse = {
+  __typename?: "YesWeScanQrCodeEntityResponse";
+  data?: Maybe<YesWeScanQrCodeEntity>;
+};
+
+export type YesWeScanQrCodeEntityResponseCollection = {
+  __typename?: "YesWeScanQrCodeEntityResponseCollection";
+  data: Array<YesWeScanQrCodeEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type YesWeScanQrCodeFiltersInput = {
+  address?: InputMaybe<StringFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<YesWeScanQrCodeFiltersInput>>>;
+  city?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  dropOffMap?: InputMaybe<DropOffMapFiltersInput>;
+  id?: InputMaybe<IdFilterInput>;
+  lat?: InputMaybe<FloatFilterInput>;
+  long?: InputMaybe<FloatFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<YesWeScanQrCodeFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<YesWeScanQrCodeFiltersInput>>>;
+  qrCodeUrl?: InputMaybe<StringFilterInput>;
+  typeAssociation?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  yesWeScanService?: InputMaybe<YesWeScanServiceFiltersInput>;
+};
+
+export type YesWeScanQrCodeInput = {
+  address?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]>;
+  dropOffMap?: InputMaybe<Scalars["ID"]>;
+  lat?: InputMaybe<Scalars["Float"]>;
+  long?: InputMaybe<Scalars["Float"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  qrCodeUrl?: InputMaybe<Scalars["String"]>;
+  typeAssociation?: InputMaybe<Enum_Yeswescanqrcode_Typeassociation>;
+  yesWeScanService?: InputMaybe<Scalars["ID"]>;
+};
+
+export type YesWeScanQrCodeRelationResponseCollection = {
+  __typename?: "YesWeScanQrCodeRelationResponseCollection";
+  data: Array<YesWeScanQrCodeEntity>;
 };
 
 export type YesWeScanService = {
@@ -9955,9 +10062,17 @@ export type YesWeScanService = {
   createdAt?: Maybe<Scalars["DateTime"]>;
   endDate?: Maybe<Scalars["DateTime"]>;
   serviceName?: Maybe<Scalars["String"]>;
+  shortName: Scalars["String"];
   startDate?: Maybe<Scalars["DateTime"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   yesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
+  yesWeScanQRCodes?: Maybe<YesWeScanQrCodeRelationResponseCollection>;
+};
+
+export type YesWeScanServiceYesWeScanQrCodesArgs = {
+  filters?: InputMaybe<YesWeScanQrCodeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type YesWeScanServiceEntity = {
@@ -9986,17 +10101,21 @@ export type YesWeScanServiceFiltersInput = {
   not?: InputMaybe<YesWeScanServiceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<YesWeScanServiceFiltersInput>>>;
   serviceName?: InputMaybe<StringFilterInput>;
+  shortName?: InputMaybe<StringFilterInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   yesWeScanForm?: InputMaybe<YesWeScanFormFiltersInput>;
+  yesWeScanQRCodes?: InputMaybe<YesWeScanQrCodeFiltersInput>;
 };
 
 export type YesWeScanServiceInput = {
   contract?: InputMaybe<Scalars["ID"]>;
   endDate?: InputMaybe<Scalars["DateTime"]>;
   serviceName?: InputMaybe<Scalars["String"]>;
+  shortName?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
   yesWeScanForm?: InputMaybe<Scalars["ID"]>;
+  yesWeScanQRCodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type YesWeScanServiceRelationResponseCollection = {
@@ -11542,6 +11661,7 @@ export type UpdateUploadFileByIdMutation = {
           | { __typename?: "WasteForm" }
           | { __typename?: "WelcomeMessageBlock" }
           | { __typename?: "YesWeScanForm" }
+          | { __typename?: "YesWeScanQrCode" }
           | { __typename?: "YesWeScanService" }
           | null
         > | null;
@@ -13660,7 +13780,6 @@ export type GetContractsQuery = {
               __typename?: "ChannelType";
               hasWebApp?: boolean | null;
               hasWebSite?: boolean | null;
-              hasYesWeScan?: boolean | null;
             } | null;
           } | null;
         } | null;
@@ -24584,7 +24703,6 @@ export const GetContractsDocument = gql`
               attributes {
                 hasWebApp
                 hasWebSite
-                hasYesWeScan
               }
             }
           }
