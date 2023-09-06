@@ -97,18 +97,33 @@ export default function WysiwygEditor({
   function handleInit(evt: EditorEvent<unknown>, editor: TinyMceEditor) {
     forwardedRef.current = editor;
   }
+  // Add specific attribut to wysiwyg editor
+  function addAttributesToTableHeaders(content: string): string {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, "text/html");
+    const thElements = doc.querySelectorAll("th");
 
+    thElements.forEach((th) => {
+      th.setAttribute("role", "columnheader");
+      th.setAttribute("scope", "col");
+    });
+
+    return doc.body.innerHTML;
+  }
   function handleUpdate(value: string, editor: TinyMceEditor) {
     if (maxCharacterLength) {
       const cCount = getCharCount(editor);
       if (cCount <= maxCharacterLength) {
-        onEditorChange(value, editor);
+        handleEditorChange(value, editor);
       }
     } else {
-      onEditorChange(value, editor);
+      handleEditorChange(value, editor);
     }
   }
-
+  function handleEditorChange(value: string, editor: TinyMceEditor) {
+    const filteredValue = addAttributesToTableHeaders(value);
+    onEditorChange(filteredValue, editor);
+  }
   function handleBeforeAddUndo(
     evt: EditorEvent<unknown>,
     editor: TinyMceEditor,
