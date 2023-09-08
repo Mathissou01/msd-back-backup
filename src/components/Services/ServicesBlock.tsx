@@ -21,6 +21,7 @@ import {
   handleDisablingServices,
   handleUpdatingServices,
   parseDate,
+  IServicesBlockFormValues,
 } from "../../lib/services";
 import { removeNulls } from "../../lib/utilities";
 import { useFocusFirstElement } from "../../hooks/useFocusFirstElement";
@@ -29,15 +30,13 @@ import { useServiceActivationMutations } from "../../hooks/useServiceActivationM
 import CommonLoader from "../Common/CommonLoader/CommonLoader";
 import CommonButton from "../Common/CommonButton/CommonButton";
 import ServiceCard from "./ServiceCard/ServiceCard";
-import YesWeScanServiceCard from "./YesWeScan/YesWeScanServiceCard/YesWeScanServiceCard";
-import YesWeScanAddServiceCard from "./YesWeScan/YesWeScanAddServiceCard/YesWeScanAddServiceCard";
+import { YesWeScanServicesBlock } from "./YesWeScanServicesBlock/YesWeScanServicesBlock";
 import "./services-block.scss";
 
 export default function ServicesBlock() {
   /* Static Data */
   const labels = {
     channels: "Canaux",
-    yesWeScanServices: "Services Yes we scan",
     editorialService: "Editorial",
     website: "Site internet",
     mobileApplication: "Application mobile",
@@ -50,7 +49,7 @@ export default function ServicesBlock() {
 
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
-    updateChannelType({
+    void updateChannelType({
       variables: {
         updateChannelTypeId: submitData.channelTypeId,
         data: {
@@ -84,7 +83,7 @@ export default function ServicesBlock() {
         handleYesWeScanServicesActions(submitData);
       }
     } else if (dirtyFields && dirtyFields.hasYesWeScan) {
-      ywsDeactivation({
+      void ywsDeactivation({
         variables: {
           contractId,
         },
@@ -102,31 +101,35 @@ export default function ServicesBlock() {
       for (const service of submitData.transversalServices)
         switch (service.type) {
           case ServiceType.recycling:
-            handleDisablingServices(
+            await handleDisablingServices(
               updateRecyclingService,
               contractId,
               service,
             );
             break;
           case ServiceType.alert:
-            handleDisablingServices(
+            await handleDisablingServices(
               updateAlertNotificationService,
               contractId,
               service,
             );
             break;
           case ServiceType.dropOffMap:
-            handleDisablingServices(
+            await handleDisablingServices(
               updateDropOffMapService,
               contractId,
               service,
             );
             break;
           case ServiceType.request:
-            handleDisablingServices(updateRequestService, contractId, service);
+            await handleDisablingServices(
+              updateRequestService,
+              contractId,
+              service,
+            );
             break;
           case ServiceType.pickUpDay:
-            handleDisablingServices(
+            await handleDisablingServices(
               updatePickUpDayService,
               contractId,
               service,
@@ -136,26 +139,42 @@ export default function ServicesBlock() {
       for (const service of submitData.editorialServices)
         switch (service.type) {
           case ServiceType.news:
-            handleDisablingServices(updateNewsService, contractId, service);
+            await handleDisablingServices(
+              updateNewsService,
+              contractId,
+              service,
+            );
             break;
           case ServiceType.event:
-            handleDisablingServices(updateEventService, contractId, service);
+            await handleDisablingServices(
+              updateEventService,
+              contractId,
+              service,
+            );
             break;
           case ServiceType.freeContent:
-            handleDisablingServices(
+            await handleDisablingServices(
               updateFreeContentService,
               contractId,
               service,
             );
             break;
           case ServiceType.tip:
-            handleDisablingServices(updateTipService, contractId, service);
+            await handleDisablingServices(
+              updateTipService,
+              contractId,
+              service,
+            );
             break;
           case ServiceType.quizz:
-            handleDisablingServices(updateQuizService, contractId, service);
+            await handleDisablingServices(
+              updateQuizService,
+              contractId,
+              service,
+            );
             break;
           case ServiceType.contact:
-            handleDisablingServices(
+            await handleDisablingServices(
               updateContactUsService,
               contractId,
               service,
@@ -187,35 +206,35 @@ export default function ServicesBlock() {
 
           switch (service.type) {
             case ServiceType.recycling:
-              handleUpdatingServices(
+              await handleUpdatingServices(
                 updateRecyclingService,
                 contractId,
                 variables,
               );
               break;
             case ServiceType.alert:
-              handleUpdatingServices(
+              await handleUpdatingServices(
                 updateAlertNotificationService,
                 contractId,
                 variables,
               );
               break;
             case ServiceType.dropOffMap:
-              handleUpdatingServices(
+              await handleUpdatingServices(
                 updateDropOffMapService,
                 contractId,
                 variables,
               );
               break;
             case ServiceType.request:
-              handleUpdatingServices(
+              await handleUpdatingServices(
                 updateRequestService,
                 contractId,
                 variables,
               );
               break;
             case ServiceType.pickUpDay:
-              handleUpdatingServices(
+              await handleUpdatingServices(
                 updatePickUpDayService,
                 contractId,
                 variables,
@@ -248,26 +267,42 @@ export default function ServicesBlock() {
 
           switch (service.type) {
             case ServiceType.news:
-              handleUpdatingServices(updateNewsService, contractId, variables);
+              await handleUpdatingServices(
+                updateNewsService,
+                contractId,
+                variables,
+              );
               break;
             case ServiceType.event:
-              handleUpdatingServices(updateEventService, contractId, variables);
+              await handleUpdatingServices(
+                updateEventService,
+                contractId,
+                variables,
+              );
               break;
             case ServiceType.freeContent:
-              handleUpdatingServices(
+              await handleUpdatingServices(
                 updateFreeContentService,
                 contractId,
                 variables,
               );
               break;
             case ServiceType.tip:
-              handleUpdatingServices(updateTipService, contractId, variables);
+              await handleUpdatingServices(
+                updateTipService,
+                contractId,
+                variables,
+              );
               break;
             case ServiceType.quizz:
-              handleUpdatingServices(updateQuizService, contractId, variables);
+              await handleUpdatingServices(
+                updateQuizService,
+                contractId,
+                variables,
+              );
               break;
             case ServiceType.contact:
-              handleUpdatingServices(
+              await handleUpdatingServices(
                 updateContactUsService,
                 contractId,
                 variables,
@@ -290,33 +325,6 @@ export default function ServicesBlock() {
     }
   }
 
-  function onYesWeScanAddServiceClick() {
-    const newYesWeScanServices: Array<IYesWeScanServiceFields> = [
-      ...yesWeScanServices,
-    ];
-    newYesWeScanServices?.push({});
-    setValue(yesWeScanServicesName, newYesWeScanServices, {
-      shouldDirty: true,
-    });
-    setYesWeScanServices(newYesWeScanServices);
-  }
-
-  function onYesWeScanServiceTrashClick(serviceIndex: number) {
-    const newYesWeScanServices: Array<IYesWeScanServiceFields> = [
-      ...yesWeScanServices,
-    ];
-    newYesWeScanServices.splice(serviceIndex, 1);
-    setValue(
-      yesWeScanServicesName,
-      newYesWeScanServices.length > 0 ? newYesWeScanServices : undefined,
-      {
-        shouldDirty: true,
-      },
-    );
-
-    setYesWeScanServices(newYesWeScanServices);
-  }
-
   function handleYesWeScanServicesActions(submitData: FieldValues) {
     const submittedYesWeScanServices: Array<IYesWeScanServiceFields> =
       submitData["yesWeScanServices"];
@@ -336,7 +344,7 @@ export default function ServicesBlock() {
   ) {
     const newYesWeScanServices = submittedYesWeScanServices.filter(
       (submittedYesWeScanService) => {
-        return submittedYesWeScanService.id === undefined;
+        return !initialYWSServicesIds?.includes(submittedYesWeScanService.id);
       },
     );
     newYesWeScanServices.forEach((newYesWeScanService) => {
@@ -345,7 +353,7 @@ export default function ServicesBlock() {
         newYesWeScanService.startDate &&
         newYesWeScanService.endDate
       ) {
-        createYwsService({
+        void createYwsService({
           variables: {
             contractId,
             service: {
@@ -380,7 +388,7 @@ export default function ServicesBlock() {
         updatedYesWeScanService.startDate &&
         updatedYesWeScanService.endDate
       ) {
-        updateYwsService({
+        void updateYwsService({
           variables: {
             updateYesWeScanServiceId: updatedYesWeScanService.id,
             data: {
@@ -410,7 +418,7 @@ export default function ServicesBlock() {
           return submittedYesWeScanService.id === initialYWSServicesId;
         })
       ) {
-        deleteYwsService({
+        void deleteYwsService({
           variables: {
             deleteYesWeScanServiceId: initialYWSServicesId,
           },
@@ -426,17 +434,17 @@ export default function ServicesBlock() {
   }
 
   /* Local Data */
-  const form = useForm<FieldValues>({
+  const form = useForm<IServicesBlockFormValues>({
     mode: "onChange",
   });
   const {
     reset,
     handleSubmit,
     watch,
-    setValue,
     getValues,
     formState: { isDirty, isValid, dirtyFields },
   } = form;
+
   const [channels, setChannels] = useState<ChannelTypeEntity>();
   const [transversalServices, setTransversalServices] =
     useState<Array<IServiceFields>>();
@@ -446,15 +454,12 @@ export default function ServicesBlock() {
     useState<boolean>(false);
   const [initialYWSServicesIds, setInitialYWSServicesIds] =
     useState<Array<string>>();
-  const [visibleYesWeScanServices, setVisibleYesWeScanServices] =
-    useState<boolean>(false);
   const [yesWeScanServices, setYesWeScanServices] = useState<
     Array<IYesWeScanServiceFields>
   >([]);
 
   const webSiteWatch = watch("hasWebSite");
   const webAppWatch = watch("hasWebApp");
-  const yesWeScanWatch = watch("hasYesWeScan");
 
   /* External Data */
   const { contract, contractId } = useContract();
@@ -628,17 +633,19 @@ export default function ServicesBlock() {
             .map((yesWeScanService) => yesWeScanService.id ?? null)
             .filter(removeNulls),
         );
-        activatedYesWeScanServices = yesWeScanServicesFromContract.map(
-          (yesWeScanService) => {
-            return {
-              id: yesWeScanService.id ?? undefined,
-              serviceName:
-                yesWeScanService.attributes?.serviceName ?? undefined,
-              startDate: yesWeScanService.attributes?.startDate ?? undefined,
-              endDate: yesWeScanService.attributes?.endDate ?? undefined,
-            };
-          },
-        );
+        activatedYesWeScanServices = yesWeScanServicesFromContract
+          .map((yesWeScanService) => {
+            if (yesWeScanService.id && yesWeScanService.attributes) {
+              return {
+                id: yesWeScanService.id,
+                serviceName:
+                  yesWeScanService.attributes.serviceName ?? undefined,
+                startDate: yesWeScanService.attributes.startDate ?? undefined,
+                endDate: yesWeScanService.attributes.endDate ?? undefined,
+              };
+            }
+          })
+          .filter(removeNulls);
         setYesWeScanServices(activatedYesWeScanServices);
       }
       reset({
@@ -671,10 +678,6 @@ export default function ServicesBlock() {
       setVisibleTransversalServices(false);
     }
   }, [webSiteWatch, webAppWatch, setVisibleTransversalServices]);
-
-  useEffect(() => {
-    setVisibleYesWeScanServices(yesWeScanWatch);
-  }, [yesWeScanWatch, setVisibleYesWeScanServices]);
 
   return (
     <div className="c-ServicesBlock">
@@ -759,37 +762,10 @@ export default function ServicesBlock() {
                 )}
               </>
             )}
-            {visibleYesWeScanServices && (
-              <>
-                <h2 className="c-ServicesBlock__Title">
-                  {labels.yesWeScanServices}
-                </h2>
-                <div className="c-ServicesBlock__Services">
-                  {yesWeScanServices && (
-                    <>
-                      {yesWeScanServices.length > 0 && (
-                        <>
-                          {yesWeScanServices.map((_, index: number) => (
-                            <YesWeScanServiceCard
-                              key={index}
-                              name={`${yesWeScanServicesName}.${index}`}
-                              onTrashClick={() =>
-                                onYesWeScanServiceTrashClick(index)
-                              }
-                            />
-                          ))}
-                        </>
-                      )}
-                      {yesWeScanServices.length < 10 && (
-                        <YesWeScanAddServiceCard
-                          onClick={onYesWeScanAddServiceClick}
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-              </>
-            )}
+            <YesWeScanServicesBlock
+              services={yesWeScanServices}
+              setServices={setYesWeScanServices}
+            />
             <div className="c-ServicesBlock__Buttons">
               <CommonButton
                 type="submit"

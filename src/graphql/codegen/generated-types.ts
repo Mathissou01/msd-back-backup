@@ -4341,6 +4341,7 @@ export type Mutation = {
   __typename?: "Mutation";
   bulkDeleteMedias?: Maybe<Array<Maybe<DeletedMessage>>>;
   bulkMoveMedias?: Maybe<Array<Maybe<RequestFileOrFolder>>>;
+  changeContractStatus?: Maybe<ContractStatus>;
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
   channelsActivation?: Maybe<Array<Maybe<ActivationAndService>>>;
@@ -4646,6 +4647,11 @@ export type MutationBulkMoveMediasArgs = {
   folderId: Scalars["ID"];
   folderRequests?: InputMaybe<Array<InputMaybe<RequestFolder>>>;
   path: Scalars["String"];
+};
+
+export type MutationChangeContractStatusArgs = {
+  contractId: Scalars["ID"];
+  status: Statuses;
 };
 
 export type MutationChangePasswordArgs = {
@@ -6535,7 +6541,6 @@ export type Query = {
   cguSubService?: Maybe<CguSubServiceEntityResponse>;
   cguSubServices?: Maybe<CguSubServiceEntityResponseCollection>;
   cgus?: Maybe<CguEntityResponseCollection>;
-  changeContractStatus?: Maybe<ContractStatus>;
   channelType?: Maybe<ChannelTypeEntityResponse>;
   channelTypes?: Maybe<ChannelTypeEntityResponseCollection>;
   cities?: Maybe<CityEntityResponseCollection>;
@@ -6797,11 +6802,6 @@ export type QueryCgusArgs = {
   filters?: InputMaybe<CguFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type QueryChangeContractStatusArgs = {
-  contractId: Scalars["ID"];
-  status: Statuses;
 };
 
 export type QueryChannelTypeArgs = {
@@ -8784,11 +8784,10 @@ export type ServicesDeactivated = {
 };
 
 export enum Statuses {
-  Actif = "Actif",
-  Desactive = "Desactive",
-  En = "En",
-  Initialisation = "Initialisation",
-  Cours = "cours",
+  Active = "active",
+  Inactive = "inactive",
+  Init = "init",
+  Progress = "progress",
 }
 
 export type StringFilterInput = {

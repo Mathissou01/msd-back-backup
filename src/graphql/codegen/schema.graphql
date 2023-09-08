@@ -3910,6 +3910,7 @@ type Mutation {
     folderRequests: [RequestFolder]
     path: String!
   ): [RequestFileOrFolder]
+  changeContractStatus(contractId: ID!, status: Statuses!): contractStatus
 
   """
   Change user password. Confirm with the current password.
@@ -5142,7 +5143,6 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): CguEntityResponseCollection
-  changeContractStatus(contractId: ID!, status: Statuses!): contractStatus
   channelType(id: ID): ChannelTypeEntityResponse
   channelTypes(
     filters: ChannelTypeFiltersInput
@@ -6632,11 +6632,10 @@ type ServicesDeactivated {
 }
 
 enum Statuses {
-  Actif
-  Desactive
-  En
-  Initialisation
-  cours
+  active
+  inactive
+  init
+  progress
 }
 
 input StringFilterInput {

@@ -1,5 +1,6 @@
 import { parse } from "date-fns";
 import { GetContractByIdDocument } from "../graphql/codegen/generated-types";
+import { FieldValues } from "react-hook-form";
 
 export interface IServiceFields {
   id?: string;
@@ -11,10 +12,19 @@ export interface IServiceFields {
 }
 
 export interface IYesWeScanServiceFields {
-  id?: string;
+  id: string;
   serviceName?: string;
   startDate?: Date;
   endDate?: Date;
+}
+
+export interface IServiceVariables {
+  id: string;
+  data: {
+    isActivated: boolean;
+    startDate: string | null;
+    endDate: string | null;
+  };
 }
 
 export interface IServiceVariables {
@@ -41,6 +51,10 @@ export enum ServiceType {
   "keyMetrics" = "keyMetrics",
   "editorial" = "editorial",
   "contact" = "contact",
+}
+
+export interface IServicesBlockFormValues extends FieldValues {
+  yesWeScanServices: Array<IYesWeScanServiceFields>;
 }
 
 export function parseDate(date: string): Date | undefined {
