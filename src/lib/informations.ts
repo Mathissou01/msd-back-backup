@@ -14,5 +14,9 @@ export interface IInformationContractLabels {
   isRVFrance: string;
   ccap: string;
   clear: string;
-  buttonEditLabels: string;
+  buttonEditLabel: string;
+  buttonDeleteLabel: string;
+  confirmationText: string;
+  affirmativeModalButton: string;
+  negativeModalButton: string;
 }

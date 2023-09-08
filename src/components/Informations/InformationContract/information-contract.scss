@@ -50,4 +50,15 @@
       }
     }
   }
+
+  &__Buttons {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__ConfirmationModalButtons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
 }

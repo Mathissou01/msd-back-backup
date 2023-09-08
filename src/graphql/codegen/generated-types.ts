@@ -13468,6 +13468,18 @@ export type CreateEmptyContractMutation = {
   > | null;
 };
 
+export type DeleteContractByIdMutationVariables = Exact<{
+  deleteContractId: Scalars["ID"];
+}>;
+
+export type DeleteContractByIdMutation = {
+  __typename?: "Mutation";
+  deleteContract?: {
+    __typename?: "ContractEntityResponse";
+    data?: { __typename?: "ContractEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type UpdateContractInformationsMutationVariables = Exact<{
   contractId: Scalars["ID"];
   contractData: ContractInput;
@@ -25173,6 +25185,58 @@ export type CreateEmptyContractMutationResult =
 export type CreateEmptyContractMutationOptions = Apollo.BaseMutationOptions<
   CreateEmptyContractMutation,
   CreateEmptyContractMutationVariables
+>;
+export const DeleteContractByIdDocument = gql`
+  mutation deleteContractById($deleteContractId: ID!) {
+    deleteContract(id: $deleteContractId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteContractByIdMutationFn = Apollo.MutationFunction<
+  DeleteContractByIdMutation,
+  DeleteContractByIdMutationVariables
+>;
+
+/**
+ * __useDeleteContractByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteContractByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteContractByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteContractByIdMutation, { data, loading, error }] = useDeleteContractByIdMutation({
+ *   variables: {
+ *      deleteContractId: // value for 'deleteContractId'
+ *   },
+ * });
+ */
+export function useDeleteContractByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteContractByIdMutation,
+    DeleteContractByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteContractByIdMutation,
+    DeleteContractByIdMutationVariables
+  >(DeleteContractByIdDocument, options);
+}
+export type DeleteContractByIdMutationHookResult = ReturnType<
+  typeof useDeleteContractByIdMutation
+>;
+export type DeleteContractByIdMutationResult =
+  Apollo.MutationResult<DeleteContractByIdMutation>;
+export type DeleteContractByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteContractByIdMutation,
+  DeleteContractByIdMutationVariables
 >;
 export const UpdateContractInformationsDocument = gql`
   mutation updateContractInformations(

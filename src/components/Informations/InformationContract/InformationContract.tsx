@@ -1,9 +1,18 @@
-import React from "react";
-import { Contract } from "../../../graphql/codegen/generated-types";
+import React, { useRef } from "react";
+import {
+  Contract,
+  useDeleteContractByIdMutation,
+} from "../../../graphql/codegen/generated-types";
 import { EContractClientTypeLabels } from "../../../lib/contract";
 import { IInformationContractLabels } from "../../../lib/informations";
 import PageTitle from "../../PageTitle/PageTitle";
 import CommonButton from "../../Common/CommonButton/CommonButton";
+import "./information-contract.scss";
+import { useRouter } from "next/router";
+import { useContract } from "../../../hooks/useContract";
+import CommonModalWrapper, {
+  CommonModalWrapperRef,
+} from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import "./information-contract.scss";
 
 interface IInformationContractProps {
@@ -40,6 +49,35 @@ export default function InformationContract({
     clear: contractData.clear ?? "N/A",
   };
 
+  /* Methods */
+  const handleStartModal = () => {
+    modalRef.current?.toggleModal(true);
+  };
+
+  const handleCloseModal = () => {
+    modalRef.current?.toggleModal(false);
+  };
+  async function handleConfirmRemove() {
+    return deleteContractIdMutation({
+      variables: { deleteContractId: contractId },
+    });
+  }
+  const handleConfirmAndCloseModal = async () => {
+    try {
+      await handleConfirmRemove();
+      handleCloseModal();
+      router.push(`/`);
+    } catch (error) {
+      console.error("Erreur lors de la suppression du contrat:", error);
+    }
+  };
+  /* External Data */
+  const [deleteContractIdMutation] = useDeleteContractByIdMutation();
+
+  /* Local Data */
+  const { contractId } = useContract();
+  const modalRef = useRef<CommonModalWrapperRef>(null);
+  const router = useRouter();
   return (
     <div className="c-InformationContract">
       <PageTitle title={labels.title} />
@@ -105,12 +143,38 @@ export default function InformationContract({
         </tbody>
       </table>
       {/* TODO: only show edit button for Super Admin */}
-      <CommonButton
-        label={labels.buttonEditLabels}
-        style="primary"
-        picto="edit"
-        onClick={() => setEditMode(true)}
-      />
+      <div className="c-InformationContract__Buttons">
+        <CommonButton
+          label={labels.buttonEditLabel}
+          style="primary"
+          picto="edit"
+          onClick={() => setEditMode(true)}
+        />
+        <CommonButton
+          label={labels.buttonDeleteLabel}
+          style="primary"
+          onClick={() => handleStartModal()}
+        />
+        <div className="c-InformationContract__Modal">
+          <CommonModalWrapper ref={modalRef}>
+            <div className="c-InformationContract__ConfirmationModalButtons">
+              <p>{labels.confirmationText}</p>
+              <CommonButton
+                type="button"
+                style="secondary"
+                label={labels.negativeModalButton}
+                onClick={() => handleCloseModal()}
+              />
+              <CommonButton
+                type="submit"
+                style="primary"
+                label={labels.affirmativeModalButton}
+                onClick={handleConfirmAndCloseModal}
+              />
+            </div>
+          </CommonModalWrapper>
+        </div>
+      </div>
     </div>
   );
 }

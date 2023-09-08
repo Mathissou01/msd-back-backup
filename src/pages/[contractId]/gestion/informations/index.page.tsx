@@ -23,7 +23,11 @@ export function GestionInformationsPage() {
     isRVFrance: "Services opérés par RV France",
     ccap: "Numéro CCAP",
     clear: "Numéro CLEAR",
-    buttonEditLabels: "Éditer le client",
+    buttonEditLabel: "Éditer le client",
+    buttonDeleteLabel: "Supprimer le client",
+    confirmationText: "Confirmez-vous la suppression du client ?",
+    affirmativeModalButton: "Oui",
+    negativeModalButton: "Non",
   };
 
   /* Local Data */
