@@ -1,0 +1,99 @@
+mutation updateRecyclingGuideServiceById(
+  $id: ID!
+  $data: RecyclingGuideServiceInput!
+) {
+  updateRecyclingGuideService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updatePickUpDayServiceById($id: ID!, $data: PickUpDayServiceInput!) {
+  updatePickUpDayService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateRequestServiceById($id: ID!, $data: RequestServiceInput!) {
+  updateRequestService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateDropOffMapServiceById($id: ID!, $data: DropOffMapServiceInput!) {
+  updateDropOffMapService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateAlertNotificationServiceById(
+  $id: ID!
+  $data: AlertNotificationServiceInput!
+) {
+  updateAlertNotificationService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateEventServiceById($id: ID!, $data: EventSubServiceInput!) {
+  updateEventSubService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateFreeContentServiceById(
+  $id: ID!
+  $data: FreeContentSubServiceInput!
+) {
+  updateFreeContentSubService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateNewsServiceById($id: ID!, $data: NewsSubServiceInput!) {
+  updateNewsSubService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateQuizServiceById($id: ID!, $data: QuizSubServiceInput!) {
+  updateQuizSubService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateTipServiceById($id: ID!, $data: TipSubServiceInput!) {
+  updateTipSubService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+
+mutation updateContactUsServiceById(
+  $id: ID!
+  $data: ContactUsSubServiceInput!
+) {
+  updateContactUsSubService(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}

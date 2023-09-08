@@ -207,6 +207,5 @@ exports[`FormMultiCheckbox renders 1`] = `
       </div>
     </fieldset>
   </div>
-  ,
 </div>
 `;

@@ -19,7 +19,7 @@ interface IFormAutoCompleteInputProps<T> {
   isDisabled?: boolean;
   defaultValue?: string;
   placeholder?: string;
-  labelProps: IFormLabelProps;
+  labelProps?: IFormLabelProps;
 }
 
 export default function FormAutoCompleteInput<T>({

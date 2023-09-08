@@ -1,0 +1,46 @@
+mutation createEmptyContract(
+  $clientName: String!
+  $clientType: String!
+  $siretNumber: Long
+  $contactFirstName: String!
+  $contactLastName: String!
+  $contactEmail: String!
+  $contactPhoneNumber: String!
+  $isRvFrance: Boolean!
+  $isNonExclusive: Boolean!
+  $ccap: Long
+  $clear: Long
+  $isFreemium: Boolean!
+  $servicesToActivate: [ServiceType]!
+) {
+  createEmptyContract(
+    clientName: $clientName
+    clientType: $clientType
+    siretNumber: $siretNumber
+    contactFirstName: $contactFirstName
+    contactLastName: $contactLastName
+    contactEmail: $contactEmail
+    contactPhoneNumber: $contactPhoneNumber
+    isRVFrance: $isRvFrance
+    ccap: $ccap
+    clear: $clear
+    isNonExclusive: $isNonExclusive
+    isFreemium: $isFreemium
+    servicesToActivate: $servicesToActivate
+  ) {
+    ... on ContractCreateOutput {
+      id
+      clientName
+      siret
+      isRVFrance
+      ccap
+      clear
+    }
+    ... on ClientContactCreateOutput {
+      firstName
+      lastName
+      email
+      phoneNumber
+    }
+  }
+}

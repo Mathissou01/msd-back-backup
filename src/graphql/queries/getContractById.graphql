@@ -33,6 +33,7 @@ query getContractById($contractId: ID!) {
             attributes {
               hasWebApp
               hasWebSite
+              hasYesWeScan
             }
           }
         }
@@ -67,6 +68,8 @@ query getContractById($contractId: ID!) {
                   attributes {
                     name
                     isActivated
+                    startDate
+                    endDate
                   }
                 }
               }
@@ -76,6 +79,8 @@ query getContractById($contractId: ID!) {
                   attributes {
                     name
                     isActivated
+                    startDate
+                    endDate
                   }
                 }
               }
@@ -85,6 +90,8 @@ query getContractById($contractId: ID!) {
                   attributes {
                     name
                     isActivated
+                    startDate
+                    endDate
                   }
                 }
               }
@@ -94,6 +101,8 @@ query getContractById($contractId: ID!) {
                   attributes {
                     name
                     isActivated
+                    startDate
+                    endDate
                   }
                 }
               }
@@ -103,9 +112,58 @@ query getContractById($contractId: ID!) {
                   attributes {
                     name
                     isActivated
+                    startDate
+                    endDate
                   }
                 }
               }
+              contactUsSubService {
+                data {
+                  id
+                  attributes {
+                    label
+                    name
+                    isActivated
+                    startDate
+                    endDate
+                  }
+                }
+              }
+              cookiesSubService {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
+              cguSubService {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
+              confidentialitySubService {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+        alertNotificationService {
+          data {
+            id
+            attributes {
+              name
+              isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -116,6 +174,8 @@ query getContractById($contractId: ID!) {
               name
               isActivated
               memoName
+              startDate
+              endDate
             }
           }
         }
@@ -125,6 +185,8 @@ query getContractById($contractId: ID!) {
             attributes {
               name
               isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -134,6 +196,8 @@ query getContractById($contractId: ID!) {
             attributes {
               name
               isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -143,6 +207,19 @@ query getContractById($contractId: ID!) {
             attributes {
               name
               isActivated
+              startDate
+              endDate
+            }
+          }
+        }
+        yesWeScanServices {
+          data {
+            id
+            attributes {
+              startDate
+              endDate
+              serviceName
+              shortName
             }
           }
         }

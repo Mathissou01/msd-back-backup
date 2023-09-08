@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormSwitch renders 1`] = `
+<div>
+  <input
+    class="c-FormSwitch__Input"
+    data-testid="form-switch"
+    id="form-switch"
+    name="form-switch"
+    type="checkbox"
+  />
+  <label
+    class="c-FormSwitch__Label"
+    for="form-switch"
+  >
+    form-switch
+  </label>
+</div>
+`;

@@ -1,0 +1,12 @@
+query getChannelTypeById($channelTypeId: ID) {
+  channelType(id: $channelTypeId) {
+    data {
+      id
+      attributes {
+        hasWebApp
+        hasWebSite
+        hasYesWeScan
+      }
+    }
+  }
+}

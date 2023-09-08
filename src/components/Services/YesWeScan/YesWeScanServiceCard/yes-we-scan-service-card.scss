@@ -1,0 +1,38 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.pictos" as p;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-YesWeScanServiceCard {
+  @include shadows.shadow(1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: calc(calc(100% / 3) - 24px);
+  padding: 30px;
+  background: colors.$white;
+  border-radius: 8px;
+
+  &__Header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__ServiceName {
+    width: 90%;
+  }
+
+  &__TrashIcon {
+    @include p.get-picto("trash", $backgroundSize: 20px);
+
+    width: 20px;
+    height: 20px;
+  }
+
+  &__DatePicker {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    justify-content: flex-start;
+  }
+}

@@ -1,6 +1,8 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
 .c-FormRadioInput {
+  $self: &;
+
   display: flex;
   flex-direction: column;
 
@@ -16,6 +18,10 @@
     &_horizontal {
       flex-flow: row wrap;
     }
+
+    &_disabled {
+      opacity: 0.75;
+    }
   }
 
   &__Option {
@@ -23,6 +29,14 @@
     flex-direction: row;
     gap: 8px;
     align-items: center;
+
+    #{$self}__Options_disabled & {
+      cursor: not-allowed;
+
+      * {
+        cursor: not-allowed;
+      }
+    }
   }
 
   &__Input {
@@ -45,6 +59,10 @@
       background-color: colors.$expert-blue;
       border-radius: 50%;
       content: "";
+    }
+
+    &:disabled {
+      border-color: colors.$gray-250;
     }
   }
 

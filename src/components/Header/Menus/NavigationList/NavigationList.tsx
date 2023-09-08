@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { IServices, isServiceActive } from "../../../../lib/contract";
 import { ENavigationPages } from "../../../../lib/navigation";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { useContract } from "../../../../hooks/useContract";
@@ -30,53 +31,116 @@ export default function NavigationList() {
         : (`/${currentPage.split("/")[1]}/` as keyof typeof ENavigationPages),
     isOpen: currentPage !== ("/" || "/corbeille"),
   });
+  const [isChannelActivated, setIsChannelActivated] = useState<boolean>(false);
 
-  const services = {
-    news: {
-      name: contract.attributes?.editorialService?.data?.attributes
-        ?.newsSubService?.data?.attributes?.name,
-      isActivated:
-        contract.attributes?.editorialService?.data?.attributes?.newsSubService
-          ?.data?.attributes?.isActivated,
+  const editorialAttributes =
+    contract.attributes?.editorialService?.data?.attributes;
+
+  const freeContentServices =
+    editorialAttributes?.freeContentSubServices?.data ?? [];
+
+  const services: IServices = {
+    recyclingGuideService: {
+      isActivated: contract.attributes?.recyclingGuideService?.data?.attributes
+        ? isServiceActive(
+            contract.attributes.recyclingGuideService.data.attributes,
+          )
+        : false,
     },
-    freeContentSubServices:
-      contract.attributes?.editorialService?.data?.attributes
-        ?.freeContentSubServices?.data ?? [],
-    tipSubService:
-      contract.attributes?.editorialService?.data?.attributes?.tipSubService
-        ?.data?.attributes?.name,
+    dropOffMapService: {
+      isActivated: contract.attributes?.dropOffMapService?.data?.attributes
+        ? isServiceActive(contract.attributes.dropOffMapService.data.attributes)
+        : false,
+    },
+    requestService: {
+      isActivated: contract.attributes?.requestService?.data?.attributes
+        ? isServiceActive(contract.attributes.requestService.data.attributes)
+        : false,
+    },
+    yesWeScanService: {
+      isActivated:
+        contract.attributes?.channelType?.data?.attributes?.hasYesWeScan ??
+        false,
+    },
+    alertNotificationService: {
+      isActivated: contract.attributes?.alertNotificationService?.data
+        ?.attributes
+        ? isServiceActive(
+            contract.attributes.alertNotificationService.data.attributes,
+          )
+        : false,
+    },
+    pickUpDayService: {
+      isActivated: contract.attributes?.pickUpDayService?.data?.attributes
+        ? isServiceActive(contract.attributes.pickUpDayService.data.attributes)
+        : false,
+    },
+    newsService: {
+      isActivated: editorialAttributes?.newsSubService?.data?.attributes
+        ? isServiceActive(editorialAttributes.newsSubService.data.attributes)
+        : false,
+    },
+    tipService: {
+      isActivated: editorialAttributes?.tipSubService?.data?.attributes
+        ? isServiceActive(editorialAttributes.tipSubService.data.attributes)
+        : false,
+    },
+    quizService: {
+      isActivated: editorialAttributes?.quizSubService?.data?.attributes
+        ? isServiceActive(editorialAttributes.quizSubService.data.attributes)
+        : false,
+    },
+    eventService: {
+      isActivated: editorialAttributes?.eventSubService?.data?.attributes
+        ? isServiceActive(editorialAttributes.eventSubService.data.attributes)
+        : false,
+    },
+    contactUsService: {
+      isActivated: editorialAttributes?.contactUsSubService?.data?.attributes
+        ? isServiceActive(
+            editorialAttributes.contactUsSubService.data.attributes,
+          )
+        : false,
+    },
   };
+
+  useEffect(() => {
+    if (contract.attributes?.channelType?.data?.attributes) {
+      const contractAttribute =
+        contract.attributes?.channelType?.data?.attributes;
+      contractAttribute.hasWebSite || contractAttribute.hasWebApp
+        ? setIsChannelActivated(true)
+        : setIsChannelActivated(false);
+    }
+  }, [contract.attributes?.channelType?.data?.attributes]);
 
   return (
     <ul className="c-NavigationList">
       <li className="c-NavigationList__Item">
         <NavigationListMenu path={"/"} activeMenu={activeMenu} picto="house" />
       </li>
-      <li className="c-NavigationList__Item">
-        <NavigationListMenu
-          path={"/edito/"}
-          activeMenu={activeMenu}
-          picto="file"
-          onClick={handleClickMenu}
-        >
-          {services.news.isActivated && (
-            <NavigationListLink
-              path={"/edito/actualites"}
-              label={services.news.name}
-            />
-          )}
-          {services.tipSubService && (
-            <NavigationListLink
-              path={"/edito/astuces"}
-              label={services.tipSubService}
-            />
-          )}
-          {/*<NavigationListLink path={"/edito/evenements"} />*/}
-          {/*<NavigationListLink path={"/edito/astuces"} />*/}
-          {services.freeContentSubServices &&
-            services.freeContentSubServices.map(
-              (freeContentSubService, index) => {
-                if (freeContentSubService.attributes?.isActivated) {
+      {isChannelActivated && (
+        <li className="c-NavigationList__Item">
+          <NavigationListMenu
+            path={"/edito/"}
+            activeMenu={activeMenu}
+            picto="file"
+            onClick={handleClickMenu}
+          >
+            {services.newsService.isActivated && (
+              <NavigationListLink path={"/edito/actualites"} />
+            )}
+            {services.tipService.isActivated && (
+              <NavigationListLink path={"/edito/astuces"} />
+            )}
+            {/* TODO: When the Event page is ready, we can uncomment the next line! */}
+            {/* {services.eventService.isActivated && <NavigationListLink path={"/edito/evenements"} />} */}
+            {freeContentServices &&
+              freeContentServices.map((freeContentSubService, index) => {
+                if (
+                  freeContentSubService?.attributes &&
+                  isServiceActive(freeContentSubService.attributes)
+                ) {
                   return (
                     <NavigationListLink
                       key={index}
@@ -85,20 +149,23 @@ export default function NavigationList() {
                     />
                   );
                 }
-              },
+              })}
+            {/* TODO: When the Quiz page is ready, we can uncomment the next line! */}
+            {/* {services.quizService.isActivated && <NavigationListLink path={"/edito/quiz"} />} */}
+            {/*<NavigationListLink path={"/edito/chiffres-cles"} />*/}
+            <NavigationListLink path={"/edito/bibliotheque-de-medias"} />
+            <NavigationListLink path={"/edito/thematiques"} />
+            <NavigationListLink path={"/edito/type-contenu"} />
+            {/*<NavigationListLink path={"/edito/accessibilite"} />*/}
+            <NavigationListLink path={"/edito/conditions-generales"} />
+            <NavigationListLink path={"/edito/politique-cookies"} />
+            <NavigationListLink path={"/edito/confidentialite"} />
+            {services.contactUsService.isActivated && (
+              <NavigationListLink path={"/edito/contact"} />
             )}
-          {/*<NavigationListLink path={"/edito/quiz"} />*/}
-          {/*<NavigationListLink path={"/edito/chiffres-cles"} />*/}
-          <NavigationListLink path={"/edito/bibliotheque-de-medias"} />
-          <NavigationListLink path={"/edito/thematiques"} />
-          <NavigationListLink path={"/edito/type-contenu"} />
-          {/*<NavigationListLink path={"/edito/accessibilite"} />*/}
-          <NavigationListLink path={"/edito/conditions-generales"} />
-          <NavigationListLink path={"/edito/politique-cookies"} />
-          <NavigationListLink path={"/edito/confidentialite"} />
-          <NavigationListLink path={"/edito/contact"} />
-        </NavigationListMenu>
-      </li>
+          </NavigationListMenu>
+        </li>
+      )}
       <li className="c-NavigationList__Item">
         <NavigationListMenu
           path={"/services/"}
@@ -106,13 +173,25 @@ export default function NavigationList() {
           picto="dashboard"
           onClick={handleClickMenu}
         >
-          <NavigationListLink path={"/services/carte"} />
-          <NavigationListLink path={"/services/guide-tri"} />
+          {services.dropOffMapService.isActivated && (
+            <NavigationListLink path={"/services/carte"} />
+          )}
+          {services.recyclingGuideService.isActivated && (
+            <NavigationListLink path={"/services/guide-tri"} />
+          )}
           <NavigationListLink path={"/services/mon-compteur-dechets"} />
-          <NavigationListLink path={"/services/jour-collecte"} />
-          <NavigationListLink path={"/services/demandes"} />
-          {/*    <NavigationListLink path={"/services/yeswescan"} />*/}
-          <NavigationListLink path={"/services/alertes"} />
+          {services.pickUpDayService.isActivated && (
+            <NavigationListLink path={"/services/jour-collecte"} />
+          )}
+          {services.requestService.isActivated && (
+            <NavigationListLink path={"/services/demandes"} />
+          )}
+          {services.yesWeScanService.isActivated && (
+            <NavigationListLink path={"/services/yeswescan"} />
+          )}
+          {services.alertNotificationService.isActivated && (
+            <NavigationListLink path={"/services/alertes"} />
+          )}
         </NavigationListMenu>
       </li>
       <li className="c-NavigationList__Item">
@@ -149,7 +228,9 @@ export default function NavigationList() {
           onClick={handleClickMenu}
         >
           <NavigationListLink path={"/gestion/informations"} />
+          <NavigationListLink path={"/gestion/territoire"} />
           <NavigationListLink path={"/gestion/flux"} />
+          <NavigationListLink path={"/gestion/services"} />
         </NavigationListMenu>
       </li>
       {/*<li className="c-NavigationList__Item">*/}

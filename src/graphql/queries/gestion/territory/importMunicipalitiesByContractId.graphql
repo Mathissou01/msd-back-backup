@@ -1,0 +1,3 @@
+mutation importMunicipalitiesByContractId($contractId: ID!, $file: String!) {
+  importMunicipalities(contractId: $contractId, file: $file)
+}

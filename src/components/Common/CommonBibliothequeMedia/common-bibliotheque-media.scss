@@ -57,4 +57,28 @@
     display: flex;
     flex-flow: row wrap;
   }
+
+  &__DeleteFilesBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__DeleteFiles {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding-bottom: 20px;
+  }
+
+  &__DeleteActionButtons {
+    display: flex;
+    gap: 20px;
+    padding-top: 20px;
+  }
+
+  &__DeleteFilesErrorMessage {
+    padding-bottom: 10px;
+    color: colors.$error;
+  }
 }

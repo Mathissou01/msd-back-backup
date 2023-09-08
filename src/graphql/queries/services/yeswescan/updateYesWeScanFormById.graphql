@@ -1,0 +1,7 @@
+mutation updateYesWeScanFormById($ywsFormId: ID!, $data: YesWeScanFormInput!) {
+  updateYesWeScanForm(id: $ywsFormId, data: $data) {
+    data {
+      id
+    }
+  }
+}

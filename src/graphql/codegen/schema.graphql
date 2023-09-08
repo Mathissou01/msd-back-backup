@@ -2483,9 +2483,9 @@ enum ENUM_YESWESCANFORM_PICTURESTATUS {
   optional
 }
 
-enum ENUM_YESWESCANFORM_TREATMENTMETHOD {
-  mail
-  tsms
+enum ENUM_YESWESCANQRCODE_TYPEASSOCIATION {
+  dropOffMap
+  signalmentZone
 }
 
 enum ENUM_YESWESCANQRCODE_TYPEASSOCIATION {
@@ -7678,12 +7678,13 @@ type YesWeScanForm {
   endingButtonIntroduction: String
   endingButtonLabel: String
   endingButtonLink: String
+  hasEmail: Boolean!
+  hasTsms: Boolean!
   logo: UploadFileEntityResponse
   mailRecipients: String
   pictureStatus: ENUM_YESWESCANFORM_PICTURESTATUS!
   reportButtons: String!
   thankYouMessage: String!
-  treatmentMethod: ENUM_YESWESCANFORM_TREATMENTMETHOD!
   updatedAt: DateTime
   yesWeScanService: YesWeScanServiceEntityResponse
 }
@@ -7709,6 +7710,8 @@ input YesWeScanFormFiltersInput {
   endingButtonIntroduction: StringFilterInput
   endingButtonLabel: StringFilterInput
   endingButtonLink: StringFilterInput
+  hasEmail: BooleanFilterInput
+  hasTsms: BooleanFilterInput
   id: IDFilterInput
   mailRecipients: StringFilterInput
   not: YesWeScanFormFiltersInput
@@ -7716,7 +7719,6 @@ input YesWeScanFormFiltersInput {
   pictureStatus: StringFilterInput
   reportButtons: StringFilterInput
   thankYouMessage: StringFilterInput
-  treatmentMethod: StringFilterInput
   updatedAt: DateTimeFilterInput
   yesWeScanService: YesWeScanServiceFiltersInput
 }
@@ -7726,12 +7728,13 @@ input YesWeScanFormInput {
   endingButtonIntroduction: String
   endingButtonLabel: String
   endingButtonLink: String
+  hasEmail: Boolean
+  hasTsms: Boolean
   logo: ID
   mailRecipients: String
   pictureStatus: ENUM_YESWESCANFORM_PICTURESTATUS
   reportButtons: String
   thankYouMessage: String
-  treatmentMethod: ENUM_YESWESCANFORM_TREATMENTMETHOD
   yesWeScanService: ID
 }
 

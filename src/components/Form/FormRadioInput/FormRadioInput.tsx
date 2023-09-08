@@ -78,6 +78,7 @@ export default function FormRadioInput({
               "c-FormRadioInput__Options_horizontal":
                 displayMode === "horizontal",
               "c-FormRadioInput__Options_vertical": displayMode === "vertical",
+              "c-FormRadioInput__Options_disabled": isDisabled,
             })}
           >
             {options.map((option, index) => (

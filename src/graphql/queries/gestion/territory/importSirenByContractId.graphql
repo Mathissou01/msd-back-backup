@@ -1,0 +1,3 @@
+mutation importSirenByContractId($contractId: ID!, $file: String!) {
+  importSiren(contractId: $contractId, file: $file)
+}

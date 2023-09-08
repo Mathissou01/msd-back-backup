@@ -80,100 +80,6 @@ exports[`Header renders 1`] = `
             class="c-NavigationListMenu__Button"
           >
             <div
-              class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_file"
-            />
-            <span
-              class="c-NavigationListMenu__Label"
-            >
-              Edito
-            </span>
-          </button>
-          <div
-            class="c-NavigationListMenu__List"
-          >
-            <a
-              class="c-NavigationListLink"
-              href="null/edito/bibliotheque-de-medias"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Bibliothèque de médias
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/edito/thematiques"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Thématiques
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/edito/type-contenu"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Type de contenu
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/edito/conditions-generales"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Conditions générales
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/edito/politique-cookies"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Politique de cookies
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/edito/confidentialite"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Confidentialité
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/edito/contact"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Contact
-              </span>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li
-        class="c-NavigationList__Item"
-      >
-        <div
-          class="c-NavigationListMenu c-NavigationListMenu_menu"
-        >
-          <button
-            class="c-NavigationListMenu__Button"
-          >
-            <div
               class="c-NavigationListMenu__Picto c-NavigationListMenu__Picto_dashboard"
             />
             <span
@@ -187,62 +93,12 @@ exports[`Header renders 1`] = `
           >
             <a
               class="c-NavigationListLink"
-              href="null/services/carte"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Carte
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/services/guide-tri"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Guide du tri
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
               href="null/services/mon-compteur-dechets"
             >
               <span
                 class="c-NavigationListLink__Label"
               >
                 Mon compteur dechets
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/services/jour-collecte"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Jour de collecte
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/services/demandes"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Demandes
-              </span>
-            </a>
-            <a
-              class="c-NavigationListLink"
-              href="null/services/alertes"
-            >
-              <span
-                class="c-NavigationListLink__Label"
-              >
-                Alertes
               </span>
             </a>
           </div>
@@ -389,12 +245,32 @@ exports[`Header renders 1`] = `
             </a>
             <a
               class="c-NavigationListLink"
+              href="null/gestion/territoire"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Territoire
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
               href="null/gestion/flux"
             >
               <span
                 class="c-NavigationListLink__Label"
               >
                 Activation des flux
+              </span>
+            </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/gestion/services"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Activation des Services
               </span>
             </a>
           </div>

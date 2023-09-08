@@ -1,0 +1,10 @@
+mutation updateChannelTypeById(
+  $updateChannelTypeId: ID!
+  $data: ChannelTypeInput!
+) {
+  updateChannelType(id: $updateChannelTypeId, data: $data) {
+    data {
+      id
+    }
+  }
+}

@@ -1,0 +1,36 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-TerritoryEPCIAndCitiesImport {
+  &__Title {
+    margin-bottom: 20px;
+  }
+
+  &__ImportContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    span {
+      margin-right: 16px;
+    }
+  }
+
+  &__ImportMessage {
+    &_success {
+      color: colors.$success;
+    }
+
+    &_error {
+      display: block;
+      margin-bottom: 32px;
+      color: colors.$error;
+      font-size: 18px;
+    }
+  }
+
+  &__ImportErrorModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

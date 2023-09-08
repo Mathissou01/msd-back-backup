@@ -7,7 +7,6 @@ export interface IInformationMessageFormButtonsLabels {
   cancel: string;
   save: string;
   saveAndCreate: string;
-  back: string;
 }
 
 export interface IInformationMessageFormButtonsProps {
@@ -24,7 +23,6 @@ export default function InformationMessageFormButtons<
     cancel: "Annuler",
     save: "Enregistrer",
     saveAndCreate: "Enregistrer et créer un autre message",
-    back: "Retour",
   };
 
   /* Local Data */

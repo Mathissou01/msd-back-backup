@@ -1,0 +1,16 @@
+query getCitiesInformations($searchTerm: String!) {
+  getCitiesInformations(searchTerm: $searchTerm, prehome: false) {
+    name
+    postalCode
+    department {
+      code
+      name
+    }
+    region {
+      code
+      name
+    }
+    insee
+    siren
+  }
+}

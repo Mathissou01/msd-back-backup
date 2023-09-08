@@ -1,0 +1,7 @@
+mutation createCity($data: CityInput!) {
+  createCity(data: $data) {
+    data {
+      id
+    }
+  }
+}

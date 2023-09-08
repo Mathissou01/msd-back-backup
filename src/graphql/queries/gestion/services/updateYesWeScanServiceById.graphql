@@ -1,0 +1,10 @@
+mutation updateYesWeScanServiceById(
+  $updateYesWeScanServiceId: ID!
+  $data: YesWeScanServiceInput!
+) {
+  updateYesWeScanService(id: $updateYesWeScanServiceId, data: $data) {
+    data {
+      id
+    }
+  }
+}

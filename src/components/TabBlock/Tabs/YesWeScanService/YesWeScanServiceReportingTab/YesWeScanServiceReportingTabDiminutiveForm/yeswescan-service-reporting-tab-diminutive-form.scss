@@ -1,0 +1,11 @@
+.c-YesWeScanServiceReportingTabDiminutiveForm {
+  width: 100%;
+
+  &__Form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 45%;
+    min-width: 650px;
+  }
+}

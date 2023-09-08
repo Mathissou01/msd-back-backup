@@ -2790,9 +2790,9 @@ export enum Enum_Yeswescanform_Picturestatus {
   Optional = "optional",
 }
 
-export enum Enum_Yeswescanform_Treatmentmethod {
-  Mail = "mail",
-  Tsms = "tsms",
+export enum Enum_Yeswescanqrcode_Typeassociation {
+  DropOffMap = "dropOffMap",
+  SignalmentZone = "signalmentZone",
 }
 
 export enum Enum_Yeswescanqrcode_Typeassociation {
@@ -9929,12 +9929,13 @@ export type YesWeScanForm = {
   endingButtonIntroduction?: Maybe<Scalars["String"]>;
   endingButtonLabel?: Maybe<Scalars["String"]>;
   endingButtonLink?: Maybe<Scalars["String"]>;
+  hasEmail: Scalars["Boolean"];
+  hasTsms: Scalars["Boolean"];
   logo?: Maybe<UploadFileEntityResponse>;
   mailRecipients?: Maybe<Scalars["String"]>;
   pictureStatus: Enum_Yeswescanform_Picturestatus;
   reportButtons: Scalars["String"];
   thankYouMessage: Scalars["String"];
-  treatmentMethod: Enum_Yeswescanform_Treatmentmethod;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
 };
@@ -9963,6 +9964,8 @@ export type YesWeScanFormFiltersInput = {
   endingButtonIntroduction?: InputMaybe<StringFilterInput>;
   endingButtonLabel?: InputMaybe<StringFilterInput>;
   endingButtonLink?: InputMaybe<StringFilterInput>;
+  hasEmail?: InputMaybe<BooleanFilterInput>;
+  hasTsms?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   mailRecipients?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<YesWeScanFormFiltersInput>;
@@ -9970,7 +9973,6 @@ export type YesWeScanFormFiltersInput = {
   pictureStatus?: InputMaybe<StringFilterInput>;
   reportButtons?: InputMaybe<StringFilterInput>;
   thankYouMessage?: InputMaybe<StringFilterInput>;
-  treatmentMethod?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   yesWeScanService?: InputMaybe<YesWeScanServiceFiltersInput>;
 };
@@ -9980,12 +9982,13 @@ export type YesWeScanFormInput = {
   endingButtonIntroduction?: InputMaybe<Scalars["String"]>;
   endingButtonLabel?: InputMaybe<Scalars["String"]>;
   endingButtonLink?: InputMaybe<Scalars["String"]>;
+  hasEmail?: InputMaybe<Scalars["Boolean"]>;
+  hasTsms?: InputMaybe<Scalars["Boolean"]>;
   logo?: InputMaybe<Scalars["ID"]>;
   mailRecipients?: InputMaybe<Scalars["String"]>;
   pictureStatus?: InputMaybe<Enum_Yeswescanform_Picturestatus>;
   reportButtons?: InputMaybe<Scalars["String"]>;
   thankYouMessage?: InputMaybe<Scalars["String"]>;
-  treatmentMethod?: InputMaybe<Enum_Yeswescanform_Treatmentmethod>;
   yesWeScanService?: InputMaybe<Scalars["ID"]>;
 };
 
@@ -11369,6 +11372,17 @@ export type CreateNewFolderMutation = {
     path?: string | null;
     pathId?: string | null;
   } | null;
+};
+
+export type DeleteUnpublishedMediaByImageIdsMutationVariables = Exact<{
+  imageIds?: InputMaybe<
+    Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>
+  >;
+}>;
+
+export type DeleteUnpublishedMediaByImageIdsMutation = {
+  __typename?: "Mutation";
+  deleteUnpublishedMedia?: Array<string | null> | null;
 };
 
 export type GetAllFoldersHierarchyQueryVariables = Exact<{
@@ -13409,6 +13423,494 @@ export type UpdateFlowByIdMutation = {
   } | null;
 };
 
+export type CreateEmptyContractMutationVariables = Exact<{
+  clientName: Scalars["String"];
+  clientType: Scalars["String"];
+  siretNumber?: InputMaybe<Scalars["Long"]>;
+  contactFirstName: Scalars["String"];
+  contactLastName: Scalars["String"];
+  contactEmail: Scalars["String"];
+  contactPhoneNumber: Scalars["String"];
+  isRvFrance: Scalars["Boolean"];
+  isNonExclusive: Scalars["Boolean"];
+  ccap?: InputMaybe<Scalars["Long"]>;
+  clear?: InputMaybe<Scalars["Long"]>;
+  isFreemium: Scalars["Boolean"];
+  servicesToActivate: Array<InputMaybe<ServiceType>> | InputMaybe<ServiceType>;
+}>;
+
+export type CreateEmptyContractMutation = {
+  __typename?: "Mutation";
+  createEmptyContract?: Array<
+    | {
+        __typename?: "ClientContactCreateOutput";
+        firstName?: string | null;
+        lastName?: string | null;
+        email?: string | null;
+        phoneNumber?: string | null;
+      }
+    | {
+        __typename?: "ContractCreateOutput";
+        id: string;
+        clientName: string;
+        siret?: any | null;
+        isRVFrance: boolean;
+        ccap?: any | null;
+        clear?: any | null;
+      }
+    | null
+  > | null;
+};
+
+export type UpdateContractInformationsMutationVariables = Exact<{
+  contractId: Scalars["ID"];
+  contractData: ContractInput;
+  clientContactId: Scalars["ID"];
+  clientContactData: ClientContactInput;
+}>;
+
+export type UpdateContractInformationsMutation = {
+  __typename?: "Mutation";
+  updateContract?: {
+    __typename?: "ContractEntityResponse";
+    data?: {
+      __typename?: "ContractEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Contract";
+        clientName: string;
+        siret?: any | null;
+        contractStatus: Enum_Contract_Contractstatus;
+        isNonExclusive: boolean;
+        clientType: Enum_Contract_Clienttype;
+        isRVFrance: boolean;
+        ccap?: any | null;
+        clear?: any | null;
+      } | null;
+    } | null;
+  } | null;
+  updateClientContact?: {
+    __typename?: "ClientContactEntityResponse";
+    data?: {
+      __typename?: "ClientContactEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ClientContact";
+        firstName: string;
+        lastName: string;
+        email: string;
+        phoneNumber: string;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type CreateYwsServiceMutationVariables = Exact<{
+  service: ServiceInput;
+  contractId: Scalars["ID"];
+}>;
+
+export type CreateYwsServiceMutation = {
+  __typename?: "Mutation";
+  createYwsService?: {
+    __typename?: "YesWeScanServiceEntity";
+    id?: string | null;
+  } | null;
+};
+
+export type DeleteYesWeScanServiceByIdMutationVariables = Exact<{
+  deleteYesWeScanServiceId: Scalars["ID"];
+}>;
+
+export type DeleteYesWeScanServiceByIdMutation = {
+  __typename?: "Mutation";
+  deleteYesWeScanService?: {
+    __typename?: "YesWeScanServiceEntityResponse";
+    data?: { __typename?: "YesWeScanServiceEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type GetChannelTypeByIdQueryVariables = Exact<{
+  channelTypeId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetChannelTypeByIdQuery = {
+  __typename?: "Query";
+  channelType?: {
+    __typename?: "ChannelTypeEntityResponse";
+    data?: {
+      __typename?: "ChannelTypeEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "ChannelType";
+        hasWebApp?: boolean | null;
+        hasWebSite?: boolean | null;
+        hasYesWeScan?: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateChannelTypeByIdMutationVariables = Exact<{
+  updateChannelTypeId: Scalars["ID"];
+  data: ChannelTypeInput;
+}>;
+
+export type UpdateChannelTypeByIdMutation = {
+  __typename?: "Mutation";
+  updateChannelType?: {
+    __typename?: "ChannelTypeEntityResponse";
+    data?: { __typename?: "ChannelTypeEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateRecyclingGuideServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: RecyclingGuideServiceInput;
+}>;
+
+export type UpdateRecyclingGuideServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateRecyclingGuideService?: {
+    __typename?: "RecyclingGuideServiceEntityResponse";
+    data?: {
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+    } | null;
+  } | null;
+};
+
+export type UpdatePickUpDayServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: PickUpDayServiceInput;
+}>;
+
+export type UpdatePickUpDayServiceByIdMutation = {
+  __typename?: "Mutation";
+  updatePickUpDayService?: {
+    __typename?: "PickUpDayServiceEntityResponse";
+    data?: { __typename?: "PickUpDayServiceEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateRequestServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: RequestServiceInput;
+}>;
+
+export type UpdateRequestServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateRequestService?: {
+    __typename?: "RequestServiceEntityResponse";
+    data?: { __typename?: "RequestServiceEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateDropOffMapServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: DropOffMapServiceInput;
+}>;
+
+export type UpdateDropOffMapServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateDropOffMapService?: {
+    __typename?: "DropOffMapServiceEntityResponse";
+    data?: {
+      __typename?: "DropOffMapServiceEntity";
+      id?: string | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateAlertNotificationServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: AlertNotificationServiceInput;
+}>;
+
+export type UpdateAlertNotificationServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateAlertNotificationService?: {
+    __typename?: "AlertNotificationServiceEntityResponse";
+    data?: {
+      __typename?: "AlertNotificationServiceEntity";
+      id?: string | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateEventServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: EventSubServiceInput;
+}>;
+
+export type UpdateEventServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateEventSubService?: {
+    __typename?: "EventSubServiceEntityResponse";
+    data?: { __typename?: "EventSubServiceEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateFreeContentServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: FreeContentSubServiceInput;
+}>;
+
+export type UpdateFreeContentServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateFreeContentSubService?: {
+    __typename?: "FreeContentSubServiceEntityResponse";
+    data?: {
+      __typename?: "FreeContentSubServiceEntity";
+      id?: string | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateNewsServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: NewsSubServiceInput;
+}>;
+
+export type UpdateNewsServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateNewsSubService?: {
+    __typename?: "NewsSubServiceEntityResponse";
+    data?: { __typename?: "NewsSubServiceEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateQuizServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: QuizSubServiceInput;
+}>;
+
+export type UpdateQuizServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateQuizSubService?: {
+    __typename?: "QuizSubServiceEntityResponse";
+    data?: { __typename?: "QuizSubServiceEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateTipServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: TipSubServiceInput;
+}>;
+
+export type UpdateTipServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateTipSubService?: {
+    __typename?: "TipSubServiceEntityResponse";
+    data?: { __typename?: "TipSubServiceEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateContactUsServiceByIdMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data: ContactUsSubServiceInput;
+}>;
+
+export type UpdateContactUsServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateContactUsSubService?: {
+    __typename?: "ContactUsSubServiceEntityResponse";
+    data?: {
+      __typename?: "ContactUsSubServiceEntity";
+      id?: string | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateYesWeScanServiceByIdMutationVariables = Exact<{
+  updateYesWeScanServiceId: Scalars["ID"];
+  data: YesWeScanServiceInput;
+}>;
+
+export type UpdateYesWeScanServiceByIdMutation = {
+  __typename?: "Mutation";
+  updateYesWeScanService?: {
+    __typename?: "YesWeScanServiceEntityResponse";
+    data?: { __typename?: "YesWeScanServiceEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type YwsActivationMutationVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type YwsActivationMutation = {
+  __typename?: "Mutation";
+  ywsActivation?: {
+    __typename?: "ChannelTypeEntity";
+    id?: string | null;
+  } | null;
+};
+
+export type YwsDeactivationMutationVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type YwsDeactivationMutation = {
+  __typename?: "Mutation";
+  ywsDeactivation?: {
+    __typename?: "ChannelTypeEntity";
+    id?: string | null;
+  } | null;
+};
+
+export type CreateCityMutationVariables = Exact<{
+  data: CityInput;
+}>;
+
+export type CreateCityMutation = {
+  __typename?: "Mutation";
+  createCity?: {
+    __typename?: "CityEntityResponse";
+    data?: { __typename?: "CityEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type DeleteCityByIdMutationVariables = Exact<{
+  cityId: Scalars["ID"];
+}>;
+
+export type DeleteCityByIdMutation = {
+  __typename?: "Mutation";
+  deleteCity?: {
+    __typename?: "CityEntityResponse";
+    data?: { __typename?: "CityEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type GetCitiesInformationsQueryVariables = Exact<{
+  searchTerm: Scalars["String"];
+}>;
+
+export type GetCitiesInformationsQuery = {
+  __typename?: "Query";
+  getCitiesInformations?: Array<{
+    __typename?: "CityInformation";
+    name?: string | null;
+    postalCode?: string | null;
+    insee?: string | null;
+    siren?: string | null;
+    department?: {
+      __typename?: "Department";
+      code?: string | null;
+      name?: string | null;
+    } | null;
+    region?: {
+      __typename?: "Region";
+      code?: string | null;
+      name?: string | null;
+    } | null;
+  } | null> | null;
+};
+
+export type GetContractCitiesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetContractCitiesByContractIdQuery = {
+  __typename?: "Query";
+  cities?: {
+    __typename?: "CityEntityResponseCollection";
+    data: Array<{
+      __typename?: "CityEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "City";
+        name?: string | null;
+        insee?: string | null;
+        siren?: string | null;
+        postalCode?: string | null;
+        department?: string | null;
+        region?: string | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        total: number;
+        page: number;
+        pageSize: number;
+        pageCount: number;
+      };
+    };
+  } | null;
+};
+
+export type GetTerritoriesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetTerritoriesByContractIdQuery = {
+  __typename?: "Query";
+  territories?: {
+    __typename?: "TerritoryEntityResponseCollection";
+    data: Array<{
+      __typename?: "TerritoryEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "Territory";
+        numberOfInhabitants?: any | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type ImportMunicipalitiesByContractIdMutationVariables = Exact<{
+  contractId: Scalars["ID"];
+  file: Scalars["String"];
+}>;
+
+export type ImportMunicipalitiesByContractIdMutation = {
+  __typename?: "Mutation";
+  importMunicipalities?: string | null;
+};
+
+export type ImportSirenByContractIdMutationVariables = Exact<{
+  contractId: Scalars["ID"];
+  file: Scalars["String"];
+}>;
+
+export type ImportSirenByContractIdMutation = {
+  __typename?: "Mutation";
+  importSiren?: boolean | null;
+};
+
+export type UpdateCityByIdMutationVariables = Exact<{
+  cityId: Scalars["ID"];
+  data: CityInput;
+}>;
+
+export type UpdateCityByIdMutation = {
+  __typename?: "Mutation";
+  updateCity?: {
+    __typename?: "CityEntityResponse";
+    data?: { __typename?: "CityEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateTerritoryByIdMutationVariables = Exact<{
+  updateTerritoryId: Scalars["ID"];
+  data: TerritoryInput;
+}>;
+
+export type UpdateTerritoryByIdMutation = {
+  __typename?: "Mutation";
+  updateTerritory?: {
+    __typename?: "TerritoryEntityResponse";
+    data?: { __typename?: "TerritoryEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type GetActiveServicesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -13570,6 +14072,7 @@ export type GetContractByIdQuery = {
               __typename?: "ChannelType";
               hasWebApp?: boolean | null;
               hasWebSite?: boolean | null;
+              hasYesWeScan?: boolean | null;
             } | null;
           } | null;
         } | null;
@@ -13616,6 +14119,8 @@ export type GetContractByIdQuery = {
                     __typename?: "EventSubService";
                     name: string;
                     isActivated: boolean;
+                    startDate?: any | null;
+                    endDate?: any | null;
                   } | null;
                 } | null;
               } | null;
@@ -13628,6 +14133,8 @@ export type GetContractByIdQuery = {
                     __typename?: "FreeContentSubService";
                     name: string;
                     isActivated: boolean;
+                    startDate?: any | null;
+                    endDate?: any | null;
                   } | null;
                 }>;
               } | null;
@@ -13640,6 +14147,8 @@ export type GetContractByIdQuery = {
                     __typename?: "NewsSubService";
                     name: string;
                     isActivated: boolean;
+                    startDate?: any | null;
+                    endDate?: any | null;
                   } | null;
                 } | null;
               } | null;
@@ -13652,6 +14161,8 @@ export type GetContractByIdQuery = {
                     __typename?: "QuizSubService";
                     name: string;
                     isActivated: boolean;
+                    startDate?: any | null;
+                    endDate?: any | null;
                   } | null;
                 } | null;
               } | null;
@@ -13664,9 +14175,73 @@ export type GetContractByIdQuery = {
                     __typename?: "TipSubService";
                     name: string;
                     isActivated: boolean;
+                    startDate?: any | null;
+                    endDate?: any | null;
                   } | null;
                 } | null;
               } | null;
+              contactUsSubService?: {
+                __typename?: "ContactUsSubServiceEntityResponse";
+                data?: {
+                  __typename?: "ContactUsSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ContactUsSubService";
+                    label: string;
+                    name: string;
+                    isActivated?: boolean | null;
+                    startDate?: any | null;
+                    endDate?: any | null;
+                  } | null;
+                } | null;
+              } | null;
+              cookiesSubService?: {
+                __typename?: "CookiesSubServiceEntityResponse";
+                data?: {
+                  __typename?: "CookiesSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "CookiesSubService";
+                    name: string;
+                  } | null;
+                } | null;
+              } | null;
+              cguSubService?: {
+                __typename?: "CguSubServiceEntityResponse";
+                data?: {
+                  __typename?: "CguSubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "CguSubService";
+                    name: string;
+                  } | null;
+                } | null;
+              } | null;
+              confidentialitySubService?: {
+                __typename?: "ConfidentialitySubServiceEntityResponse";
+                data?: {
+                  __typename?: "ConfidentialitySubServiceEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "ConfidentialitySubService";
+                    name: string;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+        alertNotificationService?: {
+          __typename?: "AlertNotificationServiceEntityResponse";
+          data?: {
+            __typename?: "AlertNotificationServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "AlertNotificationService";
+              name?: string | null;
+              isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -13680,6 +14255,8 @@ export type GetContractByIdQuery = {
               name: string;
               isActivated: boolean;
               memoName: string;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -13692,6 +14269,8 @@ export type GetContractByIdQuery = {
               __typename?: "PickUpDayService";
               name: string;
               isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -13704,6 +14283,8 @@ export type GetContractByIdQuery = {
               __typename?: "DropOffMapService";
               name?: string | null;
               isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -13716,8 +14297,24 @@ export type GetContractByIdQuery = {
               __typename?: "RequestService";
               name: string;
               isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
+        } | null;
+        yesWeScanServices?: {
+          __typename?: "YesWeScanServiceRelationResponseCollection";
+          data: Array<{
+            __typename?: "YesWeScanServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "YesWeScanService";
+              startDate?: any | null;
+              endDate?: any | null;
+              serviceName?: string | null;
+              shortName: string;
+            } | null;
+          }>;
         } | null;
         audiences?: {
           __typename?: "AudienceRelationResponseCollection";
@@ -17872,34 +18469,6 @@ export type GetRecyclingGuideServicesByContractIdQuery = {
   } | null;
 };
 
-export type UpdateRecyclingGuideServiceByIdMutationVariables = Exact<{
-  updateRecyclingGuideServiceId: Scalars["ID"];
-  data: RecyclingGuideServiceInput;
-}>;
-
-export type UpdateRecyclingGuideServiceByIdMutation = {
-  __typename?: "Mutation";
-  updateRecyclingGuideService?: {
-    __typename?: "RecyclingGuideServiceEntityResponse";
-    data?: {
-      __typename?: "RecyclingGuideServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "RecyclingGuideService";
-        name: string;
-        orderExtension?: boolean | null;
-        isActivated: boolean;
-        memoName: string;
-        memoDesc?: string | null;
-        memoFile?: {
-          __typename?: "UploadFileEntityResponse";
-          data?: { __typename?: "UploadFileEntity"; id?: string | null } | null;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export type CreateInformationMessageMutationVariables = Exact<{
   data: InformationMessageInput;
 }>;
@@ -18490,6 +19059,147 @@ export type UpdatePickUpDayByIdMutation = {
         } | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type CreateYesWeScanFormMutationVariables = Exact<{
+  data: YesWeScanFormInput;
+}>;
+
+export type CreateYesWeScanFormMutation = {
+  __typename?: "Mutation";
+  createYesWeScanForm?: {
+    __typename?: "YesWeScanFormEntityResponse";
+    data?: { __typename?: "YesWeScanFormEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type GetYesWeScanFormByIdQueryVariables = Exact<{
+  ywsFormId: Scalars["ID"];
+}>;
+
+export type GetYesWeScanFormByIdQuery = {
+  __typename?: "Query";
+  yesWeScanForm?: {
+    __typename?: "YesWeScanFormEntityResponse";
+    data?: {
+      __typename?: "YesWeScanFormEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "YesWeScanForm";
+        reportButtons: string;
+        pictureStatus: Enum_Yeswescanform_Picturestatus;
+        thankYouMessage: string;
+        displayEndingButton: boolean;
+        endingButtonIntroduction?: string | null;
+        endingButtonLabel?: string | null;
+        endingButtonLink?: string | null;
+        hasEmail: boolean;
+        hasTsms: boolean;
+        mailRecipients?: string | null;
+        logo?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              name: string;
+              alternativeText?: string | null;
+              caption?: string | null;
+              width?: number | null;
+              height?: number | null;
+              formats?: any | null;
+              hash: string;
+              ext?: string | null;
+              mime: string;
+              size: number;
+              url: string;
+              previewUrl?: string | null;
+              provider: string;
+              provider_metadata?: any | null;
+              createdAt?: any | null;
+              updatedAt?: any | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetYesWeScanQrCodesByServiceIdQueryVariables = Exact<{
+  ywsServiceId: Scalars["ID"];
+}>;
+
+export type GetYesWeScanQrCodesByServiceIdQuery = {
+  __typename?: "Query";
+  yesWeScanQrCodes?: {
+    __typename?: "YesWeScanQrCodeEntityResponseCollection";
+    data: Array<{ __typename?: "YesWeScanQrCodeEntity"; id?: string | null }>;
+  } | null;
+};
+
+export type GetYesWeScanServiceByIdQueryVariables = Exact<{
+  serviceId: Scalars["ID"];
+}>;
+
+export type GetYesWeScanServiceByIdQuery = {
+  __typename?: "Query";
+  yesWeScanService?: {
+    __typename?: "YesWeScanServiceEntityResponse";
+    data?: {
+      __typename?: "YesWeScanServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "YesWeScanService";
+        startDate?: any | null;
+        endDate?: any | null;
+        serviceName?: string | null;
+        shortName: string;
+        yesWeScanForm?: {
+          __typename?: "YesWeScanFormEntityResponse";
+          data?: {
+            __typename?: "YesWeScanFormEntity";
+            id?: string | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetYesWeScanServicesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  today?: InputMaybe<Scalars["DateTime"]>;
+}>;
+
+export type GetYesWeScanServicesByContractIdQuery = {
+  __typename?: "Query";
+  yesWeScanServices?: {
+    __typename?: "YesWeScanServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "YesWeScanServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "YesWeScanService";
+        serviceName?: string | null;
+        shortName: string;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateYesWeScanFormByIdMutationVariables = Exact<{
+  ywsFormId: Scalars["ID"];
+  data: YesWeScanFormInput;
+}>;
+
+export type UpdateYesWeScanFormByIdMutation = {
+  __typename?: "Mutation";
+  updateYesWeScanForm?: {
+    __typename?: "YesWeScanFormEntityResponse";
+    data?: { __typename?: "YesWeScanFormEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -20372,6 +21082,56 @@ export type CreateNewFolderMutationOptions = Apollo.BaseMutationOptions<
   CreateNewFolderMutation,
   CreateNewFolderMutationVariables
 >;
+export const DeleteUnpublishedMediaByImageIdsDocument = gql`
+  mutation deleteUnpublishedMediaByImageIds($imageIds: [ID]) {
+    deleteUnpublishedMedia(imageIds: $imageIds)
+  }
+`;
+export type DeleteUnpublishedMediaByImageIdsMutationFn =
+  Apollo.MutationFunction<
+    DeleteUnpublishedMediaByImageIdsMutation,
+    DeleteUnpublishedMediaByImageIdsMutationVariables
+  >;
+
+/**
+ * __useDeleteUnpublishedMediaByImageIdsMutation__
+ *
+ * To run a mutation, you first call `useDeleteUnpublishedMediaByImageIdsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUnpublishedMediaByImageIdsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUnpublishedMediaByImageIdsMutation, { data, loading, error }] = useDeleteUnpublishedMediaByImageIdsMutation({
+ *   variables: {
+ *      imageIds: // value for 'imageIds'
+ *   },
+ * });
+ */
+export function useDeleteUnpublishedMediaByImageIdsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteUnpublishedMediaByImageIdsMutation,
+    DeleteUnpublishedMediaByImageIdsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteUnpublishedMediaByImageIdsMutation,
+    DeleteUnpublishedMediaByImageIdsMutationVariables
+  >(DeleteUnpublishedMediaByImageIdsDocument, options);
+}
+export type DeleteUnpublishedMediaByImageIdsMutationHookResult = ReturnType<
+  typeof useDeleteUnpublishedMediaByImageIdsMutation
+>;
+export type DeleteUnpublishedMediaByImageIdsMutationResult =
+  Apollo.MutationResult<DeleteUnpublishedMediaByImageIdsMutation>;
+export type DeleteUnpublishedMediaByImageIdsMutationOptions =
+  Apollo.BaseMutationOptions<
+    DeleteUnpublishedMediaByImageIdsMutation,
+    DeleteUnpublishedMediaByImageIdsMutationVariables
+  >;
 export const GetAllFoldersHierarchyDocument = gql`
   query getAllFoldersHierarchy($path: String!) {
     getAllFoldersHierarchy(path: $path) {
@@ -24279,6 +25039,1710 @@ export type UpdateFlowByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdateFlowByIdMutation,
   UpdateFlowByIdMutationVariables
 >;
+export const CreateEmptyContractDocument = gql`
+  mutation createEmptyContract(
+    $clientName: String!
+    $clientType: String!
+    $siretNumber: Long
+    $contactFirstName: String!
+    $contactLastName: String!
+    $contactEmail: String!
+    $contactPhoneNumber: String!
+    $isRvFrance: Boolean!
+    $isNonExclusive: Boolean!
+    $ccap: Long
+    $clear: Long
+    $isFreemium: Boolean!
+    $servicesToActivate: [ServiceType]!
+  ) {
+    createEmptyContract(
+      clientName: $clientName
+      clientType: $clientType
+      siretNumber: $siretNumber
+      contactFirstName: $contactFirstName
+      contactLastName: $contactLastName
+      contactEmail: $contactEmail
+      contactPhoneNumber: $contactPhoneNumber
+      isRVFrance: $isRvFrance
+      ccap: $ccap
+      clear: $clear
+      isNonExclusive: $isNonExclusive
+      isFreemium: $isFreemium
+      servicesToActivate: $servicesToActivate
+    ) {
+      ... on ContractCreateOutput {
+        id
+        clientName
+        siret
+        isRVFrance
+        ccap
+        clear
+      }
+      ... on ClientContactCreateOutput {
+        firstName
+        lastName
+        email
+        phoneNumber
+      }
+    }
+  }
+`;
+export type CreateEmptyContractMutationFn = Apollo.MutationFunction<
+  CreateEmptyContractMutation,
+  CreateEmptyContractMutationVariables
+>;
+
+/**
+ * __useCreateEmptyContractMutation__
+ *
+ * To run a mutation, you first call `useCreateEmptyContractMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEmptyContractMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEmptyContractMutation, { data, loading, error }] = useCreateEmptyContractMutation({
+ *   variables: {
+ *      clientName: // value for 'clientName'
+ *      clientType: // value for 'clientType'
+ *      siretNumber: // value for 'siretNumber'
+ *      contactFirstName: // value for 'contactFirstName'
+ *      contactLastName: // value for 'contactLastName'
+ *      contactEmail: // value for 'contactEmail'
+ *      contactPhoneNumber: // value for 'contactPhoneNumber'
+ *      isRvFrance: // value for 'isRvFrance'
+ *      isNonExclusive: // value for 'isNonExclusive'
+ *      ccap: // value for 'ccap'
+ *      clear: // value for 'clear'
+ *      isFreemium: // value for 'isFreemium'
+ *      servicesToActivate: // value for 'servicesToActivate'
+ *   },
+ * });
+ */
+export function useCreateEmptyContractMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateEmptyContractMutation,
+    CreateEmptyContractMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateEmptyContractMutation,
+    CreateEmptyContractMutationVariables
+  >(CreateEmptyContractDocument, options);
+}
+export type CreateEmptyContractMutationHookResult = ReturnType<
+  typeof useCreateEmptyContractMutation
+>;
+export type CreateEmptyContractMutationResult =
+  Apollo.MutationResult<CreateEmptyContractMutation>;
+export type CreateEmptyContractMutationOptions = Apollo.BaseMutationOptions<
+  CreateEmptyContractMutation,
+  CreateEmptyContractMutationVariables
+>;
+export const UpdateContractInformationsDocument = gql`
+  mutation updateContractInformations(
+    $contractId: ID!
+    $contractData: ContractInput!
+    $clientContactId: ID!
+    $clientContactData: ClientContactInput!
+  ) {
+    updateContract(id: $contractId, data: $contractData) {
+      data {
+        id
+        attributes {
+          clientName
+          siret
+          contractStatus
+          isNonExclusive
+          clientType
+          isRVFrance
+          ccap
+          clear
+        }
+      }
+    }
+    updateClientContact(id: $clientContactId, data: $clientContactData) {
+      data {
+        id
+        attributes {
+          firstName
+          lastName
+          email
+          phoneNumber
+        }
+      }
+    }
+  }
+`;
+export type UpdateContractInformationsMutationFn = Apollo.MutationFunction<
+  UpdateContractInformationsMutation,
+  UpdateContractInformationsMutationVariables
+>;
+
+/**
+ * __useUpdateContractInformationsMutation__
+ *
+ * To run a mutation, you first call `useUpdateContractInformationsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContractInformationsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContractInformationsMutation, { data, loading, error }] = useUpdateContractInformationsMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      contractData: // value for 'contractData'
+ *      clientContactId: // value for 'clientContactId'
+ *      clientContactData: // value for 'clientContactData'
+ *   },
+ * });
+ */
+export function useUpdateContractInformationsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContractInformationsMutation,
+    UpdateContractInformationsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContractInformationsMutation,
+    UpdateContractInformationsMutationVariables
+  >(UpdateContractInformationsDocument, options);
+}
+export type UpdateContractInformationsMutationHookResult = ReturnType<
+  typeof useUpdateContractInformationsMutation
+>;
+export type UpdateContractInformationsMutationResult =
+  Apollo.MutationResult<UpdateContractInformationsMutation>;
+export type UpdateContractInformationsMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContractInformationsMutation,
+    UpdateContractInformationsMutationVariables
+  >;
+export const CreateYwsServiceDocument = gql`
+  mutation createYwsService($service: ServiceInput!, $contractId: ID!) {
+    createYwsService(service: $service, contractId: $contractId) {
+      id
+    }
+  }
+`;
+export type CreateYwsServiceMutationFn = Apollo.MutationFunction<
+  CreateYwsServiceMutation,
+  CreateYwsServiceMutationVariables
+>;
+
+/**
+ * __useCreateYwsServiceMutation__
+ *
+ * To run a mutation, you first call `useCreateYwsServiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateYwsServiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createYwsServiceMutation, { data, loading, error }] = useCreateYwsServiceMutation({
+ *   variables: {
+ *      service: // value for 'service'
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useCreateYwsServiceMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateYwsServiceMutation,
+    CreateYwsServiceMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateYwsServiceMutation,
+    CreateYwsServiceMutationVariables
+  >(CreateYwsServiceDocument, options);
+}
+export type CreateYwsServiceMutationHookResult = ReturnType<
+  typeof useCreateYwsServiceMutation
+>;
+export type CreateYwsServiceMutationResult =
+  Apollo.MutationResult<CreateYwsServiceMutation>;
+export type CreateYwsServiceMutationOptions = Apollo.BaseMutationOptions<
+  CreateYwsServiceMutation,
+  CreateYwsServiceMutationVariables
+>;
+export const DeleteYesWeScanServiceByIdDocument = gql`
+  mutation deleteYesWeScanServiceById($deleteYesWeScanServiceId: ID!) {
+    deleteYesWeScanService(id: $deleteYesWeScanServiceId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteYesWeScanServiceByIdMutationFn = Apollo.MutationFunction<
+  DeleteYesWeScanServiceByIdMutation,
+  DeleteYesWeScanServiceByIdMutationVariables
+>;
+
+/**
+ * __useDeleteYesWeScanServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteYesWeScanServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteYesWeScanServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteYesWeScanServiceByIdMutation, { data, loading, error }] = useDeleteYesWeScanServiceByIdMutation({
+ *   variables: {
+ *      deleteYesWeScanServiceId: // value for 'deleteYesWeScanServiceId'
+ *   },
+ * });
+ */
+export function useDeleteYesWeScanServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteYesWeScanServiceByIdMutation,
+    DeleteYesWeScanServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteYesWeScanServiceByIdMutation,
+    DeleteYesWeScanServiceByIdMutationVariables
+  >(DeleteYesWeScanServiceByIdDocument, options);
+}
+export type DeleteYesWeScanServiceByIdMutationHookResult = ReturnType<
+  typeof useDeleteYesWeScanServiceByIdMutation
+>;
+export type DeleteYesWeScanServiceByIdMutationResult =
+  Apollo.MutationResult<DeleteYesWeScanServiceByIdMutation>;
+export type DeleteYesWeScanServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    DeleteYesWeScanServiceByIdMutation,
+    DeleteYesWeScanServiceByIdMutationVariables
+  >;
+export const GetChannelTypeByIdDocument = gql`
+  query getChannelTypeById($channelTypeId: ID) {
+    channelType(id: $channelTypeId) {
+      data {
+        id
+        attributes {
+          hasWebApp
+          hasWebSite
+          hasYesWeScan
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetChannelTypeByIdQuery__
+ *
+ * To run a query within a React component, call `useGetChannelTypeByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChannelTypeByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChannelTypeByIdQuery({
+ *   variables: {
+ *      channelTypeId: // value for 'channelTypeId'
+ *   },
+ * });
+ */
+export function useGetChannelTypeByIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetChannelTypeByIdQuery,
+    GetChannelTypeByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetChannelTypeByIdQuery,
+    GetChannelTypeByIdQueryVariables
+  >(GetChannelTypeByIdDocument, options);
+}
+export function useGetChannelTypeByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetChannelTypeByIdQuery,
+    GetChannelTypeByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetChannelTypeByIdQuery,
+    GetChannelTypeByIdQueryVariables
+  >(GetChannelTypeByIdDocument, options);
+}
+export type GetChannelTypeByIdQueryHookResult = ReturnType<
+  typeof useGetChannelTypeByIdQuery
+>;
+export type GetChannelTypeByIdLazyQueryHookResult = ReturnType<
+  typeof useGetChannelTypeByIdLazyQuery
+>;
+export type GetChannelTypeByIdQueryResult = Apollo.QueryResult<
+  GetChannelTypeByIdQuery,
+  GetChannelTypeByIdQueryVariables
+>;
+export const UpdateChannelTypeByIdDocument = gql`
+  mutation updateChannelTypeById(
+    $updateChannelTypeId: ID!
+    $data: ChannelTypeInput!
+  ) {
+    updateChannelType(id: $updateChannelTypeId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateChannelTypeByIdMutationFn = Apollo.MutationFunction<
+  UpdateChannelTypeByIdMutation,
+  UpdateChannelTypeByIdMutationVariables
+>;
+
+/**
+ * __useUpdateChannelTypeByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateChannelTypeByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateChannelTypeByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateChannelTypeByIdMutation, { data, loading, error }] = useUpdateChannelTypeByIdMutation({
+ *   variables: {
+ *      updateChannelTypeId: // value for 'updateChannelTypeId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateChannelTypeByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateChannelTypeByIdMutation,
+    UpdateChannelTypeByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateChannelTypeByIdMutation,
+    UpdateChannelTypeByIdMutationVariables
+  >(UpdateChannelTypeByIdDocument, options);
+}
+export type UpdateChannelTypeByIdMutationHookResult = ReturnType<
+  typeof useUpdateChannelTypeByIdMutation
+>;
+export type UpdateChannelTypeByIdMutationResult =
+  Apollo.MutationResult<UpdateChannelTypeByIdMutation>;
+export type UpdateChannelTypeByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateChannelTypeByIdMutation,
+  UpdateChannelTypeByIdMutationVariables
+>;
+export const UpdateRecyclingGuideServiceByIdDocument = gql`
+  mutation updateRecyclingGuideServiceById(
+    $id: ID!
+    $data: RecyclingGuideServiceInput!
+  ) {
+    updateRecyclingGuideService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateRecyclingGuideServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateRecyclingGuideServiceByIdMutation,
+  UpdateRecyclingGuideServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateRecyclingGuideServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateRecyclingGuideServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRecyclingGuideServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRecyclingGuideServiceByIdMutation, { data, loading, error }] = useUpdateRecyclingGuideServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRecyclingGuideServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRecyclingGuideServiceByIdMutation,
+    UpdateRecyclingGuideServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateRecyclingGuideServiceByIdMutation,
+    UpdateRecyclingGuideServiceByIdMutationVariables
+  >(UpdateRecyclingGuideServiceByIdDocument, options);
+}
+export type UpdateRecyclingGuideServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateRecyclingGuideServiceByIdMutation
+>;
+export type UpdateRecyclingGuideServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateRecyclingGuideServiceByIdMutation>;
+export type UpdateRecyclingGuideServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateRecyclingGuideServiceByIdMutation,
+    UpdateRecyclingGuideServiceByIdMutationVariables
+  >;
+export const UpdatePickUpDayServiceByIdDocument = gql`
+  mutation updatePickUpDayServiceById($id: ID!, $data: PickUpDayServiceInput!) {
+    updatePickUpDayService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdatePickUpDayServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdatePickUpDayServiceByIdMutation,
+  UpdatePickUpDayServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdatePickUpDayServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdatePickUpDayServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePickUpDayServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePickUpDayServiceByIdMutation, { data, loading, error }] = useUpdatePickUpDayServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdatePickUpDayServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdatePickUpDayServiceByIdMutation,
+    UpdatePickUpDayServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdatePickUpDayServiceByIdMutation,
+    UpdatePickUpDayServiceByIdMutationVariables
+  >(UpdatePickUpDayServiceByIdDocument, options);
+}
+export type UpdatePickUpDayServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdatePickUpDayServiceByIdMutation
+>;
+export type UpdatePickUpDayServiceByIdMutationResult =
+  Apollo.MutationResult<UpdatePickUpDayServiceByIdMutation>;
+export type UpdatePickUpDayServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdatePickUpDayServiceByIdMutation,
+    UpdatePickUpDayServiceByIdMutationVariables
+  >;
+export const UpdateRequestServiceByIdDocument = gql`
+  mutation updateRequestServiceById($id: ID!, $data: RequestServiceInput!) {
+    updateRequestService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateRequestServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateRequestServiceByIdMutation,
+  UpdateRequestServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateRequestServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateRequestServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRequestServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRequestServiceByIdMutation, { data, loading, error }] = useUpdateRequestServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRequestServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRequestServiceByIdMutation,
+    UpdateRequestServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateRequestServiceByIdMutation,
+    UpdateRequestServiceByIdMutationVariables
+  >(UpdateRequestServiceByIdDocument, options);
+}
+export type UpdateRequestServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateRequestServiceByIdMutation
+>;
+export type UpdateRequestServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateRequestServiceByIdMutation>;
+export type UpdateRequestServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateRequestServiceByIdMutation,
+    UpdateRequestServiceByIdMutationVariables
+  >;
+export const UpdateDropOffMapServiceByIdDocument = gql`
+  mutation updateDropOffMapServiceById(
+    $id: ID!
+    $data: DropOffMapServiceInput!
+  ) {
+    updateDropOffMapService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateDropOffMapServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateDropOffMapServiceByIdMutation,
+  UpdateDropOffMapServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateDropOffMapServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateDropOffMapServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDropOffMapServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDropOffMapServiceByIdMutation, { data, loading, error }] = useUpdateDropOffMapServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateDropOffMapServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateDropOffMapServiceByIdMutation,
+    UpdateDropOffMapServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateDropOffMapServiceByIdMutation,
+    UpdateDropOffMapServiceByIdMutationVariables
+  >(UpdateDropOffMapServiceByIdDocument, options);
+}
+export type UpdateDropOffMapServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateDropOffMapServiceByIdMutation
+>;
+export type UpdateDropOffMapServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateDropOffMapServiceByIdMutation>;
+export type UpdateDropOffMapServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateDropOffMapServiceByIdMutation,
+    UpdateDropOffMapServiceByIdMutationVariables
+  >;
+export const UpdateAlertNotificationServiceByIdDocument = gql`
+  mutation updateAlertNotificationServiceById(
+    $id: ID!
+    $data: AlertNotificationServiceInput!
+  ) {
+    updateAlertNotificationService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateAlertNotificationServiceByIdMutationFn =
+  Apollo.MutationFunction<
+    UpdateAlertNotificationServiceByIdMutation,
+    UpdateAlertNotificationServiceByIdMutationVariables
+  >;
+
+/**
+ * __useUpdateAlertNotificationServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateAlertNotificationServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAlertNotificationServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAlertNotificationServiceByIdMutation, { data, loading, error }] = useUpdateAlertNotificationServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateAlertNotificationServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateAlertNotificationServiceByIdMutation,
+    UpdateAlertNotificationServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateAlertNotificationServiceByIdMutation,
+    UpdateAlertNotificationServiceByIdMutationVariables
+  >(UpdateAlertNotificationServiceByIdDocument, options);
+}
+export type UpdateAlertNotificationServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateAlertNotificationServiceByIdMutation
+>;
+export type UpdateAlertNotificationServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateAlertNotificationServiceByIdMutation>;
+export type UpdateAlertNotificationServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateAlertNotificationServiceByIdMutation,
+    UpdateAlertNotificationServiceByIdMutationVariables
+  >;
+export const UpdateEventServiceByIdDocument = gql`
+  mutation updateEventServiceById($id: ID!, $data: EventSubServiceInput!) {
+    updateEventSubService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateEventServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateEventServiceByIdMutation,
+  UpdateEventServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateEventServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventServiceByIdMutation, { data, loading, error }] = useUpdateEventServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateEventServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEventServiceByIdMutation,
+    UpdateEventServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateEventServiceByIdMutation,
+    UpdateEventServiceByIdMutationVariables
+  >(UpdateEventServiceByIdDocument, options);
+}
+export type UpdateEventServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateEventServiceByIdMutation
+>;
+export type UpdateEventServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateEventServiceByIdMutation>;
+export type UpdateEventServiceByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEventServiceByIdMutation,
+  UpdateEventServiceByIdMutationVariables
+>;
+export const UpdateFreeContentServiceByIdDocument = gql`
+  mutation updateFreeContentServiceById(
+    $id: ID!
+    $data: FreeContentSubServiceInput!
+  ) {
+    updateFreeContentSubService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateFreeContentServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateFreeContentServiceByIdMutation,
+  UpdateFreeContentServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateFreeContentServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateFreeContentServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFreeContentServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFreeContentServiceByIdMutation, { data, loading, error }] = useUpdateFreeContentServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateFreeContentServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateFreeContentServiceByIdMutation,
+    UpdateFreeContentServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateFreeContentServiceByIdMutation,
+    UpdateFreeContentServiceByIdMutationVariables
+  >(UpdateFreeContentServiceByIdDocument, options);
+}
+export type UpdateFreeContentServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateFreeContentServiceByIdMutation
+>;
+export type UpdateFreeContentServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateFreeContentServiceByIdMutation>;
+export type UpdateFreeContentServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateFreeContentServiceByIdMutation,
+    UpdateFreeContentServiceByIdMutationVariables
+  >;
+export const UpdateNewsServiceByIdDocument = gql`
+  mutation updateNewsServiceById($id: ID!, $data: NewsSubServiceInput!) {
+    updateNewsSubService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateNewsServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateNewsServiceByIdMutation,
+  UpdateNewsServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateNewsServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateNewsServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateNewsServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateNewsServiceByIdMutation, { data, loading, error }] = useUpdateNewsServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateNewsServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateNewsServiceByIdMutation,
+    UpdateNewsServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateNewsServiceByIdMutation,
+    UpdateNewsServiceByIdMutationVariables
+  >(UpdateNewsServiceByIdDocument, options);
+}
+export type UpdateNewsServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateNewsServiceByIdMutation
+>;
+export type UpdateNewsServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateNewsServiceByIdMutation>;
+export type UpdateNewsServiceByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateNewsServiceByIdMutation,
+  UpdateNewsServiceByIdMutationVariables
+>;
+export const UpdateQuizServiceByIdDocument = gql`
+  mutation updateQuizServiceById($id: ID!, $data: QuizSubServiceInput!) {
+    updateQuizSubService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateQuizServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateQuizServiceByIdMutation,
+  UpdateQuizServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateQuizServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateQuizServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateQuizServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateQuizServiceByIdMutation, { data, loading, error }] = useUpdateQuizServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateQuizServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateQuizServiceByIdMutation,
+    UpdateQuizServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateQuizServiceByIdMutation,
+    UpdateQuizServiceByIdMutationVariables
+  >(UpdateQuizServiceByIdDocument, options);
+}
+export type UpdateQuizServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateQuizServiceByIdMutation
+>;
+export type UpdateQuizServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateQuizServiceByIdMutation>;
+export type UpdateQuizServiceByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateQuizServiceByIdMutation,
+  UpdateQuizServiceByIdMutationVariables
+>;
+export const UpdateTipServiceByIdDocument = gql`
+  mutation updateTipServiceById($id: ID!, $data: TipSubServiceInput!) {
+    updateTipSubService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateTipServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateTipServiceByIdMutation,
+  UpdateTipServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateTipServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateTipServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTipServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTipServiceByIdMutation, { data, loading, error }] = useUpdateTipServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateTipServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTipServiceByIdMutation,
+    UpdateTipServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateTipServiceByIdMutation,
+    UpdateTipServiceByIdMutationVariables
+  >(UpdateTipServiceByIdDocument, options);
+}
+export type UpdateTipServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateTipServiceByIdMutation
+>;
+export type UpdateTipServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateTipServiceByIdMutation>;
+export type UpdateTipServiceByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTipServiceByIdMutation,
+  UpdateTipServiceByIdMutationVariables
+>;
+export const UpdateContactUsServiceByIdDocument = gql`
+  mutation updateContactUsServiceById(
+    $id: ID!
+    $data: ContactUsSubServiceInput!
+  ) {
+    updateContactUsSubService(id: $id, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateContactUsServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateContactUsServiceByIdMutation,
+  UpdateContactUsServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateContactUsServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateContactUsServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContactUsServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContactUsServiceByIdMutation, { data, loading, error }] = useUpdateContactUsServiceByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateContactUsServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateContactUsServiceByIdMutation,
+    UpdateContactUsServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateContactUsServiceByIdMutation,
+    UpdateContactUsServiceByIdMutationVariables
+  >(UpdateContactUsServiceByIdDocument, options);
+}
+export type UpdateContactUsServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateContactUsServiceByIdMutation
+>;
+export type UpdateContactUsServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateContactUsServiceByIdMutation>;
+export type UpdateContactUsServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateContactUsServiceByIdMutation,
+    UpdateContactUsServiceByIdMutationVariables
+  >;
+export const UpdateYesWeScanServiceByIdDocument = gql`
+  mutation updateYesWeScanServiceById(
+    $updateYesWeScanServiceId: ID!
+    $data: YesWeScanServiceInput!
+  ) {
+    updateYesWeScanService(id: $updateYesWeScanServiceId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateYesWeScanServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateYesWeScanServiceByIdMutation,
+  UpdateYesWeScanServiceByIdMutationVariables
+>;
+
+/**
+ * __useUpdateYesWeScanServiceByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateYesWeScanServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateYesWeScanServiceByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateYesWeScanServiceByIdMutation, { data, loading, error }] = useUpdateYesWeScanServiceByIdMutation({
+ *   variables: {
+ *      updateYesWeScanServiceId: // value for 'updateYesWeScanServiceId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateYesWeScanServiceByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateYesWeScanServiceByIdMutation,
+    UpdateYesWeScanServiceByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateYesWeScanServiceByIdMutation,
+    UpdateYesWeScanServiceByIdMutationVariables
+  >(UpdateYesWeScanServiceByIdDocument, options);
+}
+export type UpdateYesWeScanServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateYesWeScanServiceByIdMutation
+>;
+export type UpdateYesWeScanServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateYesWeScanServiceByIdMutation>;
+export type UpdateYesWeScanServiceByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateYesWeScanServiceByIdMutation,
+    UpdateYesWeScanServiceByIdMutationVariables
+  >;
+export const YwsActivationDocument = gql`
+  mutation ywsActivation($contractId: ID!) {
+    ywsActivation(contractId: $contractId) {
+      id
+    }
+  }
+`;
+export type YwsActivationMutationFn = Apollo.MutationFunction<
+  YwsActivationMutation,
+  YwsActivationMutationVariables
+>;
+
+/**
+ * __useYwsActivationMutation__
+ *
+ * To run a mutation, you first call `useYwsActivationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useYwsActivationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [ywsActivationMutation, { data, loading, error }] = useYwsActivationMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useYwsActivationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    YwsActivationMutation,
+    YwsActivationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    YwsActivationMutation,
+    YwsActivationMutationVariables
+  >(YwsActivationDocument, options);
+}
+export type YwsActivationMutationHookResult = ReturnType<
+  typeof useYwsActivationMutation
+>;
+export type YwsActivationMutationResult =
+  Apollo.MutationResult<YwsActivationMutation>;
+export type YwsActivationMutationOptions = Apollo.BaseMutationOptions<
+  YwsActivationMutation,
+  YwsActivationMutationVariables
+>;
+export const YwsDeactivationDocument = gql`
+  mutation ywsDeactivation($contractId: ID!) {
+    ywsDeactivation(contractId: $contractId) {
+      id
+    }
+  }
+`;
+export type YwsDeactivationMutationFn = Apollo.MutationFunction<
+  YwsDeactivationMutation,
+  YwsDeactivationMutationVariables
+>;
+
+/**
+ * __useYwsDeactivationMutation__
+ *
+ * To run a mutation, you first call `useYwsDeactivationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useYwsDeactivationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [ywsDeactivationMutation, { data, loading, error }] = useYwsDeactivationMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useYwsDeactivationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    YwsDeactivationMutation,
+    YwsDeactivationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    YwsDeactivationMutation,
+    YwsDeactivationMutationVariables
+  >(YwsDeactivationDocument, options);
+}
+export type YwsDeactivationMutationHookResult = ReturnType<
+  typeof useYwsDeactivationMutation
+>;
+export type YwsDeactivationMutationResult =
+  Apollo.MutationResult<YwsDeactivationMutation>;
+export type YwsDeactivationMutationOptions = Apollo.BaseMutationOptions<
+  YwsDeactivationMutation,
+  YwsDeactivationMutationVariables
+>;
+export const CreateCityDocument = gql`
+  mutation createCity($data: CityInput!) {
+    createCity(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type CreateCityMutationFn = Apollo.MutationFunction<
+  CreateCityMutation,
+  CreateCityMutationVariables
+>;
+
+/**
+ * __useCreateCityMutation__
+ *
+ * To run a mutation, you first call `useCreateCityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCityMutation, { data, loading, error }] = useCreateCityMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateCityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateCityMutation,
+    CreateCityMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateCityMutation, CreateCityMutationVariables>(
+    CreateCityDocument,
+    options,
+  );
+}
+export type CreateCityMutationHookResult = ReturnType<
+  typeof useCreateCityMutation
+>;
+export type CreateCityMutationResult =
+  Apollo.MutationResult<CreateCityMutation>;
+export type CreateCityMutationOptions = Apollo.BaseMutationOptions<
+  CreateCityMutation,
+  CreateCityMutationVariables
+>;
+export const DeleteCityByIdDocument = gql`
+  mutation deleteCityById($cityId: ID!) {
+    deleteCity(id: $cityId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteCityByIdMutationFn = Apollo.MutationFunction<
+  DeleteCityByIdMutation,
+  DeleteCityByIdMutationVariables
+>;
+
+/**
+ * __useDeleteCityByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteCityByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCityByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCityByIdMutation, { data, loading, error }] = useDeleteCityByIdMutation({
+ *   variables: {
+ *      cityId: // value for 'cityId'
+ *   },
+ * });
+ */
+export function useDeleteCityByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteCityByIdMutation,
+    DeleteCityByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteCityByIdMutation,
+    DeleteCityByIdMutationVariables
+  >(DeleteCityByIdDocument, options);
+}
+export type DeleteCityByIdMutationHookResult = ReturnType<
+  typeof useDeleteCityByIdMutation
+>;
+export type DeleteCityByIdMutationResult =
+  Apollo.MutationResult<DeleteCityByIdMutation>;
+export type DeleteCityByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteCityByIdMutation,
+  DeleteCityByIdMutationVariables
+>;
+export const GetCitiesInformationsDocument = gql`
+  query getCitiesInformations($searchTerm: String!) {
+    getCitiesInformations(searchTerm: $searchTerm, prehome: false) {
+      name
+      postalCode
+      department {
+        code
+        name
+      }
+      region {
+        code
+        name
+      }
+      insee
+      siren
+    }
+  }
+`;
+
+/**
+ * __useGetCitiesInformationsQuery__
+ *
+ * To run a query within a React component, call `useGetCitiesInformationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCitiesInformationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCitiesInformationsQuery({
+ *   variables: {
+ *      searchTerm: // value for 'searchTerm'
+ *   },
+ * });
+ */
+export function useGetCitiesInformationsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetCitiesInformationsQuery,
+    GetCitiesInformationsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetCitiesInformationsQuery,
+    GetCitiesInformationsQueryVariables
+  >(GetCitiesInformationsDocument, options);
+}
+export function useGetCitiesInformationsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCitiesInformationsQuery,
+    GetCitiesInformationsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetCitiesInformationsQuery,
+    GetCitiesInformationsQueryVariables
+  >(GetCitiesInformationsDocument, options);
+}
+export type GetCitiesInformationsQueryHookResult = ReturnType<
+  typeof useGetCitiesInformationsQuery
+>;
+export type GetCitiesInformationsLazyQueryHookResult = ReturnType<
+  typeof useGetCitiesInformationsLazyQuery
+>;
+export type GetCitiesInformationsQueryResult = Apollo.QueryResult<
+  GetCitiesInformationsQuery,
+  GetCitiesInformationsQueryVariables
+>;
+export const GetContractCitiesByContractIdDocument = gql`
+  query getContractCitiesByContractId(
+    $contractId: ID!
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    cities(
+      filters: { territories: { contract: { id: { eq: $contractId } } } }
+      pagination: $pagination
+      sort: $sort
+    ) {
+      data {
+        id
+        attributes {
+          name
+          insee
+          siren
+          postalCode
+          department
+          region
+        }
+      }
+      meta {
+        pagination {
+          total
+          page
+          pageSize
+          pageCount
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetContractCitiesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetContractCitiesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContractCitiesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContractCitiesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetContractCitiesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetContractCitiesByContractIdQuery,
+    GetContractCitiesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetContractCitiesByContractIdQuery,
+    GetContractCitiesByContractIdQueryVariables
+  >(GetContractCitiesByContractIdDocument, options);
+}
+export function useGetContractCitiesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetContractCitiesByContractIdQuery,
+    GetContractCitiesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetContractCitiesByContractIdQuery,
+    GetContractCitiesByContractIdQueryVariables
+  >(GetContractCitiesByContractIdDocument, options);
+}
+export type GetContractCitiesByContractIdQueryHookResult = ReturnType<
+  typeof useGetContractCitiesByContractIdQuery
+>;
+export type GetContractCitiesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetContractCitiesByContractIdLazyQuery
+>;
+export type GetContractCitiesByContractIdQueryResult = Apollo.QueryResult<
+  GetContractCitiesByContractIdQuery,
+  GetContractCitiesByContractIdQueryVariables
+>;
+export const GetTerritoriesByContractIdDocument = gql`
+  query getTerritoriesByContractId($contractId: ID!) {
+    territories(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          numberOfInhabitants
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTerritoriesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetTerritoriesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTerritoriesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTerritoriesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetTerritoriesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTerritoriesByContractIdQuery,
+    GetTerritoriesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetTerritoriesByContractIdQuery,
+    GetTerritoriesByContractIdQueryVariables
+  >(GetTerritoriesByContractIdDocument, options);
+}
+export function useGetTerritoriesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTerritoriesByContractIdQuery,
+    GetTerritoriesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetTerritoriesByContractIdQuery,
+    GetTerritoriesByContractIdQueryVariables
+  >(GetTerritoriesByContractIdDocument, options);
+}
+export type GetTerritoriesByContractIdQueryHookResult = ReturnType<
+  typeof useGetTerritoriesByContractIdQuery
+>;
+export type GetTerritoriesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetTerritoriesByContractIdLazyQuery
+>;
+export type GetTerritoriesByContractIdQueryResult = Apollo.QueryResult<
+  GetTerritoriesByContractIdQuery,
+  GetTerritoriesByContractIdQueryVariables
+>;
+export const ImportMunicipalitiesByContractIdDocument = gql`
+  mutation importMunicipalitiesByContractId($contractId: ID!, $file: String!) {
+    importMunicipalities(contractId: $contractId, file: $file)
+  }
+`;
+export type ImportMunicipalitiesByContractIdMutationFn =
+  Apollo.MutationFunction<
+    ImportMunicipalitiesByContractIdMutation,
+    ImportMunicipalitiesByContractIdMutationVariables
+  >;
+
+/**
+ * __useImportMunicipalitiesByContractIdMutation__
+ *
+ * To run a mutation, you first call `useImportMunicipalitiesByContractIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportMunicipalitiesByContractIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importMunicipalitiesByContractIdMutation, { data, loading, error }] = useImportMunicipalitiesByContractIdMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useImportMunicipalitiesByContractIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ImportMunicipalitiesByContractIdMutation,
+    ImportMunicipalitiesByContractIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ImportMunicipalitiesByContractIdMutation,
+    ImportMunicipalitiesByContractIdMutationVariables
+  >(ImportMunicipalitiesByContractIdDocument, options);
+}
+export type ImportMunicipalitiesByContractIdMutationHookResult = ReturnType<
+  typeof useImportMunicipalitiesByContractIdMutation
+>;
+export type ImportMunicipalitiesByContractIdMutationResult =
+  Apollo.MutationResult<ImportMunicipalitiesByContractIdMutation>;
+export type ImportMunicipalitiesByContractIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    ImportMunicipalitiesByContractIdMutation,
+    ImportMunicipalitiesByContractIdMutationVariables
+  >;
+export const ImportSirenByContractIdDocument = gql`
+  mutation importSirenByContractId($contractId: ID!, $file: String!) {
+    importSiren(contractId: $contractId, file: $file)
+  }
+`;
+export type ImportSirenByContractIdMutationFn = Apollo.MutationFunction<
+  ImportSirenByContractIdMutation,
+  ImportSirenByContractIdMutationVariables
+>;
+
+/**
+ * __useImportSirenByContractIdMutation__
+ *
+ * To run a mutation, you first call `useImportSirenByContractIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportSirenByContractIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importSirenByContractIdMutation, { data, loading, error }] = useImportSirenByContractIdMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useImportSirenByContractIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ImportSirenByContractIdMutation,
+    ImportSirenByContractIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ImportSirenByContractIdMutation,
+    ImportSirenByContractIdMutationVariables
+  >(ImportSirenByContractIdDocument, options);
+}
+export type ImportSirenByContractIdMutationHookResult = ReturnType<
+  typeof useImportSirenByContractIdMutation
+>;
+export type ImportSirenByContractIdMutationResult =
+  Apollo.MutationResult<ImportSirenByContractIdMutation>;
+export type ImportSirenByContractIdMutationOptions = Apollo.BaseMutationOptions<
+  ImportSirenByContractIdMutation,
+  ImportSirenByContractIdMutationVariables
+>;
+export const UpdateCityByIdDocument = gql`
+  mutation updateCityById($cityId: ID!, $data: CityInput!) {
+    updateCity(id: $cityId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateCityByIdMutationFn = Apollo.MutationFunction<
+  UpdateCityByIdMutation,
+  UpdateCityByIdMutationVariables
+>;
+
+/**
+ * __useUpdateCityByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateCityByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCityByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCityByIdMutation, { data, loading, error }] = useUpdateCityByIdMutation({
+ *   variables: {
+ *      cityId: // value for 'cityId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateCityByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCityByIdMutation,
+    UpdateCityByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateCityByIdMutation,
+    UpdateCityByIdMutationVariables
+  >(UpdateCityByIdDocument, options);
+}
+export type UpdateCityByIdMutationHookResult = ReturnType<
+  typeof useUpdateCityByIdMutation
+>;
+export type UpdateCityByIdMutationResult =
+  Apollo.MutationResult<UpdateCityByIdMutation>;
+export type UpdateCityByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCityByIdMutation,
+  UpdateCityByIdMutationVariables
+>;
+export const UpdateTerritoryByIdDocument = gql`
+  mutation updateTerritoryById(
+    $updateTerritoryId: ID!
+    $data: TerritoryInput!
+  ) {
+    updateTerritory(id: $updateTerritoryId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateTerritoryByIdMutationFn = Apollo.MutationFunction<
+  UpdateTerritoryByIdMutation,
+  UpdateTerritoryByIdMutationVariables
+>;
+
+/**
+ * __useUpdateTerritoryByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateTerritoryByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTerritoryByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTerritoryByIdMutation, { data, loading, error }] = useUpdateTerritoryByIdMutation({
+ *   variables: {
+ *      updateTerritoryId: // value for 'updateTerritoryId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateTerritoryByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTerritoryByIdMutation,
+    UpdateTerritoryByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateTerritoryByIdMutation,
+    UpdateTerritoryByIdMutationVariables
+  >(UpdateTerritoryByIdDocument, options);
+}
+export type UpdateTerritoryByIdMutationHookResult = ReturnType<
+  typeof useUpdateTerritoryByIdMutation
+>;
+export type UpdateTerritoryByIdMutationResult =
+  Apollo.MutationResult<UpdateTerritoryByIdMutation>;
+export type UpdateTerritoryByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTerritoryByIdMutation,
+  UpdateTerritoryByIdMutationVariables
+>;
 export const GetActiveServicesByContractIdDocument = gql`
   query getActiveServicesByContractId($contractId: ID!) {
     editorialServices(filters: { contract: { id: { eq: $contractId } } }) {
@@ -24493,6 +26957,7 @@ export const GetContractByIdDocument = gql`
               attributes {
                 hasWebApp
                 hasWebSite
+                hasYesWeScan
               }
             }
           }
@@ -24527,6 +26992,8 @@ export const GetContractByIdDocument = gql`
                     attributes {
                       name
                       isActivated
+                      startDate
+                      endDate
                     }
                   }
                 }
@@ -24536,6 +27003,8 @@ export const GetContractByIdDocument = gql`
                     attributes {
                       name
                       isActivated
+                      startDate
+                      endDate
                     }
                   }
                 }
@@ -24545,6 +27014,8 @@ export const GetContractByIdDocument = gql`
                     attributes {
                       name
                       isActivated
+                      startDate
+                      endDate
                     }
                   }
                 }
@@ -24554,6 +27025,8 @@ export const GetContractByIdDocument = gql`
                     attributes {
                       name
                       isActivated
+                      startDate
+                      endDate
                     }
                   }
                 }
@@ -24563,9 +27036,58 @@ export const GetContractByIdDocument = gql`
                     attributes {
                       name
                       isActivated
+                      startDate
+                      endDate
                     }
                   }
                 }
+                contactUsSubService {
+                  data {
+                    id
+                    attributes {
+                      label
+                      name
+                      isActivated
+                      startDate
+                      endDate
+                    }
+                  }
+                }
+                cookiesSubService {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+                cguSubService {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+                confidentialitySubService {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
+          alertNotificationService {
+            data {
+              id
+              attributes {
+                name
+                isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -24576,6 +27098,8 @@ export const GetContractByIdDocument = gql`
                 name
                 isActivated
                 memoName
+                startDate
+                endDate
               }
             }
           }
@@ -24585,6 +27109,8 @@ export const GetContractByIdDocument = gql`
               attributes {
                 name
                 isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -24594,6 +27120,8 @@ export const GetContractByIdDocument = gql`
               attributes {
                 name
                 isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -24603,6 +27131,19 @@ export const GetContractByIdDocument = gql`
               attributes {
                 name
                 isActivated
+                startDate
+                endDate
+              }
+            }
+          }
+          yesWeScanServices {
+            data {
+              id
+              attributes {
+                startDate
+                endDate
+                serviceName
+                shortName
               }
             }
           }
@@ -31940,78 +34481,6 @@ export type GetRecyclingGuideServicesByContractIdQueryResult =
     GetRecyclingGuideServicesByContractIdQuery,
     GetRecyclingGuideServicesByContractIdQueryVariables
   >;
-export const UpdateRecyclingGuideServiceByIdDocument = gql`
-  mutation updateRecyclingGuideServiceById(
-    $updateRecyclingGuideServiceId: ID!
-    $data: RecyclingGuideServiceInput!
-  ) {
-    updateRecyclingGuideService(
-      id: $updateRecyclingGuideServiceId
-      data: $data
-    ) {
-      data {
-        id
-        attributes {
-          name
-          orderExtension
-          isActivated
-          memoName
-          memoDesc
-          memoFile {
-            data {
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-export type UpdateRecyclingGuideServiceByIdMutationFn = Apollo.MutationFunction<
-  UpdateRecyclingGuideServiceByIdMutation,
-  UpdateRecyclingGuideServiceByIdMutationVariables
->;
-
-/**
- * __useUpdateRecyclingGuideServiceByIdMutation__
- *
- * To run a mutation, you first call `useUpdateRecyclingGuideServiceByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateRecyclingGuideServiceByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateRecyclingGuideServiceByIdMutation, { data, loading, error }] = useUpdateRecyclingGuideServiceByIdMutation({
- *   variables: {
- *      updateRecyclingGuideServiceId: // value for 'updateRecyclingGuideServiceId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateRecyclingGuideServiceByIdMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateRecyclingGuideServiceByIdMutation,
-    UpdateRecyclingGuideServiceByIdMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateRecyclingGuideServiceByIdMutation,
-    UpdateRecyclingGuideServiceByIdMutationVariables
-  >(UpdateRecyclingGuideServiceByIdDocument, options);
-}
-export type UpdateRecyclingGuideServiceByIdMutationHookResult = ReturnType<
-  typeof useUpdateRecyclingGuideServiceByIdMutation
->;
-export type UpdateRecyclingGuideServiceByIdMutationResult =
-  Apollo.MutationResult<UpdateRecyclingGuideServiceByIdMutation>;
-export type UpdateRecyclingGuideServiceByIdMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateRecyclingGuideServiceByIdMutation,
-    UpdateRecyclingGuideServiceByIdMutationVariables
-  >;
 export const CreateInformationMessageDocument = gql`
   mutation createInformationMessage($data: InformationMessageInput!) {
     createInformationMessage(data: $data) {
@@ -33286,4 +35755,411 @@ export type UpdatePickUpDayByIdMutationResult =
 export type UpdatePickUpDayByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdatePickUpDayByIdMutation,
   UpdatePickUpDayByIdMutationVariables
+>;
+export const CreateYesWeScanFormDocument = gql`
+  mutation createYesWeScanForm($data: YesWeScanFormInput!) {
+    createYesWeScanForm(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type CreateYesWeScanFormMutationFn = Apollo.MutationFunction<
+  CreateYesWeScanFormMutation,
+  CreateYesWeScanFormMutationVariables
+>;
+
+/**
+ * __useCreateYesWeScanFormMutation__
+ *
+ * To run a mutation, you first call `useCreateYesWeScanFormMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateYesWeScanFormMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createYesWeScanFormMutation, { data, loading, error }] = useCreateYesWeScanFormMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateYesWeScanFormMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateYesWeScanFormMutation,
+    CreateYesWeScanFormMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateYesWeScanFormMutation,
+    CreateYesWeScanFormMutationVariables
+  >(CreateYesWeScanFormDocument, options);
+}
+export type CreateYesWeScanFormMutationHookResult = ReturnType<
+  typeof useCreateYesWeScanFormMutation
+>;
+export type CreateYesWeScanFormMutationResult =
+  Apollo.MutationResult<CreateYesWeScanFormMutation>;
+export type CreateYesWeScanFormMutationOptions = Apollo.BaseMutationOptions<
+  CreateYesWeScanFormMutation,
+  CreateYesWeScanFormMutationVariables
+>;
+export const GetYesWeScanFormByIdDocument = gql`
+  query getYesWeScanFormById($ywsFormId: ID!) {
+    yesWeScanForm(id: $ywsFormId) {
+      data {
+        id
+        attributes {
+          logo {
+            data {
+              id
+              attributes {
+                name
+                alternativeText
+                caption
+                width
+                height
+                formats
+                hash
+                ext
+                mime
+                size
+                url
+                previewUrl
+                provider
+                provider_metadata
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          reportButtons
+          pictureStatus
+          thankYouMessage
+          displayEndingButton
+          endingButtonIntroduction
+          endingButtonLabel
+          endingButtonLink
+          hasEmail
+          hasTsms
+          mailRecipients
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetYesWeScanFormByIdQuery__
+ *
+ * To run a query within a React component, call `useGetYesWeScanFormByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYesWeScanFormByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetYesWeScanFormByIdQuery({
+ *   variables: {
+ *      ywsFormId: // value for 'ywsFormId'
+ *   },
+ * });
+ */
+export function useGetYesWeScanFormByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetYesWeScanFormByIdQuery,
+    GetYesWeScanFormByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetYesWeScanFormByIdQuery,
+    GetYesWeScanFormByIdQueryVariables
+  >(GetYesWeScanFormByIdDocument, options);
+}
+export function useGetYesWeScanFormByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetYesWeScanFormByIdQuery,
+    GetYesWeScanFormByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetYesWeScanFormByIdQuery,
+    GetYesWeScanFormByIdQueryVariables
+  >(GetYesWeScanFormByIdDocument, options);
+}
+export type GetYesWeScanFormByIdQueryHookResult = ReturnType<
+  typeof useGetYesWeScanFormByIdQuery
+>;
+export type GetYesWeScanFormByIdLazyQueryHookResult = ReturnType<
+  typeof useGetYesWeScanFormByIdLazyQuery
+>;
+export type GetYesWeScanFormByIdQueryResult = Apollo.QueryResult<
+  GetYesWeScanFormByIdQuery,
+  GetYesWeScanFormByIdQueryVariables
+>;
+export const GetYesWeScanQrCodesByServiceIdDocument = gql`
+  query getYesWeScanQrCodesByServiceId($ywsServiceId: ID!) {
+    yesWeScanQrCodes(
+      filters: { yesWeScanService: { id: { eq: $ywsServiceId } } }
+    ) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetYesWeScanQrCodesByServiceIdQuery__
+ *
+ * To run a query within a React component, call `useGetYesWeScanQrCodesByServiceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYesWeScanQrCodesByServiceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetYesWeScanQrCodesByServiceIdQuery({
+ *   variables: {
+ *      ywsServiceId: // value for 'ywsServiceId'
+ *   },
+ * });
+ */
+export function useGetYesWeScanQrCodesByServiceIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetYesWeScanQrCodesByServiceIdQuery,
+    GetYesWeScanQrCodesByServiceIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetYesWeScanQrCodesByServiceIdQuery,
+    GetYesWeScanQrCodesByServiceIdQueryVariables
+  >(GetYesWeScanQrCodesByServiceIdDocument, options);
+}
+export function useGetYesWeScanQrCodesByServiceIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetYesWeScanQrCodesByServiceIdQuery,
+    GetYesWeScanQrCodesByServiceIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetYesWeScanQrCodesByServiceIdQuery,
+    GetYesWeScanQrCodesByServiceIdQueryVariables
+  >(GetYesWeScanQrCodesByServiceIdDocument, options);
+}
+export type GetYesWeScanQrCodesByServiceIdQueryHookResult = ReturnType<
+  typeof useGetYesWeScanQrCodesByServiceIdQuery
+>;
+export type GetYesWeScanQrCodesByServiceIdLazyQueryHookResult = ReturnType<
+  typeof useGetYesWeScanQrCodesByServiceIdLazyQuery
+>;
+export type GetYesWeScanQrCodesByServiceIdQueryResult = Apollo.QueryResult<
+  GetYesWeScanQrCodesByServiceIdQuery,
+  GetYesWeScanQrCodesByServiceIdQueryVariables
+>;
+export const GetYesWeScanServiceByIdDocument = gql`
+  query getYesWeScanServiceById($serviceId: ID!) {
+    yesWeScanService(id: $serviceId) {
+      data {
+        id
+        attributes {
+          startDate
+          endDate
+          serviceName
+          shortName
+          yesWeScanForm {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetYesWeScanServiceByIdQuery__
+ *
+ * To run a query within a React component, call `useGetYesWeScanServiceByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYesWeScanServiceByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetYesWeScanServiceByIdQuery({
+ *   variables: {
+ *      serviceId: // value for 'serviceId'
+ *   },
+ * });
+ */
+export function useGetYesWeScanServiceByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetYesWeScanServiceByIdQuery,
+    GetYesWeScanServiceByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetYesWeScanServiceByIdQuery,
+    GetYesWeScanServiceByIdQueryVariables
+  >(GetYesWeScanServiceByIdDocument, options);
+}
+export function useGetYesWeScanServiceByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetYesWeScanServiceByIdQuery,
+    GetYesWeScanServiceByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetYesWeScanServiceByIdQuery,
+    GetYesWeScanServiceByIdQueryVariables
+  >(GetYesWeScanServiceByIdDocument, options);
+}
+export type GetYesWeScanServiceByIdQueryHookResult = ReturnType<
+  typeof useGetYesWeScanServiceByIdQuery
+>;
+export type GetYesWeScanServiceByIdLazyQueryHookResult = ReturnType<
+  typeof useGetYesWeScanServiceByIdLazyQuery
+>;
+export type GetYesWeScanServiceByIdQueryResult = Apollo.QueryResult<
+  GetYesWeScanServiceByIdQuery,
+  GetYesWeScanServiceByIdQueryVariables
+>;
+export const GetYesWeScanServicesByContractIdDocument = gql`
+  query getYesWeScanServicesByContractId($contractId: ID!, $today: DateTime) {
+    yesWeScanServices(
+      filters: {
+        contract: { id: { eq: $contractId } }
+        startDate: { lte: $today }
+        endDate: { gte: $today }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          serviceName
+          shortName
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetYesWeScanServicesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetYesWeScanServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYesWeScanServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetYesWeScanServicesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      today: // value for 'today'
+ *   },
+ * });
+ */
+export function useGetYesWeScanServicesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetYesWeScanServicesByContractIdQuery,
+    GetYesWeScanServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetYesWeScanServicesByContractIdQuery,
+    GetYesWeScanServicesByContractIdQueryVariables
+  >(GetYesWeScanServicesByContractIdDocument, options);
+}
+export function useGetYesWeScanServicesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetYesWeScanServicesByContractIdQuery,
+    GetYesWeScanServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetYesWeScanServicesByContractIdQuery,
+    GetYesWeScanServicesByContractIdQueryVariables
+  >(GetYesWeScanServicesByContractIdDocument, options);
+}
+export type GetYesWeScanServicesByContractIdQueryHookResult = ReturnType<
+  typeof useGetYesWeScanServicesByContractIdQuery
+>;
+export type GetYesWeScanServicesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetYesWeScanServicesByContractIdLazyQuery
+>;
+export type GetYesWeScanServicesByContractIdQueryResult = Apollo.QueryResult<
+  GetYesWeScanServicesByContractIdQuery,
+  GetYesWeScanServicesByContractIdQueryVariables
+>;
+export const UpdateYesWeScanFormByIdDocument = gql`
+  mutation updateYesWeScanFormById(
+    $ywsFormId: ID!
+    $data: YesWeScanFormInput!
+  ) {
+    updateYesWeScanForm(id: $ywsFormId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateYesWeScanFormByIdMutationFn = Apollo.MutationFunction<
+  UpdateYesWeScanFormByIdMutation,
+  UpdateYesWeScanFormByIdMutationVariables
+>;
+
+/**
+ * __useUpdateYesWeScanFormByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateYesWeScanFormByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateYesWeScanFormByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateYesWeScanFormByIdMutation, { data, loading, error }] = useUpdateYesWeScanFormByIdMutation({
+ *   variables: {
+ *      ywsFormId: // value for 'ywsFormId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateYesWeScanFormByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateYesWeScanFormByIdMutation,
+    UpdateYesWeScanFormByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateYesWeScanFormByIdMutation,
+    UpdateYesWeScanFormByIdMutationVariables
+  >(UpdateYesWeScanFormByIdDocument, options);
+}
+export type UpdateYesWeScanFormByIdMutationHookResult = ReturnType<
+  typeof useUpdateYesWeScanFormByIdMutation
+>;
+export type UpdateYesWeScanFormByIdMutationResult =
+  Apollo.MutationResult<UpdateYesWeScanFormByIdMutation>;
+export type UpdateYesWeScanFormByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateYesWeScanFormByIdMutation,
+  UpdateYesWeScanFormByIdMutationVariables
 >;

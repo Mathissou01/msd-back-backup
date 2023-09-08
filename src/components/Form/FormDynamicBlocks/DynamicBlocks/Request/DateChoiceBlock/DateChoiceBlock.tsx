@@ -4,7 +4,7 @@ import { IBlocksDateChoice } from "../../../../../../lib/dynamic-blocks";
 import FormInput from "../../../../FormInput/FormInput";
 import FormSelect from "../../../../FormSelect/FormSelect";
 import { IOptionWrapper } from "../../../../FormMultiselect/FormMultiselect";
-import "./request-date-block.scss";
+import "./date-choice-block.scss";
 
 interface IDateChoiceBlockProps {
   blockName: string;
@@ -52,8 +52,8 @@ export default function DateChoiceBlock({ blockName }: IDateChoiceBlockProps) {
   }
 
   return (
-    <div className="c-RequestTypeBlock">
-      <div className="c-RequestDateBlock__SelectStatus">
+    <div className="c-DateChoiceBlock">
+      <div className="c-DateChoiceBlock__SelectStatus">
         <FormSelect<Enum_Componentblocksdatechoice_Fieldstatus>
           label={labels.statusDate}
           displayTransform={fieldStatusDateChoiceSelectDisplayTransformFunction}
@@ -62,7 +62,7 @@ export default function DateChoiceBlock({ blockName }: IDateChoiceBlockProps) {
           isRequired
         />
       </div>
-      <div className="c-RequestDateBlock__DateLabel">
+      <div className="c-DateChoiceBlock__DateLabel">
         <FormInput
           name={`${blockName}.${fieldNames.fieldLabelDateChoice}`}
           label={labels.labelDate}

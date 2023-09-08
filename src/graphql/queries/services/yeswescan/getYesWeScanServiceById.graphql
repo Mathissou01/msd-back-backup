@@ -1,0 +1,18 @@
+query getYesWeScanServiceById($serviceId: ID!) {
+  yesWeScanService(id: $serviceId) {
+    data {
+      id
+      attributes {
+        startDate
+        endDate
+        serviceName
+        shortName
+        yesWeScanForm {
+          data {
+            id
+          }
+        }
+      }
+    }
+  }
+}

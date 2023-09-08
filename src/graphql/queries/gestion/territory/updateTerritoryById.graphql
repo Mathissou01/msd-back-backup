@@ -1,0 +1,7 @@
+mutation updateTerritoryById($updateTerritoryId: ID!, $data: TerritoryInput!) {
+  updateTerritory(id: $updateTerritoryId, data: $data) {
+    data {
+      id
+    }
+  }
+}

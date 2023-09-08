@@ -1,0 +1,7 @@
+mutation deleteYesWeScanServiceById($deleteYesWeScanServiceId: ID!) {
+  deleteYesWeScanService(id: $deleteYesWeScanServiceId) {
+    data {
+      id
+    }
+  }
+}

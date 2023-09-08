@@ -47,7 +47,10 @@ export default function FormDatePicker({
 
   return (
     <>
-      <FormLabel forId={name} label={label}>
+      <FormLabel
+        forId={name}
+        label={label ? `${label}${isRequired ? " *" : ""}` : ""}
+      >
         <Controller
           control={control}
           name={name}
@@ -88,18 +91,21 @@ export default function FormDatePicker({
                   selectsRange={selectsRange}
                   disabled={isDisabled}
                 />
+                <ErrorMessage
+                  errors={errors}
+                  name={name}
+                  render={({ message }: { message: string }) => (
+                    <CommonFormErrorText
+                      message={message}
+                      errorId={`${name}_error`}
+                    />
+                  )}
+                />
               </div>
             );
           }}
         />
       </FormLabel>
-      <ErrorMessage
-        errors={errors}
-        name={name}
-        render={({ message }: { message: string }) => (
-          <CommonFormErrorText message={message} errorId={`${name}_error`} />
-        )}
-      />
     </>
   );
 }

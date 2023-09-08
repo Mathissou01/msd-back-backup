@@ -43,6 +43,7 @@ interface IFormInputProps {
   validationStyle?: ValidationStyle;
   tagType?: "input" | "textarea";
   min?: string;
+  withoutWheelBehaviour?: boolean;
 }
 
 export default function FormInput({
@@ -73,6 +74,7 @@ export default function FormInput({
   validationStyle = "inline",
   tagType = "input",
   min,
+  withoutWheelBehaviour,
 }: IFormInputProps) {
   /* Static Data */
   const errorMessages = {
@@ -170,6 +172,9 @@ export default function FormInput({
           aria-invalid={!!_.get(errors, name)}
           aria-errormessage={`${name}_error`}
           data-testid="form-input"
+          onWheel={(e) =>
+            withoutWheelBehaviour && (e.target as HTMLElement).blur()
+          }
         />
       </FormLabel>
       <ErrorMessage

@@ -1,0 +1,42 @@
+query getYesWeScanFormById($ywsFormId: ID!) {
+  yesWeScanForm(id: $ywsFormId) {
+    data {
+      id
+      attributes {
+        logo {
+          data {
+            id
+            attributes {
+              name
+              alternativeText
+              caption
+              width
+              height
+              formats
+              hash
+              ext
+              mime
+              size
+              url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+            }
+          }
+        }
+        reportButtons
+        pictureStatus
+        thankYouMessage
+        displayEndingButton
+        endingButtonIntroduction
+        endingButtonLabel
+        endingButtonLink
+        hasEmail
+        hasTsms
+        mailRecipients
+      }
+    }
+  }
+}

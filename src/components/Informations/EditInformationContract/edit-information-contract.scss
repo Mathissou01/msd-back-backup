@@ -1,0 +1,43 @@
+.c-EditInformationContract {
+  h2 {
+    margin-top: 25px;
+  }
+
+  &__ContractData,
+  &__SuezData {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 16px;
+  }
+
+  &__Inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    > div {
+      width: 33%;
+    }
+  }
+
+  &__ContactData {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  &__Row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 33%;
+  }
+
+  &__GroupButtons {
+    display: flex;
+    gap: 16px;
+    margin-top: 25px;
+  }
+}

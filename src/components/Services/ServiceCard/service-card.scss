@@ -1,0 +1,43 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-ServiceCard {
+  @include shadows.shadow(1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: calc(calc(100% / 3) - 24px);
+  padding: 30px;
+  background: colors.$white;
+  border-radius: 8px;
+
+  &__Label {
+    color: colors.$expert-blue;
+    font-weight: 500;
+    font-size: 18px;
+    font-family: DINPro-Medium, sans-serif;
+    line-height: 20px;
+  }
+
+  &__Form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__ToggleActivation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 20px;
+    margin-top: 1px;
+  }
+
+  &__DatePicker {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    justify-content: flex-start;
+  }
+}

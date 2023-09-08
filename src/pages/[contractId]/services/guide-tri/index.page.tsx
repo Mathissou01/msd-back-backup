@@ -84,8 +84,7 @@ export function GuideTriPage() {
     setChecked(!checked);
     if (recyclingGuideData?.recyclingGuideService?.data?.id) {
       const variables = {
-        updateRecyclingGuideServiceId:
-          recyclingGuideData?.recyclingGuideService.data.id,
+        id: recyclingGuideData?.recyclingGuideService.data.id,
         data: {
           orderExtension: !checked,
         },

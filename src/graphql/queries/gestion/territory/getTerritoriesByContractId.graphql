@@ -1,0 +1,10 @@
+query getTerritoriesByContractId($contractId: ID!) {
+  territories(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      id
+      attributes {
+        numberOfInhabitants
+      }
+    }
+  }
+}

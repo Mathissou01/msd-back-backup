@@ -30,7 +30,7 @@ export function EditoBibliothequeDeMedias() {
         title={formLabels.title}
         description={formLabels.description}
       />
-      <CommonBibliothequeMedia />
+      <CommonBibliothequeMedia canSelectMultipleFiles canDeleteFiles />
     </>
   );
 }

@@ -56,7 +56,7 @@ export default function MemoTriTab() {
   async function onSubmitValid(submitData: FieldValues) {
     if (submitData.id) {
       const variables = {
-        updateRecyclingGuideServiceId: submitData.id,
+        id: submitData.id,
         data: {
           memoName: submitData.memoName,
           memoDesc: submitData.memoDesc,

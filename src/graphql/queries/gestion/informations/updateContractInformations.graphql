@@ -1,0 +1,33 @@
+mutation updateContractInformations(
+  $contractId: ID!
+  $contractData: ContractInput!
+  $clientContactId: ID!
+  $clientContactData: ClientContactInput!
+) {
+  updateContract(id: $contractId, data: $contractData) {
+    data {
+      id
+      attributes {
+        clientName
+        siret
+        contractStatus
+        isNonExclusive
+        clientType
+        isRVFrance
+        ccap
+        clear
+      }
+    }
+  }
+  updateClientContact(id: $clientContactId, data: $clientContactData) {
+    data {
+      id
+      attributes {
+        firstName
+        lastName
+        email
+        phoneNumber
+      }
+    }
+  }
+}

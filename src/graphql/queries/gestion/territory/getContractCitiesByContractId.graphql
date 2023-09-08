@@ -1,0 +1,31 @@
+query getContractCitiesByContractId(
+  $contractId: ID!
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  cities(
+    filters: { territories: { contract: { id: { eq: $contractId } } } }
+    pagination: $pagination
+    sort: $sort
+  ) {
+    data {
+      id
+      attributes {
+        name
+        insee
+        siren
+        postalCode
+        department
+        region
+      }
+    }
+    meta {
+      pagination {
+        total
+        page
+        pageSize
+        pageCount
+      }
+    }
+  }
+}

@@ -29,6 +29,7 @@ export default function RootHomePage() {
   const labels = {
     title: "Mes clients",
     placeholder: "Rechercher un client",
+    createClientButton: "Créer un client",
   };
 
   /* Methods */
@@ -196,6 +197,14 @@ export default function RootHomePage() {
                   onClick={() => handleSearch()}
                   paddingStyle="paddingMedium"
                 />
+                <div>
+                  <CommonButton
+                    label={labels.createClientButton}
+                    style="primary"
+                    picto="add"
+                    onClick={() => router.push(`/create`)}
+                  />
+                </div>
               </div>
               <CommonDataTable
                 columns={tableColumns}

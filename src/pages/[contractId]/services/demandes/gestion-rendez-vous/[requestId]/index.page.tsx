@@ -53,7 +53,6 @@ export function AppointmentManagementPage({
 }: IAppointmentManagementPageProps) {
   /* Static Data */
   const labels = {
-    back: "Retour",
     title: "Créneaux",
     reservation: "réservation",
     availability: "disponibilité",

@@ -1,0 +1,5 @@
+mutation createYwsService($service: ServiceInput!, $contractId: ID!) {
+  createYwsService(service: $service, contractId: $contractId) {
+    id
+  }
+}

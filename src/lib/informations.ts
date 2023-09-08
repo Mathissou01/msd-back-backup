@@ -1,0 +1,18 @@
+export interface IInformationContractLabels {
+  title: string;
+  clientData: string;
+  clientName: string;
+  siret: string;
+  contractStatus: string;
+  isNonExclusive: string;
+  clientType: string;
+  contactData: string;
+  clientFirstNameLastName: string;
+  clientEmail: string;
+  clientPhoneNumber: string;
+  suezData: string;
+  isRVFrance: string;
+  ccap: string;
+  clear: string;
+  buttonEditLabels: string;
+}

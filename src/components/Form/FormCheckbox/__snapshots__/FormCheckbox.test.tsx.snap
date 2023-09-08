@@ -37,6 +37,5 @@ exports[`FormCheckbox renders 1`] = `
       </label>
     </div>
   </div>
-  ,
 </div>
 `;

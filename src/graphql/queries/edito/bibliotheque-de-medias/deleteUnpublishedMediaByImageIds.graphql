@@ -1,0 +1,3 @@
+mutation deleteUnpublishedMediaByImageIds($imageIds: [ID]) {
+  deleteUnpublishedMedia(imageIds: $imageIds)
+}

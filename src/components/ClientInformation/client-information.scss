@@ -1,0 +1,45 @@
+@use "src/styles/02-tools/tools.pictos" as p;
+
+.c-ClientInformation {
+  &__Form {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  &__FormGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  &__Group {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__Input {
+    width: 30%;
+  }
+
+  &__Buttons {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__SuezServices {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__BackButton {
+    @include p.get-picto(
+      "arrowLeft",
+      $backgroundPosition: left,
+      $backgroundSize: 16px
+    );
+
+    position: absolute;
+    padding-left: 26px;
+  }
+}

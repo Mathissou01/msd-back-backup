@@ -1,0 +1,7 @@
+mutation deleteCityById($cityId: ID!) {
+  deleteCity(id: $cityId) {
+    data {
+      id
+    }
+  }
+}

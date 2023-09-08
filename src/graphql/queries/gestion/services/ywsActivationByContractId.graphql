@@ -1,0 +1,5 @@
+mutation ywsActivation($contractId: ID!) {
+  ywsActivation(contractId: $contractId) {
+    id
+  }
+}

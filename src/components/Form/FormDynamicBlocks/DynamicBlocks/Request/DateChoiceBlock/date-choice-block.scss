@@ -1,9 +1,6 @@
 @use "src/styles/01-settings/settings.colors" as colors;
 
-.c-RequestDateBlock {
-  display: flex;
-  flex-direction: row;
-
+.c-DateChoiceBlock {
   &__SelectStatus {
     width: 50%;
     margin-bottom: 15px;

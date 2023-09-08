@@ -89,6 +89,9 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
         Audience: {
           merge: true,
         },
+        ChannelType: {
+          merge: true,
+        },
       },
     }),
   });

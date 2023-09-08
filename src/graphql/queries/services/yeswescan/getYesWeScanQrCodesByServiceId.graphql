@@ -1,0 +1,9 @@
+query getYesWeScanQrCodesByServiceId($ywsServiceId: ID!) {
+  yesWeScanQrCodes(
+    filters: { yesWeScanService: { id: { eq: $ywsServiceId } } }
+  ) {
+    data {
+      id
+    }
+  }
+}

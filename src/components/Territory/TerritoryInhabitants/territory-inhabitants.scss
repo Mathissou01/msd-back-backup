@@ -1,0 +1,28 @@
+.c-TerritoryInhabitants {
+  &__Form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+  }
+
+  &__NbInhabitants {
+    width: 40%;
+    min-width: 400px;
+
+    input {
+      appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        margin: 0;
+        appearance: none;
+      }
+    }
+  }
+
+  &__Buttons {
+    display: flex;
+    gap: 16px;
+  }
+}

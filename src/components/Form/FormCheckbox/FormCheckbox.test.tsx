@@ -11,7 +11,7 @@ const mock = {
 
 const Wrapper = (props: { children: ReactNode }) => {
   const formMethods = useForm();
-  return <FormProvider {...formMethods}>{props.children},</FormProvider>;
+  return <FormProvider {...formMethods}>{props.children}</FormProvider>;
 };
 
 describe("FormCheckbox", () => {

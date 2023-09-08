@@ -1,0 +1,17 @@
+query getYesWeScanServicesByContractId($contractId: ID!, $today: DateTime) {
+  yesWeScanServices(
+    filters: {
+      contract: { id: { eq: $contractId } }
+      startDate: { lte: $today }
+      endDate: { gte: $today }
+    }
+  ) {
+    data {
+      id
+      attributes {
+        serviceName
+        shortName
+      }
+    }
+  }
+}
