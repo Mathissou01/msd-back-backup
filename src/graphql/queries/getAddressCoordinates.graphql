@@ -1,5 +1,5 @@
-query getAddressCoordinates($searchTerm: String!) {
-  getAddressCoordinates(searchTerm: $searchTerm) {
+query getAddressCoordinates($searchTerm: String!, $housenumber: Boolean) {
+  getAddressCoordinates(searchTerm: $searchTerm, housenumber: $housenumber) {
     name
     latitude
     longitude

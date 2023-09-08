@@ -6,6 +6,7 @@ import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../../components/TabBlock/TabBlock";
 import YesWeScanServiceReportingTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceReportingTab/YesWeScanServiceReportingTab";
+import YesWeScanServiceAssociationTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceAssociationTab/YesWeScanServiceAssociationTab";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import "./yws-service-page.scss";
 
@@ -31,20 +32,16 @@ function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
     variables: { serviceId: ywsServiceId },
   });
 
+  const serviceData = data?.yesWeScanService?.data;
   const tabs: Array<ITab> = [
     {
       name: "reportingForm",
       title: labels.tabs.reportingForm,
       content: (
         <YesWeScanServiceReportingTab
-          ywsShortName={
-            data?.yesWeScanService?.data?.attributes?.shortName ?? ""
-          }
-          ywsServiceId={data?.yesWeScanService?.data?.id ?? ""}
-          ywsFormId={
-            data?.yesWeScanService?.data?.attributes?.yesWeScanForm?.data?.id ??
-            ""
-          }
+          ywsShortName={serviceData?.attributes?.shortName ?? ""}
+          ywsServiceId={serviceData?.id ?? ""}
+          ywsFormId={serviceData?.attributes?.yesWeScanForm?.data?.id ?? ""}
         />
       ),
       isEnabled: true,
@@ -58,7 +55,12 @@ function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
     {
       name: "qrcodeAssociation",
       title: labels.tabs.qrcodeAssociation,
-      content: <></>,
+      content: (
+        <YesWeScanServiceAssociationTab
+          serviceName={serviceData?.attributes?.serviceName ?? ""}
+          serviceId={serviceData?.id ?? ""}
+        />
+      ),
       isEnabled: true,
     },
   ];

@@ -1,0 +1,27 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+@use "src/styles/02-tools/tools.shadows" as shadows;
+
+.c-YesWeScanDropOffCard {
+  @include shadows.shadow(1);
+
+  padding: 16px;
+  text-align: start;
+  background: colors.$gray-0;
+  border: 1px;
+  border-color: colors.$gray-500;
+  border-style: solid;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: colors.$blue-sky-light;
+  }
+
+  &_selected {
+    background-color: colors.$blue-sky-light;
+    border: 1px;
+    border-color: colors.$blue-sky-light;
+    border-style: solid;
+    outline: 2px auto colors.$blue-sky-light;
+    outline-offset: 1px;
+  }
+}

@@ -1,10 +1,18 @@
 query getDropOffMapsByContractId(
   $contractId: ID!
+  $address: String
+  $collectDropOffId: ID
+  $collectVoluntaryId: ID
   $pagination: PaginationArg
   $sort: [String]
 ) {
   dropOffMaps(
-    filters: { dropOffMapService: { contract: { id: { eq: $contractId } } } }
+    filters: {
+      dropOffMapService: { contract: { id: { eq: $contractId } } }
+      address: { contains: $address }
+      collectVoluntary: { id: { eq: $collectVoluntaryId } }
+      collectDropOff: { id: { eq: $collectDropOffId } }
+    }
     pagination: $pagination
     sort: $sort
   ) {
@@ -28,6 +36,10 @@ query getDropOffMapsByContractId(
                   attributes {
                     url
                     name
+                    hash
+                    mime
+                    provider
+                    size
                   }
                   id
                 }
@@ -45,6 +57,10 @@ query getDropOffMapsByContractId(
                   attributes {
                     name
                     url
+                    hash
+                    mime
+                    provider
+                    size
                   }
                 }
               }
@@ -52,6 +68,7 @@ query getDropOffMapsByContractId(
             id
           }
         }
+        BANFeatureProperties
       }
     }
     meta {

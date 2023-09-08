@@ -1,0 +1,33 @@
+.c-YesWeScanAssociationModal {
+  &__LinkInformations {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+
+    > div {
+      flex: 1;
+    }
+  }
+
+  &__AssociationType {
+    margin-top: 32px;
+  }
+
+  &__Signalement,
+  &__DropOffMap {
+    display: grid;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  &__DropOffMapList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+    gap: 10px;
+  }
+
+  &__DropOffMap {
+    display: grid;
+    gap: 16px;
+  }
+}

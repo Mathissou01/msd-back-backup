@@ -3024,6 +3024,12 @@ export type EpciFiltersInput = {
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
+export type EpciInformation = {
+  __typename?: "EpciInformation";
+  code?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+};
+
 export type EpciInput = {
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   name?: InputMaybe<Scalars["String"]>;
@@ -6606,6 +6612,7 @@ export type Query = {
   getEditoContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
   getEditoContentLinkedServices?: Maybe<Array<Maybe<LinkedServices>>>;
   getEnrichRequests?: Maybe<Array<Maybe<EnrichRequest>>>;
+  getEpcisInformations?: Maybe<Array<Maybe<EpciInformation>>>;
   getFilePath?: Maybe<Scalars["String"]>;
   getFolderHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getMwcAverageProduction?: Maybe<Scalars["Int"]>;
@@ -7159,6 +7166,10 @@ export type QueryGetEditoContentLinkedServicesArgs = {
 
 export type QueryGetEnrichRequestsArgs = {
   requestServiceId: Scalars["ID"];
+};
+
+export type QueryGetEpcisInformationsArgs = {
+  searchTerm: Scalars["String"];
 };
 
 export type QueryGetFilePathArgs = {
@@ -14005,6 +14016,7 @@ export type GetActiveServicesByContractIdQuery = {
 
 export type GetAddressCoordinatesQueryVariables = Exact<{
   searchTerm: Scalars["String"];
+  housenumber?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type GetAddressCoordinatesQuery = {
@@ -17253,6 +17265,9 @@ export type GetDropOffMapByIdQuery = {
 
 export type GetDropOffMapsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
+  address?: InputMaybe<Scalars["String"]>;
+  collectDropOffId?: InputMaybe<Scalars["ID"]>;
+  collectVoluntaryId?: InputMaybe<Scalars["ID"]>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
@@ -17276,6 +17291,7 @@ export type GetDropOffMapsByContractIdQuery = {
         latitude?: number | null;
         longitude?: number | null;
         city?: string | null;
+        BANFeatureProperties?: any | null;
         collectDropOff?: {
           __typename?: "CollectDropOffEntityResponse";
           data?: {
@@ -17292,6 +17308,10 @@ export type GetDropOffMapsByContractIdQuery = {
                     __typename?: "UploadFile";
                     url: string;
                     name: string;
+                    hash: string;
+                    mime: string;
+                    provider: string;
+                    size: number;
                   } | null;
                 } | null;
               } | null;
@@ -17315,6 +17335,10 @@ export type GetDropOffMapsByContractIdQuery = {
                     __typename?: "UploadFile";
                     name: string;
                     url: string;
+                    hash: string;
+                    mime: string;
+                    provider: string;
+                    size: number;
                   } | null;
                 } | null;
               } | null;
@@ -19195,6 +19219,19 @@ export type UpdateYesWeScanFormByIdMutation = {
   updateYesWeScanForm?: {
     __typename?: "YesWeScanFormEntityResponse";
     data?: { __typename?: "YesWeScanFormEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateYesWeScanQrCodeByIdMutationVariables = Exact<{
+  updateYesWeScanQrCodeId: Scalars["ID"];
+  data: YesWeScanQrCodeInput;
+}>;
+
+export type UpdateYesWeScanQrCodeByIdMutation = {
+  __typename?: "Mutation";
+  updateYesWeScanQrCode?: {
+    __typename?: "YesWeScanQrCodeEntityResponse";
+    data?: { __typename?: "YesWeScanQrCodeEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -26856,8 +26893,8 @@ export type GetActiveServicesByContractIdQueryResult = Apollo.QueryResult<
   GetActiveServicesByContractIdQueryVariables
 >;
 export const GetAddressCoordinatesDocument = gql`
-  query getAddressCoordinates($searchTerm: String!) {
-    getAddressCoordinates(searchTerm: $searchTerm) {
+  query getAddressCoordinates($searchTerm: String!, $housenumber: Boolean) {
+    getAddressCoordinates(searchTerm: $searchTerm, housenumber: $housenumber) {
       name
       latitude
       longitude
@@ -26879,6 +26916,7 @@ export const GetAddressCoordinatesDocument = gql`
  * const { data, loading, error } = useGetAddressCoordinatesQuery({
  *   variables: {
  *      searchTerm: // value for 'searchTerm'
+ *      housenumber: // value for 'housenumber'
  *   },
  * });
  */
@@ -32164,11 +32202,19 @@ export type GetDropOffMapByIdQueryResult = Apollo.QueryResult<
 export const GetDropOffMapsByContractIdDocument = gql`
   query getDropOffMapsByContractId(
     $contractId: ID!
+    $address: String
+    $collectDropOffId: ID
+    $collectVoluntaryId: ID
     $pagination: PaginationArg
     $sort: [String]
   ) {
     dropOffMaps(
-      filters: { dropOffMapService: { contract: { id: { eq: $contractId } } } }
+      filters: {
+        dropOffMapService: { contract: { id: { eq: $contractId } } }
+        address: { contains: $address }
+        collectVoluntary: { id: { eq: $collectVoluntaryId } }
+        collectDropOff: { id: { eq: $collectDropOffId } }
+      }
       pagination: $pagination
       sort: $sort
     ) {
@@ -32192,6 +32238,10 @@ export const GetDropOffMapsByContractIdDocument = gql`
                     attributes {
                       url
                       name
+                      hash
+                      mime
+                      provider
+                      size
                     }
                     id
                   }
@@ -32209,6 +32259,10 @@ export const GetDropOffMapsByContractIdDocument = gql`
                     attributes {
                       name
                       url
+                      hash
+                      mime
+                      provider
+                      size
                     }
                   }
                 }
@@ -32216,6 +32270,7 @@ export const GetDropOffMapsByContractIdDocument = gql`
               id
             }
           }
+          BANFeatureProperties
         }
       }
       meta {
@@ -32243,6 +32298,9 @@ export const GetDropOffMapsByContractIdDocument = gql`
  * const { data, loading, error } = useGetDropOffMapsByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      address: // value for 'address'
+ *      collectDropOffId: // value for 'collectDropOffId'
+ *      collectVoluntaryId: // value for 'collectVoluntaryId'
  *      pagination: // value for 'pagination'
  *      sort: // value for 'sort'
  *   },
@@ -36158,3 +36216,60 @@ export type UpdateYesWeScanFormByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdateYesWeScanFormByIdMutation,
   UpdateYesWeScanFormByIdMutationVariables
 >;
+export const UpdateYesWeScanQrCodeByIdDocument = gql`
+  mutation updateYesWeScanQrCodeById(
+    $updateYesWeScanQrCodeId: ID!
+    $data: YesWeScanQrCodeInput!
+  ) {
+    updateYesWeScanQrCode(id: $updateYesWeScanQrCodeId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateYesWeScanQrCodeByIdMutationFn = Apollo.MutationFunction<
+  UpdateYesWeScanQrCodeByIdMutation,
+  UpdateYesWeScanQrCodeByIdMutationVariables
+>;
+
+/**
+ * __useUpdateYesWeScanQrCodeByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateYesWeScanQrCodeByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateYesWeScanQrCodeByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateYesWeScanQrCodeByIdMutation, { data, loading, error }] = useUpdateYesWeScanQrCodeByIdMutation({
+ *   variables: {
+ *      updateYesWeScanQrCodeId: // value for 'updateYesWeScanQrCodeId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateYesWeScanQrCodeByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateYesWeScanQrCodeByIdMutation,
+    UpdateYesWeScanQrCodeByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateYesWeScanQrCodeByIdMutation,
+    UpdateYesWeScanQrCodeByIdMutationVariables
+  >(UpdateYesWeScanQrCodeByIdDocument, options);
+}
+export type UpdateYesWeScanQrCodeByIdMutationHookResult = ReturnType<
+  typeof useUpdateYesWeScanQrCodeByIdMutation
+>;
+export type UpdateYesWeScanQrCodeByIdMutationResult =
+  Apollo.MutationResult<UpdateYesWeScanQrCodeByIdMutation>;
+export type UpdateYesWeScanQrCodeByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateYesWeScanQrCodeByIdMutation,
+    UpdateYesWeScanQrCodeByIdMutationVariables
+  >;

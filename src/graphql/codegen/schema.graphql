@@ -2690,6 +2690,11 @@ input EpciFiltersInput {
   updatedAt: DateTimeFilterInput
 }
 
+type EpciInformation {
+  code: String
+  name: String
+}
+
 input EpciInput {
   cities: [ID]
   name: String
@@ -5348,6 +5353,7 @@ type Query {
     selectedService: String!
   ): [LinkedServices]
   getEnrichRequests(requestServiceId: ID!): [EnrichRequest]
+  getEpcisInformations(searchTerm: String!): [EpciInformation]
   getFilePath(id: ID!): String
   getFolderHierarchy(path: String!): [RequestFolders]
   getMwcAverageProduction(contractId: ID): Int
