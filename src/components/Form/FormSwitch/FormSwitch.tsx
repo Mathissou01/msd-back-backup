@@ -1,4 +1,5 @@
 import { useFormContext } from "react-hook-form";
+import classNames from "classnames";
 import "./form-switch.scss";
 
 interface IFormSwitchProps {
@@ -20,7 +21,12 @@ export default function FormSwitch({ name, isDisabled }: IFormSwitchProps) {
         data-testid="form-switch"
         disabled={isDisabled}
       />
-      <label htmlFor={name} className="c-FormSwitch__Label">
+      <label
+        htmlFor={name}
+        className={classNames("c-FormSwitch__Label", {
+          ["c-FormSwitch__Label_isDisabled"]: isDisabled,
+        })}
+      >
         {name}
       </label>
     </>

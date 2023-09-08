@@ -1,6 +1,4 @@
-import { ReactNode, useCallback, useEffect, useRef } from "react";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
   ContractEntity,
@@ -17,6 +15,8 @@ import {
   matchLongestNavigationPath,
   useNavigation,
 } from "../../hooks/useNavigation";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import CommonLoader from "../../components/Common/CommonLoader/CommonLoader";
 
 interface IContractLayoutProps {
@@ -24,8 +24,10 @@ interface IContractLayoutProps {
 }
 
 export default function ContractLayout(props: IContractLayoutProps) {
+  /* Local Data */
   const router = useRouter();
   const { contract, contractId, setContract, setContractId } = useContract();
+  const [hasCheckedRoute, setHasCheckedRoute] = useState<boolean>(false);
   const [getContractById, { data, loading, error }] =
     useGetContractByIdLazyQuery();
   const { currentRoot, setCurrentRoot, currentPage, setCurrentPage } =
@@ -37,7 +39,7 @@ export default function ContractLayout(props: IContractLayoutProps) {
     getContracts,
     { data: contractsData, loading: contractsLoading, error: contractsError },
   ] = useGetContractsLazyQuery();
-  const isLoading = loading || contractsLoading;
+  const isLoading = loading || contractsLoading || !hasCheckedRoute;
   const errors = [error, contractsError];
 
   const isRouteActivated = useCallback(
@@ -197,8 +199,15 @@ export default function ContractLayout(props: IContractLayoutProps) {
         router.push("/404");
         return;
       }
+      setHasCheckedRoute(true);
     }
   }, [data, setContract, setContractId, router, isRouteActivated]);
+
+  useEffect(() => {
+    if (error) {
+      setHasCheckedRoute(true);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (contractsData !== undefined) {

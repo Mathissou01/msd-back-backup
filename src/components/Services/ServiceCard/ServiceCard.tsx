@@ -71,6 +71,7 @@ export default function ServiceCard({
             label={labels.startDate}
             isRequired={watch(`${name}.${fieldNames.isActivated}`)}
             isDisabled={!watch(`${name}.${fieldNames.isActivated}`)}
+            maxDate={watch(endDateName) ?? undefined}
           />
           <FormDatePicker
             name={endDateName}

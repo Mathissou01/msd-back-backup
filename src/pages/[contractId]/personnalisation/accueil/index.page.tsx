@@ -6,6 +6,7 @@ import {
   useGetActiveServicesByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
+import { isServiceActive } from "../../../../lib/contract";
 import { TEditorialContentTypes } from "../../../../lib/editorial";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
@@ -94,23 +95,46 @@ export function PersonnalisationAccueilPage() {
     if (data) {
       setServiceParameters({
         isServiceRecyclingGuideActivated:
-          !!data.recyclingGuideServices?.data[0]?.attributes?.isActivated,
+          (data.recyclingGuideServices?.data[0]?.attributes &&
+            isServiceActive(data.recyclingGuideServices.data[0].attributes)) ??
+          false,
         isQuizActivated:
-          !!data.editorialServices?.data[0]?.attributes?.quizSubService?.data
-            ?.attributes?.isActivated,
+          (data.editorialServices?.data[0]?.attributes?.quizSubService?.data
+            ?.attributes &&
+            isServiceActive(
+              data.editorialServices?.data[0]?.attributes?.quizSubService?.data
+                ?.attributes,
+            )) ??
+          false,
         isTipsActivated:
-          !!data.editorialServices?.data[0]?.attributes?.tipSubService?.data
-            ?.attributes?.isActivated,
+          (data.editorialServices?.data[0]?.attributes?.tipSubService?.data
+            ?.attributes &&
+            isServiceActive(
+              data.editorialServices?.data[0]?.attributes?.tipSubService?.data
+                ?.attributes,
+            )) ??
+          false,
         isEventsActivated:
-          !!data.editorialServices?.data[0]?.attributes?.eventSubService?.data
-            ?.attributes?.isActivated,
+          (data.editorialServices?.data[0]?.attributes?.eventSubService?.data
+            ?.attributes &&
+            isServiceActive(
+              data.editorialServices?.data[0]?.attributes?.eventSubService?.data
+                ?.attributes,
+            )) ??
+          false,
         isNewsActivated:
-          !!data.editorialServices?.data[0]?.attributes?.newsSubService?.data
-            ?.attributes?.isActivated,
+          (data.editorialServices?.data[0]?.attributes?.newsSubService?.data
+            ?.attributes &&
+            isServiceActive(
+              data.editorialServices?.data[0]?.attributes?.newsSubService?.data
+                ?.attributes,
+            )) ??
+          false,
         hasFreeContentsActivated:
           !!data.editorialServices?.data[0]?.attributes?.freeContentSubServices?.data.some(
             (freeContentSubService) =>
-              freeContentSubService.attributes?.isActivated,
+              freeContentSubService.attributes &&
+              isServiceActive(freeContentSubService.attributes),
           ),
       });
     }

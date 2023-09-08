@@ -31,6 +31,11 @@
 
   &__Input:checked + &__Label {
     background: colors.$graph-low;
+
+    &_isDisabled {
+      background: colors.$gray-600;
+      cursor: not-allowed;
+    }
   }
 
   &__Input:checked + &__Label::after {

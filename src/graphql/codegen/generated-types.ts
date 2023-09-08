@@ -13947,6 +13947,8 @@ export type GetActiveServicesByContractIdQuery = {
             attributes?: {
               __typename?: "EventSubService";
               isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -13957,6 +13959,8 @@ export type GetActiveServicesByContractIdQuery = {
             attributes?: {
               __typename?: "NewsSubService";
               isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -13967,6 +13971,8 @@ export type GetActiveServicesByContractIdQuery = {
             attributes?: {
               __typename?: "QuizSubService";
               isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -13977,6 +13983,8 @@ export type GetActiveServicesByContractIdQuery = {
             attributes?: {
               __typename?: "TipSubService";
               isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -13987,6 +13995,8 @@ export type GetActiveServicesByContractIdQuery = {
             attributes?: {
               __typename?: "FreeContentSubService";
               isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           }>;
         } | null;
@@ -13997,6 +14007,8 @@ export type GetActiveServicesByContractIdQuery = {
             attributes?: {
               __typename?: "ContactUsSubService";
               isActivated?: boolean | null;
+              startDate?: any | null;
+              endDate?: any | null;
             } | null;
           } | null;
         } | null;
@@ -14010,6 +14022,8 @@ export type GetActiveServicesByContractIdQuery = {
       attributes?: {
         __typename?: "RecyclingGuideService";
         isActivated: boolean;
+        startDate?: any | null;
+        endDate?: any | null;
       } | null;
     }>;
   } | null;
@@ -14020,6 +14034,8 @@ export type GetActiveServicesByContractIdQuery = {
       attributes?: {
         __typename?: "RequestService";
         isActivated: boolean;
+        startDate?: any | null;
+        endDate?: any | null;
       } | null;
     }>;
   } | null;
@@ -26847,6 +26863,8 @@ export const GetActiveServicesByContractIdDocument = gql`
             data {
               attributes {
                 isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -26854,6 +26872,8 @@ export const GetActiveServicesByContractIdDocument = gql`
             data {
               attributes {
                 isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -26861,6 +26881,8 @@ export const GetActiveServicesByContractIdDocument = gql`
             data {
               attributes {
                 isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -26868,6 +26890,8 @@ export const GetActiveServicesByContractIdDocument = gql`
             data {
               attributes {
                 isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -26875,6 +26899,8 @@ export const GetActiveServicesByContractIdDocument = gql`
             data {
               attributes {
                 isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -26882,6 +26908,8 @@ export const GetActiveServicesByContractIdDocument = gql`
             data {
               attributes {
                 isActivated
+                startDate
+                endDate
               }
             }
           }
@@ -26892,6 +26920,8 @@ export const GetActiveServicesByContractIdDocument = gql`
       data {
         attributes {
           isActivated
+          startDate
+          endDate
         }
       }
     }
@@ -26899,6 +26929,8 @@ export const GetActiveServicesByContractIdDocument = gql`
       data {
         attributes {
           isActivated
+          startDate
+          endDate
         }
       }
     }

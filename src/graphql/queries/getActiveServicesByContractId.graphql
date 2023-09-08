@@ -6,6 +6,8 @@ query getActiveServicesByContractId($contractId: ID!) {
           data {
             attributes {
               isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -13,6 +15,8 @@ query getActiveServicesByContractId($contractId: ID!) {
           data {
             attributes {
               isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -20,6 +24,8 @@ query getActiveServicesByContractId($contractId: ID!) {
           data {
             attributes {
               isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -27,6 +33,8 @@ query getActiveServicesByContractId($contractId: ID!) {
           data {
             attributes {
               isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -34,6 +42,8 @@ query getActiveServicesByContractId($contractId: ID!) {
           data {
             attributes {
               isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -41,6 +51,8 @@ query getActiveServicesByContractId($contractId: ID!) {
           data {
             attributes {
               isActivated
+              startDate
+              endDate
             }
           }
         }
@@ -51,6 +63,8 @@ query getActiveServicesByContractId($contractId: ID!) {
     data {
       attributes {
         isActivated
+        startDate
+        endDate
       }
     }
   }
@@ -58,6 +72,8 @@ query getActiveServicesByContractId($contractId: ID!) {
     data {
       attributes {
         isActivated
+        startDate
+        endDate
       }
     }
   }
