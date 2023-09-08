@@ -2795,11 +2795,6 @@ export enum Enum_Yeswescanqrcode_Typeassociation {
   SignalmentZone = "signalmentZone",
 }
 
-export enum Enum_Yeswescanqrcode_Typeassociation {
-  DropOffMap = "dropOffMap",
-  SignalmentZone = "signalmentZone",
-}
-
 export type EditoBlock = {
   __typename?: "EditoBlock";
   audience?: Maybe<AudienceEntityResponse>;

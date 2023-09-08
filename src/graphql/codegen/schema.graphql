@@ -2488,11 +2488,6 @@ enum ENUM_YESWESCANQRCODE_TYPEASSOCIATION {
   signalmentZone
 }
 
-enum ENUM_YESWESCANQRCODE_TYPEASSOCIATION {
-  dropOffMap
-  signalmentZone
-}
-
 type EditoBlock {
   audience: AudienceEntityResponse
   createdAt: DateTime

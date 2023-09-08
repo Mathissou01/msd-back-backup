@@ -7,6 +7,7 @@ export const defaultMockData = [
       variables: {
         contractId: "0",
         audienceId: "",
+        status: "published",
       },
     },
     result: {
