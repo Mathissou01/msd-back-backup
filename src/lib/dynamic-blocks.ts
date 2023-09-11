@@ -18,6 +18,7 @@ export type TBlocksDynamicZone =
   | "ComponentBlocksSubHeading"
   | "ComponentBlocksVideo"
   | "ComponentBlocksWysiwyg"
+  | "ComponentBlocksServices"
   // DropOffMap Blocks
   | "ComponentBlocksDownloadBlock"
   // Request Blocks
@@ -120,6 +121,10 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
   ComponentBlocksRequestType: {
     label: "Type de demande",
     picto: "text",
+  },
+  ComponentBlocksServices: {
+    label: "Liens vers les services",
+    picto: "dashboard",
   },
   RequestSlotEntity: {
     label: "Créneaux par secteur(s)",
