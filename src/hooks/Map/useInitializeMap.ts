@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import Map from "ol/Map";
 import View from "ol/View";
+import OSM from "ol/source/OSM";
 import TileLayer from "ol/layer/Tile";
-import XYZ from "ol/source/XYZ";
 import Zoom from "ol/control/Zoom";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
@@ -16,7 +16,6 @@ interface IHookInitializeMapProps {
   setMap: React.Dispatch<React.SetStateAction<Map | undefined>>;
   setSource: React.Dispatch<React.SetStateAction<VectorSource | undefined>>;
   handlePolygon: (polygon: string) => void;
-  googleAPIKey: string | undefined;
 }
 
 export const useInitializeMap = ({
@@ -24,7 +23,6 @@ export const useInitializeMap = ({
   setMap,
   setSource,
   handlePolygon,
-  googleAPIKey,
 }: IHookInitializeMapProps) => {
   const { contractId } = useContract();
   const { data: cities } = useGetCitiesByContractIdQuery({
@@ -61,9 +59,7 @@ export const useInitializeMap = ({
       target: mapRef.current,
       layers: [
         new TileLayer({
-          source: new XYZ({
-            url: `http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga&key=${googleAPIKey}`,
-          }),
+          source: new OSM(),
         }),
         new VectorLayer({
           source: initialSource,
@@ -135,5 +131,5 @@ export const useInitializeMap = ({
     return () => {
       initialMap.setTarget(undefined);
     };
-  }, [cities, googleAPIKey, handlePolygon, mapRef, setMap, setSource]);
+  }, [cities, handlePolygon, mapRef, setMap, setSource]);
 };

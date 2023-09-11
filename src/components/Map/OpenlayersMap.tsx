@@ -28,9 +28,6 @@ const OpenLayersMap: React.FC<GeoJSONProps> = ({
   communes,
   handlePolygon,
 }) => {
-  /* Static Data */
-  const googleAPIKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY?.toString();
-
   /* Local Data */
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<Map>();
@@ -39,7 +36,7 @@ const OpenLayersMap: React.FC<GeoJSONProps> = ({
   const [drawActive, setDrawActive] = useState<boolean>(false);
   const [modifyActive, setModifyActive] = useState<boolean>(false);
 
-  useInitializeMap({ mapRef, setMap, setSource, handlePolygon, googleAPIKey });
+  useInitializeMap({ mapRef, setMap, setSource, handlePolygon });
   useAddPolygonToSource({ map, source, polygon });
   useAddCommunesToSource({
     map,
@@ -63,63 +60,59 @@ const OpenLayersMap: React.FC<GeoJSONProps> = ({
 
   return (
     <>
-      {googleAPIKey ? (
-        <div className="c-OpenLayersMap">
-          <div ref={mapRef} className="c-OpenLayersMap__Map" />
-          <div className="c-OpenLayersMap__Attribution">
-            Map data © Google |{" "}
-            <a
-              href="https://developers.google.com/maps/terms"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "inherit" }}
-            >
-              Terms
-            </a>
-          </div>
-
-          <div className="c-OpenLayersMap__ControlBar">
-            <CommonButton
-              style={"primary"}
-              type={"button"}
-              isDisabled={false}
-              onClick={(e: React.MouseEvent) => {
-                e.preventDefault();
-                setDrawActive(!drawActive);
-              }}
-              picto="polygon"
-              formLabelId={"commonButton"}
-            />
-            <CommonButton
-              style={"primary"}
-              type={"button"}
-              isDisabled={false}
-              onClick={(e: React.MouseEvent) => {
-                e.preventDefault();
-                setModifyActive(!modifyActive);
-              }}
-              picto="edit"
-              formLabelId={"commonButton"}
-            />
-            {selectedFeature && (
-              <CommonButton
-                style={"primary"}
-                type={"button"}
-                isDisabled={false}
-                onClick={(e: React.MouseEvent) => {
-                  e.preventDefault();
-                  source?.removeFeature(selectedFeature);
-                  setSelectedFeature(undefined);
-                }}
-                picto="trash"
-                formLabelId={"commonButton"}
-              />
-            )}
-          </div>
+      <div className="c-OpenLayersMap">
+        <div ref={mapRef} className="c-OpenLayersMap__Map" />
+        <div className="c-OpenLayersMap__Attribution">
+          Map data © OpenStreetMap contributors |
+          <a
+            href="https://www.openstreetmap.org/copyright"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "inherit" }}
+          >
+            Terms
+          </a>
         </div>
-      ) : (
-        <div>Invalid Google API key</div>
-      )}
+
+        <div className="c-OpenLayersMap__ControlBar">
+          <CommonButton
+            style={"primary"}
+            type={"button"}
+            isDisabled={false}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              setDrawActive(!drawActive);
+            }}
+            picto="polygon"
+            formLabelId={"commonButton"}
+          />
+          <CommonButton
+            style={"primary"}
+            type={"button"}
+            isDisabled={false}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              setModifyActive(!modifyActive);
+            }}
+            picto="edit"
+            formLabelId={"commonButton"}
+          />
+          {selectedFeature && (
+            <CommonButton
+              style={"primary"}
+              type={"button"}
+              isDisabled={false}
+              onClick={(e: React.MouseEvent) => {
+                e.preventDefault();
+                source?.removeFeature(selectedFeature);
+                setSelectedFeature(undefined);
+              }}
+              picto="trash"
+              formLabelId={"commonButton"}
+            />
+          )}
+        </div>
+      </div>
     </>
   );
 };
