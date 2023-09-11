@@ -47,7 +47,7 @@ export const useAddCommunesToSource = ({
       for (const commune of communesToAdd) {
         // Fetch commune GeoJSON data
         const response = await getCommunes({
-          variables: { postalCode: +commune.value },
+          variables: { postalCode: `${commune.value}` },
         });
 
         const communeData = response?.data?.sectorizationByCity?.GeoJson;

@@ -1058,6 +1058,7 @@ type ComponentBlocksServices {
   pickUpS: PickUpDayServiceEntityResponse
   recyclingS: RecyclingGuideServiceEntityResponse
   requestS: RequestServiceEntityResponse
+  serviceLinksData: JSON
 }
 
 input ComponentBlocksServicesFiltersInput {
@@ -1070,6 +1071,7 @@ input ComponentBlocksServicesFiltersInput {
   pickUpS: PickUpDayServiceFiltersInput
   recyclingS: RecyclingGuideServiceFiltersInput
   requestS: RequestServiceFiltersInput
+  serviceLinksData: JSONFilterInput
 }
 
 input ComponentBlocksServicesInput {
@@ -1080,6 +1082,7 @@ input ComponentBlocksServicesInput {
   pickUpS: ID
   recyclingS: ID
   requestS: ID
+  serviceLinksData: JSON
 }
 
 type ComponentBlocksSubHeading {
@@ -1947,6 +1950,15 @@ type Cumbersome {
   category: String!
   cumbersomeName: String!
   volume: String!
+}
+
+type DataStructure {
+  choiceId: ID!
+  choiceName: String
+  freeContentId: ID
+  selectedServiceId: ID!
+  selectedServiceName: String!
+  type: String
 }
 
 """
@@ -3866,8 +3878,9 @@ type KeyMetricsServiceRelationResponseCollection {
 }
 
 type LinkedServices {
-  id: ID
-  name: String
+  id: ID!
+  name: String!
+  type: String
 }
 
 """
@@ -5348,10 +5361,11 @@ type Query {
     status: ENUM_EDITOCONTENTDTO_STATUS
   ): [EditoContentDTO]
   getEditoContentLinkedServices(
-    contractId: ID
+    audience: ID
+    contractId: ID!
     linkToServiceId: ID!
     selectedService: String!
-  ): [LinkedServices]
+  ): result
   getEnrichRequests(requestServiceId: ID!): [EnrichRequest]
   getEpcisInformations(searchTerm: String!): [EpciInformation]
   getFilePath(id: ID!): String
@@ -5369,6 +5383,7 @@ type Query {
     pickUpDayServiceId: ID!
   ): [ID]
   getRequestsHistoric(requestServiceId: Int!): [Historic]
+  getServiceBlockData(linkToServiceId: ID!): DataStructure
   getStatusExport(id: ID!): String
   getThreeRandomTips(contractId: ID!): [Tips]
   getTopContentBlockDTO(audienceId: ID!, contractId: ID!): TopContentBlockDTO
@@ -5522,7 +5537,7 @@ type Query {
     sort: [String] = []
   ): SearchEngineBlockEntityResponseCollection
   sectorization(id: ID): SectorizationEntityResponse
-  sectorizationByCity(postalCode: Int!): CitySectorization
+  sectorizationByCity(postalCode: String!): CitySectorization
   sectorizations(
     filters: SectorizationFiltersInput
     pagination: PaginationArg = {}
@@ -5601,6 +5616,7 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserEntityResponseCollection
+  validateYesWeScanForm(yesWeScanFormJSON: JSON!): Boolean
   wasteFamilies(
     filters: WasteFamilyFiltersInput
     pagination: PaginationArg = {}
@@ -7558,6 +7574,7 @@ union WasteFormContentBlockDynamicZone =
     ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksServices
   | ComponentBlocksSubHeading
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
@@ -7866,6 +7883,11 @@ type clientName {
 
 type contractStatus {
   contractId: ID
+}
+
+type result {
+  elements: [LinkedServices]
+  pictoId: ID
 }
 
 type totalCountPerTag {

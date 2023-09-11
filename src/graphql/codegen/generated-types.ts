@@ -1223,6 +1223,7 @@ export type ComponentBlocksServices = {
   pickUpS?: Maybe<PickUpDayServiceEntityResponse>;
   recyclingS?: Maybe<RecyclingGuideServiceEntityResponse>;
   requestS?: Maybe<RequestServiceEntityResponse>;
+  serviceLinksData?: Maybe<Scalars["JSON"]>;
 };
 
 export type ComponentBlocksServicesFiltersInput = {
@@ -1235,6 +1236,7 @@ export type ComponentBlocksServicesFiltersInput = {
   pickUpS?: InputMaybe<PickUpDayServiceFiltersInput>;
   recyclingS?: InputMaybe<RecyclingGuideServiceFiltersInput>;
   requestS?: InputMaybe<RequestServiceFiltersInput>;
+  serviceLinksData?: InputMaybe<JsonFilterInput>;
 };
 
 export type ComponentBlocksServicesInput = {
@@ -1245,6 +1247,7 @@ export type ComponentBlocksServicesInput = {
   pickUpS?: InputMaybe<Scalars["ID"]>;
   recyclingS?: InputMaybe<Scalars["ID"]>;
   requestS?: InputMaybe<Scalars["ID"]>;
+  serviceLinksData?: InputMaybe<Scalars["JSON"]>;
 };
 
 export type ComponentBlocksSubHeading = {
@@ -2221,6 +2224,16 @@ export type Cumbersome = {
   category: Scalars["String"];
   cumbersomeName: Scalars["String"];
   volume: Scalars["String"];
+};
+
+export type DataStructure = {
+  __typename?: "DataStructure";
+  choiceId: Scalars["ID"];
+  choiceName?: Maybe<Scalars["String"]>;
+  freeContentId?: Maybe<Scalars["ID"]>;
+  selectedServiceId: Scalars["ID"];
+  selectedServiceName: Scalars["String"];
+  type?: Maybe<Scalars["String"]>;
 };
 
 export type DateFilterInput = {
@@ -4309,8 +4322,9 @@ export type KeyMetricsServiceRelationResponseCollection = {
 
 export type LinkedServices = {
   __typename?: "LinkedServices";
-  id?: Maybe<Scalars["ID"]>;
-  name?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  type?: Maybe<Scalars["String"]>;
 };
 
 export type LongFilterInput = {
@@ -6615,7 +6629,7 @@ export type Query = {
   getDropOffMaps?: Maybe<Array<Maybe<DropOffMapDto>>>;
   getEditoBlockDTO?: Maybe<EditoBlockDto>;
   getEditoContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
-  getEditoContentLinkedServices?: Maybe<Array<Maybe<LinkedServices>>>;
+  getEditoContentLinkedServices?: Maybe<Result>;
   getEnrichRequests?: Maybe<Array<Maybe<EnrichRequest>>>;
   getEpcisInformations?: Maybe<Array<Maybe<EpciInformation>>>;
   getFilePath?: Maybe<Scalars["String"]>;
@@ -6625,6 +6639,7 @@ export type Query = {
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   getRequestsHistoric?: Maybe<Array<Maybe<Historic>>>;
+  getServiceBlockData?: Maybe<DataStructure>;
   getStatusExport?: Maybe<Scalars["String"]>;
   getThreeRandomTips?: Maybe<Array<Maybe<Tips>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
@@ -6709,6 +6724,7 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+  validateYesWeScanForm?: Maybe<Scalars["Boolean"]>;
   wasteFamilies?: Maybe<WasteFamilyEntityResponseCollection>;
   wasteFamily?: Maybe<WasteFamilyEntityResponse>;
   wasteFamilyLength?: Maybe<Scalars["Int"]>;
@@ -7159,7 +7175,8 @@ export type QueryGetEditoContentDtOsArgs = {
 };
 
 export type QueryGetEditoContentLinkedServicesArgs = {
-  contractId?: InputMaybe<Scalars["ID"]>;
+  audience?: InputMaybe<Scalars["ID"]>;
+  contractId: Scalars["ID"];
   linkToServiceId: Scalars["ID"];
   selectedService: Scalars["String"];
 };
@@ -7203,6 +7220,10 @@ export type QueryGetPickUpDaysByCoordinatesArgs = {
 
 export type QueryGetRequestsHistoricArgs = {
   requestServiceId: Scalars["Int"];
+};
+
+export type QueryGetServiceBlockDataArgs = {
+  linkToServiceId: Scalars["ID"];
 };
 
 export type QueryGetStatusExportArgs = {
@@ -7477,7 +7498,7 @@ export type QuerySectorizationArgs = {
 };
 
 export type QuerySectorizationByCityArgs = {
-  postalCode: Scalars["Int"];
+  postalCode: Scalars["String"];
 };
 
 export type QuerySectorizationsArgs = {
@@ -7610,6 +7631,10 @@ export type QueryUsersPermissionsUsersArgs = {
   filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryValidateYesWeScanFormArgs = {
+  yesWeScanFormJSON: Scalars["JSON"];
 };
 
 export type QueryWasteFamiliesArgs = {
@@ -9805,6 +9830,7 @@ export type WasteFormContentBlockDynamicZone =
   | ComponentBlocksFile
   | ComponentBlocksHorizontalRule
   | ComponentBlocksImage
+  | ComponentBlocksServices
   | ComponentBlocksSubHeading
   | ComponentBlocksVideo
   | ComponentBlocksWysiwyg
@@ -10139,6 +10165,12 @@ export type ClientName = {
 export type ContractStatus = {
   __typename?: "contractStatus";
   contractId?: Maybe<Scalars["ID"]>;
+};
+
+export type Result = {
+  __typename?: "result";
+  elements?: Maybe<Array<Maybe<LinkedServices>>>;
+  pictoId?: Maybe<Scalars["ID"]>;
 };
 
 export type TotalCountPerTag = {
@@ -16759,7 +16791,7 @@ export type GetCitiesByContractIdQuery = {
 };
 
 export type GetSectorizationByCityQueryVariables = Exact<{
-  postalCode: Scalars["Int"];
+  postalCode: Scalars["String"];
 }>;
 
 export type GetSectorizationByCityQuery = {
@@ -18323,6 +18355,7 @@ export type GetWasteFormByIdQuery = {
                 } | null;
               } | null;
             }
+          | { __typename?: "ComponentBlocksServices" }
           | {
               __typename?: "ComponentBlocksSubHeading";
               id: string;
@@ -31180,7 +31213,7 @@ export type GetCitiesByContractIdQueryResult = Apollo.QueryResult<
   GetCitiesByContractIdQueryVariables
 >;
 export const GetSectorizationByCityDocument = gql`
-  query getSectorizationByCity($postalCode: Int!) {
+  query getSectorizationByCity($postalCode: String!) {
     sectorizationByCity(postalCode: $postalCode) {
       GeoJson
     }
