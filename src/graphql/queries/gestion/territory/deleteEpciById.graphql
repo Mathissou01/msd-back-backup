@@ -1,0 +1,7 @@
+mutation deleteEpciById($deleteEpciId: ID!) {
+  deleteEpci(id: $deleteEpciId) {
+    data {
+      id
+    }
+  }
+}

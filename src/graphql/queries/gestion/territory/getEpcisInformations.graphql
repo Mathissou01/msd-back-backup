@@ -1,0 +1,6 @@
+query getEpcisInformations($searchTerm: String!) {
+  getEpcisInformations(searchTerm: $searchTerm) {
+    code
+    name
+  }
+}

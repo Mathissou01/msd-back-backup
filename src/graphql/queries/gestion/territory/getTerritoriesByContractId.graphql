@@ -4,6 +4,28 @@ query getTerritoriesByContractId($contractId: ID!) {
       id
       attributes {
         numberOfInhabitants
+        epcis {
+          data {
+            id
+            attributes {
+              name
+              siren
+              cities {
+                data {
+                  id
+                  attributes {
+                    name
+                    insee
+                    department
+                    postalCode
+                    region
+                    siren
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

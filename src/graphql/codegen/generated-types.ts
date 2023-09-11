@@ -13800,6 +13800,18 @@ export type DeleteCityByIdMutation = {
   } | null;
 };
 
+export type DeleteEpciByIdMutationVariables = Exact<{
+  deleteEpciId: Scalars["ID"];
+}>;
+
+export type DeleteEpciByIdMutation = {
+  __typename?: "Mutation";
+  deleteEpci?: {
+    __typename?: "EpciEntityResponse";
+    data?: { __typename?: "EpciEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type GetCitiesInformationsQueryVariables = Exact<{
   searchTerm: Scalars["String"];
 }>;
@@ -13863,6 +13875,19 @@ export type GetContractCitiesByContractIdQuery = {
   } | null;
 };
 
+export type GetEpcisInformationsQueryVariables = Exact<{
+  searchTerm: Scalars["String"];
+}>;
+
+export type GetEpcisInformationsQuery = {
+  __typename?: "Query";
+  getEpcisInformations?: Array<{
+    __typename?: "EpciInformation";
+    code?: string | null;
+    name?: string | null;
+  } | null> | null;
+};
+
 export type GetTerritoriesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
 }>;
@@ -13877,6 +13902,34 @@ export type GetTerritoriesByContractIdQuery = {
       attributes?: {
         __typename?: "Territory";
         numberOfInhabitants?: any | null;
+        epcis?: {
+          __typename?: "EpciRelationResponseCollection";
+          data: Array<{
+            __typename?: "EpciEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "Epci";
+              name?: string | null;
+              siren: string;
+              cities?: {
+                __typename?: "CityRelationResponseCollection";
+                data: Array<{
+                  __typename?: "CityEntity";
+                  id?: string | null;
+                  attributes?: {
+                    __typename?: "City";
+                    name?: string | null;
+                    insee?: string | null;
+                    department?: string | null;
+                    postalCode?: string | null;
+                    region?: string | null;
+                    siren?: string | null;
+                  } | null;
+                }>;
+              } | null;
+            } | null;
+          }>;
+        } | null;
       } | null;
     }>;
   } | null;
@@ -26427,6 +26480,58 @@ export type DeleteCityByIdMutationOptions = Apollo.BaseMutationOptions<
   DeleteCityByIdMutation,
   DeleteCityByIdMutationVariables
 >;
+export const DeleteEpciByIdDocument = gql`
+  mutation deleteEpciById($deleteEpciId: ID!) {
+    deleteEpci(id: $deleteEpciId) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type DeleteEpciByIdMutationFn = Apollo.MutationFunction<
+  DeleteEpciByIdMutation,
+  DeleteEpciByIdMutationVariables
+>;
+
+/**
+ * __useDeleteEpciByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteEpciByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEpciByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEpciByIdMutation, { data, loading, error }] = useDeleteEpciByIdMutation({
+ *   variables: {
+ *      deleteEpciId: // value for 'deleteEpciId'
+ *   },
+ * });
+ */
+export function useDeleteEpciByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteEpciByIdMutation,
+    DeleteEpciByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteEpciByIdMutation,
+    DeleteEpciByIdMutationVariables
+  >(DeleteEpciByIdDocument, options);
+}
+export type DeleteEpciByIdMutationHookResult = ReturnType<
+  typeof useDeleteEpciByIdMutation
+>;
+export type DeleteEpciByIdMutationResult =
+  Apollo.MutationResult<DeleteEpciByIdMutation>;
+export type DeleteEpciByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteEpciByIdMutation,
+  DeleteEpciByIdMutationVariables
+>;
 export const GetCitiesInformationsDocument = gql`
   query getCitiesInformations($searchTerm: String!) {
     getCitiesInformations(searchTerm: $searchTerm, prehome: false) {
@@ -26582,6 +26687,65 @@ export type GetContractCitiesByContractIdQueryResult = Apollo.QueryResult<
   GetContractCitiesByContractIdQuery,
   GetContractCitiesByContractIdQueryVariables
 >;
+export const GetEpcisInformationsDocument = gql`
+  query getEpcisInformations($searchTerm: String!) {
+    getEpcisInformations(searchTerm: $searchTerm) {
+      code
+      name
+    }
+  }
+`;
+
+/**
+ * __useGetEpcisInformationsQuery__
+ *
+ * To run a query within a React component, call `useGetEpcisInformationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEpcisInformationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEpcisInformationsQuery({
+ *   variables: {
+ *      searchTerm: // value for 'searchTerm'
+ *   },
+ * });
+ */
+export function useGetEpcisInformationsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetEpcisInformationsQuery,
+    GetEpcisInformationsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetEpcisInformationsQuery,
+    GetEpcisInformationsQueryVariables
+  >(GetEpcisInformationsDocument, options);
+}
+export function useGetEpcisInformationsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetEpcisInformationsQuery,
+    GetEpcisInformationsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetEpcisInformationsQuery,
+    GetEpcisInformationsQueryVariables
+  >(GetEpcisInformationsDocument, options);
+}
+export type GetEpcisInformationsQueryHookResult = ReturnType<
+  typeof useGetEpcisInformationsQuery
+>;
+export type GetEpcisInformationsLazyQueryHookResult = ReturnType<
+  typeof useGetEpcisInformationsLazyQuery
+>;
+export type GetEpcisInformationsQueryResult = Apollo.QueryResult<
+  GetEpcisInformationsQuery,
+  GetEpcisInformationsQueryVariables
+>;
 export const GetTerritoriesByContractIdDocument = gql`
   query getTerritoriesByContractId($contractId: ID!) {
     territories(filters: { contract: { id: { eq: $contractId } } }) {
@@ -26589,6 +26753,28 @@ export const GetTerritoriesByContractIdDocument = gql`
         id
         attributes {
           numberOfInhabitants
+          epcis {
+            data {
+              id
+              attributes {
+                name
+                siren
+                cities {
+                  data {
+                    id
+                    attributes {
+                      name
+                      insee
+                      department
+                      postalCode
+                      region
+                      siren
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
