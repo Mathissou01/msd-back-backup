@@ -162,6 +162,10 @@ export default function YesWeScanAssociationModal({
     }
   }, [dataDropOffMaps]);
 
+  useEffect(() => {
+    setValue("qrCodeId", qrCodeId);
+  }, [qrCodeId, setValue]);
+
   return (
     <div className="c-YesWeScanAssociationModal">
       <CommonLoader

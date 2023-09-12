@@ -1,0 +1,14 @@
+.c-YesWeScanAssociationDissociateModal {
+  &__ModalText {
+    display: block;
+    margin-bottom: 18px;
+  }
+
+  &__ModalButtonsContainer {
+    display: flex;
+
+    button:first-of-type {
+      margin-right: 18px;
+    }
+  }
+}

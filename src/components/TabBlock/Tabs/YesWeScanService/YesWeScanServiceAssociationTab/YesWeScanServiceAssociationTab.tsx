@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import {
   Enum_Yeswescanqrcode_Typeassociation,
@@ -9,6 +9,8 @@ import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import FormModal from "../../../../Form/FormModal/FormModal";
 import YesWeScanAssociationModal from "../../../../YesWeScan/YesWeScanAssociationModal/YesWeScanAssociationModal";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
+import YesWeScanServiceAssociationTable from "./YesWeScanAssociationTable/YesWeScanAssociationTable";
+import "./yes-we-scan-association.scss";
 
 interface IYesWeScanServiceAssociationModalSubmitData {
   updateYesWeScanQrCodeId: string;
@@ -76,7 +78,7 @@ export default function YesWeScanServiceAssociationTab({
     updateQrCode({
       variables,
       // TODO : Add refetch queries when the two tables will be available
-      refetchQueries: [],
+      refetchQueries: ["getYesWeScanQrCodes"],
     });
   }
 
@@ -106,6 +108,10 @@ export default function YesWeScanServiceAssociationTab({
           onClick={() => {
             modalRef.current?.toggleModal(true);
           }}
+        />
+        <YesWeScanServiceAssociationTable
+          setChosenQRCodeId={setChosenQRCodeId}
+          editModalRef={modalRef}
         />
         <FormModal
           modalRef={modalRef}

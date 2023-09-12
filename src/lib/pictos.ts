@@ -8,6 +8,7 @@ export enum EAllPictoStyles {
   "eyeClosed",
   "yes",
   "no",
+  "unlink",
   /* NAVIGATION */
   "house",
   "file",
@@ -79,7 +80,14 @@ export type TNavigationPictoStyles = Extract<
 /* Partial list of pictos, corresponds to mixin argument in 'data-table-actions.scss' */
 export type TActionPictoStyles = Extract<
   TAllPictoStyles,
-  "edit" | "fileDouble" | "trash" | "eye" | "eyeClosed" | "yes" | "no"
+  | "edit"
+  | "fileDouble"
+  | "trash"
+  | "eye"
+  | "eyeClosed"
+  | "yes"
+  | "no"
+  | "unlink"
 >;
 
 /* Partial list of pictos, corresponds to mixin argument in 'dynamic-block-wrapper.scss' */

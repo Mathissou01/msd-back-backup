@@ -40,7 +40,7 @@
   &__Button {
     @include focus.focus-ring;
     @include p.picto-classes(
-      ("edit", "fileDouble", "trash", "eye", "eyeClosed", "yes", "no")
+      ("edit", "fileDouble", "trash", "eye", "eyeClosed", "yes", "no", "unlink")
     );
 
     display: flex;
