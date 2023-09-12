@@ -1,4 +1,4 @@
-query getMwCounterServices($contractId: ID!) {
+query getMwcounterServices($contractId: ID!) {
   mwCounterServices(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       id

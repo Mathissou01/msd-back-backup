@@ -14562,30 +14562,6 @@ export type GetActivatedMwcFlowsByContractIdQuery = {
   } | null;
 };
 
-export type GetMwCounterServicesQueryVariables = Exact<{
-  contractId: Scalars["ID"];
-}>;
-
-export type GetMwCounterServicesQuery = {
-  __typename?: "Query";
-  mwCounterServices?: {
-    __typename?: "MwCounterServiceEntityResponseCollection";
-    data: Array<{
-      __typename?: "MwCounterServiceEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "MwCounterService";
-        serviceName?: string | null;
-        contactEmail?: string | null;
-        phoneNumber?: string | null;
-        postalAddress?: string | null;
-        postalCode?: string | null;
-        city?: string | null;
-      } | null;
-    }>;
-  } | null;
-};
-
 export type GetMwcAverageProductionQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
 }>;
@@ -14833,6 +14809,30 @@ export type GetMwcHasTipsQuery = {
       attributes?: {
         __typename?: "MwCounterService";
         hasTips?: boolean | null;
+      } | null;
+    }>;
+  } | null;
+};
+
+export type GetMwcounterServicesQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+}>;
+
+export type GetMwcounterServicesQuery = {
+  __typename?: "Query";
+  mwCounterServices?: {
+    __typename?: "MwCounterServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "MwCounterServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "MwCounterService";
+        serviceName?: string | null;
+        contactEmail?: string | null;
+        phoneNumber?: string | null;
+        postalAddress?: string | null;
+        postalCode?: string | null;
+        city?: string | null;
       } | null;
     }>;
   } | null;
@@ -27889,74 +27889,6 @@ export type GetActivatedMwcFlowsByContractIdQueryResult = Apollo.QueryResult<
   GetActivatedMwcFlowsByContractIdQuery,
   GetActivatedMwcFlowsByContractIdQueryVariables
 >;
-export const GetMwCounterServicesDocument = gql`
-  query getMwCounterServices($contractId: ID!) {
-    mwCounterServices(filters: { contract: { id: { eq: $contractId } } }) {
-      data {
-        id
-        attributes {
-          serviceName
-          contactEmail
-          phoneNumber
-          postalAddress
-          postalCode
-          city
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetMwCounterServicesQuery__
- *
- * To run a query within a React component, call `useGetMwCounterServicesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMwCounterServicesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMwCounterServicesQuery({
- *   variables: {
- *      contractId: // value for 'contractId'
- *   },
- * });
- */
-export function useGetMwCounterServicesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMwCounterServicesQuery,
-    GetMwCounterServicesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetMwCounterServicesQuery,
-    GetMwCounterServicesQueryVariables
-  >(GetMwCounterServicesDocument, options);
-}
-export function useGetMwCounterServicesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMwCounterServicesQuery,
-    GetMwCounterServicesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetMwCounterServicesQuery,
-    GetMwCounterServicesQueryVariables
-  >(GetMwCounterServicesDocument, options);
-}
-export type GetMwCounterServicesQueryHookResult = ReturnType<
-  typeof useGetMwCounterServicesQuery
->;
-export type GetMwCounterServicesLazyQueryHookResult = ReturnType<
-  typeof useGetMwCounterServicesLazyQuery
->;
-export type GetMwCounterServicesQueryResult = Apollo.QueryResult<
-  GetMwCounterServicesQuery,
-  GetMwCounterServicesQueryVariables
->;
 export const GetMwcAverageProductionDocument = gql`
   query getMwcAverageProduction($contractId: ID) {
     getMwcAverageProduction(contractId: $contractId)
@@ -28454,6 +28386,74 @@ export type GetMwcHasTipsLazyQueryHookResult = ReturnType<
 export type GetMwcHasTipsQueryResult = Apollo.QueryResult<
   GetMwcHasTipsQuery,
   GetMwcHasTipsQueryVariables
+>;
+export const GetMwcounterServicesDocument = gql`
+  query getMwcounterServices($contractId: ID!) {
+    mwCounterServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+        attributes {
+          serviceName
+          contactEmail
+          phoneNumber
+          postalAddress
+          postalCode
+          city
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetMwcounterServicesQuery__
+ *
+ * To run a query within a React component, call `useGetMwcounterServicesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMwcounterServicesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMwcounterServicesQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetMwcounterServicesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetMwcounterServicesQuery,
+    GetMwcounterServicesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetMwcounterServicesQuery,
+    GetMwcounterServicesQueryVariables
+  >(GetMwcounterServicesDocument, options);
+}
+export function useGetMwcounterServicesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMwcounterServicesQuery,
+    GetMwcounterServicesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetMwcounterServicesQuery,
+    GetMwcounterServicesQueryVariables
+  >(GetMwcounterServicesDocument, options);
+}
+export type GetMwcounterServicesQueryHookResult = ReturnType<
+  typeof useGetMwcounterServicesQuery
+>;
+export type GetMwcounterServicesLazyQueryHookResult = ReturnType<
+  typeof useGetMwcounterServicesLazyQuery
+>;
+export type GetMwcounterServicesQueryResult = Apollo.QueryResult<
+  GetMwcounterServicesQuery,
+  GetMwcounterServicesQueryVariables
 >;
 export const UpdateMwcBarometerParamsDocument = gql`
   mutation updateMwcBarometerParams(

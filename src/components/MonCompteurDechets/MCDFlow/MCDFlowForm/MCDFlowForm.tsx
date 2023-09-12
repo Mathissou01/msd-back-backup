@@ -9,8 +9,8 @@ import {
   Enum_Mwcflow_Weightsystem,
   useCreateMwcFlowMutation,
   useDeleteMwcFlowMutation,
-  useGetMwCounterServicesQuery,
   useGetMwcFlowByFlowIdQuery,
+  useGetMwcounterServicesQuery,
   useUpdateMwcFlowMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
@@ -100,7 +100,7 @@ export default function MCDFlowForm({
 
   const [, setIsCancelBtnHidden] = useState(true);
 
-  const { data: dataMwcService } = useGetMwCounterServicesQuery({
+  const { data: dataMwcService } = useGetMwcounterServicesQuery({
     variables: {
       contractId: contractId,
     },
