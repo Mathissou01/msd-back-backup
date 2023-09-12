@@ -19,4 +19,10 @@ export interface IInformationContractLabels {
   confirmationText: string;
   affirmativeModalButton: string;
   negativeModalButton: string;
+  reactivateContract: string;
+  deactivateContract: string;
+  reactivateMessage: string;
+  deactivateMessage: string;
+  yes: string;
+  no: string;
 }

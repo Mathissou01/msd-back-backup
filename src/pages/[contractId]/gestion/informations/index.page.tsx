@@ -28,6 +28,13 @@ export function GestionInformationsPage() {
     confirmationText: "Confirmez-vous la suppression du client ?",
     affirmativeModalButton: "Oui",
     negativeModalButton: "Non",
+    buttonEditLabels: "Éditer le client",
+    reactivateContract: "Réactiver le client",
+    deactivateContract: "Désactiver le client",
+    reactivateMessage: "Confirmez-vous la réactivation du client ?",
+    deactivateMessage: "Confirmez-vous la désactivation du client ?",
+    yes: "Oui",
+    no: "Non",
   };
 
   /* Local Data */

@@ -61,4 +61,30 @@
     gap: 16px;
     align-items: center;
   }
+
+  &__ButtonContainer {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  &__ModalText {
+    display: block;
+    margin-bottom: 18px;
+  }
+
+  &__ModalContainer {
+    display: flex;
+    flex-direction: column;
+
+    button:first-of-type {
+      margin-right: 18px;
+    }
+  }
+
+  &__ModalButtonsContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 32px;
+  }
 }

@@ -1,15 +1,17 @@
 import React, { useRef } from "react";
+import { useRouter } from "next/router";
 import {
   Contract,
+  Enum_Contract_Contractstatus,
+  Statuses,
+  useChangeContractStatusMutation,
   useDeleteContractByIdMutation,
 } from "../../../graphql/codegen/generated-types";
+import { useContract } from "../../../hooks/useContract";
 import { EContractClientTypeLabels } from "../../../lib/contract";
 import { IInformationContractLabels } from "../../../lib/informations";
 import PageTitle from "../../PageTitle/PageTitle";
 import CommonButton from "../../Common/CommonButton/CommonButton";
-import "./information-contract.scss";
-import { useRouter } from "next/router";
-import { useContract } from "../../../hooks/useContract";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -26,6 +28,51 @@ export default function InformationContract({
   contractData,
   setEditMode,
 }: IInformationContractProps) {
+  /* Methods */
+  async function handleConfirmRemove() {
+    return deleteContractIdMutation({
+      variables: { deleteContractId: contractId },
+    })
+      .then(() => {
+        deleteModalRef.current?.toggleModal(false);
+        router.push("/");
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la suppression du contrat:", error);
+      });
+  }
+
+  async function handleConfirmActivation() {
+    return changeContractStatus({
+      variables: {
+        contractId: contractId,
+        status:
+          contractData.contractStatus === Enum_Contract_Contractstatus.Desactive
+            ? Statuses.Active
+            : Statuses.Inactive,
+      },
+    })
+      .then(() => {
+        activationModalRef.current?.toggleModal(false);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error(
+          "Erreur lors de l'activation ou désactivation du client",
+          error,
+        );
+      });
+  }
+
+  /* External Data */
+  const [deleteContractIdMutation] = useDeleteContractByIdMutation();
+  const [changeContractStatus] = useChangeContractStatusMutation();
+
+  /* Local Data */
+  const { contractId } = useContract();
+  const deleteModalRef = useRef<CommonModalWrapperRef>(null);
+  const activationModalRef = useRef<CommonModalWrapperRef>(null);
+  const router = useRouter();
   const contractInformation = {
     // Client
     clientName: contractData.clientName ?? "N/A",
@@ -49,35 +96,6 @@ export default function InformationContract({
     clear: contractData.clear ?? "N/A",
   };
 
-  /* Methods */
-  const handleStartModal = () => {
-    modalRef.current?.toggleModal(true);
-  };
-
-  const handleCloseModal = () => {
-    modalRef.current?.toggleModal(false);
-  };
-  async function handleConfirmRemove() {
-    return deleteContractIdMutation({
-      variables: { deleteContractId: contractId },
-    });
-  }
-  const handleConfirmAndCloseModal = async () => {
-    try {
-      await handleConfirmRemove();
-      handleCloseModal();
-      router.push(`/`);
-    } catch (error) {
-      console.error("Erreur lors de la suppression du contrat:", error);
-    }
-  };
-  /* External Data */
-  const [deleteContractIdMutation] = useDeleteContractByIdMutation();
-
-  /* Local Data */
-  const { contractId } = useContract();
-  const modalRef = useRef<CommonModalWrapperRef>(null);
-  const router = useRouter();
   return (
     <div className="c-InformationContract">
       <PageTitle title={labels.title} />
@@ -142,7 +160,7 @@ export default function InformationContract({
           </tr>
         </tbody>
       </table>
-      {/* TODO: only show edit button for Super Admin */}
+      {/* TODO: only show edit and activation buttons for Super Admin */}
       <div className="c-InformationContract__Buttons">
         <CommonButton
           label={labels.buttonEditLabel}
@@ -151,25 +169,59 @@ export default function InformationContract({
           onClick={() => setEditMode(true)}
         />
         <CommonButton
+          label={
+            contractData.contractStatus === "Desactive"
+              ? labels.reactivateContract
+              : labels.deactivateContract
+          }
+          style="primary"
+          onClick={() => activationModalRef.current?.toggleModal(true)}
+        />
+        <CommonButton
           label={labels.buttonDeleteLabel}
           style="primary"
-          onClick={() => handleStartModal()}
+          onClick={() => deleteModalRef.current?.toggleModal(true)}
         />
+
         <div className="c-InformationContract__Modal">
-          <CommonModalWrapper ref={modalRef}>
+          <CommonModalWrapper ref={deleteModalRef}>
             <div className="c-InformationContract__ConfirmationModalButtons">
               <p>{labels.confirmationText}</p>
               <CommonButton
                 type="button"
                 style="secondary"
                 label={labels.negativeModalButton}
-                onClick={() => handleCloseModal()}
+                onClick={() => deleteModalRef.current?.toggleModal(false)}
               />
               <CommonButton
                 type="submit"
                 style="primary"
                 label={labels.affirmativeModalButton}
-                onClick={handleConfirmAndCloseModal}
+                onClick={handleConfirmRemove}
+              />
+            </div>
+          </CommonModalWrapper>
+          <CommonModalWrapper ref={activationModalRef}>
+            <div className="c-InformationContract__ConfirmationModalButtons">
+              {contractData.contractStatus ===
+                Enum_Contract_Contractstatus.Desactive && (
+                <p>{labels.reactivateMessage}</p>
+              )}
+              {contractData.contractStatus !==
+                Enum_Contract_Contractstatus.Desactive && (
+                <p>{labels.deactivateMessage}</p>
+              )}
+              <CommonButton
+                type="button"
+                style="secondary"
+                label={labels.negativeModalButton}
+                onClick={() => activationModalRef.current?.toggleModal(false)}
+              />
+              <CommonButton
+                type="submit"
+                style="primary"
+                label={labels.affirmativeModalButton}
+                onClick={handleConfirmActivation}
               />
             </div>
           </CommonModalWrapper>

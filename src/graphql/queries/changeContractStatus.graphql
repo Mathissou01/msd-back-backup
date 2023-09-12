@@ -1,0 +1,5 @@
+mutation ChangeContractStatus($contractId: ID!, $status: Statuses!) {
+  changeContractStatus(contractId: $contractId, status: $status) {
+    contractId
+  }
+}

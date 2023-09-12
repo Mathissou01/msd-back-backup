@@ -10180,6 +10180,19 @@ export type TotalCountPerTag = {
   name: Scalars["String"];
 };
 
+export type ChangeContractStatusMutationVariables = Exact<{
+  contractId: Scalars["ID"];
+  status: Statuses;
+}>;
+
+export type ChangeContractStatusMutation = {
+  __typename?: "Mutation";
+  changeContractStatus?: {
+    __typename?: "contractStatus";
+    contractId?: string | null;
+  } | null;
+};
+
 export type CreateNewMutationVariables = Exact<{
   data: NewInput;
 }>;
@@ -19348,6 +19361,57 @@ export type UpdateYesWeScanQrCodeByIdMutation = {
   } | null;
 };
 
+export const ChangeContractStatusDocument = gql`
+  mutation ChangeContractStatus($contractId: ID!, $status: Statuses!) {
+    changeContractStatus(contractId: $contractId, status: $status) {
+      contractId
+    }
+  }
+`;
+export type ChangeContractStatusMutationFn = Apollo.MutationFunction<
+  ChangeContractStatusMutation,
+  ChangeContractStatusMutationVariables
+>;
+
+/**
+ * __useChangeContractStatusMutation__
+ *
+ * To run a mutation, you first call `useChangeContractStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeContractStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeContractStatusMutation, { data, loading, error }] = useChangeContractStatusMutation({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useChangeContractStatusMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ChangeContractStatusMutation,
+    ChangeContractStatusMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ChangeContractStatusMutation,
+    ChangeContractStatusMutationVariables
+  >(ChangeContractStatusDocument, options);
+}
+export type ChangeContractStatusMutationHookResult = ReturnType<
+  typeof useChangeContractStatusMutation
+>;
+export type ChangeContractStatusMutationResult =
+  Apollo.MutationResult<ChangeContractStatusMutation>;
+export type ChangeContractStatusMutationOptions = Apollo.BaseMutationOptions<
+  ChangeContractStatusMutation,
+  ChangeContractStatusMutationVariables
+>;
 export const CreateNewDocument = gql`
   mutation createNew($data: NewInput!) {
     createNew(data: $data) {
