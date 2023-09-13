@@ -468,7 +468,7 @@ export default function ServicesBlock() {
     loading: channelTypeLoading,
     error: channelTypeError,
   } = useGetChannelTypeByIdQuery({
-    variables: { channelTypeId: contractId },
+    variables: { channelTypeId: contract.attributes?.channelType?.data?.id },
   });
   const [
     updateChannelType,
