@@ -78,7 +78,7 @@ export default function InformationContract({
     clientName: contractData.clientName ?? "N/A",
     siret: contractData.siret ?? "N/A",
     contractStatus: contractData.contractStatus ?? "N/A",
-    isNonExclusive: contractData.isNonExclusive ? "Non" : "Oui",
+    isNonExclusive: contractData.isNonExclusive ? "Non exclusif" : "Exclusif",
     clientType: contractData.clientType
       ? EContractClientTypeLabels[contractData.clientType]
       : "N/A",
