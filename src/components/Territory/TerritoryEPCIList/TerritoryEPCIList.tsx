@@ -11,6 +11,7 @@ import FormLabel from "../../Form/FormLabel/FormLabel";
 import FormAutoCompleteInput from "../../Form/FormAutoCompleteInput/FormAutoCompleteInput";
 import EPCIRowContent from "./EpciRowContent/EpciRowContent";
 import { ITerritory } from "../../../pages/[contractId]/gestion/territoire/index.page";
+import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import "./territory-epci-list.scss";
 
 interface ISearchCitiesResult {
@@ -56,11 +57,12 @@ export default function TerritoryEPCIList({
   /* Local Data */
   const { getValues, setValue, watch } = useForm();
   const epci = watch("chosenEPCI");
-  const [importSiren] = useImportSirenByContractIdMutation({
-    fetchPolicy: "network-only",
-    refetchQueries: ["getTerritoriesByContractId"],
-    awaitRefetchQueries: true,
-  });
+  const [importSiren, { loading: loadingImportSiren }] =
+    useImportSirenByContractIdMutation({
+      fetchPolicy: "network-only",
+      refetchQueries: ["getTerritoriesByContractId"],
+      awaitRefetchQueries: true,
+    });
 
   const [getEpcisInformations, { loading: epcisInformationsLoading }] =
     useGetEpcisInformationsLazyQuery({
@@ -101,18 +103,20 @@ export default function TerritoryEPCIList({
     <div className="c-TerritoryEPCIList">
       <h2 className="c-TerritoryEPCIList__Title">{title}</h2>
       <div>
-        {territoryData?.epci?.map((epci) =>
-          epci.attributes?.name && epci.attributes?.siren ? (
-            <EPCIRowContent
-              key={epci.id}
-              name={epci.attributes.name}
-              siren={epci.attributes.siren}
-              communes={epci.attributes?.cities?.data.length || 0}
-              epci={epci}
-              handleDelete={handleDelete}
-            />
-          ) : null,
-        )}
+        <CommonLoader isLoading={loadingImportSiren}>
+          {territoryData?.epci?.map((epci) =>
+            epci.attributes?.name && epci.attributes?.siren ? (
+              <EPCIRowContent
+                key={epci.id}
+                name={epci.attributes.name}
+                siren={epci.attributes.siren}
+                communes={epci.attributes?.cities?.data.length || 0}
+                epci={epci}
+                handleDelete={handleDelete}
+              />
+            ) : null,
+          )}
+        </CommonLoader>
         <DataTableForm
           onFormSubmit={() => onAddRow()}
           submitButtonLabel={labels.addRowButton}
