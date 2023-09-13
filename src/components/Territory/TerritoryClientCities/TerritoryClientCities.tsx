@@ -87,6 +87,12 @@ export default function TerritoryClientCities({
 
   async function onAddRow() {
     const city = watch("chosenCity");
+    const cityName = city.name;
+    const existingCity = tableData.find((row) => row.cityName === cityName);
+    if (existingCity) {
+      setcustomErrorMessage("Cette commune à déjà été créée");
+      return;
+    }
     const variables = {
       data: {
         territories: [territoryId],
@@ -98,6 +104,7 @@ export default function TerritoryClientCities({
         region: city.region.name,
       },
     };
+
     return createContractCity({
       variables,
     });
@@ -165,7 +172,7 @@ export default function TerritoryClientCities({
   const confirmStatesRef = useRef<Array<boolean>>([]);
   const tableDataRef = useRef<Array<IContractCitiesTableRow>>(tableData);
   const { getValues, setValue, watch } = useForm();
-
+  const [customErrorMessage, setcustomErrorMessage] = useState("");
   const [getContractCities, { data, loading, error }] =
     useGetContractCitiesByContractIdLazyQuery();
 
@@ -193,6 +200,7 @@ export default function TerritoryClientCities({
     searchValue: string,
   ): Promise<Array<ISearchCitiesResult>> {
     let searchResults: Array<ISearchCitiesResult> = [];
+    setcustomErrorMessage("");
     await getCitiesInformation({
       variables: { searchTerm: searchValue },
       onCompleted: (results) => {
@@ -385,6 +393,11 @@ export default function TerritoryClientCities({
             defaultValue={getValues("city")}
           />
         </DataTableForm>
+        {customErrorMessage && customErrorMessage !== "" && (
+          <em className="c-CommonFormErrorText u-ErrorText" role="alert">
+            {customErrorMessage}
+          </em>
+        )}
       </CommonLoader>
     </div>
   );

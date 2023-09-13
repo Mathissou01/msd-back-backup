@@ -37,7 +37,6 @@ export function TerritoryPage() {
       contractId,
     },
   });
-
   useEffect(() => {
     if (territoriesData) {
       const newTerritory = territoriesData.territories?.data
