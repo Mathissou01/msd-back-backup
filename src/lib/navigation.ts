@@ -15,7 +15,7 @@ export enum ENavigationPages {
   "/edito/conditions-generales" = "Conditions générales",
   "/edito/politique-cookies" = "Politique de cookies",
   "/edito/confidentialite" = "Confidentialité",
-  "/edito/contact" = "Contact",
+  "/edito/contact" = "Contactez-nous",
   /* Services */
   "/services/" = "Services",
   "/services/carte" = "Carte",
