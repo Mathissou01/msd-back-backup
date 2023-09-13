@@ -96,6 +96,9 @@ export default function InformationContract({
     clear: contractData.clear ?? "N/A",
   };
 
+  const isInactive =
+    contractData.contractStatus === Enum_Contract_Contractstatus.Desactive;
+
   return (
     <div className="c-InformationContract">
       <PageTitle title={labels.title} />
@@ -167,6 +170,7 @@ export default function InformationContract({
           style="primary"
           picto="edit"
           onClick={() => setEditMode(true)}
+          isDisabled={isInactive}
         />
         <CommonButton
           label={

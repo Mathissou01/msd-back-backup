@@ -1576,6 +1576,7 @@ type Contract {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): CollectVoluntaryRelationResponseCollection
+  communityUrl: String
   contractCustomization: ContractCustomizationEntityResponse
   contractMenu: ContractMenuEntityResponse
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS!
@@ -1715,6 +1716,7 @@ input ContractFiltersInput {
   collectDoorToDoors: CollectDoorToDoorFiltersInput
   collectDropOffs: CollectDropOffFiltersInput
   collectVoluntaries: CollectVoluntaryFiltersInput
+  communityUrl: StringFilterInput
   contractCustomization: ContractCustomizationFiltersInput
   contractMenu: ContractMenuFiltersInput
   contractStatus: StringFilterInput
@@ -1758,6 +1760,7 @@ input ContractInput {
   collectDoorToDoors: [ID]
   collectDropOffs: [ID]
   collectVoluntaries: [ID]
+  communityUrl: String
   contractCustomization: ID
   contractMenu: ID
   contractStatus: ENUM_CONTRACT_CONTRACTSTATUS
@@ -1950,15 +1953,6 @@ type Cumbersome {
   category: String!
   cumbersomeName: String!
   volume: String!
-}
-
-type DataStructure {
-  choiceId: ID!
-  choiceName: String
-  freeContentId: ID
-  selectedServiceId: ID!
-  selectedServiceName: String!
-  type: String
 }
 
 """
@@ -3877,6 +3871,15 @@ type KeyMetricsServiceRelationResponseCollection {
   data: [KeyMetricsServiceEntity!]!
 }
 
+enum LinkServiceType {
+  alertNotificationService
+  dropOffMapService
+  editorialService
+  pickUpDayService
+  recyclingGuideService
+  requestService
+}
+
 type LinkedServices {
   id: ID!
   name: String!
@@ -5362,9 +5365,8 @@ type Query {
   ): [EditoContentDTO]
   getEditoContentLinkedServices(
     audience: ID
-    contractId: ID!
-    linkToServiceId: ID!
-    selectedService: String!
+    selectedService: LinkServiceType!
+    serviceId: ID!
   ): result
   getEnrichRequests(requestServiceId: ID!): [EnrichRequest]
   getEpcisInformations(searchTerm: String!): [EpciInformation]
@@ -5383,7 +5385,7 @@ type Query {
     pickUpDayServiceId: ID!
   ): [ID]
   getRequestsHistoric(requestServiceId: Int!): [Historic]
-  getServiceBlockData(linkToServiceId: ID!): DataStructure
+  getServiceBlockData(linkToServiceId: ID!): JSON
   getStatusExport(id: ID!): String
   getThreeRandomTips(contractId: ID!): [Tips]
   getTopContentBlockDTO(audienceId: ID!, contractId: ID!): TopContentBlockDTO
@@ -7887,7 +7889,7 @@ type contractStatus {
 
 type result {
   elements: [LinkedServices]
-  pictoId: ID
+  pictoUrl: ID
 }
 
 type totalCountPerTag {

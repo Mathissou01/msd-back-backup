@@ -1794,6 +1794,7 @@ export type Contract = {
   collectDoorToDoors?: Maybe<CollectDoorToDoorRelationResponseCollection>;
   collectDropOffs?: Maybe<CollectDropOffRelationResponseCollection>;
   collectVoluntaries?: Maybe<CollectVoluntaryRelationResponseCollection>;
+  communityUrl?: Maybe<Scalars["String"]>;
   contractCustomization?: Maybe<ContractCustomizationEntityResponse>;
   contractMenu?: Maybe<ContractMenuEntityResponse>;
   contractStatus: Enum_Contract_Contractstatus;
@@ -1975,6 +1976,7 @@ export type ContractFiltersInput = {
   collectDoorToDoors?: InputMaybe<CollectDoorToDoorFiltersInput>;
   collectDropOffs?: InputMaybe<CollectDropOffFiltersInput>;
   collectVoluntaries?: InputMaybe<CollectVoluntaryFiltersInput>;
+  communityUrl?: InputMaybe<StringFilterInput>;
   contractCustomization?: InputMaybe<ContractCustomizationFiltersInput>;
   contractMenu?: InputMaybe<ContractMenuFiltersInput>;
   contractStatus?: InputMaybe<StringFilterInput>;
@@ -2018,6 +2020,7 @@ export type ContractInput = {
   collectDoorToDoors?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   collectDropOffs?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   collectVoluntaries?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  communityUrl?: InputMaybe<Scalars["String"]>;
   contractCustomization?: InputMaybe<Scalars["ID"]>;
   contractMenu?: InputMaybe<Scalars["ID"]>;
   contractStatus?: InputMaybe<Enum_Contract_Contractstatus>;
@@ -2224,16 +2227,6 @@ export type Cumbersome = {
   category: Scalars["String"];
   cumbersomeName: Scalars["String"];
   volume: Scalars["String"];
-};
-
-export type DataStructure = {
-  __typename?: "DataStructure";
-  choiceId: Scalars["ID"];
-  choiceName?: Maybe<Scalars["String"]>;
-  freeContentId?: Maybe<Scalars["ID"]>;
-  selectedServiceId: Scalars["ID"];
-  selectedServiceName: Scalars["String"];
-  type?: Maybe<Scalars["String"]>;
 };
 
 export type DateFilterInput = {
@@ -4319,6 +4312,15 @@ export type KeyMetricsServiceRelationResponseCollection = {
   __typename?: "KeyMetricsServiceRelationResponseCollection";
   data: Array<KeyMetricsServiceEntity>;
 };
+
+export enum LinkServiceType {
+  AlertNotificationService = "alertNotificationService",
+  DropOffMapService = "dropOffMapService",
+  EditorialService = "editorialService",
+  PickUpDayService = "pickUpDayService",
+  RecyclingGuideService = "recyclingGuideService",
+  RequestService = "requestService",
+}
 
 export type LinkedServices = {
   __typename?: "LinkedServices";
@@ -6639,7 +6641,7 @@ export type Query = {
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   getRequestsHistoric?: Maybe<Array<Maybe<Historic>>>;
-  getServiceBlockData?: Maybe<DataStructure>;
+  getServiceBlockData?: Maybe<Scalars["JSON"]>;
   getStatusExport?: Maybe<Scalars["String"]>;
   getThreeRandomTips?: Maybe<Array<Maybe<Tips>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
@@ -7176,9 +7178,8 @@ export type QueryGetEditoContentDtOsArgs = {
 
 export type QueryGetEditoContentLinkedServicesArgs = {
   audience?: InputMaybe<Scalars["ID"]>;
-  contractId: Scalars["ID"];
-  linkToServiceId: Scalars["ID"];
-  selectedService: Scalars["String"];
+  selectedService: LinkServiceType;
+  serviceId: Scalars["ID"];
 };
 
 export type QueryGetEnrichRequestsArgs = {
@@ -10170,7 +10171,7 @@ export type ContractStatus = {
 export type Result = {
   __typename?: "result";
   elements?: Maybe<Array<Maybe<LinkedServices>>>;
-  pictoId?: Maybe<Scalars["ID"]>;
+  pictoUrl?: Maybe<Scalars["ID"]>;
 };
 
 export type TotalCountPerTag = {
