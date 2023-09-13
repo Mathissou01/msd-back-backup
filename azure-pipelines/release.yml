@@ -32,18 +32,6 @@ jobs:
                 path: $(System.DefaultWorkingDirectory)/
                 artifact: BO Static WebApp Export $(Build.BuildId)
 
-            - task: AzureStaticWebApp@0
-              displayName: Update BO Static WebApp in Azure Cloud
-              inputs:
-                output_location: "out"
-                skip_app_build: true
-                verbose: true
-                is_static_export: true
-                ${{ if not(eq(parameters.instance, 'production')) }}:
-                  deployment_environment: ${{ parameters.instance }}
-              env:
-                azure_static_web_apps_api_token: $(bo-deployment-token)
-
             - task: AzureWebAppContainer@1
               displayName: Update Container in Azure WebApps
               inputs:

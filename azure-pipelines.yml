@@ -77,8 +77,6 @@ stages:
   - stage: Release
     displayName: Service update on Azure Cloud
     condition: and(eq(variables.release${{ upper(variables.env) }}, 'true'), succeeded())
-    variables:
-      - group: bo_site_variables_${{ variables.env }}
 
     jobs:
       - template: azure-pipelines/release.yml
