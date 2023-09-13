@@ -5,42 +5,6 @@ exports[`CommonPagination renders 1`] = `
   <div
     class="c-CommonPagination c-CommonPagination_hasRowsPerPage"
   >
-    <div
-      class="c-CommonPagination__RowsPerPage"
-    >
-      <select
-        class="c-CommonPagination__Select"
-        id="rowsPerPage"
-        name="rowsPerPage"
-      >
-        <option
-          selected=""
-          value="10"
-        >
-          10
-        </option>
-        <option
-          value="20"
-        >
-          20
-        </option>
-        <option
-          value="50"
-        >
-          50
-        </option>
-        <option
-          value="100"
-        >
-          100
-        </option>
-      </select>
-      <span
-        class="c-CommonPagination__Label"
-      >
-        Entrées par page
-      </span>
-    </div>
     <nav
       class="c-CommonPagination__Navigation"
     >

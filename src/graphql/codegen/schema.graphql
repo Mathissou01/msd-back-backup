@@ -1955,6 +1955,15 @@ type Cumbersome {
   volume: String!
 }
 
+type DataStructure {
+  choiceId: ID!
+  choiceName: String
+  freeContentId: ID
+  selectedServiceId: ID!
+  selectedServiceName: String!
+  type: String
+}
+
 """
 A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -3871,15 +3880,6 @@ type KeyMetricsServiceRelationResponseCollection {
   data: [KeyMetricsServiceEntity!]!
 }
 
-enum LinkServiceType {
-  alertNotificationService
-  dropOffMapService
-  editorialService
-  pickUpDayService
-  recyclingGuideService
-  requestService
-}
-
 type LinkedServices {
   id: ID!
   name: String!
@@ -5365,8 +5365,9 @@ type Query {
   ): [EditoContentDTO]
   getEditoContentLinkedServices(
     audience: ID
-    selectedService: LinkServiceType!
-    serviceId: ID!
+    contractId: ID!
+    linkToServiceId: ID!
+    selectedService: String!
   ): result
   getEnrichRequests(requestServiceId: ID!): [EnrichRequest]
   getEpcisInformations(searchTerm: String!): [EpciInformation]
@@ -5385,7 +5386,7 @@ type Query {
     pickUpDayServiceId: ID!
   ): [ID]
   getRequestsHistoric(requestServiceId: Int!): [Historic]
-  getServiceBlockData(linkToServiceId: ID!): JSON
+  getServiceBlockData(linkToServiceId: ID!): DataStructure
   getStatusExport(id: ID!): String
   getThreeRandomTips(contractId: ID!): [Tips]
   getTopContentBlockDTO(audienceId: ID!, contractId: ID!): TopContentBlockDTO
@@ -7889,7 +7890,7 @@ type contractStatus {
 
 type result {
   elements: [LinkedServices]
-  pictoUrl: ID
+  pictoId: ID
 }
 
 type totalCountPerTag {

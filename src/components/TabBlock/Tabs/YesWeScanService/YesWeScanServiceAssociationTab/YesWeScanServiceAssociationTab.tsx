@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import {
   Enum_Yeswescanqrcode_Typeassociation,
-  useUpdateYesWeScanQrCodeByIdMutation,
+  useUpdateYwsQrCodeByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
@@ -10,10 +10,11 @@ import FormModal from "../../../../Form/FormModal/FormModal";
 import YesWeScanAssociationModal from "../../../../YesWeScan/YesWeScanAssociationModal/YesWeScanAssociationModal";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import YesWeScanServiceAssociationTable from "./YesWeScanAssociationTable/YesWeScanAssociationTable";
+import YesWeScanUnassociationTable from "./YesWeScanUnassociationTable/YesWeScanUnassociationTable";
 import "./yes-we-scan-association.scss";
 
 interface IYesWeScanServiceAssociationModalSubmitData {
-  updateYesWeScanQrCodeId: string;
+  ywsQrCodeId: string;
   data: {
     typeAssociation?: Enum_Yeswescanqrcode_Typeassociation;
     name?: string;
@@ -42,7 +43,7 @@ export default function YesWeScanServiceAssociationTab({
   /* Methods */
   async function onSubmit(submitData: FieldValues) {
     const variables: IYesWeScanServiceAssociationModalSubmitData = {
-      updateYesWeScanQrCodeId: submitData.qrCodeId,
+      ywsQrCodeId: submitData.qrCodeId,
       data: {
         yesWeScanService: submitData.serviceId,
         typeAssociation:
@@ -77,20 +78,17 @@ export default function YesWeScanServiceAssociationTab({
 
     updateQrCode({
       variables,
-      // TODO : Add refetch queries when the two tables will be available
       refetchQueries: ["getYesWeScanQrCodes"],
     });
   }
 
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);
-  // TODO : use setChosenQRCodeId to populate QR Code ID if we click on a specific QR Code ID
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [chosenQRCodeId, setChosenQRCodeId] = useState<string>("");
   const [
     updateQrCode,
     { loading: updateQrCodeLoading, error: updateQrCodeError },
-  ] = useUpdateYesWeScanQrCodeByIdMutation();
+  ] = useUpdateYwsQrCodeByIdMutation();
 
   const isLoading = updateQrCodeLoading;
   const errors = [updateQrCodeError];
@@ -108,6 +106,11 @@ export default function YesWeScanServiceAssociationTab({
           onClick={() => {
             modalRef.current?.toggleModal(true);
           }}
+        />
+        <YesWeScanUnassociationTable
+          ywsServiceId={serviceId}
+          editModalRef={modalRef}
+          setChosenQRCodeId={setChosenQRCodeId}
         />
         <YesWeScanServiceAssociationTable
           setChosenQRCodeId={setChosenQRCodeId}

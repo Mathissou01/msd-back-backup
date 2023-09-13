@@ -1,0 +1,27 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
+.c-YesWeScanUnassociationTable {
+  margin-top: 80px;
+
+  &__Title {
+    margin-bottom: 20px;
+  }
+
+  &__QrCodes {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    padding-bottom: 10px;
+    column-gap: 10px;
+    border-bottom: 1px solid colors.$gray-500;
+    row-gap: 5px;
+
+    > button {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+
+  .c-CommonPagination {
+    margin-top: 10px;
+  }
+}

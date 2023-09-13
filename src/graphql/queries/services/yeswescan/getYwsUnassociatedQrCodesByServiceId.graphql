@@ -1,0 +1,24 @@
+query getYwsUnassociatedQrCodesByServiceId(
+  $ywsServiceId: ID!
+  $pagination: PaginationArg
+) {
+  yesWeScanQrCodes(
+    filters: {
+      yesWeScanService: { id: { eq: $ywsServiceId } }
+      typeAssociation: { null: true }
+    }
+    pagination: $pagination
+  ) {
+    data {
+      id
+    }
+    meta {
+      pagination {
+        page
+        pageCount
+        pageSize
+        total
+      }
+    }
+  }
+}

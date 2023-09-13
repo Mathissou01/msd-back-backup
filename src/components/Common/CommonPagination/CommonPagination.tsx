@@ -6,7 +6,7 @@ export interface ICommonPaginationProps {
   currentPage: number;
   rowCount: number;
   onChangePage: (page: number, totalRows: number) => void;
-  onChangeRowsPerPage: (
+  onChangeRowsPerPage?: (
     currentRowsPerPage: number,
     currentPage: number,
   ) => void;
@@ -42,28 +42,29 @@ export default function CommonPagination({
     <>
       {pageCount >= 1 && (
         <div className={paginationClassNames}>
-          {!noRowsPerPage && (
-            <div className="c-CommonPagination__RowsPerPage">
-              <select
-                className="c-CommonPagination__Select"
-                name="rowsPerPage"
-                id="rowsPerPage"
-                defaultValue={rowsPerPage}
-                onChange={(t) =>
-                  onChangeRowsPerPage(parseInt(t.target.value), currentPage)
-                }
-              >
-                {rowsPerPageOptions?.map((option, index) => (
-                  <option key={index} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-              <span className="c-CommonPagination__Label">
-                {rowsPerPageText}
-              </span>
-            </div>
-          )}
+          {!noRowsPerPage ||
+            (onChangeRowsPerPage && (
+              <div className="c-CommonPagination__RowsPerPage">
+                <select
+                  className="c-CommonPagination__Select"
+                  name="rowsPerPage"
+                  id="rowsPerPage"
+                  defaultValue={rowsPerPage}
+                  onChange={(t) =>
+                    onChangeRowsPerPage(parseInt(t.target.value), currentPage)
+                  }
+                >
+                  {rowsPerPageOptions?.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+                <span className="c-CommonPagination__Label">
+                  {rowsPerPageText}
+                </span>
+              </div>
+            ))}
           <nav className="c-CommonPagination__Navigation">
             <div className={previousClassNames}>
               <button

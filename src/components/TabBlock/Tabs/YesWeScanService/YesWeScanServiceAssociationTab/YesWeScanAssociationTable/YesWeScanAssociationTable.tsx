@@ -9,8 +9,9 @@ import {
 } from "react";
 import { useRouter } from "next/router";
 import {
+  GetYwsUnassociatedQrCodesByServiceIdDocument,
   useGetYesWeScanQrCodesLazyQuery,
-  useUpdateYesWeScanQrCodeByIdMutation,
+  useUpdateYwsQrCodeByIdMutation,
 } from "../../../../../../graphql/codegen/generated-types";
 import {
   ICurrentPagination,
@@ -42,8 +43,8 @@ export default function YesWeScanServiceAssociationTable({
 }: IYesWeScanAssociationTableRowProps) {
   /* Static Data */
   const labels = {
+    title: "QR Code associés",
     table: {
-      title: "QR Code associés",
       columns: {
         qrCodeId: "ID du QR Code",
         name: "Nom du point de signalement / d'apport",
@@ -59,7 +60,10 @@ export default function YesWeScanServiceAssociationTable({
   async function handleLazyLoad(params: ICurrentPagination) {
     return yesWeScanQrCodes({
       variables: {
-        filters: { yesWeScanService: { id: { eq: ywsServiceId?.toString() } } },
+        filters: {
+          yesWeScanService: { id: { eq: ywsServiceId?.toString() } },
+          typeAssociation: { notNull: true },
+        },
         pagination: { page: params.page, pageSize: params.rowsPerPage },
       },
     });
@@ -68,7 +72,7 @@ export default function YesWeScanServiceAssociationTable({
   async function handleConfirmDissociate(id: string) {
     return updateYesWeScanQrCode({
       variables: {
-        updateYesWeScanQrCodeId: id,
+        ywsQrCodeId: id,
         data: {
           address: null,
           city: null,
@@ -78,13 +82,10 @@ export default function YesWeScanServiceAssociationTable({
           typeAssociation: null,
         },
       },
-    })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        dissociateModalRef.current?.toggleModal(false);
-      });
+      refetchQueries: [GetYwsUnassociatedQrCodesByServiceIdDocument],
+    }).then(() => {
+      dissociateModalRef.current?.toggleModal(false);
+    });
   }
 
   function handleOpenDissociateModal(id: string) {
@@ -105,7 +106,10 @@ export default function YesWeScanServiceAssociationTable({
   const [yesWeScanQrCodes, { data, loading, error }] =
     useGetYesWeScanQrCodesLazyQuery({
       variables: {
-        filters: { yesWeScanService: { id: { eq: ywsServiceId?.toString() } } },
+        filters: {
+          yesWeScanService: { id: { eq: ywsServiceId?.toString() } },
+          typeAssociation: { notNull: true },
+        },
         pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
       },
     });
@@ -113,7 +117,7 @@ export default function YesWeScanServiceAssociationTable({
   const [
     updateYesWeScanQrCode,
     { loading: isLoadingMutation, error: updateMutationError },
-  ] = useUpdateYesWeScanQrCodeByIdMutation({
+  ] = useUpdateYwsQrCodeByIdMutation({
     refetchQueries: ["getYesWeScanQrCodes"],
     awaitRefetchQueries: true,
   });
@@ -190,6 +194,7 @@ export default function YesWeScanServiceAssociationTable({
 
   return (
     <div className="c-YesWeScanAssociationTable">
+      <h2>{labels.title}</h2>
       <div className="c-YesWeScanAssociationTable__Container">
         <CommonLoader
           isLoading={!isInitialized.current}
