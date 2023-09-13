@@ -30,7 +30,9 @@ const ShadowDomContainer = ({ id, type, width, height }) => {
     <CommonLoader isLoading={loading} errors={error}>
       <iframe
         id="external-iframe"
-        src={`${process.env.NEXT_PUBLIC_FO_URL}/${data?.contract?.data?.attributes.clientName}/preview?type=${type}&id=${id}`}
+        src={`${process.env.NEXT_PUBLIC_FO_URL}/${encodeURIComponent(
+          data?.contract?.data?.attributes.clientName,
+        )}/preview?type=${type}&id=${id}`}
         width={width}
         height={height}
       />
