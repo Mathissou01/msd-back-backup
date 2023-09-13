@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useGetYesWeScanServiceByIdQuery } from "../../../../../graphql/codegen/generated-types";
+import { useGetYwsServiceByIdQuery } from "../../../../../graphql/codegen/generated-types";
 import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
@@ -8,6 +8,7 @@ import TabBlock, { ITab } from "../../../../../components/TabBlock/TabBlock";
 import YesWeScanServiceReportingTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceReportingTab/YesWeScanServiceReportingTab";
 import YesWeScanServiceAssociationTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceAssociationTab/YesWeScanServiceAssociationTab";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
+import YesWeScanServiceQRCodeTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceQRCodeTab/YesWeScanServiceQRCodeTab";
 import "./yws-service-page.scss";
 
 interface IYesWeScanServicePageProps {
@@ -27,7 +28,7 @@ function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
 
   /* Local Data */
   const router = useRouter();
-  const { data, loading } = useGetYesWeScanServiceByIdQuery({
+  const { data, loading } = useGetYwsServiceByIdQuery({
     fetchPolicy: "network-only",
     variables: { serviceId: ywsServiceId },
   });
@@ -49,7 +50,14 @@ function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
     {
       name: "qrcode",
       title: labels.tabs.qrcode,
-      content: <></>,
+      content: (
+        <YesWeScanServiceQRCodeTab
+          ywsServiceId={data?.yesWeScanService?.data?.id ?? ""}
+          ywsShortName={
+            data?.yesWeScanService?.data?.attributes?.shortName ?? ""
+          }
+        />
+      ),
       isEnabled: true,
     },
     {

@@ -3,9 +3,9 @@ import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { useNavigation } from "../../hooks/useNavigation";
 import {
   Enum_Yeswescanform_Picturestatus,
-  GetYesWeScanFormByIdDocument,
-  useCreateYesWeScanFormMutation,
-  useUpdateYesWeScanFormByIdMutation,
+  GetYwsFormByIdDocument,
+  useCreateYwsFormMutation,
+  useUpdateYwsFormByIdMutation,
 } from "../../graphql/codegen/generated-types";
 import {
   fileSizeLimitationOptions,
@@ -166,14 +166,14 @@ export default function YesWeScanReportingForm({
   const [
     createYesWeScanForm,
     { loading: createYesWeScanFormLoading, error: createYesWeScanFormError },
-  ] = useCreateYesWeScanFormMutation();
+  ] = useCreateYwsFormMutation();
   const [
     updateYesWeScanForm,
     { loading: updateYesWeScanFormLoading, error: updateYesWeScanFormError },
-  ] = useUpdateYesWeScanFormByIdMutation({
+  ] = useUpdateYwsFormByIdMutation({
     refetchQueries: [
       {
-        query: GetYesWeScanFormByIdDocument,
+        query: GetYwsFormByIdDocument,
         variables: {
           ywsFormId: ywsFormId,
         },

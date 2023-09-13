@@ -1,4 +1,4 @@
-mutation createYesWeScanForm($data: YesWeScanFormInput!) {
+mutation createYwsForm($data: YesWeScanFormInput!) {
   createYesWeScanForm(data: $data) {
     data {
       id

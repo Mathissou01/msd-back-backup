@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
-  useGetYesWeScanServicesByContractIdLazyQuery,
+  useGetYwsServicesByContractIdLazyQuery,
   YesWeScanServiceEntity,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
@@ -24,7 +24,7 @@ function YesWeScanPage() {
   const { contractId } = useContract();
   const [pageData, setPageData] = useState<Array<YesWeScanServiceEntity>>([]);
   const [getYesWeScanServices, { data }] =
-    useGetYesWeScanServicesByContractIdLazyQuery({
+    useGetYwsServicesByContractIdLazyQuery({
       fetchPolicy: "network-only",
     });
 

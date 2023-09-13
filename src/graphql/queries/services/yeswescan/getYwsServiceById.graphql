@@ -1,4 +1,4 @@
-query getYesWeScanServiceById($serviceId: ID!) {
+query getYwsServiceById($serviceId: ID!) {
   yesWeScanService(id: $serviceId) {
     data {
       id

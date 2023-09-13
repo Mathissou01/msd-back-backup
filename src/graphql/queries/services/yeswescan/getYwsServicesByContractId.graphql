@@ -1,4 +1,4 @@
-query getYesWeScanServicesByContractId($contractId: ID!, $today: DateTime) {
+query getYwsServicesByContractId($contractId: ID!, $today: DateTime) {
   yesWeScanServices(
     filters: {
       contract: { id: { eq: $contractId } }

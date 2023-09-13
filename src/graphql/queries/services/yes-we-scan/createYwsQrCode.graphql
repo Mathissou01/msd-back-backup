@@ -1,0 +1,7 @@
+mutation createYwsQrCode($data: YesWeScanQrCodeInput!) {
+  createYesWeScanQrCode(data: $data) {
+    data {
+      id
+    }
+  }
+}

@@ -1,0 +1,10 @@
+mutation updateYwsQrCodeById($ywsQrCodeId: ID!, $data: YesWeScanQrCodeInput!) {
+  updateYesWeScanQrCode(id: $ywsQrCodeId, data: $data) {
+    data {
+      id
+      attributes {
+        qrCodeUrl
+      }
+    }
+  }
+}

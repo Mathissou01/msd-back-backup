@@ -1,4 +1,4 @@
-mutation deleteYesWeScanServiceById($deleteYesWeScanServiceId: ID!) {
+mutation deleteYwsServiceById($deleteYesWeScanServiceId: ID!) {
   deleteYesWeScanService(id: $deleteYesWeScanServiceId) {
     data {
       id

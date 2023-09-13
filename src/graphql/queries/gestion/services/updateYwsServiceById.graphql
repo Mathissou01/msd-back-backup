@@ -1,4 +1,4 @@
-mutation updateYesWeScanServiceById(
+mutation updateYwsServiceById(
   $updateYesWeScanServiceId: ID!
   $data: YesWeScanServiceInput!
 ) {

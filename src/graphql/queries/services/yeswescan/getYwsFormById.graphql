@@ -1,4 +1,4 @@
-query getYesWeScanFormById($ywsFormId: ID!) {
+query getYwsFormById($ywsFormId: ID!) {
   yesWeScanForm(id: $ywsFormId) {
     data {
       id

@@ -1,8 +1,8 @@
 import React from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import {
-  useGetYesWeScanQrCodesByServiceIdQuery,
-  useUpdateYesWeScanServiceByIdMutation,
+  useGetYwsQrCodesByServiceIdQuery,
+  useUpdateYwsServiceByIdMutation,
 } from "../../../../../../graphql/codegen/generated-types";
 import { useFocusFirstElement } from "../../../../../../hooks/useFocusFirstElement";
 import CommonLoader from "../../../../../Common/CommonLoader/CommonLoader";
@@ -29,7 +29,7 @@ export default function YesWeScanServiceReportingTabDiminutiveForm({
   };
   const diminutiveMaxLength = 10;
 
-  const { data: qrCodesAssociated } = useGetYesWeScanQrCodesByServiceIdQuery({
+  const { data: qrCodesAssociated } = useGetYwsQrCodesByServiceIdQuery({
     variables: {
       ywsServiceId: ywsServiceId,
     },
@@ -59,7 +59,7 @@ export default function YesWeScanServiceReportingTabDiminutiveForm({
   const [
     updateShortName,
     { loading: updateShortNameLoading, error: updateShortNameError },
-  ] = useUpdateYesWeScanServiceByIdMutation({
+  ] = useUpdateYwsServiceByIdMutation({
     refetchQueries: ["getYesWeScanServiceById", "getYesWeScanAssociatedQRCode"],
   });
   const isLoading = isSubmitting || updateShortNameLoading;

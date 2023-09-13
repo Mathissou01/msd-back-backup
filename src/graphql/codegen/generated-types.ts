@@ -13581,11 +13581,11 @@ export type CreateYwsServiceMutation = {
   } | null;
 };
 
-export type DeleteYesWeScanServiceByIdMutationVariables = Exact<{
+export type DeleteYwsServiceByIdMutationVariables = Exact<{
   deleteYesWeScanServiceId: Scalars["ID"];
 }>;
 
-export type DeleteYesWeScanServiceByIdMutation = {
+export type DeleteYwsServiceByIdMutation = {
   __typename?: "Mutation";
   deleteYesWeScanService?: {
     __typename?: "YesWeScanServiceEntityResponse";
@@ -13785,12 +13785,12 @@ export type UpdateContactUsServiceByIdMutation = {
   } | null;
 };
 
-export type UpdateYesWeScanServiceByIdMutationVariables = Exact<{
+export type UpdateYwsServiceByIdMutationVariables = Exact<{
   updateYesWeScanServiceId: Scalars["ID"];
   data: YesWeScanServiceInput;
 }>;
 
-export type UpdateYesWeScanServiceByIdMutation = {
+export type UpdateYwsServiceByIdMutation = {
   __typename?: "Mutation";
   updateYesWeScanService?: {
     __typename?: "YesWeScanServiceEntityResponse";
@@ -19208,11 +19208,43 @@ export type UpdatePickUpDayByIdMutation = {
   } | null;
 };
 
-export type CreateYesWeScanFormMutationVariables = Exact<{
+export type CreateYwsQrCodeMutationVariables = Exact<{
+  data: YesWeScanQrCodeInput;
+}>;
+
+export type CreateYwsQrCodeMutation = {
+  __typename?: "Mutation";
+  createYesWeScanQrCode?: {
+    __typename?: "YesWeScanQrCodeEntityResponse";
+    data?: { __typename?: "YesWeScanQrCodeEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateYwsQrCodeByIdMutationVariables = Exact<{
+  ywsQrCodeId: Scalars["ID"];
+  data: YesWeScanQrCodeInput;
+}>;
+
+export type UpdateYwsQrCodeByIdMutation = {
+  __typename?: "Mutation";
+  updateYesWeScanQrCode?: {
+    __typename?: "YesWeScanQrCodeEntityResponse";
+    data?: {
+      __typename?: "YesWeScanQrCodeEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "YesWeScanQrCode";
+        qrCodeUrl?: string | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type CreateYwsFormMutationVariables = Exact<{
   data: YesWeScanFormInput;
 }>;
 
-export type CreateYesWeScanFormMutation = {
+export type CreateYwsFormMutation = {
   __typename?: "Mutation";
   createYesWeScanForm?: {
     __typename?: "YesWeScanFormEntityResponse";
@@ -19220,11 +19252,43 @@ export type CreateYesWeScanFormMutation = {
   } | null;
 };
 
-export type GetYesWeScanFormByIdQueryVariables = Exact<{
+export type GetYesWeScanQrCodesQueryVariables = Exact<{
+  filters?: InputMaybe<YesWeScanQrCodeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+export type GetYesWeScanQrCodesQuery = {
+  __typename?: "Query";
+  yesWeScanQrCodes?: {
+    __typename?: "YesWeScanQrCodeEntityResponseCollection";
+    data: Array<{
+      __typename?: "YesWeScanQrCodeEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "YesWeScanQrCode";
+        name?: string | null;
+        address?: string | null;
+        city?: string | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageCount: number;
+        pageSize: number;
+        total: number;
+      };
+    };
+  } | null;
+};
+
+export type GetYwsFormByIdQueryVariables = Exact<{
   ywsFormId: Scalars["ID"];
 }>;
 
-export type GetYesWeScanFormByIdQuery = {
+export type GetYwsFormByIdQuery = {
   __typename?: "Query";
   yesWeScanForm?: {
     __typename?: "YesWeScanFormEntityResponse";
@@ -19274,12 +19338,11 @@ export type GetYesWeScanFormByIdQuery = {
   } | null;
 };
 
-export type GetYesWeScanQrCodesQueryVariables = Exact<{
-  filters?: InputMaybe<YesWeScanQrCodeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
+export type GetYwsQrCodesByServiceIdQueryVariables = Exact<{
+  ywsServiceId: Scalars["ID"];
 }>;
 
-export type GetYesWeScanQrCodesQuery = {
+export type GetYwsQrCodesByServiceIdQuery = {
   __typename?: "Query";
   yesWeScanQrCodes?: {
     __typename?: "YesWeScanQrCodeEntityResponseCollection";
@@ -19288,41 +19351,17 @@ export type GetYesWeScanQrCodesQuery = {
       id?: string | null;
       attributes?: {
         __typename?: "YesWeScanQrCode";
-        name?: string | null;
-        address?: string | null;
-        city?: string | null;
+        qrCodeUrl?: string | null;
       } | null;
     }>;
-    meta: {
-      __typename?: "ResponseCollectionMeta";
-      pagination: {
-        __typename?: "Pagination";
-        page: number;
-        pageCount: number;
-        pageSize: number;
-        total: number;
-      };
-    };
   } | null;
 };
 
-export type GetYesWeScanQrCodesByServiceIdQueryVariables = Exact<{
-  ywsServiceId: Scalars["ID"];
-}>;
-
-export type GetYesWeScanQrCodesByServiceIdQuery = {
-  __typename?: "Query";
-  yesWeScanQrCodes?: {
-    __typename?: "YesWeScanQrCodeEntityResponseCollection";
-    data: Array<{ __typename?: "YesWeScanQrCodeEntity"; id?: string | null }>;
-  } | null;
-};
-
-export type GetYesWeScanServiceByIdQueryVariables = Exact<{
+export type GetYwsServiceByIdQueryVariables = Exact<{
   serviceId: Scalars["ID"];
 }>;
 
-export type GetYesWeScanServiceByIdQuery = {
+export type GetYwsServiceByIdQuery = {
   __typename?: "Query";
   yesWeScanService?: {
     __typename?: "YesWeScanServiceEntityResponse";
@@ -19347,12 +19386,12 @@ export type GetYesWeScanServiceByIdQuery = {
   } | null;
 };
 
-export type GetYesWeScanServicesByContractIdQueryVariables = Exact<{
+export type GetYwsServicesByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   today?: InputMaybe<Scalars["DateTime"]>;
 }>;
 
-export type GetYesWeScanServicesByContractIdQuery = {
+export type GetYwsServicesByContractIdQuery = {
   __typename?: "Query";
   yesWeScanServices?: {
     __typename?: "YesWeScanServiceEntityResponseCollection";
@@ -19368,19 +19407,6 @@ export type GetYesWeScanServicesByContractIdQuery = {
   } | null;
 };
 
-export type UpdateYesWeScanFormByIdMutationVariables = Exact<{
-  ywsFormId: Scalars["ID"];
-  data: YesWeScanFormInput;
-}>;
-
-export type UpdateYesWeScanFormByIdMutation = {
-  __typename?: "Mutation";
-  updateYesWeScanForm?: {
-    __typename?: "YesWeScanFormEntityResponse";
-    data?: { __typename?: "YesWeScanFormEntity"; id?: string | null } | null;
-  } | null;
-};
-
 export type UpdateYesWeScanQrCodeByIdMutationVariables = Exact<{
   updateYesWeScanQrCodeId: Scalars["ID"];
   data: YesWeScanQrCodeInput;
@@ -19391,6 +19417,19 @@ export type UpdateYesWeScanQrCodeByIdMutation = {
   updateYesWeScanQrCode?: {
     __typename?: "YesWeScanQrCodeEntityResponse";
     data?: { __typename?: "YesWeScanQrCodeEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type UpdateYwsFormByIdMutationVariables = Exact<{
+  ywsFormId: Scalars["ID"];
+  data: YesWeScanFormInput;
+}>;
+
+export type UpdateYwsFormByIdMutation = {
+  __typename?: "Mutation";
+  updateYesWeScanForm?: {
+    __typename?: "YesWeScanFormEntityResponse";
+    data?: { __typename?: "YesWeScanFormEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -25569,8 +25608,8 @@ export type CreateYwsServiceMutationOptions = Apollo.BaseMutationOptions<
   CreateYwsServiceMutation,
   CreateYwsServiceMutationVariables
 >;
-export const DeleteYesWeScanServiceByIdDocument = gql`
-  mutation deleteYesWeScanServiceById($deleteYesWeScanServiceId: ID!) {
+export const DeleteYwsServiceByIdDocument = gql`
+  mutation deleteYwsServiceById($deleteYesWeScanServiceId: ID!) {
     deleteYesWeScanService(id: $deleteYesWeScanServiceId) {
       data {
         id
@@ -25578,50 +25617,49 @@ export const DeleteYesWeScanServiceByIdDocument = gql`
     }
   }
 `;
-export type DeleteYesWeScanServiceByIdMutationFn = Apollo.MutationFunction<
-  DeleteYesWeScanServiceByIdMutation,
-  DeleteYesWeScanServiceByIdMutationVariables
+export type DeleteYwsServiceByIdMutationFn = Apollo.MutationFunction<
+  DeleteYwsServiceByIdMutation,
+  DeleteYwsServiceByIdMutationVariables
 >;
 
 /**
- * __useDeleteYesWeScanServiceByIdMutation__
+ * __useDeleteYwsServiceByIdMutation__
  *
- * To run a mutation, you first call `useDeleteYesWeScanServiceByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteYesWeScanServiceByIdMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteYwsServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteYwsServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteYesWeScanServiceByIdMutation, { data, loading, error }] = useDeleteYesWeScanServiceByIdMutation({
+ * const [deleteYwsServiceByIdMutation, { data, loading, error }] = useDeleteYwsServiceByIdMutation({
  *   variables: {
  *      deleteYesWeScanServiceId: // value for 'deleteYesWeScanServiceId'
  *   },
  * });
  */
-export function useDeleteYesWeScanServiceByIdMutation(
+export function useDeleteYwsServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteYesWeScanServiceByIdMutation,
-    DeleteYesWeScanServiceByIdMutationVariables
+    DeleteYwsServiceByIdMutation,
+    DeleteYwsServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    DeleteYesWeScanServiceByIdMutation,
-    DeleteYesWeScanServiceByIdMutationVariables
-  >(DeleteYesWeScanServiceByIdDocument, options);
+    DeleteYwsServiceByIdMutation,
+    DeleteYwsServiceByIdMutationVariables
+  >(DeleteYwsServiceByIdDocument, options);
 }
-export type DeleteYesWeScanServiceByIdMutationHookResult = ReturnType<
-  typeof useDeleteYesWeScanServiceByIdMutation
+export type DeleteYwsServiceByIdMutationHookResult = ReturnType<
+  typeof useDeleteYwsServiceByIdMutation
 >;
-export type DeleteYesWeScanServiceByIdMutationResult =
-  Apollo.MutationResult<DeleteYesWeScanServiceByIdMutation>;
-export type DeleteYesWeScanServiceByIdMutationOptions =
-  Apollo.BaseMutationOptions<
-    DeleteYesWeScanServiceByIdMutation,
-    DeleteYesWeScanServiceByIdMutationVariables
-  >;
+export type DeleteYwsServiceByIdMutationResult =
+  Apollo.MutationResult<DeleteYwsServiceByIdMutation>;
+export type DeleteYwsServiceByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteYwsServiceByIdMutation,
+  DeleteYwsServiceByIdMutationVariables
+>;
 export const GetChannelTypeByIdDocument = gql`
   query getChannelTypeById($channelTypeId: ID) {
     channelType(id: $channelTypeId) {
@@ -26349,8 +26387,8 @@ export type UpdateContactUsServiceByIdMutationOptions =
     UpdateContactUsServiceByIdMutation,
     UpdateContactUsServiceByIdMutationVariables
   >;
-export const UpdateYesWeScanServiceByIdDocument = gql`
-  mutation updateYesWeScanServiceById(
+export const UpdateYwsServiceByIdDocument = gql`
+  mutation updateYwsServiceById(
     $updateYesWeScanServiceId: ID!
     $data: YesWeScanServiceInput!
   ) {
@@ -26361,51 +26399,50 @@ export const UpdateYesWeScanServiceByIdDocument = gql`
     }
   }
 `;
-export type UpdateYesWeScanServiceByIdMutationFn = Apollo.MutationFunction<
-  UpdateYesWeScanServiceByIdMutation,
-  UpdateYesWeScanServiceByIdMutationVariables
+export type UpdateYwsServiceByIdMutationFn = Apollo.MutationFunction<
+  UpdateYwsServiceByIdMutation,
+  UpdateYwsServiceByIdMutationVariables
 >;
 
 /**
- * __useUpdateYesWeScanServiceByIdMutation__
+ * __useUpdateYwsServiceByIdMutation__
  *
- * To run a mutation, you first call `useUpdateYesWeScanServiceByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateYesWeScanServiceByIdMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateYwsServiceByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateYwsServiceByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateYesWeScanServiceByIdMutation, { data, loading, error }] = useUpdateYesWeScanServiceByIdMutation({
+ * const [updateYwsServiceByIdMutation, { data, loading, error }] = useUpdateYwsServiceByIdMutation({
  *   variables: {
  *      updateYesWeScanServiceId: // value for 'updateYesWeScanServiceId'
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateYesWeScanServiceByIdMutation(
+export function useUpdateYwsServiceByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateYesWeScanServiceByIdMutation,
-    UpdateYesWeScanServiceByIdMutationVariables
+    UpdateYwsServiceByIdMutation,
+    UpdateYwsServiceByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateYesWeScanServiceByIdMutation,
-    UpdateYesWeScanServiceByIdMutationVariables
-  >(UpdateYesWeScanServiceByIdDocument, options);
+    UpdateYwsServiceByIdMutation,
+    UpdateYwsServiceByIdMutationVariables
+  >(UpdateYwsServiceByIdDocument, options);
 }
-export type UpdateYesWeScanServiceByIdMutationHookResult = ReturnType<
-  typeof useUpdateYesWeScanServiceByIdMutation
+export type UpdateYwsServiceByIdMutationHookResult = ReturnType<
+  typeof useUpdateYwsServiceByIdMutation
 >;
-export type UpdateYesWeScanServiceByIdMutationResult =
-  Apollo.MutationResult<UpdateYesWeScanServiceByIdMutation>;
-export type UpdateYesWeScanServiceByIdMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateYesWeScanServiceByIdMutation,
-    UpdateYesWeScanServiceByIdMutationVariables
-  >;
+export type UpdateYwsServiceByIdMutationResult =
+  Apollo.MutationResult<UpdateYwsServiceByIdMutation>;
+export type UpdateYwsServiceByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateYwsServiceByIdMutation,
+  UpdateYwsServiceByIdMutationVariables
+>;
 export const YwsActivationDocument = gql`
   mutation ywsActivation($contractId: ID!) {
     ywsActivation(contractId: $contractId) {
@@ -36220,8 +36257,119 @@ export type UpdatePickUpDayByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdatePickUpDayByIdMutation,
   UpdatePickUpDayByIdMutationVariables
 >;
-export const CreateYesWeScanFormDocument = gql`
-  mutation createYesWeScanForm($data: YesWeScanFormInput!) {
+export const CreateYwsQrCodeDocument = gql`
+  mutation createYwsQrCode($data: YesWeScanQrCodeInput!) {
+    createYesWeScanQrCode(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type CreateYwsQrCodeMutationFn = Apollo.MutationFunction<
+  CreateYwsQrCodeMutation,
+  CreateYwsQrCodeMutationVariables
+>;
+
+/**
+ * __useCreateYwsQrCodeMutation__
+ *
+ * To run a mutation, you first call `useCreateYwsQrCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateYwsQrCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createYwsQrCodeMutation, { data, loading, error }] = useCreateYwsQrCodeMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateYwsQrCodeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateYwsQrCodeMutation,
+    CreateYwsQrCodeMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateYwsQrCodeMutation,
+    CreateYwsQrCodeMutationVariables
+  >(CreateYwsQrCodeDocument, options);
+}
+export type CreateYwsQrCodeMutationHookResult = ReturnType<
+  typeof useCreateYwsQrCodeMutation
+>;
+export type CreateYwsQrCodeMutationResult =
+  Apollo.MutationResult<CreateYwsQrCodeMutation>;
+export type CreateYwsQrCodeMutationOptions = Apollo.BaseMutationOptions<
+  CreateYwsQrCodeMutation,
+  CreateYwsQrCodeMutationVariables
+>;
+export const UpdateYwsQrCodeByIdDocument = gql`
+  mutation updateYwsQrCodeById(
+    $ywsQrCodeId: ID!
+    $data: YesWeScanQrCodeInput!
+  ) {
+    updateYesWeScanQrCode(id: $ywsQrCodeId, data: $data) {
+      data {
+        id
+        attributes {
+          qrCodeUrl
+        }
+      }
+    }
+  }
+`;
+export type UpdateYwsQrCodeByIdMutationFn = Apollo.MutationFunction<
+  UpdateYwsQrCodeByIdMutation,
+  UpdateYwsQrCodeByIdMutationVariables
+>;
+
+/**
+ * __useUpdateYwsQrCodeByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateYwsQrCodeByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateYwsQrCodeByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateYwsQrCodeByIdMutation, { data, loading, error }] = useUpdateYwsQrCodeByIdMutation({
+ *   variables: {
+ *      ywsQrCodeId: // value for 'ywsQrCodeId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateYwsQrCodeByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateYwsQrCodeByIdMutation,
+    UpdateYwsQrCodeByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateYwsQrCodeByIdMutation,
+    UpdateYwsQrCodeByIdMutationVariables
+  >(UpdateYwsQrCodeByIdDocument, options);
+}
+export type UpdateYwsQrCodeByIdMutationHookResult = ReturnType<
+  typeof useUpdateYwsQrCodeByIdMutation
+>;
+export type UpdateYwsQrCodeByIdMutationResult =
+  Apollo.MutationResult<UpdateYwsQrCodeByIdMutation>;
+export type UpdateYwsQrCodeByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateYwsQrCodeByIdMutation,
+  UpdateYwsQrCodeByIdMutationVariables
+>;
+export const CreateYwsFormDocument = gql`
+  mutation createYwsForm($data: YesWeScanFormInput!) {
     createYesWeScanForm(data: $data) {
       data {
         id
@@ -36229,143 +36377,48 @@ export const CreateYesWeScanFormDocument = gql`
     }
   }
 `;
-export type CreateYesWeScanFormMutationFn = Apollo.MutationFunction<
-  CreateYesWeScanFormMutation,
-  CreateYesWeScanFormMutationVariables
+export type CreateYwsFormMutationFn = Apollo.MutationFunction<
+  CreateYwsFormMutation,
+  CreateYwsFormMutationVariables
 >;
 
 /**
- * __useCreateYesWeScanFormMutation__
+ * __useCreateYwsFormMutation__
  *
- * To run a mutation, you first call `useCreateYesWeScanFormMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateYesWeScanFormMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateYwsFormMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateYwsFormMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createYesWeScanFormMutation, { data, loading, error }] = useCreateYesWeScanFormMutation({
+ * const [createYwsFormMutation, { data, loading, error }] = useCreateYwsFormMutation({
  *   variables: {
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useCreateYesWeScanFormMutation(
+export function useCreateYwsFormMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreateYesWeScanFormMutation,
-    CreateYesWeScanFormMutationVariables
+    CreateYwsFormMutation,
+    CreateYwsFormMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    CreateYesWeScanFormMutation,
-    CreateYesWeScanFormMutationVariables
-  >(CreateYesWeScanFormDocument, options);
+    CreateYwsFormMutation,
+    CreateYwsFormMutationVariables
+  >(CreateYwsFormDocument, options);
 }
-export type CreateYesWeScanFormMutationHookResult = ReturnType<
-  typeof useCreateYesWeScanFormMutation
+export type CreateYwsFormMutationHookResult = ReturnType<
+  typeof useCreateYwsFormMutation
 >;
-export type CreateYesWeScanFormMutationResult =
-  Apollo.MutationResult<CreateYesWeScanFormMutation>;
-export type CreateYesWeScanFormMutationOptions = Apollo.BaseMutationOptions<
-  CreateYesWeScanFormMutation,
-  CreateYesWeScanFormMutationVariables
->;
-export const GetYesWeScanFormByIdDocument = gql`
-  query getYesWeScanFormById($ywsFormId: ID!) {
-    yesWeScanForm(id: $ywsFormId) {
-      data {
-        id
-        attributes {
-          logo {
-            data {
-              id
-              attributes {
-                name
-                alternativeText
-                caption
-                width
-                height
-                formats
-                hash
-                ext
-                mime
-                size
-                url
-                previewUrl
-                provider
-                provider_metadata
-                createdAt
-                updatedAt
-              }
-            }
-          }
-          reportButtons
-          pictureStatus
-          thankYouMessage
-          displayEndingButton
-          endingButtonIntroduction
-          endingButtonLabel
-          endingButtonLink
-          hasEmail
-          hasTsms
-          mailRecipients
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetYesWeScanFormByIdQuery__
- *
- * To run a query within a React component, call `useGetYesWeScanFormByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetYesWeScanFormByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetYesWeScanFormByIdQuery({
- *   variables: {
- *      ywsFormId: // value for 'ywsFormId'
- *   },
- * });
- */
-export function useGetYesWeScanFormByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetYesWeScanFormByIdQuery,
-    GetYesWeScanFormByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetYesWeScanFormByIdQuery,
-    GetYesWeScanFormByIdQueryVariables
-  >(GetYesWeScanFormByIdDocument, options);
-}
-export function useGetYesWeScanFormByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetYesWeScanFormByIdQuery,
-    GetYesWeScanFormByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetYesWeScanFormByIdQuery,
-    GetYesWeScanFormByIdQueryVariables
-  >(GetYesWeScanFormByIdDocument, options);
-}
-export type GetYesWeScanFormByIdQueryHookResult = ReturnType<
-  typeof useGetYesWeScanFormByIdQuery
->;
-export type GetYesWeScanFormByIdLazyQueryHookResult = ReturnType<
-  typeof useGetYesWeScanFormByIdLazyQuery
->;
-export type GetYesWeScanFormByIdQueryResult = Apollo.QueryResult<
-  GetYesWeScanFormByIdQuery,
-  GetYesWeScanFormByIdQueryVariables
+export type CreateYwsFormMutationResult =
+  Apollo.MutationResult<CreateYwsFormMutation>;
+export type CreateYwsFormMutationOptions = Apollo.BaseMutationOptions<
+  CreateYwsFormMutation,
+  CreateYwsFormMutationVariables
 >;
 export const GetYesWeScanQrCodesDocument = gql`
   query getYesWeScanQrCodes(
@@ -36444,70 +36497,169 @@ export type GetYesWeScanQrCodesQueryResult = Apollo.QueryResult<
   GetYesWeScanQrCodesQuery,
   GetYesWeScanQrCodesQueryVariables
 >;
-export const GetYesWeScanQrCodesByServiceIdDocument = gql`
-  query getYesWeScanQrCodesByServiceId($ywsServiceId: ID!) {
-    yesWeScanQrCodes(
-      filters: { yesWeScanService: { id: { eq: $ywsServiceId } } }
-    ) {
+export const GetYwsFormByIdDocument = gql`
+  query getYwsFormById($ywsFormId: ID!) {
+    yesWeScanForm(id: $ywsFormId) {
       data {
         id
+        attributes {
+          logo {
+            data {
+              id
+              attributes {
+                name
+                alternativeText
+                caption
+                width
+                height
+                formats
+                hash
+                ext
+                mime
+                size
+                url
+                previewUrl
+                provider
+                provider_metadata
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          reportButtons
+          pictureStatus
+          thankYouMessage
+          displayEndingButton
+          endingButtonIntroduction
+          endingButtonLabel
+          endingButtonLink
+          hasEmail
+          hasTsms
+          mailRecipients
+        }
       }
     }
   }
 `;
 
 /**
- * __useGetYesWeScanQrCodesByServiceIdQuery__
+ * __useGetYwsFormByIdQuery__
  *
- * To run a query within a React component, call `useGetYesWeScanQrCodesByServiceIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetYesWeScanQrCodesByServiceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetYwsFormByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYwsFormByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetYesWeScanQrCodesByServiceIdQuery({
+ * const { data, loading, error } = useGetYwsFormByIdQuery({
+ *   variables: {
+ *      ywsFormId: // value for 'ywsFormId'
+ *   },
+ * });
+ */
+export function useGetYwsFormByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetYwsFormByIdQuery,
+    GetYwsFormByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetYwsFormByIdQuery, GetYwsFormByIdQueryVariables>(
+    GetYwsFormByIdDocument,
+    options,
+  );
+}
+export function useGetYwsFormByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetYwsFormByIdQuery,
+    GetYwsFormByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetYwsFormByIdQuery, GetYwsFormByIdQueryVariables>(
+    GetYwsFormByIdDocument,
+    options,
+  );
+}
+export type GetYwsFormByIdQueryHookResult = ReturnType<
+  typeof useGetYwsFormByIdQuery
+>;
+export type GetYwsFormByIdLazyQueryHookResult = ReturnType<
+  typeof useGetYwsFormByIdLazyQuery
+>;
+export type GetYwsFormByIdQueryResult = Apollo.QueryResult<
+  GetYwsFormByIdQuery,
+  GetYwsFormByIdQueryVariables
+>;
+export const GetYwsQrCodesByServiceIdDocument = gql`
+  query getYwsQrCodesByServiceId($ywsServiceId: ID!) {
+    yesWeScanQrCodes(
+      filters: { yesWeScanService: { id: { eq: $ywsServiceId } } }
+      pagination: { limit: 999999 }
+    ) {
+      data {
+        id
+        attributes {
+          qrCodeUrl
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetYwsQrCodesByServiceIdQuery__
+ *
+ * To run a query within a React component, call `useGetYwsQrCodesByServiceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYwsQrCodesByServiceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetYwsQrCodesByServiceIdQuery({
  *   variables: {
  *      ywsServiceId: // value for 'ywsServiceId'
  *   },
  * });
  */
-export function useGetYesWeScanQrCodesByServiceIdQuery(
+export function useGetYwsQrCodesByServiceIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetYesWeScanQrCodesByServiceIdQuery,
-    GetYesWeScanQrCodesByServiceIdQueryVariables
+    GetYwsQrCodesByServiceIdQuery,
+    GetYwsQrCodesByServiceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetYesWeScanQrCodesByServiceIdQuery,
-    GetYesWeScanQrCodesByServiceIdQueryVariables
-  >(GetYesWeScanQrCodesByServiceIdDocument, options);
+    GetYwsQrCodesByServiceIdQuery,
+    GetYwsQrCodesByServiceIdQueryVariables
+  >(GetYwsQrCodesByServiceIdDocument, options);
 }
-export function useGetYesWeScanQrCodesByServiceIdLazyQuery(
+export function useGetYwsQrCodesByServiceIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetYesWeScanQrCodesByServiceIdQuery,
-    GetYesWeScanQrCodesByServiceIdQueryVariables
+    GetYwsQrCodesByServiceIdQuery,
+    GetYwsQrCodesByServiceIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetYesWeScanQrCodesByServiceIdQuery,
-    GetYesWeScanQrCodesByServiceIdQueryVariables
-  >(GetYesWeScanQrCodesByServiceIdDocument, options);
+    GetYwsQrCodesByServiceIdQuery,
+    GetYwsQrCodesByServiceIdQueryVariables
+  >(GetYwsQrCodesByServiceIdDocument, options);
 }
-export type GetYesWeScanQrCodesByServiceIdQueryHookResult = ReturnType<
-  typeof useGetYesWeScanQrCodesByServiceIdQuery
+export type GetYwsQrCodesByServiceIdQueryHookResult = ReturnType<
+  typeof useGetYwsQrCodesByServiceIdQuery
 >;
-export type GetYesWeScanQrCodesByServiceIdLazyQueryHookResult = ReturnType<
-  typeof useGetYesWeScanQrCodesByServiceIdLazyQuery
+export type GetYwsQrCodesByServiceIdLazyQueryHookResult = ReturnType<
+  typeof useGetYwsQrCodesByServiceIdLazyQuery
 >;
-export type GetYesWeScanQrCodesByServiceIdQueryResult = Apollo.QueryResult<
-  GetYesWeScanQrCodesByServiceIdQuery,
-  GetYesWeScanQrCodesByServiceIdQueryVariables
+export type GetYwsQrCodesByServiceIdQueryResult = Apollo.QueryResult<
+  GetYwsQrCodesByServiceIdQuery,
+  GetYwsQrCodesByServiceIdQueryVariables
 >;
-export const GetYesWeScanServiceByIdDocument = gql`
-  query getYesWeScanServiceById($serviceId: ID!) {
+export const GetYwsServiceByIdDocument = gql`
+  query getYwsServiceById($serviceId: ID!) {
     yesWeScanService(id: $serviceId) {
       data {
         id
@@ -36528,57 +36680,57 @@ export const GetYesWeScanServiceByIdDocument = gql`
 `;
 
 /**
- * __useGetYesWeScanServiceByIdQuery__
+ * __useGetYwsServiceByIdQuery__
  *
- * To run a query within a React component, call `useGetYesWeScanServiceByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetYesWeScanServiceByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetYwsServiceByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYwsServiceByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetYesWeScanServiceByIdQuery({
+ * const { data, loading, error } = useGetYwsServiceByIdQuery({
  *   variables: {
  *      serviceId: // value for 'serviceId'
  *   },
  * });
  */
-export function useGetYesWeScanServiceByIdQuery(
+export function useGetYwsServiceByIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetYesWeScanServiceByIdQuery,
-    GetYesWeScanServiceByIdQueryVariables
+    GetYwsServiceByIdQuery,
+    GetYwsServiceByIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetYesWeScanServiceByIdQuery,
-    GetYesWeScanServiceByIdQueryVariables
-  >(GetYesWeScanServiceByIdDocument, options);
+    GetYwsServiceByIdQuery,
+    GetYwsServiceByIdQueryVariables
+  >(GetYwsServiceByIdDocument, options);
 }
-export function useGetYesWeScanServiceByIdLazyQuery(
+export function useGetYwsServiceByIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetYesWeScanServiceByIdQuery,
-    GetYesWeScanServiceByIdQueryVariables
+    GetYwsServiceByIdQuery,
+    GetYwsServiceByIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetYesWeScanServiceByIdQuery,
-    GetYesWeScanServiceByIdQueryVariables
-  >(GetYesWeScanServiceByIdDocument, options);
+    GetYwsServiceByIdQuery,
+    GetYwsServiceByIdQueryVariables
+  >(GetYwsServiceByIdDocument, options);
 }
-export type GetYesWeScanServiceByIdQueryHookResult = ReturnType<
-  typeof useGetYesWeScanServiceByIdQuery
+export type GetYwsServiceByIdQueryHookResult = ReturnType<
+  typeof useGetYwsServiceByIdQuery
 >;
-export type GetYesWeScanServiceByIdLazyQueryHookResult = ReturnType<
-  typeof useGetYesWeScanServiceByIdLazyQuery
+export type GetYwsServiceByIdLazyQueryHookResult = ReturnType<
+  typeof useGetYwsServiceByIdLazyQuery
 >;
-export type GetYesWeScanServiceByIdQueryResult = Apollo.QueryResult<
-  GetYesWeScanServiceByIdQuery,
-  GetYesWeScanServiceByIdQueryVariables
+export type GetYwsServiceByIdQueryResult = Apollo.QueryResult<
+  GetYwsServiceByIdQuery,
+  GetYwsServiceByIdQueryVariables
 >;
-export const GetYesWeScanServicesByContractIdDocument = gql`
-  query getYesWeScanServicesByContractId($contractId: ID!, $today: DateTime) {
+export const GetYwsServicesByContractIdDocument = gql`
+  query getYwsServicesByContractId($contractId: ID!, $today: DateTime) {
     yesWeScanServices(
       filters: {
         contract: { id: { eq: $contractId } }
@@ -36598,111 +36750,55 @@ export const GetYesWeScanServicesByContractIdDocument = gql`
 `;
 
 /**
- * __useGetYesWeScanServicesByContractIdQuery__
+ * __useGetYwsServicesByContractIdQuery__
  *
- * To run a query within a React component, call `useGetYesWeScanServicesByContractIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetYesWeScanServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetYwsServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYwsServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetYesWeScanServicesByContractIdQuery({
+ * const { data, loading, error } = useGetYwsServicesByContractIdQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      today: // value for 'today'
  *   },
  * });
  */
-export function useGetYesWeScanServicesByContractIdQuery(
+export function useGetYwsServicesByContractIdQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetYesWeScanServicesByContractIdQuery,
-    GetYesWeScanServicesByContractIdQueryVariables
+    GetYwsServicesByContractIdQuery,
+    GetYwsServicesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetYesWeScanServicesByContractIdQuery,
-    GetYesWeScanServicesByContractIdQueryVariables
-  >(GetYesWeScanServicesByContractIdDocument, options);
+    GetYwsServicesByContractIdQuery,
+    GetYwsServicesByContractIdQueryVariables
+  >(GetYwsServicesByContractIdDocument, options);
 }
-export function useGetYesWeScanServicesByContractIdLazyQuery(
+export function useGetYwsServicesByContractIdLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetYesWeScanServicesByContractIdQuery,
-    GetYesWeScanServicesByContractIdQueryVariables
+    GetYwsServicesByContractIdQuery,
+    GetYwsServicesByContractIdQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetYesWeScanServicesByContractIdQuery,
-    GetYesWeScanServicesByContractIdQueryVariables
-  >(GetYesWeScanServicesByContractIdDocument, options);
+    GetYwsServicesByContractIdQuery,
+    GetYwsServicesByContractIdQueryVariables
+  >(GetYwsServicesByContractIdDocument, options);
 }
-export type GetYesWeScanServicesByContractIdQueryHookResult = ReturnType<
-  typeof useGetYesWeScanServicesByContractIdQuery
+export type GetYwsServicesByContractIdQueryHookResult = ReturnType<
+  typeof useGetYwsServicesByContractIdQuery
 >;
-export type GetYesWeScanServicesByContractIdLazyQueryHookResult = ReturnType<
-  typeof useGetYesWeScanServicesByContractIdLazyQuery
+export type GetYwsServicesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetYwsServicesByContractIdLazyQuery
 >;
-export type GetYesWeScanServicesByContractIdQueryResult = Apollo.QueryResult<
-  GetYesWeScanServicesByContractIdQuery,
-  GetYesWeScanServicesByContractIdQueryVariables
->;
-export const UpdateYesWeScanFormByIdDocument = gql`
-  mutation updateYesWeScanFormById(
-    $ywsFormId: ID!
-    $data: YesWeScanFormInput!
-  ) {
-    updateYesWeScanForm(id: $ywsFormId, data: $data) {
-      data {
-        id
-      }
-    }
-  }
-`;
-export type UpdateYesWeScanFormByIdMutationFn = Apollo.MutationFunction<
-  UpdateYesWeScanFormByIdMutation,
-  UpdateYesWeScanFormByIdMutationVariables
->;
-
-/**
- * __useUpdateYesWeScanFormByIdMutation__
- *
- * To run a mutation, you first call `useUpdateYesWeScanFormByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateYesWeScanFormByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateYesWeScanFormByIdMutation, { data, loading, error }] = useUpdateYesWeScanFormByIdMutation({
- *   variables: {
- *      ywsFormId: // value for 'ywsFormId'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateYesWeScanFormByIdMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateYesWeScanFormByIdMutation,
-    UpdateYesWeScanFormByIdMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateYesWeScanFormByIdMutation,
-    UpdateYesWeScanFormByIdMutationVariables
-  >(UpdateYesWeScanFormByIdDocument, options);
-}
-export type UpdateYesWeScanFormByIdMutationHookResult = ReturnType<
-  typeof useUpdateYesWeScanFormByIdMutation
->;
-export type UpdateYesWeScanFormByIdMutationResult =
-  Apollo.MutationResult<UpdateYesWeScanFormByIdMutation>;
-export type UpdateYesWeScanFormByIdMutationOptions = Apollo.BaseMutationOptions<
-  UpdateYesWeScanFormByIdMutation,
-  UpdateYesWeScanFormByIdMutationVariables
+export type GetYwsServicesByContractIdQueryResult = Apollo.QueryResult<
+  GetYwsServicesByContractIdQuery,
+  GetYwsServicesByContractIdQueryVariables
 >;
 export const UpdateYesWeScanQrCodeByIdDocument = gql`
   mutation updateYesWeScanQrCodeById(
@@ -36761,3 +36857,56 @@ export type UpdateYesWeScanQrCodeByIdMutationOptions =
     UpdateYesWeScanQrCodeByIdMutation,
     UpdateYesWeScanQrCodeByIdMutationVariables
   >;
+export const UpdateYwsFormByIdDocument = gql`
+  mutation updateYwsFormById($ywsFormId: ID!, $data: YesWeScanFormInput!) {
+    updateYesWeScanForm(id: $ywsFormId, data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type UpdateYwsFormByIdMutationFn = Apollo.MutationFunction<
+  UpdateYwsFormByIdMutation,
+  UpdateYwsFormByIdMutationVariables
+>;
+
+/**
+ * __useUpdateYwsFormByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateYwsFormByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateYwsFormByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateYwsFormByIdMutation, { data, loading, error }] = useUpdateYwsFormByIdMutation({
+ *   variables: {
+ *      ywsFormId: // value for 'ywsFormId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateYwsFormByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateYwsFormByIdMutation,
+    UpdateYwsFormByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateYwsFormByIdMutation,
+    UpdateYwsFormByIdMutationVariables
+  >(UpdateYwsFormByIdDocument, options);
+}
+export type UpdateYwsFormByIdMutationHookResult = ReturnType<
+  typeof useUpdateYwsFormByIdMutation
+>;
+export type UpdateYwsFormByIdMutationResult =
+  Apollo.MutationResult<UpdateYwsFormByIdMutation>;
+export type UpdateYwsFormByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateYwsFormByIdMutation,
+  UpdateYwsFormByIdMutationVariables
+>;

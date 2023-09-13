@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useGetYesWeScanFormByIdQuery } from "../../../../../../graphql/codegen/generated-types";
+import { useGetYwsFormByIdQuery } from "../../../../../../graphql/codegen/generated-types";
 import YesWeScanReportingForm, {
   IYesWeScanFormFields,
 } from "../../../../../YesWeScan/YesWeScanReportingForm";
@@ -17,7 +17,7 @@ export default function YesWeScanServiceReportingTabReportingForm({
 }: IYesWeScanServiceReportingTabReportingFormProps) {
   /* Local Data */
   const [mappedData, setMappedData] = useState<IYesWeScanFormFields>();
-  const { data: formData, loading } = useGetYesWeScanFormByIdQuery({
+  const { data: formData, loading } = useGetYwsFormByIdQuery({
     fetchPolicy: "network-only",
     variables: {
       ywsFormId: ywsFormId,

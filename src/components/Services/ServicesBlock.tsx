@@ -6,10 +6,10 @@ import {
   GetChannelTypeByIdDocument,
   GetContractByIdDocument,
   useCreateYwsServiceMutation,
-  useDeleteYesWeScanServiceByIdMutation,
+  useDeleteYwsServiceByIdMutation,
   useGetChannelTypeByIdQuery,
   useUpdateChannelTypeByIdMutation,
-  useUpdateYesWeScanServiceByIdMutation,
+  useUpdateYwsServiceByIdMutation,
   useYwsActivationMutation,
   useYwsDeactivationMutation,
 } from "../../graphql/codegen/generated-types";
@@ -507,11 +507,11 @@ export default function ServicesBlock() {
   const [
     updateYwsService,
     { loading: updateYwsServiceLoading, error: updateYwsServiceError },
-  ] = useUpdateYesWeScanServiceByIdMutation();
+  ] = useUpdateYwsServiceByIdMutation();
   const [
     deleteYwsService,
     { loading: deleteYwsServiceLoading, error: deleteYwsServiceError },
-  ] = useDeleteYesWeScanServiceByIdMutation();
+  ] = useDeleteYwsServiceByIdMutation();
 
   const isLoading =
     channelTypeLoading ||

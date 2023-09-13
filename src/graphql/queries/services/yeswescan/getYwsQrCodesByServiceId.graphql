@@ -1,0 +1,13 @@
+query getYwsQrCodesByServiceId($ywsServiceId: ID!) {
+  yesWeScanQrCodes(
+    filters: { yesWeScanService: { id: { eq: $ywsServiceId } } }
+    pagination: { limit: 999999 }
+  ) {
+    data {
+      id
+      attributes {
+        qrCodeUrl
+      }
+    }
+  }
+}
