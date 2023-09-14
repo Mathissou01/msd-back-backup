@@ -9,47 +9,39 @@ import {
 } from "react";
 import { useRouter } from "next/router";
 import {
+  GetYwsQrCodesQuery,
   GetYwsUnassociatedQrCodesByServiceIdDocument,
-  useGetYesWeScanQrCodesLazyQuery,
+  useGetYwsQrCodesLazyQuery,
   useUpdateYwsQrCodeByIdMutation,
 } from "../../../../../../graphql/codegen/generated-types";
-import {
-  ICurrentPagination,
-  IDefaultTableRow,
-} from "../../../../../../lib/common-data-table";
+import { ICurrentPagination } from "../../../../../../lib/common-data-table";
 import { IDataTableAction } from "../../../../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import { removeNulls } from "../../../../../../lib/utilities";
 import CommonDataTable from "../../../../../Common/CommonDataTable/CommonDataTable";
 import CommonLoader from "../../../../../Common/CommonLoader/CommonLoader";
 import { CommonModalWrapperRef } from "../../../../../Common/CommonModalWrapper/CommonModalWrapper";
+import { IYesWeScanTableRow } from "../YesWeScanServiceAssociationTab";
 import YesWeScanAssociationDissociateModal from "./YesWeScanAssociationDissociateModal/YesWeScanAssociationDissociateModal";
 import "./yes-we-scan-association-table.scss";
 
 interface IYesWeScanAssociationTableRowProps {
-  setChosenQRCodeId: Dispatch<SetStateAction<string>>;
   editModalRef: MutableRefObject<CommonModalWrapperRef | null>;
-}
-
-interface IYesWeScanAssociationTableRow extends IDefaultTableRow {
-  qrCodeId: string;
-  address: string;
-  city: string;
-  name: string;
+  setSelectedQrCode: Dispatch<SetStateAction<IYesWeScanTableRow | undefined>>;
 }
 
 export default function YesWeScanServiceAssociationTable({
-  setChosenQRCodeId,
   editModalRef,
+  setSelectedQrCode,
 }: IYesWeScanAssociationTableRowProps) {
   /* Static Data */
   const labels = {
     title: "QR Code associés",
+    noAssociatedQRCode: "Aucun QR Code associé",
     table: {
       columns: {
         qrCodeId: "ID du QR Code",
         name: "Nom du point de signalement / d'apport",
         address: "Adresse",
-        city: "Ville",
       },
     },
   };
@@ -65,6 +57,9 @@ export default function YesWeScanServiceAssociationTable({
           typeAssociation: { notNull: true },
         },
         pagination: { page: params.page, pageSize: params.rowsPerPage },
+        ...(params.sort?.column && {
+          sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
+        }),
       },
     });
   }
@@ -98,13 +93,11 @@ export default function YesWeScanServiceAssociationTable({
   const { ywsServiceId } = router.query;
   const isInitialized = useRef(false);
   const dissociateModalRef = useRef<CommonModalWrapperRef>(null);
-  const [tableData, setTableData] = useState<
-    Array<IYesWeScanAssociationTableRow>
-  >([]);
+  const [tableData, setTableData] = useState<Array<IYesWeScanTableRow>>([]);
   const [selectedQrCodeID, setSelectedQrCodeID] = useState("");
 
   const [yesWeScanQrCodes, { data, loading, error }] =
-    useGetYesWeScanQrCodesLazyQuery({
+    useGetYwsQrCodesLazyQuery({
       variables: {
         filters: {
           yesWeScanService: { id: { eq: ywsServiceId?.toString() } },
@@ -114,52 +107,51 @@ export default function YesWeScanServiceAssociationTable({
       },
     });
 
+  const [pageData, setPageData] = useState<GetYwsQrCodesQuery | undefined>(
+    data,
+  );
+
   const [
     updateYesWeScanQrCode,
     { loading: isLoadingMutation, error: updateMutationError },
   ] = useUpdateYwsQrCodeByIdMutation({
-    refetchQueries: ["getYesWeScanQrCodes"],
+    refetchQueries: ["getYwsQrCodes"],
     awaitRefetchQueries: true,
   });
   const isLoading = loading || isLoadingMutation;
   const errors = [error, updateMutationError];
 
-  const tableColumns: Array<TableColumn<IYesWeScanAssociationTableRow>> = [
+  const tableColumns: Array<TableColumn<IYesWeScanTableRow>> = [
     {
-      id: "qrCodeId",
+      id: "id",
       name: labels.table.columns.qrCodeId,
       selector: (row) => row.qrCodeId,
-      grow: 2,
+      grow: 3,
+      sortable: true,
     },
     {
       id: "name",
       name: labels.table.columns.name,
-      selector: (row) => row.name,
-      grow: 8,
+      selector: (row) => row.name ?? "",
+      grow: 7,
+      sortable: true,
     },
     {
       id: "address",
       name: labels.table.columns.address,
-      selector: (row) => row.address,
+      selector: (row) => row.address ?? "",
       grow: 6,
-    },
-    {
-      id: "author",
-      name: labels.table.columns.city,
-      selector: (row) => row.city,
-      grow: 6,
+      sortable: true,
     },
   ];
 
-  const actionColumn = (
-    row: IYesWeScanAssociationTableRow,
-  ): Array<IDataTableAction> => [
+  const actionColumn = (row: IYesWeScanTableRow): Array<IDataTableAction> => [
     {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
       onClick: () => {
-        setChosenQRCodeId(row.qrCodeId);
+        setSelectedQrCode(row);
         editModalRef.current?.toggleModal(true);
       },
     },
@@ -179,10 +171,18 @@ export default function YesWeScanServiceAssociationTable({
           address: qrCode?.attributes?.address,
           city: qrCode?.attributes?.city,
           name: qrCode?.attributes?.name,
+          lat: qrCode?.attributes?.lat,
+          long: qrCode?.attributes?.long,
+          typeAssociation: qrCode?.attributes?.typeAssociation,
+          dropOffMap: qrCode?.attributes?.dropOffMap,
         }))
         .filter(removeNulls);
-      setTableData(formattedData as Array<IYesWeScanAssociationTableRow>);
+      setTableData(formattedData as Array<IYesWeScanTableRow>);
     }
+  }, [data, pageData]);
+
+  useEffect(() => {
+    setPageData(data);
   }, [data]);
 
   useEffect(() => {
@@ -201,24 +201,29 @@ export default function YesWeScanServiceAssociationTable({
           isShowingContent={isLoadingMutation}
           errors={errors}
         >
-          <CommonDataTable<IYesWeScanAssociationTableRow>
-            columns={tableColumns}
-            actionColumn={actionColumn}
-            data={tableData}
-            defaultSortFieldId="id"
-            isLoading={isLoading}
-            lazyLoadingOptions={{
-              isRemote: true,
-              totalRows: data?.yesWeScanQrCodes?.meta.pagination.total ?? 0,
-            }}
-            paginationOptions={{
-              hasPagination: true,
-              hasRowsPerPageOptions: false,
-              defaultRowsPerPage,
-              defaultPage,
-            }}
-            onLazyLoad={handleLazyLoad}
-          />
+          {tableData.length >= 1 ? (
+            <CommonDataTable<IYesWeScanTableRow>
+              columns={tableColumns}
+              actionColumn={actionColumn}
+              data={tableData}
+              defaultSortFieldId="id"
+              isLoading={isLoading}
+              lazyLoadingOptions={{
+                isRemote: true,
+                totalRows:
+                  pageData?.yesWeScanQrCodes?.meta.pagination.total ?? 0,
+              }}
+              paginationOptions={{
+                hasPagination: true,
+                hasRowsPerPageOptions: false,
+                defaultRowsPerPage,
+                defaultPage,
+              }}
+              onLazyLoad={handleLazyLoad}
+            />
+          ) : (
+            <span>{labels.noAssociatedQRCode}</span>
+          )}
         </CommonLoader>
       </div>
       <YesWeScanAssociationDissociateModal

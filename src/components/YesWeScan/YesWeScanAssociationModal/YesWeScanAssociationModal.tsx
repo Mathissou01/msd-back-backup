@@ -18,19 +18,20 @@ import FormAutoCompleteInput from "../../Form/FormAutoCompleteInput/FormAutoComp
 import FormLabel from "../../Form/FormLabel/FormLabel";
 import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
+import { IYesWeScanTableRow } from "../../TabBlock/Tabs/YesWeScanService/YesWeScanServiceAssociationTab/YesWeScanServiceAssociationTab";
 import YesWeScanDropOffCard from "../YesWeScanDropOffCard/YesWeScanDropOffCard";
 import "./yeswescan-association-modal.scss";
 
 interface IYesWeCanAssociationModalProps {
   serviceName: string;
   serviceId: string;
-  qrCodeId: string;
+  selectedQrCode?: IYesWeScanTableRow | undefined;
 }
 
 export default function YesWeScanAssociationModal({
   serviceName,
   serviceId,
-  qrCodeId,
+  selectedQrCode,
 }: IYesWeCanAssociationModalProps) {
   /* Static Data */
   const labels = {
@@ -101,6 +102,7 @@ export default function YesWeScanAssociationModal({
     register,
     formState: { errors },
   } = useFormContext();
+
   const associationTypeWatch = watch("associationType");
   const dropOffTypeWatch = watch("dropOffType");
   register("dropOffMap", {
@@ -152,7 +154,6 @@ export default function YesWeScanAssociationModal({
   ];
 
   useEffect(() => {
-    setValue("dropOffAddress", "");
     setAreInterestPointVisible(false);
   }, [dropOffTypeWatch, setValue]);
 
@@ -163,8 +164,43 @@ export default function YesWeScanAssociationModal({
   }, [dataDropOffMaps]);
 
   useEffect(() => {
-    setValue("qrCodeId", qrCodeId);
-  }, [qrCodeId, setValue]);
+    if (selectedQrCode && selectedQrCode.qrCodeId) {
+      setValue("qrCodeId", selectedQrCode.qrCodeId);
+      setValue("reportingPointName", selectedQrCode.name ?? "");
+      setValue("address", selectedQrCode.address ?? "");
+      setValue("city", selectedQrCode.city ?? "");
+      setValue("latitude", selectedQrCode.lat ?? "");
+      setValue("longitude", selectedQrCode.long ?? "");
+      if (selectedQrCode.dropOffMap?.data?.attributes) {
+        const dropOffAddress =
+          selectedQrCode.dropOffMap.data.attributes.address ?? "";
+        setValue("dropOffAddress", dropOffAddress);
+        getDropOffMaps({
+          variables: { contractId: contractId, address: dropOffAddress },
+        });
+        setAreInterestPointVisible(true);
+        setChosenDropOff(selectedQrCode.dropOffMap.data.id);
+        setValue("associationType", "2");
+        setValue(
+          "reportingPointName",
+          selectedQrCode.dropOffMap.data.attributes.name ?? "",
+        );
+      } else {
+        setValue("associationType", "1");
+      }
+    } else {
+      setValue("qrCodeId", "");
+      setValue("reportingPointName", "");
+      setValue("address", "");
+      setValue("city", "");
+      setValue("latitude", "");
+      setValue("longitude", "");
+      setValue("dropOffAddress", "");
+      setValue("associationType", "");
+      setChosenDropOff("");
+      setAreInterestPointVisible(false);
+    }
+  }, [contractId, getDropOffMaps, selectedQrCode, setValue]);
 
   return (
     <div className="c-YesWeScanAssociationModal">
@@ -187,9 +223,9 @@ export default function YesWeScanAssociationModal({
           <FormInput
             name="qrCodeId"
             label={labels.form.qrCodeId}
-            defaultValue={qrCodeId}
+            defaultValue={selectedQrCode?.qrCodeId}
             isRequired
-            isDisabled={qrCodeId !== ""}
+            isDisabled={selectedQrCode ? selectedQrCode.qrCodeId !== "" : false}
           />
         </div>
         <div className="c-YesWeScanAssociationModal__AssociationType">
@@ -258,7 +294,7 @@ export default function YesWeScanAssociationModal({
               }}
               isLoading={loadingAddressCoordinates}
               isRequired={!dataDropOffMaps}
-              defaultValue={getValues("address")}
+              defaultValue={getValues("dropOffAddress")}
               labelProps={{ label: labels.form.dropOff.address }}
             />
             {areInterestPointVisible && (

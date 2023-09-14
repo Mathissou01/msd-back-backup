@@ -19318,38 +19318,6 @@ export type CreateYwsQrCodeMutation = {
   } | null;
 };
 
-export type GetYesWeScanQrCodesQueryVariables = Exact<{
-  filters?: InputMaybe<YesWeScanQrCodeFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-}>;
-
-export type GetYesWeScanQrCodesQuery = {
-  __typename?: "Query";
-  yesWeScanQrCodes?: {
-    __typename?: "YesWeScanQrCodeEntityResponseCollection";
-    data: Array<{
-      __typename?: "YesWeScanQrCodeEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "YesWeScanQrCode";
-        name?: string | null;
-        address?: string | null;
-        city?: string | null;
-      } | null;
-    }>;
-    meta: {
-      __typename?: "ResponseCollectionMeta";
-      pagination: {
-        __typename?: "Pagination";
-        page: number;
-        pageCount: number;
-        pageSize: number;
-        total: number;
-      };
-    };
-  } | null;
-};
-
 export type GetYwsFormByIdQueryVariables = Exact<{
   ywsFormId: Scalars["ID"];
 }>;
@@ -19401,6 +19369,56 @@ export type GetYwsFormByIdQuery = {
         } | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type GetYwsQrCodesQueryVariables = Exact<{
+  filters?: InputMaybe<YesWeScanQrCodeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
+}>;
+
+export type GetYwsQrCodesQuery = {
+  __typename?: "Query";
+  yesWeScanQrCodes?: {
+    __typename?: "YesWeScanQrCodeEntityResponseCollection";
+    data: Array<{
+      __typename?: "YesWeScanQrCodeEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "YesWeScanQrCode";
+        name?: string | null;
+        address?: string | null;
+        city?: string | null;
+        lat?: number | null;
+        long?: number | null;
+        typeAssociation?: Enum_Yeswescanqrcode_Typeassociation | null;
+        dropOffMap?: {
+          __typename?: "DropOffMapEntityResponse";
+          data?: {
+            __typename?: "DropOffMapEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "DropOffMap";
+              address?: string | null;
+              name?: string | null;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+    meta: {
+      __typename?: "ResponseCollectionMeta";
+      pagination: {
+        __typename?: "Pagination";
+        page: number;
+        pageCount: number;
+        pageSize: number;
+        total: number;
+      };
+    };
   } | null;
 };
 
@@ -36587,83 +36605,6 @@ export type CreateYwsQrCodeMutationOptions = Apollo.BaseMutationOptions<
   CreateYwsQrCodeMutation,
   CreateYwsQrCodeMutationVariables
 >;
-export const GetYesWeScanQrCodesDocument = gql`
-  query getYesWeScanQrCodes(
-    $filters: YesWeScanQrCodeFiltersInput
-    $pagination: PaginationArg
-  ) {
-    yesWeScanQrCodes(filters: $filters, pagination: $pagination) {
-      data {
-        id
-        attributes {
-          name
-          address
-          city
-        }
-      }
-      meta {
-        pagination {
-          page
-          pageCount
-          pageSize
-          total
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetYesWeScanQrCodesQuery__
- *
- * To run a query within a React component, call `useGetYesWeScanQrCodesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetYesWeScanQrCodesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetYesWeScanQrCodesQuery({
- *   variables: {
- *      filters: // value for 'filters'
- *      pagination: // value for 'pagination'
- *   },
- * });
- */
-export function useGetYesWeScanQrCodesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetYesWeScanQrCodesQuery,
-    GetYesWeScanQrCodesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetYesWeScanQrCodesQuery,
-    GetYesWeScanQrCodesQueryVariables
-  >(GetYesWeScanQrCodesDocument, options);
-}
-export function useGetYesWeScanQrCodesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetYesWeScanQrCodesQuery,
-    GetYesWeScanQrCodesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetYesWeScanQrCodesQuery,
-    GetYesWeScanQrCodesQueryVariables
-  >(GetYesWeScanQrCodesDocument, options);
-}
-export type GetYesWeScanQrCodesQueryHookResult = ReturnType<
-  typeof useGetYesWeScanQrCodesQuery
->;
-export type GetYesWeScanQrCodesLazyQueryHookResult = ReturnType<
-  typeof useGetYesWeScanQrCodesLazyQuery
->;
-export type GetYesWeScanQrCodesQueryResult = Apollo.QueryResult<
-  GetYesWeScanQrCodesQuery,
-  GetYesWeScanQrCodesQueryVariables
->;
 export const GetYwsFormByIdDocument = gql`
   query getYwsFormById($ywsFormId: ID!) {
     yesWeScanForm(id: $ywsFormId) {
@@ -36758,6 +36699,97 @@ export type GetYwsFormByIdLazyQueryHookResult = ReturnType<
 export type GetYwsFormByIdQueryResult = Apollo.QueryResult<
   GetYwsFormByIdQuery,
   GetYwsFormByIdQueryVariables
+>;
+export const GetYwsQrCodesDocument = gql`
+  query getYwsQrCodes(
+    $filters: YesWeScanQrCodeFiltersInput
+    $pagination: PaginationArg
+    $sort: [String]
+  ) {
+    yesWeScanQrCodes(filters: $filters, pagination: $pagination, sort: $sort) {
+      data {
+        id
+        attributes {
+          name
+          address
+          city
+          lat
+          long
+          typeAssociation
+          dropOffMap {
+            data {
+              id
+              attributes {
+                address
+                name
+              }
+            }
+          }
+        }
+      }
+      meta {
+        pagination {
+          page
+          pageCount
+          pageSize
+          total
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetYwsQrCodesQuery__
+ *
+ * To run a query within a React component, call `useGetYwsQrCodesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYwsQrCodesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetYwsQrCodesQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetYwsQrCodesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetYwsQrCodesQuery,
+    GetYwsQrCodesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetYwsQrCodesQuery, GetYwsQrCodesQueryVariables>(
+    GetYwsQrCodesDocument,
+    options,
+  );
+}
+export function useGetYwsQrCodesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetYwsQrCodesQuery,
+    GetYwsQrCodesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetYwsQrCodesQuery, GetYwsQrCodesQueryVariables>(
+    GetYwsQrCodesDocument,
+    options,
+  );
+}
+export type GetYwsQrCodesQueryHookResult = ReturnType<
+  typeof useGetYwsQrCodesQuery
+>;
+export type GetYwsQrCodesLazyQueryHookResult = ReturnType<
+  typeof useGetYwsQrCodesLazyQuery
+>;
+export type GetYwsQrCodesQueryResult = Apollo.QueryResult<
+  GetYwsQrCodesQuery,
+  GetYwsQrCodesQueryVariables
 >;
 export const GetYwsQrCodesByServiceIdDocument = gql`
   query getYwsQrCodesByServiceId($ywsServiceId: ID!) {

@@ -135,7 +135,7 @@ export default function RequestsList() {
   const defaultPage = 1;
   const defaultQueryVariables: GetRequestsByContractIdQueryVariables = {
     contractId: contractId,
-    sort: "updatedAt:asc",
+    sort: "id:asc",
     pagination: { page: defaultPage, pageSize: defaultRowsPerPage },
   };
 

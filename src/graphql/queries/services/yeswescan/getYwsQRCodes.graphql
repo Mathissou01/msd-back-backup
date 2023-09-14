@@ -1,0 +1,36 @@
+query getYwsQrCodes(
+  $filters: YesWeScanQrCodeFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  yesWeScanQrCodes(filters: $filters, pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        name
+        address
+        city
+        lat
+        long
+        typeAssociation
+        dropOffMap {
+          data {
+            id
+            attributes {
+              address
+              name
+            }
+          }
+        }
+      }
+    }
+    meta {
+      pagination {
+        page
+        pageCount
+        pageSize
+        total
+      }
+    }
+  }
+}

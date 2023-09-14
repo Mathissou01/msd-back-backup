@@ -4,6 +4,7 @@ import {
   Enum_Yeswescanqrcode_Typeassociation,
   useUpdateYwsQrCodeByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
+import { IDefaultTableRow } from "../../../../../lib/common-data-table";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import FormModal from "../../../../Form/FormModal/FormModal";
@@ -12,6 +13,25 @@ import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import YesWeScanServiceAssociationTable from "./YesWeScanAssociationTable/YesWeScanAssociationTable";
 import YesWeScanUnassociationTable from "./YesWeScanUnassociationTable/YesWeScanUnassociationTable";
 import "./yes-we-scan-association.scss";
+
+export interface IYesWeScanTableRow extends IDefaultTableRow {
+  qrCodeId: string;
+  address?: string;
+  city?: string;
+  name?: string;
+  lat?: number;
+  long?: number;
+  typeAssociation?: string;
+  dropOffMap?: {
+    data: {
+      id: string;
+      attributes: {
+        address: string;
+        name: string;
+      };
+    };
+  };
+}
 
 interface IYesWeScanServiceAssociationModalSubmitData {
   ywsQrCodeId: string;
@@ -26,6 +46,7 @@ interface IYesWeScanServiceAssociationModalSubmitData {
     yesWeScanService: string;
   };
 }
+
 interface IYesWeScanServiceAssociationTabProps {
   serviceName: string;
   serviceId: string;
@@ -75,16 +96,17 @@ export default function YesWeScanServiceAssociationTab({
       variables.data.long = +submitData.dropOffMap.attributes.longitude;
       variables.data.dropOffMap = submitData.dropOffMap.id;
     }
-
     updateQrCode({
       variables,
-      refetchQueries: ["getYesWeScanQrCodes"],
+      refetchQueries: ["getYwsUnassociatedQrCodesByServiceId", "getYwsQrCodes"],
     });
   }
 
   /* Local Data */
   const modalRef = useRef<CommonModalWrapperRef>(null);
-  const [chosenQRCodeId, setChosenQRCodeId] = useState<string>("");
+  const [selectedQrCode, setSelectedQrCode] = useState<
+    IYesWeScanTableRow | undefined
+  >();
   const [
     updateQrCode,
     { loading: updateQrCodeLoading, error: updateQrCodeError },
@@ -104,17 +126,18 @@ export default function YesWeScanServiceAssociationTab({
         <CommonButton
           label={labels.qrcodeAssociation}
           onClick={() => {
+            setSelectedQrCode(undefined);
             modalRef.current?.toggleModal(true);
           }}
         />
         <YesWeScanUnassociationTable
           ywsServiceId={serviceId}
           editModalRef={modalRef}
-          setChosenQRCodeId={setChosenQRCodeId}
+          setSelectedQrCode={setSelectedQrCode}
         />
         <YesWeScanServiceAssociationTable
-          setChosenQRCodeId={setChosenQRCodeId}
           editModalRef={modalRef}
+          setSelectedQrCode={setSelectedQrCode}
         />
         <FormModal
           modalRef={modalRef}
@@ -124,7 +147,7 @@ export default function YesWeScanServiceAssociationTab({
           <YesWeScanAssociationModal
             serviceName={serviceName}
             serviceId={serviceId}
-            qrCodeId={chosenQRCodeId}
+            selectedQrCode={selectedQrCode}
           />
         </FormModal>
       </div>

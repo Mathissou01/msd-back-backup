@@ -1,60 +1,58 @@
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   YesWeScanQrCodeEntity,
   useGetYwsUnassociatedQrCodesByServiceIdLazyQuery,
 } from "../../../../../../graphql/codegen/generated-types";
-import { IDefaultTableRow } from "../../../../../../lib/common-data-table";
 import { removeNulls } from "../../../../../../lib/utilities";
 import CommonPagination from "../../../../../Common/CommonPagination/CommonPagination";
 import CommonLoader from "../../../../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../../../../Common/CommonButton/CommonButton";
 import { CommonModalWrapperRef } from "../../../../../Common/CommonModalWrapper/CommonModalWrapper";
+import { IYesWeScanTableRow } from "../YesWeScanServiceAssociationTab";
 import "./yeswescan-unassiociation-table.scss";
 
 interface IYesWeScanUnassociationTableProps {
   ywsServiceId: string;
   editModalRef: MutableRefObject<CommonModalWrapperRef | null>;
-  setChosenQRCodeId: (qrCodeId: string) => void;
-}
-
-interface IYesWeScanUnassociationTableRow extends IDefaultTableRow {
-  qrCodeId: string;
+  setSelectedQrCode: Dispatch<SetStateAction<IYesWeScanTableRow | undefined>>;
 }
 
 export default function YesWeScanUnassociationTable({
   ywsServiceId,
   editModalRef,
-  setChosenQRCodeId,
+  setSelectedQrCode,
 }: IYesWeScanUnassociationTableProps) {
   /* Static data */
   const labels = {
-    title: `QR Code non associés`,
-    tabs: {
-      reportingForm: "Formulaire de signalement",
-      qrcode: "QR Code",
-      qrcodeAssociation: "Association des QR Code",
-    },
+    title: "QR Code non-associés",
+    noUnassociatedQRCode: "Aucun QR Code non-associé",
   };
+  const itemsPerPage = 60;
 
   /* Local data */
   const [currentPage, setCurrentPage] = useState<number>(1);
   const isInitialized = useRef(false);
-  const [tableData, setTableData] = useState<
-    Array<IYesWeScanUnassociationTableRow>
-  >([]);
+  const [tableData, setTableData] = useState<Array<IYesWeScanTableRow>>([]);
 
   const [getUnassociatedQrCodes, { data, loading }] =
     useGetYwsUnassociatedQrCodesByServiceIdLazyQuery({
       variables: {
         ywsServiceId: ywsServiceId,
-        pagination: { page: currentPage, pageSize: 60 },
+        pagination: { page: currentPage, pageSize: itemsPerPage },
       },
       fetchPolicy: "network-only",
     });
 
   /* Methods */
   function handleSelectQrCodeClick(qrCodeId: string) {
-    setChosenQRCodeId(qrCodeId);
+    setSelectedQrCode({ id: "0", qrCodeId: qrCodeId, editState: false });
     editModalRef.current?.toggleModal(true);
   }
 
@@ -84,7 +82,7 @@ export default function YesWeScanUnassociationTable({
     <CommonLoader isLoading={loading}>
       <div className="c-YesWeScanUnassociationTable">
         <h2 className="c-YesWeScanUnassociationTable__Title">{labels.title}</h2>
-        {tableData && tableData.length >= 1 && (
+        {tableData && tableData.length >= 1 ? (
           <>
             <div className="c-YesWeScanUnassociationTable__QrCodes">
               {tableData.map((qrCode) => {
@@ -105,11 +103,14 @@ export default function YesWeScanUnassociationTable({
               <CommonPagination
                 currentPage={currentPage}
                 onChangePage={(newPage) => setCurrentPage(newPage)}
-                rowCount={60}
+                rowCount={data?.yesWeScanQrCodes?.meta.pagination.total ?? 0}
+                rowsPerPage={itemsPerPage}
                 noRowsPerPage
               />
             </div>
           </>
+        ) : (
+          <span>{labels.noUnassociatedQRCode}</span>
         )}
       </div>
     </CommonLoader>
