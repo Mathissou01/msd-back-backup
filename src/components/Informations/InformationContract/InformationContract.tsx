@@ -77,7 +77,7 @@ export default function InformationContract({
     // Client
     clientName: contractData.clientName ?? "N/A",
     siret: contractData.siret ?? "N/A",
-    contractStatus: contractData.contractStatus ?? "N/A",
+    contractStatus: rewordStatusClient(contractData.contractStatus),
     isNonExclusive: contractData.isNonExclusive ? "Non exclusif" : "Exclusif",
     clientType: contractData.clientType
       ? EContractClientTypeLabels[contractData.clientType]
@@ -98,6 +98,19 @@ export default function InformationContract({
 
   const isInactive =
     contractData.contractStatus === Enum_Contract_Contractstatus.Desactive;
+
+  function rewordStatusClient(status: Enum_Contract_Contractstatus) {
+    switch (status) {
+      case Enum_Contract_Contractstatus.Actif:
+        return "Actif";
+      case Enum_Contract_Contractstatus.Desactive:
+        return "Désactivé";
+      case Enum_Contract_Contractstatus.EnCours:
+        return "En cours";
+      case Enum_Contract_Contractstatus.Initialisation:
+        return "Initialisation";
+    }
+  }
 
   return (
     <div className="c-InformationContract">
