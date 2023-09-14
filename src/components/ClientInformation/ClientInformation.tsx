@@ -96,9 +96,13 @@ export default function ClientInformation() {
   /* Methods */
   async function onSubmit(submitData: FieldValues) {
     const isNonExclusive = submitData.isNonExclusive === "true";
-    const ccap = submitData.ccap ? parseInt(submitData.ccap) : undefined;
-    const clear = submitData.clear ? parseInt(submitData.clear) : undefined;
-    //TODO Mock data for the moment
+
+    let ccap;
+    let clear;
+    if (submitData.isRvFrance === "true") {
+      ccap = submitData.ccap ? parseInt(submitData.ccap) : undefined;
+      clear = submitData.clear ? parseInt(submitData.clear) : undefined;
+    }
     const variables: IClientFields = {
       clientName: submitData.clientName,
       siretNumber: submitData.siretNumber,
