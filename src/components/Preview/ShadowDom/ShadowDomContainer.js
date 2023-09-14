@@ -28,14 +28,14 @@ const ShadowDomContainer = ({ id, type, width, height }) => {
 
   return (
     <CommonLoader isLoading={loading} errors={error}>
-      {data && data.contract?.data?.attributes.clientName && (
-        <iframe
-          id="external-iframe"
-          src={`${process.env.NEXT_PUBLIC_FO_URL}/preview?type=${type}&id=${id}`}
-          width={width}
-          height={height}
-        />
-      )}
+      <iframe
+        id="external-iframe"
+        src={`${process.env.NEXT_PUBLIC_FO_URL}/${encodeURIComponent(
+          data?.contract?.data?.attributes.clientName,
+        )}/preview?type=${type}&id=${id}`}
+        width={width}
+        height={height}
+      />
     </CommonLoader>
   );
 };
