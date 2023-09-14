@@ -12,7 +12,7 @@ const ShadowDomContainer = ({ id, type, width, height }) => {
           : "",
     },
   });
-  console.log("data", data?.contract?.data?.attributes.clientName);
+
   useEffect(() => {
     window.addEventListener("DOMContentLoaded", () => {
       const iframe = document.querySelector("#external-iframe");
@@ -25,19 +25,13 @@ const ShadowDomContainer = ({ id, type, width, height }) => {
       });
     });
   }, []);
-  const iframeSrc = `${process.env.NEXT_PUBLIC_FO_URL}/${encodeURIComponent(
-    data?.contract?.data?.attributes.clientName,
-  )}/preview?type=${type}&id=${id}`;
-  console.log("iframeSrc:", iframeSrc);
 
   return (
     <CommonLoader isLoading={loading} errors={error}>
       {data && data.contract?.data?.attributes.clientName && (
         <iframe
           id="external-iframe"
-          src={`${process.env.NEXT_PUBLIC_FO_URL}/${encodeURIComponent(
-            data?.contract?.data?.attributes.clientName,
-          )}/preview?type=${type}&id=${id}`}
+          src={`${process.env.NEXT_PUBLIC_FO_URL}/preview?type=${type}&id=${id}`}
           width={width}
           height={height}
         />
