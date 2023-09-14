@@ -153,7 +153,10 @@ export default function YesWeScanServiceQRCodeTab({
     return await QRCode.toDataURL(
       await `${process.env.NEXT_PUBLIC_BASE_HOST}/${encodeURI(
         contract.attributes?.clientName ?? "",
-      )}/${ywsShortName}/${qrCodeIdGenerated}`,
+      )}/yws/${ywsShortName
+        .replaceAll(" ", "-")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")}/${qrCodeIdGenerated}`,
       { width: 250 },
     )
       .then((qrCode) => {
