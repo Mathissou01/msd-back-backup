@@ -2229,16 +2229,6 @@ export type Cumbersome = {
   volume: Scalars["String"];
 };
 
-export type DataStructure = {
-  __typename?: "DataStructure";
-  choiceId: Scalars["ID"];
-  choiceName?: Maybe<Scalars["String"]>;
-  freeContentId?: Maybe<Scalars["ID"]>;
-  selectedServiceId: Scalars["ID"];
-  selectedServiceName: Scalars["String"];
-  type?: Maybe<Scalars["String"]>;
-};
-
 export type DateFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars["Date"]>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars["Date"]>>>;
@@ -4322,6 +4312,15 @@ export type KeyMetricsServiceRelationResponseCollection = {
   __typename?: "KeyMetricsServiceRelationResponseCollection";
   data: Array<KeyMetricsServiceEntity>;
 };
+
+export enum LinkServiceType {
+  AlertNotificationService = "alertNotificationService",
+  DropOffMapService = "dropOffMapService",
+  EditorialService = "editorialService",
+  PickUpDayService = "pickUpDayService",
+  RecyclingGuideService = "recyclingGuideService",
+  RequestService = "requestService",
+}
 
 export type LinkedServices = {
   __typename?: "LinkedServices";
@@ -6642,7 +6641,7 @@ export type Query = {
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   getRequestsHistoric?: Maybe<Array<Maybe<Historic>>>;
-  getServiceBlockData?: Maybe<DataStructure>;
+  getServiceBlockData?: Maybe<Scalars["JSON"]>;
   getStatusExport?: Maybe<Scalars["String"]>;
   getThreeRandomTips?: Maybe<Array<Maybe<Tips>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
@@ -7179,9 +7178,8 @@ export type QueryGetEditoContentDtOsArgs = {
 
 export type QueryGetEditoContentLinkedServicesArgs = {
   audience?: InputMaybe<Scalars["ID"]>;
-  contractId: Scalars["ID"];
-  linkToServiceId: Scalars["ID"];
-  selectedService: Scalars["String"];
+  selectedService: LinkServiceType;
+  serviceId: Scalars["ID"];
 };
 
 export type QueryGetEnrichRequestsArgs = {
@@ -10173,7 +10171,7 @@ export type ContractStatus = {
 export type Result = {
   __typename?: "result";
   elements?: Maybe<Array<Maybe<LinkedServices>>>;
-  pictoId?: Maybe<Scalars["ID"]>;
+  pictoUrl?: Maybe<Scalars["ID"]>;
 };
 
 export type TotalCountPerTag = {
@@ -13616,6 +13614,28 @@ export type GetChannelTypeByIdQuery = {
   } | null;
 };
 
+export type UpdateServicesActivationMutationVariables = Exact<{
+  serviceName: Scalars["String"];
+  serviceId: Scalars["ID"];
+  isActivated: Scalars["Boolean"];
+  contractId: Scalars["ID"];
+  startDate?: InputMaybe<Scalars["Date"]>;
+  endDate?: InputMaybe<Scalars["Date"]>;
+}>;
+
+export type UpdateServicesActivationMutation = {
+  __typename?: "Mutation";
+  servicesActivation?: {
+    __typename?: "ServiceActivated";
+    contractId: string;
+    endDate?: any | null;
+    isActivated: boolean;
+    serviceId: string;
+    serviceName: string;
+    startDate?: any | null;
+  } | null;
+};
+
 export type UpdateChannelTypeByIdMutationVariables = Exact<{
   updateChannelTypeId: Scalars["ID"];
   data: ChannelTypeInput;
@@ -15238,7 +15258,30 @@ export type GetServicesBlocksByContractIdAndAudienceIdQuery = {
                     __typename?: "ServicesBlock";
                     titleContent: string;
                     serviceLinks?: Array<
-                      | { __typename?: "ComponentLinksAlertNotification" }
+                      | {
+                          __typename?: "ComponentLinksAlertNotification";
+                          id: string;
+                          isDisplayed: boolean;
+                          name?: string | null;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
                       | {
                           __typename?: "ComponentLinksContactUs";
                           id: string;
@@ -15361,7 +15404,30 @@ export type GetServicesBlocksByContractIdAndAudienceIdQuery = {
                           } | null;
                         }
                       | { __typename?: "ComponentLinksKeyMetrics" }
-                      | { __typename?: "ComponentLinksMyWasteCounter" }
+                      | {
+                          __typename?: "ComponentLinksMyWasteCounter";
+                          isDisplayed: boolean;
+                          name?: string | null;
+                          id: string;
+                          picto?: {
+                            __typename?: "UploadFileEntityResponse";
+                            data?: {
+                              __typename?: "UploadFileEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "UploadFile";
+                                url: string;
+                                alternativeText?: string | null;
+                                name: string;
+                                ext?: string | null;
+                                size: number;
+                                width?: number | null;
+                                height?: number | null;
+                                createdAt?: any | null;
+                              } | null;
+                            } | null;
+                          } | null;
+                        }
                       | {
                           __typename?: "ComponentLinksNews";
                           id: string;
@@ -16298,7 +16364,24 @@ export type GetContractMenuByContractIdQuery = {
             attributes?: {
               __typename?: "ContractMenu";
               serviceLinks?: Array<
-                | { __typename?: "ComponentLinksAlertNotification" }
+                | {
+                    __typename?: "ComponentLinksAlertNotification";
+                    id: string;
+                    name?: string | null;
+                    isDisplayed: boolean;
+                    picto?: {
+                      __typename?: "UploadFileEntityResponse";
+                      data?: {
+                        __typename?: "UploadFileEntity";
+                        id?: string | null;
+                        attributes?: {
+                          __typename?: "UploadFile";
+                          url: string;
+                          alternativeText?: string | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                  }
                 | {
                     __typename?: "ComponentLinksContactUs";
                     id: string;
@@ -25737,6 +25820,81 @@ export type GetChannelTypeByIdQueryResult = Apollo.QueryResult<
   GetChannelTypeByIdQuery,
   GetChannelTypeByIdQueryVariables
 >;
+export const UpdateServicesActivationDocument = gql`
+  mutation updateServicesActivation(
+    $serviceName: String!
+    $serviceId: ID!
+    $isActivated: Boolean!
+    $contractId: ID!
+    $startDate: Date
+    $endDate: Date
+  ) {
+    servicesActivation(
+      ServiceName: $serviceName
+      serviceId: $serviceId
+      isActivated: $isActivated
+      contractId: $contractId
+      startDate: $startDate
+      endDate: $endDate
+    ) {
+      contractId
+      endDate
+      isActivated
+      serviceId
+      serviceName
+      startDate
+    }
+  }
+`;
+export type UpdateServicesActivationMutationFn = Apollo.MutationFunction<
+  UpdateServicesActivationMutation,
+  UpdateServicesActivationMutationVariables
+>;
+
+/**
+ * __useUpdateServicesActivationMutation__
+ *
+ * To run a mutation, you first call `useUpdateServicesActivationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateServicesActivationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateServicesActivationMutation, { data, loading, error }] = useUpdateServicesActivationMutation({
+ *   variables: {
+ *      serviceName: // value for 'serviceName'
+ *      serviceId: // value for 'serviceId'
+ *      isActivated: // value for 'isActivated'
+ *      contractId: // value for 'contractId'
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *   },
+ * });
+ */
+export function useUpdateServicesActivationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateServicesActivationMutation,
+    UpdateServicesActivationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateServicesActivationMutation,
+    UpdateServicesActivationMutationVariables
+  >(UpdateServicesActivationDocument, options);
+}
+export type UpdateServicesActivationMutationHookResult = ReturnType<
+  typeof useUpdateServicesActivationMutation
+>;
+export type UpdateServicesActivationMutationResult =
+  Apollo.MutationResult<UpdateServicesActivationMutation>;
+export type UpdateServicesActivationMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateServicesActivationMutation,
+    UpdateServicesActivationMutationVariables
+  >;
 export const UpdateChannelTypeByIdDocument = gql`
   mutation updateChannelTypeById(
     $updateChannelTypeId: ID!
@@ -29420,6 +29578,46 @@ export const GetServicesBlocksByContractIdAndAudienceIdDocument = gql`
                           }
                           externalLink
                         }
+                        ... on ComponentLinksAlertNotification {
+                          id
+                          isDisplayed
+                          name
+                          picto {
+                            data {
+                              id
+                              attributes {
+                                url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
+                              }
+                            }
+                          }
+                        }
+                        ... on ComponentLinksMyWasteCounter {
+                          isDisplayed
+                          picto {
+                            data {
+                              id
+                              attributes {
+                                url
+                                alternativeText
+                                name
+                                ext
+                                size
+                                width
+                                height
+                                createdAt
+                              }
+                            }
+                          }
+                          name
+                          id
+                        }
                       }
                     }
                   }
@@ -30916,6 +31114,20 @@ export const GetContractMenuByContractIdDocument = gql`
                       }
                     }
                     externalLink
+                  }
+                  ... on ComponentLinksAlertNotification {
+                    id
+                    name
+                    isDisplayed
+                    picto {
+                      data {
+                        id
+                        attributes {
+                          url
+                          alternativeText
+                        }
+                      }
+                    }
                   }
                 }
               }

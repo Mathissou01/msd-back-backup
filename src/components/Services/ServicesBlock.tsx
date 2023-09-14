@@ -9,6 +9,7 @@ import {
   useDeleteYwsServiceByIdMutation,
   useGetChannelTypeByIdQuery,
   useUpdateChannelTypeByIdMutation,
+  useUpdateServicesActivationMutation,
   useUpdateYwsServiceByIdMutation,
   useYwsActivationMutation,
   useYwsDeactivationMutation,
@@ -16,17 +17,13 @@ import {
 import {
   IServiceFields,
   IYesWeScanServiceFields,
-  IServiceVariables,
   ServiceType,
-  handleDisablingServices,
-  handleUpdatingServices,
   parseDate,
   IServicesBlockFormValues,
 } from "../../lib/services";
 import { removeNulls } from "../../lib/utilities";
 import { useFocusFirstElement } from "../../hooks/useFocusFirstElement";
 import { useContract } from "../../hooks/useContract";
-import { useServiceActivationMutations } from "../../hooks/useServiceActivationMutations";
 import CommonLoader from "../Common/CommonLoader/CommonLoader";
 import CommonButton from "../Common/CommonButton/CommonButton";
 import ServiceCard from "./ServiceCard/ServiceCard";
@@ -99,88 +96,41 @@ export default function ServicesBlock() {
     }
     if (!submitData.hasWebApp && !submitData.hasWebSite) {
       for (const service of submitData.transversalServices)
-        switch (service.type) {
-          case ServiceType.recycling:
-            await handleDisablingServices(
-              updateRecyclingService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.alert:
-            await handleDisablingServices(
-              updateAlertNotificationService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.dropOffMap:
-            await handleDisablingServices(
-              updateDropOffMapService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.request:
-            await handleDisablingServices(
-              updateRequestService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.pickUpDay:
-            await handleDisablingServices(
-              updatePickUpDayService,
-              contractId,
-              service,
-            );
-            break;
-        }
-      for (const service of submitData.editorialServices)
-        switch (service.type) {
-          case ServiceType.news:
-            await handleDisablingServices(
-              updateNewsService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.event:
-            await handleDisablingServices(
-              updateEventService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.freeContent:
-            await handleDisablingServices(
-              updateFreeContentService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.tip:
-            await handleDisablingServices(
-              updateTipService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.quizz:
-            await handleDisablingServices(
-              updateQuizService,
-              contractId,
-              service,
-            );
-            break;
-          case ServiceType.contact:
-            await handleDisablingServices(
-              updateContactUsService,
-              contractId,
-              service,
-            );
-            break;
-        }
+        serviceActivationfunction({
+          variables: {
+            contractId: contractId,
+            serviceId: service.id,
+            serviceName: service.type,
+            isActivated: service.isActivated,
+            startDate: format(service.startDate, "yyyy-MM-dd"),
+            endDate: format(service.startDate, "yyyy-MM-dd"),
+          },
+          refetchQueries: [
+            {
+              query: GetContractByIdDocument,
+              variables: { contractId },
+            },
+          ],
+        });
+
+      for (const service of submitData.editorialServices) {
+        serviceActivationfunction({
+          variables: {
+            contractId: contractId,
+            serviceId: service.id,
+            serviceName: service.type,
+            isActivated: service.isActivated,
+            startDate: format(service.startDate, "yyyy-MM-dd"),
+            endDate: format(service.startDate, "yyyy-MM-dd"),
+          },
+          refetchQueries: [
+            {
+              query: GetContractByIdDocument,
+              variables: { contractId },
+            },
+          ],
+        });
+      }
     } else {
       for (const [index, service] of submitData.transversalServices.entries()) {
         if (
@@ -189,58 +139,22 @@ export default function ServicesBlock() {
           dirtyFields.transversalServices &&
           dirtyFields.transversalServices[index] !== undefined
         ) {
-          const variables: IServiceVariables = {
-            id: service.id,
-            data: {
+          serviceActivationfunction({
+            variables: {
+              contractId: contractId,
+              serviceId: service.id,
+              serviceName: service.type,
               isActivated: service.isActivated,
-              startDate:
-                service.startDate && service.isActivated
-                  ? format(service.startDate, "yyyy-MM-dd")
-                  : null,
-              endDate:
-                service.endDate && service.isActivated
-                  ? format(service.endDate, "yyyy-MM-dd")
-                  : null,
+              startDate: format(service.startDate, "yyyy-MM-dd"),
+              endDate: format(service.startDate, "yyyy-MM-dd"),
             },
-          };
-
-          switch (service.type) {
-            case ServiceType.recycling:
-              await handleUpdatingServices(
-                updateRecyclingService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.alert:
-              await handleUpdatingServices(
-                updateAlertNotificationService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.dropOffMap:
-              await handleUpdatingServices(
-                updateDropOffMapService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.request:
-              await handleUpdatingServices(
-                updateRequestService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.pickUpDay:
-              await handleUpdatingServices(
-                updatePickUpDayService,
-                contractId,
-                variables,
-              );
-              break;
-          }
+            refetchQueries: [
+              {
+                query: GetContractByIdDocument,
+                variables: { contractId },
+              },
+            ],
+          });
         }
       }
       for (const [index, service] of submitData.editorialServices.entries()) {
@@ -250,65 +164,22 @@ export default function ServicesBlock() {
           dirtyFields.editorialServices &&
           dirtyFields.editorialServices[index] !== undefined
         ) {
-          const variables = {
-            id: service.id,
-            data: {
+          serviceActivationfunction({
+            variables: {
+              contractId: contractId,
+              serviceId: service.id,
+              serviceName: service.type,
               isActivated: service.isActivated,
-              startDate:
-                service.startDate && service.isActivated
-                  ? format(service.startDate, "yyyy-MM-dd")
-                  : null,
-              endDate:
-                service.endDate && service.isActivated
-                  ? format(service.endDate, "yyyy-MM-dd")
-                  : null,
+              startDate: format(service.startDate, "yyyy-MM-dd"),
+              endDate: format(service.startDate, "yyyy-MM-dd"),
             },
-          };
-
-          switch (service.type) {
-            case ServiceType.news:
-              await handleUpdatingServices(
-                updateNewsService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.event:
-              await handleUpdatingServices(
-                updateEventService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.freeContent:
-              await handleUpdatingServices(
-                updateFreeContentService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.tip:
-              await handleUpdatingServices(
-                updateTipService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.quizz:
-              await handleUpdatingServices(
-                updateQuizService,
-                contractId,
-                variables,
-              );
-              break;
-            case ServiceType.contact:
-              await handleUpdatingServices(
-                updateContactUsService,
-                contractId,
-                variables,
-              );
-              break;
-          }
+            refetchQueries: [
+              {
+                query: GetContractByIdDocument,
+                variables: { contractId },
+              },
+            ],
+          });
         }
       }
     }
@@ -471,6 +342,10 @@ export default function ServicesBlock() {
     variables: { channelTypeId: contract.attributes?.channelType?.data?.id },
   });
   const [
+    serviceActivationfunction,
+    { loading: loadingServiceActivation, error: errorServiceActivation },
+  ] = useUpdateServicesActivationMutation();
+  const [
     updateChannelType,
     { loading: updateChannelTypeLoading, error: updateChannelTypeError },
   ] = useUpdateChannelTypeByIdMutation();
@@ -482,24 +357,6 @@ export default function ServicesBlock() {
     ywsDeactivation,
     { loading: ywsDeactivationLoading, error: ywsDeactivationError },
   ] = useYwsDeactivationMutation();
-  const {
-    mutations,
-    loading: loadingMutation,
-    errors: mutationErrors,
-  } = useServiceActivationMutations();
-  const {
-    updateAlertNotificationService,
-    updateDropOffMapService,
-    updatePickUpDayService,
-    updateRecyclingService,
-    updateRequestService,
-    updateEventService,
-    updateFreeContentService,
-    updateNewsService,
-    updateQuizService,
-    updateTipService,
-    updateContactUsService,
-  } = mutations;
   const [
     createYwsService,
     { loading: createYwsServiceLoading, error: createYwsServiceError },
@@ -516,21 +373,21 @@ export default function ServicesBlock() {
   const isLoading =
     channelTypeLoading ||
     updateChannelTypeLoading ||
-    loadingMutation ||
     ywsActivationLoading ||
     ywsDeactivationLoading ||
     createYwsServiceLoading ||
     updateYwsServiceLoading ||
-    deleteYwsServiceLoading;
+    deleteYwsServiceLoading ||
+    loadingServiceActivation;
   const errors = [
     channelTypeError,
     updateChannelTypeError,
-    ...mutationErrors,
     ywsActivationError,
     ywsDeactivationError,
     createYwsServiceError,
     updateYwsServiceError,
     deleteYwsServiceError,
+    errorServiceActivation,
   ];
 
   useEffect(() => {

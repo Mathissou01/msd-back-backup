@@ -1,0 +1,24 @@
+mutation updateServicesActivation(
+  $serviceName: String!
+  $serviceId: ID!
+  $isActivated: Boolean!
+  $contractId: ID!
+  $startDate: Date
+  $endDate: Date
+) {
+  servicesActivation(
+    ServiceName: $serviceName
+    serviceId: $serviceId
+    isActivated: $isActivated
+    contractId: $contractId
+    startDate: $startDate
+    endDate: $endDate
+  ) {
+    contractId
+    endDate
+    isActivated
+    serviceId
+    serviceName
+    startDate
+  }
+}

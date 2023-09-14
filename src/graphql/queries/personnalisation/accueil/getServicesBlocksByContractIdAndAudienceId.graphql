@@ -238,6 +238,46 @@ query getServicesBlocksByContractIdAndAudienceId(
                         }
                         externalLink
                       }
+                      ... on ComponentLinksAlertNotification {
+                        id
+                        isDisplayed
+                        name
+                        picto {
+                          data {
+                            id
+                            attributes {
+                              url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
+                            }
+                          }
+                        }
+                      }
+                      ... on ComponentLinksMyWasteCounter {
+                        isDisplayed
+                        picto {
+                          data {
+                            id
+                            attributes {
+                              url
+                              alternativeText
+                              name
+                              ext
+                              size
+                              width
+                              height
+                              createdAt
+                            }
+                          }
+                        }
+                        name
+                        id
+                      }
                     }
                   }
                 }

@@ -177,6 +177,20 @@ query getContractMenuByContractId($contractId: ID!) {
                   }
                   externalLink
                 }
+                ... on ComponentLinksAlertNotification {
+                  id
+                  name
+                  isDisplayed
+                  picto {
+                    data {
+                      id
+                      attributes {
+                        url
+                        alternativeText
+                      }
+                    }
+                  }
+                }
               }
             }
           }
