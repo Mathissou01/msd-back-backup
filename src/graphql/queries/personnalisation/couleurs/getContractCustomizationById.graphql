@@ -3,6 +3,7 @@ query getContractCustomizationById($contractId: ID!) {
     data {
       id
       attributes {
+        communityUrl
         logo {
           data {
             id

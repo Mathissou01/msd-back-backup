@@ -16161,6 +16161,7 @@ export type GetContractCustomizationByIdQuery = {
       id?: string | null;
       attributes?: {
         __typename?: "Contract";
+        communityUrl?: string | null;
         logo: {
           __typename?: "UploadFileEntityResponse";
           data?: {
@@ -30552,6 +30553,7 @@ export const GetContractCustomizationByIdDocument = gql`
       data {
         id
         attributes {
+          communityUrl
           logo {
             data {
               id

@@ -23,6 +23,7 @@ import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
+import FormInput from "../../../../components/Form/FormInput/FormInput";
 import FormFileInput from "../../../../components/Form/FormFileInput/FormFileInput";
 import FormColorPalette from "../../../../components/Form/FormColorPalette/FormColorPalette";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
@@ -32,6 +33,7 @@ interface IPersonnalisationCouleursPage {
   colorMode: string;
   id: string;
   logo: IUploadFileEntity | null;
+  communityUrl: string | null;
   contractCustomizationId: string | null | undefined;
   primaryColor: string | undefined;
   secondaryColor: string | null | undefined;
@@ -49,6 +51,8 @@ export function PersonnalisationCouleursPage() {
     logoImageValidation: "Format .svg, .png ou .jpg, 200 ko maximum",
     logoImagePlaceholder:
       "Cliquer pour ajouter une image depuis la bibliothèque de média ou glissez-déposez une image dans cette zone.",
+    communityUrl: "URL de la collectivité",
+    communityUrlValidation: "L'url doit commencer par http: ou https:",
     colorInputLabel: "Couleurs",
     submitButtonLabel: "Enregistrer les modifications",
     cancelButtonLabel: "Annuler les modifications",
@@ -79,6 +83,7 @@ export function PersonnalisationCouleursPage() {
   const { data, loading, error } = useGetContractCustomizationByIdQuery({
     variables: { contractId },
   });
+
   const [
     updateContract,
     { loading: mutationLoadingById, error: mutationErrorById },
@@ -95,9 +100,9 @@ export function PersonnalisationCouleursPage() {
         updateContractId: contractId,
         data: {
           logo: submitData.logo.id,
+          communityUrl: submitData.communityUrl,
         },
       };
-
       updateContract({
         variables,
         refetchQueries: [
@@ -108,7 +113,6 @@ export function PersonnalisationCouleursPage() {
         ],
       });
     }
-
     if (
       contractCustomizationsData?.contractCustomizationId &&
       !primaryErrorMsg
@@ -159,6 +163,7 @@ export function PersonnalisationCouleursPage() {
           colorMode: "0",
           id: contract.id,
           logo: contract.attributes.logo.data ?? null,
+          communityUrl: contract.attributes.communityUrl ?? null,
           contractCustomizationId:
             contract.attributes.contractCustomization?.data?.id,
           primaryColor:
@@ -249,6 +254,17 @@ export function PersonnalisationCouleursPage() {
                     validationLabel={labels.logoImageValidation}
                     acceptedMimeTypes={acceptedTypes}
                     placeholder={labels.logoImagePlaceholder}
+                  />
+                </div>
+                <div className="c-PersonnalisationCouleursPage__CommunityUrlInput">
+                  <FormInput
+                    type="text"
+                    name="communityUrl"
+                    label={labels.communityUrl}
+                    patternValidation={/^(http:|https:)/}
+                    patternValidationErrorMessage={
+                      labels.communityUrlValidation
+                    }
                   />
                 </div>
               </div>

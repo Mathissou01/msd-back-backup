@@ -43,6 +43,10 @@
     }
   }
 
+  &__CommunityUrlInput {
+    max-width: 50%;
+  }
+
   &__Buttons {
     display: flex;
     gap: 16px;
