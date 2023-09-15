@@ -351,6 +351,7 @@ export default function ServicesBlock() {
     useState<boolean>(false);
   const [initialYWSServicesIds, setInitialYWSServicesIds] =
     useState<Array<string>>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [yesWeScanServices, setYesWeScanServices] = useState<
     Array<IYesWeScanServiceFields>
   >([]);
@@ -646,7 +647,7 @@ export default function ServicesBlock() {
               </>
             )}
             <YesWeScanServicesBlock
-              services={yesWeScanServices}
+              services={getValues().yesWeScanServices}
               setServices={setYesWeScanServices}
             />
             <div className="c-ServicesBlock__Buttons">
