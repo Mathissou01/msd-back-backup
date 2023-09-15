@@ -1,0 +1,25 @@
+.c-ServiceLinkItem {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+
+  &__ServiceSelection,
+  &__SubSelection {
+    flex: 1;
+
+    &_invisible {
+      .o-SelectWrapper::after {
+        display: none;
+      }
+
+      select {
+        display: none;
+      }
+    }
+  }
+
+  &__DeleteButton {
+    flex: 0.25;
+    padding-top: 24px;
+  }
+}

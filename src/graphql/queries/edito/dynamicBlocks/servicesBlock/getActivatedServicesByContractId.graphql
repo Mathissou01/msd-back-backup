@@ -1,0 +1,102 @@
+query getActivedServicesByContractId($contractId: ID!, $today: Date!) {
+  editorialServices(filters: { contract: { id: { eq: $contractId } } }) {
+    data {
+      id
+    }
+  }
+  recyclingGuideServices(
+    filters: {
+      contract: {
+        id: { eq: $contractId }
+        recyclingGuideService: {
+          isActivated: { eq: true }
+          startDate: { lte: $today }
+          endDate: { gte: $today }
+        }
+      }
+    }
+  ) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+  requestServices(
+    filters: {
+      contract: {
+        id: { eq: $contractId }
+        requestService: {
+          isActivated: { eq: true }
+          startDate: { lte: $today }
+          endDate: { gte: $today }
+        }
+      }
+    }
+  ) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+  dropOffMapServices(
+    filters: {
+      contract: {
+        id: { eq: $contractId }
+        dropOffMapService: {
+          isActivated: { eq: true }
+          startDate: { lte: $today }
+          endDate: { gte: $today }
+        }
+      }
+    }
+  ) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+  alertNotificationServices(
+    filters: {
+      contract: {
+        id: { eq: $contractId }
+        alertNotificationService: {
+          isActivated: { eq: true }
+          startDate: { lte: $today }
+          endDate: { gte: $today }
+        }
+      }
+    }
+  ) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+  pickUpDayServices(
+    filters: {
+      contract: {
+        id: { eq: $contractId }
+        pickUpDayService: {
+          isActivated: { eq: true }
+          startDate: { lte: $today }
+          endDate: { gte: $today }
+        }
+      }
+    }
+  ) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

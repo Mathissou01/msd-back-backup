@@ -209,7 +209,8 @@ export default function FormDynamicBlocks({
                 <DynamicBlockWrapper
                   label={
                     labelOverrides[index] ??
-                    blockDisplayMap[block.__typename].label
+                    blockDisplayMap[block?.__typename]?.label ??
+                    ""
                   }
                   picto={blockDisplayMap[block.__typename]?.picto}
                   onReorder={(shift) => onReorder(index, shift)}

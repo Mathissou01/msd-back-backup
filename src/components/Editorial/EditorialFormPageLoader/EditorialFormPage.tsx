@@ -23,6 +23,7 @@ const defaultDynamicFieldConfigurations: Array<TDynamicFieldConfiguration> = [
   { option: "ComponentBlocksVideo" },
   { option: "ComponentBlocksFile" },
   { option: "ComponentBlocksImage" },
+  { option: "ComponentBlocksServices" },
 ];
 
 export interface IEditoContentLabels {

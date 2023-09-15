@@ -1,0 +1,18 @@
+query getBlockServicesSubSelection(
+  $audience: ID
+  $selectedService: LinkServiceType!
+  $serviceId: ID!
+) {
+  getEditoContentLinkedServices(
+    audience: $audience
+    selectedService: $selectedService
+    serviceId: $serviceId
+  ) {
+    elements {
+      id
+      name
+      type
+      idFreeContentSubService
+    }
+  }
+}

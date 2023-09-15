@@ -105,6 +105,10 @@ mutation deleteNewById($deleteNewId: ID!) {
               }
             }
           }
+          ... on ComponentBlocksServices {
+            id
+            serviceLinksData
+          }
         }
       }
     }

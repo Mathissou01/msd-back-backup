@@ -1216,37 +1216,19 @@ export type ComponentBlocksRequestTypeInput = {
 
 export type ComponentBlocksServices = {
   __typename?: "ComponentBlocksServices";
-  alertS?: Maybe<AlertNotificationServiceEntityResponse>;
-  dropOffS?: Maybe<DropOffMapServiceEntityResponse>;
-  editoS?: Maybe<EditorialServiceEntityResponse>;
   id: Scalars["ID"];
-  pickUpS?: Maybe<PickUpDayServiceEntityResponse>;
-  recyclingS?: Maybe<RecyclingGuideServiceEntityResponse>;
-  requestS?: Maybe<RequestServiceEntityResponse>;
   serviceLinksData?: Maybe<Scalars["JSON"]>;
 };
 
 export type ComponentBlocksServicesFiltersInput = {
-  alertS?: InputMaybe<AlertNotificationServiceFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<ComponentBlocksServicesFiltersInput>>>;
-  dropOffS?: InputMaybe<DropOffMapServiceFiltersInput>;
-  editoS?: InputMaybe<EditorialServiceFiltersInput>;
   not?: InputMaybe<ComponentBlocksServicesFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentBlocksServicesFiltersInput>>>;
-  pickUpS?: InputMaybe<PickUpDayServiceFiltersInput>;
-  recyclingS?: InputMaybe<RecyclingGuideServiceFiltersInput>;
-  requestS?: InputMaybe<RequestServiceFiltersInput>;
   serviceLinksData?: InputMaybe<JsonFilterInput>;
 };
 
 export type ComponentBlocksServicesInput = {
-  alertS?: InputMaybe<Scalars["ID"]>;
-  dropOffS?: InputMaybe<Scalars["ID"]>;
-  editoS?: InputMaybe<Scalars["ID"]>;
   id?: InputMaybe<Scalars["ID"]>;
-  pickUpS?: InputMaybe<Scalars["ID"]>;
-  recyclingS?: InputMaybe<Scalars["ID"]>;
-  requestS?: InputMaybe<Scalars["ID"]>;
   serviceLinksData?: InputMaybe<Scalars["JSON"]>;
 };
 
@@ -4325,6 +4307,7 @@ export enum LinkServiceType {
 export type LinkedServices = {
   __typename?: "LinkedServices";
   id: Scalars["ID"];
+  idFreeContentSubService?: Maybe<Scalars["ID"]>;
   name: Scalars["String"];
   type?: Maybe<Scalars["String"]>;
 };
@@ -4648,6 +4631,7 @@ export type Mutation = {
   uploadGraphQL?: Maybe<Scalars["Boolean"]>;
   urlUploader?: Maybe<Scalars["Boolean"]>;
   validateRequest?: Maybe<Scalars["Boolean"]>;
+  validateYesWeScanForm?: Maybe<Scalars["Boolean"]>;
   versioningHandler?: Maybe<VersioningEntityResponse>;
   ywsActivation?: Maybe<ChannelTypeEntity>;
   ywsDeactivation?: Maybe<ChannelTypeEntity>;
@@ -5937,6 +5921,10 @@ export type MutationValidateRequestArgs = {
   requestJSON?: InputMaybe<Scalars["JSON"]>;
 };
 
+export type MutationValidateYesWeScanFormArgs = {
+  yesWeScanFormJSON: Scalars["JSON"];
+};
+
 export type MutationVersioningHandlerArgs = {
   data: Scalars["JSON"];
   entity: Scalars["String"];
@@ -6726,7 +6714,6 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
-  validateYesWeScanForm?: Maybe<Scalars["Boolean"]>;
   wasteFamilies?: Maybe<WasteFamilyEntityResponseCollection>;
   wasteFamily?: Maybe<WasteFamilyEntityResponse>;
   wasteFamilyLength?: Maybe<Scalars["Int"]>;
@@ -7632,10 +7619,6 @@ export type QueryUsersPermissionsUsersArgs = {
   filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type QueryValidateYesWeScanFormArgs = {
-  yesWeScanFormJSON: Scalars["JSON"];
 };
 
 export type QueryWasteFamiliesArgs = {
@@ -10313,7 +10296,11 @@ export type CreateNewMutation = {
                 } | null;
               } | null;
             }
-          | { __typename?: "ComponentBlocksServices" }
+          | {
+              __typename?: "ComponentBlocksServices";
+              id: string;
+              serviceLinksData?: any | null;
+            }
           | {
               __typename?: "ComponentBlocksSubHeading";
               id: string;
@@ -10454,7 +10441,11 @@ export type DeleteNewByIdMutation = {
                 } | null;
               } | null;
             }
-          | { __typename?: "ComponentBlocksServices" }
+          | {
+              __typename?: "ComponentBlocksServices";
+              id: string;
+              serviceLinksData?: any | null;
+            }
           | {
               __typename?: "ComponentBlocksSubHeading";
               id: string;
@@ -10674,7 +10665,11 @@ export type GetNewByIdQuery = {
                 } | null;
               } | null;
             }
-          | { __typename?: "ComponentBlocksServices" }
+          | {
+              __typename?: "ComponentBlocksServices";
+              id: string;
+              serviceLinksData?: any | null;
+            }
           | {
               __typename?: "ComponentBlocksSubHeading";
               id: string;
@@ -11280,7 +11275,11 @@ export type GetTipByIdQuery = {
                 } | null;
               } | null;
             }
-          | { __typename?: "ComponentBlocksServices" }
+          | {
+              __typename?: "ComponentBlocksServices";
+              id: string;
+              serviceLinksData?: any | null;
+            }
           | {
               __typename?: "ComponentBlocksSubHeading";
               id: string;
@@ -12649,7 +12648,11 @@ export type GetFreeContentByIdQuery = {
                 } | null;
               } | null;
             }
-          | { __typename?: "ComponentBlocksServices" }
+          | {
+              __typename?: "ComponentBlocksServices";
+              id: string;
+              serviceLinksData?: any | null;
+            }
           | {
               __typename?: "ComponentBlocksSubHeading";
               id: string;
@@ -12937,6 +12940,88 @@ export type UpdateCookieByIdMutation = {
   updateCookie?: {
     __typename?: "CookieEntityResponse";
     data?: { __typename?: "CookieEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type GetActivedServicesByContractIdQueryVariables = Exact<{
+  contractId: Scalars["ID"];
+  today: Scalars["Date"];
+}>;
+
+export type GetActivedServicesByContractIdQuery = {
+  __typename?: "Query";
+  editorialServices?: {
+    __typename?: "EditorialServiceEntityResponseCollection";
+    data: Array<{ __typename?: "EditorialServiceEntity"; id?: string | null }>;
+  } | null;
+  recyclingGuideServices?: {
+    __typename?: "RecyclingGuideServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "RecyclingGuideServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "RecyclingGuideService";
+        name: string;
+      } | null;
+    }>;
+  } | null;
+  requestServices?: {
+    __typename?: "RequestServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "RequestServiceEntity";
+      id?: string | null;
+      attributes?: { __typename?: "RequestService"; name: string } | null;
+    }>;
+  } | null;
+  dropOffMapServices?: {
+    __typename?: "DropOffMapServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "DropOffMapServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "DropOffMapService";
+        name?: string | null;
+      } | null;
+    }>;
+  } | null;
+  alertNotificationServices?: {
+    __typename?: "AlertNotificationServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "AlertNotificationServiceEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "AlertNotificationService";
+        name?: string | null;
+      } | null;
+    }>;
+  } | null;
+  pickUpDayServices?: {
+    __typename?: "PickUpDayServiceEntityResponseCollection";
+    data: Array<{
+      __typename?: "PickUpDayServiceEntity";
+      id?: string | null;
+      attributes?: { __typename?: "PickUpDayService"; name: string } | null;
+    }>;
+  } | null;
+};
+
+export type GetBlockServicesSubSelectionQueryVariables = Exact<{
+  audience?: InputMaybe<Scalars["ID"]>;
+  selectedService: LinkServiceType;
+  serviceId: Scalars["ID"];
+}>;
+
+export type GetBlockServicesSubSelectionQuery = {
+  __typename?: "Query";
+  getEditoContentLinkedServices?: {
+    __typename?: "result";
+    elements?: Array<{
+      __typename?: "LinkedServices";
+      id: string;
+      name: string;
+      type?: string | null;
+      idFreeContentSubService?: string | null;
+    } | null> | null;
   } | null;
 };
 
@@ -19711,6 +19796,10 @@ export const CreateNewDocument = gql`
                 }
               }
             }
+            ... on ComponentBlocksServices {
+              id
+              serviceLinksData
+            }
           }
         }
       }
@@ -19866,6 +19955,10 @@ export const DeleteNewByIdDocument = gql`
                   }
                 }
               }
+            }
+            ... on ComponentBlocksServices {
+              id
+              serviceLinksData
             }
           }
         }
@@ -20186,6 +20279,10 @@ export const GetNewByIdDocument = gql`
                   }
                 }
               }
+            }
+            ... on ComponentBlocksServices {
+              id
+              serviceLinksData
             }
           }
         }
@@ -21093,6 +21190,10 @@ export const GetTipByIdDocument = gql`
                   }
                 }
               }
+            }
+            ... on ComponentBlocksServices {
+              id
+              serviceLinksData
             }
           }
         }
@@ -23436,6 +23537,10 @@ export const GetFreeContentByIdDocument = gql`
                 }
               }
             }
+            ... on ComponentBlocksServices {
+              id
+              serviceLinksData
+            }
           }
         }
       }
@@ -24073,6 +24178,235 @@ export type UpdateCookieByIdMutationResult =
 export type UpdateCookieByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdateCookieByIdMutation,
   UpdateCookieByIdMutationVariables
+>;
+export const GetActivedServicesByContractIdDocument = gql`
+  query getActivedServicesByContractId($contractId: ID!, $today: Date!) {
+    editorialServices(filters: { contract: { id: { eq: $contractId } } }) {
+      data {
+        id
+      }
+    }
+    recyclingGuideServices(
+      filters: {
+        contract: {
+          id: { eq: $contractId }
+          recyclingGuideService: {
+            isActivated: { eq: true }
+            startDate: { lte: $today }
+            endDate: { gte: $today }
+          }
+        }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+    requestServices(
+      filters: {
+        contract: {
+          id: { eq: $contractId }
+          requestService: {
+            isActivated: { eq: true }
+            startDate: { lte: $today }
+            endDate: { gte: $today }
+          }
+        }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+    dropOffMapServices(
+      filters: {
+        contract: {
+          id: { eq: $contractId }
+          dropOffMapService: {
+            isActivated: { eq: true }
+            startDate: { lte: $today }
+            endDate: { gte: $today }
+          }
+        }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+    alertNotificationServices(
+      filters: {
+        contract: {
+          id: { eq: $contractId }
+          alertNotificationService: {
+            isActivated: { eq: true }
+            startDate: { lte: $today }
+            endDate: { gte: $today }
+          }
+        }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+    pickUpDayServices(
+      filters: {
+        contract: {
+          id: { eq: $contractId }
+          pickUpDayService: {
+            isActivated: { eq: true }
+            startDate: { lte: $today }
+            endDate: { gte: $today }
+          }
+        }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetActivedServicesByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetActivedServicesByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActivedServicesByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetActivedServicesByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *      today: // value for 'today'
+ *   },
+ * });
+ */
+export function useGetActivedServicesByContractIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetActivedServicesByContractIdQuery,
+    GetActivedServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetActivedServicesByContractIdQuery,
+    GetActivedServicesByContractIdQueryVariables
+  >(GetActivedServicesByContractIdDocument, options);
+}
+export function useGetActivedServicesByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetActivedServicesByContractIdQuery,
+    GetActivedServicesByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetActivedServicesByContractIdQuery,
+    GetActivedServicesByContractIdQueryVariables
+  >(GetActivedServicesByContractIdDocument, options);
+}
+export type GetActivedServicesByContractIdQueryHookResult = ReturnType<
+  typeof useGetActivedServicesByContractIdQuery
+>;
+export type GetActivedServicesByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetActivedServicesByContractIdLazyQuery
+>;
+export type GetActivedServicesByContractIdQueryResult = Apollo.QueryResult<
+  GetActivedServicesByContractIdQuery,
+  GetActivedServicesByContractIdQueryVariables
+>;
+export const GetBlockServicesSubSelectionDocument = gql`
+  query getBlockServicesSubSelection(
+    $audience: ID
+    $selectedService: LinkServiceType!
+    $serviceId: ID!
+  ) {
+    getEditoContentLinkedServices(
+      audience: $audience
+      selectedService: $selectedService
+      serviceId: $serviceId
+    ) {
+      elements {
+        id
+        name
+        type
+        idFreeContentSubService
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetBlockServicesSubSelectionQuery__
+ *
+ * To run a query within a React component, call `useGetBlockServicesSubSelectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBlockServicesSubSelectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBlockServicesSubSelectionQuery({
+ *   variables: {
+ *      audience: // value for 'audience'
+ *      selectedService: // value for 'selectedService'
+ *      serviceId: // value for 'serviceId'
+ *   },
+ * });
+ */
+export function useGetBlockServicesSubSelectionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetBlockServicesSubSelectionQuery,
+    GetBlockServicesSubSelectionQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetBlockServicesSubSelectionQuery,
+    GetBlockServicesSubSelectionQueryVariables
+  >(GetBlockServicesSubSelectionDocument, options);
+}
+export function useGetBlockServicesSubSelectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetBlockServicesSubSelectionQuery,
+    GetBlockServicesSubSelectionQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetBlockServicesSubSelectionQuery,
+    GetBlockServicesSubSelectionQueryVariables
+  >(GetBlockServicesSubSelectionDocument, options);
+}
+export type GetBlockServicesSubSelectionQueryHookResult = ReturnType<
+  typeof useGetBlockServicesSubSelectionQuery
+>;
+export type GetBlockServicesSubSelectionLazyQueryHookResult = ReturnType<
+  typeof useGetBlockServicesSubSelectionLazyQuery
+>;
+export type GetBlockServicesSubSelectionQueryResult = Apollo.QueryResult<
+  GetBlockServicesSubSelectionQuery,
+  GetBlockServicesSubSelectionQueryVariables
 >;
 export const GetTagsByContractIdDocument = gql`
   query getTagsByContractId($contractId: ID) {

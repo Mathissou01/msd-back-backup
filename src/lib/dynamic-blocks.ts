@@ -122,12 +122,12 @@ export const blockDisplayMap: Record<TDynamicFieldOption, IBlockDisplayMap> = {
     label: "Type de demande",
     picto: "text",
   },
-  ComponentBlocksServices: {
-    label: "Liens vers les services",
-    picto: "dashboard",
-  },
   RequestSlotEntity: {
     label: "Créneaux par secteur(s)",
+  },
+  ComponentBlocksServices: {
+    label: "Liens vers les services",
+    picto: "services",
   },
 };
 
@@ -158,7 +158,8 @@ export type IFormBlock =
   | IBlocksDownloadableFiles
   | IBlocksCumbersome
   | IBlocksRequestType
-  | IBlocksRequestSlotEntity;
+  | IBlocksRequestSlotEntity
+  | IBlocksServices;
 
 export interface IBlocksFile extends IPartialBlock {
   __typename: "ComponentBlocksFile";
@@ -258,6 +259,11 @@ export interface IBlocksCumbersome extends IPartialBlock {
   maxNumberOfCumbersome?: number;
   isNumberAndVolume: string;
   cumbersomeLimitMessage: string;
+}
+
+export interface IBlocksServices extends IPartialBlock {
+  __typename: "ComponentBlocksServices";
+  serviceLinksData?: JSON;
 }
 
 export interface IBlocksRequestSlotEntity extends IPartialBlock {
@@ -444,6 +450,13 @@ export function createEmptyBlock(__typename: TDynamicFieldOption): IFormBlock {
         slotMessage: "",
         noSlotMessage: "",
         hasOneActivatedRequestTaked: false,
+      };
+    }
+    case "ComponentBlocksServices": {
+      return {
+        __typename,
+        id: temporaryId,
+        serviceLinksData: undefined,
       };
     }
     default: {

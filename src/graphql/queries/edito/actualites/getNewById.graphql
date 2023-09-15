@@ -115,6 +115,10 @@ query getNewById($newId: ID) {
               }
             }
           }
+          ... on ComponentBlocksServices {
+            id
+            serviceLinksData
+          }
         }
       }
     }

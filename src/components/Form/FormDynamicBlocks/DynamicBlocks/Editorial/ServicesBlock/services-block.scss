@@ -1,0 +1,9 @@
+.c-ServicesBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__AddButton {
+    align-self: start;
+  }
+}

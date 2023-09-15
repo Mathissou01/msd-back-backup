@@ -22,6 +22,7 @@ export enum EAllPictoStyles {
   "text",
   "video",
   "textCase",
+  "services",
   /* BLOCKS Request */
   "attachment",
   "chatBubble",
@@ -111,5 +112,5 @@ export type TBlockPictoStyles = Extract<
   | "user"
   | "cumbersome"
   | "polygon"
-  | "dashboard"
+  | "services"
 >;

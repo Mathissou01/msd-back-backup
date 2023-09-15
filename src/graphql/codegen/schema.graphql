@@ -1051,37 +1051,19 @@ input ComponentBlocksRequestTypeInput {
 }
 
 type ComponentBlocksServices {
-  alertS: AlertNotificationServiceEntityResponse
-  dropOffS: DropOffMapServiceEntityResponse
-  editoS: EditorialServiceEntityResponse
   id: ID!
-  pickUpS: PickUpDayServiceEntityResponse
-  recyclingS: RecyclingGuideServiceEntityResponse
-  requestS: RequestServiceEntityResponse
   serviceLinksData: JSON
 }
 
 input ComponentBlocksServicesFiltersInput {
-  alertS: AlertNotificationServiceFiltersInput
   and: [ComponentBlocksServicesFiltersInput]
-  dropOffS: DropOffMapServiceFiltersInput
-  editoS: EditorialServiceFiltersInput
   not: ComponentBlocksServicesFiltersInput
   or: [ComponentBlocksServicesFiltersInput]
-  pickUpS: PickUpDayServiceFiltersInput
-  recyclingS: RecyclingGuideServiceFiltersInput
-  requestS: RequestServiceFiltersInput
   serviceLinksData: JSONFilterInput
 }
 
 input ComponentBlocksServicesInput {
-  alertS: ID
-  dropOffS: ID
-  editoS: ID
   id: ID
-  pickUpS: ID
-  recyclingS: ID
-  requestS: ID
   serviceLinksData: JSON
 }
 
@@ -3882,6 +3864,7 @@ enum LinkServiceType {
 
 type LinkedServices {
   id: ID!
+  idFreeContentSubService: ID
   name: String!
   type: String
 }
@@ -4571,6 +4554,7 @@ type Mutation {
   ): Boolean
   urlUploader(imageName: String!, url: String!): Boolean
   validateRequest(requestJSON: JSON): Boolean
+  validateYesWeScanForm(yesWeScanFormJSON: JSON!): Boolean
   versioningHandler(data: JSON!, entity: String!): VersioningEntityResponse
   ywsActivation(contractId: ID!): ChannelTypeEntity
   ywsDeactivation(contractId: ID!): ChannelTypeEntity
@@ -5618,7 +5602,6 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserEntityResponseCollection
-  validateYesWeScanForm(yesWeScanFormJSON: JSON!): Boolean
   wasteFamilies(
     filters: WasteFamilyFiltersInput
     pagination: PaginationArg = {}

@@ -16,6 +16,7 @@ import RequestTypeBlock from "./Request/RequestTypeBlock/RequestTypeBlock";
 import DateChoiceBlock from "./Request/DateChoiceBlock/DateChoiceBlock";
 import CumbersomeBlock from "./Request/CumbersomeBlock/CumbersomeBlock";
 import RequestSlotEntityBlock from "./Request/RequestSlotEntityBlock/RequestSlotEntityBlock";
+import ServicesBlock from "./Editorial/ServicesBlock/ServicesBlock";
 
 interface IDynamicFieldsBlockWrapper {
   type: TDynamicFieldOption;
@@ -84,6 +85,9 @@ export default function DynamicBlock({
             onChangeTitle={onChangeBlockTitle}
           />
         );
+      }
+      case "ComponentBlocksServices": {
+        return <ServicesBlock blockName={name} />;
       }
       default: {
         return null;

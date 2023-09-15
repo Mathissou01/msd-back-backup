@@ -110,6 +110,10 @@ mutation createNew($data: NewInput!) {
               }
             }
           }
+          ... on ComponentBlocksServices {
+            id
+            serviceLinksData
+          }
         }
       }
     }
