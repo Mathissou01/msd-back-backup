@@ -6,11 +6,10 @@ import "./shadow-dom-format.scss";
 const ShadowDomContainer = ({ id, type, width, height }) => {
   const { data, loading, error } = useGetContractByIdQuery({
     variables: {
-      contractId: "2",
-      //TODO: Testing
-      // typeof window !== "undefined"
-      //   ? window.location.pathname.split("/")[1]
-      //   : "",
+      contractId:
+        typeof window !== "undefined"
+          ? window.location.pathname.split("/")[1]
+          : "",
     },
   });
 
@@ -26,14 +25,12 @@ const ShadowDomContainer = ({ id, type, width, height }) => {
       });
     });
   }, []);
-  console.log(encodeURIComponent(data?.contract?.data?.attributes.clientName));
+
   return (
     <CommonLoader isLoading={loading} errors={error}>
       <iframe
         id="external-iframe"
-        src={`${process.env.NEXT_PUBLIC_FO_URL}/${encodeURIComponent(
-          data?.contract?.data?.attributes.clientName,
-        )}/preview?type=${type}&id=${id}`}
+        src={`${process.env.NEXT_PUBLIC_FO_URL}/${data?.contract?.data?.attributes.clientName}/preview?type=${type}&id=${id}`}
         width={width}
         height={height}
       />
