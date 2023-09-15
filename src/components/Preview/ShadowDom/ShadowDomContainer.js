@@ -6,10 +6,11 @@ import "./shadow-dom-format.scss";
 const ShadowDomContainer = ({ id, type, width, height }) => {
   const { data, loading, error } = useGetContractByIdQuery({
     variables: {
-      contractId:
-        typeof window !== "undefined"
-          ? window.location.pathname.split("/")[1]
-          : "",
+      contractId: "2",
+      //TODO: Testing
+      // typeof window !== "undefined"
+      //   ? window.location.pathname.split("/")[1]
+      //   : "",
     },
   });
 
@@ -25,7 +26,7 @@ const ShadowDomContainer = ({ id, type, width, height }) => {
       });
     });
   }, []);
-
+  console.log(encodeURIComponent(data?.contract?.data?.attributes.clientName));
   return (
     <CommonLoader isLoading={loading} errors={error}>
       <iframe
