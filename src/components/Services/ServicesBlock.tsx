@@ -102,8 +102,12 @@ export default function ServicesBlock() {
             serviceId: service.id,
             serviceName: service.type,
             isActivated: service.isActivated,
-            startDate: format(service.startDate, "yyyy-MM-dd"),
-            endDate: format(service.startDate, "yyyy-MM-dd"),
+            startDate: service.isActivated
+              ? format(service.startDate, "yyyy-MM-dd")
+              : undefined,
+            endDate: service.isActivated
+              ? format(service.startDate, "yyyy-MM-dd")
+              : undefined,
           },
           refetchQueries: [
             {
@@ -118,10 +122,19 @@ export default function ServicesBlock() {
           variables: {
             contractId: contractId,
             serviceId: service.id,
-            serviceName: service.type,
+            serviceName:
+              service.label === "Editorial 1"
+                ? "freeContent1"
+                : service.label === "Editorial 2"
+                ? "freeContent2"
+                : service.type,
             isActivated: service.isActivated,
-            startDate: format(service.startDate, "yyyy-MM-dd"),
-            endDate: format(service.startDate, "yyyy-MM-dd"),
+            startDate: service.isActivated
+              ? format(service.startDate, "yyyy-MM-dd")
+              : undefined,
+            endDate: service.isActivated
+              ? format(service.startDate, "yyyy-MM-dd")
+              : undefined,
           },
           refetchQueries: [
             {
@@ -145,8 +158,12 @@ export default function ServicesBlock() {
               serviceId: service.id,
               serviceName: service.type,
               isActivated: service.isActivated,
-              startDate: format(service.startDate, "yyyy-MM-dd"),
-              endDate: format(service.startDate, "yyyy-MM-dd"),
+              startDate: service.isActivated
+                ? format(service.startDate, "yyyy-MM-dd")
+                : undefined,
+              endDate: service.isActivated
+                ? format(service.startDate, "yyyy-MM-dd")
+                : undefined,
             },
             refetchQueries: [
               {
@@ -168,10 +185,19 @@ export default function ServicesBlock() {
             variables: {
               contractId: contractId,
               serviceId: service.id,
-              serviceName: service.type,
+              serviceName:
+                service.label === "Editorial 1"
+                  ? "freeContent1"
+                  : service.label === "Editorial 2"
+                  ? "freeContent2"
+                  : service.type,
               isActivated: service.isActivated,
-              startDate: format(service.startDate, "yyyy-MM-dd"),
-              endDate: format(service.startDate, "yyyy-MM-dd"),
+              startDate: service.isActivated
+                ? format(service.startDate, "yyyy-MM-dd")
+                : undefined,
+              endDate: service.isActivated
+                ? format(service.startDate, "yyyy-MM-dd")
+                : undefined,
             },
             refetchQueries: [
               {
