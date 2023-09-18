@@ -5433,10 +5433,11 @@ export type MutationSendSmsArgs = {
 };
 
 export type MutationServicesActivationArgs = {
-  ServiceName: Scalars["String"];
+  ServiceName: ServiceType;
   contractId: Scalars["ID"];
   endDate?: InputMaybe<Scalars["Date"]>;
   isActivated: Scalars["Boolean"];
+  isUpdated: Scalars["Boolean"];
   serviceId: Scalars["ID"];
   startDate?: InputMaybe<Scalars["Date"]>;
 };
@@ -8701,6 +8702,7 @@ export type ServiceInput = {
 
 export enum ServiceType {
   Alert = "alert",
+  ContactUs = "contactUs",
   DropOffMap = "dropOffMap",
   Event = "event",
   FreeContent1 = "freeContent1",
@@ -13700,12 +13702,13 @@ export type GetChannelTypeByIdQuery = {
 };
 
 export type UpdateServicesActivationMutationVariables = Exact<{
-  serviceName: Scalars["String"];
+  serviceName: ServiceType;
   serviceId: Scalars["ID"];
   isActivated: Scalars["Boolean"];
   contractId: Scalars["ID"];
   startDate?: InputMaybe<Scalars["Date"]>;
   endDate?: InputMaybe<Scalars["Date"]>;
+  isUpdated: Scalars["Boolean"];
 }>;
 
 export type UpdateServicesActivationMutation = {
@@ -26175,12 +26178,13 @@ export type GetChannelTypeByIdQueryResult = Apollo.QueryResult<
 >;
 export const UpdateServicesActivationDocument = gql`
   mutation updateServicesActivation(
-    $serviceName: String!
+    $serviceName: ServiceType!
     $serviceId: ID!
     $isActivated: Boolean!
     $contractId: ID!
     $startDate: Date
     $endDate: Date
+    $isUpdated: Boolean!
   ) {
     servicesActivation(
       ServiceName: $serviceName
@@ -26189,6 +26193,7 @@ export const UpdateServicesActivationDocument = gql`
       contractId: $contractId
       startDate: $startDate
       endDate: $endDate
+      isUpdated: $isUpdated
     ) {
       contractId
       endDate
@@ -26223,6 +26228,7 @@ export type UpdateServicesActivationMutationFn = Apollo.MutationFunction<
  *      contractId: // value for 'contractId'
  *      startDate: // value for 'startDate'
  *      endDate: // value for 'endDate'
+ *      isUpdated: // value for 'isUpdated'
  *   },
  * });
  */

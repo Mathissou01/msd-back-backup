@@ -1,10 +1,11 @@
 mutation updateServicesActivation(
-  $serviceName: String!
+  $serviceName: ServiceType!
   $serviceId: ID!
   $isActivated: Boolean!
   $contractId: ID!
   $startDate: Date
   $endDate: Date
+  $isUpdated: Boolean!
 ) {
   servicesActivation(
     ServiceName: $serviceName
@@ -13,6 +14,7 @@ mutation updateServicesActivation(
     contractId: $contractId
     startDate: $startDate
     endDate: $endDate
+    isUpdated: $isUpdated
   ) {
     contractId
     endDate

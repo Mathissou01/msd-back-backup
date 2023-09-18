@@ -40,7 +40,7 @@ export default function RequestExceptionBlock({
   };
 
   /* Local Datas */
-  const { watch, register, setValue, getValues, unregister } = useFormContext();
+  const { watch, register, setValue, unregister } = useFormContext();
   register(`${name}.${blockIndex}`, { value: exceptionBlocks[blockIndex] });
 
   const watchExceptionType = watch(`${name}.${blockIndex}.exceptionType`);
@@ -158,14 +158,6 @@ export default function RequestExceptionBlock({
                 }
                 minDate={new Date()}
                 name={`${name}.${blockIndex}.slotException.startDate`}
-                onChange={() => {
-                  setValue(
-                    `${name}.${blockIndex}.slotException.startDate`,
-                    getValues(
-                      `${name}.${blockIndex}.slotException.startDate`,
-                    ).toISOString(),
-                  );
-                }}
               />
             </>
           ) : (
@@ -186,14 +178,6 @@ export default function RequestExceptionBlock({
                   }
                   minDate={new Date()}
                   name={`${name}.${blockIndex}.slotException.startDate`}
-                  onChange={() => {
-                    setValue(
-                      `${name}.${blockIndex}.slotException.startDate`,
-                      getValues(
-                        `${name}.${blockIndex}.slotException.startDate`,
-                      ).toISOString(),
-                    );
-                  }}
                 />
                 <FormDatePicker
                   label="Au"
@@ -208,14 +192,6 @@ export default function RequestExceptionBlock({
                     )
                   }
                   name={`${name}.${blockIndex}.slotException.endDate`}
-                  onChange={() => {
-                    setValue(
-                      `${name}.${blockIndex}.slotException.endDate`,
-                      getValues(
-                        `${name}.${blockIndex}.slotException.endDate`,
-                      ).toISOString(),
-                    );
-                  }}
                 />
               </div>
             </div>

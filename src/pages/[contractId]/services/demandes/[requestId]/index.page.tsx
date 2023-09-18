@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import {
   ComponentBlocksRequestTypeInput,
+  Enum_Componentblocksrequestslotsexceptions_Exceptiontype,
+  GetRequestByIdDocument,
   RequestInput,
   useCreateRequestMutation,
   useCreateRequestSlotMutation,
@@ -11,7 +13,7 @@ import {
   useUpdateRequestByIdMutation,
   useUpdateRequestSlotByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
-import { removeNulls } from "../../../../../lib/utilities";
+import { formatDate, removeNulls } from "../../../../../lib/utilities";
 import { EStatus } from "../../../../../lib/status";
 import {
   generateMinimumBlocks,
@@ -142,14 +144,37 @@ export function RequestFormPage({
                 .filter(removeNulls) ?? [],
             timeSlots: requestSlot.timeSlots,
             slotsExceptions: requestSlot.slotsExceptions?.map(
-              (slotsException) => {
-                delete slotsException.__typename;
-                return slotsException;
+              (slotException) => {
+                delete slotException.__typename;
+                return {
+                  exceptionType: slotException.exceptionType,
+                  slotException: {
+                    endDate:
+                      slotException.exceptionType ===
+                      Enum_Componentblocksrequestslotsexceptions_Exceptiontype.Daily
+                        ? formatDate(
+                            slotException.slotException.startDate,
+                            "yyyy-MM-dd",
+                          )
+                        : formatDate(
+                            slotException.slotException.endDate,
+                            "yyyy-MM-dd",
+                          ),
+                    startDate: formatDate(
+                      slotException.slotException.startDate,
+                      "yyyy-MM-dd",
+                    ),
+                    timeSlots: slotException.slotException.timeSlots,
+                    hasAppointmentSlots:
+                      slotException.slotException.hasAppointmentSlots,
+                  },
+                };
               },
             ),
             slotMessage: requestSlot.slotMessage,
             noSlotMessage: requestSlot.noSlotMessage,
           };
+
           if (
             existingRequestSlots?.map((r) => r.id).includes(requestSlot.id) &&
             requestSlot.id
@@ -279,6 +304,7 @@ export function RequestFormPage({
               ...commonVariables,
             },
           },
+          refetchQueries: [GetRequestByIdDocument],
           onCompleted: (result) => {
             if (result.createRequest?.data?.id) {
               router.push(`${currentRoot}/services/demandes`);
@@ -292,6 +318,7 @@ export function RequestFormPage({
               ...commonVariables,
             },
           },
+          refetchQueries: [GetRequestByIdDocument],
           onCompleted: (result) => {
             if (result.updateRequest?.data?.id) {
               router.push(`${currentRoot}/services/demandes`);
@@ -308,6 +335,7 @@ export function RequestFormPage({
           isActivated: !data?.request?.data?.attributes?.isActivated,
         },
       },
+      refetchQueries: [GetRequestByIdDocument],
       onCompleted: (result) => {
         if (result.updateRequest?.data?.id) {
           router.push(`${currentRoot}/services/demandes`);
@@ -394,12 +422,10 @@ export function RequestFormPage({
     });
   const [updateRequest, { loading: loadingUpdate, error: errorUpdate }] =
     useUpdateRequestByIdMutation({
-      refetchQueries: ["getRequestById"],
       awaitRefetchQueries: true,
     });
   const [createRequest, { loading: loadingCreate, error: errorCreate }] =
     useCreateRequestMutation({
-      refetchQueries: ["getRequestById"],
       awaitRefetchQueries: true,
     });
   const [

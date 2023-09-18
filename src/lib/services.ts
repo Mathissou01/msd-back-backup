@@ -50,7 +50,21 @@ export enum ServiceType {
   "recycling" = "recycling",
   "keyMetrics" = "keyMetrics",
   "editorial" = "editorial",
-  "contact" = "contact",
+  "contactUs" = "contactUs",
+}
+
+export enum ServiceNameWithType {
+  "request" = "requestService",
+  "event" = "eventSubService",
+  "news" = "newsSubService",
+  "tip" = "tipSubService",
+  "quizz" = "quizSubService",
+  "freeContent" = "freeContentSubServices",
+  "alert" = "alertNotificationService",
+  "dropOffMap" = "dropOffMapService",
+  "pickUpDay" = "pickUpDayService",
+  "recycling" = "recyclingGuideService",
+  "contactUs" = "contactUsSubService",
 }
 
 export interface IServicesBlockFormValues extends FieldValues {

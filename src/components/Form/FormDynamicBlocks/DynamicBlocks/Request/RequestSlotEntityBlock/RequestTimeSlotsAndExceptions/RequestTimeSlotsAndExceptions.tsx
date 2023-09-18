@@ -217,7 +217,6 @@ export default function RequestTimeSlotsAndExceptions({
         modalTitle={labels.modalLabels.title}
         modalSubmitButtonLabel={labels.modalLabels.saveButton}
         modalHasRequiredChildren="all"
-        isRequired
         onValidate={handleTimeSlotsAndExceptionsValidation}
         onModalSubmit={handleModalSubmit}
       >
@@ -234,7 +233,6 @@ export default function RequestTimeSlotsAndExceptions({
             <FormWeeklySlots
               name="timeSlots"
               defaultValue={existingTimeSlots}
-              isRequired
               isDisabled={hasOneActivatedRequestTaked}
             />
           </div>

@@ -20,6 +20,7 @@ import {
   ServiceType,
   parseDate,
   IServicesBlockFormValues,
+  ServiceNameWithType,
 } from "../../lib/services";
 import { removeNulls } from "../../lib/utilities";
 import { useFocusFirstElement } from "../../hooks/useFocusFirstElement";
@@ -95,19 +96,33 @@ export default function ServicesBlock() {
       setYesWeScanServices([]);
     }
     if (!submitData.hasWebApp && !submitData.hasWebSite) {
-      for (const service of submitData.transversalServices)
+      for (const service of submitData.transversalServices) {
+        const serviceType: keyof typeof ServiceNameWithType = service.type;
         serviceActivationfunction({
           variables: {
             contractId: contractId,
             serviceId: service.id,
+            isUpdated:
+              service.isActivated ===
+                eval(
+                  `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.isActivated`,
+                ) &&
+              (service.startDate !==
+                eval(
+                  `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.startDate`,
+                ) ||
+                service.endDate !==
+                  eval(
+                    `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.endDate`,
+                  )),
             serviceName: service.type,
             isActivated: service.isActivated,
             startDate: service.isActivated
               ? format(service.startDate, "yyyy-MM-dd")
-              : undefined,
+              : null,
             endDate: service.isActivated
               ? format(service.startDate, "yyyy-MM-dd")
-              : undefined,
+              : null,
           },
           refetchQueries: [
             {
@@ -116,12 +131,27 @@ export default function ServicesBlock() {
             },
           ],
         });
+      }
 
       for (const service of submitData.editorialServices) {
+        const serviceType: keyof typeof ServiceNameWithType = service.type;
         serviceActivationfunction({
           variables: {
             contractId: contractId,
             serviceId: service.id,
+            isUpdated:
+              service.isActivated ===
+                eval(
+                  `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.isActivated`,
+                ) &&
+              (service.startDate !==
+                eval(
+                  `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.startDate`,
+                ) ||
+                service.endDate !==
+                  eval(
+                    `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.endDate`,
+                  )),
             serviceName:
               service.label === "Editorial 1"
                 ? "freeContent1"
@@ -131,10 +161,10 @@ export default function ServicesBlock() {
             isActivated: service.isActivated,
             startDate: service.isActivated
               ? format(service.startDate, "yyyy-MM-dd")
-              : undefined,
+              : null,
             endDate: service.isActivated
               ? format(service.startDate, "yyyy-MM-dd")
-              : undefined,
+              : null,
           },
           refetchQueries: [
             {
@@ -152,18 +182,32 @@ export default function ServicesBlock() {
           dirtyFields.transversalServices &&
           dirtyFields.transversalServices[index] !== undefined
         ) {
+          const serviceType: keyof typeof ServiceNameWithType = service.type;
           serviceActivationfunction({
             variables: {
               contractId: contractId,
               serviceId: service.id,
+              isUpdated:
+                service.isActivated ===
+                  eval(
+                    `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.isActivated`,
+                  ) &&
+                (service.startDate !==
+                  eval(
+                    `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.startDate`,
+                  ) ||
+                  service.endDate !==
+                    eval(
+                      `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.endDate`,
+                    )),
               serviceName: service.type,
               isActivated: service.isActivated,
               startDate: service.isActivated
                 ? format(service.startDate, "yyyy-MM-dd")
-                : undefined,
+                : null,
               endDate: service.isActivated
                 ? format(service.startDate, "yyyy-MM-dd")
-                : undefined,
+                : null,
             },
             refetchQueries: [
               {
@@ -181,10 +225,24 @@ export default function ServicesBlock() {
           dirtyFields.editorialServices &&
           dirtyFields.editorialServices[index] !== undefined
         ) {
+          const serviceType: keyof typeof ServiceNameWithType = service.type;
           serviceActivationfunction({
             variables: {
               contractId: contractId,
               serviceId: service.id,
+              isUpdated:
+                service.isActivated ===
+                  eval(
+                    `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.isActivated`,
+                  ) &&
+                (service.startDate !==
+                  eval(
+                    `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.startDate`,
+                  ) ||
+                  service.endDate !==
+                    eval(
+                      `contract.attributes?.${ServiceNameWithType[serviceType]}?.data?.attributes?.endDate`,
+                    )),
               serviceName:
                 service.label === "Editorial 1"
                   ? "freeContent1"
@@ -194,10 +252,10 @@ export default function ServicesBlock() {
               isActivated: service.isActivated,
               startDate: service.isActivated
                 ? format(service.startDate, "yyyy-MM-dd")
-                : undefined,
+                : null,
               endDate: service.isActivated
                 ? format(service.startDate, "yyyy-MM-dd")
-                : undefined,
+                : null,
             },
             refetchQueries: [
               {
@@ -446,7 +504,7 @@ export default function ServicesBlock() {
         { service: "freeContentSubServices", type: ServiceType.freeContent },
         { service: "quizSubService", type: ServiceType.quizz },
         { service: "tipSubService", type: ServiceType.tip },
-        { service: "contactUsSubService", type: ServiceType.contact },
+        { service: "contactUsSubService", type: ServiceType.contactUs },
       ];
       const newTransversalServices: Array<IServiceFields> = [];
       transversalServiceList.map((service) =>

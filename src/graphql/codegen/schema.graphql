@@ -4262,10 +4262,11 @@ type Mutation {
     sendMultiple: Boolean
   ): String
   servicesActivation(
-    ServiceName: String!
+    ServiceName: ServiceType!
     contractId: ID!
     endDate: Date
     isActivated: Boolean!
+    isUpdated: Boolean!
     serviceId: ID!
     startDate: Date
   ): ServiceActivated
@@ -6547,6 +6548,7 @@ input ServiceInput {
 
 enum ServiceType {
   alert
+  contactUs
   dropOffMap
   event
   freeContent1
