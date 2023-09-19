@@ -96,9 +96,9 @@ export default function ServicesBlock() {
       setYesWeScanServices([]);
     }
     if (!submitData.hasWebApp && !submitData.hasWebSite) {
-      for (const service of submitData.transversalServices) {
+      for await (const service of submitData.transversalServices) {
         const serviceType: keyof typeof ServiceNameWithType = service.type;
-        serviceActivationfunction({
+        await serviceActivationfunction({
           variables: {
             contractId: contractId,
             serviceId: service.id,
@@ -133,9 +133,9 @@ export default function ServicesBlock() {
         });
       }
 
-      for (const service of submitData.editorialServices) {
+      for await (const service of submitData.editorialServices) {
         const serviceType: keyof typeof ServiceNameWithType = service.type;
-        serviceActivationfunction({
+        await serviceActivationfunction({
           variables: {
             contractId: contractId,
             serviceId: service.id,
@@ -175,7 +175,10 @@ export default function ServicesBlock() {
         });
       }
     } else {
-      for (const [index, service] of submitData.transversalServices.entries()) {
+      for await (const [
+        index,
+        service,
+      ] of submitData.transversalServices.entries()) {
         if (
           service.id &&
           dirtyFields &&
@@ -183,7 +186,7 @@ export default function ServicesBlock() {
           dirtyFields.transversalServices[index] !== undefined
         ) {
           const serviceType: keyof typeof ServiceNameWithType = service.type;
-          serviceActivationfunction({
+          await serviceActivationfunction({
             variables: {
               contractId: contractId,
               serviceId: service.id,
@@ -218,7 +221,10 @@ export default function ServicesBlock() {
           });
         }
       }
-      for (const [index, service] of submitData.editorialServices.entries()) {
+      for await (const [
+        index,
+        service,
+      ] of submitData.editorialServices.entries()) {
         if (
           service.id &&
           dirtyFields &&
@@ -226,7 +232,7 @@ export default function ServicesBlock() {
           dirtyFields.editorialServices[index] !== undefined
         ) {
           const serviceType: keyof typeof ServiceNameWithType = service.type;
-          serviceActivationfunction({
+          await serviceActivationfunction({
             variables: {
               contractId: contractId,
               serviceId: service.id,

@@ -171,17 +171,13 @@ export function PersonnalisationAccueilPage() {
           name: "topContent",
           title: "À la une",
           content: <TopContentTab audience={audience} />,
-          isEnabled:
-            serviceParameters.isEventsActivated &&
-            serviceParameters.isNewsActivated,
+          isEnabled: serviceParameters.isNewsActivated,
         },
         {
           name: "quizAndTips",
           title: "Quiz & Astuces",
           content: <QuizAndTipsTab audience={audience} />,
-          isEnabled:
-            serviceParameters.isQuizActivated &&
-            serviceParameters.isTipsActivated,
+          isEnabled: serviceParameters.isTipsActivated,
         },
         {
           name: "edito",
@@ -189,9 +185,6 @@ export function PersonnalisationAccueilPage() {
           content: (
             <EditoTab
               activatedTypes={[
-                serviceParameters.isQuizActivated
-                  ? ("quiz" as TEditorialContentTypes)
-                  : null,
                 serviceParameters.isTipsActivated
                   ? ("tip" as TEditorialContentTypes)
                   : null,
