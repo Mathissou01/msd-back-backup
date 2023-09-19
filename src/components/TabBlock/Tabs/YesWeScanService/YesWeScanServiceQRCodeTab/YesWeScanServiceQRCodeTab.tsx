@@ -151,7 +151,7 @@ export default function YesWeScanServiceQRCodeTab({
     const img = await document.createElement("img");
     const canvas = await document.createElement("canvas");
     return await QRCode.toDataURL(
-      await `${process.env.NEXT_PUBLIC_BASE_HOST}/${encodeURI(
+      await `${process.env.NEXT_PUBLIC_FO_URL}/${encodeURI(
         contract.attributes?.clientName ?? "",
       )}/yws/${ywsShortName
         .replaceAll(" ", "-")
