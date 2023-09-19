@@ -121,7 +121,7 @@ export default function ServicesBlock() {
               ? format(service.startDate, "yyyy-MM-dd")
               : null,
             endDate: service.isActivated
-              ? format(service.startDate, "yyyy-MM-dd")
+              ? format(service.endDate, "yyyy-MM-dd")
               : null,
           },
           refetchQueries: [
@@ -163,7 +163,7 @@ export default function ServicesBlock() {
               ? format(service.startDate, "yyyy-MM-dd")
               : null,
             endDate: service.isActivated
-              ? format(service.startDate, "yyyy-MM-dd")
+              ? format(service.endDate, "yyyy-MM-dd")
               : null,
           },
           refetchQueries: [
@@ -206,7 +206,7 @@ export default function ServicesBlock() {
                 ? format(service.startDate, "yyyy-MM-dd")
                 : null,
               endDate: service.isActivated
-                ? format(service.startDate, "yyyy-MM-dd")
+                ? format(service.endDate, "yyyy-MM-dd")
                 : null,
             },
             refetchQueries: [
@@ -254,7 +254,7 @@ export default function ServicesBlock() {
                 ? format(service.startDate, "yyyy-MM-dd")
                 : null,
               endDate: service.isActivated
-                ? format(service.startDate, "yyyy-MM-dd")
+                ? format(service.endDate, "yyyy-MM-dd")
                 : null,
             },
             refetchQueries: [
