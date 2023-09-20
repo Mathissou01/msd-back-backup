@@ -11,7 +11,7 @@ type Data = {
   name: string;
   value: number;
   color: string;
-  kg: number;
+  middleValue: number;
 };
 
 export default function BarometerInsight({
@@ -20,33 +20,36 @@ export default function BarometerInsight({
   const { watch } = useFormContext();
   const needleValue = averageProduction;
 
-  const maxLow = Math.round(watch("low") / 100) * averageProduction;
+  const maxLow = Math.round((watch("low") / 100) * averageProduction);
   const maxMedium = Math.round((watch("medium") / 100) * averageProduction);
   const maxHigh = Math.round((watch("high") / 100) * averageProduction);
   const maxVeryHigh = Math.round((watch("veryHigh") / 100) * averageProduction);
 
   const rootStyles = getComputedStyle(document.documentElement);
-  const white = rootStyles.getPropertyValue("--white");
   const graphLow = rootStyles.getPropertyValue("--graph-low");
   const graphMedium = rootStyles.getPropertyValue("--graph-medium");
   const graphHot = rootStyles.getPropertyValue("--graph-hot");
   const graphVeryHot = rootStyles.getPropertyValue("--graph-veryhot");
 
   const data: Data[] = [
-    { name: "0", value: 0, color: white, kg: 0 },
-    { name: "low", value: maxLow, color: graphLow, kg: maxLow },
+    { name: "low", value: maxLow, color: graphLow, middleValue: maxLow / 2 },
     {
       name: "medium",
       value: maxMedium - maxLow,
       color: graphMedium,
-      kg: maxMedium,
+      middleValue: (maxMedium + maxLow) / 2,
     },
-    { name: "high", value: maxHigh - maxMedium, color: graphHot, kg: maxHigh },
+    {
+      name: "high",
+      value: maxHigh - maxMedium,
+      color: graphHot,
+      middleValue: (maxHigh + maxMedium) / 2,
+    },
     {
       name: "veryHigh",
       value: maxVeryHigh - maxHigh,
       color: graphVeryHot,
-      kg: maxVeryHigh,
+      middleValue: (maxVeryHigh + maxHigh) / 2,
     },
   ];
 
@@ -124,13 +127,13 @@ export default function BarometerInsight({
                 <text
                   x={x}
                   y={y}
-                  fill="#8884d8"
+                  fill="gray"
                   textAnchor={x > cx ? "start" : "end"}
                   fontSize={12}
                 >
                   {data[index].value !== 0
-                    ? data[index].kg + "kg"
-                    : data[index].kg}
+                    ? Math.round(data[index].middleValue) + "kg"
+                    : data[index].middleValue}
                 </text>
               );
             }}
