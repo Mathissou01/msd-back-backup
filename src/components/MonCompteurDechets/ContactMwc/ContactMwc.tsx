@@ -136,7 +136,6 @@ export default function ContactMwc() {
             <div className="c-ContactFormPage__BlockFieldAndInput">
               <FormInput
                 name="serviceName"
-                isRequired
                 type="text"
                 placeholder={PLACEHOLDER.serviceName}
                 maxLengthValidation={50}
@@ -150,7 +149,6 @@ export default function ContactMwc() {
             <div className="c-ContactFormPage__BlockFieldAndInput">
               <FormInput
                 name="address"
-                isRequired
                 type="text"
                 placeholder={PLACEHOLDER.address}
                 maxLengthValidation={150}
@@ -179,7 +177,6 @@ export default function ContactMwc() {
               <div className="c-ContactFormPage__BlockFieldAndInput">
                 <FormInput
                   name="city"
-                  isRequired
                   type="text"
                   placeholder={PLACEHOLDER.city}
                   maxLengthValidation={100}
@@ -192,7 +189,6 @@ export default function ContactMwc() {
             <div className="c-ContactFormPage__BlockFieldAndInput">
               <FormInput
                 name="email"
-                isRequired
                 type="email"
                 placeholder={PLACEHOLDER.email}
                 patternValidation={/^\S+@\S+\.\S+$/}
