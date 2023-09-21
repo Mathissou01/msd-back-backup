@@ -1,4 +1,4 @@
-mutation ChangeContractStatus($contractId: ID!, $status: Statuses!) {
+mutation changeContractStatusById($contractId: ID!, $status: Statuses!) {
   changeContractStatus(contractId: $contractId, status: $status) {
     contractId
   }

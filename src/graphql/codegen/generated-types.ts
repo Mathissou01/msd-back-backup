@@ -10169,12 +10169,12 @@ export type TotalCountPerTag = {
   name: Scalars["String"];
 };
 
-export type ChangeContractStatusMutationVariables = Exact<{
+export type ChangeContractStatusByIdMutationVariables = Exact<{
   contractId: Scalars["ID"];
   status: Statuses;
 }>;
 
-export type ChangeContractStatusMutation = {
+export type ChangeContractStatusByIdMutation = {
   __typename?: "Mutation";
   changeContractStatus?: {
     __typename?: "contractStatus";
@@ -19642,57 +19642,58 @@ export type UpdateYwsQrCodeByIdMutation = {
   } | null;
 };
 
-export const ChangeContractStatusDocument = gql`
-  mutation ChangeContractStatus($contractId: ID!, $status: Statuses!) {
+export const ChangeContractStatusByIdDocument = gql`
+  mutation changeContractStatusById($contractId: ID!, $status: Statuses!) {
     changeContractStatus(contractId: $contractId, status: $status) {
       contractId
     }
   }
 `;
-export type ChangeContractStatusMutationFn = Apollo.MutationFunction<
-  ChangeContractStatusMutation,
-  ChangeContractStatusMutationVariables
+export type ChangeContractStatusByIdMutationFn = Apollo.MutationFunction<
+  ChangeContractStatusByIdMutation,
+  ChangeContractStatusByIdMutationVariables
 >;
 
 /**
- * __useChangeContractStatusMutation__
+ * __useChangeContractStatusByIdMutation__
  *
- * To run a mutation, you first call `useChangeContractStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useChangeContractStatusMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useChangeContractStatusByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeContractStatusByIdMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [changeContractStatusMutation, { data, loading, error }] = useChangeContractStatusMutation({
+ * const [changeContractStatusByIdMutation, { data, loading, error }] = useChangeContractStatusByIdMutation({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      status: // value for 'status'
  *   },
  * });
  */
-export function useChangeContractStatusMutation(
+export function useChangeContractStatusByIdMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    ChangeContractStatusMutation,
-    ChangeContractStatusMutationVariables
+    ChangeContractStatusByIdMutation,
+    ChangeContractStatusByIdMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    ChangeContractStatusMutation,
-    ChangeContractStatusMutationVariables
-  >(ChangeContractStatusDocument, options);
+    ChangeContractStatusByIdMutation,
+    ChangeContractStatusByIdMutationVariables
+  >(ChangeContractStatusByIdDocument, options);
 }
-export type ChangeContractStatusMutationHookResult = ReturnType<
-  typeof useChangeContractStatusMutation
+export type ChangeContractStatusByIdMutationHookResult = ReturnType<
+  typeof useChangeContractStatusByIdMutation
 >;
-export type ChangeContractStatusMutationResult =
-  Apollo.MutationResult<ChangeContractStatusMutation>;
-export type ChangeContractStatusMutationOptions = Apollo.BaseMutationOptions<
-  ChangeContractStatusMutation,
-  ChangeContractStatusMutationVariables
->;
+export type ChangeContractStatusByIdMutationResult =
+  Apollo.MutationResult<ChangeContractStatusByIdMutation>;
+export type ChangeContractStatusByIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    ChangeContractStatusByIdMutation,
+    ChangeContractStatusByIdMutationVariables
+  >;
 export const CreateNewDocument = gql`
   mutation createNew($data: NewInput!) {
     createNew(data: $data) {

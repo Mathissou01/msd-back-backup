@@ -1,10 +1,9 @@
 import React, { useRef } from "react";
-import { useRouter } from "next/router";
 import {
   Contract,
   Enum_Contract_Contractstatus,
   Statuses,
-  useChangeContractStatusMutation,
+  useChangeContractStatusByIdMutation,
   useDeleteContractByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
@@ -35,7 +34,7 @@ export default function InformationContract({
     })
       .then(() => {
         deleteModalRef.current?.toggleModal(false);
-        router.push("/");
+        window.location.replace("/");
       })
       .catch((error) => {
         console.error("Erreur lors de la suppression du contrat:", error);
@@ -52,27 +51,26 @@ export default function InformationContract({
             : Statuses.Inactive,
       },
     })
-      .then(() => {
-        activationModalRef.current?.toggleModal(false);
-        window.location.reload();
-      })
       .catch((error) => {
         console.error(
           "Erreur lors de l'activation ou désactivation du client",
           error,
         );
+      })
+      .finally(() => {
+        activationModalRef.current?.toggleModal(false);
+        window.location.reload();
       });
   }
 
   /* External Data */
   const [deleteContractIdMutation] = useDeleteContractByIdMutation();
-  const [changeContractStatus] = useChangeContractStatusMutation();
+  const [changeContractStatus] = useChangeContractStatusByIdMutation();
 
   /* Local Data */
   const { contractId } = useContract();
   const deleteModalRef = useRef<CommonModalWrapperRef>(null);
   const activationModalRef = useRef<CommonModalWrapperRef>(null);
-  const router = useRouter();
   const contractInformation = {
     // Client
     clientName: contractData.clientName ?? "N/A",
