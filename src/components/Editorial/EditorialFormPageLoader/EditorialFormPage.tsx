@@ -7,6 +7,7 @@ import {
   TDynamicFieldConfiguration,
 } from "../../../lib/dynamic-blocks";
 import { EStatus } from "../../../lib/status";
+import { removeNulls } from "../../../lib/utilities";
 import CommonLoader from "../../../components/Common/CommonLoader/CommonLoader";
 import EditorialForm from "../../../components/Editorial/EditorialForm/EditorialForm";
 import PageTitle from "../../../components/PageTitle/PageTitle";
@@ -105,10 +106,16 @@ export default function EditorialFormPage({
       ),
       image: submitData.image.id,
       shortDescription: submitData.shortDescription,
-      blocks: submitData.blocks?.map(
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        ({ id, ...rest }: IFormBlock) => rest,
-      ),
+      blocks: submitData.blocks
+        ?.map(
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          ({ id, ...rest }: IFormBlock) => {
+            if (Object.hasOwn(rest, "__typename")) {
+              return rest;
+            }
+          },
+        )
+        .filter(removeNulls),
       audiences: submitData.audiences.map(
         (user: IFormSingleMultiselectOption) => user.value.toString(),
       ),

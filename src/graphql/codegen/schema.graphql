@@ -7811,6 +7811,7 @@ type YesWeScanService {
   serviceName: String
   shortName: String!
   startDate: DateTime
+  tsmsApiKey: String
   updatedAt: DateTime
   yesWeScanForm: YesWeScanFormEntityResponse
   yesWeScanQRCodes(
@@ -7845,6 +7846,7 @@ input YesWeScanServiceFiltersInput {
   serviceName: StringFilterInput
   shortName: StringFilterInput
   startDate: DateTimeFilterInput
+  tsmsApiKey: StringFilterInput
   updatedAt: DateTimeFilterInput
   yesWeScanForm: YesWeScanFormFiltersInput
   yesWeScanQRCodes: YesWeScanQrCodeFiltersInput
@@ -7856,6 +7858,7 @@ input YesWeScanServiceInput {
   serviceName: String
   shortName: String
   startDate: DateTime
+  tsmsApiKey: String
   yesWeScanForm: ID
   yesWeScanQRCodes: [ID]
 }

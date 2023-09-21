@@ -16,7 +16,7 @@ import {
   AudienceEntity,
 } from "../../../../../../graphql/codegen/generated-types";
 import { EStatus, valueToEStatus } from "../../../../../../lib/status";
-import { formatDate } from "../../../../../../lib/utilities";
+import { formatDate, removeNulls } from "../../../../../../lib/utilities";
 import { IWasteFormFields } from "../../../../../../lib/recycling-guide";
 import {
   IFormBlock,
@@ -65,10 +65,16 @@ export function ServiceGuideDuTriEditPage({
         flow: submitData.flow,
         recyclingGestureText: submitData.recyclingGestureText,
         wasteFamily: submitData.wasteFamily?.id ?? null,
-        contentBlock: submitData.contentBlock?.map(
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          ({ id, ...rest }: IFormBlock) => rest,
-        ),
+        contentBlock: submitData.contentBlock
+          ?.map(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            ({ id, ...rest }: IFormBlock) => {
+              if (Object.hasOwn(rest, "__typename")) {
+                return rest;
+              }
+            },
+          )
+          .filter(removeNulls),
         unpublishedDate: submitData.unpublishedDate,
         audiences: submitData.audiences.map(
           (user: IFormSingleMultiselectOption) => user.value.toString(),
@@ -210,6 +216,7 @@ export function ServiceGuideDuTriEditPage({
     { option: "ComponentBlocksVideo" },
     { option: "ComponentBlocksFile" },
     { option: "ComponentBlocksImage" },
+    { option: "ComponentBlocksServices" },
   ];
 
   useEffect(() => {

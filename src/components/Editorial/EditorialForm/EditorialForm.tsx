@@ -56,7 +56,7 @@ export default function EditorialForm({
         enabledFieldsOverride={staticFieldsOverride}
       />
       <FormDynamicBlocks
-        name={"blocks"}
+        name="blocks"
         blockConfigurations={dynamicFieldConfigurations}
       />
     </>

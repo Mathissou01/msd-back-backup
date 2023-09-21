@@ -10084,6 +10084,7 @@ export type YesWeScanService = {
   serviceName?: Maybe<Scalars["String"]>;
   shortName: Scalars["String"];
   startDate?: Maybe<Scalars["DateTime"]>;
+  tsmsApiKey?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   yesWeScanForm?: Maybe<YesWeScanFormEntityResponse>;
   yesWeScanQRCodes?: Maybe<YesWeScanQrCodeRelationResponseCollection>;
@@ -10123,6 +10124,7 @@ export type YesWeScanServiceFiltersInput = {
   serviceName?: InputMaybe<StringFilterInput>;
   shortName?: InputMaybe<StringFilterInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
+  tsmsApiKey?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   yesWeScanForm?: InputMaybe<YesWeScanFormFiltersInput>;
   yesWeScanQRCodes?: InputMaybe<YesWeScanQrCodeFiltersInput>;
@@ -10134,6 +10136,7 @@ export type YesWeScanServiceInput = {
   serviceName?: InputMaybe<Scalars["String"]>;
   shortName?: InputMaybe<Scalars["String"]>;
   startDate?: InputMaybe<Scalars["DateTime"]>;
+  tsmsApiKey?: InputMaybe<Scalars["String"]>;
   yesWeScanForm?: InputMaybe<Scalars["ID"]>;
   yesWeScanQRCodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
@@ -18543,7 +18546,11 @@ export type GetWasteFormByIdQuery = {
                 } | null;
               } | null;
             }
-          | { __typename?: "ComponentBlocksServices" }
+          | {
+              __typename?: "ComponentBlocksServices";
+              id: string;
+              serviceLinksData?: any | null;
+            }
           | {
               __typename?: "ComponentBlocksSubHeading";
               id: string;
@@ -35054,6 +35061,10 @@ export const GetWasteFormByIdDocument = gql`
             ... on ComponentBlocksHorizontalRule {
               hr
               id
+            }
+            ... on ComponentBlocksServices {
+              id
+              serviceLinksData
             }
           }
         }

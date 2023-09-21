@@ -199,45 +199,49 @@ export default function FormDynamicBlocks({
     <>
       {fields.length > 0 && (
         <Flipper className="c-FormDynamicBlocks" flipKey={fields} element="ul">
-          {fields.map((block, index) => (
-            <Flipped
-              key={block.formId}
-              flipId={block.id}
-              shouldFlip={() => isAnimating}
-            >
-              <div className="c-FormDynamicBlocks__Block">
-                <DynamicBlockWrapper
-                  label={
-                    labelOverrides[index] ??
-                    blockDisplayMap[block?.__typename]?.label ??
-                    ""
-                  }
-                  picto={blockDisplayMap[block.__typename]?.picto}
-                  onReorder={(shift) => onReorder(index, shift)}
-                  isUpDisabled={index <= 0}
-                  isDownDisabled={index + 1 >= fields.length}
-                  onDuplicate={() => onDuplicate(index)}
-                  onDelete={() => onDelete(index)}
-                  isOpen={blockOpenStates[index]}
-                  onOpenToggle={() => onOpenToggle(index)}
-                  isEmpty={blockDisplayMap[block.__typename]?.isEmpty}
-                  canReorder={canReorder}
-                  canDuplicate={canDuplicate}
-                  canDelete={getCanDeleteBlock(block)}
-                >
-                  <DynamicBlock
-                    key={`${index}_${block.__typename}_${block.id}`}
-                    type={block.__typename}
-                    name={`${name}.${index}`}
-                    isVisible={blockOpenStates[index]}
-                    onChangeBlockTitle={(value) =>
-                      changeLabelOverride(index, value)
+          {fields.map((block, index) => {
+            if (!block.id) {
+              return;
+            }
+            return (
+              <Flipped
+                key={block.formId}
+                flipId={block.id}
+                shouldFlip={() => isAnimating}
+              >
+                <div className="c-FormDynamicBlocks__Block">
+                  <DynamicBlockWrapper
+                    label={
+                      labelOverrides[index] ??
+                      blockDisplayMap[block.__typename].label
                     }
-                  />
-                </DynamicBlockWrapper>
-              </div>
-            </Flipped>
-          ))}
+                    picto={blockDisplayMap[block.__typename]?.picto}
+                    onReorder={(shift) => onReorder(index, shift)}
+                    isUpDisabled={index <= 0}
+                    isDownDisabled={index + 1 >= fields.length}
+                    onDuplicate={() => onDuplicate(index)}
+                    onDelete={() => onDelete(index)}
+                    isOpen={blockOpenStates[index]}
+                    onOpenToggle={() => onOpenToggle(index)}
+                    isEmpty={blockDisplayMap[block.__typename]?.isEmpty}
+                    canReorder={canReorder}
+                    canDuplicate={canDuplicate}
+                    canDelete={getCanDeleteBlock(block)}
+                  >
+                    <DynamicBlock
+                      key={`${index}_${block.__typename}_${block.id}`}
+                      type={block.__typename}
+                      name={`${name}.${index}`}
+                      isVisible={blockOpenStates[index]}
+                      onChangeBlockTitle={(value) =>
+                        changeLabelOverride(index, value)
+                      }
+                    />
+                  </DynamicBlockWrapper>
+                </div>
+              </Flipped>
+            );
+          })}
         </Flipper>
       )}
       {isSingleBlockDisplay && blockConfigurations.length === 1 ? (

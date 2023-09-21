@@ -132,6 +132,10 @@ query getWasteFormById($wasteFormId: ID) {
             hr
             id
           }
+          ... on ComponentBlocksServices {
+            id
+            serviceLinksData
+          }
         }
       }
     }
