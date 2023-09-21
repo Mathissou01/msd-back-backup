@@ -82,7 +82,15 @@ export default function FormWysiwyg({
                   <WysiwygEditor
                     id={name}
                     forwardedRef={editorRef}
-                    onEditorChange={onChange}
+                    onEditorChange={(a: string) => {
+                      // This condition fixes an issue on Firefox (we couldn't add spaces after special characters)
+                      if (a.slice(a.length - 5, a.length) === " </p>") {
+                        a = `${a.slice(0, a.length - 5)}&nbsp;</p>`;
+                        onChange(a);
+                      } else {
+                        onChange(a);
+                      }
+                    }}
                     editorOptions={editorOptions}
                     value={value}
                     isDisabled={isSubmitting || isDisabled}
