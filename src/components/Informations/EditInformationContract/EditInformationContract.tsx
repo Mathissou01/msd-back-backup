@@ -26,7 +26,7 @@ interface IEditInformationContract {
 
 interface IContractInformationsFields {
   clientName: string;
-  siret: number;
+  siret: string;
   contractStatus: Enum_Contract_Contractstatus;
   isNonExclusive: boolean;
   clientType: Enum_Contract_Clienttype;
@@ -160,7 +160,7 @@ export default function EditInformationContract({
             phoneNumber: values.clientContact.data.attributes.phoneNumber,
           },
         },
-      });
+      }).then(() => setEditMode(false));
     }
   }
 
@@ -254,8 +254,8 @@ export default function EditInformationContract({
           <div className="c-EditInformationContract__SuezData">
             <FormCheckbox name="isRVFrance" label={labels.isRVFrance} />
             <div>
-              <FormInput name="ccap" label={labels.ccap} isRequired />
-              <FormInput name="clear" label={labels.clear} isRequired />
+              <FormInput name="ccap" label={labels.ccap} />
+              <FormInput name="clear" label={labels.clear} />
             </div>
           </div>
           <div className="c-EditInformationContract__GroupButtons">
