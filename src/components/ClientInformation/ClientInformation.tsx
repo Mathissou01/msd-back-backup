@@ -122,7 +122,7 @@ export default function ClientInformation() {
       variables,
       onCompleted: (result) => {
         if (result.createEmptyContract && result.createEmptyContract[0]) {
-          router.push(`/`);
+          window.location.href = "/";
         }
       },
     });
