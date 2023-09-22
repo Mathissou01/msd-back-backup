@@ -47,8 +47,11 @@ export default function FormWysiwyg({
   const {
     control,
     formState: { isSubmitting, errors },
+    watch,
   } = useFormContext();
   const editorRef = useRef<TinyMceEditor | null>(null);
+  const idBlockPosition = parseInt(name.match(/\d+/)?.[0] || "0", 10);
+  const blockIndex = watch("blocks")?.[idBlockPosition]?.id ?? "";
 
   return (
     <div className="c-FormWysiwyg">
@@ -80,7 +83,7 @@ export default function FormWysiwyg({
               >
                 {isVisible && (
                   <WysiwygEditor
-                    id={name}
+                    id={name + blockIndex}
                     forwardedRef={editorRef}
                     onEditorChange={(a: string) => {
                       // This condition fixes an issue on Firefox (we couldn't add spaces after special characters)

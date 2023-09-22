@@ -54,6 +54,10 @@ export default function Flow() {
   }));
 
   const filteredDataFlowActivated = dataFlowActivated?.flows?.data
+    ?.filter(
+      (item) =>
+        item?.attributes?.code === "OMR" || item?.attributes?.code === "CS", //TODO: to remove in a future version
+    )
     ?.map((flow) => ({
       id: flow?.id ?? "",
       name: flow?.attributes?.name ?? "",
