@@ -1,13 +1,13 @@
-import { ApolloProvider } from "@apollo/client";
-import type { AppProps } from "next/app";
-import client from "../graphql/client";
 import { useState } from "react";
+import { ApolloProvider } from "@apollo/client";
+import client from "../graphql/client";
 import { ContractEntity } from "../graphql/codegen/generated-types";
-import { ENavigationPages } from "../lib/navigation";
 import { NavigationContext } from "../hooks/useNavigation";
 import { ContractContext } from "../hooks/useContract";
 import { UserContext } from "../hooks/useUser";
+import { ENavigationPages } from "../lib/navigation";
 import CommonSvgDefs from "../components/Common/CommonSvgDefs/CommonSvgDefs";
+import type { AppProps } from "next/app";
 import "../styles/main.scss";
 
 function MsdBackApp({ Component, pageProps }: AppProps) {
@@ -38,7 +38,12 @@ function MsdBackApp({ Component, pageProps }: AppProps) {
           }}
         >
           <NavigationContext.Provider
-            value={{ currentRoot, setCurrentRoot, currentPage, setCurrentPage }}
+            value={{
+              currentRoot,
+              setCurrentRoot,
+              currentPage,
+              setCurrentPage,
+            }}
           >
             <div id={"app"}>
               <CommonSvgDefs />

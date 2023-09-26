@@ -4582,6 +4582,7 @@ export type Mutation = {
   updateEpci?: Maybe<EpciEntityResponse>;
   updateEvent?: Maybe<EventEntityResponse>;
   updateEventSubService?: Maybe<EventSubServiceEntityResponse>;
+  updateExistingsReferentials?: Maybe<Scalars["Boolean"]>;
   updateExportEntity?: Maybe<ExportEntityEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
   updateFlow?: Maybe<FlowEntityResponse>;
@@ -5650,6 +5651,10 @@ export type MutationUpdateEventArgs = {
 export type MutationUpdateEventSubServiceArgs = {
   data: EventSubServiceInput;
   id: Scalars["ID"];
+};
+
+export type MutationUpdateExistingsReferentialsArgs = {
+  onlyPictos?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type MutationUpdateExportEntityArgs = {

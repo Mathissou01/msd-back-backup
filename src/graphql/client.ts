@@ -6,11 +6,45 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 import { headerContractIdVar } from "./apolloState";
+import { onError } from "@apollo/client/link/error";
 
 let client: ApolloClient<NormalizedCacheObject>;
 
 const httpLink = new HttpLink({
   uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
+  credentials: "include",
+});
+
+// Apollo typing is missing the statusCode property. Could not find a way to fix it.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const logoutLink = onError((error: any) => {
+  // Regulars error exception are not handled.
+  if (
+    error.networkError?.statusCode !== 401 &&
+    error.networkError?.statusCode !== 403
+  ) {
+    return;
+  }
+
+  // Redirects to Azure login.
+  fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, {
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      if (!data.url) {
+        throw new Error("Missing URL in response");
+      }
+
+      window.location.href = data.url;
+      return;
+    });
 });
 
 const dynamicHeadersLink = new ApolloLink((operation, forward) => {
@@ -29,7 +63,7 @@ if (process.env.NEXT_PUBLIC_MOCK === "true") {
   client = (await import("./mockedClient")).default(1000);
 } else {
   client = await new ApolloClient({
-    link: dynamicHeadersLink.concat(httpLink),
+    link: logoutLink.concat(dynamicHeadersLink.concat(httpLink)),
     cache: new InMemoryCache({
       typePolicies: {
         UploadFolder: {

@@ -1,11 +1,10 @@
-import { TableColumn } from "react-data-table-component";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { TableColumn } from "react-data-table-component";
 import { useHeaderContractId } from "../hooks/useHeaderContractId";
 import { useGetContractsQuery } from "../graphql/codegen/generated-types";
-import { removeNulls } from "../lib/utilities";
 import { IDefaultTableRow } from "../lib/common-data-table";
 import Header from "../components/Header/Header";
 import PageTitle from "../components/PageTitle/PageTitle";
@@ -13,6 +12,7 @@ import CommonLoader from "../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../components/Common/CommonButton/CommonButton";
 import CommonDataTable from "../components/Common/CommonDataTable/CommonDataTable";
 import "./root-home-page.scss";
+
 interface IContractTableRow extends IDefaultTableRow {
   id: string;
   clientName: string;
@@ -122,55 +122,67 @@ export default function RootHomePage() {
   ];
 
   useEffect(() => {
-    if (data) {
-      if (data.contracts?.data.length === 1) {
-        const contractId = data.contracts.data[0].id;
-        setHeaderContractId(+`${contractId}`);
-        router.push(`/${contractId}/gestion/informations`);
-      }
-
-      const tableData =
-        data?.contracts?.data
-          ?.map((contract) => {
-            if (contract && contract.id && contract.attributes) {
-              return {
-                id: contract.id,
-                editState: false,
-                clientName: contract.attributes.clientName,
-                contractStatus: contract.attributes.contractStatus,
-                hasWebApp:
-                  contract.attributes.channelType?.data?.attributes
-                    ?.hasWebApp ?? false,
-                hasWebSite:
-                  contract.attributes.channelType?.data?.attributes
-                    ?.hasWebSite ?? false,
-                hasYesWeScan:
-                  contract.attributes.channelType?.data?.attributes
-                    ?.hasYesWeScan ?? false,
-                dueDate: new Intl.DateTimeFormat().format(
-                  new Date(contract.attributes?.dueDate),
-                ),
-                logoUrl: contract.attributes?.logo?.data?.attributes?.url,
-              };
-            }
-          })
-          .filter(removeNulls) ?? [];
-      setTableData(tableData);
-      tableDataRef.current = tableData;
+    if (!data) {
+      return;
     }
+
+    if (data.contracts?.data.length === 1) {
+      const contractId = data.contracts.data[0].id;
+      setHeaderContractId(+`${contractId}`);
+      router.push(`/${contractId}/gestion/informations`);
+      return;
+    }
+
+    const tableData: IContractTableRow[] = [];
+
+    if (data?.contracts?.data) {
+      for (let i = 0; i < data.contracts.data.length; i++) {
+        const contract = data.contracts.data[i];
+
+        if (!contract.id || !contract.attributes) {
+          continue;
+        }
+
+        tableData.push({
+          id: contract.id,
+          editState: false,
+          clientName: contract.attributes.clientName,
+          contractStatus: contract.attributes.contractStatus,
+          hasWebApp:
+            contract.attributes.channelType?.data?.attributes?.hasWebApp ??
+            false,
+          hasWebSite:
+            contract.attributes.channelType?.data?.attributes?.hasWebSite ??
+            false,
+          hasYesWeScan:
+            contract.attributes.channelType?.data?.attributes?.hasYesWeScan ??
+            false,
+          dueDate: new Intl.DateTimeFormat().format(
+            new Date(contract.attributes?.dueDate),
+          ),
+          logoUrl: contract.attributes?.logo?.data?.attributes?.url,
+        });
+      }
+    }
+
+    setTableData(tableData);
+    tableDataRef.current = tableData;
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, router]);
 
   useEffect(() => {
-    if (tableDataRef.current) {
-      setTableData(
-        tableDataRef.current.filter((contract) => {
-          return contract.clientName
-            .toLowerCase()
-            .includes(searchText.toLowerCase());
-        }),
-      );
+    if (!tableDataRef.current) {
+      return;
     }
+
+    setTableData(
+      tableDataRef.current.filter((contract) => {
+        return contract.clientName
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+      }),
+    );
   }, [searchText]);
 
   // TODO: detect ENTER key for search filter

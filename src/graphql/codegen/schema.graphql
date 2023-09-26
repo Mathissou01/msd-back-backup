@@ -4400,6 +4400,7 @@ type Mutation {
     data: EventSubServiceInput!
     id: ID!
   ): EventSubServiceEntityResponse
+  updateExistingsReferentials(onlyPictos: Boolean): Boolean
   updateExportEntity(
     data: ExportEntityInput!
     id: ID!

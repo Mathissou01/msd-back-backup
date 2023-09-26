@@ -47,7 +47,14 @@ export default function CommonLoader({
     "c-CommonLoader_skeleton": hasSkeleton,
   });
 
-  return (hasDelay ? isShowingLoader : isLoading) ? (
+  // Apollo has wrong typing for its own networkError to access statsuCode.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const networkError: any =
+    errors && errors.length > 0 && errors[0]?.networkError;
+
+  return (
+    hasDelay ? isShowingLoader : isLoading || networkError?.statusCode === 401
+  ) ? (
     <>
       <div
         className={wrapperClassnames}

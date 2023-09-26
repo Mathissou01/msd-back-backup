@@ -6,7 +6,15 @@ configDotenv();
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
+  schema: [
+    {
+      [`${process.env.NEXT_PUBLIC_API_URL}/graphql`]: {
+        headers: {
+          Authorization: `${process.env.MSD_CODEGEN_TOKEN}`,
+        },
+      },
+    },
+  ],
   documents: "./src/graphql/**/*.graphql",
   ignoreNoDocuments: true,
   generates: {
