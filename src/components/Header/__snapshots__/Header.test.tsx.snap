@@ -273,6 +273,16 @@ exports[`Header renders 1`] = `
                 Activation des Services
               </span>
             </a>
+            <a
+              class="c-NavigationListLink"
+              href="null/gestion/utilisateurs"
+            >
+              <span
+                class="c-NavigationListLink__Label"
+              >
+                Utilisateurs
+              </span>
+            </a>
           </div>
         </div>
       </li>

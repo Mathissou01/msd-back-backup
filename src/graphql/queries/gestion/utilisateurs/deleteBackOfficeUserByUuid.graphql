@@ -1,0 +1,14 @@
+query deleteBackOfficeUserByUuid($uuid: String) {
+  deleteBackOfficeUser(uuid: $uuid) {
+    id
+    name
+    surname
+    phone
+    email
+    uuid
+    firstName
+    lastName
+    phoneNumber
+    role
+  }
+}

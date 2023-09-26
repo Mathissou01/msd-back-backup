@@ -1931,6 +1931,13 @@ input CookiesSubServiceInput {
   name: String
 }
 
+type Crud {
+  create: Boolean
+  delete: Boolean
+  read: Boolean
+  update: Boolean
+}
+
 type Cumbersome {
   category: String!
   cumbersomeName: String!
@@ -4251,6 +4258,7 @@ type Mutation {
   ): UsersPermissionsLoginPayload
   sendEmail(
     content: String
+    isRegistration: Boolean
     recipientEmails: [String]!
     subject: String
     templateId: Int
@@ -5236,6 +5244,15 @@ type Query {
     sort: [String] = []
   ): CookiesSubServiceEntityResponseCollection
   countContentPerTag(contractId: ID!): [totalCountPerTag]
+  createBackOfficeUser(
+    contract: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: String!
+    role: String!
+  ): User
+  deleteBackOfficeUser(uuid: String): User
   descriptionService(id: ID): DescriptionServiceEntityResponse
   descriptionServices(
     filters: DescriptionServiceFiltersInput
@@ -5333,6 +5350,7 @@ type Query {
   ): [SearchResultAddress]
   getAllFoldersHierarchy(path: String!): [RequestFolders]
   getAppointmentsDetails(requestId: ID!): AppointmentDetails
+  getBackOfficeUserListByContractId(contractId: ID): [User]
   getCitiesInformations(
     prehome: Boolean!
     searchTerm: String!
@@ -5573,6 +5591,20 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): TopContentBlockEntityResponseCollection
+  updateBackOfficeUser(
+    email: String!
+    firstName: String!
+    isRoleUpdated: Boolean!
+    lastName: String!
+    phoneNumber: String!
+    role: String!
+    uuid: String!
+  ): User
+  updateBackOfficeUserPermissions(
+    contract: String!
+    rights: [String]!
+    role: String!
+  ): [Rights]
   uploadFile(id: ID): UploadFileEntityResponse
   uploadFiles(
     filters: UploadFileFiltersInput
@@ -6427,6 +6459,11 @@ type ResponseCollectionMeta {
   pagination: Pagination!
 }
 
+type Rights {
+  label: String
+  right: Crud
+}
+
 type SearchEngineBlock {
   createdAt: DateTime
   homepage: HomepageEntityResponse
@@ -6551,6 +6588,7 @@ enum ServiceType {
   contactUs
   dropOffMap
   event
+  freeContent
   freeContent1
   freeContent2
   keyMetrics
@@ -7215,10 +7253,15 @@ type UploadResult {
 
 type User {
   email: String
+  firstName: String
   id: String
+  lastName: String
   name: String
   phone: String
+  phoneNumber: String
+  role: String
   surname: String
+  uuid: String
 }
 
 type UserDataStorage {

@@ -231,6 +231,7 @@ export default function NavigationList() {
           <NavigationListLink path={"/gestion/territoire"} />
           <NavigationListLink path={"/gestion/flux"} />
           <NavigationListLink path={"/gestion/services"} />
+          <NavigationListLink path={"/gestion/utilisateurs"} />
         </NavigationListMenu>
       </li>
       {/*<li className="c-NavigationList__Item">*/}

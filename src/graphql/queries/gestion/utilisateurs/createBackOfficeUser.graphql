@@ -1,0 +1,24 @@
+query createBackOfficeUser(
+  $firstName: String!
+  $lastName: String!
+  $email: String!
+  $phoneNumber: String!
+  $role: String!
+  $contract: String!
+) {
+  createBackOfficeUser(
+    firstName: $firstName
+    lastName: $lastName
+    email: $email
+    phoneNumber: $phoneNumber
+    role: $role
+    contract: $contract
+  ) {
+    email
+    uuid
+    firstName
+    lastName
+    phoneNumber
+    role
+  }
+}

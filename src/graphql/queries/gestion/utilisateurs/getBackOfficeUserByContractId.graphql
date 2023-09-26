@@ -1,0 +1,10 @@
+query getBackOfficeUserListByContractId($contractId: ID) {
+  getBackOfficeUserListByContractId(contractId: $contractId) {
+    uuid
+    email
+    firstName
+    lastName
+    phoneNumber
+    role
+  }
+}

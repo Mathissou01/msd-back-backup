@@ -1,0 +1,26 @@
+query updateBackOfficeUserByUuid(
+  $uuid: String!
+  $firstName: String!
+  $lastName: String!
+  $email: String!
+  $phoneNumber: String!
+  $role: String!
+  $isRoleUpdated: Boolean!
+) {
+  updateBackOfficeUser(
+    uuid: $uuid
+    firstName: $firstName
+    lastName: $lastName
+    email: $email
+    phoneNumber: $phoneNumber
+    role: $role
+    isRoleUpdated: $isRoleUpdated
+  ) {
+    email
+    uuid
+    firstName
+    lastName
+    phoneNumber
+    role
+  }
+}

@@ -2204,6 +2204,14 @@ export type CookiesSubServiceInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type Crud = {
+  __typename?: "Crud";
+  create?: Maybe<Scalars["Boolean"]>;
+  delete?: Maybe<Scalars["Boolean"]>;
+  read?: Maybe<Scalars["Boolean"]>;
+  update?: Maybe<Scalars["Boolean"]>;
+};
+
 export type Cumbersome = {
   __typename?: "Cumbersome";
   category: Scalars["String"];
@@ -5420,6 +5428,7 @@ export type MutationResetPasswordArgs = {
 
 export type MutationSendEmailArgs = {
   content?: InputMaybe<Scalars["String"]>;
+  isRegistration?: InputMaybe<Scalars["Boolean"]>;
   recipientEmails: Array<InputMaybe<Scalars["String"]>>;
   subject?: InputMaybe<Scalars["String"]>;
   templateId?: InputMaybe<Scalars["Int"]>;
@@ -6578,6 +6587,8 @@ export type Query = {
   cookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
   cookiesSubServices?: Maybe<CookiesSubServiceEntityResponseCollection>;
   countContentPerTag?: Maybe<Array<Maybe<TotalCountPerTag>>>;
+  createBackOfficeUser?: Maybe<User>;
+  deleteBackOfficeUser?: Maybe<User>;
   descriptionService?: Maybe<DescriptionServiceEntityResponse>;
   descriptionServices?: Maybe<DescriptionServiceEntityResponseCollection>;
   document?: Maybe<DocumentEntityResponse>;
@@ -6612,6 +6623,7 @@ export type Query = {
   getAddressCoordinates?: Maybe<Array<Maybe<SearchResultAddress>>>;
   getAllFoldersHierarchy?: Maybe<Array<Maybe<RequestFolders>>>;
   getAppointmentsDetails?: Maybe<AppointmentDetails>;
+  getBackOfficeUserListByContractId?: Maybe<Array<Maybe<User>>>;
   getCitiesInformations?: Maybe<Array<Maybe<CityInformation>>>;
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
   getContractIdByInseeCode?: Maybe<ContractEntity>;
@@ -6705,6 +6717,8 @@ export type Query = {
   tips?: Maybe<TipEntityResponseCollection>;
   topContentBlock?: Maybe<TopContentBlockEntityResponse>;
   topContentBlocks?: Maybe<TopContentBlockEntityResponseCollection>;
+  updateBackOfficeUser?: Maybe<User>;
+  updateBackOfficeUserPermissions?: Maybe<Array<Maybe<Rights>>>;
   uploadFile?: Maybe<UploadFileEntityResponse>;
   uploadFiles?: Maybe<UploadFileEntityResponseCollection>;
   uploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -6968,6 +6982,19 @@ export type QueryCountContentPerTagArgs = {
   contractId: Scalars["ID"];
 };
 
+export type QueryCreateBackOfficeUserArgs = {
+  contract: Scalars["String"];
+  email: Scalars["String"];
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  phoneNumber: Scalars["String"];
+  role: Scalars["String"];
+};
+
+export type QueryDeleteBackOfficeUserArgs = {
+  uuid?: InputMaybe<Scalars["String"]>;
+};
+
 export type QueryDescriptionServiceArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
@@ -7129,6 +7156,10 @@ export type QueryGetAllFoldersHierarchyArgs = {
 
 export type QueryGetAppointmentsDetailsArgs = {
   requestId: Scalars["ID"];
+};
+
+export type QueryGetBackOfficeUserListByContractIdArgs = {
+  contractId?: InputMaybe<Scalars["ID"]>;
 };
 
 export type QueryGetCitiesInformationsArgs = {
@@ -7570,6 +7601,22 @@ export type QueryTopContentBlocksArgs = {
   filters?: InputMaybe<TopContentBlockFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type QueryUpdateBackOfficeUserArgs = {
+  email: Scalars["String"];
+  firstName: Scalars["String"];
+  isRoleUpdated: Scalars["Boolean"];
+  lastName: Scalars["String"];
+  phoneNumber: Scalars["String"];
+  role: Scalars["String"];
+  uuid: Scalars["String"];
+};
+
+export type QueryUpdateBackOfficeUserPermissionsArgs = {
+  contract: Scalars["String"];
+  rights: Array<InputMaybe<Scalars["String"]>>;
+  role: Scalars["String"];
 };
 
 export type QueryUploadFileArgs = {
@@ -8568,6 +8615,12 @@ export type ResponseCollectionMeta = {
   pagination: Pagination;
 };
 
+export type Rights = {
+  __typename?: "Rights";
+  label?: Maybe<Scalars["String"]>;
+  right?: Maybe<Crud>;
+};
+
 export type SearchEngineBlock = {
   __typename?: "SearchEngineBlock";
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -8705,6 +8758,7 @@ export enum ServiceType {
   ContactUs = "contactUs",
   DropOffMap = "dropOffMap",
   Event = "event",
+  FreeContent = "freeContent",
   FreeContent1 = "freeContent1",
   FreeContent2 = "freeContent2",
   KeyMetrics = "keyMetrics",
@@ -9428,10 +9482,15 @@ export type UploadResult = {
 export type User = {
   __typename?: "User";
   email?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
   phone?: Maybe<Scalars["String"]>;
+  phoneNumber?: Maybe<Scalars["String"]>;
+  role?: Maybe<Scalars["String"]>;
   surname?: Maybe<Scalars["String"]>;
+  uuid?: Maybe<Scalars["String"]>;
 };
 
 export type UserDataStorage = {
@@ -14137,6 +14196,89 @@ export type UpdateTerritoryByIdMutation = {
   updateTerritory?: {
     __typename?: "TerritoryEntityResponse";
     data?: { __typename?: "TerritoryEntity"; id?: string | null } | null;
+  } | null;
+};
+
+export type CreateBackOfficeUserQueryVariables = Exact<{
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  email: Scalars["String"];
+  phoneNumber: Scalars["String"];
+  role: Scalars["String"];
+  contract: Scalars["String"];
+}>;
+
+export type CreateBackOfficeUserQuery = {
+  __typename?: "Query";
+  createBackOfficeUser?: {
+    __typename?: "User";
+    email?: string | null;
+    uuid?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    phoneNumber?: string | null;
+    role?: string | null;
+  } | null;
+};
+
+export type DeleteBackOfficeUserByUuidQueryVariables = Exact<{
+  uuid?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type DeleteBackOfficeUserByUuidQuery = {
+  __typename?: "Query";
+  deleteBackOfficeUser?: {
+    __typename?: "User";
+    id?: string | null;
+    name?: string | null;
+    surname?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    uuid?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    phoneNumber?: string | null;
+    role?: string | null;
+  } | null;
+};
+
+export type GetBackOfficeUserListByContractIdQueryVariables = Exact<{
+  contractId?: InputMaybe<Scalars["ID"]>;
+}>;
+
+export type GetBackOfficeUserListByContractIdQuery = {
+  __typename?: "Query";
+  getBackOfficeUserListByContractId?: Array<{
+    __typename?: "User";
+    uuid?: string | null;
+    email?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    phoneNumber?: string | null;
+    role?: string | null;
+  } | null> | null;
+};
+
+export type UpdateBackOfficeUserByUuidQueryVariables = Exact<{
+  uuid: Scalars["String"];
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  email: Scalars["String"];
+  phoneNumber: Scalars["String"];
+  role: Scalars["String"];
+  isRoleUpdated: Scalars["Boolean"];
+}>;
+
+export type UpdateBackOfficeUserByUuidQuery = {
+  __typename?: "Query";
+  updateBackOfficeUser?: {
+    __typename?: "User";
+    email?: string | null;
+    uuid?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    phoneNumber?: string | null;
+    role?: string | null;
   } | null;
 };
 
@@ -27743,6 +27885,303 @@ export type UpdateTerritoryByIdMutationResult =
 export type UpdateTerritoryByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdateTerritoryByIdMutation,
   UpdateTerritoryByIdMutationVariables
+>;
+export const CreateBackOfficeUserDocument = gql`
+  query CreateBackOfficeUser(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phoneNumber: String!
+    $role: String!
+    $contract: String!
+  ) {
+    createBackOfficeUser(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phoneNumber: $phoneNumber
+      role: $role
+      contract: $contract
+    ) {
+      email
+      uuid
+      firstName
+      lastName
+      phoneNumber
+      role
+    }
+  }
+`;
+
+/**
+ * __useCreateBackOfficeUserQuery__
+ *
+ * To run a query within a React component, call `useCreateBackOfficeUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCreateBackOfficeUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCreateBackOfficeUserQuery({
+ *   variables: {
+ *      firstName: // value for 'firstName'
+ *      lastName: // value for 'lastName'
+ *      email: // value for 'email'
+ *      phoneNumber: // value for 'phoneNumber'
+ *      role: // value for 'role'
+ *      contract: // value for 'contract'
+ *   },
+ * });
+ */
+export function useCreateBackOfficeUserQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CreateBackOfficeUserQuery,
+    CreateBackOfficeUserQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    CreateBackOfficeUserQuery,
+    CreateBackOfficeUserQueryVariables
+  >(CreateBackOfficeUserDocument, options);
+}
+export function useCreateBackOfficeUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CreateBackOfficeUserQuery,
+    CreateBackOfficeUserQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    CreateBackOfficeUserQuery,
+    CreateBackOfficeUserQueryVariables
+  >(CreateBackOfficeUserDocument, options);
+}
+export type CreateBackOfficeUserQueryHookResult = ReturnType<
+  typeof useCreateBackOfficeUserQuery
+>;
+export type CreateBackOfficeUserLazyQueryHookResult = ReturnType<
+  typeof useCreateBackOfficeUserLazyQuery
+>;
+export type CreateBackOfficeUserQueryResult = Apollo.QueryResult<
+  CreateBackOfficeUserQuery,
+  CreateBackOfficeUserQueryVariables
+>;
+export const DeleteBackOfficeUserByUuidDocument = gql`
+  query deleteBackOfficeUserByUuid($uuid: String) {
+    deleteBackOfficeUser(uuid: $uuid) {
+      id
+      name
+      surname
+      phone
+      email
+      uuid
+      firstName
+      lastName
+      phoneNumber
+      role
+    }
+  }
+`;
+
+/**
+ * __useDeleteBackOfficeUserByUuidQuery__
+ *
+ * To run a query within a React component, call `useDeleteBackOfficeUserByUuidQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBackOfficeUserByUuidQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDeleteBackOfficeUserByUuidQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useDeleteBackOfficeUserByUuidQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    DeleteBackOfficeUserByUuidQuery,
+    DeleteBackOfficeUserByUuidQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    DeleteBackOfficeUserByUuidQuery,
+    DeleteBackOfficeUserByUuidQueryVariables
+  >(DeleteBackOfficeUserByUuidDocument, options);
+}
+export function useDeleteBackOfficeUserByUuidLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    DeleteBackOfficeUserByUuidQuery,
+    DeleteBackOfficeUserByUuidQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    DeleteBackOfficeUserByUuidQuery,
+    DeleteBackOfficeUserByUuidQueryVariables
+  >(DeleteBackOfficeUserByUuidDocument, options);
+}
+export type DeleteBackOfficeUserByUuidQueryHookResult = ReturnType<
+  typeof useDeleteBackOfficeUserByUuidQuery
+>;
+export type DeleteBackOfficeUserByUuidLazyQueryHookResult = ReturnType<
+  typeof useDeleteBackOfficeUserByUuidLazyQuery
+>;
+export type DeleteBackOfficeUserByUuidQueryResult = Apollo.QueryResult<
+  DeleteBackOfficeUserByUuidQuery,
+  DeleteBackOfficeUserByUuidQueryVariables
+>;
+export const GetBackOfficeUserListByContractIdDocument = gql`
+  query getBackOfficeUserListByContractId($contractId: ID) {
+    getBackOfficeUserListByContractId(contractId: $contractId) {
+      uuid
+      email
+      firstName
+      lastName
+      phoneNumber
+      role
+    }
+  }
+`;
+
+/**
+ * __useGetBackOfficeUserListByContractIdQuery__
+ *
+ * To run a query within a React component, call `useGetBackOfficeUserListByContractIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBackOfficeUserListByContractIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBackOfficeUserListByContractIdQuery({
+ *   variables: {
+ *      contractId: // value for 'contractId'
+ *   },
+ * });
+ */
+export function useGetBackOfficeUserListByContractIdQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetBackOfficeUserListByContractIdQuery,
+    GetBackOfficeUserListByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetBackOfficeUserListByContractIdQuery,
+    GetBackOfficeUserListByContractIdQueryVariables
+  >(GetBackOfficeUserListByContractIdDocument, options);
+}
+export function useGetBackOfficeUserListByContractIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetBackOfficeUserListByContractIdQuery,
+    GetBackOfficeUserListByContractIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetBackOfficeUserListByContractIdQuery,
+    GetBackOfficeUserListByContractIdQueryVariables
+  >(GetBackOfficeUserListByContractIdDocument, options);
+}
+export type GetBackOfficeUserListByContractIdQueryHookResult = ReturnType<
+  typeof useGetBackOfficeUserListByContractIdQuery
+>;
+export type GetBackOfficeUserListByContractIdLazyQueryHookResult = ReturnType<
+  typeof useGetBackOfficeUserListByContractIdLazyQuery
+>;
+export type GetBackOfficeUserListByContractIdQueryResult = Apollo.QueryResult<
+  GetBackOfficeUserListByContractIdQuery,
+  GetBackOfficeUserListByContractIdQueryVariables
+>;
+export const UpdateBackOfficeUserByUuidDocument = gql`
+  query updateBackOfficeUserByUuid(
+    $uuid: String!
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phoneNumber: String!
+    $role: String!
+    $isRoleUpdated: Boolean!
+  ) {
+    updateBackOfficeUser(
+      uuid: $uuid
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phoneNumber: $phoneNumber
+      role: $role
+      isRoleUpdated: $isRoleUpdated
+    ) {
+      email
+      uuid
+      firstName
+      lastName
+      phoneNumber
+      role
+    }
+  }
+`;
+
+/**
+ * __useUpdateBackOfficeUserByUuidQuery__
+ *
+ * To run a query within a React component, call `useUpdateBackOfficeUserByUuidQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBackOfficeUserByUuidQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpdateBackOfficeUserByUuidQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      firstName: // value for 'firstName'
+ *      lastName: // value for 'lastName'
+ *      email: // value for 'email'
+ *      phoneNumber: // value for 'phoneNumber'
+ *      role: // value for 'role'
+ *      isRoleUpdated: // value for 'isRoleUpdated'
+ *   },
+ * });
+ */
+export function useUpdateBackOfficeUserByUuidQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    UpdateBackOfficeUserByUuidQuery,
+    UpdateBackOfficeUserByUuidQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    UpdateBackOfficeUserByUuidQuery,
+    UpdateBackOfficeUserByUuidQueryVariables
+  >(UpdateBackOfficeUserByUuidDocument, options);
+}
+export function useUpdateBackOfficeUserByUuidLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UpdateBackOfficeUserByUuidQuery,
+    UpdateBackOfficeUserByUuidQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    UpdateBackOfficeUserByUuidQuery,
+    UpdateBackOfficeUserByUuidQueryVariables
+  >(UpdateBackOfficeUserByUuidDocument, options);
+}
+export type UpdateBackOfficeUserByUuidQueryHookResult = ReturnType<
+  typeof useUpdateBackOfficeUserByUuidQuery
+>;
+export type UpdateBackOfficeUserByUuidLazyQueryHookResult = ReturnType<
+  typeof useUpdateBackOfficeUserByUuidLazyQuery
+>;
+export type UpdateBackOfficeUserByUuidQueryResult = Apollo.QueryResult<
+  UpdateBackOfficeUserByUuidQuery,
+  UpdateBackOfficeUserByUuidQueryVariables
 >;
 export const GetActiveServicesByContractIdDocument = gql`
   query getActiveServicesByContractId($contractId: ID!) {

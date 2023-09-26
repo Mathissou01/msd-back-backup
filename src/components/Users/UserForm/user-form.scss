@@ -1,0 +1,13 @@
+.c-UserModal {
+  &__Title {
+    margin-bottom: 20px;
+  }
+
+  &__Buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    margin: 20px 0;
+  }
+}
