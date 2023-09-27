@@ -257,14 +257,14 @@ export function ServicesPickUpDayEditPage({
           daysOfTheMonth:
             EPeriodicityStatus.MONTHLY in
             pickUpDaysData.attributes.advancedSelection
-              ? pickUpDaysData.attributes.advancedSelection?.mensuel.selection.toString()
+              ? pickUpDaysData.attributes.advancedSelection?.mensuel?.selection?.toString()
               : undefined,
           days:
             EPeriodicityStatus.WEEKLY in
             pickUpDaysData.attributes.advancedSelection
               ? pickUpDaysData.attributes.advancedSelection.hebdomadaire
                   .selection
-              : pickUpDaysData.attributes.advancedSelection?.mensuel.selection.toString(),
+              : pickUpDaysData.attributes.advancedSelection?.mensuel?.selection?.toString(),
           includeHoliday: pickUpDaysData.attributes.includeHoliday,
           pickUpHours: pickUpDaysData.attributes.pickUpHours,
           complementaryMention: pickUpDaysData.attributes.complementaryMention,
