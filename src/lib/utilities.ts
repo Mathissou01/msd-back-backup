@@ -90,12 +90,21 @@ export function formatDate(
 export const commonDateStringFormat = "dd/MM/yyyy HH:mm";
 
 export function formatFileSize(size: number): string {
-  const i = Math.floor(Math.log(size) / Math.log(1024));
-  return (
-    (size / Math.pow(1024, i)).toFixed(2) +
-    " " +
-    (i > -1 ? ["B", "KB", "MB", "GB", "TB"][i] : "Bit")
-  );
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let i = 0;
+
+  while (size >= 1024 && i < units.length - 1) {
+    size /= 1024;
+    i++;
+  }
+
+  // Vérifie si la partie décimale est égale à zéro
+  const isInteger = size % 1 === 0;
+
+  // Utilise toFixed uniquement si la partie décimale n'est pas égale à zéro
+  const formattedSize = isInteger ? size.toString() : size.toFixed(2);
+
+  return formattedSize + " " + units[i];
 }
 
 export function isTypename<Typename>(

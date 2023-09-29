@@ -45,7 +45,6 @@ export default function EditModal({
 
   /* Local Data */
   const [showCrop, setShowCrop] = useState(false);
-
   /* Methods */
   const folderHierarchyDisplayTransformFunction = (
     folder: RequestFolders,
@@ -74,7 +73,7 @@ export default function EditModal({
   const activateCrop = () => {
     setShowCrop(true);
   };
-
+  const fileSize = fileToEdit?.size ? formatFileSize(fileToEdit.size) : "";
   return (
     <>
       <div className="c-MediaImportButton__Body">
@@ -121,9 +120,7 @@ export default function EditModal({
               <tbody>
                 <tr>
                   <th>Taille</th>
-                  <td>
-                    {fileToEdit?.size && formatFileSize(fileToEdit?.size)}
-                  </td>
+                  <td>{fileSize}</td>
                 </tr>
                 {isImageToUpload() && (
                   <tr>
