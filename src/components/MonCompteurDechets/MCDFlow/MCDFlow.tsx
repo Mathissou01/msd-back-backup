@@ -13,6 +13,10 @@ export interface ISelectFlowData {
   name: string;
 }
 
+const labels = {
+  title: "Liste des flux pris en compte dans le compteur déchets",
+};
+
 export default function Flow() {
   const isInitialized = useRef(false);
   const { contractId } = useContract();
@@ -73,9 +77,7 @@ export default function Flow() {
 
   return (
     <div className="c-Flow">
-      <h2 className="c-Flow__Title">
-        Liste des flux pris en compte dans le compteur de déchets
-      </h2>
+      <h2 className="c-Flow__Title">{labels.title}</h2>
       <div className="c-Flow__Wrapper">
         <CommonLoader isLoading={!isInitialized.current}>
           {dataMwcAllFlows?.mwcFlows?.data?.map((d, index) => {

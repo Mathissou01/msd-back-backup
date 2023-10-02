@@ -114,17 +114,29 @@ export default function MCDFlowForm({
   });
 
   const [createMwcFlowMutation] = useCreateMwcFlowMutation({
-    refetchQueries: ["getMwcFlowByFlowId", "getMwcFlowsByContractId"],
+    refetchQueries: [
+      "getMwcFlowByFlowId",
+      "getMwcFlowsByContractId",
+      "getMwcAverageProduction",
+    ],
     awaitRefetchQueries: true,
   });
 
   const [updateMwcFlowMutation] = useUpdateMwcFlowMutation({
-    refetchQueries: ["getMwcFlowByFlowId", "getMwcFlowsByContractId"],
+    refetchQueries: [
+      "getMwcFlowByFlowId",
+      "getMwcFlowsByContractId",
+      "getMwcAverageProduction",
+    ],
     awaitRefetchQueries: true,
   });
 
   const [deleteMwcFlowMutation] = useDeleteMwcFlowMutation({
-    refetchQueries: ["getMwcFlowByFlowId", "getMwcFlowsByContractId"],
+    refetchQueries: [
+      "getMwcFlowByFlowId",
+      "getMwcFlowsByContractId",
+      "getMwcAverageProduction",
+    ],
     awaitRefetchQueries: true,
   });
 
