@@ -1791,6 +1791,7 @@ export type Contract = {
   keyMetricsService?: Maybe<KeyMetricsServiceEntityResponse>;
   logicalDelete?: Maybe<Scalars["Boolean"]>;
   logo: UploadFileEntityResponse;
+  mwcSiren?: Maybe<Scalars["String"]>;
   oldClientName?: Maybe<Scalars["String"]>;
   pathId?: Maybe<Scalars["Long"]>;
   pickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
@@ -1973,6 +1974,7 @@ export type ContractFiltersInput = {
   isRVFrance?: InputMaybe<BooleanFilterInput>;
   keyMetricsService?: InputMaybe<KeyMetricsServiceFiltersInput>;
   logicalDelete?: InputMaybe<BooleanFilterInput>;
+  mwcSiren?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ContractFiltersInput>;
   oldClientName?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ContractFiltersInput>>>;
@@ -2016,6 +2018,7 @@ export type ContractInput = {
   keyMetricsService?: InputMaybe<Scalars["ID"]>;
   logicalDelete?: InputMaybe<Scalars["Boolean"]>;
   logo?: InputMaybe<Scalars["ID"]>;
+  mwcSiren?: InputMaybe<Scalars["String"]>;
   oldClientName?: InputMaybe<Scalars["String"]>;
   pathId?: InputMaybe<Scalars["Long"]>;
   pickUpDayService?: InputMaybe<Scalars["ID"]>;
@@ -4533,6 +4536,7 @@ export type Mutation = {
   forgotPassword?: Maybe<UsersPermissionsPasswordPayload>;
   importMunicipalities?: Maybe<Scalars["String"]>;
   importSiren?: Maybe<Scalars["Boolean"]>;
+  launchPipeline?: Maybe<Scalars["Boolean"]>;
   logicalDeleteContract?: Maybe<Scalars["Boolean"]>;
   login: UsersPermissionsLoginPayload;
   multipleUpload: Array<Maybe<UploadFileEntityResponse>>;
@@ -5384,6 +5388,10 @@ export type MutationImportMunicipalitiesArgs = {
 export type MutationImportSirenArgs = {
   contractId?: InputMaybe<Scalars["ID"]>;
   file: Scalars["String"];
+};
+
+export type MutationLaunchPipelineArgs = {
+  contractId: Scalars["ID"];
 };
 
 export type MutationLogicalDeleteContractArgs = {
@@ -27892,7 +27900,7 @@ export type UpdateTerritoryByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdateTerritoryByIdMutationVariables
 >;
 export const CreateBackOfficeUserDocument = gql`
-  query CreateBackOfficeUser(
+  query createBackOfficeUser(
     $firstName: String!
     $lastName: String!
     $email: String!
@@ -36508,6 +36516,7 @@ export const GetActiveFlowsByContractIdAndSectorizationsIdDocument = gql`
         contract: { id: { eq: $contractId } }
         isActivated: { eq: true }
       }
+      sort: "name:asc"
     ) {
       data {
         id

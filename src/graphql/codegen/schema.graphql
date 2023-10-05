@@ -1577,6 +1577,7 @@ type Contract {
   keyMetricsService: KeyMetricsServiceEntityResponse
   logicalDelete: Boolean
   logo: UploadFileEntityResponse!
+  mwcSiren: String
   oldClientName: String
   pathId: Long
   pickUpDayService: PickUpDayServiceEntityResponse
@@ -1713,6 +1714,7 @@ input ContractFiltersInput {
   isRVFrance: BooleanFilterInput
   keyMetricsService: KeyMetricsServiceFiltersInput
   logicalDelete: BooleanFilterInput
+  mwcSiren: StringFilterInput
   not: ContractFiltersInput
   oldClientName: StringFilterInput
   or: [ContractFiltersInput]
@@ -1756,6 +1758,7 @@ input ContractInput {
   keyMetricsService: ID
   logicalDelete: Boolean
   logo: ID
+  mwcSiren: String
   oldClientName: String
   pathId: Long
   pickUpDayService: ID
@@ -4222,6 +4225,7 @@ type Mutation {
   forgotPassword(email: String!): UsersPermissionsPasswordPayload
   importMunicipalities(contractId: ID, file: String!): String
   importSiren(contractId: ID, file: String!): Boolean
+  launchPipeline(contractId: ID!): Boolean
   logicalDeleteContract(contractId: ID!): Boolean
   login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
   multipleUpload(

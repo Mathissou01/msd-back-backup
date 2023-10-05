@@ -116,13 +116,15 @@ export default function PickUpDaysFormStaticFields({
       fetchPolicy: "network-only",
     });
   const [
-    getFilteredFLows,
+    getFilteredFlows,
     {
       data: filteredFlowsData,
       loading: filteredFlowsLoading,
       error: filteredFlowsError,
     },
-  ] = useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery();
+  ] = useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery({
+    fetchPolicy: "no-cache",
+  });
 
   /* Methods */
   const daysOfTheMonth = (): IOptionWrapper<string>[] => {
@@ -140,13 +142,14 @@ export default function PickUpDaysFormStaticFields({
   useEffect(() => {
     if (flowsData) {
       if (sectorizations && sectorizations.length > 0) {
-        getFilteredFLows({
-          variables: {
-            contractId,
-            sectorizationsId: sectorizations.map(
-              (sector: IFormSingleMultiselectOption) => sector.value,
-            ),
-          },
+        const filterFlowQueryVariables = {
+          contractId,
+          sectorizationsId: sectorizations.map(
+            (sector: IFormSingleMultiselectOption) => sector.value,
+          ),
+        };
+        getFilteredFlows({
+          variables: filterFlowQueryVariables,
         });
         if (filteredFlowsData?.flows?.data) {
           setActiveFlowOptions(
@@ -195,14 +198,8 @@ export default function PickUpDaysFormStaticFields({
         );
       }
     }
-  }, [
-    flowsData,
-    filteredFlowsData,
-    sectorizations,
-    contractId,
-    pickUpId,
-    getFilteredFLows,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flowsData, sectorizations, contractId, pickUpId]);
 
   useEffect(() => {
     if (
@@ -279,7 +276,7 @@ export default function PickUpDaysFormStaticFields({
           type="text"
           name="name"
           label={labels.staticName}
-          isRequired={true}
+          isRequired
           maxLengthValidation={maxCharacters}
         />
       </div>
@@ -305,7 +302,7 @@ export default function PickUpDaysFormStaticFields({
             displayName={labels.staticFlow}
             displayMode="vertical"
             options={activeFlowOptions}
-            isRequired={true}
+            isRequired
           />
         </CommonLoader>
       </div>
@@ -317,7 +314,7 @@ export default function PickUpDaysFormStaticFields({
             displayMode="horizontal"
             options={collectOptions}
             defaultValue={collectOptions[0]?.value}
-            isRequired={true}
+            isRequired
           />
         </div>
       )}
