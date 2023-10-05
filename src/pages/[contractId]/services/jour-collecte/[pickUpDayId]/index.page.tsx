@@ -125,16 +125,19 @@ export function ServicesPickUpDayEditPage({
             (option: IFormSingleMultiselectOption) => option.value,
           ) ?? null,
         flow: submitData.flow,
-        collectDoorToDoor: submitData.collects.includes(
-          EPickUpDayCollectType.DOOR_TO_DOOR,
-        )
-          ? submitData.collects.replace(EPickUpDayCollectType.DOOR_TO_DOOR, "")
-          : null,
-        collectVoluntary: submitData.collects.includes(
-          EPickUpDayCollectType.VOLUNTARY,
-        )
-          ? submitData.collects.replace(EPickUpDayCollectType.VOLUNTARY, "")
-          : null,
+        collectDoorToDoor:
+          submitData.collects.includes(EPickUpDayCollectType.DOOR_TO_DOOR) &&
+          !submitData.collects.includes("undefined")
+            ? submitData.collects.replace(
+                EPickUpDayCollectType.DOOR_TO_DOOR,
+                "",
+              )
+            : null,
+        collectVoluntary:
+          submitData.collects.includes(EPickUpDayCollectType.VOLUNTARY) &&
+          !submitData.collects.includes("undefined")
+            ? submitData.collects.replace(EPickUpDayCollectType.VOLUNTARY, "")
+            : null,
         pickUpDayService: contract.attributes?.pickUpDayService?.data?.id,
         periodicity: submitData.periodicity.toLowerCase(),
         advancedSelection,

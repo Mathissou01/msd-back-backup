@@ -82,7 +82,7 @@ export default function PickUpDaysFormStaticFields({
   const [collectDoorToDoorOptions, setCollectDoorToDoorOptions] = useState<
     Array<IFormSingleMultiselectOption>
   >([]);
-  const [CollectVoluntariesOptions, setCollectVoluntariesOptions] = useState<
+  const [collectVoluntariesOptions, setCollectVoluntariesOptions] = useState<
     Array<IFormSingleMultiselectOption>
   >([]);
   const pickUpId = watch("pickUpId");
@@ -203,16 +203,18 @@ export default function PickUpDaysFormStaticFields({
 
   useEffect(() => {
     if (
-      collectDoorToDoorOptions.length > 0 &&
-      CollectVoluntariesOptions.length > 0
+      collectDoorToDoorOptions.length > 0 ||
+      collectVoluntariesOptions.length > 0
     ) {
       const mergedOptions = [
         ...collectDoorToDoorOptions,
-        ...CollectVoluntariesOptions,
+        ...collectVoluntariesOptions,
       ];
       setCollectOptions(mergedOptions);
+    } else {
+      setCollectOptions([]);
     }
-  }, [collectDoorToDoorOptions, CollectVoluntariesOptions]);
+  }, [collectDoorToDoorOptions, collectVoluntariesOptions]);
 
   useEffect(() => {
     if (collectDoorToDoorsData && collectDoorToDoorsData.collectDoorToDoors) {
