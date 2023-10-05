@@ -128,7 +128,9 @@ export default function RequestTimeSlotsAndExceptions({
   function handleTimeSlotsAndExceptionsValidation(
     input: IRequestSlotsAndExceptionsInput,
   ) {
-    return (input.slotType && !!input.timeSlots) || labels.validationError;
+    return (
+      (input && input.slotType && !!input.timeSlots) || labels.validationError
+    );
   }
 
   function handleModalSubmit(
@@ -180,7 +182,8 @@ export default function RequestTimeSlotsAndExceptions({
     getValues(exceptionsName);
   // If no existing values for modal fields, defaultValues is empty
   const defaultValues: IRequestSlotsAndExceptionsInput | undefined =
-    Object.values(existingTimeSlots).length > 0
+    Object.values(existingTimeSlots).length > 0 ||
+    Object.values(existingSlotsExceptions).length > 0
       ? {
           slotType: existingSlotType,
           timeSlots: existingTimeSlots,

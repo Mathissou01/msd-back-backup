@@ -459,7 +459,7 @@ export function RequestFormPage({
   useEffect(() => {
     if (requestId) {
       if (!mappedData && isCreateMode) {
-        const mappedData: IRequestFields = {
+        const defaultData: IRequestFields = {
           id: "-1",
           status: EStatus.Draft,
           name: "",
@@ -489,7 +489,7 @@ export function RequestFormPage({
           slotsReservationRules: undefined,
           requestSlots: [],
         };
-        setMappedData(mappedData);
+        setMappedData(defaultData);
       } else if (requestId !== mappedData?.id) {
         setMappedData(undefined);
         void getRequestTypeById({ variables: { requestId: requestId } });
@@ -511,7 +511,7 @@ export function RequestFormPage({
         requestData.attributes &&
         requestData.attributes.name
       ) {
-        const mappedData: IRequestFields = {
+        const newData: IRequestFields = {
           id: requestData.id,
           status: requestData.attributes.isActivated
             ? EStatus.Activated
@@ -575,7 +575,7 @@ export function RequestFormPage({
             requestData.attributes.requestSlots?.data,
           ),
         };
-        setMappedData(mappedData);
+        setMappedData(newData);
       }
     }
   }, [

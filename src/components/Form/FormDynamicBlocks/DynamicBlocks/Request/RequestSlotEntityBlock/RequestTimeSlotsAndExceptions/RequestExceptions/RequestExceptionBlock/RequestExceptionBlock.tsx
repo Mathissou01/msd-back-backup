@@ -61,12 +61,18 @@ export default function RequestExceptionBlock({
   }
 
   function getWeekDaysToShow(blockIndex: number) {
+    const endDateWatch = watch(`${name}.${blockIndex}.slotException.endDate`);
     const watchStartDate: Date = new Date(
       watch(`${name}.${blockIndex}.slotException.startDate`),
     );
-    const watchEndDate: Date = new Date(
-      watch(`${name}.${blockIndex}.slotException.endDate`),
-    );
+    if (
+      !endDateWatch ||
+      watchExceptionType ===
+        Enum_Componentblocksrequestslotsexceptions_Exceptiontype.Daily
+    ) {
+      return [weekDays[watchStartDate.getDay() - 1]];
+    }
+    const watchEndDate: Date = new Date(endDateWatch);
     const daysBetweenEndStartDate =
       (watchEndDate.getTime() - watchStartDate.getTime()) / (1000 * 3600 * 24);
 
@@ -74,9 +80,6 @@ export default function RequestExceptionBlock({
     if (daysBetweenEndStartDate >= 7) {
       return undefined;
     } else {
-      if (!watch(`${name}.${blockIndex}.slotException.endDate`)) {
-        return [weekDays[watchStartDate.getDay() - 1]];
-      }
       // case when one of the dates is a Sunday (last on the tab)
       if (watchStartDate.getDay() === 0) {
         return [

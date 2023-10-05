@@ -74,7 +74,7 @@ export function removeQuotesInString(arg: string) {
 }
 
 export function formatDate(
-  date: Date | number | null,
+  date: Date | string | number | null,
   dateFormat = "dd/MM/yyyy",
 ): string {
   if (
@@ -84,7 +84,7 @@ export function formatDate(
     return format(date, dateFormat);
   }
 
-  return "";
+  return typeof date === "string" ? date : "";
 }
 
 export const commonDateStringFormat = "dd/MM/yyyy HH:mm";
