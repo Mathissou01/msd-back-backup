@@ -32,6 +32,7 @@ export default function TerritoryEPCIList({
   const labels = {
     addRow: "N° Siren ou nom de l'EPCI",
     addRowButton: "Ajouter un EPCI",
+    noRecordsLabel: "Il n'y a pas de données à afficher",
   };
 
   /* Methods*/
@@ -104,17 +105,23 @@ export default function TerritoryEPCIList({
       <h2 className="c-TerritoryEPCIList__Title">{title}</h2>
       <div>
         <CommonLoader isLoading={loadingImportSiren}>
-          {territoryData?.epci?.map((epci) =>
-            epci.attributes?.name && epci.attributes?.siren ? (
-              <EPCIRowContent
-                key={epci.id}
-                name={epci.attributes.name}
-                siren={epci.attributes.siren}
-                communes={epci.attributes?.cities?.data.length || 0}
-                epci={epci}
-                handleDelete={handleDelete}
-              />
-            ) : null,
+          {territoryData?.epci.length > 0 ? (
+            territoryData?.epci?.map((epci) =>
+              epci.attributes?.name && epci.attributes?.siren ? (
+                <EPCIRowContent
+                  key={epci.id}
+                  name={epci.attributes.name}
+                  siren={epci.attributes.siren}
+                  communes={epci.attributes?.cities?.data.length || 0}
+                  epci={epci}
+                  handleDelete={handleDelete}
+                />
+              ) : null,
+            )
+          ) : (
+            <div className="c-TerritoryEPCIList__NoRecords">
+              <span>{labels.noRecordsLabel}</span>
+            </div>
           )}
         </CommonLoader>
         <DataTableForm

@@ -1,7 +1,15 @@
+@use "src/styles/01-settings/settings.colors" as colors;
+
 .c-TerritoryEPCIList {
   margin: 32px 0;
 
   &__Title {
     margin-bottom: 16px;
+  }
+
+  &__NoRecords {
+    padding: 24px;
+    text-align: center;
+    background-color: colors.$white;
   }
 }
