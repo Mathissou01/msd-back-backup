@@ -42,6 +42,7 @@ export default function EditorialStaticFields({
     "image/jpeg",
     "image/gif",
     "image/svg",
+    "image/svg+xml",
     "image/tiff",
     "image/ico",
     "image/dvu",

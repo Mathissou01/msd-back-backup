@@ -23,6 +23,7 @@ export default function ImageBlock({ blockName }: IImageBlock) {
     "image/jpeg",
     "image/gif",
     "image/svg",
+    "image/svg+xml",
     "image/tiff",
     "image/ico",
     "image/dvu",
