@@ -23,7 +23,6 @@ import {
   IUploadFileEntityResponse,
   remapUploadFileEntityToLocalFile,
   TAcceptedMimeTypes,
-  updateUploadedFile,
 } from "../../../lib/media";
 import { useContract } from "../../../hooks/useContract";
 import CommonFormErrorText from "../../Common/CommonFormErrorText/CommonFormErrorText";
@@ -132,42 +131,36 @@ export default function FormFileInput({
       file.alternativeText =
         submitData[removeQuotesInString(labels.formDescLabel)];
       file.name = submitData[removeQuotesInString(labels.formNameLabel)];
+      file.folder = submitData["Emplacement"]["id"];
       handleSetFile(file);
       setUploadLoading(true);
-      const response = await updateUploadedFile(
-        Number(submitData["Emplacement"]["id"]),
-        file,
-      );
-
-      if (response === 200) {
-        void updateUploadFile({
-          variables: {
-            updateUploadFileId: file?.id,
-            data: {
-              name: submitData[removeQuotesInString(labels.formNameLabel)],
-              folder: submitData["Emplacement"]["id"],
-              alternativeText:
-                submitData[removeQuotesInString(labels.formDescLabel)] ??
-                submitData[removeQuotesInString(labels.formNameLabel)],
-            },
+      void updateUploadFile({
+        variables: {
+          updateUploadFileId: file?.id,
+          data: {
+            name: submitData[removeQuotesInString(labels.formNameLabel)],
+            folder: submitData["Emplacement"]["id"],
+            alternativeText:
+              submitData[removeQuotesInString(labels.formDescLabel)] ??
+              submitData[removeQuotesInString(labels.formNameLabel)],
           },
-          refetchQueries: [
-            {
-              query: GetUploadFilesDocument,
-              variables: {
-                filters: {
-                  folder: {
-                    pathId: {
-                      eq: activePathId,
-                    },
+        },
+        refetchQueries: [
+          {
+            query: GetUploadFilesDocument,
+            variables: {
+              filters: {
+                folder: {
+                  pathId: {
+                    eq: activePathId,
                   },
                 },
               },
             },
-          ],
-        });
-        setUploadLoading(false);
-      }
+          },
+        ],
+      });
+      setUploadLoading(false);
     }
   }
 

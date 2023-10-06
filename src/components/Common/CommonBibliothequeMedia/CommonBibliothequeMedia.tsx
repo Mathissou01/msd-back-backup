@@ -10,14 +10,10 @@ import {
   useGetLibraryBreadcrumbTrailQuery,
   useUpdateUploadFileByIdMutation,
   useDeleteUnpublishedMediaByImageIdsMutation,
+  GetUploadFoldersDocument,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
-import {
-  IFolder,
-  ILocalFile,
-  TAcceptedMimeTypes,
-  updateUploadedFile,
-} from "../../../lib/media";
+import { IFolder, ILocalFile, TAcceptedMimeTypes } from "../../../lib/media";
 import { removeQuotesInString } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
 import MediaBreadcrumb, {
@@ -97,33 +93,33 @@ export default function CommonBibliothequeMedia({
     const file: ILocalFile | undefined = fileToEdit;
     if (file?.id !== undefined) {
       setUploadLoading(true);
-      const response = await updateUploadedFile(
-        Number(submitData["Emplacement"]["id"]),
-        file,
-      );
-      if (response === 200) {
-        void updateUploadFile({
-          variables: {
-            updateUploadFileId: file?.id,
-            data: {
-              name: submitData[removeQuotesInString(labels.formNameLabel)],
-              folder: submitData["Emplacement"]["id"],
-              alternativeText:
-                submitData[removeQuotesInString(labels.formDescLabel)] ??
-                submitData[removeQuotesInString(labels.formNameLabel)],
-              width: file.width,
-              height: file.height,
-            },
+
+      void updateUploadFile({
+        variables: {
+          updateUploadFileId: file?.id,
+          data: {
+            name: submitData[removeQuotesInString(labels.formNameLabel)],
+            folder: submitData["Emplacement"]["id"],
+            alternativeText:
+              submitData[removeQuotesInString(labels.formDescLabel)] ??
+              submitData[removeQuotesInString(labels.formNameLabel)],
+            width: file.width,
+            height: file.height,
           },
-          refetchQueries: [
-            {
-              query: GetUploadFilesDocument,
-              variables: defaultQueryVariables,
-            },
-          ],
-        });
+        },
+        refetchQueries: [
+          {
+            query: GetUploadFilesDocument,
+            variables: defaultQueryVariables,
+          },
+          {
+            query: GetUploadFoldersDocument,
+            variables: { filters: { pathId: { eq: activePathId } } },
+          },
+        ],
+      }).finally(() => {
         setUploadLoading(false);
-      }
+      });
     }
   }
 
@@ -238,6 +234,7 @@ export default function CommonBibliothequeMedia({
     { data: filesData, loading: filesDataLoading, error: filesDataError },
   ] = useGetUploadFilesLazyQuery({
     variables: defaultQueryVariables,
+    fetchPolicy: "network-only",
   });
   const {
     data: foldersBreadcrumb,
@@ -292,32 +289,30 @@ export default function CommonBibliothequeMedia({
 
   useEffect(() => {
     if (foldersData) {
-      if (foldersData) {
-        const mappedFolders: Array<IFolder> =
-          foldersData.uploadFolders?.data[0]?.attributes?.children?.data
-            ?.map((folder) => {
-              if (
-                folder.id &&
-                folder.attributes?.name &&
-                folder.attributes?.path &&
-                folder.attributes?.pathId
-              ) {
-                return {
-                  id: folder.id,
-                  name: folder.attributes.name,
-                  path: folder.attributes.path,
-                  pathId: folder.attributes?.pathId,
-                  children: folder.attributes.children?.data
-                    .map((child) => child.id)
-                    .filter(removeNulls),
-                  childrenAmount: folder.attributes.children?.data.length,
-                  filesAmount: folder.attributes.files?.data.length,
-                };
-              }
-            })
-            .filter(removeNulls) ?? [];
-        setFolders(mappedFolders);
-      }
+      const mappedFolders: Array<IFolder> =
+        foldersData.uploadFolders?.data[0]?.attributes?.children?.data
+          ?.map((folder) => {
+            if (
+              folder.id &&
+              folder.attributes?.name &&
+              folder.attributes?.path &&
+              folder.attributes?.pathId
+            ) {
+              return {
+                id: folder.id,
+                name: folder.attributes.name,
+                path: folder.attributes.path,
+                pathId: folder.attributes?.pathId,
+                children: folder.attributes.children?.data
+                  .map((child) => child.id)
+                  .filter(removeNulls),
+                childrenAmount: folder.attributes.children?.data.length,
+                filesAmount: folder.attributes.files?.data.length,
+              };
+            }
+          })
+          .filter(removeNulls) ?? [];
+      setFolders(mappedFolders);
     }
 
     if (filesData) {
@@ -387,6 +382,13 @@ export default function CommonBibliothequeMedia({
     /*eslint-disable */
     // TODO: optimize useEffect
   }, [foldersBreadcrumb]);
+
+  useEffect(() => {
+    void getUploadFiles({
+      variables: defaultQueryVariables,
+    });
+  }, [activePathId]);
+
   /*eslint-enable */
   const rowCount = filesData?.uploadFiles?.meta.pagination.total;
 
@@ -467,23 +469,27 @@ export default function CommonBibliothequeMedia({
                 )}
               </div>
             )}
-            <div className="c-CommonBibliothequeMedia__Folders">
-              {folders.length > 0 && <h2>{formLabels.FolderSectionTitle}</h2>}
-              <div className="c-CommonBibliothequeMedia__FolderCards">
-                {folders &&
-                  folders.map((folder, index) => (
-                    <MediaFolderCard
-                      key={index}
-                      folder={folder}
-                      picto="folder"
-                      activePath={activePath}
-                      activePathId={activePathId}
-                      onClick={() => setUpdatePath(folder.pathId, folder.path)}
-                    />
-                  ))}
+            {folders.length > 0 && (
+              <div className="c-CommonBibliothequeMedia__Folders">
+                <h2>{formLabels.FolderSectionTitle}</h2>
+                <div className="c-CommonBibliothequeMedia__FolderCards">
+                  {folders &&
+                    folders.map((folder, index) => (
+                      <MediaFolderCard
+                        key={index}
+                        folder={folder}
+                        picto="folder"
+                        activePath={activePath}
+                        activePathId={activePathId}
+                        onClick={() =>
+                          setUpdatePath(folder.pathId, folder.path)
+                        }
+                      />
+                    ))}
+                </div>
               </div>
-            </div>
-            {files.length > 0 && (
+            )}
+            {folders.length > 0 && files.length > 0 && (
               <hr className="c-CommonBibliothequeMedia__HrColor" />
             )}
             <div className="c-CommonBibliothequeMedia__MediaList">
