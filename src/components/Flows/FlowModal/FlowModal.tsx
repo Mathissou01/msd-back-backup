@@ -42,6 +42,7 @@ export default function FlowModal({
     name: "Nom du flux",
     recyclingGesture: "Geste de tri",
     color: "Couleur",
+    customColor: "Personnalisée",
     hexagonalCode: "Code Hexadécimal",
     collectionMethods: "Modalités de collecte",
   };
@@ -104,7 +105,7 @@ export default function FlowModal({
               name="name"
               label={formLabels.name}
               defaultValue={name}
-              isRequired={true}
+              isRequired
             />
           </div>
           <div className="c-FlowModal__RecyclingGesture"></div>
@@ -123,7 +124,6 @@ export default function FlowModal({
           />
           <div className="c-FlowModal__ColorAndHexagonalCode">
             <div className="c-FlowModal__Color">
-              {" "}
               <FormSelect<FlowColorEntity>
                 name="color"
                 label={formLabels.color}
@@ -141,7 +141,8 @@ export default function FlowModal({
               className="c-FlowModal__HexagonalCode"
               style={{
                 display:
-                  form.getValues().color?.attributes?.name === "Personnalisé"
+                  form.getValues().color?.attributes?.name ===
+                  formLabels.customColor
                     ? "block"
                     : "none",
               }}
@@ -157,7 +158,8 @@ export default function FlowModal({
               className="c-FlowModal__HexagonalCode"
               style={{
                 display:
-                  form.getValues().color?.attributes?.name !== "Personnalisé"
+                  form.getValues().color?.attributes?.name !==
+                  formLabels.customColor
                     ? "block"
                     : "none",
               }}
@@ -175,7 +177,8 @@ export default function FlowModal({
               className="c-FlowModal__VisualHexagonalCode"
               style={{
                 backgroundColor:
-                  form.getValues().color?.attributes?.name === "Personnalisé"
+                  form.getValues().color?.attributes?.name ===
+                  formLabels.customColor
                     ? watch("code")
                     : watch("color")?.attributes?.hexaCode,
               }}
@@ -186,17 +189,17 @@ export default function FlowModal({
           <div className="c-FlowModal__CollectionMethods">
             <div className="c-FlowModal__CollectionMethodsChoices">
               <FormCheckbox
-                name={"collectDoorToDoors"}
+                name="collectDoorToDoors"
                 label={collectDropOffLabels.collectDoorToDoors}
                 defaultChecked={collectDoorToDoors.length > 0}
               />
               <FormCheckbox
-                name={"collectDropOffs"}
+                name="collectDropOffs"
                 label={collectDropOffLabels.collectDropOffs}
                 defaultChecked={collectDropOffs.length > 0}
               />
               <FormCheckbox
-                name={"collectVoluntaries"}
+                name="collectVoluntaries"
                 label={collectDropOffLabels.collectVoluntaries}
                 defaultChecked={collectVoluntaries.length > 0}
               />
@@ -234,7 +237,6 @@ export default function FlowModal({
 
                 {form.getValues().collectDropOffs && (
                   <>
-                    {" "}
                     <FormLabel label={collectionMethodsName.collectDropOffs} />
                     <div className="c-FlowModal__CollectionMethodsDetailsCollectDropOff">
                       {cleanCollectionMethods(
