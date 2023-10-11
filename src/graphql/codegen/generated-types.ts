@@ -17214,18 +17214,7 @@ export type UpdateSectorizationByIdMutation = {
   __typename?: "Mutation";
   updateSectorization?: {
     __typename?: "SectorizationEntityResponse";
-    data?: {
-      __typename?: "SectorizationEntity";
-      id?: string | null;
-      attributes?: {
-        __typename?: "Sectorization";
-        name: string;
-        description: string;
-        polygonCoordinates?: any | null;
-        updatedAt?: any | null;
-        createdAt?: any | null;
-      } | null;
-    } | null;
+    data?: { __typename?: "SectorizationEntity"; id?: string | null } | null;
   } | null;
 };
 
@@ -32605,13 +32594,6 @@ export const UpdateSectorizationByIdDocument = gql`
     updateSectorization(id: $updateSectorizationId, data: $data) {
       data {
         id
-        attributes {
-          name
-          description
-          polygonCoordinates
-          updatedAt
-          createdAt
-        }
       }
     }
   }
