@@ -114,6 +114,7 @@ export function GestionUtilisateursPage() {
       phoneNumber: submitData.phone,
       role: submitData.role,
       isRoleUpdated: submitData.role === userDefaultValue?.role,
+      contractId: contractId,
     };
 
     updateUser({

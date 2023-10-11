@@ -5597,6 +5597,7 @@ type Query {
     sort: [String] = []
   ): TopContentBlockEntityResponseCollection
   updateBackOfficeUser(
+    contractId: String!
     email: String!
     firstName: String!
     isRoleUpdated: Boolean!
