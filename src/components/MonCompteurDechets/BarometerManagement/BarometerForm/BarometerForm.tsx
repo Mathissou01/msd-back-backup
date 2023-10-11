@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useFormContext } from "react-hook-form";
 import { useEffect } from "react";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import "./barometer-form.scss";
 
 const texts = {
@@ -38,6 +40,9 @@ const errorMessages = {
 };
 
 export default function BarometerForm() {
+  /* Local data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Mwc", userRights);
   const {
     register,
     watch,
@@ -68,6 +73,7 @@ export default function BarometerForm() {
             <input
               id="low"
               type="number"
+              disabled={!userPermissions.update}
               {...register("low", {
                 valueAsNumber: true,
                 required: {
@@ -108,6 +114,7 @@ export default function BarometerForm() {
           <input
             id="medium"
             type="number"
+            disabled={!userPermissions.update}
             {...register("medium", {
               valueAsNumber: true,
               required: {
@@ -150,6 +157,7 @@ export default function BarometerForm() {
           <input
             id="high"
             type="text"
+            disabled={!userPermissions.update}
             {...register("high", {
               valueAsNumber: true,
               required: {
@@ -192,6 +200,7 @@ export default function BarometerForm() {
           <input
             id="veryHigh"
             type="number"
+            disabled={!userPermissions.update}
             {...register("veryHigh", {
               valueAsNumber: true,
               required: {

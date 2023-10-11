@@ -5,10 +5,14 @@ import {
   GetAudiencesDocument,
   useUpdateAudienceByIdMutation,
 } from "../../graphql/codegen/generated-types";
+import { useUser } from "../../hooks/useUser";
+import { getRightsByLabel } from "../../lib/user";
 import "./users-card.scss";
+
 interface IAudiencesBlockProps {
   audience: IAudience;
 }
+
 export default function UsersBlock({ audience }: IAudiencesBlockProps) {
   /* Toggle properties */
   const onChangeHandler = (isToggleActiveUpdated: boolean) => {
@@ -35,6 +39,8 @@ export default function UsersBlock({ audience }: IAudiencesBlockProps) {
     });
   };
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Audience", userRights);
   const [isToggleActive, setIsToggleActive] = useState<boolean>();
   const [updateAudience] = useUpdateAudienceByIdMutation({
     refetchQueries: ["getAudiences", "getCollectionMethods"],
@@ -48,7 +54,7 @@ export default function UsersBlock({ audience }: IAudiencesBlockProps) {
             onChangeHandler(isToggleActiveUpdated)
           }
           checked={isToggleActive ? isToggleActive : audience.isActive}
-          disabled={audience.type === ""}
+          disabled={audience.type === "" || !userPermissions.update}
         />
       </div>
       {/*  FUTURE FEATURE : Modification de sous-profil */}

@@ -7,8 +7,10 @@ import {
   useDeleteContractByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
+import { useUser } from "../../../hooks/useUser";
 import { EContractClientTypeLabels } from "../../../lib/contract";
 import { IInformationContractLabels } from "../../../lib/informations";
+import { getRightsByLabel } from "../../../lib/user";
 import PageTitle from "../../PageTitle/PageTitle";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import CommonModalWrapper, {
@@ -69,6 +71,8 @@ export default function InformationContract({
 
   /* Local Data */
   const { contractId } = useContract();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Contract", userRights);
   const deleteModalRef = useRef<CommonModalWrapperRef>(null);
   const activationModalRef = useRef<CommonModalWrapperRef>(null);
   const contractInformation = {
@@ -181,7 +185,7 @@ export default function InformationContract({
           style="primary"
           picto="edit"
           onClick={() => setEditMode(true)}
-          isDisabled={isInactive}
+          isDisabled={isInactive || !userPermissions.update}
         />
         <CommonButton
           label={
@@ -190,11 +194,13 @@ export default function InformationContract({
               : labels.deactivateContract
           }
           style="primary"
+          isDisabled={!userPermissions.update}
           onClick={() => activationModalRef.current?.toggleModal(true)}
         />
         <CommonButton
           label={labels.buttonDeleteLabel}
           style="primary"
+          isDisabled={!userPermissions.delete}
           onClick={() => deleteModalRef.current?.toggleModal(true)}
         />
 

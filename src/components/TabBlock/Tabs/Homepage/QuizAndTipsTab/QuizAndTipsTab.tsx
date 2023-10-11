@@ -12,6 +12,8 @@ import {
 } from "../../../../../graphql/codegen/generated-types";
 import { formatDate, removeNulls } from "../../../../../lib/utilities";
 import { extractQuizAndTipsBlock } from "../../../../../lib/graphql-data";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 import { useFocusFirstElement } from "../../../../../hooks/useFocusFirstElement";
 import { useContract } from "../../../../../hooks/useContract";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
@@ -171,6 +173,8 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
   });
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Homepage", userRights);
   const [quizAndTipsData, setQuizAndTipsData] = useState<IQuizAndTipsBlock>();
   const [quizzesData, setQuizzesData] = useState<
     Array<IOptionWrapper<QuizEntity>>
@@ -248,18 +252,23 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
               <FormCheckbox
                 name="displayBlock"
                 label={formLabels.displayBlock}
+                isDisabled={!userPermissions.update}
               />
               <FormInput
                 type="text"
                 name="titleContent"
                 label={formLabels.titleContent}
                 isRequired={true}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 defaultValue={quizAndTipsData?.titleContent}
               />
             </div>
             <div className="c-QuizAndTipsTab__Group">
-              <FormCheckbox name="displayQuiz" label={formLabels.displayQuiz} />
+              <FormCheckbox
+                name="displayQuiz"
+                label={formLabels.displayQuiz}
+                isDisabled={!userPermissions.update}
+              />
               <FormModalButtonInput<QuizEntity, IQuizModalFields>
                 name="quiz"
                 label={formLabels.quiz}
@@ -267,12 +276,13 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
                 buttonLabel={formLabels.quizButton}
                 modalTitle={formLabels.quizModal}
                 onModalSubmit={onQuizModalSubmit}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
               >
                 <FormSelect<QuizEntity>
                   name="quizSelect"
                   label={formLabels.quizModalType}
                   displayTransform={quizSelectDisplayTransformFunction}
+                  isDisabled={!userPermissions.update}
                   options={quizzesData}
                   optionKey={"id"}
                   defaultValue={watch("quiz")}
@@ -280,7 +290,11 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
               </FormModalButtonInput>
             </div>
             <div className="c-QuizAndTipsTab__Group">
-              <FormCheckbox name="displayTips" label={formLabels.displayTips} />
+              <FormCheckbox
+                name="displayTips"
+                label={formLabels.displayTips}
+                isDisabled={!userPermissions.update}
+              />
               <FormModalButtonInput<Array<TipEntity>, ITipsModalFields>
                 name="tips"
                 label={formLabels.tips}
@@ -288,12 +302,13 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
                 buttonLabel={formLabels.tipsButton}
                 modalTitle={formLabels.tipsModal}
                 onModalSubmit={onTipsModalSubmit}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
               >
                 <FormMultiselect<TipEntity>
                   name="tipsSelect"
                   label={formLabels.tipsModalType}
                   displayTransform={tipSelectDisplayTransformFunction}
+                  isDisabled={!userPermissions.update}
                   options={tipsData}
                   selectAmount={3}
                   optionKey={"id"}
@@ -307,7 +322,7 @@ export default function QuizAndTipsTab({ audience }: IQuizAndTipsTabProps) {
                 label={submitButtonLabel}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
               <CommonButton
                 type="button"

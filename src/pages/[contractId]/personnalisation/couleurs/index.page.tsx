@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import chroma from "chroma-js";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
@@ -18,6 +19,8 @@ import {
   makeDarkerColor,
   makeLighterColor,
 } from "../../../../lib/color";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import { useContract } from "../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
@@ -92,6 +95,12 @@ export function PersonnalisationCouleursPage() {
     updateContractCustomization,
     { loading: mutationLoading, error: mutationError },
   ] = useUpdateContractCustomizationByIdMutation();
+
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("ContractCustomization", userRights);
+
+  if (!userPermissions.read) router.push(`/${contractId}`);
 
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
@@ -261,6 +270,7 @@ export function PersonnalisationCouleursPage() {
                     type="text"
                     name="communityUrl"
                     label={labels.communityUrl}
+                    isDisabled={!userPermissions.update}
                     patternValidation={/^(http:|https:)/}
                     patternValidationErrorMessage={
                       labels.communityUrlValidation
@@ -292,7 +302,9 @@ export function PersonnalisationCouleursPage() {
                 label={labels.submitButtonLabel}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty || primaryErrorMsg}
+                isDisabled={
+                  !isDirty || primaryErrorMsg || !userPermissions.update
+                }
               />
               <CommonButton
                 type="button"

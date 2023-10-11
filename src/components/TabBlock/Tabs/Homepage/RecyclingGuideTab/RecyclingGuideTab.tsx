@@ -6,6 +6,8 @@ import {
   useUpdateRecyclingGuideBlockByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { extractRecyclingGuideBlock } from "../../../../../lib/graphql-data";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 import { useContract } from "../../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../../hooks/useFocusFirstElement";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
@@ -72,6 +74,8 @@ export default function RecyclingGuideTab() {
   });
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Homepage", userRights);
   const [recyclingGuideData, setRecyclingGuideData] =
     useState<IRecyclingGuideBlock>();
   const formValidationMode = "onChange";
@@ -126,7 +130,7 @@ export default function RecyclingGuideTab() {
                 validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
                 maxLengthValidation={maxCharacters}
                 isRequired={true}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 defaultValue={recyclingGuideData?.titleContent}
               />
             </div>
@@ -137,7 +141,7 @@ export default function RecyclingGuideTab() {
                 name="subtitleContent"
                 validationLabel={`${maxCharacters} ${formLabels.maxCharactersLabel}`}
                 maxLengthValidation={maxCharacters}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 isRequired={true}
                 defaultValue={recyclingGuideData?.subtitleContent}
               />
@@ -148,7 +152,7 @@ export default function RecyclingGuideTab() {
                 label={formLabels.recyclingGuideDisplayContent}
                 validationLabel={`${recyclingGuideDisplayContentMaxCharacters} ${formLabels.maxCharactersLabel}`}
                 name="recyclingGuideDisplayContent"
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 isRequired={true}
                 maxLengthValidation={recyclingGuideDisplayContentMaxCharacters}
                 defaultValue={recyclingGuideData?.recyclingGuideDisplayContent}
@@ -160,7 +164,7 @@ export default function RecyclingGuideTab() {
                 label={formLabels.submitButtonLabel}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
               <CommonButton
                 type="button"

@@ -4,6 +4,8 @@ import { RequestFolders } from "../../../../../graphql/codegen/generated-types";
 import { formatFileSize } from "../../../../../lib/utilities";
 import { ILocalFile } from "../../../../../lib/media";
 import { removeQuotesInString } from "../../../../../lib/utilities";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 import FormInput from "../../../../Form/FormInput/FormInput";
 import FormSelect from "../../../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../../../Form/FormMultiselect/FormMultiselect";
@@ -44,6 +46,8 @@ export default function EditModal({
   };
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Medias", userRights);
   const [showCrop, setShowCrop] = useState(false);
   /* Methods */
   const folderHierarchyDisplayTransformFunction = (
@@ -85,6 +89,7 @@ export default function EditModal({
               label={labels.formNameLabel}
               isRequired={true}
               defaultValue={fileToEdit?.name}
+              isDisabled={!userPermissions.update}
             />
           </div>
           {isImageToUpload() && (
@@ -97,6 +102,7 @@ export default function EditModal({
                 isRequired={true}
                 defaultValue={fileToEdit?.alternativeText ?? fileToEdit?.name}
                 maxLengthValidation={80}
+                isDisabled={!userPermissions.update}
               />
             </div>
           )}
@@ -108,6 +114,7 @@ export default function EditModal({
               options={sortFolderHierarchy(folderHierarchy)}
               optionKey={"id"}
               isRequired={true}
+              isDisabled={!userPermissions.update}
               defaultValue={
                 folderHierarchy.find(
                   (folder) => folder?.pathId === activePathId.toString(),

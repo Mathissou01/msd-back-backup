@@ -1,8 +1,9 @@
 import React from "react";
-import { IUser } from "../../../../lib/user";
+import { IUser, getRightsByLabel } from "../../../../lib/user";
 import CommonButton from "../../../Common/CommonButton/CommonButton";
 import CommonSpinner from "../../../Common/CommonSpinner/CommonSpinner";
 import useUpdateUser from "../../../../hooks/User/useUpdateUser";
+import { useUser } from "../../../../hooks/useUser";
 import "./user-list-block.scss";
 
 interface IUserListBlockProps {
@@ -17,6 +18,9 @@ export default function UserListBlock({
   refetch,
   isFirstSearch,
 }: IUserListBlockProps) {
+  /* Local data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Mwc", userRights);
   const { updateUser } = useUpdateUser();
 
   return (
@@ -47,6 +51,7 @@ export default function UserListBlock({
                   <CommonButton
                     type="button"
                     label="Désactiver le compteur"
+                    isDisabled={!userPermissions.update}
                     style="secondary"
                     onClick={() => {
                       updateUser(user._id, { activeCounter: false }, refetch);

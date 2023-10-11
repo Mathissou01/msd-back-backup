@@ -6,7 +6,8 @@ exports[`MediaCreateFolderButton renders the button 1`] = `
     data-testid="media-create-folder-button"
   >
     <button
-      class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+      class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+      disabled=""
       type="button"
     >
       <div

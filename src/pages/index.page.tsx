@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import { useHeaderContractId } from "../hooks/useHeaderContractId";
+import { useUser } from "../hooks/useUser";
 import { useGetContractsQuery } from "../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../lib/common-data-table";
+import { getRightsByLabel } from "../lib/user";
 import Header from "../components/Header/Header";
 import PageTitle from "../components/PageTitle/PageTitle";
 import CommonLoader from "../components/Common/CommonLoader/CommonLoader";
@@ -57,6 +59,8 @@ export default function RootHomePage() {
   const { data, loading, error } = useGetContractsQuery();
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Contract", userRights);
   const router = useRouter();
   const { setHeaderContractId } = useHeaderContractId();
   const [searchText, setSearchText] = useState("");
@@ -215,6 +219,7 @@ export default function RootHomePage() {
                     label={labels.createClientButton}
                     style="primary"
                     picto="add"
+                    isDisabled={!userPermissions.create}
                     onClick={() => router.push(`/create`)}
                   />
                 </div>

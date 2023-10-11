@@ -19,6 +19,8 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { useNavigation } from "../../../hooks/useNavigation";
 import { useContract } from "../../../hooks/useContract";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -122,6 +124,8 @@ export default function RequestsList() {
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Request", userRights);
   const [rowToBeDeleted, setRowToBeDeleted] = useState<IRequestTableRow>();
   const [modalText, setModalText] = useState("");
   const isInitialized = useRef(false);
@@ -168,14 +172,16 @@ export default function RequestsList() {
       id: "name",
       name: labels.tableLabels.columns.name,
       selector: (row) => row.name,
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/services/demandes/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.name}
-        </Link>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/services/demandes/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.name}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 3,
     },
@@ -204,11 +210,13 @@ export default function RequestsList() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       href: `${currentRoot}/services/demandes/${row.id}`,
     },
     {
       id: "delete",
       picto: "trash",
+      isDisabled: !userPermissions.delete,
       alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => {
@@ -312,9 +320,12 @@ export default function RequestsList() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getRequests();
+      if (userPermissions.read) void getRequests();
+      else {
+        router.push(`/${contractId}`);
+      }
     }
-  }, [getRequests, isInitialized]);
+  }, [contractId, getRequests, isInitialized, router, userPermissions.read]);
 
   return (
     <div className="c-RequestsList">
@@ -324,6 +335,7 @@ export default function RequestsList() {
           style="primary"
           picto="add"
           onClick={() => router.push(`${currentRoot}/services/demandes/create`)}
+          isDisabled={!userPermissions.create}
         />
       </div>
       <h2 className="c-RequestsList__Title">{labels.tableLabels.title}</h2>
@@ -364,6 +376,7 @@ export default function RequestsList() {
             picto="check"
             style="primary"
             onClick={handleDeleteFromModal}
+            isDisabled={!userPermissions.update}
           />
           <CommonButton
             label={labels.warningModal.cancel}

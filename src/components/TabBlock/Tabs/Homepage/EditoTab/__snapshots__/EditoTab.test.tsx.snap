@@ -50,6 +50,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
           <input
             class="c-FormCheckbox__Input c-FormCheckbox__Input_checked"
             data-testid="form-checkbox"
+            disabled=""
             id="displayBlock"
             name="displayBlock"
             type="checkbox"
@@ -93,6 +94,7 @@ exports[`EditoTab renders loading and loaded state 2`] = `
                 aria-invalid="false"
                 class="c-FormInput__Input"
                 data-testid="form-input"
+                disabled=""
                 id="titleContent"
                 name="titleContent"
                 type="text"
@@ -146,7 +148,8 @@ exports[`EditoTab renders loading and loaded state 2`] = `
               aria-invalid="false"
             >
               <button
-                class="c-CommonButton c-CommonButton_secondary c-CommonButton_fontSmall"
+                class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
+                disabled=""
                 id="editoContents"
                 type="button"
               >

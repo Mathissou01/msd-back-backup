@@ -14,6 +14,7 @@ import "./yws-service-page.scss";
 interface IYesWeScanServicePageProps {
   ywsServiceId: string;
 }
+
 function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
   /* Static Data */
   const labels = {

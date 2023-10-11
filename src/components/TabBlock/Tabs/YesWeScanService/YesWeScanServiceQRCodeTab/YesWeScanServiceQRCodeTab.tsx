@@ -8,6 +8,8 @@ import {
   useGetYwsQrCodesByServiceIdQuery,
   useUpdateYwsQrCodeByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 import { useContract } from "../../../../../hooks/useContract";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import FormInput from "../../../../Form/FormInput/FormInput";
@@ -48,6 +50,8 @@ export default function YesWeScanServiceQRCodeTab({
   };
 
   /* Local data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Yws", userRights);
   const { contract } = useContract();
   const form = useForm();
   const { handleSubmit } = form;
@@ -291,10 +295,12 @@ export default function YesWeScanServiceQRCodeTab({
               type="number"
               label={labels.input}
               isRequired
+              isDisabled={!userPermissions.update}
               defaultValue={defaultQrCodeToGenerate.toString()}
             />
             <CommonButton
               label={labels.submitButton}
+              isDisabled={!userPermissions.update}
               style="primary"
               type="submit"
             />
@@ -305,6 +311,7 @@ export default function YesWeScanServiceQRCodeTab({
           <CommonButton
             label={`${labels.downloadOldQrCodeButton}`}
             onClick={downloadAllCreatedQRCodes}
+            isDisabled={!userPermissions.read}
           />
         </div>
       </div>

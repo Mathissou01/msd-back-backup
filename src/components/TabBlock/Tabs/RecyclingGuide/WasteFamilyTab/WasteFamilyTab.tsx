@@ -18,6 +18,8 @@ import FormModal from "../../../../Form/FormModal/FormModal";
 import { useContract } from "../../../../../hooks/useContract";
 import { removeNulls } from "../../../../../lib/utilities";
 import { IDefaultTableRow } from "../../../../../lib/common-data-table";
+import { useUser } from "../../../../../hooks/useUser";
+import { getRightsByLabel } from "../../../../../lib/user";
 
 interface IWasteFamilyTableRow extends IDefaultTableRow {
   id: string;
@@ -68,6 +70,8 @@ export default function WasteFamilyTab() {
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("RecyclingGuide", userRights);
   const [tableData, setTableData] = useState<Array<IWasteFamilyTableRow>>([]);
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const [defaultValue, setDefaultValue] = useState<IWasteFamilyTableRow>();
@@ -81,11 +85,16 @@ export default function WasteFamilyTab() {
       id: "familyName",
       name: tableLabels.columns.familyName,
       selector: (row) => row.familyName,
-      cell: (row) => (
-        <button className="o-TablePage__Link" onClick={() => handleEdit(row)}>
-          {row.familyName}
-        </button>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <button
+              className="o-TablePage__Link"
+              onClick={() => handleEdit(row)}
+            >
+              {row.familyName}
+            </button>
+          )
+        : undefined,
       sortable: true,
       grow: 4,
     },
@@ -101,6 +110,7 @@ export default function WasteFamilyTab() {
     {
       id: "edit",
       picto: "edit",
+      isDisabled: !userPermissions.update,
       alt: "Modifier",
       onClick: () => handleEdit(row),
     },
@@ -172,12 +182,14 @@ export default function WasteFamilyTab() {
           name="familyName"
           label="Nom de la Famille"
           isRequired
+          isDisabled={!userPermissions.update}
           defaultValue={defaultValue?.familyName}
         />
         <FormInput
           type="text"
           name="wasteform"
           label="Déchets associés"
+          isDisabled={!userPermissions.update}
           defaultValue={defaultValue?.wasteForms
             .map((wasteForm) => wasteForm.attributes?.name)
             .join(", ")}

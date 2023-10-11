@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useContract } from "../../../../hooks/useContract";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
 import Flow from "../../../../components/MonCompteurDechets/MCDFlow/MCDFlow";
@@ -7,6 +10,7 @@ import ContactMwc from "../../../../components/MonCompteurDechets/ContactMwc/Con
 import UserManagement from "../../../../components/MonCompteurDechets/UserManagement/UserManagement";
 import BarometerManagement from "../../../../components/MonCompteurDechets/BarometerManagement/BarometerManagement";
 import HasTipsManagement from "../../../../components/MonCompteurDechets/HasTipsManagement/HasTipsManagement";
+import { useUser } from "../../../../hooks/useUser";
 
 export function MonCompteurDechets() {
   /* Static Data */
@@ -14,8 +18,15 @@ export function MonCompteurDechets() {
     title: "Compteur dechets",
   };
 
+  const router = useRouter();
+  const { contractId } = useContract();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Mwc", userRights);
+
   const [tabs, setTabs] = useState<Array<ITab>>([]);
   useEffect(() => {
+    if (!userPermissions.read) router.push(`/${contractId}`);
+
     const tabs = [
       {
         name: "fichesDechets",
@@ -49,7 +60,7 @@ export function MonCompteurDechets() {
       },
     ];
     setTabs(tabs);
-  }, []);
+  }, [contractId, router, userPermissions.read]);
 
   return (
     <div className="c-MonCompteurDechets">

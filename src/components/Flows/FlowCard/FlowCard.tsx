@@ -4,6 +4,8 @@ import {
   GetFlowsDocument,
 } from "../../../graphql/codegen/generated-types";
 import { IFlow } from "../../../lib/flows";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import CommonToggle from "../../Common/CommonToggle/CommonToggle";
 import PseudoImageFallback from "../../Accessibility/PseudoImageFallback/PseudoImageFallback";
 import "./flow-card.scss";
@@ -50,6 +52,8 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
   const [updateFlow] = useUpdateFlowByIdMutation({
     refetchQueries: ["getFlows", "getCollectionMethods"],
   });
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Flow", userRights);
 
   return (
     <div className="c-FlowCard">
@@ -59,6 +63,7 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
           className="c-FlowCard__Edit"
           type="button"
           onClick={() => onOpenFlow(flow)}
+          disabled={!userPermissions.update}
           title={accessibilityLabels.edit}
         >
           <PseudoImageFallback alt={accessibilityLabels.edit} />
@@ -69,7 +74,9 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
               onChangeHandler(isToggleActiveUpdated)
             }
             checked={isToggleActive ? isToggleActive : flow.isActivated}
-            disabled={flow.name === "Ordure Ménagère"}
+            disabled={
+              flow.name === "Ordure Ménagère" || !userPermissions.update
+            }
           />
         </div>
       </div>

@@ -24,6 +24,8 @@ import {
   remapFormBlocksDynamicZone,
 } from "../../../../lib/dynamic-blocks";
 import { IFormCommonFields } from "../../../../lib/form";
+import { useUser } from "../../../../hooks/useUser";
+import { getRightsByLabel } from "../../../../lib/user";
 import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
 import { ISelectFlowData } from "../MCDFlow";
 
@@ -82,6 +84,8 @@ export default function MCDFlowForm({
     null,
   );
 
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Mwc", userRights);
   const form = useForm({
     mode: "onChange",
     defaultValues: mappedData as DefaultValues<IFlowStaticFields>,
@@ -264,6 +268,7 @@ export default function MCDFlowForm({
               <CommonButton
                 type="button"
                 label={buttonLabels.removeFlow}
+                isDisabled={!userPermissions.delete}
                 style="secondary"
                 onClick={handleRemove}
               />
@@ -280,7 +285,11 @@ export default function MCDFlowForm({
                 type="submit"
                 label={!mappedData ? buttonLabels.saveFlow : "Enregistrer"}
                 style="primary"
-                isDisabled={!isDirty}
+                isDisabled={
+                  !isDirty || !mappedData
+                    ? !userPermissions.create
+                    : !userPermissions.update
+                }
               />
             </div>
           </div>
@@ -301,6 +310,7 @@ export default function MCDFlowForm({
                 label="Système de pesée"
                 options={weighingSystemOptions}
                 isRequired
+                isDisabled={!userPermissions.update || !userPermissions.create}
               />
             </div>
           </div>
@@ -334,6 +344,7 @@ export default function MCDFlowForm({
               type="submit"
               style="primary"
               label="Confirmer"
+              isDisabled={!userPermissions.update || !userPermissions.create}
               onClick={confirmRemove}
             />
           </div>

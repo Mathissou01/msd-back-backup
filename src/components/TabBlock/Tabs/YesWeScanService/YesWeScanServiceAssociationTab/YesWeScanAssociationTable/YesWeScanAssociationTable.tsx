@@ -14,6 +14,8 @@ import {
   useGetYwsQrCodesLazyQuery,
   useUpdateYwsQrCodeByIdMutation,
 } from "../../../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../../../lib/user";
+import { useUser } from "../../../../../../hooks/useUser";
 import { ICurrentPagination } from "../../../../../../lib/common-data-table";
 import { IDataTableAction } from "../../../../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import { removeNulls } from "../../../../../../lib/utilities";
@@ -89,6 +91,8 @@ export default function YesWeScanServiceAssociationTable({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Yws", userRights);
   const router = useRouter();
   const { ywsServiceId } = router.query;
   const isInitialized = useRef(false);
@@ -149,6 +153,7 @@ export default function YesWeScanServiceAssociationTable({
     {
       id: "edit",
       picto: "edit",
+      isDisabled: !userPermissions.update,
       alt: "Modifier",
       onClick: () => {
         setSelectedQrCode(row);
@@ -158,6 +163,7 @@ export default function YesWeScanServiceAssociationTable({
     {
       id: "dissociate",
       picto: "unlink",
+      isDisabled: !userPermissions.update,
       alt: "Dissocier",
       onClick: () => handleOpenDissociateModal(row.qrCodeId),
     },

@@ -6,6 +6,8 @@ import {
   useImportSirenByContractIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import DataTableForm from "../../Common/CommonDataTable/DataTableForm/DataTableForm";
 import FormLabel from "../../Form/FormLabel/FormLabel";
 import FormAutoCompleteInput from "../../Form/FormAutoCompleteInput/FormAutoCompleteInput";
@@ -56,6 +58,8 @@ export default function TerritoryEPCIList({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Territory", userRights);
   const { getValues, setValue, watch } = useForm();
   const epci = watch("chosenEPCI");
   const [importSiren, { loading: loadingImportSiren }] =
@@ -139,6 +143,7 @@ export default function TerritoryEPCIList({
             }}
             isLoading={epcisInformationsLoading}
             isRequired
+            isDisabled={!userPermissions.update}
             defaultValue={getValues("epci")}
           />
         </DataTableForm>

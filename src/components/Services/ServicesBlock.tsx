@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { format } from "date-fns";
+import { useRouter } from "next/router";
 import {
   ChannelTypeEntity,
   GetChannelTypeByIdDocument,
@@ -22,9 +23,11 @@ import {
   IServicesBlockFormValues,
   ServiceNameWithType,
 } from "../../lib/services";
+import { getRightsByLabel } from "../../lib/user";
 import { removeNulls } from "../../lib/utilities";
 import { useFocusFirstElement } from "../../hooks/useFocusFirstElement";
 import { useContract } from "../../hooks/useContract";
+import { useUser } from "../../hooks/useUser";
 import CommonLoader from "../Common/CommonLoader/CommonLoader";
 import CommonButton from "../Common/CommonButton/CommonButton";
 import ServiceCard from "./ServiceCard/ServiceCard";
@@ -425,6 +428,12 @@ export default function ServicesBlock() {
 
   /* External Data */
   const { contract, contractId } = useContract();
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("ActiveServices", userRights);
+
+  if (!userPermissions.read) router.push(`/${contractId}`);
+
   const {
     data: channelTypeData,
     loading: channelTypeLoading,
@@ -639,15 +648,21 @@ export default function ServicesBlock() {
             <div className="c-ServicesBlock__Channels">
               {channels && (
                 <>
-                  <ServiceCard label={labels.website} name="hasWebSite" />
+                  <ServiceCard
+                    label={labels.website}
+                    name="hasWebSite"
+                    isDisabled={!userPermissions.update}
+                  />
                   <ServiceCard
                     label={labels.mobileApplication}
                     name="hasWebApp"
+                    isDisabled={!userPermissions.update}
                   />
                   <ServiceCard
                     label={labels.yesWeScan}
                     name="hasYesWeScan"
                     onChange={onHasYesWeScanChange}
+                    isDisabled={!userPermissions.update}
                   />
                 </>
               )}
@@ -666,6 +681,7 @@ export default function ServicesBlock() {
                           label={service.label ?? ""}
                           name={`transversalServices.${index}`}
                           hasDate
+                          isDisabled={!userPermissions.update}
                         />
                       ))}
                       <ServiceCard
@@ -688,6 +704,7 @@ export default function ServicesBlock() {
                           label={service.label ?? ""}
                           name={`editorialServices.${index}`}
                           hasDate
+                          isDisabled={!userPermissions.update}
                         />
                       ))}
                       <ServiceCard
@@ -720,7 +737,7 @@ export default function ServicesBlock() {
                 label={labels.submitButton}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty || !isValid}
+                isDisabled={!isDirty || !isValid || !userPermissions.update}
               />
               <CommonButton
                 type="button"

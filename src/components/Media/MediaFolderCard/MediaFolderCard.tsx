@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import React from "react";
 import MediaUpdateFolderButton from "../MediaUpdateFolderButton/MediaUpdateFolderButton";
-import "./media-folder-card.scss";
 import { IFolder } from "../../../pages/[contractId]/edito/bibliotheque-de-medias/index.page";
+import "./media-folder-card.scss";
 
 interface IMediaFolderCardProps {
   folder: IFolder;

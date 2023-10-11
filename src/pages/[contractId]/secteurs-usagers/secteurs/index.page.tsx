@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import {
   useGetSectorizationsByContractIdLazyQuery,
@@ -9,6 +10,7 @@ import {
   GetSectorizationsByContractIdDocument,
   useUpdateSectorizationByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../lib/user";
 import { removeNulls } from "../../../../lib/utilities";
 import { ICurrentPagination } from "../../../../lib/common-data-table";
 import { ISectorsTableRow } from "../../../../lib/sectors";
@@ -25,6 +27,7 @@ import CommonModalWrapper, {
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import SectorForm from "../../../../components/Sector/SectorForm/SectorForm";
 import "./secteurs.scss";
+import { useUser } from "../../../../hooks/useUser";
 
 interface IFilters extends Record<string, unknown> {
   status?: string;
@@ -72,6 +75,9 @@ export function SectorsPage() {
   ] = useDeleteSectorizationByIdMutation();
 
   /* Local Data */
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Sectorization", userRights);
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
     GetSectorizationsByContractIdQuery | undefined
@@ -96,11 +102,13 @@ export function SectorsPage() {
       id: "name",
       name: tableLabels.columns.sectorTitle,
       selector: (row) => row.name,
-      cell: (row) => (
-        <div onClick={() => onEdit(row)} className="c-SectorsPage__Link">
-          {row.name}
-        </div>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <div onClick={() => onEdit(row)} className="c-SectorsPage__Link">
+              {row.name}
+            </div>
+          )
+        : undefined,
       sortable: true,
       grow: 1,
     },
@@ -117,12 +125,14 @@ export function SectorsPage() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       onClick: () => onEdit(row),
     },
     {
       id: "delete",
       picto: "trash",
       alt: "Supprimer",
+      isDisabled: !userPermissions.delete,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
@@ -311,9 +321,16 @@ export function SectorsPage() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getSectorizationsQuery();
+      if (userPermissions.read) void getSectorizationsQuery();
+      else router.push(`/${contractId}`);
     }
-  }, [getSectorizationsQuery, isInitialized]);
+  }, [
+    contractId,
+    getSectorizationsQuery,
+    isInitialized,
+    router,
+    userPermissions.read,
+  ]);
 
   return (
     <div className="c-SectorsPage">
@@ -323,6 +340,7 @@ export function SectorsPage() {
           label={addButton}
           style="primary"
           picto="add"
+          isDisabled={!userPermissions.create}
           onClick={() => handleStartModal()}
         />
         <CommonModalWrapper

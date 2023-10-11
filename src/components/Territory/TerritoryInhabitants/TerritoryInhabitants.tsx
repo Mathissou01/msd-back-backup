@@ -5,6 +5,8 @@ import {
   useUpdateTerritoryByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
+import { useUser } from "../../../hooks/useUser";
+import { getRightsByLabel } from "../../../lib/user";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import FormInput from "../../Form/FormInput/FormInput";
@@ -54,6 +56,8 @@ export default function TerritoryInhabitants({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Territory", userRights);
   const form = useForm({
     mode: "onChange",
   });
@@ -93,7 +97,7 @@ export default function TerritoryInhabitants({
                 name="nbInhabitants"
                 label={labels.nbInhabitants}
                 isRequired
-                isDisabled={updateTerritoryLoading}
+                isDisabled={updateTerritoryLoading || !userPermissions.update}
                 defaultValue={inhabitants}
                 withoutWheelBehaviour
               />
@@ -104,7 +108,7 @@ export default function TerritoryInhabitants({
                 label={labels.submitButton}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
               <CommonButton
                 type="button"

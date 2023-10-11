@@ -1,19 +1,16 @@
+import type { AppProps } from "next/app";
 import { useState } from "react";
 import { ApolloProvider } from "@apollo/client";
 import client from "../graphql/client";
 import { ContractEntity } from "../graphql/codegen/generated-types";
 import { NavigationContext } from "../hooks/useNavigation";
 import { ContractContext } from "../hooks/useContract";
-import { UserContext } from "../hooks/useUser";
 import { ENavigationPages } from "../lib/navigation";
 import CommonSvgDefs from "../components/Common/CommonSvgDefs/CommonSvgDefs";
-import type { AppProps } from "next/app";
+import UserProvider from "../components/Providers/UserProvider";
 import "../styles/main.scss";
 
 function MsdBackApp({ Component, pageProps }: AppProps) {
-  const [currentHasOtherContracts, setCurrentHasOtherContracts] = useState<
-    boolean | undefined
-  >();
   const [currentContract, setCurrentContract] = useState<ContractEntity>({});
   const [currentContractId, setCurrentContractId] = useState<`${number}`>("0");
   const [currentRoot, setCurrentRoot] = useState<string | null>(null);
@@ -23,12 +20,7 @@ function MsdBackApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={client}>
-      <UserContext.Provider
-        value={{
-          hasOtherContracts: currentHasOtherContracts,
-          setHasOtherContracts: setCurrentHasOtherContracts,
-        }}
-      >
+      <UserProvider>
         <ContractContext.Provider
           value={{
             contract: currentContract,
@@ -52,7 +44,7 @@ function MsdBackApp({ Component, pageProps }: AppProps) {
             </div>
           </NavigationContext.Provider>
         </ContractContext.Provider>
-      </UserContext.Provider>
+      </UserProvider>
     </ApolloProvider>
   );
 }

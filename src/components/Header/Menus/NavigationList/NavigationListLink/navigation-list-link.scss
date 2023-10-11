@@ -24,5 +24,9 @@
     font-family: DINPro-Medium, sans-serif;
     line-height: 21px;
     text-align: left;
+
+    &_disabled {
+      color: colors.$gray-500;
+    }
   }
 }

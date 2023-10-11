@@ -5,6 +5,8 @@ import {
   UpdateMwcContactDocument,
   useGetMwcContactQuery,
 } from "../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../../components/Common/CommonButton/CommonButton";
 import FormInput from "../../Form/FormInput/FormInput";
@@ -58,6 +60,9 @@ const PLACEHOLDER = {
 };
 
 export default function ContactMwc() {
+  /* Local data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Mwc", userRights);
   const form = useForm<ContactFormData>({ mode: "onChange" });
 
   const { handleSubmit, setValue } = form;
@@ -138,6 +143,7 @@ export default function ContactMwc() {
                 name="serviceName"
                 type="text"
                 placeholder={PLACEHOLDER.serviceName}
+                isDisabled={!userPermissions.update}
                 maxLengthValidation={50}
                 lengthHardValidation={false}
                 maxLengthValidationErrorMessage={
@@ -151,6 +157,7 @@ export default function ContactMwc() {
                 name="address"
                 type="text"
                 placeholder={PLACEHOLDER.address}
+                isDisabled={!userPermissions.update}
                 maxLengthValidation={150}
                 lengthHardValidation={false}
                 maxLengthValidationErrorMessage={
@@ -165,6 +172,7 @@ export default function ContactMwc() {
                   name="postalCode"
                   type="text"
                   placeholder={PLACEHOLDER.postalCode}
+                  isDisabled={!userPermissions.update}
                   maxLengthValidation={5}
                   patternValidation={/^[\d+]+$/}
                   lengthHardValidation={false}
@@ -179,6 +187,7 @@ export default function ContactMwc() {
                   name="city"
                   type="text"
                   placeholder={PLACEHOLDER.city}
+                  isDisabled={!userPermissions.update}
                   maxLengthValidation={100}
                   lengthHardValidation={false}
                   maxLengthValidationErrorMessage={ERROR_MESSAGES.invalidCity}
@@ -191,6 +200,7 @@ export default function ContactMwc() {
                 name="email"
                 type="email"
                 placeholder={PLACEHOLDER.email}
+                isDisabled={!userPermissions.update}
                 patternValidation={/^\S+@\S+\.\S+$/}
                 lengthHardValidation={false}
                 patternValidationErrorMessage={ERROR_MESSAGES.invalidEmail}
@@ -202,6 +212,7 @@ export default function ContactMwc() {
                 name="phoneNumber"
                 type="text"
                 placeholder={PLACEHOLDER.phoneNumber}
+                isDisabled={!userPermissions.update}
                 maxLengthValidation={30}
                 patternValidation={/^\d+$/}
                 lengthHardValidation={false}
@@ -224,6 +235,7 @@ export default function ContactMwc() {
           <CommonButton
             style="primary"
             label="Enregistrer les modifications"
+            isDisabled={!userPermissions.update}
             picto="check"
             onClick={() => handleSubmit(handleSave)()}
           />

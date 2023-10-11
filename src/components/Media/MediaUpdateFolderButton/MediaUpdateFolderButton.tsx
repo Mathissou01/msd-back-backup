@@ -10,13 +10,15 @@ import {
   useUpdateUploadFolderByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
+import { getRightsByLabel } from "../../../lib/user";
+import { IFolder } from "../../../pages/[contractId]/edito/bibliotheque-de-medias/index.page";
+import { useUser } from "../../../hooks/useUser";
 import { CommonModalWrapperRef } from "../../Common/CommonModalWrapper/CommonModalWrapper";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormModal from "../../Form/FormModal/FormModal";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../Form/FormMultiselect/FormMultiselect";
 import "./media-update-folder-button.scss";
-import { IFolder } from "../../../pages/[contractId]/edito/bibliotheque-de-medias/index.page";
 
 interface IMediaUpdateFolderButtonProps {
   folder: IFolder;
@@ -166,6 +168,8 @@ export default function MediaUpdateFolderButton({
     });
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Medias", userRights);
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const pathFolderHierarchy =
     folderHierarchy?.getAllFoldersHierarchy
@@ -201,7 +205,7 @@ export default function MediaUpdateFolderButton({
                 name="folderTitle"
                 label={formLabels.titleFolderContent}
                 isRequired={true}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 defaultValue={folder.name}
               />
             </div>
@@ -212,6 +216,7 @@ export default function MediaUpdateFolderButton({
                 displayTransform={folderHierarchyDisplayTransformFunction}
                 options={sortFolderHierarchy(pathFolderHierarchy)}
                 optionKey={"id"}
+                isDisabled={!userPermissions.update}
                 isRequired={true}
                 defaultValue={
                   pathFolderHierarchy.find(

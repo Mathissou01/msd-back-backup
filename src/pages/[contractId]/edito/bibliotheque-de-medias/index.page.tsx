@@ -1,7 +1,11 @@
 import React from "react";
+import { useRouter } from "next/router";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonBibliothequeMedia from "../../../../components/Common/CommonBibliothequeMedia/CommonBibliothequeMedia";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useContract } from "../../../../hooks/useContract";
+import { useUser } from "../../../../hooks/useUser";
 import "./edito-bibliotheque-de-medias.scss";
 
 export interface IFolder {
@@ -24,13 +28,23 @@ export function EditoBibliothequeDeMedias() {
     FolderSectionTitle: "Dossiers",
   };
 
+  const { contractId } = useContract();
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Medias", userRights);
+
+  if (!userPermissions.read) router.push(`/${contractId}`);
+
   return (
     <>
       <PageTitle
         title={formLabels.title}
         description={formLabels.description}
       />
-      <CommonBibliothequeMedia canSelectMultipleFiles canDeleteFiles />
+      <CommonBibliothequeMedia
+        canSelectMultipleFiles
+        canDeleteFiles={userPermissions.delete}
+      />
     </>
   );
 }

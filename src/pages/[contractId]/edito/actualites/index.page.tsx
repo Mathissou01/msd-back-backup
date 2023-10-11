@@ -18,6 +18,8 @@ import {
   IDefaultTableRow,
 } from "../../../../lib/common-data-table";
 import { EStatusLabel } from "../../../../lib/status";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
@@ -90,6 +92,9 @@ export function EditoActualitesPage() {
 
   /* Local Data */
   const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("New", userRights);
+
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
     GetNewsByContractIdQuery | undefined
@@ -120,14 +125,16 @@ export function EditoActualitesPage() {
       id: "title",
       name: tableLabels.columns.title,
       selector: (row) => row.title,
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/edito/actualites/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.title}
-        </Link>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/edito/actualites/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.title}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 4,
     },
@@ -158,12 +165,14 @@ export function EditoActualitesPage() {
       picto: "edit",
       alt: "Modifier",
       href: `${currentRoot}/edito/actualites/${row.id}`,
+      isDisabled: !userPermissions.update,
     },
     {
       id: "duplicate",
       picto: "fileDouble",
       alt: "Dupliquer",
       onClick: () => onDuplicate(row),
+      isDisabled: !userPermissions.create,
     },
     {
       id: "delete",
@@ -173,6 +182,7 @@ export function EditoActualitesPage() {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
       },
+      isDisabled: !userPermissions.delete,
     },
   ];
 
@@ -295,9 +305,12 @@ export function EditoActualitesPage() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getNewsQuery();
+      if (userPermissions.read) void getNewsQuery();
+      else {
+        router.push(`/${contractId}`);
+      }
     }
-  }, [getNewsQuery, isInitialized]);
+  }, [contractId, getNewsQuery, isInitialized, router, userPermissions.read]);
 
   return (
     <div className="o-TablePage">
@@ -308,6 +321,7 @@ export function EditoActualitesPage() {
           style="primary"
           picto="add"
           onClick={() => router.push(`${currentRoot}/edito/actualites/create`)}
+          isDisabled={!userPermissions.create}
         />
       </div>
       <h2 className="o-TablePage__Title">{tableLabels.title}</h2>

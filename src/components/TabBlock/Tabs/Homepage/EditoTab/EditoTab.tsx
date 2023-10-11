@@ -15,6 +15,8 @@ import {
 } from "../../../../../lib/utilities";
 import { extractEditoBlock } from "../../../../../lib/graphql-data";
 import { TEditorialContentTypes } from "../../../../../lib/editorial";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 import { useContract } from "../../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../../hooks/useFocusFirstElement";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
@@ -140,6 +142,8 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
   }
 
   /* External Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Homepage", userRights);
   const { contractId } = useContract();
   const getEditoBlockTabVariables: {
     contractId: string;
@@ -238,13 +242,14 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
               <FormCheckbox
                 name="displayBlock"
                 label={formLabels.displayBlock}
+                isDisabled={!userPermissions.update}
               />
               <FormInput
                 type="text"
                 name="titleContent"
                 label={formLabels.titleContent}
                 isRequired={true}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 defaultValue={editoData?.titleContent}
               />
             </div>
@@ -259,13 +264,14 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
                 buttonLabel={formLabels.editoContentsButton}
                 modalTitle={formLabels.editoContentsModal}
                 onModalSubmit={onContentModalSubmit}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 isRequired={true}
               >
                 <FormMultiselect<EditoContentDto>
                   name="editoContentsSelect"
                   label={formLabels.editoContentsModalType}
                   displayTransform={editoContentSelectDisplayTransformFunction}
+                  isDisabled={!userPermissions.update}
                   options={editoContents}
                   selectAmount={3}
                   optionKey={"uniqueId"}
@@ -279,7 +285,7 @@ export default function EditoTab({ activatedTypes, audience }: IEditoTabProps) {
                 label={submitButtonLabel}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
               <CommonButton
                 type="button"

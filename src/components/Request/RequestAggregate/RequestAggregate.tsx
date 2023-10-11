@@ -8,13 +8,16 @@ import {
   useGetRequestAggregatesByContractIdLazyQuery,
   useUpdateRequestAggregateByIdMutation,
 } from "../../../graphql/codegen/generated-types";
-import { useContract } from "../../../hooks/useContract";
 import {
   ICommonDataTableValidation,
   ICurrentPagination,
   IDefaultTableRow,
 } from "../../../lib/common-data-table";
 import { removeNulls } from "../../../lib/utilities";
+import { getRightsByLabel } from "../../../lib/user";
+import { useRouter } from "next/router";
+import { useUser } from "../../../hooks/useUser";
+import { useContract } from "../../../hooks/useContract";
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../Common/CommonModalWrapper/CommonModalWrapper";
@@ -202,6 +205,7 @@ export default function RequestAggregate() {
   }
 
   /* External Data */
+  const router = useRouter();
   const { contractId } = useContract();
   const defaultPage = 1;
   const defaultRowsPerPage = 30;
@@ -236,6 +240,8 @@ export default function RequestAggregate() {
   ] = useDeleteRequestAggregateByIdMutation();
 
   /* Local data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Request", userRights);
   const isInitialized = useRef(false);
   const [isUpdatingData, setIsUpdatingData] = useState(false);
   const inputRefs = useRef<Array<React.RefObject<HTMLInputElement>>>([]);
@@ -279,14 +285,16 @@ export default function RequestAggregate() {
       id: "name",
       name: label.columns.name,
       selector: (row) => row.name,
-      cell: (row, rowIndex) => (
-        <DataTableInput
-          ref={getRef(rowIndex)}
-          isEditState={row.editState}
-          data={row.name}
-          maxLengthValidation={maxLength}
-        />
-      ),
+      cell: userPermissions.update
+        ? (row, rowIndex) => (
+            <DataTableInput
+              ref={getRef(rowIndex)}
+              isEditState={row.editState}
+              data={row.name}
+              maxLengthValidation={maxLength}
+            />
+          )
+        : undefined,
       sortable: true,
     },
   ];
@@ -298,6 +306,7 @@ export default function RequestAggregate() {
     {
       id: "edit",
       picto: "edit",
+      isDisabled: !userPermissions.update,
       alt: "Modifier",
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
@@ -309,6 +318,7 @@ export default function RequestAggregate() {
     {
       id: "delete",
       picto: "trash",
+      isDisabled: !userPermissions.delete,
       alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => {
@@ -359,9 +369,18 @@ export default function RequestAggregate() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getRequestAggregates();
+      if (userPermissions.read) void getRequestAggregates();
+      else {
+        router.push(`/${contractId}`);
+      }
     }
-  }, [getRequestAggregates, isInitialized]);
+  }, [
+    contractId,
+    getRequestAggregates,
+    isInitialized,
+    router,
+    userPermissions.read,
+  ]);
 
   return (
     <div className="c-RequestAggregate">
@@ -402,7 +421,9 @@ export default function RequestAggregate() {
             maxLengthValidation={maxLength}
             minLengthValidation={1}
             validationLabel={`${maxLength} ${label.addRow.maxCharactersLabel}`}
-            isDisabled={createRequestAggregateLoading}
+            isDisabled={
+              createRequestAggregateLoading || !userPermissions.create
+            }
             flexStyle="row"
             labelStyle="table"
           />

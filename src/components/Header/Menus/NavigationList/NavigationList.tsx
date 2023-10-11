@@ -128,10 +128,10 @@ export default function NavigationList() {
             onClick={handleClickMenu}
           >
             {services.newsService.isActivated && (
-              <NavigationListLink path={"/edito/actualites"} />
+              <NavigationListLink path={"/edito/actualites"} entityName="New" />
             )}
             {services.tipService.isActivated && (
-              <NavigationListLink path={"/edito/astuces"} />
+              <NavigationListLink path={"/edito/astuces"} entityName="Tip" />
             )}
             {/* TODO: When the Event page is ready, we can uncomment the next line! */}
             {/* {services.eventService.isActivated && <NavigationListLink path={"/edito/evenements"} />} */}
@@ -146,6 +146,7 @@ export default function NavigationList() {
                       key={index}
                       path={`/edito/contenu-libre/${freeContentSubService.id}`}
                       label={freeContentSubService.attributes.name}
+                      entityName="FreeContent"
                     />
                   );
                 }
@@ -153,15 +154,33 @@ export default function NavigationList() {
             {/* TODO: When the Quiz page is ready, we can uncomment the next line! */}
             {/* {services.quizService.isActivated && <NavigationListLink path={"/edito/quiz"} />} */}
             {/*<NavigationListLink path={"/edito/chiffres-cles"} />*/}
-            <NavigationListLink path={"/edito/bibliotheque-de-medias"} />
-            <NavigationListLink path={"/edito/thematiques"} />
-            <NavigationListLink path={"/edito/type-contenu"} />
+            <NavigationListLink
+              path={"/edito/bibliotheque-de-medias"}
+              entityName="Medias"
+            />
+            <NavigationListLink path={"/edito/thematiques"} entityName="Tag" />
+            <NavigationListLink
+              path={"/edito/type-contenu"}
+              entityName="ContentType"
+            />
             {/*<NavigationListLink path={"/edito/accessibilite"} />*/}
-            <NavigationListLink path={"/edito/conditions-generales"} />
-            <NavigationListLink path={"/edito/politique-cookies"} />
-            <NavigationListLink path={"/edito/confidentialite"} />
+            <NavigationListLink
+              path={"/edito/conditions-generales"}
+              entityName="Cgu"
+            />
+            <NavigationListLink
+              path={"/edito/politique-cookies"}
+              entityName="Cookie"
+            />
+            <NavigationListLink
+              path={"/edito/confidentialite"}
+              entityName="Confidentiality"
+            />
             {services.contactUsService.isActivated && (
-              <NavigationListLink path={"/edito/contact"} />
+              <NavigationListLink
+                path={"/edito/contact"}
+                entityName="ContactUs"
+              />
             )}
           </NavigationListMenu>
         </li>
@@ -174,23 +193,41 @@ export default function NavigationList() {
           onClick={handleClickMenu}
         >
           {services.dropOffMapService.isActivated && (
-            <NavigationListLink path={"/services/carte"} />
+            <NavigationListLink
+              path={"/services/carte"}
+              entityName="DropOffMap"
+            />
           )}
           {services.recyclingGuideService.isActivated && (
-            <NavigationListLink path={"/services/guide-tri"} />
+            <NavigationListLink
+              path={"/services/guide-tri"}
+              entityName="RecyclingGuide"
+            />
           )}
-          <NavigationListLink path={"/services/mon-compteur-dechets"} />
+          <NavigationListLink
+            path={"/services/mon-compteur-dechets"}
+            entityName="Mwc"
+          />
           {services.pickUpDayService.isActivated && (
-            <NavigationListLink path={"/services/jour-collecte"} />
+            <NavigationListLink
+              path={"/services/jour-collecte"}
+              entityName="PickUpDay"
+            />
           )}
           {services.requestService.isActivated && (
-            <NavigationListLink path={"/services/demandes"} />
+            <NavigationListLink
+              path={"/services/demandes"}
+              entityName="Request"
+            />
           )}
           {services.yesWeScanService.isActivated && (
-            <NavigationListLink path={"/services/yeswescan"} />
+            <NavigationListLink path={"/services/yeswescan"} entityName="Yws" />
           )}
           {services.alertNotificationService.isActivated && (
-            <NavigationListLink path={"/services/alertes"} />
+            <NavigationListLink
+              path={"/services/alertes"}
+              entityName="AlertNotification"
+            />
           )}
         </NavigationListMenu>
       </li>
@@ -201,10 +238,22 @@ export default function NavigationList() {
           picto="appWindowSettings"
           onClick={handleClickMenu}
         >
-          <NavigationListLink path={"/personnalisation/couleurs"} />
-          <NavigationListLink path={"/personnalisation/menu"} />
-          <NavigationListLink path={"/personnalisation/accueil"} />
-          <NavigationListLink path={"/personnalisation/footer"} />
+          <NavigationListLink
+            path={"/personnalisation/couleurs"}
+            entityName="ContractCustomization"
+          />
+          <NavigationListLink
+            path={"/personnalisation/menu"}
+            entityName="ContractMenu"
+          />
+          <NavigationListLink
+            path={"/personnalisation/accueil"}
+            entityName="Homepage"
+          />
+          <NavigationListLink
+            path={"/personnalisation/footer"}
+            entityName="Footer"
+          />
           {/*<NavigationListLink path={"/personnalisation/types-conteneurs"} />*/}
           {/*<NavigationListLink path={"/personnalisation/types-apport"} />*/}
         </NavigationListMenu>
@@ -216,8 +265,14 @@ export default function NavigationList() {
           picto="pin"
           onClick={handleClickMenu}
         >
-          <NavigationListLink path={"/secteurs-usagers/secteurs"} />
-          <NavigationListLink path={"/secteurs-usagers/usagers"} />
+          <NavigationListLink
+            path={"/secteurs-usagers/secteurs"}
+            entityName="Sectorization"
+          />
+          <NavigationListLink
+            path={"/secteurs-usagers/usagers"}
+            entityName="Audience"
+          />
         </NavigationListMenu>
       </li>
       <li className="c-NavigationList__Item">
@@ -227,11 +282,23 @@ export default function NavigationList() {
           picto="bank"
           onClick={handleClickMenu}
         >
-          <NavigationListLink path={"/gestion/informations"} />
-          <NavigationListLink path={"/gestion/territoire"} />
-          <NavigationListLink path={"/gestion/flux"} />
-          <NavigationListLink path={"/gestion/services"} />
-          <NavigationListLink path={"/gestion/utilisateurs"} />
+          <NavigationListLink
+            path={"/gestion/informations"}
+            entityName="Contract"
+          />
+          <NavigationListLink
+            path={"/gestion/territoire"}
+            entityName="Territory"
+          />
+          <NavigationListLink path={"/gestion/flux"} entityName="Flow" />
+          <NavigationListLink
+            path={"/gestion/services"}
+            entityName="ActiveServices"
+          />
+          <NavigationListLink
+            path={"/gestion/utilisateurs"}
+            entityName="User"
+          />
         </NavigationListMenu>
       </li>
       {/*<li className="c-NavigationList__Item">*/}

@@ -8,6 +8,8 @@ import {
   useUpdateContractInformationsMutation,
 } from "../../../graphql/codegen/generated-types";
 import { IInformationContractLabels } from "../../../lib/informations";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import PageTitle from "../../PageTitle/PageTitle";
 import FormInput from "../../Form/FormInput/FormInput";
@@ -164,6 +166,10 @@ export default function EditInformationContract({
     }
   }
 
+  const { userRights } = useUser();
+  const userContactPermissions = getRightsByLabel("ClientContact", userRights);
+  const userContractPermissions = getRightsByLabel("Contract", userRights);
+
   const form = useForm<IContractInformationsFields>({
     defaultValues: contractData,
   });
@@ -190,12 +196,14 @@ export default function EditInformationContract({
                 name="clientName"
                 label={labels.clientName}
                 isRequired
+                isDisabled={!userContractPermissions.update}
               />
               <FormInput
                 name="siret"
                 label={labels.siret}
                 type="text"
                 patternValidation={/\d{14}/g}
+                isDisabled={!userContractPermissions.update}
               />
               <FormSelect<Enum_Contract_Contractstatus>
                 name="contractStatus"
@@ -204,6 +212,7 @@ export default function EditInformationContract({
                   contractData.contractStatus,
                 )}
                 isRequired
+                isDisabled={!userContractPermissions.update}
               />
             </div>
             <FormRadioInput
@@ -211,14 +220,14 @@ export default function EditInformationContract({
               displayName={labels.isNonExclusive}
               defaultValue={contractData.isNonExclusive.toString()}
               options={clientIsNonExclusiveOptions}
-              isDisabled
+              isDisabled={!userContractPermissions.update}
             />
             <FormRadioInput
               name="clientType"
               defaultValue={contractData.clientType}
               displayName={labels.clientType}
               options={clientTypeOptions}
-              isDisabled
+              isDisabled={!userContractPermissions.update}
             />
           </div>
           <h2>{labels.contactData}</h2>
@@ -228,11 +237,13 @@ export default function EditInformationContract({
                 name="clientContact.data.attributes.firstName"
                 label={formLabels.contactData.firstname}
                 isRequired
+                isDisabled={!userContactPermissions.update}
               />
               <FormInput
                 name="clientContact.data.attributes.lastName"
                 label={formLabels.contactData.lastname}
                 isRequired
+                isDisabled={!userContactPermissions.update}
               />
             </div>
             <div className="c-EditInformationContract__Row">
@@ -241,12 +252,14 @@ export default function EditInformationContract({
                 type="email"
                 label={formLabels.contactData.email}
                 isRequired
+                isDisabled={!userContactPermissions.update}
               />
               <FormInput
                 name="clientContact.data.attributes.phoneNumber"
                 type="tel"
                 label={formLabels.contactData.phoneNumber}
                 isRequired
+                isDisabled={!userContactPermissions.update}
               />
             </div>
           </div>
@@ -254,8 +267,16 @@ export default function EditInformationContract({
           <div className="c-EditInformationContract__SuezData">
             <FormCheckbox name="isRVFrance" label={labels.isRVFrance} />
             <div>
-              <FormInput name="ccap" label={labels.ccap} />
-              <FormInput name="clear" label={labels.clear} />
+              <FormInput
+                name="ccap"
+                label={labels.ccap}
+                isDisabled={!userContractPermissions.update}
+              />
+              <FormInput
+                name="clear"
+                label={labels.clear}
+                isDisabled={!userContractPermissions.update}
+              />
             </div>
           </div>
           <div className="c-EditInformationContract__GroupButtons">
@@ -263,7 +284,9 @@ export default function EditInformationContract({
               label={formLabels.groupButtons.save}
               type="submit"
               style="primary"
-              isDisabled={!form.formState.isDirty}
+              isDisabled={
+                !form.formState.isDirty || !userContractPermissions.update
+              }
             />
             <CommonButton
               label={formLabels.groupButtons.cancel}

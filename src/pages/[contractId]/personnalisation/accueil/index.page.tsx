@@ -8,6 +8,8 @@ import {
 import { removeNulls } from "../../../../lib/utilities";
 import { isServiceActive } from "../../../../lib/contract";
 import { TEditorialContentTypes } from "../../../../lib/editorial";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
@@ -81,15 +83,88 @@ export function PersonnalisationAccueilPage() {
 
   /* Local Data */
   const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Homepage", userRights);
+
+  if (!userPermissions.read) router.push(`/${contractId}`);
+
   const [serviceParameters, setServiceParameters] =
     useState<IServiceParameters>();
-  const [tabs, setTabs] = useState<Array<ITab>>([]);
   const [defaultTab, setDefaultTab] = useState<string>(
     welcomeAndSearchEngineTabName,
   );
   const [audience, setAudience] = useState<AudienceEntity>();
   const isLoading = loading || loadingAudiences;
   const errors = [error, errorAudiences];
+
+  const tabs: Array<ITab> = [
+    {
+      name: "welcomeAndSearchEngine",
+      title: "Message et moteur de recherche",
+      content: <WelcomeAndSearchEngineTab />,
+      isEnabled: true,
+    },
+    {
+      name: "recyclingGuide",
+      title: "Guide du Tri",
+      content: <RecyclingGuideTab />,
+      isEnabled: serviceParameters?.isServiceRecyclingGuideActivated ?? false,
+    },
+    {
+      name: "services",
+      title: "Services",
+      content: <ServiceTab audience={audience} />,
+      isEnabled: true,
+    },
+    {
+      name: "keyMetrics",
+      title: "Chiffres clés",
+      content: <div />,
+      isEnabled: false,
+    },
+    {
+      name: "topContent",
+      title: "À la une",
+      content: <TopContentTab audience={audience} />,
+      isEnabled: serviceParameters?.isNewsActivated ?? false,
+    },
+    {
+      name: "quizAndTips",
+      title: "Quiz & Astuces",
+      content: <QuizAndTipsTab audience={audience} />,
+      isEnabled: serviceParameters?.isTipsActivated ?? false,
+    },
+    {
+      name: "edito",
+      title: "Bloc Édito",
+      content: (
+        <EditoTab
+          activatedTypes={[
+            serviceParameters?.isTipsActivated
+              ? ("tip" as TEditorialContentTypes)
+              : null,
+            serviceParameters?.isEventsActivated
+              ? ("event" as TEditorialContentTypes)
+              : null,
+            serviceParameters?.isNewsActivated
+              ? ("new" as TEditorialContentTypes)
+              : null,
+            serviceParameters?.hasFreeContentsActivated
+              ? ("free-content" as TEditorialContentTypes)
+              : null,
+          ].filter(removeNulls)}
+          audience={audience}
+        />
+      ),
+      isEnabled:
+        (serviceParameters?.isQuizActivated ||
+          serviceParameters?.isTipsActivated ||
+          serviceParameters?.isEventsActivated ||
+          serviceParameters?.isNewsActivated ||
+          serviceParameters?.hasFreeContentsActivated) ??
+        false,
+    },
+  ];
 
   useEffect(() => {
     if (data) {
@@ -139,79 +214,6 @@ export function PersonnalisationAccueilPage() {
       });
     }
   }, [data]);
-
-  useEffect(() => {
-    if (serviceParameters) {
-      const tabs = [
-        {
-          name: "welcomeAndSearchEngine",
-          title: "Message et moteur de recherche",
-          content: <WelcomeAndSearchEngineTab />,
-          isEnabled: true,
-        },
-        {
-          name: "recyclingGuide",
-          title: "Guide du Tri",
-          content: <RecyclingGuideTab />,
-          isEnabled: serviceParameters.isServiceRecyclingGuideActivated,
-        },
-        {
-          name: "services",
-          title: "Services",
-          content: <ServiceTab audience={audience} />,
-          isEnabled: true,
-        },
-        {
-          name: "keyMetrics",
-          title: "Chiffres clés",
-          content: <div />,
-          isEnabled: false,
-        },
-        {
-          name: "topContent",
-          title: "À la une",
-          content: <TopContentTab audience={audience} />,
-          isEnabled: serviceParameters.isNewsActivated,
-        },
-        {
-          name: "quizAndTips",
-          title: "Quiz & Astuces",
-          content: <QuizAndTipsTab audience={audience} />,
-          isEnabled: serviceParameters.isTipsActivated,
-        },
-        {
-          name: "edito",
-          title: "Bloc Édito",
-          content: (
-            <EditoTab
-              activatedTypes={[
-                serviceParameters.isTipsActivated
-                  ? ("tip" as TEditorialContentTypes)
-                  : null,
-                serviceParameters.isEventsActivated
-                  ? ("event" as TEditorialContentTypes)
-                  : null,
-                serviceParameters.isNewsActivated
-                  ? ("new" as TEditorialContentTypes)
-                  : null,
-                serviceParameters.hasFreeContentsActivated
-                  ? ("free-content" as TEditorialContentTypes)
-                  : null,
-              ].filter(removeNulls)}
-              audience={audience}
-            />
-          ),
-          isEnabled:
-            serviceParameters.isQuizActivated ||
-            serviceParameters.isTipsActivated ||
-            serviceParameters.isEventsActivated ||
-            serviceParameters.isNewsActivated ||
-            serviceParameters.hasFreeContentsActivated,
-        },
-      ];
-      setTabs(tabs);
-    }
-  }, [serviceParameters, audience]);
 
   useEffect(() => {
     if (dataAudiences?.audiences?.data) {

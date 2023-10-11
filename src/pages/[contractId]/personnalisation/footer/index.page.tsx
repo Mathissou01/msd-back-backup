@@ -1,6 +1,9 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import {
   Enum_Footer_Accessibilitylevel,
   GetFooterByContractIdDocument,
@@ -106,6 +109,11 @@ export function PersonnalisationFooterPage() {
     useUpdateFooterPageByIdAndContactUsSubServiceIdMutation();
 
   /* Local Data */
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Footer", userRights);
+
+  if (!userPermissions.read) router.push(`/${contractId}`);
   const [footerData, setFooterData] = useState<IFooterData>();
   const formValidationMode = "onChange";
   const form = useForm({
@@ -172,6 +180,7 @@ export function PersonnalisationFooterPage() {
                   <FormCheckbox
                     name="displayLink"
                     label={formLabels.linkToClient.textdisplayClientLink}
+                    isDisabled={!userPermissions.update}
                   />
                   {linkToClientWatched && (
                     <>
@@ -184,6 +193,7 @@ export function PersonnalisationFooterPage() {
                             label={"Texte du lien"}
                             defaultValue={footerData?.linkName}
                             isRequired
+                            isDisabled={!userPermissions.update}
                           />
                         </div>
                         <FormInput
@@ -195,6 +205,7 @@ export function PersonnalisationFooterPage() {
                           patternValidation={externalLinkRegex}
                           patternValidationErrorMessage={externalLintMsgError}
                           isRequired
+                          isDisabled={!userPermissions.update}
                         />
                       </div>
                     </>
@@ -224,6 +235,7 @@ export function PersonnalisationFooterPage() {
                       },
                     ]}
                     defaultValue={footerData?.accessibilityLevel.toString()}
+                    isDisabled={!userPermissions.update}
                   />
                 </div>
               </div>
@@ -238,7 +250,7 @@ export function PersonnalisationFooterPage() {
                       name="contactUsSubService.label"
                       label={formLabels.contactUsLabel}
                       isRequired={true}
-                      isDisabled={mutationLoading}
+                      isDisabled={mutationLoading || !userPermissions.update}
                       defaultValue={footerData.contactUsSubService?.label}
                     />
                     <FormInput
@@ -246,7 +258,7 @@ export function PersonnalisationFooterPage() {
                       name="contactUsSubService.link"
                       label={formLabels.contactUsLink}
                       isRequired={false}
-                      isDisabled={mutationLoading}
+                      isDisabled={mutationLoading || !userPermissions.update}
                       defaultValue={footerData.contactUsSubService?.link}
                     />
                   </div>
@@ -258,7 +270,7 @@ export function PersonnalisationFooterPage() {
                   label={formLabels.submitButtonLabel}
                   style="primary"
                   picto="check"
-                  isDisabled={!isDirty}
+                  isDisabled={!isDirty || !userPermissions.update}
                 />
                 <CommonButton
                   type="button"

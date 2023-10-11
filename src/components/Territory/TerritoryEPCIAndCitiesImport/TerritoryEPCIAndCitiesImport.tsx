@@ -7,6 +7,8 @@ import {
 import CommonModalWrapper, {
   CommonModalWrapperRef,
 } from "../../Common/CommonModalWrapper/CommonModalWrapper";
+import { useUser } from "../../../hooks/useUser";
+import { getRightsByLabel } from "../../../lib/user";
 import CommonLoader from "../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import "./territory-epci-and-cities-import.scss";
@@ -152,6 +154,8 @@ export default function TerritoryEPCIAndCitiesImport({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Territory", userRights);
   const inputRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const [importSuccessMessage, setImportSuccessMessage] = useState<string>("");
@@ -191,6 +195,7 @@ export default function TerritoryEPCIAndCitiesImport({
             type="button"
             style="primary"
             label={labels.chooseFile}
+            isDisabled={!userPermissions.update}
             onClick={() => inputRef.current?.click()}
           />
         </div>

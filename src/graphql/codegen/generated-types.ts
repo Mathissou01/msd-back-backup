@@ -18720,6 +18720,7 @@ export const GetContractsDocument = gql`
  * @example
  * const { data, loading, error } = useGetContractsQuery({
  *   variables: {
+ *      userContractIds: // value for 'userContractIds'
  *   },
  * });
  */

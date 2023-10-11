@@ -5,6 +5,8 @@ import {
   useUpdateMwcHasTipsMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
+import { useUser } from "../../../hooks/useUser";
+import { getRightsByLabel } from "../../../lib/user";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import "./has-tips-management.scss";
@@ -42,6 +44,8 @@ export default function HasTipsManagement() {
   const hasTips =
     data?.mwCounterServices?.data[0]?.attributes?.hasTips || false;
 
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Mwc", userRights);
   const form = useForm({
     defaultValues: {
       hasTips: hasTips,
@@ -73,7 +77,11 @@ export default function HasTipsManagement() {
       >
         <div className="c-HasTipsManagement__FormWrapper">
           <p className="c-HasTipsManagement__Title">{title}</p>
-          <FormCheckbox name="hasTips" label={label.tipsText} />
+          <FormCheckbox
+            name="hasTips"
+            label={label.tipsText}
+            isDisabled={!userPermissions.update}
+          />
         </div>
         <div className="c-HasTipsManagement__ButtonWrapper">
           <CommonButton
@@ -85,7 +93,12 @@ export default function HasTipsManagement() {
               })
             }
           />
-          <CommonButton label={label.save} type="submit" style="primary" />
+          <CommonButton
+            label={label.save}
+            type="submit"
+            isDisabled={!userPermissions.update}
+            style="primary"
+          />
         </div>
       </form>
     </FormProvider>

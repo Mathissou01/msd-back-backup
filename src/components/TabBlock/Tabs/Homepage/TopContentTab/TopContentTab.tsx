@@ -11,6 +11,8 @@ import {
 } from "../../../../../graphql/codegen/generated-types";
 import { extractTopContentBlock } from "../../../../../lib/graphql-data";
 import { formatDate } from "../../../../../lib/utilities";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 import { useContract } from "../../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../../hooks/useFocusFirstElement";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
@@ -167,6 +169,8 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
   });
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Homepage", userRights);
   const [isInitialized, setIsInitialized] = useState(false);
   const [topContentData, setTopContentData] = useState<ITopContentBlock>();
   const [allTopContents, setAllTopContents] = useState<Array<EditoContentDto>>(
@@ -234,13 +238,14 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
               <FormCheckbox
                 name="displayBlock"
                 label={formLabels.displayBlock}
+                isDisabled={!userPermissions.update}
               />
               <FormInput
                 type="text"
                 name="titleContent"
                 label={formLabels.titleContent}
                 isRequired={true}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 defaultValue={topContentData?.titleContent}
               />
             </div>
@@ -248,6 +253,7 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
               <FormCheckbox
                 name="hasTopContent"
                 label={formLabels.hasTopContent}
+                isDisabled={!userPermissions.update}
               />
               <FormModalButtonInput<EditoContentDto, ITopContentModalFields>
                 name="topContent"
@@ -258,7 +264,7 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
                 onModalSubmit={onTopContentModalSubmit}
                 isRequired={true}
                 modalHasRequiredChildren="all"
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 defaultValue={data?.getTopContentBlockDTO?.topContent}
               >
                 <div className="c-TopContentTab__Group">
@@ -272,6 +278,7 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
                     defaultValue={watch("topContent")?.contentType ?? "new"}
                     isRequired={true}
                     onChange={onTopContentModalRadioChange}
+                    isDisabled={!userPermissions.update}
                   />
                 </div>
                 <div className="c-TopContentTab__Group">
@@ -279,6 +286,7 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
                     name="topContentSelect"
                     label={formLabels.topContentModalType}
                     displayTransform={topContentSelectDisplayTransformFunction}
+                    isDisabled={!userPermissions.update}
                     options={currentTopContents}
                     optionKey={"id"}
                     defaultValue={watch("topContent")}
@@ -291,6 +299,7 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
               <FormCheckbox
                 name="displayLastThreeContents"
                 label={formLabels.displayLastThreeContents}
+                isDisabled={!userPermissions.update}
               />
             </div>
             <div className="c-TopContentTab__Buttons">
@@ -299,7 +308,7 @@ export default function TopContentTab({ audience }: ITopContentTabProps) {
                 label={submitButtonLabel}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
               <CommonButton
                 type="button"

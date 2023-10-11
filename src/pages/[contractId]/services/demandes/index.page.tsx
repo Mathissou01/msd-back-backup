@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useContract } from "../../../../hooks/useContract";
+import { useUser } from "../../../../hooks/useUser";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import TabBlock, { ITab } from "../../../../components/TabBlock/TabBlock";
@@ -27,6 +30,12 @@ export function RequestsPage() {
 
   /* Local Data */
   const router = useRouter();
+  const { contractId } = useContract();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Request", userRights);
+
+  if (!userPermissions.read) router.push(`/${contractId}`);
+
   const tabs: ITab[] = [
     {
       name: "requestList",

@@ -23,6 +23,8 @@ import { IOptionWrapper } from "../Form/FormMultiselect/FormMultiselect";
 import CommonButton from "../Common/CommonButton/CommonButton";
 import CommonLoader from "../Common/CommonLoader/CommonLoader";
 import YesWeScanReportingFormCheckboxes from "./YesWeScanReportingFormCheckboxes/YesWeScanReportingFormCheckboxes";
+import { getRightsByLabel } from "../../lib/user";
+import { useUser } from "../../hooks/useUser";
 
 interface IYesWeScanReportingFormProps {
   ywsServiceId: string;
@@ -157,6 +159,8 @@ export default function YesWeScanReportingForm({
   }
 
   /* Local data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Yws", userRights);
   const { currentRoot } = useNavigation();
   const form = useForm<IYesWeScanFormFields>({
     mode: "onChange",
@@ -218,6 +222,7 @@ export default function YesWeScanReportingForm({
               <FormInput
                 name="reportButtons"
                 isRequired
+                isDisabled={!userPermissions.update}
                 label={labels.reportingButtons.title}
                 informationLabel={labels.reportingButtons.information}
                 patternValidation={/^[a-zA-Z0-9 ]+(;[a-zA-Z0-9 ]+)*$/i}
@@ -232,6 +237,7 @@ export default function YesWeScanReportingForm({
                 label={labels.photoStatus.title}
                 options={photoStatusOptions}
                 isRequired
+                isDisabled={!userPermissions.update}
               />
             </div>
             <FormWysiwyg
@@ -240,11 +246,13 @@ export default function YesWeScanReportingForm({
               label={labels.thankYouMessage}
               editorOptions={{ ...minimalWysiwygEditorOptions, height: 150 }}
               isRequired
+              isDisabled={!userPermissions.update}
             />
             <div className="c-YesWeScanServiceReportingTabReportingForm__DisplayButtonContainer">
               <FormRadioInput
                 name="displayEndingButton"
                 displayName={labels.displayButton.title}
+                isDisabled={!userPermissions.update}
                 options={[
                   {
                     value: "1",
@@ -265,6 +273,7 @@ export default function YesWeScanReportingForm({
                     label={labels.displayButton.introductionPhrase}
                     maxLengthValidation={introdutionPhraseMaxLength}
                     validationLabel={`${introdutionPhraseMaxLength} ${labels.maxCharacters}`}
+                    isDisabled={!userPermissions.update}
                   />
                   <div className="c-YesWeScanServiceReportingTabReportingForm__DisplayButtonShortField">
                     <FormInput
@@ -274,6 +283,7 @@ export default function YesWeScanReportingForm({
                       maxLengthValidation={buttonLabelMaxLength}
                       validationLabel={`${buttonLabelMaxLength} ${labels.maxCharacters}`}
                       isRequired
+                      isDisabled={!userPermissions.update}
                     />
                   </div>
                   <FormInput
@@ -281,6 +291,7 @@ export default function YesWeScanReportingForm({
                     defaultValue={getValues("endingButtonLabel") ?? ""}
                     label={labels.displayButton.buttonLink}
                     isRequired
+                    isDisabled={!userPermissions.update}
                   />
                 </div>
               )}
@@ -292,7 +303,7 @@ export default function YesWeScanReportingForm({
                 label={labels.submitButton}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty || !isValid}
+                isDisabled={!isDirty || !isValid || !userPermissions.update}
               />
               <CommonButton
                 type="button"

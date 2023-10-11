@@ -1,5 +1,8 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContract } from "../../../hooks/useContract";
+import { useUser } from "../../../hooks/useUser";
+import { getRightsByLabel } from "../../../lib/user";
 import "./requests-history.scss";
 
 export default function RequestsHistory() {
@@ -10,8 +13,13 @@ export default function RequestsHistory() {
   };
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Request", userRights);
+  const router = useRouter();
   const { contractId } = useContract();
   const historicUrl = `${process.env.NEXT_PUBLIC_API_URL}/export/${contractId}/requestHistoric`;
+
+  if (!userPermissions.read) router.push(`/${contractId}`);
 
   return (
     <div className="c-RequestsHistory">

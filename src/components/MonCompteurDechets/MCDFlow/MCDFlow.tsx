@@ -8,6 +8,7 @@ import { useContract } from "../../../hooks/useContract";
 import CommonSelectFlow from "./CommonSelectFlow/CommonSelectFlow";
 import MCDFlowForm from "./MCDFlowForm/MCDFlowForm";
 import "./MCD-flow.scss";
+
 export interface ISelectFlowData {
   id: string;
   name: string;
@@ -18,6 +19,7 @@ const labels = {
 };
 
 export default function Flow() {
+  /* Local data */
   const isInitialized = useRef(false);
   const { contractId } = useContract();
 

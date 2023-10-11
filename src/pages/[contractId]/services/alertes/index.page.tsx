@@ -1,7 +1,6 @@
+import { TableColumn } from "react-data-table-component";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { useContract } from "../../../../hooks/useContract";
-import { useNavigation } from "../../../../hooks/useNavigation";
 import Link from "next/link";
 import { add, addHours, format, parseISO } from "date-fns";
 import {
@@ -9,13 +8,16 @@ import {
   IDefaultTableRow,
 } from "../../../../lib/common-data-table";
 import { removeNulls } from "../../../../lib/utilities";
-import { TableColumn } from "react-data-table-component";
 import {
   GetAlertNotificationsByContractIdQuery,
   GetAlertNotificationsByContractIdQueryVariables,
   useDeleteAlertNotificationByIdMutation,
   useGetAlertNotificationsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useContract } from "../../../../hooks/useContract";
+import { useNavigation } from "../../../../hooks/useNavigation";
+import { useUser } from "../../../../hooks/useUser";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
@@ -88,6 +90,8 @@ export function AlertsPage() {
   const { contractId } = useContract();
   const { currentRoot } = useNavigation();
   const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("AlertNotification", userRights);
   const isInitialized = useRef(false);
   const [tableData, setTableData] = useState<Array<IAlertsTableRow>>([]);
   const [filters, setFilters] = useState<IFilters>({});
@@ -176,14 +180,16 @@ export function AlertsPage() {
       id: "alertDescription",
       name: tableLabels.columns.alertDescription,
       selector: (row) => row.alertDescription,
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/services/alertes/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.alertDescription}
-        </Link>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/services/alertes/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.alertDescription}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 3,
     },
@@ -219,6 +225,7 @@ export function AlertsPage() {
       actions.push({
         id: "delete",
         picto: "trash",
+        isDisabled: !userPermissions.delete,
         confirmStateOptions: {
           onConfirm: () => onDelete(row),
           confirmStyle: "warning",
@@ -229,6 +236,7 @@ export function AlertsPage() {
       actions.push({
         id: "edit",
         picto: "edit",
+        isDisabled: !userPermissions.update,
         href: `${currentRoot}/services/alertes/${row.id}`,
       });
     }
@@ -307,9 +315,18 @@ export function AlertsPage() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getAlertNotifications();
+      if (!userPermissions.read) router.push(`/${contractId}`);
+      else {
+        void getAlertNotifications();
+      }
     }
-  }, [getAlertNotifications, isInitialized]);
+  }, [
+    contractId,
+    getAlertNotifications,
+    isInitialized,
+    router,
+    userPermissions.read,
+  ]);
 
   return (
     <div className="c-AlertsPage">
@@ -320,6 +337,7 @@ export function AlertsPage() {
           style="primary"
           picto="add"
           onClick={() => router.push(`${currentRoot}/services/alertes/create`)}
+          isDisabled={!userPermissions.create}
         />
       </div>
       <h2 className="c-AlertsPage__Title">{tableLabels.title}</h2>

@@ -1,7 +1,9 @@
 import { useFormContext } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import { ILegalContentFormButtonsLabels } from "../../../lib/legal-content";
+import { getRightsByLabel } from "../../../lib/user";
 import CommonButton from "../../Common/CommonButton/CommonButton";
+import { useUser } from "../../../hooks/useUser";
 import "./legal-content-form-buttons.scss";
 
 interface ILegalContentFormButtonsProps {
@@ -33,6 +35,8 @@ export default function LegalContentFormButtons<Fields extends FieldValues>({
   const {
     formState: { isDirty },
   } = useFormContext<Fields>();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("ContactUs", userRights);
 
   return (
     <div className="c-LegalContentFormButtons">
@@ -46,6 +50,7 @@ export default function LegalContentFormButtons<Fields extends FieldValues>({
         label={buttonLabels.cancel}
         picto="cross"
         onClick={onCancel}
+        isDisabled={!userPermissions.update}
       />
       <CommonButton
         type="button"
@@ -53,13 +58,14 @@ export default function LegalContentFormButtons<Fields extends FieldValues>({
         style={isActivated ? "secondary" : "primary"}
         picto={isActivated ? "eyeClosed" : "eye"}
         onClick={onChangeActivated}
+        isDisabled={!userPermissions.update}
       />
       <CommonButton
         type="submit"
         label={buttonLabels.save}
         style="primary"
         picto="check"
-        isDisabled={!isDirty}
+        isDisabled={!isDirty || !userPermissions.update}
       />
     </div>
   );

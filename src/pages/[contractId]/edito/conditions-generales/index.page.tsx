@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
 import { useGetCguSubServicesByContractIdQuery } from "../../../../graphql/codegen/generated-types";
+import { useUser } from "../../../../hooks/useUser";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
+import { getRightsByLabel } from "../../../../lib/user";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
@@ -30,7 +33,11 @@ export function EditoCGUPage() {
   };
 
   /* External Data */
+  const router = useRouter();
   const { currentRoot } = useNavigation();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Cgu", userRights);
+
   const { contractId } = useContract();
   const { loading, error, data } = useGetCguSubServicesByContractIdQuery({
     variables: { contractId },
@@ -50,14 +57,16 @@ export function EditoCGUPage() {
       name: tableLabels.columns.title,
       selector: (row) => row.title,
 
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/edito/conditions-generales/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.title}
-        </Link>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/edito/conditions-generales/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.title}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 1,
     },
@@ -80,6 +89,7 @@ export function EditoCGUPage() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       href: `${currentRoot}/edito/conditions-generales/${row.id}`,
     },
   ];
@@ -87,8 +97,11 @@ export function EditoCGUPage() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
+      if (!userPermissions.read) {
+        router.push(`/${contractId}`);
+      }
     }
-  }, [isInitialized]);
+  }, [contractId, isInitialized, router, userPermissions.read]);
 
   useEffect(() => {
     if (data) {

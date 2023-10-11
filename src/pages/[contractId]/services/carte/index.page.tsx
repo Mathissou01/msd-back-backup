@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import router from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
 import {
@@ -9,12 +9,14 @@ import {
   useGetDropOffMapsByContractIdLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { useContract } from "../../../../hooks/useContract";
+import { useUser } from "../../../../hooks/useUser";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { removeNulls } from "../../../../lib/utilities";
 import {
   IDefaultTableRow,
   ICurrentPagination,
 } from "../../../../lib/common-data-table";
+import { getRightsByLabel } from "../../../../lib/user";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
@@ -78,6 +80,9 @@ export function CartePage() {
   /* External Data */
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("DropOffMap", userRights);
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
   const defaultQueryVariables: GetDropOffMapsByContractIdQueryVariables = {
@@ -124,14 +129,16 @@ export function CartePage() {
       name: tableLabels.columns.dropoffmapTitle,
       selector: (row) => row.name,
 
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/services/carte/point-interet/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.name}
-        </Link>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/services/carte/point-interet/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.name}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 1,
     },
@@ -153,12 +160,14 @@ export function CartePage() {
     {
       id: "edit",
       picto: "edit",
+      isDisabled: !userPermissions.update,
       alt: "Modifier",
       href: `${currentRoot}/services/carte/point-interet/${row.id}`,
     },
     {
       id: "delete",
       picto: "trash",
+      isDisabled: !userPermissions.delete,
       alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
@@ -205,9 +214,18 @@ export function CartePage() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getDropOffMapsQuery();
+      if (userPermissions.read) void getDropOffMapsQuery();
+      else {
+        router.push(`/${contractId}`);
+      }
     }
-  }, [getDropOffMapsQuery, isInitialized]);
+  }, [
+    contractId,
+    getDropOffMapsQuery,
+    isInitialized,
+    router,
+    userPermissions.read,
+  ]);
 
   return (
     <div className="c-CartePage">
@@ -220,6 +238,7 @@ export function CartePage() {
           onClick={() =>
             router.push(`${currentRoot}/services/carte/point-interet/create`)
           }
+          isDisabled={!userPermissions.create}
         />
       </div>
       <h2 className="c-CartePage__Title">{tableLabels.title}</h2>

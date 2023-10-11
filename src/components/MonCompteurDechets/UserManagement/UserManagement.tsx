@@ -10,7 +10,6 @@ import FormAutoCompleteInput from "../../Form/FormAutoCompleteInput/FormAutoComp
 import FormInput from "../../Form/FormInput/FormInput";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import UserListBlock from "./UserListBlock/UserListBlock";
-
 import "./user-management.scss";
 
 interface Params {
@@ -21,6 +20,7 @@ interface Params {
 }
 
 export default function UserManagement() {
+  /* Local data */
   const methods = useForm();
 
   const {

@@ -10,6 +10,8 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import { useContract } from "../../../hooks/useContract";
+import { useUser } from "../../../hooks/useUser";
+import { getRightsByLabel } from "../../../lib/user";
 import AddressOrGpsFields from "../../DropOffMap/DropOffMapStaticFields/AddressOrGpsFields/AddressOrGpsFields";
 import FormInput from "../../Form/FormInput/FormInput";
 import FormSelect from "../../Form/FormSelect/FormSelect";
@@ -91,6 +93,8 @@ export default function YesWeScanAssociationModal({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Yws", userRights);
   const { contractId } = useContract();
   const [chosenDropOff, setChosenDropOff] = useState<string>("");
   const [areInterestPointVisible, setAreInterestPointVisible] =
@@ -225,13 +229,17 @@ export default function YesWeScanAssociationModal({
             label={labels.form.qrCodeId}
             defaultValue={selectedQrCode?.qrCodeId}
             isRequired
-            isDisabled={selectedQrCode ? selectedQrCode.qrCodeId !== "" : false}
+            isDisabled={
+              (selectedQrCode ? selectedQrCode.qrCodeId !== "" : false) ||
+              !userPermissions.update
+            }
           />
         </div>
         <div className="c-YesWeScanAssociationModal__AssociationType">
           <FormRadioInput
             name="associationType"
             displayName={labels.form.associationType}
+            isDisabled={!userPermissions.update}
             options={associationTypeOptions}
             defaultValue="1"
           />
@@ -242,6 +250,7 @@ export default function YesWeScanAssociationModal({
               name="reportingPointName"
               label={labels.form.reporting.name}
               isRequired
+              isDisabled={!userPermissions.update}
             />
             <AddressOrGpsFields
               labels={labels.form.reporting.addressOrGpsFields}
@@ -254,6 +263,7 @@ export default function YesWeScanAssociationModal({
             <FormSelect
               name="dropOffType"
               label={labels.form.dropOff.type}
+              isDisabled={!userPermissions.update}
               options={
                 dataCollectType?.getDropOffCollectType
                   ?.map((dropOffType) => {
@@ -294,6 +304,7 @@ export default function YesWeScanAssociationModal({
               }}
               isLoading={loadingAddressCoordinates}
               isRequired={!dataDropOffMaps}
+              isDisabled={!userPermissions.update}
               defaultValue={getValues("dropOffAddress")}
               labelProps={{ label: labels.form.dropOff.address }}
             />

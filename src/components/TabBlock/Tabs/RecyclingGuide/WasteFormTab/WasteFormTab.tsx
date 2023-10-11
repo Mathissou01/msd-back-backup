@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { parseISO } from "date-fns";
 import { ConditionalStyles, TableColumn } from "react-data-table-component";
 import React, { useEffect, useRef, useState } from "react";
@@ -8,6 +9,10 @@ import {
   useGetWasteFormsByContractIdLazyQuery,
   useUpdateWasteFormByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
+import CommonButtonGroup, {
+  ICommonButtonGroupSingle,
+} from "../../../../Common/CommonButtonGroup/CommonButtonGroup";
+import { getRightsByLabel } from "../../../../../lib/user";
 import { useContract } from "../../../../../hooks/useContract";
 import { useNavigation } from "../../../../../hooks/useNavigation";
 import { EStatusLabel } from "../../../../../lib/status";
@@ -20,10 +25,7 @@ import CommonDataTable from "../../../../Common/CommonDataTable/CommonDataTable"
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import { IDataTableAction } from "../../../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import "./waste-form-tab.scss";
-import Link from "next/link";
-import CommonButtonGroup, {
-  ICommonButtonGroupSingle,
-} from "../../../../Common/CommonButtonGroup/CommonButtonGroup";
+import { useUser } from "../../../../../hooks/useUser";
 
 export interface IWastesTableRow extends IDefaultTableRow {
   name: string;
@@ -79,6 +81,8 @@ export default function WasteFormTab() {
     });
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("RecyclingGuide", userRights);
   const isInitialized = useRef(false);
   const [tableData, setTableData] = useState<Array<IWastesTableRow>>([]);
   const [pageData, setPageData] = useState<
@@ -98,14 +102,16 @@ export default function WasteFormTab() {
       id: "name",
       name: tableLabels.columns.name,
       selector: (row) => row.name,
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/services/guide-tri/fiche-dechet/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.name}
-        </Link>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/services/guide-tri/fiche-dechet/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.name}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 2,
     },
@@ -128,12 +134,14 @@ export default function WasteFormTab() {
     {
       id: "edit",
       picto: "edit",
+      isDisabled: !userPermissions.update,
       alt: "Modifier",
       href: `${currentRoot}/services/guide-tri/fiche-dechet/${row.id}`,
     },
     {
       id: "hide",
       picto: row.isHidden ? "eyeClosed" : "eye",
+      isDisabled: !userPermissions.update,
       alt: row.isHidden ? "Afficher" : "Cacher",
       onClick: () => onHideRow(row),
     },

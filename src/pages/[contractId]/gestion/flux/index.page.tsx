@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FieldValues } from "react-hook-form";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -7,7 +8,9 @@ import {
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import { cleanCollectionMethods, IFlow } from "../../../../lib/flows";
+import { getRightsByLabel } from "../../../../lib/user";
 import { useContract } from "../../../../hooks/useContract";
+import { useUser } from "../../../../hooks/useUser";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
@@ -70,7 +73,10 @@ export function FluxActivationPage() {
   };
 
   /* Local Data */
+  const router = useRouter();
   const { contractId } = useContract();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Flow", userRights);
   const [flows, setFlows] = useState<IFlow[]>([]);
   const [openedFlow, setOpenedFlow] = useState<IFlow | null>(null);
   const modalRef = useRef<CommonModalWrapperRef>(null);
@@ -103,6 +109,8 @@ export function FluxActivationPage() {
   const errors = [error, collectionError, mutationError];
 
   useEffect(() => {
+    if (!userPermissions.read) router.push(`/${contractId}`);
+
     if (data) {
       setFlows(
         data?.flows?.data
@@ -142,7 +150,7 @@ export function FluxActivationPage() {
           .filter(removeNulls) ?? [],
       );
     }
-  }, [data]);
+  }, [contractId, data, router, userPermissions.read]);
 
   return (
     <>

@@ -94,9 +94,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/services/mon-compteur-dechets"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Mon compteur dechets
               </span>
@@ -128,9 +129,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/couleurs"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Couleurs, logo, lien
               </span>
@@ -138,9 +140,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/menu"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Menu
               </span>
@@ -148,9 +151,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/accueil"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Page d'accueil
               </span>
@@ -158,9 +162,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/footer"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Footer
               </span>
@@ -192,9 +197,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/secteurs-usagers/secteurs"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Secteurs
               </span>
@@ -202,9 +208,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/secteurs-usagers/usagers"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Usagers
               </span>
@@ -236,9 +243,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/informations"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Informations
               </span>
@@ -246,9 +254,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/territoire"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Territoire
               </span>
@@ -256,9 +265,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/flux"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Activation des flux
               </span>
@@ -266,9 +276,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/services"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Activation des Services
               </span>
@@ -276,9 +287,10 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/utilisateurs"
+              style="cursor: pointer;"
             >
               <span
-                class="c-NavigationListLink__Label"
+                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
                 Utilisateurs
               </span>

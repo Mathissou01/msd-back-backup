@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import { useGetConfidentialitySubServicesByContractIdQuery } from "../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { useContract } from "../../../../hooks/useContract";
@@ -30,7 +33,10 @@ export function EditoConfidentialitePage() {
   };
 
   /* External Data */
+  const router = useRouter();
   const { currentRoot } = useNavigation();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Confidentiality", userRights);
   const { contractId } = useContract();
   const { loading, error, data } =
     useGetConfidentialitySubServicesByContractIdQuery({
@@ -54,14 +60,16 @@ export function EditoConfidentialitePage() {
       name: tableLabels.columns.title,
       selector: (row) => row.title,
 
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/edito/confidentialite/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.title}
-        </Link>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/edito/confidentialite/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.title}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 1,
     },
@@ -86,6 +94,7 @@ export function EditoConfidentialitePage() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       href: `${currentRoot}/edito/confidentialite/${row.id}`,
     },
   ];
@@ -93,8 +102,9 @@ export function EditoConfidentialitePage() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
+      if (!userPermissions.read) router.push(`/${contractId}`);
     }
-  }, [isInitialized]);
+  }, [contractId, isInitialized, router, userPermissions.read]);
 
   useEffect(() => {
     if (data) {

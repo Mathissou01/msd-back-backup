@@ -7,10 +7,12 @@ import {
   useGetServicesBlocksByContractIdAndAudienceIdQuery,
   useUpdateServicesBlockByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
-import { useContract } from "../../../../../hooks/useContract";
 import { IServiceLink } from "../../../../../lib/service-links";
-import { useFocusFirstElement } from "../../../../../hooks/useFocusFirstElement";
 import { extractServicesBlock } from "../../../../../lib/graphql-data";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useFocusFirstElement } from "../../../../../hooks/useFocusFirstElement";
+import { useUser } from "../../../../../hooks/useUser";
+import { useContract } from "../../../../../hooks/useContract";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import FormServiceLinks from "../../../../Form/FormServiceLinks/FormServiceLinks";
@@ -126,6 +128,8 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
   });
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Homepage", userRights);
   const [servicesBlockData, setServicesBlockData] = useState<IServicesBlock>();
   const formValidationMode = "onChange";
   const form = useForm({
@@ -185,7 +189,7 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
                   name="titleContent"
                   label={formLabels.titleContent}
                   isRequired={true}
-                  isDisabled={mutationLoading}
+                  isDisabled={mutationLoading || !userPermissions.update}
                   defaultValue={servicesBlockData?.titleContent}
                 />
               </div>
@@ -197,7 +201,7 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
                 secondaryLabel={formLabels.secondaryLabel}
                 editModalTitle={formLabels.editModalTitle}
                 editModalNameLabel={formLabels.editModalNameLabel}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.update}
                 isSortByIsDisplayed={true}
                 isSplitDisplay={true}
                 splitLabel={formLabels.blockNotDisplayedLabel}
@@ -212,7 +216,7 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
                 label={formLabels.submitButtonLabel}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
               <CommonButton
                 type="button"

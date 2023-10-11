@@ -71,6 +71,7 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
                   aria-invalid="false"
                   class="c-FormInput__Input"
                   data-testid="form-input"
+                  disabled=""
                   id="titleContent"
                   name="titleContent"
                   type="text"
@@ -85,7 +86,7 @@ exports[`ServicesTab renders loading and loaded state 2`] = `
         class="c-ServicesTab__ServiceLinks"
       >
         <div
-          class="c-FormServiceLinks"
+          class="c-FormServiceLinks c-FormServiceLinks_disabled"
         >
           <div
             class="c-FormLabel"

@@ -4,8 +4,10 @@ import {
   useGetYwsServicesByContractIdLazyQuery,
   YesWeScanServiceEntity,
 } from "../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../lib/user";
 import { removeNulls } from "../../../../lib/utilities";
 import { useNavigation } from "../../../../hooks/useNavigation";
+import { useUser } from "../../../../hooks/useUser";
 import { useContract } from "../../../../hooks/useContract";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
@@ -35,11 +37,14 @@ function YesWeScanPage() {
 
   /* Local data */
   const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Yws", userRights);
   const { currentRoot } = useNavigation();
   const isInitialized = useRef(false);
 
   useEffect(() => {
     if (!isInitialized.current) {
+      if (!userPermissions.read) router.push(`/${contractId}`);
       void getYesWeScanServices({
         variables: {
           contractId: contractId,
@@ -48,7 +53,13 @@ function YesWeScanPage() {
       });
       isInitialized.current = true;
     }
-  }, [contractId, getYesWeScanServices, isInitialized]);
+  }, [
+    contractId,
+    getYesWeScanServices,
+    isInitialized,
+    router,
+    userPermissions.read,
+  ]);
 
   useEffect(() => {
     if (data && data.yesWeScanServices && data.yesWeScanServices.data)

@@ -36,3 +36,33 @@ export interface ICommunicationType {
   sms: boolean;
   push: boolean;
 }
+
+export interface IUserRightData {
+  label: string;
+  rights: IRightsData;
+}
+
+export interface IRightsData {
+  create: boolean;
+  delete: boolean;
+  read: boolean;
+  update: boolean;
+}
+
+export function getRightsByLabel(
+  entityLabel: string,
+  rights: Array<IUserRightData>,
+): IRightsData {
+  for (let i = 0; i < rights.length; i++) {
+    if (rights[i].label === entityLabel) {
+      return rights[i].rights;
+    }
+  }
+
+  return {
+    create: false,
+    read: false,
+    update: false,
+    delete: false,
+  };
+}

@@ -14,6 +14,8 @@ import {
   IDefaultTableRow,
 } from "../../../../../lib/common-data-table";
 import { removeNulls } from "../../../../../lib/utilities";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 import CommonDataTable from "../../../../Common/CommonDataTable/CommonDataTable";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import CommonLabel from "../../../../Common/CommonLabel/CommonLabel";
@@ -82,6 +84,8 @@ function InformationMessageTab() {
   ] = useGetPickUpDaysByContractIdLazyQuery();
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("PickUpDay", userRights);
   const router = useRouter();
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
@@ -183,6 +187,7 @@ function InformationMessageTab() {
     {
       id: "edit",
       picto: "edit",
+      isDisabled: !userPermissions.update,
       alt: "Modifier",
       href: `${currentRoot}/services/jour-collecte/information-message/${row.id}`,
     },
@@ -212,6 +217,7 @@ function InformationMessageTab() {
           label={addButton}
           style="primary"
           picto="add"
+          isDisabled={!userPermissions.create}
           onClick={() =>
             router.push(
               `${currentRoot}/services/jour-collecte/information-message/create`,

@@ -5,6 +5,8 @@ import {
   useUpdateYwsQrCodeByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../../../../../lib/common-data-table";
+import { useUser } from "../../../../../hooks/useUser";
+import { getRightsByLabel } from "../../../../../lib/user";
 import { CommonModalWrapperRef } from "../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import FormModal from "../../../../Form/FormModal/FormModal";
@@ -103,6 +105,8 @@ export default function YesWeScanServiceAssociationTab({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Yws", userRights);
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const [selectedQrCode, setSelectedQrCode] = useState<
     IYesWeScanTableRow | undefined
@@ -125,6 +129,7 @@ export default function YesWeScanServiceAssociationTab({
       <div className="c-YesWeScanAssociation">
         <CommonButton
           label={labels.qrcodeAssociation}
+          isDisabled={!userPermissions.update}
           onClick={() => {
             setSelectedQrCode(undefined);
             modalRef.current?.toggleModal(true);

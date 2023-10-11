@@ -10,6 +10,8 @@ import {
   extractSearchEngineBlock,
   extractWelcomeMessageBlock,
 } from "../../../../../lib/graphql-data";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 import { useContract } from "../../../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../../../hooks/useFocusFirstElement";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
@@ -111,6 +113,8 @@ export default function WelcomeAndSearchEngineTab() {
   });
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Homepage", userRights);
   const [welcomeMessageData, setWelcomeMessageData] =
     useState<IWelcomeMessageBlock>();
   const [searchEngineData, setSearchEngineData] =
@@ -187,7 +191,7 @@ export default function WelcomeAndSearchEngineTab() {
                 <FormCheckbox
                   name="showBlock"
                   label={formLabels.welcomeShowBlock}
-                  isDisabled={mutationLoading}
+                  isDisabled={mutationLoading || !userPermissions.update}
                 />
                 <div className="WelcomeAndSearchEngineTab__SubGroup_title">
                   <FormInput
@@ -195,7 +199,7 @@ export default function WelcomeAndSearchEngineTab() {
                     name="title"
                     label={formLabels.welcomeTitleContent}
                     isRequired
-                    isDisabled={mutationLoading}
+                    isDisabled={mutationLoading || !userPermissions.update}
                     maxLengthValidation={maxCharactersWelcomeTitle}
                     validationLabel={`${maxCharactersWelcomeTitle} ${formLabels.maxCharactersLabel}`}
                     defaultValue={welcomeMessageData?.title}
@@ -207,7 +211,7 @@ export default function WelcomeAndSearchEngineTab() {
                     name="subtitle"
                     label={formLabels.welcomeSubtitleContent}
                     isRequired
-                    isDisabled={mutationLoading}
+                    isDisabled={mutationLoading || !userPermissions.update}
                     maxLengthValidation={maxCharactersWelcomeSubtitle}
                     validationLabel={`${maxCharactersWelcomeSubtitle} ${formLabels.maxCharactersLabel}`}
                     defaultValue={welcomeMessageData?.subtitle}
@@ -227,7 +231,7 @@ export default function WelcomeAndSearchEngineTab() {
                   maxLengthValidation={maxCharactersSearchEngine}
                   validationLabel={`${maxCharactersSearchEngine} ${formLabels.maxCharactersLabel}`}
                   isRequired
-                  isDisabled={mutationLoading}
+                  isDisabled={mutationLoading || !userPermissions.update}
                   defaultValue={searchEngineData?.titleContent}
                 />
               </div>
@@ -238,7 +242,7 @@ export default function WelcomeAndSearchEngineTab() {
                 label={formLabels.submitButtonLabel}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
               <CommonButton
                 type="button"

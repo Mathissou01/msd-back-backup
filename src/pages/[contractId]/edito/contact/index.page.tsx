@@ -12,8 +12,10 @@ import {
   remapFormBlocksDynamicZone,
 } from "../../../../lib/dynamic-blocks";
 import { ILegalContentFields } from "../../../../lib/legal-content";
+import { getRightsByLabel } from "../../../../lib/user";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
+import { useUser } from "../../../../hooks/useUser";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import LegalContentForm from "../../../../components/LegalContent/LegalContentForm";
 
@@ -86,6 +88,8 @@ export function EditoContactEditPage() {
   /* Local data */
   const router = useRouter();
   const { contractId } = useContract();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("ContactUs", userRights);
   const { currentRoot, currentPage } = useNavigation();
   const {
     data: contractContactUses,
@@ -124,7 +128,16 @@ export function EditoContactEditPage() {
     } else if (data?.contactUs && data.contactUs?.data === null) {
       void router.push(`${currentRoot}${currentPage}`);
     }
-  }, [data, router, currentRoot, currentPage]);
+
+    if (!userPermissions.read) router.push(`/${contractId}`);
+  }, [
+    data,
+    router,
+    currentRoot,
+    currentPage,
+    userPermissions.read,
+    contractId,
+  ]);
 
   return (
     <>

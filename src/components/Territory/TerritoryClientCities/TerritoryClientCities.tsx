@@ -5,6 +5,7 @@ import {
   ICurrentPagination,
   IDefaultTableRow,
 } from "../../../lib/common-data-table";
+import { useUser } from "../../../hooks/useUser";
 import {
   useCreateCityMutation,
   useDeleteCityByIdMutation,
@@ -14,6 +15,7 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
+import { getRightsByLabel } from "../../../lib/user";
 import { IDataTableAction } from "../../Common/CommonDataTable/DataTableActions/DataTableActions";
 import DataTableForm from "../../Common/CommonDataTable/DataTableForm/DataTableForm";
 import DataTableInput from "../../Common/CommonDataTable/Inputs/DataTableInput/DataTableInput";
@@ -160,6 +162,8 @@ export default function TerritoryClientCities({
   }
 
   /* Local data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Territory", userRights);
   const isInitialized = useRef(false);
   const { contractId } = useContract();
   const defaultPage = 1;
@@ -290,6 +294,7 @@ export default function TerritoryClientCities({
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: userPermissions.update,
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirm: () => onConfirmEdit(row, rowIndex),
@@ -300,6 +305,7 @@ export default function TerritoryClientCities({
       id: "delete",
       picto: "trash",
       alt: "Supprimer",
+      isDisabled: userPermissions.delete,
       onClick: () => {
         deleteContractCity({
           variables: {
@@ -390,6 +396,7 @@ export default function TerritoryClientCities({
             }}
             isLoading={loadingCities}
             isRequired
+            isDisabled={userPermissions.update}
             defaultValue={getValues("city")}
           />
         </DataTableForm>

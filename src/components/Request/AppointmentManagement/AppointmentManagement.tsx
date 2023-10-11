@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { TableColumn } from "react-data-table-component";
 import { IDefaultTableRow } from "../../../lib/common-data-table";
 import { removeNulls } from "../../../lib/utilities";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import { useNavigation } from "../../../hooks/useNavigation";
 import { useContract } from "../../../hooks/useContract";
 import { useGetEnrichRequestsByRequestServiceIdLazyQuery } from "../../../graphql/codegen/generated-types";
@@ -33,6 +36,9 @@ export default function AppointmentManagement() {
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Request", userRights);
+  const router = useRouter();
   const { currentRoot } = useNavigation();
   const { contractId } = useContract();
   const isInitialized = useRef<boolean>(false);
@@ -60,14 +66,16 @@ export default function AppointmentManagement() {
       id: "name",
       name: labels.columns.name,
       selector: (row) => row.name,
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/services/demandes/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.name}
-        </Link>
-      ),
+      cell: userPermissions.read
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/services/demandes/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.name}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 3,
     },
@@ -86,6 +94,7 @@ export default function AppointmentManagement() {
     {
       id: "see",
       picto: "eye",
+      isDisabled: !userPermissions.read,
       alt: "Voir",
       href: `${currentRoot}/services/demandes/gestion-rendez-vous/${row.id}`,
     },
@@ -114,9 +123,18 @@ export default function AppointmentManagement() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getEnrichRequests();
+      if (userPermissions.read) void getEnrichRequests();
+      else {
+        router.push(`/${contractId}`);
+      }
     }
-  }, [getEnrichRequests, isInitialized]);
+  }, [
+    contractId,
+    getEnrichRequests,
+    isInitialized,
+    router,
+    userPermissions.read,
+  ]);
 
   return (
     <div className="c-AppointmentManagement">

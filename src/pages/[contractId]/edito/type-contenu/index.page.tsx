@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { createRef, useEffect, useRef, useState } from "react";
@@ -6,8 +7,10 @@ import {
   useGetContentTypesByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
+import { getRightsByLabel } from "../../../../lib/user";
 import { useContract } from "../../../../hooks/useContract";
 import { useContentTypeMutations } from "../../../../hooks/useContentTypeMutations";
+import { useUser } from "../../../../hooks/useUser";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
@@ -254,7 +257,10 @@ export function EditoTypeContenuPage() {
   }
 
   /* External Data */
+  const router = useRouter();
   const { contract } = useContract();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("ContentType", userRights);
   const contractId = contract.id ?? "";
   const {
     loading: dataLoading,
@@ -304,28 +310,32 @@ export function EditoTypeContenuPage() {
       id: "name",
       name: tableLabels.columns.name,
       selector: (row) => row.name,
-      cell: (row, rowIndex) => (
-        <DataTableInput
-          ref={getInputRef(rowIndex)}
-          isEditState={row.editState}
-          data={row.name}
-          maxLengthValidation={tableValidation.maxLengthName}
-        />
-      ),
+      cell: userPermissions.update
+        ? (row, rowIndex) => (
+            <DataTableInput
+              ref={getInputRef(rowIndex)}
+              isEditState={row.editState}
+              data={row.name}
+              maxLengthValidation={tableValidation.maxLengthName}
+            />
+          )
+        : undefined,
       sortable: true,
     },
     {
       id: "description",
       name: tableLabels.columns.description,
       selector: (row) => row.description,
-      cell: (row, rowIndex) => (
-        <DataTableTextArea
-          ref={getTextAreaRef(rowIndex)}
-          isEditState={row.editState}
-          data={row.description}
-          maxLengthValidation={tableValidation.maxLengthDescription}
-        />
-      ),
+      cell: userPermissions.update
+        ? (row, rowIndex) => (
+            <DataTableTextArea
+              ref={getTextAreaRef(rowIndex)}
+              isEditState={row.editState}
+              data={row.description}
+              maxLengthValidation={tableValidation.maxLengthDescription}
+            />
+          )
+        : undefined,
       sortable: true,
     },
   ];
@@ -337,6 +347,7 @@ export function EditoTypeContenuPage() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirm: () => onConfirm(row, rowIndex),
@@ -347,7 +358,7 @@ export function EditoTypeContenuPage() {
       id: "delete",
       picto: "trash",
       alt: "Supprimer",
-      isDisabled: true,
+      isDisabled: !userPermissions.delete,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
@@ -356,6 +367,7 @@ export function EditoTypeContenuPage() {
   ];
 
   useEffect(() => {
+    if (!userPermissions.read) router.push(`/${contractId}`);
     setTableData(
       data?.getContentTypeDTOs
         ?.map((contentType) => {
@@ -370,7 +382,7 @@ export function EditoTypeContenuPage() {
         })
         .filter(removeNulls) ?? [],
     );
-  }, [data]);
+  }, [contractId, data, router, userPermissions.read]);
 
   useEffect(() => {
     if (confirmStates.length !== tableData.length) {
@@ -415,7 +427,7 @@ export function EditoTypeContenuPage() {
                 minLengthValidation={1}
                 validationLabel={`${tableValidation.maxLengthName} ${tableLabels.addRow.maxCharactersLabel}`}
                 isRequired={true}
-                isDisabled={isLoadingMutation}
+                isDisabled={isLoadingMutation || !userPermissions.create}
                 labelStyle="table"
                 validationStyle="multiline"
               />
@@ -426,7 +438,7 @@ export function EditoTypeContenuPage() {
                 maxLengthValidation={tableValidation.maxLengthDescription}
                 minLengthValidation={1}
                 validationLabel={`${tableValidation.maxLengthDescription} ${tableLabels.addRow.maxCharactersLabel}`}
-                isDisabled={isLoadingMutation}
+                isDisabled={isLoadingMutation || !userPermissions.create}
                 labelStyle="table"
                 validationStyle="multiline"
               />

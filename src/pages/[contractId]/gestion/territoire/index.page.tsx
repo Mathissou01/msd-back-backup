@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
   EpciEntity,
   useGetTerritoriesByContractIdQuery,
 } from "../../../../graphql/codegen/generated-types";
-import { removeNulls } from "../../../../lib/utilities";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
+import { removeNulls } from "../../../../lib/utilities";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import { useContract } from "../../../../hooks/useContract";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
@@ -26,6 +29,9 @@ export function TerritoryPage() {
 
   /* Local Data */
   const { contractId } = useContract();
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Territory", userRights);
   const [territory, setTerritory] = useState<ITerritory>();
   const {
     data: territoriesData,
@@ -38,6 +44,8 @@ export function TerritoryPage() {
     },
   });
   useEffect(() => {
+    if (!userPermissions.read) router.push(`/${contractId}`);
+
     if (territoriesData) {
       const newTerritory = territoriesData.territories?.data
         .map((territory) => {
@@ -54,7 +62,7 @@ export function TerritoryPage() {
         setTerritory(newTerritory);
       }
     }
-  }, [territoriesData]);
+  }, [contractId, router, territoriesData, userPermissions.read]);
 
   return (
     <div className="c-TerritoryPage">

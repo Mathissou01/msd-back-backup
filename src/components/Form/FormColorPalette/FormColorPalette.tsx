@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import Link from "next/link";
 import { defaultColorPalette, IColorPalette } from "../../../lib/color";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import FormRadioInput from "../FormRadioInput/FormRadioInput";
 import FormInput from "../FormInput/FormInput";
 import CommonSvg from "../../Common/CommonSvg/CommonSvg";
@@ -62,6 +64,8 @@ export default function FormColorPalette({
   const hexMaxLength = 7;
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("ContractCustomization", userRights);
   const { watch } = useFormContext();
   const primaryColorWatch = watch("primaryColor");
   const secondaryColorWatch = watch("secondaryColor");
@@ -192,6 +196,7 @@ export default function FormColorPalette({
               minLengthValidation={hexMinLength}
               maxLengthValidation={hexMaxLength}
               patternValidation={/^#(?:[0-9a-f]{3}){1,2}$/i}
+              isDisabled={!userPermissions.update}
             />
             <FormInput
               label={labels.secondaryColor}
@@ -200,6 +205,7 @@ export default function FormColorPalette({
               defaultValue={colorPalette?.secondaryColor ?? ""}
               maxLengthValidation={hexMaxLength}
               patternValidation={/^#(?:[0-9a-f]{3}){1,2}$/i}
+              isDisabled={!userPermissions.update}
             />
           </div>
           {primaryErrorMsg && (
@@ -320,6 +326,7 @@ export default function FormColorPalette({
                   }}
                   className="c-FormColorPalette__SearchButton"
                   type="button"
+                  disabled={!userPermissions.update}
                 >
                   <div className="c-FormColorPalette__ButtonPicto">
                     <CommonSvg

@@ -1,6 +1,7 @@
+import React, { createRef, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import { FieldValues } from "react-hook-form/dist/types/fields";
-import React, { createRef, useEffect, useRef, useState } from "react";
 import {
   GetCountContentPerTagByContractIdDocument,
   useGetCountContentPerTagByContractIdQuery,
@@ -9,11 +10,13 @@ import {
   useUpdateTagByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
+import { getRightsByLabel } from "../../../../lib/user";
 import {
   IDefaultTableRow,
   ICommonDataTableValidation,
 } from "../../../../lib/common-data-table";
 import { useContract } from "../../../../hooks/useContract";
+import { useUser } from "../../../../hooks/useUser";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
@@ -151,6 +154,9 @@ export function EditoThematiquesPage() {
   }
 
   /* External Data */
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Tag", userRights);
   const { contract } = useContract();
   const contractId = contract.id ?? "";
   const {
@@ -189,13 +195,15 @@ export function EditoThematiquesPage() {
       id: "name",
       name: tableLabels.columns.name,
       selector: (row) => row.name,
-      cell: (row, rowIndex) => (
-        <DataTableInput
-          ref={getRef(rowIndex)}
-          isEditState={row.editState}
-          data={row.name}
-        />
-      ),
+      cell: userPermissions.update
+        ? (row, rowIndex) => (
+            <DataTableInput
+              ref={getRef(rowIndex)}
+              isEditState={row.editState}
+              data={row.name}
+            />
+          )
+        : undefined,
       sortable: true,
     },
     {
@@ -213,6 +221,7 @@ export function EditoThematiquesPage() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirmValidation: () => confirmValidation(row, rowIndex),
@@ -224,7 +233,7 @@ export function EditoThematiquesPage() {
       id: "delete",
       picto: "trash",
       alt: "Supprimer",
-      isDisabled: row.count !== 0,
+      isDisabled: row.count !== 0 || !userPermissions.delete,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
@@ -233,6 +242,7 @@ export function EditoThematiquesPage() {
   ];
 
   useEffect(() => {
+    if (!userPermissions.read) router.push(`/${contractId}`);
     setTableData(
       data?.countContentPerTag
         ?.map((tag) => {
@@ -242,7 +252,7 @@ export function EditoThematiquesPage() {
         })
         .filter(removeNulls) ?? [],
     );
-  }, [data]);
+  }, [contractId, data, router, userPermissions.read]);
 
   useEffect(() => {
     if (confirmStates.length !== tableData.length) {
@@ -288,7 +298,7 @@ export function EditoThematiquesPage() {
                 validationLabel={`${30} ${
                   tableLabels.addRow.maxCharactersLabel
                 }`}
-                isDisabled={newTagLoading}
+                isDisabled={newTagLoading || !userPermissions.create}
                 flexStyle="row"
                 labelStyle="table"
               />

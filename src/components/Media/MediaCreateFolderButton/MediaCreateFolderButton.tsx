@@ -12,6 +12,8 @@ import FormInput from "../../Form/FormInput/FormInput";
 import FormModal from "../../Form/FormModal/FormModal";
 import FormSelect from "../../Form/FormSelect/FormSelect";
 import { mapOptionsInWrappers } from "../../Form/FormMultiselect/FormMultiselect";
+import { useUser } from "../../../hooks/useUser";
+import { getRightsByLabel } from "../../../lib/user";
 
 interface IMediaCreateFolderButtonProps {
   folderHierarchy: Array<RequestFolders>;
@@ -85,6 +87,8 @@ export default function MediaCreateFolderButton({
     useCreateNewFolderMutation();
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Medias", userRights);
   const modalRef = useRef<CommonModalWrapperRef>(null);
 
   return (
@@ -104,7 +108,7 @@ export default function MediaCreateFolderButton({
                 name="folderTitle"
                 label={formLabels.titleFolderContent}
                 isRequired={true}
-                isDisabled={mutationLoading}
+                isDisabled={mutationLoading || !userPermissions.create}
               />
             </div>
             <div className="c-MediaCreateFolderButton__Select">
@@ -115,6 +119,7 @@ export default function MediaCreateFolderButton({
                 options={sortFolderHierarchy(folderHierarchy)}
                 optionKey={"id"}
                 isRequired={true}
+                isDisabled={!userPermissions.create}
                 defaultValue={
                   folderHierarchy.find(
                     (folder) => folder?.pathId === `${activePathId}`,
@@ -127,6 +132,7 @@ export default function MediaCreateFolderButton({
         <CommonButton
           style="secondary"
           label={formLabels.addFolderLabel}
+          isDisabled={!userPermissions.create}
           picto="add"
           onClick={() => modalRef.current?.toggleModal(true)}
         />

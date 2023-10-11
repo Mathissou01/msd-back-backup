@@ -15,6 +15,8 @@ import {
 import { removeNulls } from "../../../lib/utilities";
 import { IFolder, ILocalFile, TAcceptedMimeTypes } from "../../../lib/media";
 import { removeQuotesInString } from "../../../lib/utilities";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import { useContract } from "../../../hooks/useContract";
 import MediaBreadcrumb, {
   IMediaBreadcrumb,
@@ -172,6 +174,8 @@ export default function CommonBibliothequeMedia({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Medias", userRights);
   const { contract } = useContract();
   const [fileToEdit, setFileToEdit] = useState<ILocalFile>();
   const [folders, setFolders] = useState<Array<IFolder>>([]);
@@ -443,6 +447,7 @@ export default function CommonBibliothequeMedia({
                         fontStyle="fontSmall"
                         paddingStyle="paddingSmall"
                         onClick={handleStartDeleteConfirmationModal}
+                        isDisabled={!userPermissions.delete}
                       />
                     </div>
                     <CommonModalWrapper ref={deleteConfirmationModalRef}>
@@ -454,6 +459,7 @@ export default function CommonBibliothequeMedia({
                           label={buttonLabels.delete}
                           style="primary"
                           onClick={confirmDeleteFiles}
+                          isDisabled={!userPermissions.delete}
                         />
                         <CommonButton
                           label={buttonLabels.cancel}

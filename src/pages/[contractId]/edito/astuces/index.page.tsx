@@ -18,6 +18,8 @@ import {
   IDefaultTableRow,
 } from "../../../../lib/common-data-table";
 import { EStatusLabel } from "../../../../lib/status";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import { useContract } from "../../../../hooks/useContract";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
@@ -107,6 +109,9 @@ export function EditoAstucesPage() {
 
   /* External Data */
   const { currentRoot } = useNavigation();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Tip", userRights);
+
   const { contractId } = useContract();
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
@@ -196,18 +201,21 @@ export function EditoAstucesPage() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       href: `${currentRoot}/edito/astuces/${row.id}`,
     },
     {
       id: "duplicate",
       picto: "fileDouble",
       alt: "Dupliquer",
+      isDisabled: !userPermissions.create,
       onClick: () => onDuplicate(row),
     },
     {
       id: "delete",
       picto: "trash",
       alt: "Supprimer",
+      isDisabled: !userPermissions.delete,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
@@ -282,9 +290,12 @@ export function EditoAstucesPage() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getTipByQuery();
+      if (userPermissions.read) void getTipByQuery();
+      else {
+        router.push(`/${contractId}`);
+      }
     }
-  }, [getTipByQuery, isInitialized]);
+  }, [contractId, getTipByQuery, isInitialized, router, userPermissions.read]);
 
   return (
     <div className="o-TablePage">
@@ -294,6 +305,7 @@ export function EditoAstucesPage() {
           label={addButton}
           style="primary"
           picto="add"
+          isDisabled={!userPermissions.create}
           onClick={() => router.push(`${currentRoot}/edito/astuces/create`)}
         />
       </div>

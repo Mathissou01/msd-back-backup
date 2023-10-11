@@ -1,6 +1,8 @@
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { getRightsByLabel } from "../../../../lib/user";
 import {
   GetContractMenuByContractIdDocument,
   useGetContractMenuByContractIdQuery,
@@ -12,6 +14,7 @@ import {
 } from "../../../../lib/service-links";
 import { extractMenu } from "../../../../lib/graphql-data";
 import { useContract } from "../../../../hooks/useContract";
+import { useUser } from "../../../../hooks/useUser";
 import { useFocusFirstElement } from "../../../../hooks/useFocusFirstElement";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
@@ -82,6 +85,11 @@ export function PersonnalisationMenuPage() {
   ] = useUpdateContractMenuByIdMutation();
 
   /* Local Data */
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("ContractMenu", userRights);
+
+  if (!userPermissions.read) router.push(`/${contractId}`);
   const formValidationMode = "onChange";
   const form = useForm({
     mode: formValidationMode,
@@ -133,7 +141,7 @@ export function PersonnalisationMenuPage() {
                   label={formLabels.description}
                   editModalTitle={formLabels.editModalTitle}
                   editModalNameLabel={formLabels.editModalNameLabel}
-                  isDisabled={mutationLoading}
+                  isDisabled={mutationLoading || !userPermissions.update}
                 />
               </div>
               <div className="c-PersonnalisationMenuPage__Buttons">
@@ -142,7 +150,7 @@ export function PersonnalisationMenuPage() {
                   label={formLabels.submitButtonLabel}
                   style="primary"
                   picto="check"
-                  isDisabled={!isDirty}
+                  isDisabled={!isDirty || !userPermissions.update}
                 />
                 <CommonButton
                   type="button"

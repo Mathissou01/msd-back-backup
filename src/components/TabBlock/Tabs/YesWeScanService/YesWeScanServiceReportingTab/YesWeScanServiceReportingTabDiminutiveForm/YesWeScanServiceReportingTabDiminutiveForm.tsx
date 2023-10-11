@@ -4,7 +4,9 @@ import {
   useGetYwsQrCodesByServiceIdQuery,
   useUpdateYwsServiceByIdMutation,
 } from "../../../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../../../lib/user";
 import { useFocusFirstElement } from "../../../../../../hooks/useFocusFirstElement";
+import { useUser } from "../../../../../../hooks/useUser";
 import CommonLoader from "../../../../../Common/CommonLoader/CommonLoader";
 import CommonButton from "../../../../../Common/CommonButton/CommonButton";
 import FormInput from "../../../../../Form/FormInput/FormInput";
@@ -51,6 +53,8 @@ export default function YesWeScanServiceReportingTabDiminutiveForm({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Yws", userRights);
   const form = useForm({
     mode: "onChange",
   });
@@ -91,11 +95,12 @@ export default function YesWeScanServiceReportingTabDiminutiveForm({
                 maxLengthValidation={diminutiveMaxLength}
                 validationLabel={`${diminutiveMaxLength} ${labels.maxCharacters}`}
                 isDisabled={
-                  (qrCodesAssociated &&
+                  ((qrCodesAssociated &&
                     qrCodesAssociated.yesWeScanQrCodes &&
                     qrCodesAssociated.yesWeScanQrCodes.data &&
                     qrCodesAssociated.yesWeScanQrCodes.data.length >= 1) ??
-                  false
+                    false) &&
+                  !userPermissions.update
                 }
               />
             </div>
@@ -105,7 +110,7 @@ export default function YesWeScanServiceReportingTabDiminutiveForm({
                 label={labels.submitButton}
                 style="primary"
                 picto="check"
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
             </div>
           </form>

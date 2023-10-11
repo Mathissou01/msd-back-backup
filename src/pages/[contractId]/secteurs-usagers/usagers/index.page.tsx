@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import UsersBlock from "../../../../components/Users/UsersBlock";
 import { useContract } from "../../../../hooks/useContract";
 import { removeNulls } from "../../../../lib/utilities";
+import { getRightsByLabel } from "../../../../lib/user";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import { useGetAudiencesQuery } from "../../../../graphql/codegen/generated-types";
 import "./usagers.scss";
+import { useUser } from "../../../../hooks/useUser";
 export interface IAudience {
   id: string;
   isActive: boolean;
@@ -20,6 +23,9 @@ export function UsagersPage() {
 
   /* Local Data */
   const { contractId } = useContract();
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Audience", userRights);
   const [audiences, setAudiences] = useState<IAudience[]>([]);
   const { data, loading, error } = useGetAudiencesQuery({
     variables: {
@@ -35,6 +41,8 @@ export function UsagersPage() {
   });
 
   useEffect(() => {
+    if (!userPermissions.read) router.push(`/${contractId}`);
+
     if (data) {
       setAudiences(
         data?.audiences?.data
@@ -50,7 +58,7 @@ export function UsagersPage() {
           .filter(removeNulls) ?? [],
       );
     }
-  }, [data]);
+  }, [contractId, data, router, userPermissions.read]);
   return (
     <div className="c-UsagersPage">
       <PageTitle title={title} description={description} />

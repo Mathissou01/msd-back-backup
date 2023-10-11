@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import {
   useCreateBackOfficeUserLazyQuery,
@@ -6,8 +7,10 @@ import {
   useGetBackOfficeUserListByContractIdLazyQuery,
   useUpdateBackOfficeUserByUuidLazyQuery,
 } from "../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../lib/user";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
 import { useContract } from "../../../../hooks/useContract";
+import { useUser } from "../../../../hooks/useUser";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonButton from "../../../../components/Common/CommonButton/CommonButton";
 import CommonDataTable from "../../../../components/Common/CommonDataTable/CommonDataTable";
@@ -128,6 +131,9 @@ export function GestionUtilisateursPage() {
 
   /* Local Data */
   const { contractId } = useContract();
+  const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("User", userRights);
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
   const isInitialized = useRef(false);
@@ -199,12 +205,14 @@ export function GestionUtilisateursPage() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       onClick: () => onEdit(row),
     },
     {
       id: "delete",
       picto: "trash",
       alt: "Supprimer",
+      isDisabled: !userPermissions.delete,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
@@ -213,6 +221,8 @@ export function GestionUtilisateursPage() {
   ];
 
   useEffect(() => {
+    if (!userPermissions.read) router.push(`/${contractId}`);
+
     if (data && data.getBackOfficeUserListByContractId) {
       setTableData(
         data.getBackOfficeUserListByContractId.map((user) => {
@@ -229,7 +239,7 @@ export function GestionUtilisateursPage() {
       );
     }
     setUserDefaultValue(undefined);
-  }, [data]);
+  }, [contractId, data, router, userPermissions.read]);
 
   useEffect(() => {
     if (!isInitialized.current) {
@@ -246,6 +256,7 @@ export function GestionUtilisateursPage() {
           label={labels.addButton}
           style="primary"
           picto="add"
+          isDisabled={!userPermissions.create}
           onClick={() => handleStartModal()}
         />
         <CommonModalWrapper

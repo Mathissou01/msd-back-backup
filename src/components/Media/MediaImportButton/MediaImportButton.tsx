@@ -15,6 +15,8 @@ import MainModal from "./Modals/MainModal/MainModal";
 import UploadModal from "./Modals/UploadModal/UploadModal";
 import EditModal from "./Modals/EditModal/EditModal";
 import "./media-import-button.scss";
+import { useUser } from "../../../hooks/useUser";
+import { getRightsByLabel } from "../../../lib/user";
 
 export enum ModalStatus {
   MAIN_MODAL = "MAIN_MODAL",
@@ -110,6 +112,8 @@ export default function MediaImportButton({
   };
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Medias", userRights);
   const modalRef = useRef<CommonModalWrapperRef>(null);
   const EditModalRef = useRef<CommonModalWrapperRef>(null);
   const [selectedFiles, setSelectedFiles] = useState<ILocalFile[]>([]);
@@ -264,6 +268,7 @@ export default function MediaImportButton({
         label={labels.importBtn}
         style="primary"
         picto="import"
+        isDisabled={!userPermissions.create}
         onClick={() => handleStartModal()}
       />
       <CommonModalWrapper ref={modalRef} onClose={handleCloseModal}>

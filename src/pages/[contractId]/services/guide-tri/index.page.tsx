@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
   GetRecyclingGuideServicesByContractIdDocument,
   useGetRecyclingGuideServiceByIdQuery,
   useUpdateRecyclingGuideServiceByIdMutation,
 } from "../../../../graphql/codegen/generated-types";
+import { getRightsByLabel } from "../../../../lib/user";
 import { useContract } from "../../../../hooks/useContract";
+import { useUser } from "../../../../hooks/useUser";
 import ContractLayout from "../../../../layouts/ContractLayout/ContractLayout";
 import CommonLoader from "../../../../components/Common/CommonLoader/CommonLoader";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
@@ -22,6 +25,7 @@ export function GuideTriPage() {
   };
 
   /* External Data */
+  const router = useRouter();
   const { contractId, contract } = useContract();
   const {
     data: recyclingGuideData,
@@ -40,34 +44,34 @@ export function GuideTriPage() {
     });
 
   /* Local Data */
-  const [tabs, setTabs] = useState<Array<ITab>>([]);
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("RecyclingGuide", userRights);
+  if (!userPermissions.read) router.push(`/${contractId}`);
+
   const [checked, setChecked] = useState<boolean>(false);
   const isLoading = recyclingGuideLoading || loading;
   const errors = [recyclingGuideError, error];
 
-  useEffect(() => {
-    const tabs = [
-      {
-        name: "fichesDechets",
-        title: "Fiches déchets",
-        content: <WasteFormTab />,
-        isEnabled: true,
-      },
-      {
-        name: "familleDechets",
-        title: "Familles de déchets",
-        content: <WasteFamilyTab />,
-        isEnabled: true,
-      },
-      {
-        name: "memotri",
-        title: "Mémotri",
-        content: <MemoTriTab />,
-        isEnabled: true,
-      },
-    ];
-    setTabs(tabs);
-  }, []);
+  const tabs: Array<ITab> = [
+    {
+      name: "fichesDechets",
+      title: "Fiches déchets",
+      content: <WasteFormTab />,
+      isEnabled: true,
+    },
+    {
+      name: "familleDechets",
+      title: "Familles de déchets",
+      content: <WasteFamilyTab />,
+      isEnabled: true,
+    },
+    {
+      name: "memotri",
+      title: "Mémotri",
+      content: <MemoTriTab />,
+      isEnabled: true,
+    },
+  ];
 
   useEffect(() => {
     if (

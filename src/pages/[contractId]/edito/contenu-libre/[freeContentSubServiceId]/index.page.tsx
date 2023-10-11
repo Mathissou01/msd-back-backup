@@ -19,8 +19,11 @@ import {
   ICurrentPagination,
   IDefaultTableRow,
 } from "../../../../../lib/common-data-table";
+import { getRightsByLabel } from "../../../../../lib/user";
 import { EStatusLabel } from "../../../../../lib/status";
 import { useNavigation } from "../../../../../hooks/useNavigation";
+import { useContract } from "../../../../../hooks/useContract";
+import { useUser } from "../../../../../hooks/useUser";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import CommonDataTable from "../../../../../components/Common/CommonDataTable/CommonDataTable";
 import { IDataTableAction } from "../../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
@@ -198,6 +201,9 @@ export function EditoFreeContentSubServicePage({
 
   /* Local Data */
   const router = useRouter();
+  const { contractId } = useContract();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("FreeContent", userRights);
   const { currentRoot } = useNavigation();
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
@@ -230,16 +236,18 @@ export function EditoFreeContentSubServicePage({
       id: "title",
       name: tableLabels.columns.title,
       selector: (row) => row.title,
-      cell: (row) => (
-        <>
-          <Link
-            href={`${currentRoot}/edito/contenu-libre/${freeContentSubServiceId}/${row.id}`}
-            className="o-TablePage__Link"
-          >
-            {row.title}
-          </Link>
-        </>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <>
+              <Link
+                href={`${currentRoot}/edito/contenu-libre/${freeContentSubServiceId}/${row.id}`}
+                className="o-TablePage__Link"
+              >
+                {row.title}
+              </Link>
+            </>
+          )
+        : undefined,
       sortable: true,
       grow: 4,
     },
@@ -269,18 +277,21 @@ export function EditoFreeContentSubServicePage({
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       href: `${currentRoot}/edito/contenu-libre/${freeContentSubServiceId}/${row.id}`,
     },
     {
       id: "duplicate",
       picto: "fileDouble",
       alt: "Dupliquer",
+      isDisabled: !userPermissions.create,
       onClick: () => onDuplicate(row),
     },
     {
       id: "delete",
       picto: "trash",
       alt: "Supprimer",
+      isDisabled: !userPermissions.delete,
       confirmStateOptions: {
         onConfirm: () => onDelete(row),
         confirmStyle: "warning",
@@ -357,9 +368,18 @@ export function EditoFreeContentSubServicePage({
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
-      void getFreeContents();
+      if (userPermissions.read) void getFreeContents();
+      else {
+        router.push(`/${contractId}`);
+      }
     }
-  }, [getFreeContents, isInitialized]);
+  }, [
+    contractId,
+    getFreeContents,
+    isInitialized,
+    router,
+    userPermissions.read,
+  ]);
 
   return (
     <div className="o-TablePage">
@@ -375,6 +395,7 @@ export function EditoFreeContentSubServicePage({
             label={addButton}
             style="primary"
             picto="add"
+            isDisabled={!userPermissions.create}
             onClick={() =>
               router.push(
                 `${currentRoot}/edito/contenu-libre/${freeContentSubServiceId}/create`,

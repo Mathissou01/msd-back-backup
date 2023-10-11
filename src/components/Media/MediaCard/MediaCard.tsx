@@ -2,6 +2,8 @@ import React from "react";
 import { ApolloError } from "@apollo/client";
 import CommonMediaCardThumbnail from "../../Common/CommonMediaCardThumbnail/CommonMediaCardThumbnail";
 import { ILocalFile } from "../../../lib/media";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import "./media-card.scss";
 
 interface IMediaCardProps {
@@ -24,6 +26,8 @@ export default function MediaCard({
   isChecked,
 }: IMediaCardProps) {
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Medias", userRights);
   const imageType = file.mime.split("/")[0];
 
   return (
@@ -42,7 +46,7 @@ export default function MediaCard({
               ? `${file.ext.slice(1)} - ${file.width}x${file.height}`
               : `${file.ext.slice(1)}`}
           </span>
-          {onRemoveFile && (
+          {onRemoveFile && userPermissions.delete && (
             <button
               type="button"
               className="c-MediaCard__Action_trash"
@@ -54,7 +58,7 @@ export default function MediaCard({
           <span className="c-MediaCard__Tag">
             {imageType === "image" ? "image" : "doc"}
           </span>
-          {onEditFile && (
+          {onEditFile && userPermissions.update && (
             <button
               type="button"
               className="c-MediaCard__Action_edit"

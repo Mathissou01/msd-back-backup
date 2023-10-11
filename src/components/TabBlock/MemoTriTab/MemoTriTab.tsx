@@ -4,6 +4,8 @@ import {
   fileSizeLimitationOptions,
   remapUploadFileEntityToLocalFile,
 } from "../../../lib/media";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 import { useContract } from "../../../hooks/useContract";
 import { useFocusFirstElement } from "../../../hooks/useFocusFirstElement";
 import {
@@ -35,6 +37,8 @@ export default function MemoTriTab() {
   const memoDescMaxChar = 50;
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("RecyclingGuide", userRights);
   const form = useForm<FieldValues>({
     mode: "onChange",
   });
@@ -135,6 +139,7 @@ export default function MemoTriTab() {
                 validationLabel={`${memoNameMaxChar} ${formLabels.maxCharactersLabel}`}
                 maxLengthValidation={memoNameMaxChar}
                 isRequired
+                isDisabled={!userPermissions.update}
               />
             </div>
             <div className="c-MemoTriTab__Group c-MemoTriTab__Group_short">
@@ -145,6 +150,7 @@ export default function MemoTriTab() {
                 validationLabel={`${memoDescMaxChar} ${formLabels.maxCharactersLabel}`}
                 maxLengthValidation={memoDescMaxChar}
                 tagType="textarea"
+                isDisabled={!userPermissions.update}
               />
             </div>
             <div className="c-MemoTriTab__Group c-MemoTriTab__Group_short">
@@ -164,14 +170,14 @@ export default function MemoTriTab() {
                 label={formLabels.submitButtonLabel}
                 style="primary"
                 picto="check"
-                isDisabled={!isValid}
+                isDisabled={!isValid || !userPermissions.update}
               />
               <CommonButton
                 type="button"
                 label={formLabels.cancelButtonLabel}
                 picto="cross"
                 onClick={onCancel}
-                isDisabled={!isDirty}
+                isDisabled={!isDirty || !userPermissions.update}
               />
             </div>
           </form>

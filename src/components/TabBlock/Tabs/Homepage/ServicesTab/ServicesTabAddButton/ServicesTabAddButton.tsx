@@ -2,7 +2,10 @@ import { Controller } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { createRef, ReactNode, useRef } from "react";
 import Image from "next/image";
+import { ILocalFile } from "../../../../../../lib/media";
 import { IServiceLink } from "../../../../../../lib/service-links";
+import { useUser } from "../../../../../../hooks/useUser";
+import { getRightsByLabel } from "../../../../../../lib/user";
 import { CommonModalWrapperRef } from "../../../../../Common/CommonModalWrapper/CommonModalWrapper";
 import CommonButton from "../../../../../Common/CommonButton/CommonButton";
 import FormModal, {
@@ -11,7 +14,6 @@ import FormModal, {
 import FormInput from "../../../../../Form/FormInput/FormInput";
 import FormModalButtonInput from "../../../../../Form/FormModalButtonInput/FormModalButtonInput";
 import SelectingModalContent from "../../../../../Form/FormFileInput/FormFileInputModals/SelectingModal/SelectingModalContent/SelectingModalContent";
-import { ILocalFile } from "../../../../../../lib/media";
 import "./services-tab-add-button.scss";
 
 interface ICreateModalFields {
@@ -70,6 +72,8 @@ export default function ServicesTabAddButton({
   }
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Homepage", userRights);
   const formModalRef = useRef<
     React.RefObject<FormModalRef<ICreateModalFields>>
   >(createRef());
@@ -94,12 +98,14 @@ export default function ServicesTabAddButton({
           name="createModal_name"
           label={modalLabels.nameLabel}
           isRequired={true}
+          isDisabled={!userPermissions.update}
         />
         <FormInput
           type="text"
           name="createModal_externalLink"
           label={modalLabels.externalLinkLabel}
           isRequired={true}
+          isDisabled={!userPermissions.update}
         />
         <FormModalButtonInput<ILocalFile, IPictoFields>
           name="createModal_picto"
@@ -112,6 +118,7 @@ export default function ServicesTabAddButton({
           onModalSubmit={(data) => onPictoModalSubmit(data)}
           modalButtonsStyle="flex"
           modalSubmitButtonLabel={modalLabels.pictoModal.submitLabel}
+          isDisabled={!userPermissions.update}
         >
           {/*/ TODO: TEMPORARY, SelectingModalContent or better CommonBibliothequeMedia should be refactored and we can make a Form Component that registers itself /*/}
           <Controller

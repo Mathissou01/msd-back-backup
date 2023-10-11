@@ -12,6 +12,8 @@ import CommonSpinner from "../../Common/CommonSpinner/CommonSpinner";
 import BarometerLegend from "./BarometerLegend/BarometerLegend";
 import BarometerInsight from "./BarometerInsight/BarometerInsight";
 import { useContract } from "../../../hooks/useContract";
+import { getRightsByLabel } from "../../../lib/user";
+import { useUser } from "../../../hooks/useUser";
 
 interface IBarometerParams {
   low: number;
@@ -42,6 +44,9 @@ const label = {
 };
 
 export default function BarometerManagement() {
+  /* Local data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Mwc", userRights);
   const { contractId } = useContract();
   const [barometerValues, setBarometerValues] = useState({
     low: defaultValues.low,
@@ -155,6 +160,7 @@ export default function BarometerManagement() {
                 <CommonButton
                   type="submit"
                   label={label.save}
+                  isDisabled={!userPermissions.update}
                   style="primary"
                 />
               </div>

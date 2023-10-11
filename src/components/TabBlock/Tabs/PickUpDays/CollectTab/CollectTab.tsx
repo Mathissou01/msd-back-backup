@@ -20,6 +20,8 @@ import CommonLabel from "../../../../Common/CommonLabel/CommonLabel";
 import CommonButton from "../../../../Common/CommonButton/CommonButton";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import CommonDataTable from "../../../../Common/CommonDataTable/CommonDataTable";
+import { getRightsByLabel } from "../../../../../lib/user";
+import { useUser } from "../../../../../hooks/useUser";
 
 interface IPickUpTableRow extends IDefaultTableRow {
   name: string;
@@ -28,7 +30,7 @@ interface IPickUpTableRow extends IDefaultTableRow {
   modification: string;
 }
 
-export function PickUpDaysPage() {
+export function CollectTab() {
   /* Static Data */
   const addButton = "Créer une collecte";
   const tableLabels = {
@@ -85,6 +87,8 @@ export function PickUpDaysPage() {
   });
 
   /* Local Data */
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("PickUpDay", userRights);
   const router = useRouter();
   const isInitialized = useRef(false);
   const [pageData, setPageData] = useState<
@@ -138,12 +142,14 @@ export function PickUpDaysPage() {
     {
       id: "edit",
       picto: "edit",
+      isDisabled: !userPermissions.update,
       alt: "Modifier",
       href: `${currentRoot}/services/jour-collecte/${row.id}`,
     },
     {
       id: "delete",
       picto: "trash",
+      isDisabled: !userPermissions.delete,
       alt: "Supprimer",
       confirmStateOptions: {
         onConfirm: () => {
@@ -212,6 +218,7 @@ export function PickUpDaysPage() {
           onClick={() =>
             router.push(`${currentRoot}/services/jour-collecte/create`)
           }
+          isDisabled={!userPermissions.create}
         />
       </div>
       <h2 className="o-TablePage__Title c-CollectTab__Title">
@@ -243,4 +250,4 @@ export function PickUpDaysPage() {
   );
 }
 
-export default PickUpDaysPage;
+export default CollectTab;

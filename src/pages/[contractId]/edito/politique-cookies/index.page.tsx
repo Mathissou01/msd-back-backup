@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import { useGetCookiesSubServicesByContractIdQuery } from "../../../../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
+import { getRightsByLabel } from "../../../../lib/user";
+import { useUser } from "../../../../hooks/useUser";
 import { useNavigation } from "../../../../hooks/useNavigation";
 import { useContract } from "../../../../hooks/useContract";
 import { IDataTableAction } from "../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
@@ -30,7 +33,10 @@ export function EditoPolitiqueCookiesPage() {
   };
 
   /* External Data */
+  const router = useRouter();
   const { currentRoot } = useNavigation();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("Cookie", userRights);
   const { contractId } = useContract();
   const { loading, error, data } = useGetCookiesSubServicesByContractIdQuery({
     variables: { contractId },
@@ -50,14 +56,16 @@ export function EditoPolitiqueCookiesPage() {
       name: tableLabels.columns.title,
       selector: (row) => row.title,
 
-      cell: (row) => (
-        <Link
-          href={`${currentRoot}/edito/politique-cookies/${row.id}`}
-          className="o-TablePage__Link"
-        >
-          {row.title}
-        </Link>
-      ),
+      cell: userPermissions.update
+        ? (row) => (
+            <Link
+              href={`${currentRoot}/edito/politique-cookies/${row.id}`}
+              className="o-TablePage__Link"
+            >
+              {row.title}
+            </Link>
+          )
+        : undefined,
       sortable: true,
       grow: 1,
     },
@@ -80,6 +88,7 @@ export function EditoPolitiqueCookiesPage() {
       id: "edit",
       picto: "edit",
       alt: "Modifier",
+      isDisabled: !userPermissions.update,
       href: `${currentRoot}/edito/politique-cookies/${row.id}`,
     },
   ];
@@ -87,8 +96,9 @@ export function EditoPolitiqueCookiesPage() {
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
+      if (!userPermissions.read) router.push(`/${contractId}`);
     }
-  }, [isInitialized]);
+  }, [contractId, isInitialized, router, userPermissions.read]);
 
   useEffect(() => {
     if (data) {
