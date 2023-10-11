@@ -75,6 +75,7 @@ export default function RootHomePage() {
             alt={row.clientName}
             width={130}
             height={50}
+            style={{ objectFit: "contain" }}
           />
         ),
       ignoreRowClick: true,

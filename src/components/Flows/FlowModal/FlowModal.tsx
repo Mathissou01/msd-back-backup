@@ -7,6 +7,7 @@ import {
   useGetFlowColorsQuery,
 } from "../../../graphql/codegen/generated-types";
 import { IFlow, cleanCollectionMethods } from "../../../lib/flows";
+import { useContract } from "../../../hooks/useContract";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormInput from "../../Form/FormInput/FormInput";
@@ -60,7 +61,7 @@ export default function FlowModal({
     save: "Enregistrer",
     cancel: "Annuler",
   };
-
+  const { contractId } = useContract();
   /* Methods */
   function getOptions(data: Array<FlowColorEntity>) {
     return mapOptionsInWrappers<FlowColorEntity>(data);
@@ -78,6 +79,9 @@ export default function FlowModal({
 
   const { data: dataColors } = useGetFlowColorsQuery({
     fetchPolicy: "network-only",
+    variables: {
+      contractId,
+    },
   });
   const { data: collectionMethods } = useGetCollectionMethodsQuery({
     fetchPolicy: "network-only",

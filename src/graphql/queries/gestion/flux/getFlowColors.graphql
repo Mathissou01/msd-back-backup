@@ -1,6 +1,7 @@
-query getFlowColors($filters: FlowColorFiltersInput) {
-  flowColors(filters: $filters) {
+query getFlowColors($contractId: ID) {
+  flowColors(filters: { contract: { id: { eq: $contractId } } }) {
     data {
+      __typename
       id
       attributes {
         name

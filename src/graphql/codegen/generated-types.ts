@@ -13469,7 +13469,7 @@ export type GetCollectionMethodsQuery = {
 };
 
 export type GetFlowColorsQueryVariables = Exact<{
-  filters?: InputMaybe<FlowColorFiltersInput>;
+  contractId?: InputMaybe<Scalars["ID"]>;
 }>;
 
 export type GetFlowColorsQuery = {
@@ -13477,7 +13477,7 @@ export type GetFlowColorsQuery = {
   flowColors?: {
     __typename?: "FlowColorEntityResponseCollection";
     data: Array<{
-      __typename?: "FlowColorEntity";
+      __typename: "FlowColorEntity";
       id?: string | null;
       attributes?: {
         __typename?: "FlowColor";
@@ -25664,9 +25664,10 @@ export type GetCollectionMethodsQueryResult = Apollo.QueryResult<
   GetCollectionMethodsQueryVariables
 >;
 export const GetFlowColorsDocument = gql`
-  query getFlowColors($filters: FlowColorFiltersInput) {
-    flowColors(filters: $filters) {
+  query getFlowColors($contractId: ID) {
+    flowColors(filters: { contract: { id: { eq: $contractId } } }) {
       data {
+        __typename
         id
         attributes {
           name
@@ -25690,7 +25691,7 @@ export const GetFlowColorsDocument = gql`
  * @example
  * const { data, loading, error } = useGetFlowColorsQuery({
  *   variables: {
- *      filters: // value for 'filters'
+ *      contractId: // value for 'contractId'
  *   },
  * });
  */
