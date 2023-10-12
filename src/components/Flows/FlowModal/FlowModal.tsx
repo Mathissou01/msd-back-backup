@@ -84,6 +84,9 @@ export default function FlowModal({
     },
   });
   const { data: collectionMethods } = useGetCollectionMethodsQuery({
+    variables: {
+      contractId: contractId,
+    },
     fetchPolicy: "network-only",
   });
 

@@ -1,5 +1,5 @@
-query getCollectionMethods($filters: CollectDoorToDoorFiltersInput) {
-  collectDoorToDoors(filters: $filters) {
+query getCollectionMethods($contractId: ID!) {
+  collectDoorToDoors(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       id
       attributes {
@@ -7,7 +7,7 @@ query getCollectionMethods($filters: CollectDoorToDoorFiltersInput) {
       }
     }
   }
-  collectDropOffs {
+  collectVoluntaries(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       id
       attributes {
@@ -15,7 +15,7 @@ query getCollectionMethods($filters: CollectDoorToDoorFiltersInput) {
       }
     }
   }
-  collectVoluntaries {
+  collectDropOffs(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       id
       attributes {

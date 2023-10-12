@@ -1,4 +1,4 @@
-query getContracts($userContractIds: [ID]) {
+query getContracts {
   contracts {
     data {
       id

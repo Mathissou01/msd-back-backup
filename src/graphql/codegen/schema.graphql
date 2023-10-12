@@ -1606,6 +1606,7 @@ type Contract {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): YesWeScanServiceRelationResponseCollection
+  ywsTsmsApiKey: String
 }
 
 union ContractAndClientContact =
@@ -1729,6 +1730,7 @@ input ContractFiltersInput {
   updatedAt: DateTimeFilterInput
   users: UsersPermissionsUserFiltersInput
   yesWeScanServices: YesWeScanServiceFiltersInput
+  ywsTsmsApiKey: StringFilterInput
 }
 
 input ContractInput {
@@ -1770,6 +1772,7 @@ input ContractInput {
   territory: ID
   users: [ID]
   yesWeScanServices: [ID]
+  ywsTsmsApiKey: String
 }
 
 type ContractMenu {
@@ -5319,6 +5322,7 @@ type Query {
   ): ExportEntityEntityResponseCollection
   exportEntity(id: ID): ExportEntityEntityResponse
   files: [File]!
+  fixImportedSectorization: Boolean
   flow(id: ID): FlowEntityResponse
   flowColor(id: ID): FlowColorEntityResponse
   flowColors(
@@ -7860,7 +7864,6 @@ type YesWeScanService {
   serviceName: String
   shortName: String!
   startDate: DateTime
-  tsmsApiKey: String
   updatedAt: DateTime
   yesWeScanForm: YesWeScanFormEntityResponse
   yesWeScanQRCodes(
@@ -7895,7 +7898,6 @@ input YesWeScanServiceFiltersInput {
   serviceName: StringFilterInput
   shortName: StringFilterInput
   startDate: DateTimeFilterInput
-  tsmsApiKey: StringFilterInput
   updatedAt: DateTimeFilterInput
   yesWeScanForm: YesWeScanFormFiltersInput
   yesWeScanQRCodes: YesWeScanQrCodeFiltersInput
@@ -7907,7 +7909,6 @@ input YesWeScanServiceInput {
   serviceName: String
   shortName: String
   startDate: DateTime
-  tsmsApiKey: String
   yesWeScanForm: ID
   yesWeScanQRCodes: [ID]
 }

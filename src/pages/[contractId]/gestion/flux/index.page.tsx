@@ -98,6 +98,9 @@ export function FluxActivationPage() {
     loading: collectionLoading,
     error: collectionError,
   } = useGetCollectionMethodsQuery({
+    variables: {
+      contractId: contractId,
+    },
     fetchPolicy: "network-only",
   });
   const [updateFlow, { loading: mutationLoading, error: mutationError }] =
