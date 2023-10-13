@@ -105,7 +105,7 @@ export default function ClientInformation() {
     }
     const variables: IClientFields = {
       clientName: submitData.clientName,
-      siretNumber: submitData.siretNumber,
+      siretNumber: parseInt(submitData.siretNumber),
       contactFirstName: submitData.contactFirstName,
       contactLastName: submitData.contactLastName,
       contactEmail: submitData.contactEmail,
