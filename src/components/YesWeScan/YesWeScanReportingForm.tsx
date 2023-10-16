@@ -225,7 +225,7 @@ export default function YesWeScanReportingForm({
                 isDisabled={!userPermissions.update}
                 label={labels.reportingButtons.title}
                 informationLabel={labels.reportingButtons.information}
-                patternValidation={/^[a-zA-Z0-9 ]+(;[a-zA-Z0-9 ]+)*$/i}
+                patternValidation={/^[\w\séÉàÀèÈ0-9,;]+$/i}
                 patternValidationErrorMessage={
                   labels.reportingButtons.errorMessage
                 }
