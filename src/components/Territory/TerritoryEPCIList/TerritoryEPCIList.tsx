@@ -1,7 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import {
+  useDeleteCityByIdMutation,
   useDeleteEpciByIdMutation,
+  useGetCitiesByEpciIdLazyQuery,
   useGetEpcisInformationsLazyQuery,
   useImportSirenByContractIdMutation,
 } from "../../../graphql/codegen/generated-types";
@@ -42,6 +44,20 @@ export default function TerritoryEPCIList({
     const variables = {
       deleteEpciId: id,
     };
+    getCitiesByEpciId({
+      variables: {
+        epciId: id,
+      },
+      onCompleted(cities) {
+        cities.cities?.data.map((city) => {
+          deleteCity({
+            variables: {
+              cityId: city.id ?? "",
+            },
+          });
+        });
+      },
+    });
     return deleteEpci({
       variables,
     });
@@ -65,7 +81,7 @@ export default function TerritoryEPCIList({
   const [importSiren, { loading: loadingImportSiren }] =
     useImportSirenByContractIdMutation({
       fetchPolicy: "network-only",
-      refetchQueries: ["getTerritoriesByContractId"],
+      refetchQueries: ["getTerritoriesByContractId", "getContractCities"],
       awaitRefetchQueries: true,
     });
 
@@ -74,10 +90,19 @@ export default function TerritoryEPCIList({
       fetchPolicy: "network-only",
     });
 
+  const [getCitiesByEpciId, { loading: getCitiesLoading }] =
+    useGetCitiesByEpciIdLazyQuery({
+      fetchPolicy: "network-only",
+    });
+
   const [deleteEpci] = useDeleteEpciByIdMutation({
     fetchPolicy: "network-only",
     refetchQueries: ["getTerritoriesByContractId"],
     awaitRefetchQueries: true,
+  });
+
+  const [deleteCity] = useDeleteCityByIdMutation({
+    fetchPolicy: "network-only",
   });
 
   async function searchFunction(
@@ -141,7 +166,7 @@ export default function TerritoryEPCIList({
               setValue("chosenEPCI", result);
               return `${result.name}` ?? undefined;
             }}
-            isLoading={epcisInformationsLoading}
+            isLoading={epcisInformationsLoading || getCitiesLoading}
             isRequired
             isDisabled={!userPermissions.update}
             defaultValue={getValues("epci")}

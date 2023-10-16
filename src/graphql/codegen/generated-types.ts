@@ -14045,6 +14045,18 @@ export type DeleteEpciByIdMutation = {
   } | null;
 };
 
+export type GetCitiesByEpciIdQueryVariables = Exact<{
+  epciId: Scalars["ID"];
+}>;
+
+export type GetCitiesByEpciIdQuery = {
+  __typename?: "Query";
+  cities?: {
+    __typename?: "CityEntityResponseCollection";
+    data: Array<{ __typename?: "CityEntity"; id?: string | null }>;
+  } | null;
+};
+
 export type GetCitiesInformationsQueryVariables = Exact<{
   searchTerm: Scalars["String"];
 }>;
@@ -27383,6 +27395,66 @@ export type DeleteEpciByIdMutationResult =
 export type DeleteEpciByIdMutationOptions = Apollo.BaseMutationOptions<
   DeleteEpciByIdMutation,
   DeleteEpciByIdMutationVariables
+>;
+export const GetCitiesByEpciIdDocument = gql`
+  query getCitiesByEpciId($epciId: ID!) {
+    cities(filters: { epci: { id: { eq: $epciId } } }) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCitiesByEpciIdQuery__
+ *
+ * To run a query within a React component, call `useGetCitiesByEpciIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCitiesByEpciIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCitiesByEpciIdQuery({
+ *   variables: {
+ *      epciId: // value for 'epciId'
+ *   },
+ * });
+ */
+export function useGetCitiesByEpciIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetCitiesByEpciIdQuery,
+    GetCitiesByEpciIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetCitiesByEpciIdQuery,
+    GetCitiesByEpciIdQueryVariables
+  >(GetCitiesByEpciIdDocument, options);
+}
+export function useGetCitiesByEpciIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCitiesByEpciIdQuery,
+    GetCitiesByEpciIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetCitiesByEpciIdQuery,
+    GetCitiesByEpciIdQueryVariables
+  >(GetCitiesByEpciIdDocument, options);
+}
+export type GetCitiesByEpciIdQueryHookResult = ReturnType<
+  typeof useGetCitiesByEpciIdQuery
+>;
+export type GetCitiesByEpciIdLazyQueryHookResult = ReturnType<
+  typeof useGetCitiesByEpciIdLazyQuery
+>;
+export type GetCitiesByEpciIdQueryResult = Apollo.QueryResult<
+  GetCitiesByEpciIdQuery,
+  GetCitiesByEpciIdQueryVariables
 >;
 export const GetCitiesInformationsDocument = gql`
   query getCitiesInformations($searchTerm: String!) {
