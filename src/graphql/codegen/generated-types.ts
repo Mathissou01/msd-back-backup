@@ -27532,7 +27532,12 @@ export const GetContractCitiesByContractIdDocument = gql`
     $sort: [String]
   ) {
     cities(
-      filters: { territories: { contract: { id: { eq: $contractId } } } }
+      filters: {
+        or: [
+          { territories: { contract: { id: { eq: $contractId } } } }
+          { epci: { territories: { contract: { id: { eq: $contractId } } } } }
+        ]
+      }
       pagination: $pagination
       sort: $sort
     ) {

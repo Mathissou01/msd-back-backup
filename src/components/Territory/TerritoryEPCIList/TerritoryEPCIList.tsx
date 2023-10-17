@@ -68,7 +68,7 @@ export default function TerritoryEPCIList({
       contractId: contractId,
       file: epci.siren,
     };
-    return importSiren({
+    return await importSiren({
       variables,
     });
   }
@@ -81,7 +81,10 @@ export default function TerritoryEPCIList({
   const [importSiren, { loading: loadingImportSiren }] =
     useImportSirenByContractIdMutation({
       fetchPolicy: "network-only",
-      refetchQueries: ["getTerritoriesByContractId", "getContractCities"],
+      refetchQueries: [
+        "getTerritoriesByContractId",
+        "getContractCitiesByContractId",
+      ],
       awaitRefetchQueries: true,
     });
 
@@ -97,7 +100,10 @@ export default function TerritoryEPCIList({
 
   const [deleteEpci] = useDeleteEpciByIdMutation({
     fetchPolicy: "network-only",
-    refetchQueries: ["getTerritoriesByContractId"],
+    refetchQueries: [
+      "getTerritoriesByContractId",
+      "getContractCitiesByContractId",
+    ],
     awaitRefetchQueries: true,
   });
 

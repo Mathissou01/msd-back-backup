@@ -294,7 +294,7 @@ export default function TerritoryClientCities({
       id: "edit",
       picto: "edit",
       alt: "Modifier",
-      isDisabled: userPermissions.update,
+      isDisabled: !userPermissions.update,
       onClick: () => onEditState(row, rowIndex),
       confirmStateOptions: {
         onConfirm: () => onConfirmEdit(row, rowIndex),
@@ -305,7 +305,7 @@ export default function TerritoryClientCities({
       id: "delete",
       picto: "trash",
       alt: "Supprimer",
-      isDisabled: userPermissions.delete,
+      isDisabled: !userPermissions.delete,
       onClick: () => {
         deleteContractCity({
           variables: {
@@ -396,7 +396,7 @@ export default function TerritoryClientCities({
             }}
             isLoading={loadingCities}
             isRequired
-            isDisabled={userPermissions.update}
+            isDisabled={!userPermissions.update}
             defaultValue={getValues("city")}
           />
         </DataTableForm>
