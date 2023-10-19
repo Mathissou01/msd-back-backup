@@ -117,11 +117,7 @@ export default function PickUpDaysFormStaticFields({
     });
   const [
     getFilteredFlows,
-    {
-      data: filteredFlowsData,
-      loading: filteredFlowsLoading,
-      error: filteredFlowsError,
-    },
+    { loading: filteredFlowsLoading, error: filteredFlowsError },
   ] = useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery({
     fetchPolicy: "no-cache",
   });
@@ -150,52 +146,39 @@ export default function PickUpDaysFormStaticFields({
         };
         getFilteredFlows({
           variables: filterFlowQueryVariables,
+          onCompleted: (results) => {
+            setActiveFlowOptions(
+              results.flows?.data
+                .map((flow) => {
+                  if (
+                    flow.attributes?.pickUpDays?.data &&
+                    flow.attributes.pickUpDays.data.length === 0
+                  ) {
+                    if (flow.id && flow.attributes?.name) {
+                      return {
+                        label: flow.attributes.name,
+                        value: flow.id,
+                      };
+                    }
+                  } else if (
+                    flow.attributes?.pickUpDays?.data &&
+                    flow.attributes.pickUpDays.data.length > 0 &&
+                    flow.attributes.pickUpDays.data.find(
+                      (x) => Number(x.id) === Number(pickUpId),
+                    )
+                  ) {
+                    if (flow.id && flow.attributes?.name) {
+                      return {
+                        label: flow.attributes.name,
+                        value: flow.id,
+                      };
+                    }
+                  }
+                })
+                .filter(removeNulls) ?? [],
+            );
+          },
         });
-        if (filteredFlowsData?.flows?.data) {
-          setActiveFlowOptions(
-            filteredFlowsData.flows.data
-              .map((flow) => {
-                if (
-                  flow.attributes?.pickUpDays?.data &&
-                  flow.attributes.pickUpDays.data.length === 0
-                ) {
-                  if (flow.id && flow.attributes?.name) {
-                    return {
-                      label: flow.attributes.name,
-                      value: flow.id,
-                    };
-                  }
-                } else if (
-                  flow.attributes?.pickUpDays?.data &&
-                  flow.attributes.pickUpDays.data.length > 0 &&
-                  flow.attributes.pickUpDays.data.find(
-                    (x) => Number(x.id) === Number(pickUpId),
-                  )
-                ) {
-                  if (flow.id && flow.attributes?.name) {
-                    return {
-                      label: flow.attributes.name,
-                      value: flow.id,
-                    };
-                  }
-                }
-              })
-              .filter(removeNulls) ?? [],
-          );
-        }
-      } else {
-        setActiveFlowOptions(
-          flowsData?.flows?.data
-            ?.map((flow) => {
-              if (flow.id && flow.attributes?.name) {
-                return {
-                  label: flow.attributes.name,
-                  value: flow.id,
-                };
-              }
-            })
-            .filter(removeNulls) ?? [],
-        );
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
