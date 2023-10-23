@@ -139,31 +139,26 @@ export default function EditInformationContract({
   ];
 
   function onSubmit(values: IContractInformationsFields) {
-    if (
-      !!contractData.clientContact?.data?.id &&
-      !!values.clientContact?.data?.attributes
-    ) {
-      void updateContractInformations({
-        variables: {
-          contractId,
-          contractData: {
-            clientName: values.clientName,
-            siret: values.siret,
-            contractStatus: values.contractStatus,
-            isRVFrance: values.isRVFrance,
-            ccap: values.ccap,
-            clear: values.clear,
-          },
-          clientContactId: contractData.clientContact.data.id,
-          clientContactData: {
-            firstName: values.clientContact.data.attributes.firstName,
-            lastName: values.clientContact.data.attributes.lastName,
-            email: values.clientContact.data.attributes.email,
-            phoneNumber: values.clientContact.data.attributes.phoneNumber,
-          },
+    void updateContractInformations({
+      variables: {
+        contractId,
+        contractData: {
+          clientName: values.clientName,
+          siret: values.siret,
+          contractStatus: values.contractStatus,
+          isRVFrance: values.isRVFrance,
+          ccap: values.ccap,
+          clear: values.clear,
         },
-      }).then(() => setEditMode(false));
-    }
+        clientContactId: contractData?.clientContact?.data?.id ?? "",
+        clientContactData: {
+          firstName: values?.clientContact?.data?.attributes?.firstName,
+          lastName: values?.clientContact?.data?.attributes?.lastName,
+          email: values?.clientContact?.data?.attributes?.email,
+          phoneNumber: values?.clientContact?.data?.attributes?.phoneNumber,
+        },
+      },
+    }).then(() => setEditMode(false));
   }
 
   const { userRights } = useUser();

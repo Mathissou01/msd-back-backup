@@ -115,7 +115,12 @@ export default function ClientInformation() {
       clear: clear,
       clientType: submitData.clientType,
       isNonExclusive: isNonExclusive,
-      servicesToActivate: [ServiceType.Event, ServiceType.PickUpDay],
+      servicesToActivate: [
+        ServiceType.Event,
+        ServiceType.PickUpDay,
+        ServiceType.Mwc,
+        ServiceType.Tip,
+      ],
       isFreemium: false,
     };
     return createEmptyContract({
