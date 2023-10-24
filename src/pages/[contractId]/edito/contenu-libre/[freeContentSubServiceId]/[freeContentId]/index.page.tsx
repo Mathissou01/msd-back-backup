@@ -21,6 +21,8 @@ import {
 } from "../../../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPage";
 import EditorialFormPageLoader from "../../../../../../components/Editorial/EditorialFormPageLoader/EditorialFormPageLoader";
 import { EStatus } from "../../../../../../lib/status";
+import { useUser } from "../../../../../../hooks/useUser";
+import { getRightsByLabel } from "../../../../../../lib/user";
 
 interface IEditoFreeContentEditPageProps {
   freeContentSubServiceId: string;
@@ -168,6 +170,11 @@ export function EditoFreeContentEditPage({
 
   /* Local data */
   const router = useRouter();
+  const { userRights } = useUser();
+  const userPermissions = getRightsByLabel("FreeContent", userRights);
+
+  if (!userPermissions.read) router.push("/");
+
   const { currentRoot } = useNavigation();
   const { contract } = useContract();
 
