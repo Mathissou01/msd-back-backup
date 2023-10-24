@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import { useHeaderContractId } from "../hooks/useHeaderContractId";
 import { useUser } from "../hooks/useUser";
-import { useGetContractsQuery } from "../graphql/codegen/generated-types";
+import { useGetUserContractsQuery } from "../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../lib/common-data-table";
 import { getRightsByLabel } from "../lib/user";
 import Header from "../components/Header/Header";
@@ -55,11 +55,8 @@ export default function RootHomePage() {
     setSearchInput((event.target as HTMLInputElement).value);
   }
 
-  /* External Data */
-  const { data, loading, error } = useGetContractsQuery();
-
   /* Local Data */
-  const { userRights } = useUser();
+  const { userRights, userUuid } = useUser();
   const userPermissions = getRightsByLabel("Contract", userRights);
   const router = useRouter();
   const { setHeaderContractId } = useHeaderContractId();
@@ -69,6 +66,13 @@ export default function RootHomePage() {
   const [tableData, setTableData] = useState<Array<IContractTableRow>>([]);
   const defaultRowsPerPage = 30;
   const defaultPage = 1;
+
+  /* External Data */
+  const { data, loading, error } = useGetUserContractsQuery({
+    variables: {
+      uuid: userUuid,
+    },
+  });
 
   const tableColumns: Array<TableColumn<IContractTableRow>> = [
     {
@@ -131,8 +135,8 @@ export default function RootHomePage() {
       return;
     }
 
-    if (data.contracts?.data.length === 1) {
-      const contractId = data.contracts.data[0].id;
+    if (data.getUserContracts?.length === 1) {
+      const contractId = data.getUserContracts[0]?.id;
       setHeaderContractId(+`${contractId}`);
       router.push(`/${contractId}/gestion/informations`);
       return;
@@ -140,32 +144,28 @@ export default function RootHomePage() {
 
     const tableData: IContractTableRow[] = [];
 
-    if (data?.contracts?.data) {
-      for (let i = 0; i < data.contracts.data.length; i++) {
-        const contract = data.contracts.data[i];
+    if (data.getUserContracts) {
+      for (let i = 0; i < data.getUserContracts.length; i++) {
+        const contract = data.getUserContracts[i];
 
-        if (!contract.id || !contract.attributes) {
+        if (!contract) {
           continue;
         }
 
         tableData.push({
-          id: contract.id,
+          id: contract?.id ?? "",
           editState: false,
-          clientName: contract.attributes.clientName,
-          contractStatus: contract.attributes.contractStatus,
-          hasWebApp:
-            contract.attributes.channelType?.data?.attributes?.hasWebApp ??
-            false,
-          hasWebSite:
-            contract.attributes.channelType?.data?.attributes?.hasWebSite ??
-            false,
-          hasYesWeScan:
-            contract.attributes.channelType?.data?.attributes?.hasYesWeScan ??
-            false,
+          clientName: contract.clientName ?? "",
+          contractStatus: contract.contractStatus ?? "",
+          hasWebApp: contract.channelType?.hasWebApp ?? false,
+          hasWebSite: contract.channelType?.hasWebSite ?? false,
+          hasYesWeScan: contract.channelType?.hasYesWeScan ?? false,
           dueDate: new Intl.DateTimeFormat().format(
-            new Date(contract.attributes?.dueDate),
+            new Date(
+              contract.dueDate !== null ? contract.dueDate ?? "" : "01-01-1970",
+            ),
           ),
-          logoUrl: contract.attributes?.logo?.data?.attributes?.url,
+          logoUrl: contract.logo?.url ?? "",
         });
       }
     }

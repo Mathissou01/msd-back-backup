@@ -94,7 +94,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/services/mon-compteur-dechets"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -129,7 +129,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/couleurs"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -140,7 +140,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/menu"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -151,7 +151,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/accueil"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -162,7 +162,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/personnalisation/footer"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -197,7 +197,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/secteurs-usagers/secteurs"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -208,7 +208,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/secteurs-usagers/usagers"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -243,7 +243,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/informations"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -254,7 +254,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/territoire"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -265,7 +265,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/flux"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -276,7 +276,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/services"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
@@ -287,7 +287,7 @@ exports[`Header renders 1`] = `
             <a
               class="c-NavigationListLink"
               href="null/gestion/utilisateurs"
-              style="cursor: pointer;"
+              style="cursor: default;"
             >
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"

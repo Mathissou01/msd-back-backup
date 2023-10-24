@@ -11,6 +11,8 @@ function UserProvider({ children }: IUserProviderProps) {
     boolean | undefined
   >();
   const [userRights, setUserRights] = useState<Array<IUserRightData>>([]);
+  const [userUuid, setUserUuid] = useState<string>("");
+  const [userRole, setUserRole] = useState<string>("");
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   useEffect(() => {
@@ -20,6 +22,8 @@ function UserProvider({ children }: IUserProviderProps) {
       .then((response) => response.json())
       .then((data) => {
         setUserRights(data.rights);
+        setUserUuid(data.uuidciam);
+        setUserRole(data.role);
         setIsConnected(true);
       });
   }, [isConnected]);
@@ -29,6 +33,8 @@ function UserProvider({ children }: IUserProviderProps) {
       value={{
         hasOtherContracts: currentHasOtherContracts,
         setHasOtherContracts: setCurrentHasOtherContracts,
+        userUuid: userUuid,
+        userRole: userRole,
         userRights: userRights,
         setIsConnected: setIsConnected,
       }}

@@ -1865,6 +1865,13 @@ export type ContractAndClientContact =
   | ClientContactCreateOutput
   | ContractCreateOutput;
 
+export type ContractChannelType = {
+  __typename?: "ContractChannelType";
+  hasWebApp?: Maybe<Scalars["Boolean"]>;
+  hasWebSite?: Maybe<Scalars["Boolean"]>;
+  hasYesWeScan?: Maybe<Scalars["Boolean"]>;
+};
+
 export type ContractCreateOutput = {
   __typename?: "ContractCreateOutput";
   ccap?: Maybe<Scalars["Long"]>;
@@ -2033,6 +2040,17 @@ export type ContractInput = {
   users?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   yesWeScanServices?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   ywsTsmsApiKey?: InputMaybe<Scalars["String"]>;
+};
+
+export type ContractLogo = {
+  __typename?: "ContractLogo";
+  alternativeText?: Maybe<Scalars["String"]>;
+  hash?: Maybe<Scalars["String"]>;
+  mime?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  provider?: Maybe<Scalars["String"]>;
+  size?: Maybe<Scalars["String"]>;
+  url?: Maybe<Scalars["String"]>;
 };
 
 export type ContractMenu = {
@@ -6664,6 +6682,7 @@ export type Query = {
   getThreeRandomTips?: Maybe<Array<Maybe<Tips>>>;
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
   getTopContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
+  getUserContracts?: Maybe<Array<Maybe<UserContract>>>;
   global?: Maybe<GlobalEntityResponse>;
   homepage?: Maybe<HomepageEntityResponse>;
   homepages?: Maybe<HomepageEntityResponseCollection>;
@@ -7280,6 +7299,10 @@ export type QueryGetTopContentDtOsArgs = {
   audienceId: Scalars["ID"];
   contractId: Scalars["ID"];
   status?: InputMaybe<Enum_Topcontentdto_Status>;
+};
+
+export type QueryGetUserContractsArgs = {
+  uuid: Scalars["String"];
 };
 
 export type QueryHomepageArgs = {
@@ -9509,6 +9532,20 @@ export type User = {
   role?: Maybe<Scalars["String"]>;
   surname?: Maybe<Scalars["String"]>;
   uuid?: Maybe<Scalars["String"]>;
+};
+
+export type UserContract = {
+  __typename?: "UserContract";
+  channelType?: Maybe<ContractChannelType>;
+  clientName?: Maybe<Scalars["String"]>;
+  clientType?: Maybe<Scalars["String"]>;
+  contractStatus?: Maybe<Scalars["String"]>;
+  dueDate?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["ID"]>;
+  isFreemium?: Maybe<Scalars["Boolean"]>;
+  isNonExclusive?: Maybe<Scalars["Boolean"]>;
+  isRVFrance?: Maybe<Scalars["Boolean"]>;
+  logo?: Maybe<ContractLogo>;
 };
 
 export type UserDataStorage = {
@@ -14800,6 +14837,41 @@ export type GetContractsQuery = {
       } | null;
     }>;
   } | null;
+};
+
+export type GetUserContractsQueryVariables = Exact<{
+  uuid: Scalars["String"];
+}>;
+
+export type GetUserContractsQuery = {
+  __typename?: "Query";
+  getUserContracts?: Array<{
+    __typename?: "UserContract";
+    id?: string | null;
+    clientName?: string | null;
+    contractStatus?: string | null;
+    dueDate?: string | null;
+    clientType?: string | null;
+    isNonExclusive?: boolean | null;
+    isRVFrance?: boolean | null;
+    isFreemium?: boolean | null;
+    logo?: {
+      __typename?: "ContractLogo";
+      hash?: string | null;
+      mime?: string | null;
+      name?: string | null;
+      provider?: string | null;
+      size?: string | null;
+      url?: string | null;
+      alternativeText?: string | null;
+    } | null;
+    channelType?: {
+      __typename?: "ContractChannelType";
+      hasWebApp?: boolean | null;
+      hasWebSite?: boolean | null;
+      hasYesWeScan?: boolean | null;
+    } | null;
+  } | null> | null;
 };
 
 export type CreateMwcFlowMutationVariables = Exact<{
@@ -28846,6 +28918,85 @@ export type GetContractsLazyQueryHookResult = ReturnType<
 export type GetContractsQueryResult = Apollo.QueryResult<
   GetContractsQuery,
   GetContractsQueryVariables
+>;
+export const GetUserContractsDocument = gql`
+  query getUserContracts($uuid: String!) {
+    getUserContracts(uuid: $uuid) {
+      id
+      clientName
+      contractStatus
+      dueDate
+      clientType
+      isNonExclusive
+      isRVFrance
+      isFreemium
+      logo {
+        hash
+        mime
+        name
+        provider
+        size
+        url
+        alternativeText
+      }
+      channelType {
+        hasWebApp
+        hasWebSite
+        hasYesWeScan
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetUserContractsQuery__
+ *
+ * To run a query within a React component, call `useGetUserContractsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserContractsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserContractsQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useGetUserContractsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserContractsQuery,
+    GetUserContractsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetUserContractsQuery, GetUserContractsQueryVariables>(
+    GetUserContractsDocument,
+    options,
+  );
+}
+export function useGetUserContractsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserContractsQuery,
+    GetUserContractsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserContractsQuery,
+    GetUserContractsQueryVariables
+  >(GetUserContractsDocument, options);
+}
+export type GetUserContractsQueryHookResult = ReturnType<
+  typeof useGetUserContractsQuery
+>;
+export type GetUserContractsLazyQueryHookResult = ReturnType<
+  typeof useGetUserContractsLazyQuery
+>;
+export type GetUserContractsQueryResult = Apollo.QueryResult<
+  GetUserContractsQuery,
+  GetUserContractsQueryVariables
 >;
 export const CreateMwcFlowDocument = gql`
   mutation createMwcFlow($data: MwcFlowInput!) {

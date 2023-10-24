@@ -1613,6 +1613,12 @@ union ContractAndClientContact =
     ClientContactCreateOutput
   | ContractCreateOutput
 
+type ContractChannelType {
+  hasWebApp: Boolean
+  hasWebSite: Boolean
+  hasYesWeScan: Boolean
+}
+
 type ContractCreateOutput {
   ccap: Long
   clear: Long
@@ -1773,6 +1779,16 @@ input ContractInput {
   users: [ID]
   yesWeScanServices: [ID]
   ywsTsmsApiKey: String
+}
+
+type ContractLogo {
+  alternativeText: String
+  hash: String
+  mime: String
+  name: String
+  provider: String
+  size: String
+  url: String
 }
 
 type ContractMenu {
@@ -5406,6 +5422,7 @@ type Query {
     contractId: ID!
     status: ENUM_TOPCONTENTDTO_STATUS
   ): [EditoContentDTO]
+  getUserContracts(uuid: String!): [UserContract]
   global: GlobalEntityResponse
   homepage(id: ID): HomepageEntityResponse
   homepages(
@@ -7272,6 +7289,19 @@ type User {
   role: String
   surname: String
   uuid: String
+}
+
+type UserContract {
+  channelType: ContractChannelType
+  clientName: String
+  clientType: String
+  contractStatus: String
+  dueDate: String
+  id: ID
+  isFreemium: Boolean
+  isNonExclusive: Boolean
+  isRVFrance: Boolean
+  logo: ContractLogo
 }
 
 type UserDataStorage {

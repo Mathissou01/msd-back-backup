@@ -32,11 +32,10 @@ export default function NavigationListLink({
       className={menuClassNames}
       href={`${currentRoot}${path}`}
       style={{
-        cursor:
-          userPermissions.read || entityName !== "" ? "pointer" : "default",
+        cursor: userPermissions.read ? "pointer" : "default",
       }}
       onClick={
-        userPermissions.read || entityName !== ""
+        userPermissions.read
           ? () => setCurrentPage(path)
           : (e) => e.preventDefault()
       }

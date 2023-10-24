@@ -1,0 +1,26 @@
+query getUserContracts($uuid: String!) {
+  getUserContracts(uuid: $uuid) {
+    id
+    clientName
+    contractStatus
+    dueDate
+    clientType
+    isNonExclusive
+    isRVFrance
+    isFreemium
+    logo {
+      hash
+      mime
+      name
+      provider
+      size
+      url
+      alternativeText
+    }
+    channelType {
+      hasWebApp
+      hasWebSite
+      hasYesWeScan
+    }
+  }
+}
