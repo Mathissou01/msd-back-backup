@@ -13675,6 +13675,18 @@ export type UpdateFlowByIdMutation = {
   } | null;
 };
 
+export type CreateClientContactMutationVariables = Exact<{
+  data: ClientContactInput;
+}>;
+
+export type CreateClientContactMutation = {
+  __typename?: "Mutation";
+  createClientContact?: {
+    __typename?: "ClientContactEntityResponse";
+    data?: { __typename?: "ClientContactEntity"; id?: string | null } | null;
+  } | null;
+};
+
 export type CreateEmptyContractMutationVariables = Exact<{
   clientName: Scalars["String"];
   clientType: Scalars["String"];
@@ -26010,6 +26022,58 @@ export type UpdateFlowByIdMutationResult =
 export type UpdateFlowByIdMutationOptions = Apollo.BaseMutationOptions<
   UpdateFlowByIdMutation,
   UpdateFlowByIdMutationVariables
+>;
+export const CreateClientContactDocument = gql`
+  mutation createClientContact($data: ClientContactInput!) {
+    createClientContact(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type CreateClientContactMutationFn = Apollo.MutationFunction<
+  CreateClientContactMutation,
+  CreateClientContactMutationVariables
+>;
+
+/**
+ * __useCreateClientContactMutation__
+ *
+ * To run a mutation, you first call `useCreateClientContactMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateClientContactMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createClientContactMutation, { data, loading, error }] = useCreateClientContactMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateClientContactMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateClientContactMutation,
+    CreateClientContactMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateClientContactMutation,
+    CreateClientContactMutationVariables
+  >(CreateClientContactDocument, options);
+}
+export type CreateClientContactMutationHookResult = ReturnType<
+  typeof useCreateClientContactMutation
+>;
+export type CreateClientContactMutationResult =
+  Apollo.MutationResult<CreateClientContactMutation>;
+export type CreateClientContactMutationOptions = Apollo.BaseMutationOptions<
+  CreateClientContactMutation,
+  CreateClientContactMutationVariables
 >;
 export const CreateEmptyContractDocument = gql`
   mutation createEmptyContract(

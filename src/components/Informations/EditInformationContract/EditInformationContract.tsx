@@ -5,6 +5,7 @@ import {
   Enum_Contract_Clienttype,
   Enum_Contract_Contractstatus,
   Maybe,
+  useCreateClientContactMutation,
   useUpdateContractInformationsMutation,
 } from "../../../graphql/codegen/generated-types";
 import { IInformationContractLabels } from "../../../lib/informations";
@@ -139,26 +140,69 @@ export default function EditInformationContract({
   ];
 
   function onSubmit(values: IContractInformationsFields) {
-    void updateContractInformations({
-      variables: {
-        contractId,
-        contractData: {
-          clientName: values.clientName,
-          siret: values.siret,
-          contractStatus: values.contractStatus,
-          isRVFrance: values.isRVFrance,
-          ccap: values.ccap,
-          clear: values.clear,
+    if (
+      !contractData.clientContact?.data?.id &&
+      (values?.clientContact?.data?.attributes?.firstName ||
+        values?.clientContact?.data?.attributes?.lastName ||
+        values?.clientContact?.data?.attributes?.email ||
+        values?.clientContact?.data?.attributes?.phoneNumber)
+    ) {
+      createClientContact({
+        variables: {
+          data: {
+            firstName: values?.clientContact?.data?.attributes?.firstName,
+            lastName: values?.clientContact?.data?.attributes?.lastName,
+            email: values?.clientContact?.data?.attributes?.email,
+            phoneNumber: values?.clientContact?.data?.attributes?.phoneNumber,
+          },
         },
-        clientContactId: contractData?.clientContact?.data?.id ?? "",
-        clientContactData: {
-          firstName: values?.clientContact?.data?.attributes?.firstName,
-          lastName: values?.clientContact?.data?.attributes?.lastName,
-          email: values?.clientContact?.data?.attributes?.email,
-          phoneNumber: values?.clientContact?.data?.attributes?.phoneNumber,
+        onCompleted: (result) => {
+          void updateContractInformations({
+            variables: {
+              contractId,
+              contractData: {
+                clientName: values.clientName,
+                siret: values.siret,
+                contractStatus: values.contractStatus,
+                isRVFrance: values.isRVFrance,
+                ccap: values.ccap,
+                clear: values.clear,
+                clientContact: result.createClientContact?.data?.id ?? "",
+              },
+              clientContactId: result.createClientContact?.data?.id ?? "",
+              clientContactData: {
+                firstName: values?.clientContact?.data?.attributes?.firstName,
+                lastName: values?.clientContact?.data?.attributes?.lastName,
+                email: values?.clientContact?.data?.attributes?.email,
+                phoneNumber:
+                  values?.clientContact?.data?.attributes?.phoneNumber,
+              },
+            },
+          }).then(() => setEditMode(false));
         },
-      },
-    }).then(() => setEditMode(false));
+      });
+    } else {
+      void updateContractInformations({
+        variables: {
+          contractId,
+          contractData: {
+            clientName: values.clientName,
+            siret: values.siret,
+            contractStatus: values.contractStatus,
+            isRVFrance: values.isRVFrance,
+            ccap: values.ccap,
+            clear: values.clear,
+          },
+          clientContactId: contractData?.clientContact?.data?.id ?? "",
+          clientContactData: {
+            firstName: values?.clientContact?.data?.attributes?.firstName,
+            lastName: values?.clientContact?.data?.attributes?.lastName,
+            email: values?.clientContact?.data?.attributes?.email,
+            phoneNumber: values?.clientContact?.data?.attributes?.phoneNumber,
+          },
+        },
+      }).then(() => setEditMode(false));
+    }
   }
 
   const { userRights } = useUser();
@@ -175,9 +219,20 @@ export default function EditInformationContract({
       awaitRefetchQueries: true,
     });
 
+  const [
+    createClientContact,
+    { loading: loadingClientContact, error: errorClientContact },
+  ] = useCreateClientContactMutation({
+    refetchQueries: ["getContractById"],
+    awaitRefetchQueries: true,
+  });
+
   return (
     <FormProvider {...form}>
-      <CommonLoader isLoading={loading} errors={[error]}>
+      <CommonLoader
+        isLoading={loading || loadingClientContact}
+        errors={[error, errorClientContact]}
+      >
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="c-EditInformationContract"
