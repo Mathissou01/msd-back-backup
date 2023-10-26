@@ -99,7 +99,9 @@ export function EditoContactEditPage() {
     variables: { contractId },
     fetchPolicy: "network-only",
   });
-  const contactUsId = contractContactUses?.contactUsSubServices?.data[0]?.id;
+  const contactUsId =
+    contractContactUses?.contactUsSubServices?.data[0]?.attributes?.contactUses
+      ?.data[0].id;
   const { data, loading, error, refetch } = useGetContactUsByIdQuery({
     variables: { contactUsId },
     fetchPolicy: "network-only",
