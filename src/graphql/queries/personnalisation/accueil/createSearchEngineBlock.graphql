@@ -1,0 +1,7 @@
+mutation createSearchEngineBlock($data: SearchEngineBlockInput!) {
+  createSearchEngineBlock(data: $data) {
+    data {
+      id
+    }
+  }
+}

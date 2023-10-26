@@ -1,0 +1,7 @@
+mutation createWelcomeMessageBlock($data: WelcomeMessageBlockInput!) {
+  createWelcomeMessageBlock(data: $data) {
+    data {
+      id
+    }
+  }
+}

@@ -2,6 +2,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form/dist/types/fields";
 import React, { useState, useEffect } from "react";
 import {
+  useCreateSearchEngineBlockMutation,
+  useCreateWelcomeMessageBlockMutation,
   useGetWelcomeMessageAndSearchEngineBlocksByContractIdQuery,
   useUpdateSearchEngineBlockByIdMutation,
   useUpdateWelcomeMessageBlockByIdMutation,
@@ -55,10 +57,20 @@ export default function WelcomeAndSearchEngineTab() {
 
   /* Methods */
   async function onSubmitValid(submitData: FieldValues) {
-    if (
-      submitData["welcomeMessageBlockId"] &&
-      submitData["searchEngineBlockId"]
-    ) {
+    if (!submitData["welcomeMessageBlockId"]) {
+      createWelcomeMessageBlock({
+        variables: {
+          data: {
+            showBlock: submitData["showBlock"],
+            title: submitData["title"],
+            subtitle: submitData["subtitle"],
+            homepage:
+              data?.contractCustomizations?.data[0].attributes?.homepage?.data
+                ?.id,
+          },
+        },
+      });
+    } else {
       const variablesWelcomeMessageBlock = {
         updateWelcomeMessageBlockId: submitData["welcomeMessageBlockId"],
         data: {
@@ -70,7 +82,19 @@ export default function WelcomeAndSearchEngineTab() {
       updateWelcomeMessageBlock({
         variables: variablesWelcomeMessageBlock,
       });
-
+    }
+    if (!submitData["searchEngineBlockId"]) {
+      createSearchEngineBlock({
+        variables: {
+          data: {
+            titleContent: submitData["titleContent"],
+            homepage:
+              data?.contractCustomizations?.data[0].attributes?.homepage?.data
+                ?.id,
+          },
+        },
+      });
+    } else {
       const variablesSearchEngineBlock = {
         updateSearchEngineBlockId: submitData["searchEngineBlockId"],
         data: {
@@ -111,6 +135,24 @@ export default function WelcomeAndSearchEngineTab() {
     refetchQueries: ["getWelcomeMessageAndSearchEngineBlocksByContractId"],
     awaitRefetchQueries: true,
   });
+  const [
+    createWelcomeMessageBlock,
+    {
+      loading: createWelcomeMessageBlockLoading,
+      error: createWelcomeMessageBlockError,
+    },
+  ] = useCreateWelcomeMessageBlockMutation({
+    refetchQueries: ["getWelcomeMessageAndSearchEngineBlocksByContractId"],
+  });
+  const [
+    createSearchEngineBlock,
+    {
+      loading: createSearchEngineBlockLoading,
+      error: createSearchEngineBlockError,
+    },
+  ] = useCreateSearchEngineBlockMutation({
+    refetchQueries: ["getWelcomeMessageAndSearchEngineBlocksByContractId"],
+  });
 
   /* Local Data */
   const { userRights } = useUser();
@@ -126,9 +168,15 @@ export default function WelcomeAndSearchEngineTab() {
   const { handleSubmit, formState } = form;
   const { isDirty, isSubmitting } = formState;
   const mutationLoading =
-    welcomeMessageMutationLoading || searchEngineMutationLoading;
+    welcomeMessageMutationLoading ||
+    searchEngineMutationLoading ||
+    createSearchEngineBlockLoading ||
+    createWelcomeMessageBlockLoading;
   const mutationError =
-    welcomeMessageMutationError || searchEngineMutationError;
+    welcomeMessageMutationError ||
+    searchEngineMutationError ||
+    createSearchEngineBlockError ||
+    createWelcomeMessageBlockError;
 
   useEffect(() => {
     if (data && data.contractCustomizations?.data) {

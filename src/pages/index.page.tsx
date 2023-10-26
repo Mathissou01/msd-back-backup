@@ -5,7 +5,10 @@ import { useRouter } from "next/router";
 import { TableColumn } from "react-data-table-component";
 import { useHeaderContractId } from "../hooks/useHeaderContractId";
 import { useUser } from "../hooks/useUser";
-import { useGetUserContractsQuery } from "../graphql/codegen/generated-types";
+import {
+  Enum_Contract_Contractstatus,
+  useGetUserContractsQuery,
+} from "../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../lib/common-data-table";
 import { getRightsByLabel } from "../lib/user";
 import Header from "../components/Header/Header";
@@ -14,6 +17,7 @@ import CommonLoader from "../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../components/Common/CommonButton/CommonButton";
 import CommonDataTable from "../components/Common/CommonDataTable/CommonDataTable";
 import "./root-home-page.scss";
+import { rewordStatusClient } from "../lib/contract";
 
 interface IContractTableRow extends IDefaultTableRow {
   id: string;
@@ -156,7 +160,10 @@ export default function RootHomePage() {
           id: contract?.id ?? "",
           editState: false,
           clientName: contract.clientName ?? "",
-          contractStatus: contract.contractStatus ?? "",
+          contractStatus: rewordStatusClient(
+            (contract.contractStatus as Enum_Contract_Contractstatus) ??
+              Enum_Contract_Contractstatus.Desactive,
+          ),
           hasWebApp: contract.channelType?.hasWebApp ?? false,
           hasWebSite: contract.channelType?.hasWebSite ?? false,
           hasYesWeScan: contract.channelType?.hasYesWeScan ?? false,

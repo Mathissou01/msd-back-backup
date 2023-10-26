@@ -8,7 +8,10 @@ import {
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { useUser } from "../../../hooks/useUser";
-import { EContractClientTypeLabels } from "../../../lib/contract";
+import {
+  EContractClientTypeLabels,
+  rewordStatusClient,
+} from "../../../lib/contract";
 import { IInformationContractLabels } from "../../../lib/informations";
 import { getRightsByLabel } from "../../../lib/user";
 import PageTitle from "../../PageTitle/PageTitle";
@@ -100,19 +103,6 @@ export default function InformationContract({
 
   const isInactive =
     contractData.contractStatus === Enum_Contract_Contractstatus.Desactive;
-
-  function rewordStatusClient(status: Enum_Contract_Contractstatus) {
-    switch (status) {
-      case Enum_Contract_Contractstatus.Actif:
-        return "Actif";
-      case Enum_Contract_Contractstatus.Desactive:
-        return "Désactivé";
-      case Enum_Contract_Contractstatus.EnCours:
-        return "En cours";
-      case Enum_Contract_Contractstatus.Initialisation:
-        return "Initialisation";
-    }
-  }
 
   return (
     <div className="c-InformationContract">

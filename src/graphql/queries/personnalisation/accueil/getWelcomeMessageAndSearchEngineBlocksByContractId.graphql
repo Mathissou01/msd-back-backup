@@ -4,6 +4,7 @@ query getWelcomeMessageAndSearchEngineBlocksByContractId($contractId: ID!) {
       attributes {
         homepage {
           data {
+            id
             attributes {
               welcomeMessageBlock {
                 data {

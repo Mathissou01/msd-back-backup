@@ -1,3 +1,5 @@
+import { Enum_Contract_Contractstatus } from "../graphql/codegen/generated-types";
+
 export enum EContractClientTypeLabels {
   city = "Commune",
   epci = "EPCI",
@@ -46,4 +48,21 @@ export function isServiceActive(
     return false;
   }
   return false;
+}
+
+export function rewordStatusClient(
+  status: Enum_Contract_Contractstatus,
+): string {
+  switch (status) {
+    case Enum_Contract_Contractstatus.Actif:
+      return "Actif";
+    case Enum_Contract_Contractstatus.Desactive:
+      return "Désactivé";
+    case Enum_Contract_Contractstatus.EnCours:
+      return "En cours";
+    case Enum_Contract_Contractstatus.Initialisation:
+      return "Initialisation";
+    default:
+      return "N/A";
+  }
 }

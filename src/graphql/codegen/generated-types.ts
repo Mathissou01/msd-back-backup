@@ -2443,9 +2443,9 @@ export type DropOffMapDownloadableFilesArgs = {
 export type DropOffMapDto = {
   __typename?: "DropOffMapDTO";
   BANFeatureProperties?: Maybe<Scalars["JSON"]>;
-  address: Scalars["String"];
+  address?: Maybe<Scalars["String"]>;
   audiences?: Maybe<Array<Maybe<AudienceDto>>>;
-  city: Scalars["String"];
+  city?: Maybe<Scalars["String"]>;
   collect?: Maybe<CollectEntity>;
   description?: Maybe<Scalars["String"]>;
   downloadableFiles?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
@@ -15337,6 +15337,36 @@ export type UpdateMwcHasTipsMutation = {
   } | null;
 };
 
+export type CreateSearchEngineBlockMutationVariables = Exact<{
+  data: SearchEngineBlockInput;
+}>;
+
+export type CreateSearchEngineBlockMutation = {
+  __typename?: "Mutation";
+  createSearchEngineBlock?: {
+    __typename?: "SearchEngineBlockEntityResponse";
+    data?: {
+      __typename?: "SearchEngineBlockEntity";
+      id?: string | null;
+    } | null;
+  } | null;
+};
+
+export type CreateWelcomeMessageBlockMutationVariables = Exact<{
+  data: WelcomeMessageBlockInput;
+}>;
+
+export type CreateWelcomeMessageBlockMutation = {
+  __typename?: "Mutation";
+  createWelcomeMessageBlock?: {
+    __typename?: "WelcomeMessageBlockEntityResponse";
+    data?: {
+      __typename?: "WelcomeMessageBlockEntity";
+      id?: string | null;
+    } | null;
+  } | null;
+};
+
 export type GetEditoBlockTabByContractIdAndAudienceIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   status?: InputMaybe<Enum_Editocontentdto_Status>;
@@ -15994,6 +16024,7 @@ export type GetWelcomeMessageAndSearchEngineBlocksByContractIdQuery = {
           __typename?: "HomepageEntityResponse";
           data?: {
             __typename?: "HomepageEntity";
+            id?: string | null;
             attributes?: {
               __typename?: "Homepage";
               welcomeMessageBlock?: {
@@ -30089,6 +30120,111 @@ export type UpdateMwcHasTipsMutationOptions = Apollo.BaseMutationOptions<
   UpdateMwcHasTipsMutation,
   UpdateMwcHasTipsMutationVariables
 >;
+export const CreateSearchEngineBlockDocument = gql`
+  mutation createSearchEngineBlock($data: SearchEngineBlockInput!) {
+    createSearchEngineBlock(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type CreateSearchEngineBlockMutationFn = Apollo.MutationFunction<
+  CreateSearchEngineBlockMutation,
+  CreateSearchEngineBlockMutationVariables
+>;
+
+/**
+ * __useCreateSearchEngineBlockMutation__
+ *
+ * To run a mutation, you first call `useCreateSearchEngineBlockMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSearchEngineBlockMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSearchEngineBlockMutation, { data, loading, error }] = useCreateSearchEngineBlockMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateSearchEngineBlockMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateSearchEngineBlockMutation,
+    CreateSearchEngineBlockMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateSearchEngineBlockMutation,
+    CreateSearchEngineBlockMutationVariables
+  >(CreateSearchEngineBlockDocument, options);
+}
+export type CreateSearchEngineBlockMutationHookResult = ReturnType<
+  typeof useCreateSearchEngineBlockMutation
+>;
+export type CreateSearchEngineBlockMutationResult =
+  Apollo.MutationResult<CreateSearchEngineBlockMutation>;
+export type CreateSearchEngineBlockMutationOptions = Apollo.BaseMutationOptions<
+  CreateSearchEngineBlockMutation,
+  CreateSearchEngineBlockMutationVariables
+>;
+export const CreateWelcomeMessageBlockDocument = gql`
+  mutation createWelcomeMessageBlock($data: WelcomeMessageBlockInput!) {
+    createWelcomeMessageBlock(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;
+export type CreateWelcomeMessageBlockMutationFn = Apollo.MutationFunction<
+  CreateWelcomeMessageBlockMutation,
+  CreateWelcomeMessageBlockMutationVariables
+>;
+
+/**
+ * __useCreateWelcomeMessageBlockMutation__
+ *
+ * To run a mutation, you first call `useCreateWelcomeMessageBlockMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWelcomeMessageBlockMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWelcomeMessageBlockMutation, { data, loading, error }] = useCreateWelcomeMessageBlockMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateWelcomeMessageBlockMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateWelcomeMessageBlockMutation,
+    CreateWelcomeMessageBlockMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateWelcomeMessageBlockMutation,
+    CreateWelcomeMessageBlockMutationVariables
+  >(CreateWelcomeMessageBlockDocument, options);
+}
+export type CreateWelcomeMessageBlockMutationHookResult = ReturnType<
+  typeof useCreateWelcomeMessageBlockMutation
+>;
+export type CreateWelcomeMessageBlockMutationResult =
+  Apollo.MutationResult<CreateWelcomeMessageBlockMutation>;
+export type CreateWelcomeMessageBlockMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateWelcomeMessageBlockMutation,
+    CreateWelcomeMessageBlockMutationVariables
+  >;
 export const GetEditoBlockTabByContractIdAndAudienceIdDocument = gql`
   query getEditoBlockTabByContractIdAndAudienceId(
     $contractId: ID!
@@ -30889,6 +31025,7 @@ export const GetWelcomeMessageAndSearchEngineBlocksByContractIdDocument = gql`
         attributes {
           homepage {
             data {
+              id
               attributes {
                 welcomeMessageBlock {
                   data {

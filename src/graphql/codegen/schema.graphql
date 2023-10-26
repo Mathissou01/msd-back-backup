@@ -2154,9 +2154,9 @@ type DropOffMap {
 
 type DropOffMapDTO {
   BANFeatureProperties: JSON
-  address: String!
+  address: String
   audiences: [AudienceDTO]
-  city: String!
+  city: String
   collect: CollectEntity
   description: String
   downloadableFiles(
