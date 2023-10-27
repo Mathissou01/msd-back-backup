@@ -76,7 +76,7 @@ export default function FormServiceLinksList({
     <Flipper className="c-FormServiceLinksList" flipKey={values} element="ul">
       {values.map((link, index) => (
         <div key={`${link.type}_${link.name}_${index}`}>
-          <Flipped flipId={`${link.type}_${link.name}`}>
+          <Flipped flipId={`${link.type}_${index}`}>
             <li
               className={classNames("c-FormServiceLinksList__Row", {
                 "c-FormServiceLinksList__Row_disabled": !link.isDisplayed,

@@ -109,6 +109,13 @@ export function EditoTypeContenuPage() {
   }
 
   async function onConfirm(row: IContentTypeTableRow, i: number) {
+    if (
+      row.name === inputRefs.current[i].current?.value &&
+      row.description === textAreaRefs.current[i].current?.value
+    ) {
+      onEditState(row, i, false);
+      return;
+    }
     setIsUpdatingData(true);
     const variables = {
       updateSubServiceId: row.subServiceId,

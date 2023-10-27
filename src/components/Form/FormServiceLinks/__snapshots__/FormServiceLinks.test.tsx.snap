@@ -25,7 +25,7 @@ exports[`FormServiceLinks renders 1`] = `
         <li
           class="c-FormServiceLinksList__Row"
           data-flip-config="{"translate":true,"scale":true,"opacity":true}"
-          data-flip-id="ComponentLinksFrees_Valoriser mes déchets"
+          data-flip-id="ComponentLinksFrees_0"
           data-portal-key="portal"
         >
           <div
@@ -109,7 +109,7 @@ exports[`FormServiceLinks renders 1`] = `
         <li
           class="c-FormServiceLinksList__Row"
           data-flip-config="{"translate":true,"scale":true,"opacity":true}"
-          data-flip-id="ComponentLinksContactUs_Contact"
+          data-flip-id="ComponentLinksContactUs_1"
           data-portal-key="portal"
         >
           <div
@@ -192,7 +192,7 @@ exports[`FormServiceLinks renders 1`] = `
         <li
           class="c-FormServiceLinksList__Row"
           data-flip-config="{"translate":true,"scale":true,"opacity":true}"
-          data-flip-id="ComponentLinksRecyclingGuide_Guide du tri"
+          data-flip-id="ComponentLinksRecyclingGuide_2"
           data-portal-key="portal"
         >
           <div
