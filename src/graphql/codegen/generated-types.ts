@@ -13467,7 +13467,10 @@ export type UpdateFreeContentSubServiceByIdMutation = {
 };
 
 export type GetCollectionMethodsQueryVariables = Exact<{
-  contractId: Scalars["ID"];
+  contractId?: InputMaybe<Scalars["ID"]>;
+  sort?: InputMaybe<
+    Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
+  >;
 }>;
 
 export type GetCollectionMethodsQuery = {
@@ -25715,8 +25718,11 @@ export type UpdateFreeContentSubServiceByIdMutationOptions =
     UpdateFreeContentSubServiceByIdMutationVariables
   >;
 export const GetCollectionMethodsDocument = gql`
-  query getCollectionMethods($contractId: ID!) {
-    collectDoorToDoors(filters: { contract: { id: { eq: $contractId } } }) {
+  query getCollectionMethods($contractId: ID, $sort: [String]) {
+    collectDoorToDoors(
+      filters: { contract: { id: { eq: $contractId } } }
+      sort: $sort
+    ) {
       data {
         id
         attributes {
@@ -25724,7 +25730,10 @@ export const GetCollectionMethodsDocument = gql`
         }
       }
     }
-    collectVoluntaries(filters: { contract: { id: { eq: $contractId } } }) {
+    collectVoluntaries(
+      filters: { contract: { id: { eq: $contractId } } }
+      sort: $sort
+    ) {
       data {
         id
         attributes {
@@ -25732,7 +25741,10 @@ export const GetCollectionMethodsDocument = gql`
         }
       }
     }
-    collectDropOffs(filters: { contract: { id: { eq: $contractId } } }) {
+    collectDropOffs(
+      filters: { contract: { id: { eq: $contractId } } }
+      sort: $sort
+    ) {
       data {
         id
         attributes {
@@ -25756,11 +25768,12 @@ export const GetCollectionMethodsDocument = gql`
  * const { data, loading, error } = useGetCollectionMethodsQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
+ *      sort: // value for 'sort'
  *   },
  * });
  */
 export function useGetCollectionMethodsQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     GetCollectionMethodsQuery,
     GetCollectionMethodsQueryVariables
   >,
