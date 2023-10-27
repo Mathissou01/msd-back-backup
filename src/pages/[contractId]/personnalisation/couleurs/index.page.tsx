@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import chroma from "chroma-js";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import {
@@ -86,6 +86,7 @@ export function PersonnalisationCouleursPage() {
   const { data, loading, error } = useGetContractCustomizationByIdQuery({
     variables: { contractId },
   });
+  const isInitialized = useRef<boolean>(false);
 
   const [
     updateContract,
@@ -190,16 +191,12 @@ export function PersonnalisationCouleursPage() {
           mappedData.secondaryColor === defaultColorPalette.secondaryColor
         ) {
           mappedData.colorMode = "0";
-
-          setColorMode(true);
         } else if (
           mappedData.primaryColor !== undefined &&
           mappedData.secondaryColor !== undefined &&
           mappedData.secondaryColor !== null
         ) {
           mappedData.colorMode = "1";
-
-          setColorMode(false);
 
           const primaryColor = mappedData.primaryColor;
           const primaryColorDark = makeDarkerColor(mappedData.primaryColor);
@@ -222,8 +219,12 @@ export function PersonnalisationCouleursPage() {
           };
           setColorPalette(colorPalette);
         }
+        setColorMode(mappedData.colorMode === "0");
         setContractCustomizationsData(mappedData);
         form.reset(mappedData);
+        if (!isInitialized.current) {
+          isInitialized.current = true;
+        }
       }
     }
   }, [form, data]);
@@ -233,12 +234,24 @@ export function PersonnalisationCouleursPage() {
       <PageTitle title={title} description={description} />
       <CommonLoader
         isLoading={
-          loading || isSubmitting || mutationLoading || mutationLoadingById
+          loading ||
+          isSubmitting ||
+          mutationLoading ||
+          mutationLoadingById ||
+          !isInitialized.current
         }
         isShowingContent={
-          isSubmitting || mutationLoading || mutationLoadingById
+          isSubmitting ||
+          mutationLoading ||
+          mutationLoadingById ||
+          !isInitialized.current
         }
-        hasDelay={isSubmitting || mutationLoading || mutationLoadingById}
+        hasDelay={
+          isSubmitting ||
+          mutationLoading ||
+          mutationLoadingById ||
+          !isInitialized.current
+        }
         errors={[error, mutationError, mutationErrorById]}
       >
         <FormProvider {...form}>

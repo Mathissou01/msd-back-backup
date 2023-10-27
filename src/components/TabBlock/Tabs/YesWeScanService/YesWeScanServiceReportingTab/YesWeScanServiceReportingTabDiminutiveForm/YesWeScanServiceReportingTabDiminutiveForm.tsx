@@ -64,7 +64,7 @@ export default function YesWeScanServiceReportingTabDiminutiveForm({
     updateShortName,
     { loading: updateShortNameLoading, error: updateShortNameError },
   ] = useUpdateYwsServiceByIdMutation({
-    refetchQueries: ["getYesWeScanServiceById", "getYesWeScanAssociatedQRCode"],
+    refetchQueries: ["getYwsServiceById", "getYwsQrCodesByServiceId"],
   });
   const isLoading = isSubmitting || updateShortNameLoading;
 
@@ -99,7 +99,7 @@ export default function YesWeScanServiceReportingTabDiminutiveForm({
                     qrCodesAssociated.yesWeScanQrCodes &&
                     qrCodesAssociated.yesWeScanQrCodes.data &&
                     qrCodesAssociated.yesWeScanQrCodes.data.length >= 1) ??
-                    false) &&
+                    false) ||
                   !userPermissions.update
                 }
               />
