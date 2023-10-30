@@ -35,7 +35,6 @@ export function FluxActivationPage() {
         name: submitData.name,
         recyclingGesture: submitData.recyclingGesture,
         color: submitData.color.id,
-        code: submitData.code,
         collectDoorToDoors: !submitData.collectDoorToDoors
           ? []
           : collectionMethods?.collectDoorToDoors?.data
