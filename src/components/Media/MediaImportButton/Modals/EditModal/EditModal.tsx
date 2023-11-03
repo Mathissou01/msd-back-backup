@@ -77,7 +77,9 @@ export default function EditModal({
   const activateCrop = () => {
     setShowCrop(true);
   };
-  const fileSize = fileToEdit?.size ? formatFileSize(fileToEdit.size) : "";
+  const fileSize = fileToEdit?.size
+    ? formatFileSize(fileToEdit.size, !!fileToEdit.file)
+    : "";
   return (
     <>
       <div className="c-MediaImportButton__Body">

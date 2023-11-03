@@ -89,12 +89,16 @@ export function formatDate(
 
 export const commonDateStringFormat = "dd/MM/yyyy HH:mm";
 
-export function formatFileSize(size: number): string {
+export function formatFileSize(size: number, isUpload: boolean): string {
+  if (!isUpload) {
+    // Strapi sends data as KB
+    size *= 1000;
+  }
   const units = ["B", "KB", "MB", "GB", "TB"];
   let i = 0;
 
-  while (size >= 1024 && i < units.length - 1) {
-    size /= 1024;
+  while (size >= 1000 && i < units.length - 1) {
+    size /= 1000;
     i++;
   }
 
