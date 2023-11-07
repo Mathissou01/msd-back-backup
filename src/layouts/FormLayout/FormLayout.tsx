@@ -4,7 +4,6 @@ import { FieldErrors } from "react-hook-form/dist/types/errors";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
 import { ReactNode, useEffect, useState } from "react";
 import { removeNulls } from "../../lib/utilities";
-import { useLeavePageConfirm } from "../../hooks/useLeavePageConfirm";
 import FormLayoutTabBlock, {
   IFormLayoutTab,
 } from "./FormLayoutTabBlock/FormLayoutTabBlock";
@@ -173,7 +172,6 @@ export default function FormLayout<Fields extends FieldValues>({
     defaultValues: formOptions.defaultValues as DefaultValues<Fields>,
     shouldFocusError: false,
   });
-  useLeavePageConfirm(form.formState.isDirty);
   const [canFocus, setCanFocus] = useState(false);
   const [activeTab, setActiveTab] = useState(
     tabs?.[defaultTab].isEnabled
