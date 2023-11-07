@@ -5,6 +5,7 @@ import { saveAs } from "file-saver";
 import QRCode from "qrcode";
 import {
   useCreateYwsQrCodeMutation,
+  useGetYwsQrCodeByIdLazyQuery,
   useGetYwsQrCodesByServiceIdQuery,
   useUpdateYwsQrCodeByIdMutation,
 } from "../../../../../graphql/codegen/generated-types";
@@ -66,7 +67,6 @@ export default function YesWeScanServiceQRCodeTab({
   const [updateQrCode, { loading: loadingUpdate }] =
     useUpdateYwsQrCodeByIdMutation({
       fetchPolicy: "network-only",
-      refetchQueries: ["getYwsQrCodesByServiceId"],
     });
 
   const { data, loading } = useGetYwsQrCodesByServiceIdQuery({
@@ -75,6 +75,8 @@ export default function YesWeScanServiceQRCodeTab({
     },
     fetchPolicy: "network-only",
   });
+
+  const [getQrCodeById] = useGetYwsQrCodeByIdLazyQuery();
 
   /* Methods */
   async function onSubmit(values: FieldValues) {
@@ -219,67 +221,115 @@ export default function YesWeScanServiceQRCodeTab({
   }
 
   async function downloadAllCreatedQRCodes() {
-    const zip = await new JSZip();
-    const createdQrCodes = await zip.folder("QRCodes");
-
     if (
       data &&
       data.yesWeScanQrCodes &&
       data.yesWeScanQrCodes.data &&
       data.yesWeScanQrCodes.data.length > 0
     ) {
+      const qrCodeCanvasGenerated: Array<IQrCodeObject | null | undefined> =
+        await Promise.all(
+          data.yesWeScanQrCodes.data.map(async (qrCodeCreated) => {
+            if (
+              qrCodeCreated &&
+              qrCodeCreated.id &&
+              qrCodeCreated.attributes &&
+              !qrCodeCreated.attributes.qrCodeUrl
+            ) {
+              return createQrCodeData(qrCodeCreated?.id ?? "").then(
+                (qrCodeCanvas) => {
+                  return {
+                    id: qrCodeCreated?.id ?? "",
+                    canvas: qrCodeCanvas,
+                  };
+                },
+              );
+            }
+          }),
+        );
+
+      if (qrCodeCanvasGenerated && qrCodeCanvasGenerated.length > 0) {
+        await Promise.all(
+          qrCodeCanvasGenerated.map(async (qrCodeCanvas) => {
+            if (qrCodeCanvas) {
+              updateQrCodeData(qrCodeCanvas.id, qrCodeCanvas.canvas);
+            }
+          }),
+        );
+      }
+
       const blobs = await Promise.all(
-        data.yesWeScanQrCodes.data.map(async (qrCode) => {
+        data.yesWeScanQrCodes.data.map((qrCode) => {
           if (
             qrCode &&
             qrCode.id &&
             qrCode.attributes &&
             qrCode.attributes.qrCodeUrl
           ) {
-            return fetch(qrCode.attributes.qrCodeUrl)
-              .then((response) => response.blob())
-              .then((blob) => {
-                if (blob)
-                  return {
-                    id: qrCode.id,
-                    blob: blob,
-                  };
-              });
+            return getQrCodeById({
+              variables: {
+                ywsQrCodeId: qrCode.id,
+              },
+            }).then((qrCodeData) => {
+              if (
+                qrCodeData &&
+                qrCodeData.data &&
+                qrCodeData.data.yesWeScanQrCode &&
+                qrCodeData.data.yesWeScanQrCode.data &&
+                qrCodeData.data.yesWeScanQrCode.data.id &&
+                qrCodeData.data.yesWeScanQrCode.data.attributes &&
+                qrCodeData.data.yesWeScanQrCode.data.attributes.qrCodeUrl
+              ) {
+                return fetch(
+                  qrCodeData.data.yesWeScanQrCode.data.attributes.qrCodeUrl,
+                )
+                  .then((response) => response.blob())
+                  .then((blob) => {
+                    if (blob)
+                      return {
+                        id: qrCodeData.data?.yesWeScanQrCode?.data?.id,
+                        blob: blob,
+                      };
+                  });
+              }
+            });
           }
         }),
       );
 
-      const blobUrls =
-        (await Promise.all<IQrCodeData | undefined>(
-          blobs.map((blob) => {
-            if (blob && blob.blob && blob.id) {
-              return new Promise<IQrCodeData>((resolve) => {
-                const fileReader = new FileReader();
-                fileReader.onloadend = () => {
-                  resolve({
-                    id: blob.id ?? "",
-                    data: (fileReader.result as string).split(";base64,")[1],
-                  });
-                };
-                fileReader.readAsDataURL(blob.blob);
-              });
-            }
-          }),
-        )) ?? [];
+      const blobUrls = await Promise.all<IQrCodeData | undefined>(
+        blobs.map((blob) => {
+          if (blob && blob.blob && blob.id) {
+            return new Promise<IQrCodeData>((resolve) => {
+              const fileReader = new FileReader();
+              fileReader.onloadend = () => {
+                resolve({
+                  id: blob.id ?? "",
+                  data: (fileReader.result as string).split(";base64,")[1],
+                });
+              };
+              fileReader.readAsDataURL(blob.blob);
+            });
+          }
+        }),
+      );
+      const zip = await new JSZip();
+      const createdQrCodes = await zip.folder("QRCodes");
 
-      await blobUrls.map((url: IQrCodeData | undefined) => {
-        if (url && url.id && url.data) {
-          createdQrCodes?.file(
-            `QRCODE-${ywsShortName}-${url.id}.png`,
-            url.data,
-            {
-              base64: true,
-            },
-          );
-        }
-      });
-
-      zip.generateAsync({ type: "blob" }).then((content) => {
+      await Promise.all(
+        blobUrls.map((url: IQrCodeData | undefined) => {
+          if (url && url.id && url.data && createdQrCodes) {
+            createdQrCodes.file(
+              `QRCODE-${ywsShortName}-${url.id}.png`,
+              url.data,
+              {
+                base64: true,
+              },
+            );
+          }
+        }),
+      );
+      await zip.generateAsync({ type: "blob" }).then((content) => {
         saveAs(content, "QRCODES.zip");
       });
     }

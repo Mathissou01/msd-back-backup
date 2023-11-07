@@ -4579,6 +4579,7 @@ export type Mutation = {
   updateAlertNotificationsX?: Maybe<AlertNotification>;
   updateAlertUserStorage?: Maybe<AlertUserStorageEntityResponse>;
   updateAudience?: Maybe<AudienceEntityResponse>;
+  updateBrokenFlows?: Maybe<Scalars["Boolean"]>;
   updateCgu?: Maybe<CguEntityResponse>;
   updateCguSubService?: Maybe<CguSubServiceEntityResponse>;
   updateChannelType?: Maybe<ChannelTypeEntityResponse>;
@@ -5535,6 +5536,10 @@ export type MutationUpdateAlertUserStorageArgs = {
 export type MutationUpdateAudienceArgs = {
   data: AudienceInput;
   id: Scalars["ID"];
+};
+
+export type MutationUpdateBrokenFlowsArgs = {
+  status?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type MutationUpdateCguArgs = {
@@ -6675,6 +6680,7 @@ export type Query = {
   getMwcAverageProduction?: Maybe<Scalars["Int"]>;
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
+  getOldQrCodeMappings?: Maybe<Scalars["JSON"]>;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   getRequestsHistoric?: Maybe<Array<Maybe<Historic>>>;
   getServiceBlockData?: Maybe<Scalars["JSON"]>;
@@ -19791,6 +19797,25 @@ export type GetYwsQrCodesQuery = {
         total: number;
       };
     };
+  } | null;
+};
+
+export type GetYwsQrCodeByIdQueryVariables = Exact<{
+  ywsQrCodeId: Scalars["ID"];
+}>;
+
+export type GetYwsQrCodeByIdQuery = {
+  __typename?: "Query";
+  yesWeScanQrCode?: {
+    __typename?: "YesWeScanQrCodeEntityResponse";
+    data?: {
+      __typename?: "YesWeScanQrCodeEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "YesWeScanQrCode";
+        qrCodeUrl?: string | null;
+      } | null;
+    } | null;
   } | null;
 };
 
@@ -38026,6 +38051,69 @@ export type GetYwsQrCodesLazyQueryHookResult = ReturnType<
 export type GetYwsQrCodesQueryResult = Apollo.QueryResult<
   GetYwsQrCodesQuery,
   GetYwsQrCodesQueryVariables
+>;
+export const GetYwsQrCodeByIdDocument = gql`
+  query getYwsQrCodeById($ywsQrCodeId: ID!) {
+    yesWeScanQrCode(id: $ywsQrCodeId) {
+      data {
+        id
+        attributes {
+          qrCodeUrl
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetYwsQrCodeByIdQuery__
+ *
+ * To run a query within a React component, call `useGetYwsQrCodeByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetYwsQrCodeByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetYwsQrCodeByIdQuery({
+ *   variables: {
+ *      ywsQrCodeId: // value for 'ywsQrCodeId'
+ *   },
+ * });
+ */
+export function useGetYwsQrCodeByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetYwsQrCodeByIdQuery,
+    GetYwsQrCodeByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetYwsQrCodeByIdQuery, GetYwsQrCodeByIdQueryVariables>(
+    GetYwsQrCodeByIdDocument,
+    options,
+  );
+}
+export function useGetYwsQrCodeByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetYwsQrCodeByIdQuery,
+    GetYwsQrCodeByIdQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetYwsQrCodeByIdQuery,
+    GetYwsQrCodeByIdQueryVariables
+  >(GetYwsQrCodeByIdDocument, options);
+}
+export type GetYwsQrCodeByIdQueryHookResult = ReturnType<
+  typeof useGetYwsQrCodeByIdQuery
+>;
+export type GetYwsQrCodeByIdLazyQueryHookResult = ReturnType<
+  typeof useGetYwsQrCodeByIdLazyQuery
+>;
+export type GetYwsQrCodeByIdQueryResult = Apollo.QueryResult<
+  GetYwsQrCodeByIdQuery,
+  GetYwsQrCodeByIdQueryVariables
 >;
 export const GetYwsQrCodesByServiceIdDocument = gql`
   query getYwsQrCodesByServiceId($ywsServiceId: ID!) {

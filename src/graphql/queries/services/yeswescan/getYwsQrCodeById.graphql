@@ -1,0 +1,10 @@
+query getYwsQrCodeById($ywsQrCodeId: ID!) {
+  yesWeScanQrCode(id: $ywsQrCodeId) {
+    data {
+      id
+      attributes {
+        qrCodeUrl
+      }
+    }
+  }
+}

@@ -4339,6 +4339,7 @@ type Mutation {
     id: ID!
   ): AlertUserStorageEntityResponse
   updateAudience(data: AudienceInput!, id: ID!): AudienceEntityResponse
+  updateBrokenFlows(status: Boolean): Boolean
   updateCgu(data: CguInput!, id: ID!): CguEntityResponse
   updateCguSubService(
     data: CguSubServiceInput!
@@ -5407,6 +5408,7 @@ type Query {
     long: Float!
     requestId: ID!
   ): NextAvailableSlots
+  getOldQrCodeMappings: JSON
   getPickUpDaysByCoordinates(
     lat: Float!
     long: Float!
