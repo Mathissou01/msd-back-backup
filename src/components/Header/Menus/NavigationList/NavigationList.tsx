@@ -209,10 +209,12 @@ export default function NavigationList() {
               entityName="RecyclingGuide"
             />
           )}
-          <NavigationListLink
-            path={"/services/mon-compteur-dechets"}
-            entityName="Mwc"
-          />
+          {services.myWCCounterService.isActivated && (
+            <NavigationListLink
+              path={"/services/mon-compteur-dechets"}
+              entityName="Mwc"
+            />
+          )}
           {services.pickUpDayService.isActivated && (
             <NavigationListLink
               path={"/services/jour-collecte"}
@@ -233,9 +235,6 @@ export default function NavigationList() {
               path={"/services/alertes"}
               entityName="AlertNotification"
             />
-          )}
-          {services.myWCCounterService.isActivated && (
-            <NavigationListLink path={"/services/mon-compteur-dechets"} />
           )}
         </NavigationListMenu>
       </li>

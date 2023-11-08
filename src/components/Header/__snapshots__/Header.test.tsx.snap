@@ -90,19 +90,7 @@ exports[`Header renders 1`] = `
           </button>
           <div
             class="c-NavigationListMenu__List"
-          >
-            <a
-              class="c-NavigationListLink"
-              href="null/services/mon-compteur-dechets"
-              style="cursor: default;"
-            >
-              <span
-                class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
-              >
-                Mon compteur déchets
-              </span>
-            </a>
-          </div>
+          />
         </div>
       </li>
       <li
