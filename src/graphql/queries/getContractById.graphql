@@ -223,6 +223,17 @@ query getContractById($contractId: ID!) {
             }
           }
         }
+        MwCounterService {
+          data {
+            id
+            attributes {
+              name
+              isActivated
+              startDate
+              endDate
+            }
+          }
+        }
         audiences(filters: { isActive: { eq: true } }) {
           data {
             id

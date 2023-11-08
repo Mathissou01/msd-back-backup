@@ -512,6 +512,7 @@ export default function ServicesBlock() {
         { service: "requestService", type: ServiceType.request },
         { service: "alertNotificationService", type: ServiceType.alert },
         { service: "pickUpDayService", type: ServiceType.pickUpDay },
+        { service: "MwCounterService", type: ServiceType.mwc },
       ];
       const editorialServiceList = [
         { service: "newsSubService", type: ServiceType.news },
@@ -521,6 +522,7 @@ export default function ServicesBlock() {
         { service: "tipSubService", type: ServiceType.tip },
         { service: "contactUsSubService", type: ServiceType.contactUs },
       ];
+
       const newTransversalServices: Array<IServiceFields> = [];
       transversalServiceList.map((service) =>
         newTransversalServices.push({
@@ -544,6 +546,8 @@ export default function ServicesBlock() {
           ),
         }),
       );
+
+      console.log(transversalServiceList);
       const editorialServices: Array<IServiceFields> = [];
       editorialServiceList.map((service) => {
         const editorialServicesAttributes = `contract.attributes?.editorialService?.data?.attributes`;
@@ -581,6 +585,7 @@ export default function ServicesBlock() {
           });
         }
       });
+
       let activatedYesWeScanServices: Array<IYesWeScanServiceFields> = [];
       const yesWeScanServicesFromContract =
         contract.attributes?.yesWeScanServices?.data;

@@ -99,7 +99,7 @@ exports[`Header renders 1`] = `
               <span
                 class="c-NavigationListLink__Label c-NavigationListLink__Label_disabled"
               >
-                Mon compteur dechets
+                Mon compteur déchets
               </span>
             </a>
           </div>

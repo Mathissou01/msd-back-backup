@@ -20,7 +20,7 @@ export enum ENavigationPages {
   "/services/" = "Services",
   "/services/carte" = "Carte",
   "/services/guide-tri" = "Guide du tri",
-  "/services/mon-compteur-dechets" = "Mon compteur dechets",
+  "/services/mon-compteur-dechets" = "Mon compteur déchets",
   "/services/jour-collecte" = "Jour de collecte",
   "/services/demandes" = "Demandes",
   "/services/yeswescan" = "YesWeScan",

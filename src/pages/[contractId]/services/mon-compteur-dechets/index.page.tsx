@@ -15,7 +15,7 @@ import { useUser } from "../../../../hooks/useUser";
 export function MonCompteurDechets() {
   /* Static Data */
   const label = {
-    title: "Compteur dechets",
+    title: "Compteur déchets",
   };
 
   const router = useRouter();

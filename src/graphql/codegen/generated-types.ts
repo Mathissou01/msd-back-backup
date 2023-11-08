@@ -14790,6 +14790,20 @@ export type GetContractByIdQuery = {
             } | null;
           }>;
         } | null;
+        MwCounterService?: {
+          __typename?: "MwCounterServiceEntityResponse";
+          data?: {
+            __typename?: "MwCounterServiceEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "MwCounterService";
+              name?: string | null;
+              isActivated: boolean;
+              startDate?: any | null;
+              endDate?: any | null;
+            } | null;
+          } | null;
+        } | null;
         audiences?: {
           __typename?: "AudienceRelationResponseCollection";
           data: Array<{
@@ -28892,6 +28906,17 @@ export const GetContractByIdDocument = gql`
                 endDate
                 serviceName
                 shortName
+              }
+            }
+          }
+          MwCounterService {
+            data {
+              id
+              attributes {
+                name
+                isActivated
+                startDate
+                endDate
               }
             }
           }

@@ -102,6 +102,11 @@ export default function NavigationList() {
           )
         : false,
     },
+    myWCCounterService: {
+      isActivated: contract.attributes?.MwCounterService?.data?.attributes
+        ? isServiceActive(contract.attributes.MwCounterService.data.attributes)
+        : false,
+    },
   };
 
   useEffect(() => {
@@ -228,6 +233,9 @@ export default function NavigationList() {
               path={"/services/alertes"}
               entityName="AlertNotification"
             />
+          )}
+          {services.myWCCounterService.isActivated && (
+            <NavigationListLink path={"/services/mon-compteur-dechets"} />
           )}
         </NavigationListMenu>
       </li>
