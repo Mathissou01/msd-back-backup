@@ -216,6 +216,14 @@ query getServicesBlocksByContractIdAndAudienceId(
                             }
                           }
                         }
+                        freeContents {
+                          data {
+                            id
+                            attributes {
+                              name
+                            }
+                          }
+                        }
                       }
                       ... on ComponentLinksExternal {
                         id

@@ -20,6 +20,14 @@ export interface IServiceLink {
   localId?: string;
   name: string;
   externalLink?: string;
+  freeContents?: {
+    data: Array<{
+      id: string;
+      attributes: {
+        name: string;
+      };
+    }>;
+  };
   isDisplayed: boolean;
   picto?: ILocalFile | null;
 }
@@ -46,6 +54,14 @@ export interface IStateServiceLink {
       }
     | null
     | undefined;
+  freeContents?: {
+    data: Array<{
+      id: string;
+      attributes: {
+        name: string;
+      };
+    }>;
+  };
 }
 
 export interface IPartialServiceLink {
@@ -120,6 +136,7 @@ export function remapServicesLinkDynamicZonePicto(
               ...(link?.externalLink && { externalLink: link?.externalLink }),
               isDisplayed: link?.isDisplayed,
               picto: remapUploadFileEntityToLocalFile(pictoData),
+              ...(link?.freeContents && { freeContents: link?.freeContents }),
             };
           }
         }

@@ -214,6 +214,14 @@ mutation updateServicesBlockById(
                             }
                           }
                         }
+                        freeContents {
+                          data {
+                            id
+                            attributes {
+                              name
+                            }
+                          }
+                        }
                       }
                       ... on ComponentLinksExternal {
                         id

@@ -15800,6 +15800,17 @@ export type GetServicesBlocksByContractIdAndAudienceIdQuery = {
                               } | null;
                             } | null;
                           } | null;
+                          freeContents?: {
+                            __typename?: "FreeContentSubServiceRelationResponseCollection";
+                            data: Array<{
+                              __typename?: "FreeContentSubServiceEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "FreeContentSubService";
+                                name: string;
+                              } | null;
+                            }>;
+                          } | null;
                         }
                       | { __typename?: "ComponentLinksKeyMetrics" }
                       | {
@@ -16329,6 +16340,17 @@ export type UpdateServicesBlockByIdMutation = {
                                 createdAt?: any | null;
                               } | null;
                             } | null;
+                          } | null;
+                          freeContents?: {
+                            __typename?: "FreeContentSubServiceRelationResponseCollection";
+                            data: Array<{
+                              __typename?: "FreeContentSubServiceEntity";
+                              id?: string | null;
+                              attributes?: {
+                                __typename?: "FreeContentSubService";
+                                name: string;
+                              } | null;
+                            }>;
                           } | null;
                         }
                       | { __typename?: "ComponentLinksKeyMetrics" }
@@ -30862,6 +30884,14 @@ export const GetServicesBlocksByContractIdAndAudienceIdDocument = gql`
                               }
                             }
                           }
+                          freeContents {
+                            data {
+                              id
+                              attributes {
+                                name
+                              }
+                            }
+                          }
                         }
                         ... on ComponentLinksExternal {
                           id
@@ -31641,6 +31671,14 @@ export const UpdateServicesBlockByIdDocument = gql`
                                 width
                                 height
                                 createdAt
+                              }
+                            }
+                          }
+                          freeContents {
+                            data {
+                              id
+                              attributes {
+                                name
                               }
                             }
                           }

@@ -80,7 +80,10 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
             __typename: link.type,
             isDisplayed: link.isDisplayed,
             name: link.name,
-            externalLink: link.externalLink,
+            ...(link.externalLink && { externalLink: link.externalLink }),
+            ...(link.freeContents && {
+              freeContents: link.freeContents,
+            }),
             picto: link.picto?.id,
           };
         },
