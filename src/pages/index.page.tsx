@@ -11,13 +11,13 @@ import {
 } from "../graphql/codegen/generated-types";
 import { IDefaultTableRow } from "../lib/common-data-table";
 import { getRightsByLabel } from "../lib/user";
+import { rewordStatusClient } from "../lib/contract";
 import Header from "../components/Header/Header";
 import PageTitle from "../components/PageTitle/PageTitle";
 import CommonLoader from "../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../components/Common/CommonButton/CommonButton";
 import CommonDataTable from "../components/Common/CommonDataTable/CommonDataTable";
 import "./root-home-page.scss";
-import { rewordStatusClient } from "../lib/contract";
 
 interface IContractTableRow extends IDefaultTableRow {
   id: string;
@@ -28,6 +28,7 @@ interface IContractTableRow extends IDefaultTableRow {
   hasYesWeScan: boolean;
   dueDate: string;
   logoUrl?: string;
+  updatedAt: string;
 }
 
 export default function RootHomePage() {
@@ -128,8 +129,8 @@ export default function RootHomePage() {
       sortable: true,
     },
     {
-      name: "Prochaine échéance",
-      selector: (row) => row.dueDate && row.dueDate,
+      name: "Dernière modification",
+      selector: (row) => new Date(row.updatedAt).toLocaleDateString(),
       sortable: true,
     },
   ];
@@ -173,6 +174,7 @@ export default function RootHomePage() {
             ),
           ),
           logoUrl: contract.logo?.url ?? "",
+          updatedAt: contract.updatedAt ?? "",
         });
       }
     }

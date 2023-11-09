@@ -7304,6 +7304,7 @@ type UserContract {
   isNonExclusive: Boolean
   isRVFrance: Boolean
   logo: ContractLogo
+  updatedAt: String
 }
 
 type UserDataStorage {

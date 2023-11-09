@@ -9552,6 +9552,7 @@ export type UserContract = {
   isNonExclusive?: Maybe<Scalars["Boolean"]>;
   isRVFrance?: Maybe<Scalars["Boolean"]>;
   logo?: Maybe<ContractLogo>;
+  updatedAt?: Maybe<Scalars["String"]>;
 };
 
 export type UserDataStorage = {
@@ -14890,6 +14891,7 @@ export type GetUserContractsQuery = {
     isNonExclusive?: boolean | null;
     isRVFrance?: boolean | null;
     isFreemium?: boolean | null;
+    updatedAt?: string | null;
     logo?: {
       __typename?: "ContractLogo";
       hash?: string | null;
@@ -29110,6 +29112,7 @@ export const GetUserContractsDocument = gql`
       isNonExclusive
       isRVFrance
       isFreemium
+      updatedAt
       logo {
         hash
         mime

@@ -8,6 +8,7 @@ query getUserContracts($uuid: String!) {
     isNonExclusive
     isRVFrance
     isFreemium
+    updatedAt
     logo {
       hash
       mime
