@@ -3,39 +3,30 @@ import React, { useState } from "react";
 import {
   SearchResultAddress,
   useGetAddressCoordinatesLazyQuery,
+  useGetUserFromAddressOrUuidLazyQuery,
 } from "../../../graphql/codegen/generated-types";
+import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
-import useFetchUsers from "../../../hooks/User/useFetchUsers";
 import FormAutoCompleteInput from "../../Form/FormAutoCompleteInput/FormAutoCompleteInput";
 import FormInput from "../../Form/FormInput/FormInput";
 import CommonButton from "../../Common/CommonButton/CommonButton";
 import UserListBlock from "./UserListBlock/UserListBlock";
 import "./user-management.scss";
 
-interface Params {
-  id?: string;
-  address?: string;
-  limit: number;
-  page: number;
-}
-
 export default function UserManagement() {
   /* Local data */
   const methods = useForm();
+  const { contractId } = useContract();
 
-  const {
-    users,
-    isLoading: loadingUsers,
-    fetchUsers,
-    refetch,
-  } = useFetchUsers();
+  const [firstSearch, setFirstSearch] = useState<boolean>(true);
 
   const [getAddressCoordinates, { loading }] =
     useGetAddressCoordinatesLazyQuery({
       fetchPolicy: "network-only",
     });
 
-  const [isFirstSearch, setIsFirstSearch] = useState(true);
+  const [getUserByAddress, { data: usersData }] =
+    useGetUserFromAddressOrUuidLazyQuery();
 
   async function searchFunction(
     searchValue: string,
@@ -53,14 +44,26 @@ export default function UserManagement() {
   }
 
   const onSubmit = (data: { [key: string]: string }) => {
-    const params: Params = {
-      id: data.id || "",
-      address: data.address || "",
-      limit: 10,
-      page: 1,
-    };
-    setIsFirstSearch(false);
-    fetchUsers(params);
+    setFirstSearch(false);
+    const uuid = data.id;
+    const streetNumber = data.address.split(" ")[0];
+    const streetName = data.address
+      .split(" ")
+      .slice(1, data.address.split(" ").length - 2);
+    const postalCode =
+      data.address.split(" ")[data.address.split(" ").length - 2];
+    const city = data.address.split(" ")[data.address.split(" ").length - 1];
+
+    getUserByAddress({
+      variables: {
+        contractId: contractId,
+        isUUID: uuid ? true : false,
+        city: city,
+        postalCode: postalCode,
+        streetName: streetName.join(" "),
+        streetNumber: streetNumber,
+      },
+    });
   };
 
   return (
@@ -97,12 +100,7 @@ export default function UserManagement() {
           </div>
         </div>
       </form>
-      <UserListBlock
-        users={users}
-        isLoading={loadingUsers}
-        refetch={refetch}
-        isFirstSearch={isFirstSearch}
-      />
+      <UserListBlock users={usersData} firstSearch={firstSearch} />
     </FormProvider>
   );
 }

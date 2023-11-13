@@ -1,0 +1,5 @@
+mutation updateCounterStatus($uuid: String!, $activeCounter: Boolean!) {
+  updateCounterStatus(uuid: $uuid, activeCounter: $activeCounter) {
+    activeCounter
+  }
+}

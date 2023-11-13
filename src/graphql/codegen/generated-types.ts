@@ -184,6 +184,25 @@ export type Activation = {
 
 export type ActivationAndService = Activation | Service;
 
+export type Address = {
+  __typename?: "Address";
+  city?: Maybe<Scalars["String"]>;
+  citycode?: Maybe<Scalars["String"]>;
+  context?: Maybe<Scalars["String"]>;
+  district?: Maybe<Scalars["String"]>;
+  housenumber?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["String"]>;
+  importance?: Maybe<Scalars["Float"]>;
+  label?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  postcode?: Maybe<Scalars["String"]>;
+  score?: Maybe<Scalars["Float"]>;
+  street?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  x?: Maybe<Scalars["Float"]>;
+  y?: Maybe<Scalars["Float"]>;
+};
+
 export type AlertNotification = {
   __typename?: "AlertNotification";
   alertDescription: Scalars["String"];
@@ -1047,6 +1066,21 @@ export type CollectVoluntaryRelationResponseCollection = {
   data: Array<CollectVoluntaryEntity>;
 };
 
+export type Communication = {
+  __typename?: "Communication";
+  alerts?: Maybe<CommunicationType>;
+  evolutionServices?: Maybe<Scalars["Boolean"]>;
+  sociologicalSurveys?: Maybe<Scalars["Boolean"]>;
+  tips?: Maybe<CommunicationType>;
+};
+
+export type CommunicationType = {
+  __typename?: "CommunicationType";
+  email?: Maybe<Scalars["Boolean"]>;
+  push?: Maybe<Scalars["Boolean"]>;
+  sms?: Maybe<Scalars["Boolean"]>;
+};
+
 export type ComponentBlocksAttachments = {
   __typename?: "ComponentBlocksAttachments";
   attachment?: Maybe<UploadFileRelationResponseCollection>;
@@ -1600,6 +1634,12 @@ export type ConfidentialitySubServiceInput = {
   editorialService?: InputMaybe<Scalars["ID"]>;
   link?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
+};
+
+export type Consents = {
+  __typename?: "Consents";
+  acceptanceDate?: Maybe<Scalars["String"]>;
+  version?: Maybe<Scalars["String"]>;
 };
 
 export type ContactResponse = {
@@ -4599,6 +4639,7 @@ export type Mutation = {
   updateContractNumberOfInhabitants?: Maybe<Scalars["Boolean"]>;
   updateCookie?: Maybe<CookieEntityResponse>;
   updateCookiesSubService?: Maybe<CookiesSubServiceEntityResponse>;
+  updateCounterStatus?: Maybe<User>;
   updateDescriptionService?: Maybe<DescriptionServiceEntityResponse>;
   updateDocument?: Maybe<DocumentEntityResponse>;
   updateDropOffMap?: Maybe<DropOffMapEntityResponse>;
@@ -5642,6 +5683,11 @@ export type MutationUpdateCookiesSubServiceArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateCounterStatusArgs = {
+  activeCounter: Scalars["Boolean"];
+  uuid: Scalars["String"];
+};
+
 export type MutationUpdateDescriptionServiceArgs = {
   data: DescriptionServiceInput;
   id: Scalars["ID"];
@@ -6354,6 +6400,12 @@ export type NextAvailableSlots = {
   slotMessage?: Maybe<Scalars["String"]>;
 };
 
+export type OldQrCodeMapping = {
+  __typename?: "OldQrCodeMapping";
+  idNewQrcode: Scalars["String"];
+  newShortname: Scalars["String"];
+};
+
 export type Pagination = {
   __typename?: "Pagination";
   page: Scalars["Int"];
@@ -6681,6 +6733,7 @@ export type Query = {
   getNewestTopContents?: Maybe<Array<Maybe<EventOrNews>>>;
   getNextAvailableSlots?: Maybe<NextAvailableSlots>;
   getOldQrCodeMappings?: Maybe<Scalars["JSON"]>;
+  getOldQrCodeSingleMapping: OldQrCodeMapping;
   getPickUpDaysByCoordinates?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   getRequestsHistoric?: Maybe<Array<Maybe<Historic>>>;
   getServiceBlockData?: Maybe<Scalars["JSON"]>;
@@ -6689,6 +6742,7 @@ export type Query = {
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
   getTopContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
   getUserContracts?: Maybe<Array<Maybe<UserContract>>>;
+  getUserFromAddressOrUuid?: Maybe<User>;
   global?: Maybe<GlobalEntityResponse>;
   homepage?: Maybe<HomepageEntityResponse>;
   homepages?: Maybe<HomepageEntityResponseCollection>;
@@ -7274,6 +7328,16 @@ export type QueryGetNextAvailableSlotsArgs = {
   requestId: Scalars["ID"];
 };
 
+export type QueryGetOldQrCodeMappingsArgs = {
+  contractId: Scalars["ID"];
+};
+
+export type QueryGetOldQrCodeSingleMappingArgs = {
+  contractId: Scalars["ID"];
+  legacyServiceName: Scalars["String"];
+  uuidLegacy: Scalars["String"];
+};
+
 export type QueryGetPickUpDaysByCoordinatesArgs = {
   lat: Scalars["Float"];
   long: Scalars["Float"];
@@ -7309,6 +7373,16 @@ export type QueryGetTopContentDtOsArgs = {
 
 export type QueryGetUserContractsArgs = {
   uuid: Scalars["String"];
+};
+
+export type QueryGetUserFromAddressOrUuidArgs = {
+  city?: InputMaybe<Scalars["String"]>;
+  contractId?: InputMaybe<Scalars["ID"]>;
+  isUUID: Scalars["Boolean"];
+  postalCode?: InputMaybe<Scalars["String"]>;
+  streetName?: InputMaybe<Scalars["String"]>;
+  streetNumber?: InputMaybe<Scalars["String"]>;
+  uuid?: InputMaybe<Scalars["String"]>;
 };
 
 export type QueryHomepageArgs = {
@@ -9528,15 +9602,27 @@ export type UploadResult = {
 
 export type User = {
   __typename?: "User";
+  _id?: Maybe<Scalars["ID"]>;
+  activationDate?: Maybe<Scalars["String"]>;
+  activeCounter?: Maybe<Scalars["Boolean"]>;
+  address?: Maybe<Address>;
+  communication?: Maybe<Communication>;
+  consents?: Maybe<Array<Maybe<Consents>>>;
+  contracts?: Maybe<Array<Maybe<Scalars["Int"]>>>;
+  dwellingType?: Maybe<Scalars["String"]>;
   email?: Maybe<Scalars["String"]>;
   firstName?: Maybe<Scalars["String"]>;
+  firstname?: Maybe<Scalars["String"]>;
+  householdSize?: Maybe<Scalars["Int"]>;
   id?: Maybe<Scalars["String"]>;
   lastName?: Maybe<Scalars["String"]>;
+  lastname?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
   phone?: Maybe<Scalars["String"]>;
   phoneNumber?: Maybe<Scalars["String"]>;
   role?: Maybe<Scalars["String"]>;
   surname?: Maybe<Scalars["String"]>;
+  userType?: Maybe<Scalars["String"]>;
   uuid?: Maybe<Scalars["String"]>;
 };
 
@@ -15228,6 +15314,47 @@ export type GetMwcounterServicesQuery = {
         city?: string | null;
       } | null;
     }>;
+  } | null;
+};
+
+export type GetUserFromAddressOrUuidQueryVariables = Exact<{
+  isUUID: Scalars["Boolean"];
+  contractId?: InputMaybe<Scalars["ID"]>;
+  streetNumber?: InputMaybe<Scalars["String"]>;
+  streetName?: InputMaybe<Scalars["String"]>;
+  postalCode?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type GetUserFromAddressOrUuidQuery = {
+  __typename?: "Query";
+  getUserFromAddressOrUuid?: {
+    __typename?: "User";
+    uuid?: string | null;
+    activeCounter?: boolean | null;
+    email?: string | null;
+    firstName?: string | null;
+    address?: {
+      __typename?: "Address";
+      city?: string | null;
+      housenumber?: string | null;
+      label?: string | null;
+      postcode?: string | null;
+      street?: string | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateCounterStatusMutationVariables = Exact<{
+  uuid: Scalars["String"];
+  activeCounter: Scalars["Boolean"];
+}>;
+
+export type UpdateCounterStatusMutation = {
+  __typename?: "Mutation";
+  updateCounterStatus?: {
+    __typename?: "User";
+    activeCounter?: boolean | null;
   } | null;
 };
 
@@ -29920,6 +30047,145 @@ export type GetMwcounterServicesLazyQueryHookResult = ReturnType<
 export type GetMwcounterServicesQueryResult = Apollo.QueryResult<
   GetMwcounterServicesQuery,
   GetMwcounterServicesQueryVariables
+>;
+export const GetUserFromAddressOrUuidDocument = gql`
+  query getUserFromAddressOrUuid(
+    $isUUID: Boolean!
+    $contractId: ID
+    $streetNumber: String
+    $streetName: String
+    $postalCode: String
+    $city: String
+  ) {
+    getUserFromAddressOrUuid(
+      isUUID: $isUUID
+      contractId: $contractId
+      streetNumber: $streetNumber
+      streetName: $streetName
+      postalCode: $postalCode
+      city: $city
+    ) {
+      uuid
+      activeCounter
+      address {
+        city
+        housenumber
+        label
+        city
+        postcode
+        street
+      }
+      email
+      firstName
+    }
+  }
+`;
+
+/**
+ * __useGetUserFromAddressOrUuidQuery__
+ *
+ * To run a query within a React component, call `useGetUserFromAddressOrUuidQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserFromAddressOrUuidQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserFromAddressOrUuidQuery({
+ *   variables: {
+ *      isUUID: // value for 'isUUID'
+ *      contractId: // value for 'contractId'
+ *      streetNumber: // value for 'streetNumber'
+ *      streetName: // value for 'streetName'
+ *      postalCode: // value for 'postalCode'
+ *      city: // value for 'city'
+ *   },
+ * });
+ */
+export function useGetUserFromAddressOrUuidQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserFromAddressOrUuidQuery,
+    GetUserFromAddressOrUuidQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserFromAddressOrUuidQuery,
+    GetUserFromAddressOrUuidQueryVariables
+  >(GetUserFromAddressOrUuidDocument, options);
+}
+export function useGetUserFromAddressOrUuidLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserFromAddressOrUuidQuery,
+    GetUserFromAddressOrUuidQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserFromAddressOrUuidQuery,
+    GetUserFromAddressOrUuidQueryVariables
+  >(GetUserFromAddressOrUuidDocument, options);
+}
+export type GetUserFromAddressOrUuidQueryHookResult = ReturnType<
+  typeof useGetUserFromAddressOrUuidQuery
+>;
+export type GetUserFromAddressOrUuidLazyQueryHookResult = ReturnType<
+  typeof useGetUserFromAddressOrUuidLazyQuery
+>;
+export type GetUserFromAddressOrUuidQueryResult = Apollo.QueryResult<
+  GetUserFromAddressOrUuidQuery,
+  GetUserFromAddressOrUuidQueryVariables
+>;
+export const UpdateCounterStatusDocument = gql`
+  mutation updateCounterStatus($uuid: String!, $activeCounter: Boolean!) {
+    updateCounterStatus(uuid: $uuid, activeCounter: $activeCounter) {
+      activeCounter
+    }
+  }
+`;
+export type UpdateCounterStatusMutationFn = Apollo.MutationFunction<
+  UpdateCounterStatusMutation,
+  UpdateCounterStatusMutationVariables
+>;
+
+/**
+ * __useUpdateCounterStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateCounterStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCounterStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCounterStatusMutation, { data, loading, error }] = useUpdateCounterStatusMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      activeCounter: // value for 'activeCounter'
+ *   },
+ * });
+ */
+export function useUpdateCounterStatusMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCounterStatusMutation,
+    UpdateCounterStatusMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateCounterStatusMutation,
+    UpdateCounterStatusMutationVariables
+  >(UpdateCounterStatusDocument, options);
+}
+export type UpdateCounterStatusMutationHookResult = ReturnType<
+  typeof useUpdateCounterStatusMutation
+>;
+export type UpdateCounterStatusMutationResult =
+  Apollo.MutationResult<UpdateCounterStatusMutation>;
+export type UpdateCounterStatusMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCounterStatusMutation,
+  UpdateCounterStatusMutationVariables
 >;
 export const UpdateMwcBarometerParamsDocument = gql`
   mutation updateMwcBarometerParams(

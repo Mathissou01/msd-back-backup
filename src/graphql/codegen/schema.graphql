@@ -126,6 +126,24 @@ type Activation {
 
 union ActivationAndService = Activation | Service
 
+type Address {
+  city: String
+  citycode: String
+  context: String
+  district: String
+  housenumber: String
+  id: String
+  importance: Float
+  label: String
+  name: String
+  postcode: String
+  score: Float
+  street: String
+  type: String
+  x: Float
+  y: Float
+}
+
 type AlertNotification {
   alertDescription: String!
   alertMessage: String
@@ -903,6 +921,19 @@ type CollectVoluntaryRelationResponseCollection {
   data: [CollectVoluntaryEntity!]!
 }
 
+type Communication {
+  alerts: CommunicationType
+  evolutionServices: Boolean
+  sociologicalSurveys: Boolean
+  tips: CommunicationType
+}
+
+type CommunicationType {
+  email: Boolean
+  push: Boolean
+  sms: Boolean
+}
+
 type ComponentBlocksAttachments {
   attachment(
     filters: UploadFileFiltersInput
@@ -1381,6 +1412,11 @@ input ConfidentialitySubServiceInput {
   editorialService: ID
   link: String
   name: String
+}
+
+type Consents {
+  acceptanceDate: String
+  version: String
 }
 
 type ContactResponse {
@@ -4403,6 +4439,7 @@ type Mutation {
     data: CookiesSubServiceInput!
     id: ID!
   ): CookiesSubServiceEntityResponse
+  updateCounterStatus(activeCounter: Boolean!, uuid: String!): User
   updateDescriptionService(
     data: DescriptionServiceInput!
     id: ID!
@@ -4930,6 +4967,11 @@ type NextAvailableSlots {
   slotMessage: String
 }
 
+type OldQrCodeMapping {
+  idNewQrcode: String!
+  newShortname: String!
+}
+
 type Pagination {
   page: Int!
   pageCount: Int!
@@ -5408,7 +5450,12 @@ type Query {
     long: Float!
     requestId: ID!
   ): NextAvailableSlots
-  getOldQrCodeMappings: JSON
+  getOldQrCodeMappings(contractId: ID!): JSON
+  getOldQrCodeSingleMapping(
+    contractId: ID!
+    legacyServiceName: String!
+    uuidLegacy: String!
+  ): OldQrCodeMapping!
   getPickUpDaysByCoordinates(
     lat: Float!
     long: Float!
@@ -5425,6 +5472,15 @@ type Query {
     status: ENUM_TOPCONTENTDTO_STATUS
   ): [EditoContentDTO]
   getUserContracts(uuid: String!): [UserContract]
+  getUserFromAddressOrUuid(
+    city: String
+    contractId: ID
+    isUUID: Boolean!
+    postalCode: String
+    streetName: String
+    streetNumber: String
+    uuid: String
+  ): User
   global: GlobalEntityResponse
   homepage(id: ID): HomepageEntityResponse
   homepages(
@@ -7281,15 +7337,27 @@ type UploadResult {
 }
 
 type User {
+  _id: ID
+  activationDate: String
+  activeCounter: Boolean
+  address: Address
+  communication: Communication
+  consents: [Consents]
+  contracts: [Int]
+  dwellingType: String
   email: String
   firstName: String
+  firstname: String
+  householdSize: Int
   id: String
   lastName: String
+  lastname: String
   name: String
   phone: String
   phoneNumber: String
   role: String
   surname: String
+  userType: String
   uuid: String
 }
 

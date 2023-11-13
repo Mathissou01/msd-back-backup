@@ -1,67 +1,76 @@
 import React from "react";
-import { IUser, getRightsByLabel } from "../../../../lib/user";
+import { getRightsByLabel } from "../../../../lib/user";
 import CommonButton from "../../../Common/CommonButton/CommonButton";
 import CommonSpinner from "../../../Common/CommonSpinner/CommonSpinner";
-import useUpdateUser from "../../../../hooks/User/useUpdateUser";
 import { useUser } from "../../../../hooks/useUser";
 import "./user-list-block.scss";
+import {
+  Address,
+  GetUserFromAddressOrUuidQuery,
+  useUpdateCounterStatusMutation,
+} from "../../../../graphql/codegen/generated-types";
 
 interface IUserListBlockProps {
-  users: IUser[];
-  isLoading: boolean;
-  refetch: () => void;
-  isFirstSearch: boolean;
+  users: GetUserFromAddressOrUuidQuery | undefined;
+  firstSearch: boolean;
 }
 export default function UserListBlock({
   users,
-  isLoading,
-  refetch,
-  isFirstSearch,
+  firstSearch,
 }: IUserListBlockProps) {
   /* Local data */
   const { userRights } = useUser();
   const userPermissions = getRightsByLabel("Mwc", userRights);
-  const { updateUser } = useUpdateUser();
+
+  const [updateUserCounter, { loading }] = useUpdateCounterStatusMutation();
+
+  function userAddressTransform(address: Address) {
+    return `${address.housenumber} ${address.street} ${address.postcode} ${address.city}`;
+  }
 
   return (
     <div className="c-UserListBlock">
-      {users && users.length > 0 ? (
+      {users && users.getUserFromAddressOrUuid ? (
         <>
-          {!isLoading ? (
-            users?.map((user) => (
-              <div
-                className="c-UserListBlock__UserBlockContainer"
-                key={user._id}
-              >
-                <div className="c-UserListBlock__UserBlock">
-                  <div>
-                    <p>ID utilisateur</p>
-                    <strong>{user._id}</strong>
-                  </div>
-                  <div>
-                    <p>Email</p>
-                    <strong>{user.email}</strong>
-                  </div>
-                  <div>
-                    <p>Adresse complète</p>
-                    <strong>{user.addressLabel}</strong>
-                  </div>
+          {!loading ? (
+            <div className="c-UserListBlock__UserBlockContainer">
+              <div className="c-UserListBlock__UserBlock">
+                <div>
+                  <p>ID utilisateur</p>
+                  <strong>{users.getUserFromAddressOrUuid.uuid}</strong>
                 </div>
-                {user.activeCounter ? (
-                  <CommonButton
-                    type="button"
-                    label="Désactiver le compteur"
-                    isDisabled={!userPermissions.update}
-                    style="secondary"
-                    onClick={() => {
-                      updateUser(user._id, { activeCounter: false }, refetch);
-                    }}
-                  />
-                ) : (
-                  <p>Le compteur déchets de l&apos;utilisateur est désactivé</p>
-                )}
+                <div>
+                  <p>Email</p>
+                  <strong>{users.getUserFromAddressOrUuid.email}</strong>
+                </div>
+                <div>
+                  <p>Adresse complète</p>
+                  <strong>
+                    {userAddressTransform(
+                      users.getUserFromAddressOrUuid.address ?? {},
+                    )}
+                  </strong>
+                </div>
               </div>
-            ))
+              {users.getUserFromAddressOrUuid.activeCounter ? (
+                <CommonButton
+                  type="button"
+                  label="Désactiver le compteur"
+                  isDisabled={!userPermissions.update}
+                  style="secondary"
+                  onClick={() =>
+                    updateUserCounter({
+                      variables: {
+                        uuid: users?.getUserFromAddressOrUuid?.uuid ?? "",
+                        activeCounter: false,
+                      },
+                    })
+                  }
+                />
+              ) : (
+                <p>Le compteur déchets de l&apos;utilisateur est désactivé</p>
+              )}
+            </div>
           ) : (
             <div className="c-UserListBlock__Spinner">
               <CommonSpinner />
@@ -70,8 +79,7 @@ export default function UserListBlock({
         </>
       ) : (
         <p className="c-UserListBlock__UserNotFound">
-          {!isFirstSearch &&
-            "Aucun utilisateur ne correspond à votre recherche"}
+          {!firstSearch && "Aucun utilisateur ne correspond à votre recherche"}
         </p>
       )}
     </div>
