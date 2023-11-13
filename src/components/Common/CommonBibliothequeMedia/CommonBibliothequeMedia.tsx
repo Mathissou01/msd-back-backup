@@ -13,7 +13,12 @@ import {
   GetUploadFoldersDocument,
 } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
-import { IFolder, ILocalFile, TAcceptedMimeTypes } from "../../../lib/media";
+import {
+  IFolder,
+  ILocalFile,
+  TAcceptedMimeTypes,
+  uploadFile,
+} from "../../../lib/media";
 import { removeQuotesInString } from "../../../lib/utilities";
 import { getRightsByLabel } from "../../../lib/user";
 import { useUser } from "../../../hooks/useUser";
@@ -95,7 +100,7 @@ export default function CommonBibliothequeMedia({
     const file: ILocalFile | undefined = fileToEdit;
     if (file?.id !== undefined) {
       setUploadLoading(true);
-
+      await uploadFile(activePathId, file, file.id);
       void updateUploadFile({
         variables: {
           updateUploadFileId: file?.id,

@@ -126,7 +126,11 @@ export function remapUploadFileEntityToLocalFile(
   return mappedData;
 }
 
-export async function uploadFile(activePathId: number, file: ILocalFile) {
+export async function uploadFile(
+  activePathId: number,
+  file: ILocalFile,
+  fileId?: string,
+) {
   const { data: foldersData, errors: foldersErrors } =
     await client.query<GetUploadFoldersByPathIdQuery>({
       query: GetUploadFoldersByPathIdDocument,
@@ -159,7 +163,7 @@ export async function uploadFile(activePathId: number, file: ILocalFile) {
             await client.mutate<UpdateUploadFileByIdMutation>({
               mutation: UpdateUploadFileByIdDocument,
               variables: {
-                updateUploadFileId: data[0].id,
+                updateUploadFileId: fileId ?? data[0].id,
                 data: {
                   folder: file.folder ?? foldersData?.uploadFolders?.data[0].id,
                   name: file.name,

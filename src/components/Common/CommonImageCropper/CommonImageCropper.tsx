@@ -177,7 +177,7 @@ export default function CommonImageCropper({
                 <Image
                   className="c-CommonImageCropper__Image"
                   ref={imgRef}
-                  alt="Crop me"
+                  alt={fileToEdit.alternativeText}
                   src={fileToEdit.url}
                   onLoad={onImageLoad}
                   width={500}
