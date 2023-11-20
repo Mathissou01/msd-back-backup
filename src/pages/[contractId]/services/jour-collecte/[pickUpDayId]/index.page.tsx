@@ -7,6 +7,7 @@ import { useRoutingQueryId } from "../../../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../../../layouts/ContractLayout/ContractLayout";
 import PickUpDaysForm from "../../../../../components/PickUpDays/PickUpDaysForm";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
+import CommonReturnButton from "../../../../../components/Common/CommonReturnButton/CommonReturnButton";
 import PageTitle from "../../../../../components/PageTitle/PageTitle";
 import { IFormSingleMultiselectOption } from "../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import {
@@ -293,6 +294,10 @@ export function ServicesPickUpDayEditPage({
     <div className="o-ServicesPickUpDayEditPage">
       {pickUpDayId && mappedData && (
         <>
+          <CommonReturnButton
+            path="/services/jour-collecte"
+            query={{ tab: "collecte" }}
+          />
           <PageTitle
             title={isCreateMode ? labels.createTitle : mappedData.name}
           />

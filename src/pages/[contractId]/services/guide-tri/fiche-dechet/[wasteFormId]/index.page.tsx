@@ -29,6 +29,7 @@ import PageTitle from "../../../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
 import { IFormSingleMultiselectOption } from "../../../../../../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 import WasteFormForm from "../../../../../../components/RecyclingGuide/WasteForm/WasteFormForm";
+import CommonReturnButton from "../../../../../../components/Common/CommonReturnButton/CommonReturnButton";
 
 interface IServiceGuideDuTriEditPageProps {
   wasteFormId: string;
@@ -276,6 +277,7 @@ export function ServiceGuideDuTriEditPage({
     <div className="o-FormEditPage">
       {mappedData && (
         <>
+          <CommonReturnButton />
           <PageTitle title={mappedData.name} />
           <CommonLoader isLoading={isLoading} errors={errors}>
             <WasteFormForm

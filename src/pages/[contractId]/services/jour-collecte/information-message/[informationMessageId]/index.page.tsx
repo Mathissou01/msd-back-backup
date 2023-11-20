@@ -14,6 +14,7 @@ import {
 import InformationMessageForm from "../../../../../../components/InformationMessage/InformationMessageForm";
 import PageTitle from "../../../../../../components/PageTitle/PageTitle";
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
+import CommonReturnButton from "../../../../../../components/Common/CommonReturnButton/CommonReturnButton";
 
 interface IInformationMessageIdPageProps {
   informationMessageId: string;
@@ -171,6 +172,10 @@ export function InformationMessageEditPage({
   return (
     <div className="o-InformationMessageEditPage">
       <>
+        <CommonReturnButton
+          path="/services/jour-collecte"
+          query={{ tab: "informationMessage" }}
+        />
         {isCreateMode ? (
           <PageTitle title={titleCreationInformationMessage} />
         ) : (

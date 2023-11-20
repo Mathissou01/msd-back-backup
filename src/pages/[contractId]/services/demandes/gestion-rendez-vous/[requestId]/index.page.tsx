@@ -12,8 +12,8 @@ import {
 import CommonLoader from "../../../../../../components/Common/CommonLoader/CommonLoader";
 import { IDataTableAction } from "../../../../../../components/Common/CommonDataTable/DataTableActions/DataTableActions";
 import CommonDataTable from "../../../../../../components/Common/CommonDataTable/CommonDataTable";
-import InformationMessageFormReturnButton from "../../../../../../components/InformationMessage/InformationMessageFormReturnButton/InformationMessageFormReturnButton";
 import PageTitle from "../../../../../../components/PageTitle/PageTitle";
+import CommonReturnButton from "../../../../../../components/Common/CommonReturnButton/CommonReturnButton";
 import CommonAccordion from "../../../../../../components/Common/CommonAccordion/CommonAccordion";
 import "./gestion-rendez-vous.scss";
 
@@ -387,7 +387,7 @@ export function AppointmentManagementPage({
     <div className="c-AppointmentManagementPage">
       {requestId && (
         <>
-          <InformationMessageFormReturnButton
+          <CommonReturnButton
             path="/services/demandes"
             query={{ tab: "appointmentManagement" }}
           />

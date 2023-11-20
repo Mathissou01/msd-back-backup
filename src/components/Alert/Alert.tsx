@@ -19,6 +19,7 @@ import {
 import PageTitle from "../PageTitle/PageTitle";
 import CommonLoader from "../Common/CommonLoader/CommonLoader";
 import CommonButton from "../Common/CommonButton/CommonButton";
+import CommonReturnButton from "../Common/CommonReturnButton/CommonReturnButton";
 import { IFormSingleMultiselectOption } from "../Form/FormSingleMultiselect/FormSingleMultiselect";
 import FormInput from "../Form/FormInput/FormInput";
 import FormDatePicker from "../Form/FormDatePicker/FormDatePicker";
@@ -347,6 +348,7 @@ export default function Alert({
 
   return (
     <div className="c-Alert">
+      <CommonReturnButton />
       <CommonLoader
         isLoading={isLoading}
         isShowingContent={isLoading}

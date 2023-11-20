@@ -6,7 +6,6 @@ import FormLayout, {
 import InformationMessageFormButtons, {
   IInformationMessageFormButtonsLabels,
 } from "./InformationMessageFormButtons/InformationMessageFormButtons";
-import InformationMessageFormReturnButton from "./InformationMessageFormReturnButton/InformationMessageFormReturnButton";
 import InformationMessageFormStaticFields, {
   IInformationMessageFormStaticFieldsLabels,
 } from "./InformationMessageFormStaticFields/InformationMessageFormStaticFields";
@@ -32,12 +31,6 @@ export default function InformationMessageForm({
   labels,
   buttonsLabels,
 }: IInformationMessageFormProps) {
-  const returnButton = (
-    <InformationMessageFormReturnButton
-      path="/services/jour-collecte"
-      query={{ tab: "informationMessage" }}
-    />
-  );
   const contentButton = (
     <InformationMessageFormButtons
       onCancel={onCancel}
@@ -53,7 +46,6 @@ export default function InformationMessageForm({
 
   return (
     <FormLayout
-      returnButton={returnButton}
       buttonContent={contentButton}
       formContent={fieldContent}
       formOptions={formOptions}

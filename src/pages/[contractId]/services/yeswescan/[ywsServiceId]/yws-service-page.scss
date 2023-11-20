@@ -3,14 +3,4 @@
 .c-YWSServicePage {
   width: 100%;
   margin-top: 32px;
-
-  &__ReturnButton {
-    @include p.get-picto(
-      "arrowLeft",
-      $backgroundPosition: left,
-      $backgroundSize: 16px
-    );
-
-    padding-left: 26px;
-  }
 }

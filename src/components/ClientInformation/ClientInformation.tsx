@@ -12,13 +12,13 @@ import FormSelect from "../Form/FormSelect/FormSelect";
 import { IOptionWrapper } from "../Form/FormMultiselect/FormMultiselect";
 import CommonButton from "../Common/CommonButton/CommonButton";
 import CommonLoader from "../Common/CommonLoader/CommonLoader";
+import CommonReturnButton from "../Common/CommonReturnButton/CommonReturnButton";
 import PageTitle from "../PageTitle/PageTitle";
 import "./client-information.scss";
 
 export default function ClientInformation() {
   /* Static Data */
   const formLabels = {
-    back: "Retour",
     pageTitle: "Informations",
     client: {
       title: "Client",
@@ -174,13 +174,7 @@ export default function ClientInformation() {
 
   return (
     <div className="c-ClientInformation">
-      <button
-        className="c-ClientInformation__BackButton"
-        type="button"
-        onClick={() => router.back()}
-      >
-        <span>{formLabels.back}</span>
-      </button>
+      <CommonReturnButton />
       <PageTitle title={formLabels.pageTitle} />
       <CommonLoader isLoading={loading} errors={[error]}>
         <FormProvider {...form}>

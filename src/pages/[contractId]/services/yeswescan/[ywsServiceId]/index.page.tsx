@@ -8,6 +8,7 @@ import TabBlock, { ITab } from "../../../../../components/TabBlock/TabBlock";
 import YesWeScanServiceReportingTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceReportingTab/YesWeScanServiceReportingTab";
 import YesWeScanServiceAssociationTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceAssociationTab/YesWeScanServiceAssociationTab";
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
+import CommonReturnButton from "../../../../../components/Common/CommonReturnButton/CommonReturnButton";
 import YesWeScanServiceQRCodeTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceQRCodeTab/YesWeScanServiceQRCodeTab";
 import "./yws-service-page.scss";
 
@@ -19,7 +20,6 @@ function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
   /* Static Data */
   const labels = {
     title: `YesWeScan`,
-    returnButton: "Retour",
     tabs: {
       reportingForm: "Formulaire de signalement",
       qrcode: "QR Code",
@@ -97,13 +97,7 @@ function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
   return (
     <div className="c-YWSServicePage">
       <CommonLoader isLoading={isLoading}>
-        <button
-          className="c-YWSServicePage__ReturnButton"
-          type="button"
-          onClick={() => router.back()}
-        >
-          <span>{labels.returnButton}</span>
-        </button>
+        <CommonReturnButton />
         <PageTitle
           title={`${labels.title} - ${data?.yesWeScanService?.data?.attributes?.serviceName}`}
         />

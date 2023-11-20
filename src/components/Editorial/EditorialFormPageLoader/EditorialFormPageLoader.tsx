@@ -18,6 +18,7 @@ import { useNavigation } from "../../../hooks/useNavigation";
 import { useRoutingQueryId } from "../../../hooks/useRoutingQueryId";
 import ContractLayout from "../../../layouts/ContractLayout/ContractLayout";
 import EditorialFormPage, { IEditorialFormPage } from "./EditorialFormPage";
+import CommonReturnButton from "../../Common/CommonReturnButton/CommonReturnButton";
 
 export default function EditorialFormPageLoader({
   queryParam,
@@ -119,6 +120,7 @@ export default function EditorialFormPageLoader({
 
   return (
     <ContractLayout>
+      <CommonReturnButton />
       {contentId && mappedData && (
         <EditorialFormPage
           isCreateMode={contentId === "-1"}

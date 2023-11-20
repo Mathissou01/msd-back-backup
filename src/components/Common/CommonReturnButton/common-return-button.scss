@@ -1,17 +1,15 @@
 @use "src/styles/02-tools/tools.pictos" as p;
 
-.c-InformationMessageFormReturnButton {
-  display: flex;
-  gap: 16px;
-  justify-content: flex-start;
-
-  &__ReturnButton {
+.c-CommonReturnButton {
+  &__BackButton {
     @include p.get-picto(
       "arrowLeft",
       $backgroundPosition: left,
       $backgroundSize: 16px
     );
 
+    position: absolute;
+    top: 30px;
     padding-left: 26px;
   }
 }
