@@ -1,6 +1,7 @@
-query getActiveFlowsByContractIdAndSectorizationsId(
+query getActiveFlowsByContractAndCityAndSectorizations(
   $contractId: ID
   $sectorizationsId: [ID]
+  $citiesId: [ID]
 ) {
   flows(
     filters: {
@@ -14,7 +15,10 @@ query getActiveFlowsByContractIdAndSectorizationsId(
       attributes {
         name
         pickUpDays(
-          filters: { sectorizations: { id: { in: $sectorizationsId } } }
+          filters: {
+            sectorizations: { id: { in: $sectorizationsId } }
+            cities: { id: { in: $citiesId } }
+          }
         ) {
           data {
             id

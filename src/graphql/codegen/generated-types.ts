@@ -724,12 +724,18 @@ export type City = {
   epci?: Maybe<EpciEntityResponse>;
   insee?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
-  pickUpDay?: Maybe<PickUpDayEntityResponse>;
+  pickUpDays?: Maybe<PickUpDayRelationResponseCollection>;
   postalCode?: Maybe<Scalars["String"]>;
   region?: Maybe<Scalars["String"]>;
   siren?: Maybe<Scalars["String"]>;
   territories?: Maybe<TerritoryRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CityPickUpDaysArgs = {
+  filters?: InputMaybe<PickUpDayFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CityTerritoriesArgs = {
@@ -767,7 +773,7 @@ export type CityFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<CityFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
-  pickUpDay?: InputMaybe<PickUpDayFiltersInput>;
+  pickUpDays?: InputMaybe<PickUpDayFiltersInput>;
   postalCode?: InputMaybe<StringFilterInput>;
   region?: InputMaybe<StringFilterInput>;
   siren?: InputMaybe<StringFilterInput>;
@@ -792,7 +798,7 @@ export type CityInput = {
   epci?: InputMaybe<Scalars["ID"]>;
   insee?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
-  pickUpDay?: InputMaybe<Scalars["ID"]>;
+  pickUpDays?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   postalCode?: InputMaybe<Scalars["String"]>;
   region?: InputMaybe<Scalars["String"]>;
   siren?: InputMaybe<Scalars["String"]>;
@@ -4605,6 +4611,7 @@ export type Mutation = {
   /** Register a user */
   register: UsersPermissionsLoginPayload;
   removeFile?: Maybe<UploadFileEntityResponse>;
+  requestResetCronTask?: Maybe<Scalars["Boolean"]>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
   sendEmail?: Maybe<Scalars["String"]>;
@@ -19427,15 +19434,18 @@ export type GetDropOffCollectTypeByContractIdQuery = {
   } | null> | null;
 };
 
-export type GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables =
+export type GetActiveFlowsByContractAndCityAndSectorizationsQueryVariables =
   Exact<{
     contractId?: InputMaybe<Scalars["ID"]>;
     sectorizationsId?: InputMaybe<
       Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>
     >;
+    citiesId?: InputMaybe<
+      Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>
+    >;
   }>;
 
-export type GetActiveFlowsByContractIdAndSectorizationsIdQuery = {
+export type GetActiveFlowsByContractAndCityAndSectorizationsQuery = {
   __typename?: "Query";
   flows?: {
     __typename?: "FlowEntityResponseCollection";
@@ -37294,10 +37304,11 @@ export type GetDropOffCollectTypeByContractIdQueryResult = Apollo.QueryResult<
   GetDropOffCollectTypeByContractIdQuery,
   GetDropOffCollectTypeByContractIdQueryVariables
 >;
-export const GetActiveFlowsByContractIdAndSectorizationsIdDocument = gql`
-  query getActiveFlowsByContractIdAndSectorizationsId(
+export const GetActiveFlowsByContractAndCityAndSectorizationsDocument = gql`
+  query getActiveFlowsByContractAndCityAndSectorizations(
     $contractId: ID
     $sectorizationsId: [ID]
+    $citiesId: [ID]
   ) {
     flows(
       filters: {
@@ -37311,7 +37322,10 @@ export const GetActiveFlowsByContractIdAndSectorizationsIdDocument = gql`
         attributes {
           name
           pickUpDays(
-            filters: { sectorizations: { id: { in: $sectorizationsId } } }
+            filters: {
+              sectorizations: { id: { in: $sectorizationsId } }
+              cities: { id: { in: $citiesId } }
+            }
           ) {
             data {
               id
@@ -37324,54 +37338,57 @@ export const GetActiveFlowsByContractIdAndSectorizationsIdDocument = gql`
 `;
 
 /**
- * __useGetActiveFlowsByContractIdAndSectorizationsIdQuery__
+ * __useGetActiveFlowsByContractAndCityAndSectorizationsQuery__
  *
- * To run a query within a React component, call `useGetActiveFlowsByContractIdAndSectorizationsIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetActiveFlowsByContractIdAndSectorizationsIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetActiveFlowsByContractAndCityAndSectorizationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActiveFlowsByContractAndCityAndSectorizationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetActiveFlowsByContractIdAndSectorizationsIdQuery({
+ * const { data, loading, error } = useGetActiveFlowsByContractAndCityAndSectorizationsQuery({
  *   variables: {
  *      contractId: // value for 'contractId'
  *      sectorizationsId: // value for 'sectorizationsId'
+ *      citiesId: // value for 'citiesId'
  *   },
  * });
  */
-export function useGetActiveFlowsByContractIdAndSectorizationsIdQuery(
+export function useGetActiveFlowsByContractAndCityAndSectorizationsQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
-    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
+    GetActiveFlowsByContractAndCityAndSectorizationsQuery,
+    GetActiveFlowsByContractAndCityAndSectorizationsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
-    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
-  >(GetActiveFlowsByContractIdAndSectorizationsIdDocument, options);
+    GetActiveFlowsByContractAndCityAndSectorizationsQuery,
+    GetActiveFlowsByContractAndCityAndSectorizationsQueryVariables
+  >(GetActiveFlowsByContractAndCityAndSectorizationsDocument, options);
 }
-export function useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery(
+export function useGetActiveFlowsByContractAndCityAndSectorizationsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
-    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
+    GetActiveFlowsByContractAndCityAndSectorizationsQuery,
+    GetActiveFlowsByContractAndCityAndSectorizationsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
-    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
-  >(GetActiveFlowsByContractIdAndSectorizationsIdDocument, options);
+    GetActiveFlowsByContractAndCityAndSectorizationsQuery,
+    GetActiveFlowsByContractAndCityAndSectorizationsQueryVariables
+  >(GetActiveFlowsByContractAndCityAndSectorizationsDocument, options);
 }
-export type GetActiveFlowsByContractIdAndSectorizationsIdQueryHookResult =
-  ReturnType<typeof useGetActiveFlowsByContractIdAndSectorizationsIdQuery>;
-export type GetActiveFlowsByContractIdAndSectorizationsIdLazyQueryHookResult =
-  ReturnType<typeof useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery>;
-export type GetActiveFlowsByContractIdAndSectorizationsIdQueryResult =
+export type GetActiveFlowsByContractAndCityAndSectorizationsQueryHookResult =
+  ReturnType<typeof useGetActiveFlowsByContractAndCityAndSectorizationsQuery>;
+export type GetActiveFlowsByContractAndCityAndSectorizationsLazyQueryHookResult =
+  ReturnType<
+    typeof useGetActiveFlowsByContractAndCityAndSectorizationsLazyQuery
+  >;
+export type GetActiveFlowsByContractAndCityAndSectorizationsQueryResult =
   Apollo.QueryResult<
-    GetActiveFlowsByContractIdAndSectorizationsIdQuery,
-    GetActiveFlowsByContractIdAndSectorizationsIdQueryVariables
+    GetActiveFlowsByContractAndCityAndSectorizationsQuery,
+    GetActiveFlowsByContractAndCityAndSectorizationsQueryVariables
   >;
 export const GetInformationMessageByIdDocument = gql`
   query getInformationMessageById($informationMessageId: ID) {

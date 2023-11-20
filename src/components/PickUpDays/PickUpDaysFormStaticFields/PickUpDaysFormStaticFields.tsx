@@ -5,8 +5,8 @@ import {
   useGetActiveRequestsByContractIdQuery,
   useGetCollectDoorToDoorsByFlowIdQuery,
   useGetCollectVoluntariesByFlowIdQuery,
-  useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery,
   useGetActiveFlowsByContractIdQuery,
+  useGetActiveFlowsByContractAndCityAndSectorizationsLazyQuery,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
 import { removeNulls } from "../../../lib/utilities";
@@ -92,6 +92,7 @@ export default function PickUpDaysFormStaticFields({
   const shortcutFormMode = watch("shortcutFormMode");
   const flow = watch("flow");
   const sectorizations = watch("sectorizations");
+  const cities = watch("cities");
 
   /* External Data */
   const { data: flowsData } = useGetActiveFlowsByContractIdQuery({
@@ -118,8 +119,8 @@ export default function PickUpDaysFormStaticFields({
   const [
     getFilteredFlows,
     { loading: filteredFlowsLoading, error: filteredFlowsError },
-  ] = useGetActiveFlowsByContractIdAndSectorizationsIdLazyQuery({
-    fetchPolicy: "no-cache",
+  ] = useGetActiveFlowsByContractAndCityAndSectorizationsLazyQuery({
+    fetchPolicy: "network-only",
   });
 
   /* Methods */
@@ -137,13 +138,23 @@ export default function PickUpDaysFormStaticFields({
 
   useEffect(() => {
     if (flowsData) {
+      let filterFlowQueryVariables;
       if (sectorizations && sectorizations.length > 0) {
-        const filterFlowQueryVariables = {
+        filterFlowQueryVariables = {
           contractId,
           sectorizationsId: sectorizations.map(
             (sector: IFormSingleMultiselectOption) => sector.value,
           ),
         };
+      } else if (cities && cities.length > 0) {
+        filterFlowQueryVariables = {
+          contractId,
+          citiesId: cities.map(
+            (sector: IFormSingleMultiselectOption) => sector.value,
+          ),
+        };
+      }
+      if (filterFlowQueryVariables) {
         getFilteredFlows({
           variables: filterFlowQueryVariables,
           onCompleted: (results) => {
@@ -182,7 +193,7 @@ export default function PickUpDaysFormStaticFields({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flowsData, sectorizations, contractId, pickUpId]);
+  }, [flowsData, sectorizations, cities, contractId, pickUpId]);
 
   useEffect(() => {
     if (
