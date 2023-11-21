@@ -82,7 +82,7 @@ export default function ServicesTab({ audience }: IServicesTabProps) {
             name: link.name,
             ...(link.externalLink && { externalLink: link.externalLink }),
             ...(link.freeContents && {
-              freeContents: link.freeContents,
+              freeContents: link?.freeContents?.data[0]?.id,
             }),
             picto: link.picto?.id,
           };
