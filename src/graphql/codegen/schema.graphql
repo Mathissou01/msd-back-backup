@@ -618,7 +618,11 @@ type City {
   epci: EpciEntityResponse
   insee: String
   name: String
-  pickUpDay: PickUpDayEntityResponse
+  pickUpDays(
+    filters: PickUpDayFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): PickUpDayRelationResponseCollection
   postalCode: String
   region: String
   siren: String
@@ -656,7 +660,7 @@ input CityFiltersInput {
   name: StringFilterInput
   not: CityFiltersInput
   or: [CityFiltersInput]
-  pickUpDay: PickUpDayFiltersInput
+  pickUpDays: PickUpDayFiltersInput
   postalCode: StringFilterInput
   region: StringFilterInput
   siren: StringFilterInput
@@ -680,7 +684,7 @@ input CityInput {
   epci: ID
   insee: String
   name: String
-  pickUpDay: ID
+  pickUpDays: [ID]
   postalCode: String
   region: String
   siren: String
@@ -4316,6 +4320,7 @@ type Mutation {
   """
   register(input: UsersPermissionsRegisterInput!): UsersPermissionsLoginPayload!
   removeFile(id: ID!): UploadFileEntityResponse
+  requestResetCronTask: Boolean
 
   """
   Reset user password. Confirm with a code (resetToken from forgotPassword)

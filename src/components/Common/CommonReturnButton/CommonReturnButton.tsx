@@ -19,7 +19,7 @@ export default function CommonReturnButton({
   /* Local Data */
   const router = useRouter();
   const { currentRoot } = useNavigation();
-  console.log("first", path);
+
   return (
     <button
       className="c-CommonReturnButton__BackButton"

@@ -727,12 +727,18 @@ export type City = {
   epci?: Maybe<EpciEntityResponse>;
   insee?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
-  pickUpDay?: Maybe<PickUpDayEntityResponse>;
+  pickUpDays?: Maybe<PickUpDayRelationResponseCollection>;
   postalCode?: Maybe<Scalars["String"]>;
   region?: Maybe<Scalars["String"]>;
   siren?: Maybe<Scalars["String"]>;
   territories?: Maybe<TerritoryRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type CityPickUpDaysArgs = {
+  filters?: InputMaybe<PickUpDayFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CityTerritoriesArgs = {
@@ -770,7 +776,7 @@ export type CityFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<CityFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
-  pickUpDay?: InputMaybe<PickUpDayFiltersInput>;
+  pickUpDays?: InputMaybe<PickUpDayFiltersInput>;
   postalCode?: InputMaybe<StringFilterInput>;
   region?: InputMaybe<StringFilterInput>;
   siren?: InputMaybe<StringFilterInput>;
@@ -795,7 +801,7 @@ export type CityInput = {
   epci?: InputMaybe<Scalars["ID"]>;
   insee?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
-  pickUpDay?: InputMaybe<Scalars["ID"]>;
+  pickUpDays?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   postalCode?: InputMaybe<Scalars["String"]>;
   region?: InputMaybe<Scalars["String"]>;
   siren?: InputMaybe<Scalars["String"]>;
@@ -4614,6 +4620,7 @@ export type Mutation = {
   /** Register a user */
   register: UsersPermissionsLoginPayload;
   removeFile?: Maybe<UploadFileEntityResponse>;
+  requestResetCronTask?: Maybe<Scalars["Boolean"]>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
   sendEmail?: Maybe<Scalars["String"]>;
@@ -17941,6 +17948,8 @@ export type GetDropOffMapByIdQuery = {
         longitude?: number | null;
         phoneNumber?: string | null;
         mustKnow?: string | null;
+        hasCustomAddress?: boolean | null;
+        customAddress?: string | null;
         audiences?: {
           __typename?: "AudienceRelationResponseCollection";
           data: Array<{
@@ -34374,6 +34383,8 @@ export const GetDropOffMapByIdDocument = gql`
           longitude
           phoneNumber
           mustKnow
+          hasCustomAddress
+          customAddress
           audiences {
             data {
               id

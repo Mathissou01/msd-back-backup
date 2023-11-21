@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { CollectEntity } from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import AddressOrGpsFields, {
@@ -10,6 +11,7 @@ import FormSelect from "../../Form/FormSelect/FormSelect";
 import { IOptionWrapper } from "../../Form/FormMultiselect/FormMultiselect";
 import FormWysiwyg from "../../Form/FormWysiwyg/FormWysiwyg";
 import FormLabel from "../../Form/FormLabel/FormLabel";
+import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
 import FormOpeningHours from "../../Form/FormOpeningHours/FormOpeningHours";
 import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
@@ -25,6 +27,7 @@ export interface IDropOffMapStaticFieldsLabels {
   staticAddressOrGpsLabels: AddressOrGpsFieldsLabels;
   staticPhoneNumber?: string;
   staticMustKnow: string;
+  staticHasCustomAddress: string;
 }
 
 interface IDropOffMapStaticFieldsProps {
@@ -41,6 +44,8 @@ export default function DropOffMapStaticFields({
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
   /* Local Data */
+  const { resetField, watch } = useFormContext();
+  const hasCustomAddressWatched = watch("hasCustomAddress");
   const [dropOffMapCollectTypes, setDropOffMapCollectTypes] = useState<
     Array<IOptionWrapper<CollectEntity>>
   >([]);
@@ -68,6 +73,7 @@ export default function DropOffMapStaticFields({
   const dynamicFieldsOptions: Array<TDynamicFieldConfiguration> = [
     { option: "ComponentBlocksDownloadBlock" },
   ];
+
   return (
     <>
       <div className="o-Form__Group">
@@ -95,6 +101,19 @@ export default function DropOffMapStaticFields({
           validationLabel={labels.staticPositionDescription}
         />
         <AddressOrGpsFields labels={labels.staticAddressOrGpsLabels} />
+        <FormCheckbox
+          label={labels.staticHasCustomAddress}
+          name="hasCustomAddress"
+          onClick={() => {
+            resetField("customAddress", { defaultValue: "" });
+          }}
+        />
+        <FormInput
+          type="text"
+          name="customAddress"
+          label=""
+          isDisabled={!hasCustomAddressWatched}
+        />
         <FormInput
           type="tel"
           name="phoneNumber"

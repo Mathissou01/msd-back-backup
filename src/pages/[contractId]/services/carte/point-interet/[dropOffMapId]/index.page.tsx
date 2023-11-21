@@ -50,6 +50,7 @@ export function ServiceCartePointInteretPage({
     staticLink: "Text du lien",
     staticPhoneNumber: "Téléphone",
     staticMustKnow: "A savoir avant de venir",
+    staticHasCustomAddress: "Adresse personnalisée (affichée au citoyen)",
   };
 
   /* Methods */
@@ -82,6 +83,8 @@ export function ServiceCartePointInteretPage({
         longitude: Number(submitData.longitude),
         phoneNumber: submitData.phoneNumber,
         mustKnow: submitData.mustKnow,
+        hasCustomAddress: submitData.hasCustomAddress,
+        customAddress: submitData.customAddress,
         downloadableFiles: downloadableFiles,
         dropOffMapService: contract.attributes?.dropOffMapService?.data?.id,
         openingHoursBlocks: submitData.openingHoursBlocks,
@@ -244,6 +247,8 @@ export function ServiceCartePointInteretPage({
           longitude: dropOffMapData.attributes.longitude,
           phoneNumber: dropOffMapData.attributes.phoneNumber,
           mustKnow: dropOffMapData.attributes.mustKnow,
+          hasCustomAddress: dropOffMapData.attributes.hasCustomAddress,
+          customAddress: dropOffMapData.attributes.customAddress,
           downloadableFiles: remapFormBlocksDynamicZone(
             dropOffMapData.attributes.downloadableFiles,
           ),

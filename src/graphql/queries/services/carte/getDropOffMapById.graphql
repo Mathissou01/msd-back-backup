@@ -9,6 +9,8 @@ query getDropOffMapById($dropOffMapId: ID!) {
         longitude
         phoneNumber
         mustKnow
+        hasCustomAddress
+        customAddress
         audiences {
           data {
             id

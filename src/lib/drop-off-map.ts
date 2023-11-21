@@ -20,4 +20,6 @@ export interface IDropOffMapStaticFields {
   downloadableFiles: Array<IFormBlock>;
   openingHoursBlocks: ComponentBlocksOpeningDay[];
   audiences?: Array<IFormSingleMultiselectOption>;
+  hasCustomAddress?: boolean | null;
+  customAddress?: string | null;
 }
