@@ -4,7 +4,8 @@ query getAlertNotificationById($alertNotificationId: ID) {
       id
       attributes {
         alertDescription
-        alertMessage
+        alertSmsMessage
+        alertMailMessage
         alertTitle
         scheduledAt
         scheduledAtTime

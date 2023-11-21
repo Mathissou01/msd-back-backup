@@ -206,8 +206,9 @@ export type Address = {
 export type AlertNotification = {
   __typename?: "AlertNotification";
   alertDescription: Scalars["String"];
-  alertMessage?: Maybe<Scalars["String"]>;
+  alertMailMessage?: Maybe<Scalars["String"]>;
   alertNotifService?: Maybe<AlertNotificationServiceEntityResponse>;
+  alertSmsMessage?: Maybe<Scalars["String"]>;
   alertTitle?: Maybe<Scalars["String"]>;
   alertUserStorages?: Maybe<AlertUserStorageRelationResponseCollection>;
   cities?: Maybe<CityRelationResponseCollection>;
@@ -258,8 +259,9 @@ export type AlertNotificationEntityResponseCollection = {
 
 export type AlertNotificationFiltersInput = {
   alertDescription?: InputMaybe<StringFilterInput>;
-  alertMessage?: InputMaybe<StringFilterInput>;
+  alertMailMessage?: InputMaybe<StringFilterInput>;
   alertNotifService?: InputMaybe<AlertNotificationServiceFiltersInput>;
+  alertSmsMessage?: InputMaybe<StringFilterInput>;
   alertTitle?: InputMaybe<StringFilterInput>;
   alertUserStorages?: InputMaybe<AlertUserStorageFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<AlertNotificationFiltersInput>>>;
@@ -279,8 +281,9 @@ export type AlertNotificationFiltersInput = {
 
 export type AlertNotificationInput = {
   alertDescription?: InputMaybe<Scalars["String"]>;
-  alertMessage?: InputMaybe<Scalars["String"]>;
+  alertMailMessage?: InputMaybe<Scalars["String"]>;
   alertNotifService?: InputMaybe<Scalars["ID"]>;
+  alertSmsMessage?: InputMaybe<Scalars["String"]>;
   alertTitle?: InputMaybe<Scalars["String"]>;
   alertUserStorages?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -2460,9 +2463,11 @@ export type DropOffMap = {
   collectDropOff?: Maybe<CollectDropOffEntityResponse>;
   collectVoluntary?: Maybe<CollectVoluntaryEntityResponse>;
   createdAt?: Maybe<Scalars["DateTime"]>;
+  customAddress?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
   downloadableFiles?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
   dropOffMapService?: Maybe<DropOffMapServiceEntityResponse>;
+  hasCustomAddress?: Maybe<Scalars["Boolean"]>;
   latitude?: Maybe<Scalars["Float"]>;
   longitude?: Maybe<Scalars["Float"]>;
   mustKnow?: Maybe<Scalars["String"]>;
@@ -2538,9 +2543,11 @@ export type DropOffMapFiltersInput = {
   collectDropOff?: InputMaybe<CollectDropOffFiltersInput>;
   collectVoluntary?: InputMaybe<CollectVoluntaryFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  customAddress?: InputMaybe<StringFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   downloadableFiles?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
   dropOffMapService?: InputMaybe<DropOffMapServiceFiltersInput>;
+  hasCustomAddress?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   latitude?: InputMaybe<FloatFilterInput>;
   longitude?: InputMaybe<FloatFilterInput>;
@@ -2559,11 +2566,13 @@ export type DropOffMapInput = {
   city?: InputMaybe<Scalars["String"]>;
   collectDropOff?: InputMaybe<Scalars["ID"]>;
   collectVoluntary?: InputMaybe<Scalars["ID"]>;
+  customAddress?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
   downloadableFiles?: InputMaybe<
     Array<InputMaybe<ComponentBlocksDownloadBlockInput>>
   >;
   dropOffMapService?: InputMaybe<Scalars["ID"]>;
+  hasCustomAddress?: InputMaybe<Scalars["Boolean"]>;
   latitude?: InputMaybe<Scalars["Float"]>;
   longitude?: InputMaybe<Scalars["Float"]>;
   mustKnow?: InputMaybe<Scalars["String"]>;
@@ -5480,7 +5489,8 @@ export type MutationMultipleUploadArgs = {
 };
 
 export type MutationProgrammedSendArgs = {
-  alertMessage?: InputMaybe<Scalars["String"]>;
+  alertMailMessage?: InputMaybe<Scalars["String"]>;
+  alertSmsMessage?: InputMaybe<Scalars["String"]>;
   isEmail?: InputMaybe<Scalars["Boolean"]>;
   isSMS?: InputMaybe<Scalars["Boolean"]>;
   mailSubject?: InputMaybe<Scalars["String"]>;
@@ -17627,7 +17637,8 @@ export type GetAlertNotificationByIdQuery = {
       attributes?: {
         __typename?: "AlertNotification";
         alertDescription: string;
-        alertMessage?: string | null;
+        alertSmsMessage?: string | null;
+        alertMailMessage?: string | null;
         alertTitle?: string | null;
         scheduledAt: any;
         scheduledAtTime: string;
@@ -17682,7 +17693,8 @@ export type GetAlertNotificationsByContractIdQuery = {
         sendMail?: boolean | null;
         sendSMS?: boolean | null;
         scheduledAt: any;
-        alertMessage?: string | null;
+        alertSmsMessage?: string | null;
+        alertMailMessage?: string | null;
         alertDescription: string;
         scheduledAtTime: string;
       } | null;
@@ -17702,7 +17714,8 @@ export type GetAlertNotificationsByContractIdQuery = {
         sendMail?: boolean | null;
         sendSMS?: boolean | null;
         scheduledAt: any;
-        alertMessage?: string | null;
+        alertSmsMessage?: string | null;
+        alertMailMessage?: string | null;
         alertDescription: string;
         scheduledAtTime: string;
       } | null;
@@ -17728,7 +17741,8 @@ export type GetAlertNotificationsByContractIdQuery = {
         sendMail?: boolean | null;
         sendSMS?: boolean | null;
         scheduledAt: any;
-        alertMessage?: string | null;
+        alertSmsMessage?: string | null;
+        alertMailMessage?: string | null;
         alertDescription: string;
         scheduledAtTime: string;
       } | null;
@@ -17741,7 +17755,8 @@ export type ProgrammedSendMutationVariables = Exact<{
   isSms?: InputMaybe<Scalars["Boolean"]>;
   mailSubject?: InputMaybe<Scalars["String"]>;
   smsTitle?: InputMaybe<Scalars["String"]>;
-  alertMessage?: InputMaybe<Scalars["String"]>;
+  alertSmsMessage?: InputMaybe<Scalars["String"]>;
+  alertMailMessage?: InputMaybe<Scalars["String"]>;
   scheduledAt?: InputMaybe<Scalars["Date"]>;
   time?: InputMaybe<Scalars["String"]>;
   recipientEmails?: InputMaybe<
@@ -33703,7 +33718,8 @@ export const GetAlertNotificationByIdDocument = gql`
         id
         attributes {
           alertDescription
-          alertMessage
+          alertSmsMessage
+          alertMailMessage
           alertTitle
           scheduledAt
           scheduledAtTime
@@ -33815,7 +33831,8 @@ export const GetAlertNotificationsByContractIdDocument = gql`
           sendMail
           sendSMS
           scheduledAt
-          alertMessage
+          alertSmsMessage
+          alertMailMessage
           alertDescription
           scheduledAtTime
         }
@@ -33846,7 +33863,8 @@ export const GetAlertNotificationsByContractIdDocument = gql`
           sendMail
           sendSMS
           scheduledAt
-          alertMessage
+          alertSmsMessage
+          alertMailMessage
           alertDescription
           scheduledAtTime
         }
@@ -33871,7 +33889,8 @@ export const GetAlertNotificationsByContractIdDocument = gql`
           sendMail
           sendSMS
           scheduledAt
-          alertMessage
+          alertSmsMessage
+          alertMailMessage
           alertDescription
           scheduledAtTime
         }
@@ -33942,7 +33961,8 @@ export const ProgrammedSendDocument = gql`
     $isSms: Boolean
     $mailSubject: String
     $smsTitle: String
-    $alertMessage: String
+    $alertSmsMessage: String
+    $alertMailMessage: String
     $scheduledAt: Date
     $time: String
     $recipientEmails: [String]
@@ -33953,7 +33973,8 @@ export const ProgrammedSendDocument = gql`
       isSMS: $isSms
       mailSubject: $mailSubject
       smsTitle: $smsTitle
-      alertMessage: $alertMessage
+      alertSmsMessage: $alertSmsMessage
+      alertMailMessage: $alertMailMessage
       scheduledAt: $scheduledAt
       time: $time
       recipientEmails: $recipientEmails
@@ -33983,7 +34004,8 @@ export type ProgrammedSendMutationFn = Apollo.MutationFunction<
  *      isSms: // value for 'isSms'
  *      mailSubject: // value for 'mailSubject'
  *      smsTitle: // value for 'smsTitle'
- *      alertMessage: // value for 'alertMessage'
+ *      alertSmsMessage: // value for 'alertSmsMessage'
+ *      alertMailMessage: // value for 'alertMailMessage'
  *      scheduledAt: // value for 'scheduledAt'
  *      time: // value for 'time'
  *      recipientEmails: // value for 'recipientEmails'

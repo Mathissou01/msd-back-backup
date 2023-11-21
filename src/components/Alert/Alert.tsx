@@ -26,6 +26,7 @@ import FormDatePicker from "../Form/FormDatePicker/FormDatePicker";
 import FormCheckbox from "../Form/FormCheckbox/FormCheckbox";
 import AlertSelectingSectors from "./AlertSelectingSectors/AlertSelectingSectors";
 import "./alert.scss";
+import FormWysiwyg from "../Form/FormWysiwyg/FormWysiwyg";
 
 interface IAlertProps {
   alertNotificationId: string;
@@ -139,7 +140,8 @@ export default function Alert({
         alertNotifService: contractId,
         subject: submitData.subject,
         alertTitle: submitData.alertTitle,
-        alertMessage: submitData.alertMessage,
+        alertSmsMessage: submitData.alertSmsMessage,
+        alertMailMessage: submitData.alertMailMessage,
         alertDescription: submitData.alertDescription,
         sendSMS: submitData.sendSMS,
         sendMail: submitData.sendMail,
@@ -217,7 +219,7 @@ export default function Alert({
     try {
       await sendSms({
         variables: {
-          content: submitData.alertMessage,
+          content: submitData.alertSmsMessage,
           scheduledAt: `${format(new Date(), "yyyy-MM-dd")} ${format(
             addMinutes(new Date(), 1),
             "HH:mm",
@@ -248,7 +250,7 @@ export default function Alert({
             .map((user) => user.attributes?.email)
             .filter(removeNulls),
           subject: submitData.subject,
-          content: submitData.alertMessage,
+          content: submitData.alertMailMessage,
         },
       });
     } catch (error: unknown) {
@@ -269,7 +271,8 @@ export default function Alert({
           isSms: submitData.sendSMS,
           mailSubject: submitData.subject,
           smsTitle: submitData.alertTitle,
-          alertMessage: submitData.alertMessage,
+          alertSmsMessage: submitData.alertSmsMessage,
+          alertMailMessage: submitData.alertMailMessage,
           scheduledAt: format(new Date(), "yyyy-MM-dd"),
           time: submitData.scheduledAtTime,
           recipientEmails: users
@@ -322,7 +325,8 @@ export default function Alert({
         reset({
           subject: alertNotificationData.attributes.subject,
           alertTitle: alertNotificationData.attributes.alertTitle,
-          alertMessage: alertNotificationData.attributes.alertMessage,
+          alertSmsMessage: alertNotificationData.attributes.alertSmsMessage,
+          alertMailMessage: alertNotificationData.attributes.alertMailMessage,
           alertDescription: alertNotificationData.attributes.alertDescription,
           sendSMS: alertNotificationData.attributes.sendSMS,
           sendMail: alertNotificationData.attributes.sendMail,
@@ -429,13 +433,13 @@ export default function Alert({
                   />
                   <FormInput
                     tagType="textarea"
-                    name="alertMessage"
+                    name="alertSmsMessage"
                     label={formLabels.alertMessage}
                     isDisabled={!watch("sendSMS")}
                     maxLengthValidation={messages.maxLengthMessage}
                     informationLabel={`${messages.maxLengthMessage} ${messages.maxChars}`}
                     isRequired={watch("sendSMS")}
-                    isHidden={watch("sendMail")}
+                    isHidden={!watch("sendSMS")}
                   />
                   <div className="c-Alert__Title">{labels.emailTitle}</div>
                   <FormCheckbox
@@ -455,15 +459,12 @@ export default function Alert({
                     informationLabel={`${messages.maxLengthTitle} ${messages.maxChars}`}
                     isRequired={watch("sendMail")}
                   />
-                  <FormInput
-                    tagType="textarea"
-                    name="alertMessage"
+                  <FormWysiwyg
+                    name="alertMailMessage"
                     label={formLabels.alertMessage}
                     isDisabled={!watch("sendMail")}
-                    maxLengthValidation={messages.maxLengthMessage}
-                    informationLabel={`${messages.maxLengthMessage} ${messages.maxChars}`}
                     isRequired={watch("sendMail")}
-                    isHidden={!watch("sendMail") && watch("sendSMS")}
+                    isVisible={watch("sendMail")}
                   />
                 </div>
               </div>

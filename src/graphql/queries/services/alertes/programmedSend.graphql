@@ -3,7 +3,8 @@ mutation programmedSend(
   $isSms: Boolean
   $mailSubject: String
   $smsTitle: String
-  $alertMessage: String
+  $alertSmsMessage: String
+  $alertMailMessage: String
   $scheduledAt: Date
   $time: String
   $recipientEmails: [String]
@@ -14,7 +15,8 @@ mutation programmedSend(
     isSMS: $isSms
     mailSubject: $mailSubject
     smsTitle: $smsTitle
-    alertMessage: $alertMessage
+    alertSmsMessage: $alertSmsMessage
+    alertMailMessage: $alertMailMessage
     scheduledAt: $scheduledAt
     time: $time
     recipientEmails: $recipientEmails

@@ -55,33 +55,33 @@ export default function FormWysiwyg({
 
   return (
     <div className="c-FormWysiwyg">
-      <FormLabel
-        forId={name}
-        label={label}
-        labelDescription={labelDescription}
-        isRequired={isRequired}
-        validationLabel={validationLabel}
-        secondaryLabel={secondaryLabel}
-      >
-        <Controller
-          control={control}
-          name={name}
-          rules={{
-            required: { value: isRequired, message: errorMessages.required },
-          }}
-          defaultValue={defaultValue}
-          render={({ field: { onChange, value, ref } }) => {
-            return (
-              <div
-                className={classNames("c-FormWysiwyg__Input", {
-                  "c-FormWysiwyg__Input_invalid": _.get(errors, name),
-                  "c-FormWysiwyg__Input_disabled": isDisabled,
-                })}
-                ref={ref}
-                id={name}
-                data-testid="form-wysiwyg"
-              >
-                {isVisible && (
+      {isVisible && (
+        <FormLabel
+          forId={name}
+          label={label}
+          labelDescription={labelDescription}
+          isRequired={isRequired}
+          validationLabel={validationLabel}
+          secondaryLabel={secondaryLabel}
+        >
+          <Controller
+            control={control}
+            name={name}
+            rules={{
+              required: { value: isRequired, message: errorMessages.required },
+            }}
+            defaultValue={defaultValue}
+            render={({ field: { onChange, value, ref } }) => {
+              return (
+                <div
+                  className={classNames("c-FormWysiwyg__Input", {
+                    "c-FormWysiwyg__Input_invalid": _.get(errors, name),
+                    "c-FormWysiwyg__Input_disabled": isDisabled,
+                  })}
+                  ref={ref}
+                  id={name}
+                  data-testid="form-wysiwyg"
+                >
                   <WysiwygEditor
                     id={name + blockIndex}
                     forwardedRef={editorRef}
@@ -99,12 +99,12 @@ export default function FormWysiwyg({
                     isDisabled={isSubmitting || isDisabled}
                     maxCharacterLength={maxCharacterLength}
                   />
-                )}
-              </div>
-            );
-          }}
-        />
-      </FormLabel>
+                </div>
+              );
+            }}
+          />
+        </FormLabel>
+      )}
       <ErrorMessage
         errors={errors}
         name={name}

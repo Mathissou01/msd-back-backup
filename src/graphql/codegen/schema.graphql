@@ -146,8 +146,9 @@ type Address {
 
 type AlertNotification {
   alertDescription: String!
-  alertMessage: String
+  alertMailMessage: String
   alertNotifService: AlertNotificationServiceEntityResponse
+  alertSmsMessage: String
   alertTitle: String
   alertUserStorages(
     filters: AlertUserStorageFiltersInput
@@ -189,8 +190,9 @@ type AlertNotificationEntityResponseCollection {
 
 input AlertNotificationFiltersInput {
   alertDescription: StringFilterInput
-  alertMessage: StringFilterInput
+  alertMailMessage: StringFilterInput
   alertNotifService: AlertNotificationServiceFiltersInput
+  alertSmsMessage: StringFilterInput
   alertTitle: StringFilterInput
   alertUserStorages: AlertUserStorageFiltersInput
   and: [AlertNotificationFiltersInput]
@@ -210,8 +212,9 @@ input AlertNotificationFiltersInput {
 
 input AlertNotificationInput {
   alertDescription: String
-  alertMessage: String
+  alertMailMessage: String
   alertNotifService: ID
+  alertSmsMessage: String
   alertTitle: String
   alertUserStorages: [ID]
   cities: [ID]
@@ -2176,6 +2179,7 @@ type DropOffMap {
   collectDropOff: CollectDropOffEntityResponse
   collectVoluntary: CollectVoluntaryEntityResponse
   createdAt: DateTime
+  customAddress: String
   description: String
   downloadableFiles(
     filters: ComponentBlocksDownloadBlockFiltersInput
@@ -2183,6 +2187,7 @@ type DropOffMap {
     sort: [String] = []
   ): [ComponentBlocksDownloadBlock]
   dropOffMapService: DropOffMapServiceEntityResponse
+  hasCustomAddress: Boolean
   latitude: Float
   longitude: Float
   mustKnow: String
@@ -2236,9 +2241,11 @@ input DropOffMapFiltersInput {
   collectDropOff: CollectDropOffFiltersInput
   collectVoluntary: CollectVoluntaryFiltersInput
   createdAt: DateTimeFilterInput
+  customAddress: StringFilterInput
   description: StringFilterInput
   downloadableFiles: ComponentBlocksDownloadBlockFiltersInput
   dropOffMapService: DropOffMapServiceFiltersInput
+  hasCustomAddress: BooleanFilterInput
   id: IDFilterInput
   latitude: FloatFilterInput
   longitude: FloatFilterInput
@@ -2257,9 +2264,11 @@ input DropOffMapInput {
   city: String
   collectDropOff: ID
   collectVoluntary: ID
+  customAddress: String
   description: String
   downloadableFiles: [ComponentBlocksDownloadBlockInput]
   dropOffMapService: ID
+  hasCustomAddress: Boolean
   latitude: Float
   longitude: Float
   mustKnow: String
@@ -4294,7 +4303,8 @@ type Mutation {
     refId: ID
   ): [UploadFileEntityResponse]!
   programmedSend(
-    alertMessage: String
+    alertMailMessage: String
+    alertSmsMessage: String
     isEmail: Boolean
     isSMS: Boolean
     mailSubject: String
