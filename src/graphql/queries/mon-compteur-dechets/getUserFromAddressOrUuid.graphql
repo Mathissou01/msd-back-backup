@@ -1,18 +1,12 @@
 query getUserFromAddressOrUuid(
-  $isUUID: Boolean!
+  $uuid: String
   $contractId: ID
-  $streetNumber: String
-  $streetName: String
-  $postalCode: String
-  $city: String
+  $address: String
 ) {
   getUserFromAddressOrUuid(
-    isUUID: $isUUID
+    uuid: $uuid
     contractId: $contractId
-    streetNumber: $streetNumber
-    streetName: $streetName
-    postalCode: $postalCode
-    city: $city
+    address: $address
   ) {
     uuid
     activeCounter

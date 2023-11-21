@@ -25,8 +25,10 @@ export default function UserManagement() {
       fetchPolicy: "network-only",
     });
 
-  const [getUserByAddress, { data: usersData }] =
-    useGetUserFromAddressOrUuidLazyQuery();
+  const [
+    getUserByAddress,
+    { data: usersData, loading: usersLoading, refetch: refetchUsers },
+  ] = useGetUserFromAddressOrUuidLazyQuery();
 
   async function searchFunction(
     searchValue: string,
@@ -45,27 +47,14 @@ export default function UserManagement() {
 
   const onSubmit = (data: { [key: string]: string }) => {
     setFirstSearch(false);
-    const uuid = data.id;
-    const streetNumber = data.address.split(" ")[0];
-    const streetName = data.address
-      .split(" ")
-      .slice(1, data.address.split(" ").length - 2);
-    const postalCode =
-      data.address.split(" ")[data.address.split(" ").length - 2];
-    const city = data.address.split(" ")[data.address.split(" ").length - 1];
-
     getUserByAddress({
       variables: {
         contractId: contractId,
-        isUUID: uuid ? true : false,
-        city: city,
-        postalCode: postalCode,
-        streetName: streetName.join(" "),
-        streetNumber: streetNumber,
+        uuid: data.id,
+        address: data.address,
       },
     });
   };
-
   return (
     <FormProvider {...methods}>
       <form
@@ -100,7 +89,12 @@ export default function UserManagement() {
           </div>
         </div>
       </form>
-      <UserListBlock users={usersData} firstSearch={firstSearch} />
+      <UserListBlock
+        users={usersData}
+        firstSearch={firstSearch}
+        refetchUsers={refetchUsers}
+        usersLoading={usersLoading}
+      />
     </FormProvider>
   );
 }

@@ -727,18 +727,12 @@ export type City = {
   epci?: Maybe<EpciEntityResponse>;
   insee?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
-  pickUpDays?: Maybe<PickUpDayRelationResponseCollection>;
+  pickUpDay?: Maybe<PickUpDayEntityResponse>;
   postalCode?: Maybe<Scalars["String"]>;
   region?: Maybe<Scalars["String"]>;
   siren?: Maybe<Scalars["String"]>;
   territories?: Maybe<TerritoryRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type CityPickUpDaysArgs = {
-  filters?: InputMaybe<PickUpDayFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type CityTerritoriesArgs = {
@@ -776,7 +770,7 @@ export type CityFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<CityFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CityFiltersInput>>>;
-  pickUpDays?: InputMaybe<PickUpDayFiltersInput>;
+  pickUpDay?: InputMaybe<PickUpDayFiltersInput>;
   postalCode?: InputMaybe<StringFilterInput>;
   region?: InputMaybe<StringFilterInput>;
   siren?: InputMaybe<StringFilterInput>;
@@ -801,7 +795,7 @@ export type CityInput = {
   epci?: InputMaybe<Scalars["ID"]>;
   insee?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
-  pickUpDays?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  pickUpDay?: InputMaybe<Scalars["ID"]>;
   postalCode?: InputMaybe<Scalars["String"]>;
   region?: InputMaybe<Scalars["String"]>;
   siren?: InputMaybe<Scalars["String"]>;
@@ -4620,7 +4614,6 @@ export type Mutation = {
   /** Register a user */
   register: UsersPermissionsLoginPayload;
   removeFile?: Maybe<UploadFileEntityResponse>;
-  requestResetCronTask?: Maybe<Scalars["Boolean"]>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
   sendEmail?: Maybe<Scalars["String"]>;
@@ -6759,7 +6752,7 @@ export type Query = {
   getTopContentBlockDTO?: Maybe<TopContentBlockDto>;
   getTopContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
   getUserContracts?: Maybe<Array<Maybe<UserContract>>>;
-  getUserFromAddressOrUuid?: Maybe<User>;
+  getUserFromAddressOrUuid?: Maybe<Array<Maybe<User>>>;
   global?: Maybe<GlobalEntityResponse>;
   homepage?: Maybe<HomepageEntityResponse>;
   homepages?: Maybe<HomepageEntityResponseCollection>;
@@ -7393,12 +7386,8 @@ export type QueryGetUserContractsArgs = {
 };
 
 export type QueryGetUserFromAddressOrUuidArgs = {
-  city?: InputMaybe<Scalars["String"]>;
+  address?: InputMaybe<Scalars["String"]>;
   contractId?: InputMaybe<Scalars["ID"]>;
-  isUUID: Scalars["Boolean"];
-  postalCode?: InputMaybe<Scalars["String"]>;
-  streetName?: InputMaybe<Scalars["String"]>;
-  streetNumber?: InputMaybe<Scalars["String"]>;
   uuid?: InputMaybe<Scalars["String"]>;
 };
 
@@ -15335,17 +15324,14 @@ export type GetMwcounterServicesQuery = {
 };
 
 export type GetUserFromAddressOrUuidQueryVariables = Exact<{
-  isUUID: Scalars["Boolean"];
+  uuid?: InputMaybe<Scalars["String"]>;
   contractId?: InputMaybe<Scalars["ID"]>;
-  streetNumber?: InputMaybe<Scalars["String"]>;
-  streetName?: InputMaybe<Scalars["String"]>;
-  postalCode?: InputMaybe<Scalars["String"]>;
-  city?: InputMaybe<Scalars["String"]>;
+  address?: InputMaybe<Scalars["String"]>;
 }>;
 
 export type GetUserFromAddressOrUuidQuery = {
   __typename?: "Query";
-  getUserFromAddressOrUuid?: {
+  getUserFromAddressOrUuid?: Array<{
     __typename?: "User";
     uuid?: string | null;
     activeCounter?: boolean | null;
@@ -15359,7 +15345,7 @@ export type GetUserFromAddressOrUuidQuery = {
       postcode?: string | null;
       street?: string | null;
     } | null;
-  } | null;
+  } | null> | null;
 };
 
 export type UpdateCounterStatusMutationVariables = Exact<{
@@ -30075,20 +30061,14 @@ export type GetMwcounterServicesQueryResult = Apollo.QueryResult<
 >;
 export const GetUserFromAddressOrUuidDocument = gql`
   query getUserFromAddressOrUuid(
-    $isUUID: Boolean!
+    $uuid: String
     $contractId: ID
-    $streetNumber: String
-    $streetName: String
-    $postalCode: String
-    $city: String
+    $address: String
   ) {
     getUserFromAddressOrUuid(
-      isUUID: $isUUID
+      uuid: $uuid
       contractId: $contractId
-      streetNumber: $streetNumber
-      streetName: $streetName
-      postalCode: $postalCode
-      city: $city
+      address: $address
     ) {
       uuid
       activeCounter
@@ -30118,17 +30098,14 @@ export const GetUserFromAddressOrUuidDocument = gql`
  * @example
  * const { data, loading, error } = useGetUserFromAddressOrUuidQuery({
  *   variables: {
- *      isUUID: // value for 'isUUID'
+ *      uuid: // value for 'uuid'
  *      contractId: // value for 'contractId'
- *      streetNumber: // value for 'streetNumber'
- *      streetName: // value for 'streetName'
- *      postalCode: // value for 'postalCode'
- *      city: // value for 'city'
+ *      address: // value for 'address'
  *   },
  * });
  */
 export function useGetUserFromAddressOrUuidQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     GetUserFromAddressOrUuidQuery,
     GetUserFromAddressOrUuidQueryVariables
   >,
