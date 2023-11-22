@@ -10,6 +10,7 @@ query getContracts {
         isNonExclusive
         isRVFrance
         isFreemium
+        idPianoAnalytics
         logo {
           data {
             id

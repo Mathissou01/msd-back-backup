@@ -33,6 +33,8 @@ export function GestionInformationsPage() {
     deactivateContract: "Désactiver le client",
     reactivateMessage: "Confirmez-vous la réactivation du client ?",
     deactivateMessage: "Confirmez-vous la désactivation du client ?",
+    contractKeys: "Clés du contrat",
+    idPianoAnalytics: "ID Piano Analytics",
     yes: "Oui",
     no: "Non",
   };

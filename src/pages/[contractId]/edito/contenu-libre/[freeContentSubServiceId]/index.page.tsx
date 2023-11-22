@@ -116,7 +116,6 @@ export function EditoFreeContentSubServicePage({
               .result()
               .then((result) => {
                 // TODO: probably a better way to refetch than this
-                console.log("result here :", result);
                 if (!result.loading) {
                   setPageData(
                     result?.data as

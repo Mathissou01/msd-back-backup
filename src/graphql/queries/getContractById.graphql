@@ -13,6 +13,7 @@ query getContractById($contractId: ID!) {
         isRVFrance
         isFreemium
         pathId
+        idPianoAnalytics
         logo {
           data {
             id

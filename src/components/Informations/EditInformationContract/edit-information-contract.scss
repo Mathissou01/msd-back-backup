@@ -4,7 +4,8 @@
   }
 
   &__ContractData,
-  &__SuezData {
+  &__SuezData,
+  &__ContractKeys {
     display: flex;
     flex-direction: column;
     gap: 15px;

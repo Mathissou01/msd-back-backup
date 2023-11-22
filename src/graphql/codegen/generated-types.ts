@@ -1834,6 +1834,7 @@ export type Contract = {
   dueDate?: Maybe<Scalars["DateTime"]>;
   editorialService?: Maybe<EditorialServiceEntityResponse>;
   flows?: Maybe<FlowRelationResponseCollection>;
+  idPianoAnalytics?: Maybe<Scalars["String"]>;
   isFreemium: Scalars["Boolean"];
   isNonExclusive: Scalars["Boolean"];
   isRVFrance: Scalars["Boolean"];
@@ -2026,6 +2027,7 @@ export type ContractFiltersInput = {
   editorialService?: InputMaybe<EditorialServiceFiltersInput>;
   flows?: InputMaybe<FlowFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
+  idPianoAnalytics?: InputMaybe<StringFilterInput>;
   isFreemium?: InputMaybe<BooleanFilterInput>;
   isNonExclusive?: InputMaybe<BooleanFilterInput>;
   isRVFrance?: InputMaybe<BooleanFilterInput>;
@@ -2070,6 +2072,7 @@ export type ContractInput = {
   dueDate?: InputMaybe<Scalars["DateTime"]>;
   editorialService?: InputMaybe<Scalars["ID"]>;
   flows?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  idPianoAnalytics?: InputMaybe<Scalars["String"]>;
   isFreemium?: InputMaybe<Scalars["Boolean"]>;
   isNonExclusive?: InputMaybe<Scalars["Boolean"]>;
   isRVFrance?: InputMaybe<Scalars["Boolean"]>;
@@ -14620,6 +14623,7 @@ export type GetContractByIdQuery = {
         isRVFrance: boolean;
         isFreemium: boolean;
         pathId?: any | null;
+        idPianoAnalytics?: string | null;
         logo: {
           __typename?: "UploadFileEntityResponse";
           data?: {
@@ -14939,6 +14943,7 @@ export type GetContractsQuery = {
         isNonExclusive: boolean;
         isRVFrance: boolean;
         isFreemium: boolean;
+        idPianoAnalytics?: string | null;
         logo: {
           __typename?: "UploadFileEntityResponse";
           data?: {
@@ -28870,6 +28875,7 @@ export const GetContractByIdDocument = gql`
           isRVFrance
           isFreemium
           pathId
+          idPianoAnalytics
           logo {
             data {
               id
@@ -29169,6 +29175,7 @@ export const GetContractsDocument = gql`
           isNonExclusive
           isRVFrance
           isFreemium
+          idPianoAnalytics
           logo {
             data {
               id

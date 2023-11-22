@@ -37,6 +37,7 @@ interface IContractInformationsFields {
   ccap: number;
   clear: number;
   clientContact: Maybe<ClientContactEntityResponse>;
+  idPianoAnalytics: string | null;
 }
 
 export default function EditInformationContract({
@@ -168,6 +169,7 @@ export default function EditInformationContract({
                 ccap: values.ccap,
                 clear: values.clear,
                 clientContact: result.createClientContact?.data?.id ?? "",
+                idPianoAnalytics: values.idPianoAnalytics ?? "",
               },
               clientContactId: result.createClientContact?.data?.id ?? "",
               clientContactData: {
@@ -192,6 +194,7 @@ export default function EditInformationContract({
             isRVFrance: values.isRVFrance,
             ccap: values.ccap,
             clear: values.clear,
+            idPianoAnalytics: values.idPianoAnalytics,
           },
           clientContactId: contractData?.clientContact?.data?.id ?? "",
           clientContactData: {
@@ -325,6 +328,16 @@ export default function EditInformationContract({
               <FormInput
                 name="clear"
                 label={labels.clear}
+                isDisabled={!userContractPermissions.update}
+              />
+            </div>
+          </div>
+          <h2>{labels.contractKeys}</h2>
+          <div className="c-EditInformationContract__ContractKeys">
+            <div>
+              <FormInput
+                name="idPianoAnalytics"
+                label={labels.idPianoAnalytics}
                 isDisabled={!userContractPermissions.update}
               />
             </div>

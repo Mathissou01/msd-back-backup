@@ -547,7 +547,6 @@ export default function ServicesBlock() {
         }),
       );
 
-      console.log(transversalServiceList);
       const editorialServices: Array<IServiceFields> = [];
       editorialServiceList.map((service) => {
         const editorialServicesAttributes = `contract.attributes?.editorialService?.data?.attributes`;

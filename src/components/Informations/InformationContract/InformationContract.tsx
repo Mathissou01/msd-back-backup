@@ -99,6 +99,7 @@ export default function InformationContract({
     isRVFrance: contractData.isRVFrance ? "Oui" : "Non",
     ccap: contractData.ccap ?? "N/A",
     clear: contractData.clear ?? "N/A",
+    idPianoAnalytics: contractData.idPianoAnalytics ?? "N/A",
   };
 
   const isInactive =
@@ -165,6 +166,15 @@ export default function InformationContract({
           <tr className="c-InformationContract__TableRow">
             <th>{labels.clear}</th>
             <td>{contractInformation.clear}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>{labels.contractKeys}</h2>
+      <table className="c-InformationContract__Table">
+        <tbody>
+          <tr className="c-InformationContract__TableRow">
+            <th>{labels.idPianoAnalytics}</th>
+            <td>{contractInformation.idPianoAnalytics}</td>
           </tr>
         </tbody>
       </table>

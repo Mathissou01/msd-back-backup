@@ -1614,6 +1614,7 @@ type Contract {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): FlowRelationResponseCollection
+  idPianoAnalytics: String
   isFreemium: Boolean!
   isNonExclusive: Boolean!
   isRVFrance: Boolean!
@@ -1759,6 +1760,7 @@ input ContractFiltersInput {
   editorialService: EditorialServiceFiltersInput
   flows: FlowFiltersInput
   id: IDFilterInput
+  idPianoAnalytics: StringFilterInput
   isFreemium: BooleanFilterInput
   isNonExclusive: BooleanFilterInput
   isRVFrance: BooleanFilterInput
@@ -1803,6 +1805,7 @@ input ContractInput {
   dueDate: DateTime
   editorialService: ID
   flows: [ID]
+  idPianoAnalytics: String
   isFreemium: Boolean
   isNonExclusive: Boolean
   isRVFrance: Boolean

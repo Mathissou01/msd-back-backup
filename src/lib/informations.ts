@@ -25,4 +25,6 @@ export interface IInformationContractLabels {
   deactivateMessage: string;
   yes: string;
   no: string;
+  contractKeys: string;
+  idPianoAnalytics: string;
 }
