@@ -11533,6 +11533,7 @@ export type GetTipByIdQuery = {
 export type GetTipsByContractIdQueryVariables = Exact<{
   contractId: Scalars["ID"];
   statusFilter?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<Scalars["String"]>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
   >;
@@ -19050,6 +19051,7 @@ export type GetWasteFormsByContractIdQueryVariables = Exact<{
   contractId?: InputMaybe<Scalars["ID"]>;
   statusFilter?: InputMaybe<Scalars["String"]>;
   flowId?: InputMaybe<Scalars["ID"]>;
+  name?: InputMaybe<Scalars["String"]>;
   sort?: InputMaybe<
     Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>
   >;
@@ -21757,6 +21759,7 @@ export const GetTipsByContractIdDocument = gql`
   query getTipsByContractId(
     $contractId: ID!
     $statusFilter: StringFilterInput
+    $title: String
     $sort: [String]
     $pagination: PaginationArg
   ) {
@@ -21821,6 +21824,7 @@ export const GetTipsByContractIdDocument = gql`
           editorialService: { contract: { id: { eq: $contractId } } }
         }
         status: $statusFilter
+        title: { contains: $title }
       }
       sort: $sort
       pagination: $pagination
@@ -21861,6 +21865,7 @@ export const GetTipsByContractIdDocument = gql`
  *   variables: {
  *      contractId: // value for 'contractId'
  *      statusFilter: // value for 'statusFilter'
+ *      title: // value for 'title'
  *      sort: // value for 'sort'
  *      pagination: // value for 'pagination'
  *   },
@@ -36396,6 +36401,7 @@ export const GetWasteFormsByContractIdDocument = gql`
     $contractId: ID
     $statusFilter: String
     $flowId: ID
+    $name: String
     $sort: [String]
     $pagination: PaginationArg
   ) {
@@ -36451,6 +36457,7 @@ export const GetWasteFormsByContractIdDocument = gql`
         recyclingGuideService: { contract: { id: { eq: $contractId } } }
         status: { eq: $statusFilter }
         flow: { id: { eq: $flowId } }
+        name: { contains: $name }
       }
       sort: $sort
       pagination: $pagination
@@ -36491,6 +36498,7 @@ export const GetWasteFormsByContractIdDocument = gql`
  *      contractId: // value for 'contractId'
  *      statusFilter: // value for 'statusFilter'
  *      flowId: // value for 'flowId'
+ *      name: // value for 'name'
  *      sort: // value for 'sort'
  *      pagination: // value for 'pagination'
  *   },

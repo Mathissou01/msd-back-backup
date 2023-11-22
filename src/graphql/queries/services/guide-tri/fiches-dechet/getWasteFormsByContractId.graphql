@@ -2,6 +2,7 @@ query getWasteFormsByContractId(
   $contractId: ID
   $statusFilter: String
   $flowId: ID
+  $name: String
   $sort: [String]
   $pagination: PaginationArg
 ) {
@@ -57,6 +58,7 @@ query getWasteFormsByContractId(
       recyclingGuideService: { contract: { id: { eq: $contractId } } }
       status: { eq: $statusFilter }
       flow: { id: { eq: $flowId } }
+      name: { contains: $name }
     }
     sort: $sort
     pagination: $pagination

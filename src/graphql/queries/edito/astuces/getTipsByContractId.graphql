@@ -1,6 +1,7 @@
 query getTipsByContractId(
   $contractId: ID!
   $statusFilter: StringFilterInput
+  $title: String
   $sort: [String]
   $pagination: PaginationArg
 ) {
@@ -65,6 +66,7 @@ query getTipsByContractId(
         editorialService: { contract: { id: { eq: $contractId } } }
       }
       status: $statusFilter
+      title: { contains: $title }
     }
     sort: $sort
     pagination: $pagination

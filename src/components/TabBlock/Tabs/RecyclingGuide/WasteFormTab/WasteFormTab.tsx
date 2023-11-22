@@ -21,11 +21,12 @@ import {
   IDefaultTableRow,
   ICurrentPagination,
 } from "../../../../../lib/common-data-table";
+import { useUser } from "../../../../../hooks/useUser";
 import CommonDataTable from "../../../../Common/CommonDataTable/CommonDataTable";
 import CommonLoader from "../../../../Common/CommonLoader/CommonLoader";
 import { IDataTableAction } from "../../../../Common/CommonDataTable/DataTableActions/DataTableActions";
+import CommonSearchInput from "../../../../Common/CommonSearchInput/CommonSearchInput";
 import "./waste-form-tab.scss";
-import { useUser } from "../../../../../hooks/useUser";
 
 export interface IWastesTableRow extends IDefaultTableRow {
   name: string;
@@ -37,6 +38,7 @@ export interface IWastesTableRow extends IDefaultTableRow {
 interface IFilters extends Record<string, unknown> {
   status?: string;
   flowId?: string;
+  name?: string;
 }
 
 export default function WasteFormTab() {
@@ -156,8 +158,15 @@ export default function WasteFormTab() {
   const [filterButtonGroup, setFilterButtonGroup] =
     useState<Array<ICommonButtonGroupSingle>>();
 
+  const [searchFilter, setSearchFilter] = useState<string>("");
+
   const filtersNode = (
     <>
+      <CommonSearchInput
+        value={searchFilter}
+        handleChange={(value) => setSearchFilter(value)}
+        onClick={() => setFilters({ ...filters, name: searchFilter })}
+      />
       <CommonButtonGroup
         buttons={filterButtonGroup ?? []}
         onChange={(button) => setFilters({ ...filters, status: button.value })}
@@ -194,12 +203,17 @@ export default function WasteFormTab() {
       variables: {
         contractId: contractId,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(filters?.status && {
-          statusFilter: filters?.status,
-        }),
-        ...(filters?.flowId &&
+        ...(filters &&
+          filters.status && {
+            statusFilter: filters.status,
+          }),
+        ...(filters &&
           filters.flowId && {
-            flowId: filters?.flowId,
+            flowId: filters.flowId,
+          }),
+        ...(filters &&
+          filters.name && {
+            name: filters.name,
           }),
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,

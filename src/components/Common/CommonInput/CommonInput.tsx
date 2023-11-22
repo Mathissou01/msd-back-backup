@@ -3,7 +3,7 @@ import React, { ChangeEvent, useState } from "react";
 import "./common-input.scss";
 
 export interface ICommonInputProps {
-  id: string;
+  id?: string;
   type: "text" | "number" | "search";
   value: string;
   defaultValue?: string;

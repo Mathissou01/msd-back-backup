@@ -31,6 +31,7 @@ import CommonButton from "../../../../components/Common/CommonButton/CommonButto
 import CommonButtonGroup, {
   ICommonButtonGroupSingle,
 } from "../../../../components/Common/CommonButtonGroup/CommonButtonGroup";
+import CommonSearchInput from "../../../../components/Common/CommonSearchInput/CommonSearchInput";
 
 interface ITipsTableRow extends IDefaultTableRow {
   title: string;
@@ -41,6 +42,7 @@ interface ITipsTableRow extends IDefaultTableRow {
 
 interface IFilters extends Record<string, unknown> {
   status?: string;
+  title?: string;
 }
 
 export function EditoAstucesPage() {
@@ -66,9 +68,14 @@ export function EditoAstucesPage() {
       variables: {
         ...defaultQueryVariables,
         pagination: { page: params.page, pageSize: params.rowsPerPage },
-        ...(filters?.status && {
-          statusFilter: { eq: filters?.status },
-        }),
+        ...(filters &&
+          filters.status && {
+            statusFilter: { eq: filters.status },
+          }),
+        ...(filters &&
+          filters.title && {
+            title: filters.title,
+          }),
         ...(params.sort?.column && {
           sort: `${params.sort.column}:${params.sort.direction ?? "asc"}`,
         }),
@@ -226,8 +233,15 @@ export function EditoAstucesPage() {
   const [filterButtonGroup, setFilterButtonGroup] =
     useState<Array<ICommonButtonGroupSingle>>();
 
+  const [searchFilter, setSearchFilter] = useState<string>("");
+
   const filtersNode = (
     <>
+      <CommonSearchInput
+        value={searchFilter}
+        handleChange={(value) => setSearchFilter(value)}
+        onClick={() => setFilters({ ...filters, title: searchFilter })}
+      />
       <CommonButtonGroup
         buttons={filterButtonGroup ?? []}
         onChange={(button) => setFilters({ ...filters, status: button.value })}
