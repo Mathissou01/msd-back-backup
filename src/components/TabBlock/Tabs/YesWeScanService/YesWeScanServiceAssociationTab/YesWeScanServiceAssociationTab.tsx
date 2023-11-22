@@ -30,6 +30,8 @@ export interface IYesWeScanTableRow extends IDefaultTableRow {
       attributes: {
         address: string;
         name: string;
+        hasCustomAddress: boolean;
+        customAddress: string;
       };
     };
   };

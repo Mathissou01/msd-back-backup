@@ -19974,6 +19974,8 @@ export type GetYwsQrCodesQuery = {
               __typename?: "DropOffMap";
               address?: string | null;
               name?: string | null;
+              hasCustomAddress?: boolean | null;
+              customAddress?: string | null;
             } | null;
           } | null;
         } | null;
@@ -38357,6 +38359,8 @@ export const GetYwsQrCodesDocument = gql`
               attributes {
                 address
                 name
+                hasCustomAddress
+                customAddress
               }
             }
           }

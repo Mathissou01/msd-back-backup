@@ -143,7 +143,10 @@ export default function YesWeScanServiceAssociationTable({
     {
       id: "address",
       name: labels.table.columns.address,
-      selector: (row) => row.address ?? "",
+      selector: (row) =>
+        row.dropOffMap?.data.attributes.hasCustomAddress
+          ? row.dropOffMap?.data.attributes.customAddress
+          : row.address ?? "",
       grow: 6,
       sortable: true,
     },
