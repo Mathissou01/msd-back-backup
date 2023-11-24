@@ -521,6 +521,7 @@ export type AvailableSlot = {
   exceptionId?: Maybe<Scalars["ID"]>;
   openingTime?: Maybe<Scalars["String"]>;
   slotId: Scalars["ID"];
+  yearlyDayId?: Maybe<Scalars["ID"]>;
 };
 
 export type BooleanFilterInput = {
@@ -1203,6 +1204,28 @@ export type ComponentBlocksQuestions = {
   questionTextLabel: Scalars["String"];
   questionTextPlaceholder: Scalars["String"];
   textStatus: Enum_Componentblocksquestions_Textstatus;
+};
+
+export type ComponentBlocksRequestSlotsDaily = {
+  __typename?: "ComponentBlocksRequestSlotsDaily";
+  id: Scalars["ID"];
+  slotDaily?: Maybe<Scalars["JSON"]>;
+};
+
+export type ComponentBlocksRequestSlotsDailyFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>>
+  >;
+  not?: InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>>
+  >;
+  slotDaily?: InputMaybe<JsonFilterInput>;
+};
+
+export type ComponentBlocksRequestSlotsDailyInput = {
+  id?: InputMaybe<Scalars["ID"]>;
+  slotDaily?: InputMaybe<Scalars["JSON"]>;
 };
 
 export type ComponentBlocksRequestSlotsExceptions = {
@@ -3870,6 +3893,7 @@ export type GenericMorph =
   | ComponentBlocksOpeningDay
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
+  | ComponentBlocksRequestSlotsDaily
   | ComponentBlocksRequestSlotsExceptions
   | ComponentBlocksRequestType
   | ComponentBlocksServices
@@ -8598,6 +8622,7 @@ export type RequestSlot = {
   slotsExceptions?: Maybe<Array<Maybe<ComponentBlocksRequestSlotsExceptions>>>;
   timeSlots?: Maybe<Scalars["JSON"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  yearlyPlanning?: Maybe<Array<Maybe<ComponentBlocksRequestSlotsDaily>>>;
 };
 
 export type RequestSlotRequestTakedsArgs = {
@@ -8614,6 +8639,12 @@ export type RequestSlotSectorizationsArgs = {
 
 export type RequestSlotSlotsExceptionsArgs = {
   filters?: InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type RequestSlotYearlyPlanningArgs = {
+  filters?: InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -8649,6 +8680,7 @@ export type RequestSlotFiltersInput = {
   slotsExceptions?: InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>;
   timeSlots?: InputMaybe<JsonFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  yearlyPlanning?: InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>;
 };
 
 export type RequestSlotInput = {
@@ -8661,6 +8693,9 @@ export type RequestSlotInput = {
     Array<InputMaybe<ComponentBlocksRequestSlotsExceptionsInput>>
   >;
   timeSlots?: InputMaybe<Scalars["JSON"]>;
+  yearlyPlanning?: InputMaybe<
+    Array<InputMaybe<ComponentBlocksRequestSlotsDailyInput>>
+  >;
 };
 
 export type RequestSlotRelationResponseCollection = {
@@ -11857,6 +11892,7 @@ export type UpdateUploadFileByIdMutation = {
           | { __typename?: "ComponentBlocksOpeningDay" }
           | { __typename?: "ComponentBlocksQcm" }
           | { __typename?: "ComponentBlocksQuestions" }
+          | { __typename?: "ComponentBlocksRequestSlotsDaily" }
           | { __typename?: "ComponentBlocksRequestSlotsExceptions" }
           | { __typename?: "ComponentBlocksRequestType" }
           | { __typename?: "ComponentBlocksServices" }
@@ -19974,8 +20010,21 @@ export type GetYwsQrCodesQuery = {
               __typename?: "DropOffMap";
               address?: string | null;
               name?: string | null;
-              hasCustomAddress?: boolean | null;
               customAddress?: string | null;
+              collectDropOff?: {
+                __typename?: "CollectDropOffEntityResponse";
+                data?: {
+                  __typename?: "CollectDropOffEntity";
+                  id?: string | null;
+                } | null;
+              } | null;
+              collectVoluntary?: {
+                __typename?: "CollectVoluntaryEntityResponse";
+                data?: {
+                  __typename?: "CollectVoluntaryEntity";
+                  id?: string | null;
+                } | null;
+              } | null;
             } | null;
           } | null;
         } | null;

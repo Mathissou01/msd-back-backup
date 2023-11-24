@@ -144,9 +144,14 @@ export default function YesWeScanServiceAssociationTable({
       id: "address",
       name: labels.table.columns.address,
       selector: (row) =>
-        row.dropOffMap?.data.attributes.hasCustomAddress
+        row.address ??
+        (row.dropOffMap &&
+        row.dropOffMap.data &&
+        row.dropOffMap.data.attributes &&
+        row.dropOffMap.data.attributes.customAddress
           ? row.dropOffMap?.data.attributes.customAddress
-          : row.address ?? "",
+          : row.dropOffMap?.data.attributes.address) ??
+        "",
       grow: 6,
       sortable: true,
     },

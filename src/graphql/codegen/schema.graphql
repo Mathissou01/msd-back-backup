@@ -427,6 +427,7 @@ type AvailableSlot {
   exceptionId: ID
   openingTime: String
   slotId: ID!
+  yearlyDayId: ID
 }
 
 input BooleanFilterInput {
@@ -1040,6 +1041,23 @@ type ComponentBlocksQuestions {
   questionTextLabel: String!
   questionTextPlaceholder: String!
   textStatus: ENUM_COMPONENTBLOCKSQUESTIONS_TEXTSTATUS!
+}
+
+type ComponentBlocksRequestSlotsDaily {
+  id: ID!
+  slotDaily: JSON
+}
+
+input ComponentBlocksRequestSlotsDailyFiltersInput {
+  and: [ComponentBlocksRequestSlotsDailyFiltersInput]
+  not: ComponentBlocksRequestSlotsDailyFiltersInput
+  or: [ComponentBlocksRequestSlotsDailyFiltersInput]
+  slotDaily: JSONFilterInput
+}
+
+input ComponentBlocksRequestSlotsDailyInput {
+  id: ID
+  slotDaily: JSON
 }
 
 type ComponentBlocksRequestSlotsExceptions {
@@ -3457,6 +3475,7 @@ union GenericMorph =
   | ComponentBlocksOpeningDay
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
+  | ComponentBlocksRequestSlotsDaily
   | ComponentBlocksRequestSlotsExceptions
   | ComponentBlocksRequestType
   | ComponentBlocksServices
@@ -6436,6 +6455,11 @@ type RequestSlot {
   ): [ComponentBlocksRequestSlotsExceptions]
   timeSlots: JSON
   updatedAt: DateTime
+  yearlyPlanning(
+    filters: ComponentBlocksRequestSlotsDailyFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentBlocksRequestSlotsDaily]
 }
 
 type RequestSlotEntity {
@@ -6466,6 +6490,7 @@ input RequestSlotFiltersInput {
   slotsExceptions: ComponentBlocksRequestSlotsExceptionsFiltersInput
   timeSlots: JSONFilterInput
   updatedAt: DateTimeFilterInput
+  yearlyPlanning: ComponentBlocksRequestSlotsDailyFiltersInput
 }
 
 input RequestSlotInput {
@@ -6476,6 +6501,7 @@ input RequestSlotInput {
   slotType: ENUM_REQUESTSLOT_SLOTTYPE
   slotsExceptions: [ComponentBlocksRequestSlotsExceptionsInput]
   timeSlots: JSON
+  yearlyPlanning: [ComponentBlocksRequestSlotsDailyInput]
 }
 
 type RequestSlotRelationResponseCollection {

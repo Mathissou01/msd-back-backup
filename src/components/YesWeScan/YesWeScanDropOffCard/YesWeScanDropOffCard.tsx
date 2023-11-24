@@ -11,9 +11,9 @@ export default function YesWeScanDropOffCard({
   dropOffMap,
   chosenDropOff,
 }: IYesWeScanDropOffCardProps) {
-  const dropOffMapAddress = JSON.parse(
-    dropOffMap.attributes?.BANFeatureProperties,
-  );
+  const dropOffMapAddress = dropOffMap.attributes?.hasCustomAddress
+    ? dropOffMap.attributes?.customAddress
+    : dropOffMap.attributes?.address;
   return (
     <button
       type="button"
@@ -26,8 +26,7 @@ export default function YesWeScanDropOffCard({
       onClick={() => onChoseDropOffMap(dropOffMap)}
     >
       <strong>{dropOffMap.attributes?.name}</strong>
-      <p>{dropOffMapAddress.name}</p>
-      <p>{`${dropOffMapAddress.postcode} ${dropOffMapAddress.city}`}</p>
+      <p>{dropOffMapAddress}</p>
     </button>
   );
 }
