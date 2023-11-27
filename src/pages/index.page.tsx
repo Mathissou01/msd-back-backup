@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -17,6 +17,7 @@ import PageTitle from "../components/PageTitle/PageTitle";
 import CommonLoader from "../components/Common/CommonLoader/CommonLoader";
 import CommonButton from "../components/Common/CommonButton/CommonButton";
 import CommonDataTable from "../components/Common/CommonDataTable/CommonDataTable";
+import CommonSearchInput from "../components/Common/CommonSearchInput/CommonSearchInput";
 import "./root-home-page.scss";
 
 interface IContractTableRow extends IDefaultTableRow {
@@ -54,10 +55,6 @@ export default function RootHomePage() {
 
   function handleSearch() {
     setSearchText(searchInput);
-  }
-
-  function handleChange(event: ChangeEvent) {
-    setSearchInput((event.target as HTMLInputElement).value);
   }
 
   /* Local Data */
@@ -199,8 +196,6 @@ export default function RootHomePage() {
     );
   }, [searchText]);
 
-  // TODO: detect ENTER key for search filter
-
   return (
     <>
       <Header isRoot={true} />
@@ -210,18 +205,11 @@ export default function RootHomePage() {
           <div className="c-RootHomePage__Content">
             <CommonLoader isLoading={loading} errors={[error]}>
               <div className="c-RootHomePage__SearchContainer">
-                <input
-                  className="c-RootHomePage__Search"
-                  type="text"
-                  placeholder={labels.placeholder}
+                <CommonSearchInput
+                  handleChange={setSearchInput}
+                  onClick={handleSearch}
                   value={searchInput}
-                  onChange={handleChange}
-                />
-                <CommonButton
-                  picto="search"
-                  style="primary"
-                  onClick={() => handleSearch()}
-                  paddingStyle="paddingMedium"
+                  placeholder={labels.placeholder}
                 />
                 <div>
                   <CommonButton
