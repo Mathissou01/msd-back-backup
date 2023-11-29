@@ -6,9 +6,9 @@ query getCitiesByContractId($contractId: ID!) {
         cities(sort: "name:asc") {
           data {
             attributes {
-              postalCode
               name
               GeoJSON
+              insee
             }
           }
         }

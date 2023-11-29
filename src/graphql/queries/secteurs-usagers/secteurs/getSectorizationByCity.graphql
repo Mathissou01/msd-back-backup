@@ -1,5 +1,5 @@
-query getSectorizationByCity($postalCode: String!) {
-  sectorizationByCity(postalCode: $postalCode) {
+query getSectorizationByCity($inseeCode: String!) {
+  sectorizationByCity(inseeCode: $inseeCode) {
     GeoJson
   }
 }

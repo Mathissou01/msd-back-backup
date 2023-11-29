@@ -1,7 +1,7 @@
 import { IDefaultTableRow } from "./common-data-table";
 
-type Commune = {
-  value: number;
+export type Commune = {
+  value: string;
   label: string;
 };
 

@@ -3,11 +3,7 @@ import Map from "ol/Map";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import { useGetSectorizationByCityLazyQuery } from "../../../graphql/codegen/generated-types";
-
-type Commune = {
-  value: number;
-  label: string;
-};
+import { Commune } from "../../../lib/sectors";
 
 interface IHookCommunesProps {
   map?: Map;
@@ -47,7 +43,7 @@ export const useAddCommunesToSource = ({
       for (const commune of communesToAdd) {
         // Fetch commune GeoJSON data
         const response = await getCommunes({
-          variables: { postalCode: `${commune.value}` },
+          variables: { inseeCode: commune.value },
         });
 
         const communeData = response?.data?.sectorizationByCity?.GeoJson;

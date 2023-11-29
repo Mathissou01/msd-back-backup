@@ -83,13 +83,13 @@ export default function SectorForm({
         (result: { value: string; label: string }[], city: CityEntity) => {
           if (
             city.attributes &&
-            city.attributes.postalCode !== undefined &&
-            city.attributes.postalCode !== null &&
+            city.attributes.insee !== undefined &&
+            city.attributes.insee !== null &&
             city.attributes.name !== undefined &&
             city.attributes.name !== null
           ) {
             result.push({
-              value: city.attributes.postalCode,
+              value: city.attributes.insee,
               label: city.attributes.name,
             });
           }

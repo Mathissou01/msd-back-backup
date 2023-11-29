@@ -3,6 +3,7 @@ import Map from "ol/Map";
 import VectorSource from "ol/source/Vector";
 import CommonButton from "../Common/CommonButton/CommonButton";
 import Feature from "ol/Feature";
+import { Commune } from "../../lib/sectors";
 import { useInitializeMap } from "../../hooks/Map/useInitializeMap";
 import { useAddPolygonToSource } from "../../hooks/Map/Controller/useAddPolygonToSource";
 import { useAddCommunesToSource } from "../../hooks/Map/Controller/useAddCommunesToSource";
@@ -11,11 +12,6 @@ import { useDrawInteractions } from "../../hooks/Map/Controller/useDrawInteracti
 import { useModifyInteractions } from "../../hooks/Map/Controller/useModifyInteractions";
 import "ol/ol.css";
 import "./open-layers-map.scss";
-
-type Commune = {
-  value: number;
-  label: string;
-};
 
 interface GeoJSONProps {
   polygon: string;

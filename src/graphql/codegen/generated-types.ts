@@ -521,7 +521,6 @@ export type AvailableSlot = {
   exceptionId?: Maybe<Scalars["ID"]>;
   openingTime?: Maybe<Scalars["String"]>;
   slotId: Scalars["ID"];
-  yearlyDayId?: Maybe<Scalars["ID"]>;
 };
 
 export type BooleanFilterInput = {
@@ -1204,28 +1203,6 @@ export type ComponentBlocksQuestions = {
   questionTextLabel: Scalars["String"];
   questionTextPlaceholder: Scalars["String"];
   textStatus: Enum_Componentblocksquestions_Textstatus;
-};
-
-export type ComponentBlocksRequestSlotsDaily = {
-  __typename?: "ComponentBlocksRequestSlotsDaily";
-  id: Scalars["ID"];
-  slotDaily?: Maybe<Scalars["JSON"]>;
-};
-
-export type ComponentBlocksRequestSlotsDailyFiltersInput = {
-  and?: InputMaybe<
-    Array<InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>>
-  >;
-  not?: InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>;
-  or?: InputMaybe<
-    Array<InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>>
-  >;
-  slotDaily?: InputMaybe<JsonFilterInput>;
-};
-
-export type ComponentBlocksRequestSlotsDailyInput = {
-  id?: InputMaybe<Scalars["ID"]>;
-  slotDaily?: InputMaybe<Scalars["JSON"]>;
 };
 
 export type ComponentBlocksRequestSlotsExceptions = {
@@ -3893,7 +3870,6 @@ export type GenericMorph =
   | ComponentBlocksOpeningDay
   | ComponentBlocksQcm
   | ComponentBlocksQuestions
-  | ComponentBlocksRequestSlotsDaily
   | ComponentBlocksRequestSlotsExceptions
   | ComponentBlocksRequestType
   | ComponentBlocksServices
@@ -4460,6 +4436,7 @@ export type Mutation = {
   channelsActivation?: Maybe<Array<Maybe<ActivationAndService>>>;
   channelsDeactivation?: Maybe<Deactivation>;
   checkUnpublishedDate?: Maybe<Scalars["Boolean"]>;
+  cleanUnrelatedServicesLinks?: Maybe<Scalars["Boolean"]>;
   createAccessibility?: Maybe<AccessibilityEntityResponse>;
   createAccessibilitySubService?: Maybe<AccessibilitySubServiceEntityResponse>;
   createAlertNotification?: Maybe<AlertNotificationEntityResponse>;
@@ -7286,6 +7263,7 @@ export type QueryFreeContentsArgs = {
 };
 
 export type QueryGetAddressCoordinatesArgs = {
+  contractId?: InputMaybe<Scalars["ID"]>;
   housenumber?: InputMaybe<Scalars["Boolean"]>;
   searchTerm: Scalars["String"];
 };
@@ -7678,7 +7656,7 @@ export type QuerySectorizationArgs = {
 };
 
 export type QuerySectorizationByCityArgs = {
-  postalCode: Scalars["String"];
+  inseeCode: Scalars["String"];
 };
 
 export type QuerySectorizationsArgs = {
@@ -8622,7 +8600,6 @@ export type RequestSlot = {
   slotsExceptions?: Maybe<Array<Maybe<ComponentBlocksRequestSlotsExceptions>>>;
   timeSlots?: Maybe<Scalars["JSON"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-  yearlyPlanning?: Maybe<Array<Maybe<ComponentBlocksRequestSlotsDaily>>>;
 };
 
 export type RequestSlotRequestTakedsArgs = {
@@ -8639,12 +8616,6 @@ export type RequestSlotSectorizationsArgs = {
 
 export type RequestSlotSlotsExceptionsArgs = {
   filters?: InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-};
-
-export type RequestSlotYearlyPlanningArgs = {
-  filters?: InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -8680,7 +8651,6 @@ export type RequestSlotFiltersInput = {
   slotsExceptions?: InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>;
   timeSlots?: InputMaybe<JsonFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  yearlyPlanning?: InputMaybe<ComponentBlocksRequestSlotsDailyFiltersInput>;
 };
 
 export type RequestSlotInput = {
@@ -8693,9 +8663,6 @@ export type RequestSlotInput = {
     Array<InputMaybe<ComponentBlocksRequestSlotsExceptionsInput>>
   >;
   timeSlots?: InputMaybe<Scalars["JSON"]>;
-  yearlyPlanning?: InputMaybe<
-    Array<InputMaybe<ComponentBlocksRequestSlotsDailyInput>>
-  >;
 };
 
 export type RequestSlotRelationResponseCollection = {
@@ -11892,7 +11859,6 @@ export type UpdateUploadFileByIdMutation = {
           | { __typename?: "ComponentBlocksOpeningDay" }
           | { __typename?: "ComponentBlocksQcm" }
           | { __typename?: "ComponentBlocksQuestions" }
-          | { __typename?: "ComponentBlocksRequestSlotsDaily" }
           | { __typename?: "ComponentBlocksRequestSlotsExceptions" }
           | { __typename?: "ComponentBlocksRequestType" }
           | { __typename?: "ComponentBlocksServices" }
@@ -17481,9 +17447,9 @@ export type GetCitiesByContractIdQuery = {
             __typename?: "CityEntity";
             attributes?: {
               __typename?: "City";
-              postalCode?: string | null;
               name?: string | null;
               GeoJSON?: any | null;
+              insee?: string | null;
             } | null;
           }>;
         } | null;
@@ -17493,7 +17459,7 @@ export type GetCitiesByContractIdQuery = {
 };
 
 export type GetSectorizationByCityQueryVariables = Exact<{
-  postalCode: Scalars["String"];
+  inseeCode: Scalars["String"];
 }>;
 
 export type GetSectorizationByCityQuery = {
@@ -20010,21 +19976,8 @@ export type GetYwsQrCodesQuery = {
               __typename?: "DropOffMap";
               address?: string | null;
               name?: string | null;
+              hasCustomAddress?: boolean | null;
               customAddress?: string | null;
-              collectDropOff?: {
-                __typename?: "CollectDropOffEntityResponse";
-                data?: {
-                  __typename?: "CollectDropOffEntity";
-                  id?: string | null;
-                } | null;
-              } | null;
-              collectVoluntary?: {
-                __typename?: "CollectVoluntaryEntityResponse";
-                data?: {
-                  __typename?: "CollectVoluntaryEntity";
-                  id?: string | null;
-                } | null;
-              } | null;
             } | null;
           } | null;
         } | null;
@@ -33197,9 +33150,9 @@ export const GetCitiesByContractIdDocument = gql`
           cities(sort: "name:asc") {
             data {
               attributes {
-                postalCode
                 name
                 GeoJSON
+                insee
               }
             }
           }
@@ -33260,8 +33213,8 @@ export type GetCitiesByContractIdQueryResult = Apollo.QueryResult<
   GetCitiesByContractIdQueryVariables
 >;
 export const GetSectorizationByCityDocument = gql`
-  query getSectorizationByCity($postalCode: String!) {
-    sectorizationByCity(postalCode: $postalCode) {
+  query getSectorizationByCity($inseeCode: String!) {
+    sectorizationByCity(inseeCode: $inseeCode) {
       GeoJson
     }
   }
@@ -33279,7 +33232,7 @@ export const GetSectorizationByCityDocument = gql`
  * @example
  * const { data, loading, error } = useGetSectorizationByCityQuery({
  *   variables: {
- *      postalCode: // value for 'postalCode'
+ *      inseeCode: // value for 'inseeCode'
  *   },
  * });
  */
