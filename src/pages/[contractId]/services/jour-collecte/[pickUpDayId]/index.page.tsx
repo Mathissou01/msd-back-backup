@@ -21,7 +21,7 @@ import {
 } from "../../../../../graphql/codegen/generated-types";
 import {
   EMonthlyStatus,
-  EPeriodicityStatus,
+  EPeriodicityStatusOption,
   EPickUpDayCollectType,
   IPickUpDayStaticMappedFields,
   IPickUpDayStaticVariablesFields,
@@ -101,7 +101,9 @@ export function ServicesPickUpDayEditPage({
   /* Methods */
   async function onSubmit(submitData: FieldValues, submitType?: string) {
     const advancedSelection =
-      submitData.periodicity.toLowerCase() === EPeriodicityStatus.WEEKLY
+      submitData.periodicity === EPeriodicityStatusOption.WEEKLY ||
+      submitData.periodicity === EPeriodicityStatusOption.EVEN ||
+      submitData.periodicity === EPeriodicityStatusOption.ODD
         ? { hebdomadaire: { selection: submitData.days } }
         : {
             mensuel: {
@@ -140,7 +142,7 @@ export function ServicesPickUpDayEditPage({
             ? submitData.collects.replace(EPickUpDayCollectType.VOLUNTARY, "")
             : null,
         pickUpDayService: contract.attributes?.pickUpDayService?.data?.id,
-        periodicity: submitData.periodicity.toLowerCase(),
+        periodicity: submitData.periodicity,
         advancedSelection,
         includeHoliday: submitData.includeHoliday,
         pickUpHours: submitData.pickUpHours,
@@ -254,17 +256,17 @@ export function ServicesPickUpDayEditPage({
           collects: collects,
           periodicity: pickUpDaysData.attributes.periodicity,
           choice:
-            EPeriodicityStatus.MONTHLY in
+            EPeriodicityStatusOption.MONTHLY in
             pickUpDaysData.attributes.advancedSelection
               ? pickUpDaysData.attributes.advancedSelection?.mensuel.choice
               : undefined,
           daysOfTheMonth:
-            EPeriodicityStatus.MONTHLY in
+            EPeriodicityStatusOption.MONTHLY in
             pickUpDaysData.attributes.advancedSelection
               ? pickUpDaysData.attributes.advancedSelection?.mensuel?.selection?.toString()
               : undefined,
           days:
-            EPeriodicityStatus.WEEKLY in
+            EPeriodicityStatusOption.WEEKLY in
             pickUpDaysData.attributes.advancedSelection
               ? pickUpDaysData.attributes.advancedSelection.hebdomadaire
                   .selection

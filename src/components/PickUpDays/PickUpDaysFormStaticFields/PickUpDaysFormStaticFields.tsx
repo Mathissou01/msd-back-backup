@@ -23,7 +23,7 @@ import SectorizationOrCityFields, {
 import { IFormSingleMultiselectOption } from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
 import {
   EMonthlyStatus,
-  EPeriodicityStatus,
+  EPeriodicityStatusOption,
   dayOptions,
   periodicityOptions,
   recurrenceOptions,
@@ -255,7 +255,12 @@ export default function PickUpDaysFormStaticFields({
 
   useEffect(() => {
     if (periodicity !== undefined)
-      if (periodicity === EPeriodicityStatus.WEEKLY) setPeriodicityStatus(true);
+      if (
+        periodicity === EPeriodicityStatusOption.WEEKLY ||
+        periodicity === EPeriodicityStatusOption.EVEN ||
+        periodicity === EPeriodicityStatusOption.ODD
+      )
+        setPeriodicityStatus(true);
       else {
         setPeriodicityStatus(false);
         if (recurrence === EMonthlyStatus.MONTHLY_DATE)

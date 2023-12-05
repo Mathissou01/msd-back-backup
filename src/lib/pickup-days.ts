@@ -7,9 +7,18 @@ import {
 
 import { IFormSingleMultiselectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
 
-enum EPeriodicityStatus {
+enum EPeriodicityStatusOption {
   WEEKLY = "hebdomadaire",
   MONTHLY = "mensuel",
+  EVEN = "semainePaire",
+  ODD = "semaineImpaire",
+}
+
+enum EPeriodicityStatusLabel {
+  WEEKLY = "Hebdomadaire",
+  MONTHLY = "Mensuel",
+  EVEN = "Semaines paires",
+  ODD = "Semaines impaires",
 }
 
 enum EPickUpDayCollectType {
@@ -124,17 +133,26 @@ const recurrenceOptions = [
 
 const periodicityOptions = [
   {
-    option: EPeriodicityStatus.WEEKLY,
-    label: EPeriodicityStatus.WEEKLY,
+    option: EPeriodicityStatusOption.WEEKLY,
+    label: EPeriodicityStatusLabel.WEEKLY,
   },
   {
-    option: EPeriodicityStatus.MONTHLY,
-    label: EPeriodicityStatus.MONTHLY,
+    option: EPeriodicityStatusOption.MONTHLY,
+    label: EPeriodicityStatusLabel.MONTHLY,
+  },
+  {
+    option: EPeriodicityStatusOption.EVEN,
+    label: EPeriodicityStatusLabel.EVEN,
+  },
+  {
+    option: EPeriodicityStatusOption.ODD,
+    label: EPeriodicityStatusLabel.ODD,
   },
 ];
 
 export {
-  EPeriodicityStatus,
+  EPeriodicityStatusOption,
+  EPeriodicityStatusLabel,
   EMonthlyStatus,
   EDaysOfTheWeek,
   EPickUpDayCollectType,
