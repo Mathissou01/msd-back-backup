@@ -427,6 +427,7 @@ type AvailableSlot {
   exceptionId: ID
   openingTime: String
   slotId: ID!
+  yearlyDayId: ID
 }
 
 input BooleanFilterInput {
@@ -2206,12 +2207,14 @@ type DropOffMapDTO {
   audiences: [AudienceDTO]
   city: String
   collect: CollectEntity
+  customAddress: String
   description: String
   downloadableFiles(
     filters: ComponentBlocksDownloadBlockFiltersInput
     pagination: PaginationArg = {}
     sort: [String] = []
   ): [ComponentBlocksDownloadBlock]
+  hasCustomAddress: Boolean
   id: String!
   latitude: Float!
   longitude: Float!
@@ -2513,8 +2516,10 @@ enum ENUM_NEW_STATUS {
 }
 
 enum ENUM_PICKUPDAY_PERIODICITY {
+  evenWeek
   hebdomadaire
   mensuel
+  oddWeek
 }
 
 enum ENUM_QUIZ_STATUS {
@@ -4525,6 +4530,7 @@ type Mutation {
     data: PickUpDayServiceInput!
     id: ID!
   ): PickUpDayServiceEntityResponse
+  updatePlanningsCronTask: Boolean
   updateQuiz(data: QuizInput!, id: ID!): QuizEntityResponse
   updateQuizAndTipsBlock(
     data: QuizAndTipsBlockInput!
@@ -6055,6 +6061,7 @@ type RecyclingGuideService {
   memoDesc: String
   memoFile: UploadFileEntityResponse
   memoName: String!
+  memoPreview: UploadFileEntityResponse
   name: String!
   orderExtension: Boolean
   startDate: Date
@@ -6115,6 +6122,7 @@ input RecyclingGuideServiceInput {
   memoDesc: String
   memoFile: ID
   memoName: String
+  memoPreview: ID
   name: String
   orderExtension: Boolean
   startDate: Date
@@ -6438,6 +6446,7 @@ type RequestSlot {
   ): [ComponentBlocksRequestSlotsExceptions]
   timeSlots: JSON
   updatedAt: DateTime
+  yearlyPlanning: JSON
 }
 
 type RequestSlotEntity {
@@ -6468,6 +6477,7 @@ input RequestSlotFiltersInput {
   slotsExceptions: ComponentBlocksRequestSlotsExceptionsFiltersInput
   timeSlots: JSONFilterInput
   updatedAt: DateTimeFilterInput
+  yearlyPlanning: JSONFilterInput
 }
 
 input RequestSlotInput {
@@ -6478,6 +6488,7 @@ input RequestSlotInput {
   slotType: ENUM_REQUESTSLOT_SLOTTYPE
   slotsExceptions: [ComponentBlocksRequestSlotsExceptionsInput]
   timeSlots: JSON
+  yearlyPlanning: JSON
 }
 
 type RequestSlotRelationResponseCollection {
@@ -7921,6 +7932,7 @@ type YesWeScanQrCode {
   long: Float
   name: String
   qrCodeUrl: String
+  reportsMade: JSON
   typeAssociation: ENUM_YESWESCANQRCODE_TYPEASSOCIATION
   updatedAt: DateTime
   yesWeScanService: YesWeScanServiceEntityResponse
@@ -7953,6 +7965,7 @@ input YesWeScanQrCodeFiltersInput {
   not: YesWeScanQrCodeFiltersInput
   or: [YesWeScanQrCodeFiltersInput]
   qrCodeUrl: StringFilterInput
+  reportsMade: JSONFilterInput
   typeAssociation: StringFilterInput
   updatedAt: DateTimeFilterInput
   yesWeScanService: YesWeScanServiceFiltersInput
@@ -7966,6 +7979,7 @@ input YesWeScanQrCodeInput {
   long: Float
   name: String
   qrCodeUrl: String
+  reportsMade: JSON
   typeAssociation: ENUM_YESWESCANQRCODE_TYPEASSOCIATION
   yesWeScanService: ID
 }

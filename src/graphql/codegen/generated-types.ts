@@ -521,6 +521,7 @@ export type AvailableSlot = {
   exceptionId?: Maybe<Scalars["ID"]>;
   openingTime?: Maybe<Scalars["String"]>;
   slotId: Scalars["ID"];
+  yearlyDayId?: Maybe<Scalars["ID"]>;
 };
 
 export type BooleanFilterInput = {
@@ -2501,8 +2502,10 @@ export type DropOffMapDto = {
   audiences?: Maybe<Array<Maybe<AudienceDto>>>;
   city?: Maybe<Scalars["String"]>;
   collect?: Maybe<CollectEntity>;
+  customAddress?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
   downloadableFiles?: Maybe<Array<Maybe<ComponentBlocksDownloadBlock>>>;
+  hasCustomAddress?: Maybe<Scalars["Boolean"]>;
   id: Scalars["String"];
   latitude: Scalars["Float"];
   longitude: Scalars["Float"];
@@ -2829,8 +2832,10 @@ export enum Enum_New_Status {
 }
 
 export enum Enum_Pickupday_Periodicity {
+  EvenWeek = "evenWeek",
   Hebdomadaire = "hebdomadaire",
   Mensuel = "mensuel",
+  OddWeek = "oddWeek",
 }
 
 export enum Enum_Quiz_Status {
@@ -4689,6 +4694,7 @@ export type Mutation = {
   updateNewsSubService?: Maybe<NewsSubServiceEntityResponse>;
   updatePickUpDay?: Maybe<PickUpDayEntityResponse>;
   updatePickUpDayService?: Maybe<PickUpDayServiceEntityResponse>;
+  updatePlanningsCronTask?: Maybe<Scalars["Boolean"]>;
   updateQuiz?: Maybe<QuizEntityResponse>;
   updateQuizAndTipsBlock?: Maybe<QuizAndTipsBlockEntityResponse>;
   updateQuizSubService?: Maybe<QuizSubServiceEntityResponse>;
@@ -8176,6 +8182,7 @@ export type RecyclingGuideService = {
   memoDesc?: Maybe<Scalars["String"]>;
   memoFile?: Maybe<UploadFileEntityResponse>;
   memoName: Scalars["String"];
+  memoPreview?: Maybe<UploadFileEntityResponse>;
   name: Scalars["String"];
   orderExtension?: Maybe<Scalars["Boolean"]>;
   startDate?: Maybe<Scalars["Date"]>;
@@ -8255,6 +8262,7 @@ export type RecyclingGuideServiceInput = {
   memoDesc?: InputMaybe<Scalars["String"]>;
   memoFile?: InputMaybe<Scalars["ID"]>;
   memoName?: InputMaybe<Scalars["String"]>;
+  memoPreview?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
   orderExtension?: InputMaybe<Scalars["Boolean"]>;
   startDate?: InputMaybe<Scalars["Date"]>;
@@ -8600,6 +8608,7 @@ export type RequestSlot = {
   slotsExceptions?: Maybe<Array<Maybe<ComponentBlocksRequestSlotsExceptions>>>;
   timeSlots?: Maybe<Scalars["JSON"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  yearlyPlanning?: Maybe<Scalars["JSON"]>;
 };
 
 export type RequestSlotRequestTakedsArgs = {
@@ -8651,6 +8660,7 @@ export type RequestSlotFiltersInput = {
   slotsExceptions?: InputMaybe<ComponentBlocksRequestSlotsExceptionsFiltersInput>;
   timeSlots?: InputMaybe<JsonFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  yearlyPlanning?: InputMaybe<JsonFilterInput>;
 };
 
 export type RequestSlotInput = {
@@ -8663,6 +8673,7 @@ export type RequestSlotInput = {
     Array<InputMaybe<ComponentBlocksRequestSlotsExceptionsInput>>
   >;
   timeSlots?: InputMaybe<Scalars["JSON"]>;
+  yearlyPlanning?: InputMaybe<Scalars["JSON"]>;
 };
 
 export type RequestSlotRelationResponseCollection = {
@@ -10244,6 +10255,7 @@ export type YesWeScanQrCode = {
   long?: Maybe<Scalars["Float"]>;
   name?: Maybe<Scalars["String"]>;
   qrCodeUrl?: Maybe<Scalars["String"]>;
+  reportsMade?: Maybe<Scalars["JSON"]>;
   typeAssociation?: Maybe<Enum_Yeswescanqrcode_Typeassociation>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   yesWeScanService?: Maybe<YesWeScanServiceEntityResponse>;
@@ -10279,6 +10291,7 @@ export type YesWeScanQrCodeFiltersInput = {
   not?: InputMaybe<YesWeScanQrCodeFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<YesWeScanQrCodeFiltersInput>>>;
   qrCodeUrl?: InputMaybe<StringFilterInput>;
+  reportsMade?: InputMaybe<JsonFilterInput>;
   typeAssociation?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   yesWeScanService?: InputMaybe<YesWeScanServiceFiltersInput>;
@@ -10292,6 +10305,7 @@ export type YesWeScanQrCodeInput = {
   long?: InputMaybe<Scalars["Float"]>;
   name?: InputMaybe<Scalars["String"]>;
   qrCodeUrl?: InputMaybe<Scalars["String"]>;
+  reportsMade?: InputMaybe<Scalars["JSON"]>;
   typeAssociation?: InputMaybe<Enum_Yeswescanqrcode_Typeassociation>;
   yesWeScanService?: InputMaybe<Scalars["ID"]>;
 };
@@ -19200,6 +19214,27 @@ export type GetRecyclingGuideServiceByIdQuery = {
             } | null;
           } | null;
         } | null;
+        memoPreview?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              hash: string;
+              mime: string;
+              name: string;
+              provider: string;
+              size: number;
+              url: string;
+              alternativeText?: string | null;
+              ext?: string | null;
+              height?: number | null;
+              width?: number | null;
+              createdAt?: any | null;
+            } | null;
+          } | null;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -19250,6 +19285,22 @@ export type GetRecyclingGuideServicesByContractIdQuery = {
           }>;
         } | null;
         memoFile?: {
+          __typename?: "UploadFileEntityResponse";
+          data?: {
+            __typename?: "UploadFileEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "UploadFile";
+              name: string;
+              hash: string;
+              mime: string;
+              size: number;
+              url: string;
+              provider: string;
+            } | null;
+          } | null;
+        } | null;
+        memoPreview?: {
           __typename?: "UploadFileEntityResponse";
           data?: {
             __typename?: "UploadFileEntity";
@@ -36701,6 +36752,24 @@ export const GetRecyclingGuideServiceByIdDocument = gql`
               }
             }
           }
+          memoPreview {
+            data {
+              id
+              attributes {
+                hash
+                mime
+                name
+                provider
+                size
+                url
+                alternativeText
+                ext
+                height
+                width
+                createdAt
+              }
+            }
+          }
         }
       }
     }
@@ -36789,6 +36858,19 @@ export const GetRecyclingGuideServicesByContractIdDocument = gql`
             }
           }
           memoFile {
+            data {
+              id
+              attributes {
+                name
+                hash
+                mime
+                size
+                url
+                provider
+              }
+            }
+          }
+          memoPreview {
             data {
               id
               attributes {

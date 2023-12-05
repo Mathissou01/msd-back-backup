@@ -88,6 +88,55 @@ exports[`MemoTriTab renders loading and loaded state 2`] = `
         class="c-MemoTriTab__Group c-MemoTriTab__Group_short"
       >
         <div
+          class="c-FormFileInput"
+        >
+          <div
+            class="c-FormLabel"
+          >
+            <label
+              class="c-FormLabel__LabelWrapper"
+              for="memoPreview"
+            >
+              <span
+                class="c-FormLabel__Label"
+              >
+                Image du mémotri *
+              </span>
+              <span
+                class="c-FormLabel__Validation"
+              >
+                20 Mo maximum
+              </span>
+            </label>
+            <div
+              class="c-FormLabel__Content"
+            >
+              <input
+                aria-invalid="false"
+                name="memoPreview"
+                type="hidden"
+                value=""
+              />
+              <div
+                aria-errormessage="memoPreview_error"
+                aria-invalid="false"
+                class="c-FormFileInput__DragDrop"
+                id="memoPreview"
+              >
+                <span
+                  class="c-FormFileInput__Placeholder"
+                >
+                  Cliquer pour ajouter un fichier depuis la bibliothèque de média ou glissez-déposez un fichier dans cette zone.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c-MemoTriTab__Group c-MemoTriTab__Group_short"
+      >
+        <div
           class="c-FormInput"
         >
           <div

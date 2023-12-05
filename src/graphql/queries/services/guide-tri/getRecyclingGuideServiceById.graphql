@@ -24,6 +24,24 @@ query getRecyclingGuideServiceById($recyclingGuideServiceId: ID) {
             }
           }
         }
+        memoPreview {
+          data {
+            id
+            attributes {
+              hash
+              mime
+              name
+              provider
+              size
+              url
+              alternativeText
+              ext
+              height
+              width
+              createdAt
+            }
+          }
+        }
       }
     }
   }

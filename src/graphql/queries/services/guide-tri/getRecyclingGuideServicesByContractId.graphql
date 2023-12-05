@@ -41,6 +41,19 @@ query getRecyclingGuideServicesByContractId($contractId: ID!) {
             }
           }
         }
+        memoPreview {
+          data {
+            id
+            attributes {
+              name
+              hash
+              mime
+              size
+              url
+              provider
+            }
+          }
+        }
       }
     }
   }

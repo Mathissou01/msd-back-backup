@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import {
+  AcceptedImagesMimeTypes,
   fileSizeLimitationOptions,
   remapUploadFileEntityToLocalFile,
 } from "../../../lib/media";
@@ -27,6 +28,7 @@ export default function MemoTriTab() {
     memoName: "Nom du mémotri",
     memoDesc: "Description du mémotri",
     memoFile: "Fichier",
+    memoPreview: "Image du mémotri",
     staticImageValidation: "20 Mo maximum",
     staticImagePlaceholder:
       "Cliquer pour ajouter un fichier depuis la bibliothèque de média ou glissez-déposez un fichier dans cette zone.",
@@ -65,6 +67,7 @@ export default function MemoTriTab() {
           memoName: submitData.memoName,
           memoDesc: submitData.memoDesc,
           memoFile: submitData.memoFile.id,
+          memoPreview: submitData.memoPreview.id,
         },
       };
       return updateRecyclingGuideService({
@@ -105,6 +108,9 @@ export default function MemoTriTab() {
           memoFile: remapUploadFileEntityToLocalFile(
             recyclingGuideService.attributes.memoFile?.data,
           ),
+          memoPreview: remapUploadFileEntityToLocalFile(
+            recyclingGuideService.attributes.memoPreview?.data,
+          ),
         };
         form.reset(mappedData);
       }
@@ -140,6 +146,17 @@ export default function MemoTriTab() {
                 maxLengthValidation={memoNameMaxChar}
                 isRequired
                 isDisabled={!userPermissions.update}
+              />
+            </div>
+            <div className="c-MemoTriTab__Group c-MemoTriTab__Group_short">
+              <FormFileInput
+                name="memoPreview"
+                label={formLabels.memoPreview}
+                isRequired
+                validationLabel={formLabels.staticImageValidation}
+                fileSizeLimitation={fileSizeLimitationOptions._20mb}
+                placeholder={formLabels.staticImagePlaceholder}
+                acceptedMimeTypes={AcceptedImagesMimeTypes}
               />
             </div>
             <div className="c-MemoTriTab__Group c-MemoTriTab__Group_short">

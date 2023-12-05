@@ -25,6 +25,16 @@ export const AcceptedMimeTypes = [
   "application/xhtml+xml",
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 ];
+
+export const AcceptedImagesMimeTypes = [
+  "image/png",
+  "image/jpeg",
+  "image/gif",
+  "image/svg+xml",
+  "image/tiff",
+  "image/ico",
+  "image/dvu",
+];
 type AcceptedMimeTypesTuple = typeof AcceptedMimeTypes;
 export type TAcceptedMimeTypes = AcceptedMimeTypesTuple[number];
 
