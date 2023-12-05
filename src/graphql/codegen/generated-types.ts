@@ -2832,10 +2832,10 @@ export enum Enum_New_Status {
 }
 
 export enum Enum_Pickupday_Periodicity {
-  EvenWeek = "evenWeek",
   Hebdomadaire = "hebdomadaire",
   Mensuel = "mensuel",
-  OddWeek = "oddWeek",
+  SemaineImpaire = "semaineImpaire",
+  SemainePaire = "semainePaire",
 }
 
 export enum Enum_Quiz_Status {
@@ -10248,6 +10248,7 @@ export type YesWeScanFormInput = {
 export type YesWeScanQrCode = {
   __typename?: "YesWeScanQrCode";
   address?: Maybe<Scalars["String"]>;
+  banFeatureProperties?: Maybe<Scalars["JSON"]>;
   city?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   dropOffMap?: Maybe<DropOffMapEntityResponse>;
@@ -10281,6 +10282,7 @@ export type YesWeScanQrCodeEntityResponseCollection = {
 export type YesWeScanQrCodeFiltersInput = {
   address?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<YesWeScanQrCodeFiltersInput>>>;
+  banFeatureProperties?: InputMaybe<JsonFilterInput>;
   city?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   dropOffMap?: InputMaybe<DropOffMapFiltersInput>;
@@ -10299,6 +10301,7 @@ export type YesWeScanQrCodeFiltersInput = {
 
 export type YesWeScanQrCodeInput = {
   address?: InputMaybe<Scalars["String"]>;
+  banFeatureProperties?: InputMaybe<Scalars["JSON"]>;
   city?: InputMaybe<Scalars["String"]>;
   dropOffMap?: InputMaybe<Scalars["ID"]>;
   lat?: InputMaybe<Scalars["Float"]>;

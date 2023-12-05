@@ -2516,10 +2516,10 @@ enum ENUM_NEW_STATUS {
 }
 
 enum ENUM_PICKUPDAY_PERIODICITY {
-  evenWeek
   hebdomadaire
   mensuel
-  oddWeek
+  semaineImpaire
+  semainePaire
 }
 
 enum ENUM_QUIZ_STATUS {
@@ -7925,6 +7925,7 @@ input YesWeScanFormInput {
 
 type YesWeScanQrCode {
   address: String
+  banFeatureProperties: JSON
   city: String
   createdAt: DateTime
   dropOffMap: DropOffMapEntityResponse
@@ -7955,6 +7956,7 @@ type YesWeScanQrCodeEntityResponseCollection {
 input YesWeScanQrCodeFiltersInput {
   address: StringFilterInput
   and: [YesWeScanQrCodeFiltersInput]
+  banFeatureProperties: JSONFilterInput
   city: StringFilterInput
   createdAt: DateTimeFilterInput
   dropOffMap: DropOffMapFiltersInput
@@ -7973,6 +7975,7 @@ input YesWeScanQrCodeFiltersInput {
 
 input YesWeScanQrCodeInput {
   address: String
+  banFeatureProperties: JSON
   city: String
   dropOffMap: ID
   lat: Float
