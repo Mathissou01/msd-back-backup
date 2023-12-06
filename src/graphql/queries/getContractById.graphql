@@ -7,6 +7,7 @@ query getContractById($contractId: ID!) {
         clientType
         contractStatus
         siret
+        mwcSiren
         clear
         ccap
         isNonExclusive

@@ -14637,6 +14637,7 @@ export type GetContractByIdQuery = {
         clientType: Enum_Contract_Clienttype;
         contractStatus: Enum_Contract_Contractstatus;
         siret?: any | null;
+        mwcSiren?: string | null;
         clear?: any | null;
         ccap?: any | null;
         isNonExclusive: boolean;
@@ -28932,6 +28933,7 @@ export const GetContractByIdDocument = gql`
           clientType
           contractStatus
           siret
+          mwcSiren
           clear
           ccap
           isNonExclusive

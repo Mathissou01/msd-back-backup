@@ -30,6 +30,7 @@ interface IEditInformationContract {
 interface IContractInformationsFields {
   clientName: string;
   siret: string;
+  mwcSiren: string;
   contractStatus: Enum_Contract_Contractstatus;
   isNonExclusive: boolean;
   clientType: Enum_Contract_Clienttype;
@@ -164,6 +165,7 @@ export default function EditInformationContract({
               contractData: {
                 clientName: values.clientName,
                 siret: values.siret,
+                mwcSiren: values.mwcSiren,
                 contractStatus: values.contractStatus,
                 isRVFrance: values.isRVFrance,
                 ccap: values.ccap,
@@ -190,6 +192,7 @@ export default function EditInformationContract({
           contractData: {
             clientName: values.clientName,
             siret: values.siret,
+            mwcSiren: values.mwcSiren,
             contractStatus: values.contractStatus,
             isRVFrance: values.isRVFrance,
             ccap: values.ccap,
@@ -213,7 +216,7 @@ export default function EditInformationContract({
   const userContractPermissions = getRightsByLabel("Contract", userRights);
 
   const form = useForm<IContractInformationsFields>({
-    defaultValues: contractData,
+    defaultValues: { ...contractData, mwcSiren: contractData.mwcSiren ?? "" },
   });
   const { handleSubmit } = form;
   const [updateContractInformations, { loading, error }] =
@@ -256,6 +259,13 @@ export default function EditInformationContract({
                 label={labels.siret}
                 type="text"
                 patternValidation={/\d{14}/g}
+                isDisabled={!userContractPermissions.update}
+              />
+              <FormInput
+                name="mwcSiren"
+                label={labels.siren}
+                type="text"
+                patternValidation={/\d{9}/g}
                 isDisabled={!userContractPermissions.update}
               />
               <FormSelect<Enum_Contract_Contractstatus>

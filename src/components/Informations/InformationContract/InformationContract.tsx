@@ -82,6 +82,7 @@ export default function InformationContract({
     // Client
     clientName: contractData.clientName ?? "N/A",
     siret: contractData.siret ?? "N/A",
+    mwcSiren: contractData.mwcSiren ?? "N/A",
     contractStatus: rewordStatusClient(contractData.contractStatus),
     isNonExclusive: contractData.isNonExclusive ? "Non exclusif" : "Exclusif",
     clientType: contractData.clientType
@@ -118,6 +119,10 @@ export default function InformationContract({
           <tr className="c-InformationContract__TableRow">
             <th>{labels.siret}</th>
             <td>{contractInformation.siret}</td>
+          </tr>
+          <tr className="c-InformationContract__TableRow">
+            <th>{labels.siren}</th>
+            <td>{contractInformation.mwcSiren}</td>
           </tr>
           <tr className="c-InformationContract__TableRow">
             <th>{labels.contractStatus}</th>

@@ -3,6 +3,7 @@ export interface IInformationContractLabels {
   clientData: string;
   clientName: string;
   siret: string;
+  siren: string;
   contractStatus: string;
   isNonExclusive: string;
   clientType: string;

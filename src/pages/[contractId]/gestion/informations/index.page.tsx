@@ -12,6 +12,7 @@ export function GestionInformationsPage() {
     clientData: "Client",
     clientName: "Nom du client",
     siret: "Numéro Siret",
+    siren: "Numéro Siren",
     contractStatus: "Statut du client",
     isNonExclusive: "Exclusivité",
     clientType: "Type",
