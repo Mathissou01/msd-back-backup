@@ -10,6 +10,7 @@ import YesWeScanServiceAssociationTab from "../../../../../components/TabBlock/T
 import CommonLoader from "../../../../../components/Common/CommonLoader/CommonLoader";
 import CommonReturnButton from "../../../../../components/Common/CommonReturnButton/CommonReturnButton";
 import YesWeScanServiceQRCodeTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceQRCodeTab/YesWeScanServiceQRCodeTab";
+import YesWeScanServiceStatisticTab from "../../../../../components/TabBlock/Tabs/YesWeScanService/YesWeScanServiceStatisticTab/YesWeScanServiceStatisticTab";
 import "./yws-service-page.scss";
 
 interface IYesWeScanServicePageProps {
@@ -24,6 +25,7 @@ function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
       reportingForm: "Formulaire de signalement",
       qrcode: "QR Code",
       qrcodeAssociation: "Association des QR Code",
+      statistics: "Statistiques",
     },
   };
 
@@ -73,6 +75,12 @@ function YesWeScanServicePage({ ywsServiceId }: IYesWeScanServicePageProps) {
           serviceId={serviceData?.id ?? ""}
         />
       ),
+      isEnabled: true,
+    },
+    {
+      name: "statistics",
+      title: labels.tabs.statistics,
+      content: <YesWeScanServiceStatisticTab />,
       isEnabled: true,
     },
   ];

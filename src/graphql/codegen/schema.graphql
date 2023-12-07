@@ -5503,6 +5503,7 @@ type Query {
     contractId: ID
     uuid: String
   ): [User]
+  getYwsStatistics(contractId: ID!): [Historic]
   global: GlobalEntityResponse
   homepage(id: ID): HomepageEntityResponse
   homepages(

@@ -6770,6 +6770,7 @@ export type Query = {
   getTopContentDTOs?: Maybe<Array<Maybe<EditoContentDto>>>;
   getUserContracts?: Maybe<Array<Maybe<UserContract>>>;
   getUserFromAddressOrUuid?: Maybe<Array<Maybe<User>>>;
+  getYwsStatistics?: Maybe<Array<Maybe<Historic>>>;
   global?: Maybe<GlobalEntityResponse>;
   homepage?: Maybe<HomepageEntityResponse>;
   homepages?: Maybe<HomepageEntityResponseCollection>;
@@ -7407,6 +7408,10 @@ export type QueryGetUserFromAddressOrUuidArgs = {
   address?: InputMaybe<Scalars["String"]>;
   contractId?: InputMaybe<Scalars["ID"]>;
   uuid?: InputMaybe<Scalars["String"]>;
+};
+
+export type QueryGetYwsStatisticsArgs = {
+  contractId: Scalars["ID"];
 };
 
 export type QueryHomepageArgs = {
