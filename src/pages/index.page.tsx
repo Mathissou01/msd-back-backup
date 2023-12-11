@@ -103,6 +103,7 @@ export default function RootHomePage() {
         >
           <button
             className="o-TablePage__Link"
+            style={{ textAlign: "left" }}
             onClick={() => {
               setHeaderContractId(+row.id);
             }}
