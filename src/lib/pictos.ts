@@ -89,6 +89,8 @@ export type TActionPictoStyles = Extract<
   | "yes"
   | "no"
   | "unlink"
+  | "arrowUp"
+  | "arrowDown"
 >;
 
 /* Partial list of pictos, corresponds to mixin argument in 'dynamic-block-wrapper.scss' */

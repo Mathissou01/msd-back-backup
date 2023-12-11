@@ -4702,6 +4702,7 @@ export type Mutation = {
   updateRecyclingGuideService?: Maybe<RecyclingGuideServiceEntityResponse>;
   updateRequest?: Maybe<RequestEntityResponse>;
   updateRequestAggregate?: Maybe<RequestAggregateEntityResponse>;
+  updateRequestAggregateOrder?: Maybe<Array<Maybe<OrderRequestAggregate>>>;
   updateRequestService?: Maybe<RequestServiceEntityResponse>;
   updateRequestSlot?: Maybe<RequestSlotEntityResponse>;
   updateRequestTaked?: Maybe<RequestTakedEntityResponse>;
@@ -5894,6 +5895,10 @@ export type MutationUpdateRequestAggregateArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationUpdateRequestAggregateOrderArgs = {
+  requestAggregateOrder: Array<InputMaybe<Scalars["ID"]>>;
+};
+
 export type MutationUpdateRequestServiceArgs = {
   data: RequestServiceInput;
   id: Scalars["ID"];
@@ -6431,6 +6436,11 @@ export type OldQrCodeMapping = {
   __typename?: "OldQrCodeMapping";
   idNewQrcode: Scalars["String"];
   newShortname: Scalars["String"];
+};
+
+export type OrderRequestAggregate = {
+  __typename?: "OrderRequestAggregate";
+  oid?: Maybe<Scalars["ID"]>;
 };
 
 export type Pagination = {
@@ -7270,7 +7280,6 @@ export type QueryFreeContentsArgs = {
 };
 
 export type QueryGetAddressCoordinatesArgs = {
-  contractId?: InputMaybe<Scalars["ID"]>;
   housenumber?: InputMaybe<Scalars["Boolean"]>;
   searchTerm: Scalars["String"];
 };
@@ -8344,6 +8353,7 @@ export type RequestAggregate = {
   __typename?: "RequestAggregate";
   createdAt?: Maybe<Scalars["DateTime"]>;
   name: Scalars["String"];
+  order?: Maybe<Scalars["Int"]>;
   requestService?: Maybe<RequestServiceEntityResponse>;
   requests?: Maybe<RequestRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
@@ -8379,6 +8389,7 @@ export type RequestAggregateFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<RequestAggregateFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<RequestAggregateFiltersInput>>>;
+  order?: InputMaybe<IntFilterInput>;
   requestService?: InputMaybe<RequestServiceFiltersInput>;
   requests?: InputMaybe<RequestFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -8386,6 +8397,7 @@ export type RequestAggregateFiltersInput = {
 
 export type RequestAggregateInput = {
   name?: InputMaybe<Scalars["String"]>;
+  order?: InputMaybe<Scalars["Int"]>;
   requestService?: InputMaybe<Scalars["ID"]>;
   requests?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
@@ -18394,6 +18406,7 @@ export type GetRequestAggregatesByContractIdQuery = {
       attributes?: {
         __typename?: "RequestAggregate";
         name: string;
+        order?: number | null;
         requests?: {
           __typename?: "RequestRelationResponseCollection";
           data: Array<{ __typename?: "RequestEntity"; id?: string | null }>;
@@ -18725,6 +18738,20 @@ export type UpdateRequestAggregateByIdMutation = {
       attributes?: { __typename?: "RequestAggregate"; name: string } | null;
     } | null;
   } | null;
+};
+
+export type UpdateRequestAggregateOrderMutationVariables = Exact<{
+  requestAggregateOrder:
+    | Array<InputMaybe<Scalars["ID"]>>
+    | InputMaybe<Scalars["ID"]>;
+}>;
+
+export type UpdateRequestAggregateOrderMutation = {
+  __typename?: "Mutation";
+  updateRequestAggregateOrder?: Array<{
+    __typename?: "OrderRequestAggregate";
+    oid?: string | null;
+  } | null> | null;
 };
 
 export type UpdateRequestByIdMutationVariables = Exact<{
@@ -35257,6 +35284,7 @@ export const GetRequestAggregatesByContractIdDocument = gql`
         id
         attributes {
           name
+          order
           requests {
             data {
               id
@@ -35856,6 +35884,57 @@ export type UpdateRequestAggregateByIdMutationOptions =
   Apollo.BaseMutationOptions<
     UpdateRequestAggregateByIdMutation,
     UpdateRequestAggregateByIdMutationVariables
+  >;
+export const UpdateRequestAggregateOrderDocument = gql`
+  mutation updateRequestAggregateOrder($requestAggregateOrder: [ID]!) {
+    updateRequestAggregateOrder(requestAggregateOrder: $requestAggregateOrder) {
+      oid
+    }
+  }
+`;
+export type UpdateRequestAggregateOrderMutationFn = Apollo.MutationFunction<
+  UpdateRequestAggregateOrderMutation,
+  UpdateRequestAggregateOrderMutationVariables
+>;
+
+/**
+ * __useUpdateRequestAggregateOrderMutation__
+ *
+ * To run a mutation, you first call `useUpdateRequestAggregateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRequestAggregateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRequestAggregateOrderMutation, { data, loading, error }] = useUpdateRequestAggregateOrderMutation({
+ *   variables: {
+ *      requestAggregateOrder: // value for 'requestAggregateOrder'
+ *   },
+ * });
+ */
+export function useUpdateRequestAggregateOrderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRequestAggregateOrderMutation,
+    UpdateRequestAggregateOrderMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateRequestAggregateOrderMutation,
+    UpdateRequestAggregateOrderMutationVariables
+  >(UpdateRequestAggregateOrderDocument, options);
+}
+export type UpdateRequestAggregateOrderMutationHookResult = ReturnType<
+  typeof useUpdateRequestAggregateOrderMutation
+>;
+export type UpdateRequestAggregateOrderMutationResult =
+  Apollo.MutationResult<UpdateRequestAggregateOrderMutation>;
+export type UpdateRequestAggregateOrderMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateRequestAggregateOrderMutation,
+    UpdateRequestAggregateOrderMutationVariables
   >;
 export const UpdateRequestByIdDocument = gql`
   mutation updateRequestById($updateRequestId: ID!, $data: RequestInput!) {

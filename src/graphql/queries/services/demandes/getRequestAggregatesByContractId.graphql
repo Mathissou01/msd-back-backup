@@ -12,6 +12,7 @@ query getRequestAggregatesByContractId(
       id
       attributes {
         name
+        order
         requests {
           data {
             id

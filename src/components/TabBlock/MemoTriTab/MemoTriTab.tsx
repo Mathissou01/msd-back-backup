@@ -67,7 +67,9 @@ export default function MemoTriTab() {
           memoName: submitData.memoName,
           memoDesc: submitData.memoDesc,
           memoFile: submitData.memoFile.id,
-          memoPreview: submitData.memoPreview.id,
+          memoPreview: submitData.memoPreview
+            ? submitData.memoPreview.id
+            : null,
         },
       };
       return updateRecyclingGuideService({
@@ -152,7 +154,6 @@ export default function MemoTriTab() {
               <FormFileInput
                 name="memoPreview"
                 label={formLabels.memoPreview}
-                isRequired
                 validationLabel={formLabels.staticImageValidation}
                 fileSizeLimitation={fileSizeLimitationOptions._20mb}
                 placeholder={formLabels.staticImagePlaceholder}

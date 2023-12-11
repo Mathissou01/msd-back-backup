@@ -3,10 +3,12 @@ import { FieldValues } from "react-hook-form/dist/types/fields";
 import { TableColumn } from "react-data-table-component";
 import {
   GetRequestAggregatesByContractIdQuery,
+  RequestAggregateEntity,
   useCreateRequestAggregateMutation,
   useDeleteRequestAggregateByIdMutation,
   useGetRequestAggregatesByContractIdLazyQuery,
   useUpdateRequestAggregateByIdMutation,
+  useUpdateRequestAggregateOrderMutation,
 } from "../../../graphql/codegen/generated-types";
 import {
   ICommonDataTableValidation,
@@ -33,6 +35,7 @@ import "./request-aggregate.scss";
 interface IRequestAggregateTableRow extends IDefaultTableRow {
   name: string;
   hasAssociatedRequest?: boolean;
+  order: number;
 }
 
 export default function RequestAggregate() {
@@ -106,12 +109,13 @@ export default function RequestAggregate() {
     return { isValid, errorMessage: tableValidation.requestAggregateName };
   }
 
-  async function onAddRow(data: FieldValues) {
+  async function onAddRow(values: FieldValues) {
     setIsUpdatingData(true);
     const variables = {
       data: {
         requestService: contractId,
-        name: data["name"],
+        name: values["name"],
+        order: data?.requestAggregates?.data.length,
       },
     };
     return createRequestAggregate({
@@ -211,7 +215,7 @@ export default function RequestAggregate() {
   const defaultRowsPerPage = 30;
   const [getRequestAggregates, { data, loading, error }] =
     useGetRequestAggregatesByContractIdLazyQuery({
-      variables: { contractId: contractId },
+      variables: { contractId: contractId, sort: "order:asc" },
       fetchPolicy: "cache-and-network",
     });
 
@@ -238,6 +242,16 @@ export default function RequestAggregate() {
       error: deleteRequestAggregateError,
     },
   ] = useDeleteRequestAggregateByIdMutation();
+
+  const [
+    updateRequestAggregateOrder,
+    {
+      loading: updateRequestAggregateOrderLoading,
+      error: updateRequestAggregateOrderError,
+    },
+  ] = useUpdateRequestAggregateOrderMutation({
+    refetchQueries: ["getRequestAggregatesByContractId"],
+  });
 
   /* Local data */
   const { userRights } = useUser();
@@ -266,13 +280,15 @@ export default function RequestAggregate() {
     isUpdatingData ||
     createRequestAggregateLoading ||
     updateRequestAggregateLoading ||
-    deleteRequestAggregateLoading;
+    deleteRequestAggregateLoading ||
+    updateRequestAggregateOrderLoading;
   const isLoading = loading || isLoadingMutation;
   const errors = [
     error,
     createRequestAggregateError,
     updateRequestAggregateError,
     deleteRequestAggregateError,
+    updateRequestAggregateOrderError,
   ];
 
   const tableColumns: Array<TableColumn<IRequestAggregateTableRow>> = [
@@ -303,6 +319,66 @@ export default function RequestAggregate() {
     row: IRequestAggregateTableRow,
     rowIndex: number,
   ): Array<IDataTableAction> => [
+    {
+      id: "up",
+      picto: "arrowUp",
+      isDisabled: !userPermissions.update || rowIndex === 0,
+      alt: "Monter le dossier",
+      onClick: () => {
+        if (
+          data &&
+          data.requestAggregates &&
+          data.requestAggregates.data &&
+          data.requestAggregates.data.length > 0
+        ) {
+          const tab: Array<RequestAggregateEntity> = [
+            ...data.requestAggregates.data,
+          ];
+          tab.splice(rowIndex - 1, 2, tab[rowIndex], tab[rowIndex - 1]);
+
+          if (tab && tab.length > 0)
+            updateRequestAggregateOrder({
+              variables: {
+                requestAggregateOrder: tab
+                  .map((item) => {
+                    if (item && item.id) return item.id;
+                  })
+                  .filter(removeNulls),
+              },
+            });
+        }
+      },
+    },
+    {
+      id: "down",
+      picto: "arrowDown",
+      isDisabled:
+        !userPermissions.update ||
+        rowIndex === (data?.requestAggregates?.data?.length ?? 1) - 1,
+      alt: "Descendre le dossier",
+      onClick: () => {
+        if (
+          data &&
+          data.requestAggregates &&
+          data.requestAggregates.data &&
+          data.requestAggregates.data.length > 0
+        ) {
+          const tab = [...data.requestAggregates.data];
+          tab.splice(rowIndex, 2, tab[rowIndex + 1], tab[rowIndex]);
+
+          if (tab && tab.length > 0)
+            updateRequestAggregateOrder({
+              variables: {
+                requestAggregateOrder: tab
+                  .map((item) => {
+                    if (item && item.id) return item.id;
+                  })
+                  .filter(removeNulls),
+              },
+            });
+        }
+      },
+    },
     {
       id: "edit",
       picto: "edit",
@@ -342,6 +418,7 @@ export default function RequestAggregate() {
               return {
                 id: requestAggregate.id,
                 editState: false,
+                order: requestAggregate.attributes.order ?? 0,
                 name: requestAggregate.attributes.name ?? "",
                 hasAssociatedRequest: requestAggregate.attributes.requests?.data
                   ? requestAggregate.attributes.requests?.data.length > 0

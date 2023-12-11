@@ -4553,6 +4553,9 @@ type Mutation {
     data: RequestAggregateInput!
     id: ID!
   ): RequestAggregateEntityResponse
+  updateRequestAggregateOrder(
+    requestAggregateOrder: [ID]!
+  ): [OrderRequestAggregate]
   updateRequestService(
     data: RequestServiceInput!
     id: ID!
@@ -4997,6 +5000,10 @@ type OldQrCodeMapping {
   newShortname: String!
 }
 
+type OrderRequestAggregate {
+  oid: ID
+}
+
 type Pagination {
   page: Int!
   pageCount: Int!
@@ -5438,7 +5445,6 @@ type Query {
     sort: [String] = []
   ): FreeContentEntityResponseCollection
   getAddressCoordinates(
-    contractId: ID
     housenumber: Boolean
     searchTerm: String!
   ): [SearchResultAddress]
@@ -6194,6 +6200,7 @@ scalar RequestAddableBlocksDynamicZoneInput
 type RequestAggregate {
   createdAt: DateTime
   name: String!
+  order: Int
   requestService: RequestServiceEntityResponse
   requests(
     filters: RequestFiltersInput
@@ -6224,6 +6231,7 @@ input RequestAggregateFiltersInput {
   name: StringFilterInput
   not: RequestAggregateFiltersInput
   or: [RequestAggregateFiltersInput]
+  order: IntFilterInput
   requestService: RequestServiceFiltersInput
   requests: RequestFiltersInput
   updatedAt: DateTimeFilterInput
@@ -6231,6 +6239,7 @@ input RequestAggregateFiltersInput {
 
 input RequestAggregateInput {
   name: String
+  order: Int
   requestService: ID
   requests: [ID]
 }

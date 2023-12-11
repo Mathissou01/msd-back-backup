@@ -1,0 +1,5 @@
+mutation updateRequestAggregateOrder($requestAggregateOrder: [ID]!) {
+  updateRequestAggregateOrder(requestAggregateOrder: $requestAggregateOrder) {
+    oid
+  }
+}
