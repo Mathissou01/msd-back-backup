@@ -32,7 +32,7 @@ interface IEditorialStaticFieldsProps {
 
 export default function EditorialStaticFields({
   labels,
-  maxCharacters = 80,
+  maxCharacters = 255,
   enabledFieldsOverride,
 }: IEditorialStaticFieldsProps) {
   /* Static Data */

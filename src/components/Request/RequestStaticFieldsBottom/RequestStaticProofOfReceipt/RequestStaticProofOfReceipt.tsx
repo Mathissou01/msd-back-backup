@@ -45,7 +45,7 @@ export default function RequestStaticProofOfReceipt({
         validationLabel={validationLabel}
         isRequired={isSendProofOfReceipt}
         isDisabled={!isSendProofOfReceipt}
-        maxLengthValidation={50}
+        maxLengthValidation={255}
       />
       <FormWysiwyg
         name="proofOfReceiptHeader"

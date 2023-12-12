@@ -256,7 +256,7 @@ exports[`EditorialForm renders 1`] = `
                 [36m<span[39m
                   [33mclass[39m=[32m"c-FormLabel__Validation"[39m
                 [36m>[39m
-                  [0m80 caractères maximum, affichés dans l'aperçu de l'actualité[0m
+                  [0m255 caractères maximum, affichés dans l'aperçu de l'actualité[0m
                 [36m</span>[39m
               [36m</label>[39m
               [36m<div[39m
@@ -268,7 +268,7 @@ exports[`EditorialForm renders 1`] = `
                   [33mclass[39m=[32m"c-FormInput__Input"[39m
                   [33mdata-testid[39m=[32m"form-input"[39m
                   [33mid[39m=[32m"shortDescription"[39m
-                  [33mmaxlength[39m=[32m"80"[39m
+                  [33mmaxlength[39m=[32m"255"[39m
                   [33mname[39m=[32m"shortDescription"[39m
                   [33mtype[39m=[32m"text"[39m
                 [36m/>[39m

@@ -75,6 +75,7 @@ export default function QcmBlock({ blockName }: IQcmBlock) {
           type="text"
           name={`${blockName}.${fieldNames.fieldLabelQCM}`}
           label={labels.staticQcmLabel}
+          maxLengthValidation={255}
           isRequired
         />
       </div>

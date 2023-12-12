@@ -48,7 +48,7 @@ export default function CumbersomeBlock({ blockName }: ICumbersomeBlock) {
           name={`${blockName}.${fieldNames.cumbersomeLabel}`}
           label={labels.staticLabel}
           isRequired
-          maxLengthValidation={50}
+          maxLengthValidation={255}
         />
       </div>
       <div className="c-CumbersomeBlock__MaxVolumeOfCumbersome">
@@ -98,7 +98,6 @@ export default function CumbersomeBlock({ blockName }: ICumbersomeBlock) {
           name={`${blockName}.${fieldNames.cumbersomeLimitMessage}`}
           label={labels.staticLimitMessage}
           isRequired
-          maxLengthValidation={100}
         />
       </div>
     </div>

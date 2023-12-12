@@ -44,7 +44,7 @@ export default function SectorForm({
     title:
       "Dessinez un secteur sur la carte ou bien saisissez les communes du secteur :",
   };
-  const maxCharacters = 30;
+  const maxCharacters = 255;
   const defaultQueryVariables: GetSectorizationByIdQueryVariables = {
     sectorizationId: defaultValue?.id,
   };

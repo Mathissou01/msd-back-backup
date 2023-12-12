@@ -82,8 +82,8 @@ export default function RequestStaticFieldsTop({
           name="name"
           label={labels.staticName}
           isRequired={true}
-          maxLengthValidation={50}
-          validationLabel={`50 ${labels.staticMaxCharacters}`}
+          maxLengthValidation={255}
+          validationLabel={`255 ${labels.staticMaxCharacters}`}
         />
         <div className="c-RequestStaticFieldsTop__Aggregate">
           <FormSelect<RequestAggregateEntity>

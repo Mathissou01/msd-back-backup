@@ -382,7 +382,6 @@ export default function PickUpDaysFormStaticFields({
             name="complementaryMention"
             label={labels.staticComplementaryMention}
             tagType="textarea"
-            maxLengthValidation={100}
           />
         </div>
       </div>

@@ -50,13 +50,13 @@ export default function CommentaryBlock({ blockName }: ICommentaryBlockProps) {
         type="text"
         name={`${blockName}.${fieldNames.label}`}
         label={labels.label}
-        maxLengthValidation={50}
+        maxLengthValidation={255}
         isRequired
       />
       <FormInput
         type="text"
         name={`${blockName}.${fieldNames.placeholder}`}
-        maxLengthValidation={50}
+        maxLengthValidation={255}
         label={labels.placeholder}
       />
     </div>

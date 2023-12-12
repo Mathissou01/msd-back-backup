@@ -74,7 +74,7 @@ export default function QuestionsBlock({ blockName }: IQuestionsBlock) {
           name={`${blockName}.${fieldNames.questionTextLabel}`}
           label={labels.staticQuestionTextLabel}
           isRequired
-          maxLengthValidation={50}
+          maxLengthValidation={255}
         />
       </div>
       <div className="c-QuestionsBlock__Field c-QuestionsBlock__QuestionTextPlaceholder">
