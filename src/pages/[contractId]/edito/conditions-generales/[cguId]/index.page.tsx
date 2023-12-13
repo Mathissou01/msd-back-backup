@@ -74,8 +74,13 @@ export function EditoCguFormPage({ cguId }: IEditoCguFormPageProps) {
   async function handlePreview() {
     // TODO: merge preview pages or refactor code. In this case is the cguId needed?
     if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams({
+        id: cguId,
+        type: "cgu",
+      });
+
       window.open(
-        `${currentRoot}/edito/conditions-generales/preview?id=${cguId}`,
+        `${currentRoot}/preview?${queryParams.toString()}`,
         "_blank",
         "noreferrer",
       );

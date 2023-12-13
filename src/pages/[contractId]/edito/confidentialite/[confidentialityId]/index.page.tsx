@@ -76,8 +76,13 @@ export function EditoConfidentialityFormPage({
   async function handlePreview() {
     // TODO: merge preview pages or refactor code. In this case is the confidentialityId needed?
     if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams({
+        id: confidentialityId,
+        type: "confidentiality",
+      });
+
       window.open(
-        `${currentRoot}/edito/confidentialite/preview?id=${confidentialityId}`,
+        `${currentRoot}/preview?${queryParams.toString()}`,
         "_blank",
         "noreferrer",
       );

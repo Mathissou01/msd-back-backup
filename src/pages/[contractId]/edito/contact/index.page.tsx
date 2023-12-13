@@ -75,8 +75,13 @@ export function EditoContactEditPage() {
   async function handlePreview() {
     // TODO: merge preview pages or refactor code. In this case is the contactUsId needed?
     if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams({
+        id: contactUsId ?? "",
+        type: "contactUs",
+      });
+
       window.open(
-        `${currentRoot}/preview?id=${contactUsId}?type=contact`,
+        `${currentRoot}/preview?${queryParams.toString()}`,
         "_blank",
         "noreferrer",
       );
