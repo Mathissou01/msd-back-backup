@@ -4433,6 +4433,7 @@ export type LongFilterInput = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  addBanPropertiesOnMigratedDropOffMaps?: Maybe<Scalars["Boolean"]>;
   bulkDeleteMedias?: Maybe<Array<Maybe<DeletedMessage>>>;
   bulkMoveMedias?: Maybe<Array<Maybe<RequestFileOrFolder>>>;
   changeContractStatus?: Maybe<ContractStatus>;
@@ -6754,6 +6755,7 @@ export type Query = {
   getAppointmentsDetails?: Maybe<AppointmentDetails>;
   getBackOfficeUserListByContractId?: Maybe<Array<Maybe<User>>>;
   getCitiesInformations?: Maybe<Array<Maybe<CityInformation>>>;
+  getCityInformationsByInsee?: Maybe<CityInformation>;
   getContentTypeDTOs?: Maybe<Array<Maybe<ContentTypeDto>>>;
   getContractIdByInseeCode?: Maybe<ContractEntity>;
   getCumbersomeReferential: Array<Maybe<Cumbersome>>;
@@ -7299,6 +7301,10 @@ export type QueryGetBackOfficeUserListByContractIdArgs = {
 export type QueryGetCitiesInformationsArgs = {
   prehome: Scalars["Boolean"];
   searchTerm: Scalars["String"];
+};
+
+export type QueryGetCityInformationsByInseeArgs = {
+  inseeCode: Scalars["String"];
 };
 
 export type QueryGetContentTypeDtOsArgs = {

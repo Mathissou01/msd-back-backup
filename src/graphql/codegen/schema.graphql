@@ -3985,6 +3985,7 @@ input LongFilterInput {
 }
 
 type Mutation {
+  addBanPropertiesOnMigratedDropOffMaps: Boolean
   bulkDeleteMedias(
     fileRequests: [RequestFile]!
     folderRequests: [RequestFolder]!
@@ -5455,6 +5456,7 @@ type Query {
     prehome: Boolean!
     searchTerm: String!
   ): [CityInformation]
+  getCityInformationsByInsee(inseeCode: String!): CityInformation
   getContentTypeDTOs(contractId: ID!): [ContentTypeDTO]
   getContractIdByInseeCode(INSEE: String!): ContractEntity
   getCumbersomeReferential: [Cumbersome]!

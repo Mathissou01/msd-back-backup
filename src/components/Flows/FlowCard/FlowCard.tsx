@@ -74,9 +74,7 @@ export function FlowCard({ flow, onOpenFlow }: IFlowCardProps) {
               onChangeHandler(isToggleActiveUpdated)
             }
             checked={isToggleActive ? isToggleActive : flow.isActivated}
-            disabled={
-              flow.name === "Ordure Ménagère" || !userPermissions.update
-            }
+            disabled={flow.code === "OMR" || !userPermissions.update}
           />
         </div>
       </div>
