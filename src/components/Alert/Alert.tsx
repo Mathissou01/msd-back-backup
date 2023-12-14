@@ -62,6 +62,8 @@ export default function Alert({
   const messages = {
     mandatoryFields: "Tous les champs marqués d'une * sont obligatoires.",
     required: "Ce champ est obligatoire",
+    maxEmailLengthTitle: 255,
+    maxEmailLengthMessage: 255,
     maxLengthTitle: 11,
     maxLengthMessage: 160,
     maxChars: "caractères maximum",
@@ -455,8 +457,8 @@ export default function Alert({
                     name="subject"
                     label={formLabels.subject}
                     isHidden={!watch("sendMail")}
-                    maxLengthValidation={messages.maxLengthTitle}
-                    informationLabel={`${messages.maxLengthTitle} ${messages.maxChars}`}
+                    maxLengthValidation={messages.maxEmailLengthTitle}
+                    informationLabel={`${messages.maxEmailLengthTitle} ${messages.maxChars}`}
                     isRequired={watch("sendMail")}
                   />
                   <FormWysiwyg
