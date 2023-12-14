@@ -125,119 +125,130 @@ export default function NavigationList() {
         <NavigationListMenu path={"/"} activeMenu={activeMenu} picto="house" />
       </li>
       {isChannelActivated && (
-        <li className="c-NavigationList__Item">
-          <NavigationListMenu
-            path={"/edito/"}
-            activeMenu={activeMenu}
-            picto="file"
-            onClick={handleClickMenu}
-          >
-            {services.newsService.isActivated && (
-              <NavigationListLink path={"/edito/actualites"} entityName="New" />
-            )}
-            {services.tipService.isActivated && (
-              <NavigationListLink path={"/edito/astuces"} entityName="Tip" />
-            )}
-            {/* TODO: When the Event page is ready, we can uncomment the next line! */}
-            {/* {services.eventService.isActivated && <NavigationListLink path={"/edito/evenements"} />} */}
-            {freeContentServices &&
-              freeContentServices.map((freeContentSubService, index) => {
-                if (
-                  freeContentSubService?.attributes &&
-                  isServiceActive(freeContentSubService.attributes)
-                ) {
-                  return (
-                    <NavigationListLink
-                      key={index}
-                      path={`/edito/contenu-libre/${freeContentSubService.id}`}
-                      label={freeContentSubService.attributes.name}
-                      entityName="FreeContent"
-                    />
-                  );
-                }
-              })}
-            {/* TODO: When the Quiz page is ready, we can uncomment the next line! */}
-            {/* {services.quizService.isActivated && <NavigationListLink path={"/edito/quiz"} />} */}
-            {/*<NavigationListLink path={"/edito/chiffres-cles"} />*/}
-            <NavigationListLink
-              path={"/edito/bibliotheque-de-medias"}
-              entityName="Medias"
-            />
-            <NavigationListLink path={"/edito/thematiques"} entityName="Tag" />
-            <NavigationListLink
-              path={"/edito/type-contenu"}
-              entityName="ContentType"
-            />
-            {/*<NavigationListLink path={"/edito/accessibilite"} />*/}
-            <NavigationListLink
-              path={"/edito/conditions-generales"}
-              entityName="Cgu"
-            />
-            <NavigationListLink
-              path={"/edito/politique-cookies"}
-              entityName="Cookie"
-            />
-            <NavigationListLink
-              path={"/edito/confidentialite"}
-              entityName="Confidentiality"
-            />
-            {services.contactUsService.isActivated && (
+        <>
+          <li className="c-NavigationList__Item">
+            <NavigationListMenu
+              path={"/edito/"}
+              activeMenu={activeMenu}
+              picto="file"
+              onClick={handleClickMenu}
+            >
+              {services.newsService.isActivated && (
+                <NavigationListLink
+                  path={"/edito/actualites"}
+                  entityName="New"
+                />
+              )}
+              {services.tipService.isActivated && (
+                <NavigationListLink path={"/edito/astuces"} entityName="Tip" />
+              )}
+              {/* TODO: When the Event page is ready, we can uncomment the next line! */}
+              {/* {services.eventService.isActivated && <NavigationListLink path={"/edito/evenements"} />} */}
+              {freeContentServices &&
+                freeContentServices.map((freeContentSubService, index) => {
+                  if (
+                    freeContentSubService?.attributes &&
+                    isServiceActive(freeContentSubService.attributes)
+                  ) {
+                    return (
+                      <NavigationListLink
+                        key={index}
+                        path={`/edito/contenu-libre/${freeContentSubService.id}`}
+                        label={freeContentSubService.attributes.name}
+                        entityName="FreeContent"
+                      />
+                    );
+                  }
+                })}
+              {/* TODO: When the Quiz page is ready, we can uncomment the next line! */}
+              {/* {services.quizService.isActivated && <NavigationListLink path={"/edito/quiz"} />} */}
+              {/*<NavigationListLink path={"/edito/chiffres-cles"} />*/}
               <NavigationListLink
-                path={"/edito/contact"}
-                entityName="ContactUs"
+                path={"/edito/bibliotheque-de-medias"}
+                entityName="Medias"
               />
-            )}
-          </NavigationListMenu>
-        </li>
+              <NavigationListLink
+                path={"/edito/thematiques"}
+                entityName="Tag"
+              />
+              <NavigationListLink
+                path={"/edito/type-contenu"}
+                entityName="ContentType"
+              />
+              {/*<NavigationListLink path={"/edito/accessibilite"} />*/}
+              <NavigationListLink
+                path={"/edito/conditions-generales"}
+                entityName="Cgu"
+              />
+              <NavigationListLink
+                path={"/edito/politique-cookies"}
+                entityName="Cookie"
+              />
+              <NavigationListLink
+                path={"/edito/confidentialite"}
+                entityName="Confidentiality"
+              />
+              {services.contactUsService.isActivated && (
+                <NavigationListLink
+                  path={"/edito/contact"}
+                  entityName="ContactUs"
+                />
+              )}
+            </NavigationListMenu>
+          </li>
+          <li className="c-NavigationList__Item">
+            <NavigationListMenu
+              path={"/services/"}
+              activeMenu={activeMenu}
+              picto="dashboard"
+              onClick={handleClickMenu}
+            >
+              {services.dropOffMapService.isActivated && (
+                <NavigationListLink
+                  path={"/services/carte"}
+                  entityName="DropOffMap"
+                />
+              )}
+              {services.recyclingGuideService.isActivated && (
+                <NavigationListLink
+                  path={"/services/guide-tri"}
+                  entityName="RecyclingGuide"
+                />
+              )}
+              {services.myWCCounterService.isActivated && (
+                <NavigationListLink
+                  path={"/services/mon-compteur-dechets"}
+                  entityName="Mwc"
+                />
+              )}
+              {services.pickUpDayService.isActivated && (
+                <NavigationListLink
+                  path={"/services/jour-collecte"}
+                  entityName="PickUpDay"
+                />
+              )}
+              {services.requestService.isActivated && (
+                <NavigationListLink
+                  path={"/services/demandes"}
+                  entityName="Request"
+                />
+              )}
+              {services.yesWeScanService.isActivated && (
+                <NavigationListLink
+                  path={"/services/yeswescan"}
+                  entityName="Yws"
+                />
+              )}
+              {services.alertNotificationService.isActivated && (
+                <NavigationListLink
+                  path={"/services/alertes"}
+                  entityName="AlertNotification"
+                />
+              )}
+            </NavigationListMenu>
+          </li>
+        </>
       )}
-      <li className="c-NavigationList__Item">
-        <NavigationListMenu
-          path={"/services/"}
-          activeMenu={activeMenu}
-          picto="dashboard"
-          onClick={handleClickMenu}
-        >
-          {services.dropOffMapService.isActivated && (
-            <NavigationListLink
-              path={"/services/carte"}
-              entityName="DropOffMap"
-            />
-          )}
-          {services.recyclingGuideService.isActivated && (
-            <NavigationListLink
-              path={"/services/guide-tri"}
-              entityName="RecyclingGuide"
-            />
-          )}
-          {services.myWCCounterService.isActivated && (
-            <NavigationListLink
-              path={"/services/mon-compteur-dechets"}
-              entityName="Mwc"
-            />
-          )}
-          {services.pickUpDayService.isActivated && (
-            <NavigationListLink
-              path={"/services/jour-collecte"}
-              entityName="PickUpDay"
-            />
-          )}
-          {services.requestService.isActivated && (
-            <NavigationListLink
-              path={"/services/demandes"}
-              entityName="Request"
-            />
-          )}
-          {services.yesWeScanService.isActivated && (
-            <NavigationListLink path={"/services/yeswescan"} entityName="Yws" />
-          )}
-          {services.alertNotificationService.isActivated && (
-            <NavigationListLink
-              path={"/services/alertes"}
-              entityName="AlertNotification"
-            />
-          )}
-        </NavigationListMenu>
-      </li>
       <li className="c-NavigationList__Item">
         <NavigationListMenu
           path={"/personnalisation/"}

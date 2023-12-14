@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import router from "next/router";
 import { FieldValues, FormProvider, useForm, useWatch } from "react-hook-form";
-import {
-  ServiceType,
-  useCreateEmptyContractMutation,
-} from "../../graphql/codegen/generated-types";
+import { useCreateEmptyContractMutation } from "../../graphql/codegen/generated-types";
 import { IClientFields } from "../../lib/client-contract";
 import FormRadioInput from "../Form/FormRadioInput/FormRadioInput";
 import FormInput from "../Form/FormInput/FormInput";
@@ -115,12 +112,7 @@ export default function ClientInformation() {
       clear: clear,
       clientType: submitData.clientType,
       isNonExclusive: isNonExclusive,
-      servicesToActivate: [
-        ServiceType.Event,
-        ServiceType.PickUpDay,
-        ServiceType.Mwc,
-        ServiceType.Tip,
-      ],
+      servicesToActivate: [],
       isFreemium: false,
     };
     return createEmptyContract({
