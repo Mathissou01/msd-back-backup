@@ -2,7 +2,7 @@ import { TableColumn } from "react-data-table-component";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { add, addHours, format, parseISO } from "date-fns";
+import { add, addMinutes, format, parseISO } from "date-fns";
 import {
   ICurrentPagination,
   IDefaultTableRow,
@@ -62,7 +62,7 @@ export function AlertsPage() {
   );
 
   const currentTimeString = useMemo(
-    () => format(addHours(currentDate, 5), "HH:mm"),
+    () => format(addMinutes(currentDate, 1), "HH:mm"),
     [currentDate],
   );
 
