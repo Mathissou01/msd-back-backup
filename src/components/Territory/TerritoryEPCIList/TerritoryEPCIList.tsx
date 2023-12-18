@@ -141,18 +141,17 @@ export default function TerritoryEPCIList({
       <div>
         <CommonLoader isLoading={loadingImportSiren}>
           {territoryData?.epci.length > 0 ? (
-            territoryData?.epci?.map((epci) =>
-              epci.attributes?.name && epci.attributes?.siren ? (
-                <EPCIRowContent
-                  key={epci.id}
-                  name={epci.attributes.name}
-                  siren={epci.attributes.siren}
-                  communes={epci.attributes?.cities?.data.length || 0}
-                  epci={epci}
-                  handleDelete={handleDelete}
-                />
-              ) : null,
-            )
+            territoryData?.epci?.map((epci) => {
+              if (epci && epci.id && epci.attributes && epci.attributes.name) {
+                return (
+                  <EPCIRowContent
+                    key={epci.id}
+                    epci={epci}
+                    handleDelete={handleDelete}
+                  />
+                );
+              }
+            })
           ) : (
             <div className="c-TerritoryEPCIList__NoRecords">
               <span>{labels.noRecordsLabel}</span>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TableColumn } from "react-data-table-component";
 import { IDefaultTableRow } from "../../../../lib/common-data-table";
-import { EpciEntity } from "../../../../graphql/codegen/generated-types";
+import { CityEntity } from "../../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../../lib/utilities";
 import CommonDataTable from "../../../Common/CommonDataTable/CommonDataTable";
 
@@ -16,13 +16,15 @@ interface IContractCitiesTableRow extends IDefaultTableRow {
 }
 
 interface ITerritoryClientCitiesProps {
-  EPCICommunes: EpciEntity;
+  epciCities: Array<CityEntity>;
 }
 
 export default function TerritoryEPCICommunes({
-  EPCICommunes,
+  epciCities,
 }: ITerritoryClientCitiesProps) {
   /* Static data */
+  const defaultRowsPerPage = 15;
+  const defaultPage = 1;
   const labels = {
     clientMunicipality: "Liste des communes",
     columns: {
@@ -86,13 +88,9 @@ export default function TerritoryEPCICommunes({
   ];
 
   useEffect(() => {
-    if (
-      EPCICommunes &&
-      EPCICommunes.attributes?.cities &&
-      EPCICommunes.attributes?.cities.data
-    ) {
+    if (epciCities) {
       setTableData(
-        EPCICommunes.attributes.cities.data
+        epciCities
           .map((city) => {
             if (city.attributes) {
               return {
@@ -110,13 +108,19 @@ export default function TerritoryEPCICommunes({
           .filter(removeNulls) ?? [],
       );
     }
-  }, [EPCICommunes]);
+  }, [epciCities]);
 
   return (
     <div className="c-TerritoryEPCICommunes">
       <CommonDataTable<IContractCitiesTableRow>
         columns={tableColumns}
         data={tableData}
+        paginationOptions={{
+          hasPagination: true,
+          hasRowsPerPageOptions: false,
+          defaultRowsPerPage,
+          defaultPage,
+        }}
       />
     </div>
   );

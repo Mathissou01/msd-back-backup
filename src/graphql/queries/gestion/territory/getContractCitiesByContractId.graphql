@@ -5,10 +5,8 @@ query getContractCitiesByContractId(
 ) {
   cities(
     filters: {
-      or: [
-        { territories: { contract: { id: { eq: $contractId } } } }
-        { epci: { territories: { contract: { id: { eq: $contractId } } } } }
-      ]
+      territories: { contract: { id: { eq: $contractId } } }
+      epci: { id: { eq: null } }
     }
     pagination: $pagination
     sort: $sort

@@ -2,6 +2,15 @@ query getCitiesByEpciId($epciId: ID!) {
   cities(filters: { epci: { id: { eq: $epciId } } }) {
     data {
       id
+      attributes {
+        department
+        insee
+        name
+        postalCode
+        region
+        siren
+        GeoJSON
+      }
     }
   }
 }

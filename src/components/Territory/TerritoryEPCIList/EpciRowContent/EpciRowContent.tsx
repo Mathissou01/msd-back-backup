@@ -1,23 +1,17 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-import { EpciEntity } from "../../../../graphql/codegen/generated-types";
+import {
+  EpciEntity,
+  useGetCitiesByEpciIdQuery,
+} from "../../../../graphql/codegen/generated-types";
 import TerritoryEPCICommunes from "../TerritoryEPCICommunes/TerritoryEPCICommunes";
 import "./epci-row-content.scss";
 
 interface IAccordion {
-  name: string;
-  siren: string;
-  communes: number;
   epci: EpciEntity;
   handleDelete: (id: string) => void;
 }
-export default function EpciRowContent({
-  epci,
-  name,
-  siren,
-  communes,
-  handleDelete,
-}: IAccordion) {
+export default function EpciRowContent({ epci, handleDelete }: IAccordion) {
   const labels = {
     columns: {
       siren: "Siren :",
@@ -27,6 +21,12 @@ export default function EpciRowContent({
   };
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const { data: epciCities } = useGetCitiesByEpciIdQuery({
+    variables: {
+      epciId: epci.id ?? "",
+    },
+  });
+
   return (
     <div className="c-EpciRowContent">
       <div className="c-EpciRowContent__ContentRow">
@@ -34,9 +34,9 @@ export default function EpciRowContent({
           className="c-EpciRowContent__ContentRowContent"
           data-testid="accordion-content"
         >
-          <span>{name}</span>
-          <span>{`${labels.columns.siren}  ${siren}`}</span>
-          <span>{`${communes} ${labels.columns.communes}`}</span>
+          <span>{epci.attributes?.name}</span>
+          <span>{`${labels.columns.siren}  ${epci.attributes?.siren}`}</span>
+          <span>{`${epciCities?.cities?.data.length} ${labels.columns.communes}`}</span>
 
           <span
             className="c-EpciRowContent__ContentRowExpander"
@@ -62,7 +62,7 @@ export default function EpciRowContent({
 
       {isExpanded && (
         <div className="c-EpciRowContent__ExpandedContent">
-          <TerritoryEPCICommunes EPCICommunes={epci} />
+          <TerritoryEPCICommunes epciCities={epciCities?.cities?.data ?? []} />
         </div>
       )}
     </div>

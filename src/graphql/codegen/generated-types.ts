@@ -14257,7 +14257,20 @@ export type GetCitiesByEpciIdQuery = {
   __typename?: "Query";
   cities?: {
     __typename?: "CityEntityResponseCollection";
-    data: Array<{ __typename?: "CityEntity"; id?: string | null }>;
+    data: Array<{
+      __typename?: "CityEntity";
+      id?: string | null;
+      attributes?: {
+        __typename?: "City";
+        department?: string | null;
+        insee?: string | null;
+        name?: string | null;
+        postalCode?: string | null;
+        region?: string | null;
+        siren?: string | null;
+        GeoJSON?: any | null;
+      } | null;
+    }>;
   } | null;
 };
 
@@ -14351,6 +14364,22 @@ export type GetTerritoriesByContractIdQuery = {
       attributes?: {
         __typename?: "Territory";
         numberOfInhabitants?: any | null;
+        cities?: {
+          __typename?: "CityRelationResponseCollection";
+          data: Array<{
+            __typename?: "CityEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "City";
+              name?: string | null;
+              insee?: string | null;
+              department?: string | null;
+              postalCode?: string | null;
+              region?: string | null;
+              siren?: string | null;
+            } | null;
+          }>;
+        } | null;
         epcis?: {
           __typename?: "EpciRelationResponseCollection";
           data: Array<{
@@ -14360,22 +14389,6 @@ export type GetTerritoriesByContractIdQuery = {
               __typename?: "Epci";
               name?: string | null;
               siren: string;
-              cities?: {
-                __typename?: "CityRelationResponseCollection";
-                data: Array<{
-                  __typename?: "CityEntity";
-                  id?: string | null;
-                  attributes?: {
-                    __typename?: "City";
-                    name?: string | null;
-                    insee?: string | null;
-                    department?: string | null;
-                    postalCode?: string | null;
-                    region?: string | null;
-                    siren?: string | null;
-                  } | null;
-                }>;
-              } | null;
             } | null;
           }>;
         } | null;
@@ -27898,6 +27911,15 @@ export const GetCitiesByEpciIdDocument = gql`
     cities(filters: { epci: { id: { eq: $epciId } } }) {
       data {
         id
+        attributes {
+          department
+          insee
+          name
+          postalCode
+          region
+          siren
+          GeoJSON
+        }
       }
     }
   }
@@ -28030,10 +28052,8 @@ export const GetContractCitiesByContractIdDocument = gql`
   ) {
     cities(
       filters: {
-        or: [
-          { territories: { contract: { id: { eq: $contractId } } } }
-          { epci: { territories: { contract: { id: { eq: $contractId } } } } }
-        ]
+        territories: { contract: { id: { eq: $contractId } } }
+        epci: { id: { eq: null } }
       }
       pagination: $pagination
       sort: $sort
@@ -28178,6 +28198,19 @@ export const GetTerritoriesByContractIdDocument = gql`
       data {
         id
         attributes {
+          cities {
+            data {
+              id
+              attributes {
+                name
+                insee
+                department
+                postalCode
+                region
+                siren
+              }
+            }
+          }
           numberOfInhabitants
           epcis {
             data {
@@ -28185,19 +28218,6 @@ export const GetTerritoriesByContractIdDocument = gql`
               attributes {
                 name
                 siren
-                cities {
-                  data {
-                    id
-                    attributes {
-                      name
-                      insee
-                      department
-                      postalCode
-                      region
-                      siren
-                    }
-                  }
-                }
               }
             }
           }

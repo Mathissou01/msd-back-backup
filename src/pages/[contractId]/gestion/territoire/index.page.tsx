@@ -80,7 +80,7 @@ export function TerritoryPage() {
               territoryData={territory}
               contractId={contractId}
             />
-            <TerritoryClientCities territoryId={territory.id} />
+            <TerritoryClientCities />
           </div>
         )}
       </CommonLoader>

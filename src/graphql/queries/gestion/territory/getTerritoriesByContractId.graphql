@@ -2,7 +2,21 @@ query getTerritoriesByContractId($contractId: ID!) {
   territories(filters: { contract: { id: { eq: $contractId } } }) {
     data {
       id
+
       attributes {
+        cities {
+          data {
+            id
+            attributes {
+              name
+              insee
+              department
+              postalCode
+              region
+              siren
+            }
+          }
+        }
         numberOfInhabitants
         epcis {
           data {
@@ -10,19 +24,6 @@ query getTerritoriesByContractId($contractId: ID!) {
             attributes {
               name
               siren
-              cities {
-                data {
-                  id
-                  attributes {
-                    name
-                    insee
-                    department
-                    postalCode
-                    region
-                    siren
-                  }
-                }
-              }
             }
           }
         }

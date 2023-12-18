@@ -7,10 +7,10 @@ import {
 } from "../../../lib/common-data-table";
 import { useUser } from "../../../hooks/useUser";
 import {
-  useCreateCityMutation,
   useDeleteCityByIdMutation,
   useGetCitiesInformationsLazyQuery,
   useGetContractCitiesByContractIdLazyQuery,
+  useImportMunicipalitiesByContractIdMutation,
   useUpdateCityByIdMutation,
 } from "../../../graphql/codegen/generated-types";
 import { useContract } from "../../../hooks/useContract";
@@ -53,13 +53,7 @@ interface IRegion {
   name: string;
 }
 
-interface ITerritoryClientCitiesProps {
-  territoryId: string;
-}
-
-export default function TerritoryClientCities({
-  territoryId,
-}: ITerritoryClientCitiesProps) {
+export default function TerritoryClientCities() {
   /* Static data */
   const labels = {
     clientMunicipality: "Liste des communes",
@@ -95,20 +89,14 @@ export default function TerritoryClientCities({
       setcustomErrorMessage("Cette commune à déjà été créée");
       return;
     }
-    const variables = {
-      data: {
-        territories: [territoryId],
-        name: city.name,
-        insee: city.insee,
-        siren: city.siren,
-        postalCode: city.postalCode,
-        department: city.department.name,
-        region: city.region.name,
-      },
-    };
 
     return createContractCity({
-      variables,
+      variables: {
+        contractId: contractId,
+        file: city.insee,
+      },
+    }).catch((error) => {
+      setcustomErrorMessage(error.message);
     });
   }
 
@@ -176,12 +164,12 @@ export default function TerritoryClientCities({
   const confirmStatesRef = useRef<Array<boolean>>([]);
   const tableDataRef = useRef<Array<IContractCitiesTableRow>>(tableData);
   const { getValues, setValue, watch } = useForm();
-  const [customErrorMessage, setcustomErrorMessage] = useState("");
+  const [customErrorMessage, setcustomErrorMessage] = useState<string>("");
   const [getContractCities, { data, loading, error }] =
     useGetContractCitiesByContractIdLazyQuery();
 
-  const [createContractCity, { loading: loadingCreate, error: errorCreate }] =
-    useCreateCityMutation({
+  const [createContractCity, { loading: loadingCreate }] =
+    useImportMunicipalitiesByContractIdMutation({
       refetchQueries: ["getContractCitiesByContractId"],
     });
 
@@ -318,7 +306,7 @@ export default function TerritoryClientCities({
 
   /* External data */
   const isLoading = loading || loadingCreate || loadingDelete || loadingUpdate;
-  const errors = [error, errorCreate, errorDelete, errorUpdate, errorCities];
+  const errors = [error, errorDelete, errorUpdate, errorCities];
 
   useEffect(() => {
     if (data && data.cities && data.cities.data) {
@@ -361,7 +349,7 @@ export default function TerritoryClientCities({
   return (
     <div className="c-ClientCities">
       <h2 className="c-ClientCities__Title">{labels.clientMunicipality}</h2>
-      <CommonLoader isLoading={false} errors={errors}>
+      <CommonLoader isLoading={isLoading} errors={errors}>
         <CommonDataTable<IContractCitiesTableRow>
           columns={tableColumns}
           data={tableData}
