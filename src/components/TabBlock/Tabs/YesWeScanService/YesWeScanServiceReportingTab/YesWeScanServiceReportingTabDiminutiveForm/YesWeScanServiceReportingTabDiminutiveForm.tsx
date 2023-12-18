@@ -29,7 +29,7 @@ export default function YesWeScanServiceReportingTabDiminutiveForm({
     maxCharacters: "caractères maximum",
     submitButton: "Enregistrer le diminutif",
   };
-  const diminutiveMaxLength = 10;
+  const diminutiveMaxLength = 30;
 
   const { data: qrCodesAssociated } = useGetYwsQrCodesByServiceIdQuery({
     variables: {
