@@ -9,6 +9,7 @@ import {
   CollectEntity,
   ComponentBlocksDownloadBlockInput,
   ComponentBlocksOpeningDay,
+  Enum_Dropoffmap_Wasteformsstatus,
   GetDropOffMapByIdDocument,
   useCreateDropOffMapMutation,
   useGetDropOffCollectTypeByContractIdQuery,
@@ -51,6 +52,10 @@ export function ServiceCartePointInteretPage({
     staticPhoneNumber: "Téléphone",
     staticMustKnow: "A savoir avant de venir",
     staticHasCustomAddress: "Adresse personnalisée (affichée au citoyen)",
+    staticDropOffWasteFormStatus: "Déchets acceptés/refusés",
+    staticDropOffWasteFormDescription:
+      "L'usager ne verra que les déchets acceptés, sélectionnez si vous voulez définir la liste en ajoutant les déchets acceptés ou en retirant les déchets refusés de la liste générique",
+    staticDropOffWasteFormList: "Rechercher les déchets",
   };
 
   /* Methods */
@@ -90,6 +95,15 @@ export function ServiceCartePointInteretPage({
         openingHoursBlocks: submitData.openingHoursBlocks,
         audiences: submitData.audiences.map(
           (user: IFormSingleMultiselectOption) => user.value.toString(),
+        ),
+        wasteFormsStatus:
+          submitData.wasteFormsStatus === Enum_Dropoffmap_Wasteformsstatus
+            ? Enum_Dropoffmap_Wasteformsstatus.Accepted
+            : Enum_Dropoffmap_Wasteformsstatus.Refused,
+        wasteFormsList: submitData.wasteFormsList.map(
+          (dropOffMap: IFormSingleMultiselectOption) => {
+            return dropOffMap.value;
+          },
         ),
       },
     };
@@ -259,6 +273,14 @@ export function ServiceCartePointInteretPage({
               value: user.id ?? "",
             };
           }),
+          wasteFormsStatus: dropOffMapData.attributes.wasteFormsStatus,
+          wasteFormsList:
+            dropOffMapData.attributes.wasteFormsList?.data.map((wasteForm) => {
+              return {
+                value: wasteForm.id ?? "",
+                label: wasteForm.attributes?.name ?? "",
+              };
+            }) ?? [],
         };
         setMappedData(mappedData);
         setIsInitialized(true);

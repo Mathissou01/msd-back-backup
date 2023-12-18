@@ -69,6 +69,15 @@ query getDropOffMapById($dropOffMapId: ID!) {
             afterNoonEnd
           }
         }
+        wasteFormsStatus
+        wasteFormsList {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
       }
     }
   }

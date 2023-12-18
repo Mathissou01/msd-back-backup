@@ -1,5 +1,8 @@
 import { IFormSingleMultiselectOption } from "../components/Form/FormSingleMultiselect/FormSingleMultiselect";
-import { ComponentBlocksOpeningDay } from "../graphql/codegen/generated-types";
+import {
+  ComponentBlocksOpeningDay,
+  Enum_Dropoffmap_Wasteformsstatus,
+} from "../graphql/codegen/generated-types";
 import { IFormBlock } from "./dynamic-blocks";
 
 export interface ICollectType {
@@ -22,4 +25,6 @@ export interface IDropOffMapStaticFields {
   audiences?: Array<IFormSingleMultiselectOption>;
   hasCustomAddress?: boolean | null;
   customAddress?: string | null;
+  wasteFormsStatus: Enum_Dropoffmap_Wasteformsstatus | null | undefined;
+  wasteFormsList: Array<IFormSingleMultiselectOption>;
 }

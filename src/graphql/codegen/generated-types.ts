@@ -2481,6 +2481,8 @@ export type DropOffMap = {
   >;
   phoneNumber?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+  wasteFormsList?: Maybe<WasteFormRelationResponseCollection>;
+  wasteFormsStatus?: Maybe<Enum_Dropoffmap_Wasteformsstatus>;
 };
 
 export type DropOffMapAudiencesArgs = {
@@ -2491,6 +2493,12 @@ export type DropOffMapAudiencesArgs = {
 
 export type DropOffMapDownloadableFilesArgs = {
   filters?: InputMaybe<ComponentBlocksDownloadBlockFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type DropOffMapWasteFormsListArgs = {
+  filters?: InputMaybe<WasteFormFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
@@ -2563,6 +2571,8 @@ export type DropOffMapFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<DropOffMapFiltersInput>>>;
   phoneNumber?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  wasteFormsList?: InputMaybe<WasteFormFiltersInput>;
+  wasteFormsStatus?: InputMaybe<StringFilterInput>;
 };
 
 export type DropOffMapInput = {
@@ -2587,6 +2597,8 @@ export type DropOffMapInput = {
     Array<Scalars["DropOffMapOpeningHoursBlocksDynamicZoneInput"]>
   >;
   phoneNumber?: InputMaybe<Scalars["String"]>;
+  wasteFormsList?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  wasteFormsStatus?: InputMaybe<Enum_Dropoffmap_Wasteformsstatus>;
 };
 
 export type DropOffMapOpeningHoursBlocksDynamicZone =
@@ -2782,6 +2794,11 @@ export enum Enum_Contract_Contractstatus {
   Desactive = "Desactive",
   EnCours = "En_cours",
   Initialisation = "Initialisation",
+}
+
+export enum Enum_Dropoffmap_Wasteformsstatus {
+  Accepted = "accepted",
+  Refused = "refused",
 }
 
 export enum Enum_Editocontentdto_Status {
@@ -3057,18 +3074,11 @@ export type EnrichRequest = {
 
 export type Epci = {
   __typename?: "Epci";
-  cities?: Maybe<CityRelationResponseCollection>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   name?: Maybe<Scalars["String"]>;
   siren: Scalars["String"];
   territories?: Maybe<TerritoryRelationResponseCollection>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
-};
-
-export type EpciCitiesArgs = {
-  filters?: InputMaybe<CityFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type EpciTerritoriesArgs = {
@@ -3096,7 +3106,6 @@ export type EpciEntityResponseCollection = {
 
 export type EpciFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<EpciFiltersInput>>>;
-  cities?: InputMaybe<CityFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
@@ -3114,7 +3123,6 @@ export type EpciInformation = {
 };
 
 export type EpciInput = {
-  cities?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   name?: InputMaybe<Scalars["String"]>;
   siren?: InputMaybe<Scalars["String"]>;
   territories?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -18012,6 +18020,7 @@ export type GetDropOffMapByIdQuery = {
         mustKnow?: string | null;
         hasCustomAddress?: boolean | null;
         customAddress?: string | null;
+        wasteFormsStatus?: Enum_Dropoffmap_Wasteformsstatus | null;
         audiences?: {
           __typename?: "AudienceRelationResponseCollection";
           data: Array<{
@@ -18088,6 +18097,17 @@ export type GetDropOffMapByIdQuery = {
           | { __typename?: "Error" }
           | null
         > | null;
+        wasteFormsList?: {
+          __typename?: "WasteFormRelationResponseCollection";
+          data: Array<{
+            __typename?: "WasteFormEntity";
+            id?: string | null;
+            attributes?: {
+              __typename?: "WasteForm";
+              name?: string | null;
+            } | null;
+          }>;
+        } | null;
       } | null;
     } | null;
   } | null;
@@ -34571,6 +34591,15 @@ export const GetDropOffMapByIdDocument = gql`
               morningEnd
               afterNoonStart
               afterNoonEnd
+            }
+          }
+          wasteFormsStatus
+          wasteFormsList {
+            data {
+              id
+              attributes {
+                name
+              }
             }
           }
         }

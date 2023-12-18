@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { CollectEntity } from "../../../graphql/codegen/generated-types";
+import {
+  CollectEntity,
+  Enum_Dropoffmap_Wasteformsstatus,
+  useGetWasteFormsByContractIdQuery,
+} from "../../../graphql/codegen/generated-types";
 import { removeNulls } from "../../../lib/utilities";
 import AddressOrGpsFields, {
   AddressOrGpsFieldsLabels,
@@ -15,6 +19,11 @@ import FormCheckbox from "../../Form/FormCheckbox/FormCheckbox";
 import FormDynamicBlocks from "../../Form/FormDynamicBlocks/FormDynamicBlocks";
 import FormOpeningHours from "../../Form/FormOpeningHours/FormOpeningHours";
 import { TDynamicFieldConfiguration } from "../../../lib/dynamic-blocks";
+import FormRadioInput from "../../Form/FormRadioInput/FormRadioInput";
+import FormSingleMultiselect, {
+  IFormSingleMultiselectOption,
+} from "../../Form/FormSingleMultiselect/FormSingleMultiselect";
+import { useContract } from "../../../hooks/useContract";
 
 const validationPhoneNumber = /^[0-9]{10}$/;
 
@@ -28,6 +37,9 @@ export interface IDropOffMapStaticFieldsLabels {
   staticPhoneNumber?: string;
   staticMustKnow: string;
   staticHasCustomAddress: string;
+  staticDropOffWasteFormStatus: string;
+  staticDropOffWasteFormDescription: string;
+  staticDropOffWasteFormList: string;
 }
 
 interface IDropOffMapStaticFieldsProps {
@@ -44,11 +56,21 @@ export default function DropOffMapStaticFields({
   const mandatoryFields = "Tous les champs marqués d'une * sont obligatoires.";
 
   /* Local Data */
+  const { contractId } = useContract();
   const { resetField, watch } = useFormContext();
   const hasCustomAddressWatched = watch("hasCustomAddress");
   const [dropOffMapCollectTypes, setDropOffMapCollectTypes] = useState<
     Array<IOptionWrapper<CollectEntity>>
   >([]);
+  const [wasteFormOptions, setWasteFormOptions] = useState<
+    Array<IFormSingleMultiselectOption>
+  >([]);
+  const { data: wasteFormData } = useGetWasteFormsByContractIdQuery({
+    variables: {
+      contractId: contractId,
+      statusFilter: "published",
+    },
+  });
 
   function dropOffMapCollectTypesSelectDisplayTransformFunction(
     wasteFamily: CollectEntity,
@@ -69,6 +91,32 @@ export default function DropOffMapStaticFields({
       );
     }
   }, [collectTypes]);
+
+  useEffect(() => {
+    if (
+      wasteFormData &&
+      wasteFormData.wasteForms &&
+      wasteFormData.wasteForms.data
+    ) {
+      const mappedDropOffMapCollectTypes: Array<IFormSingleMultiselectOption> =
+        wasteFormData.wasteForms.data
+          .map((wasteFormData) => {
+            if (
+              wasteFormData &&
+              wasteFormData.id &&
+              wasteFormData.attributes &&
+              wasteFormData.attributes.name
+            ) {
+              return {
+                value: wasteFormData.id,
+                label: wasteFormData.attributes.name,
+              };
+            }
+          })
+          .filter(removeNulls);
+      setWasteFormOptions(mappedDropOffMapCollectTypes?.filter(removeNulls));
+    }
+  }, [wasteFormData]);
 
   const dynamicFieldsOptions: Array<TDynamicFieldConfiguration> = [
     { option: "ComponentBlocksDownloadBlock" },
@@ -130,6 +178,43 @@ export default function DropOffMapStaticFields({
           isVisible
         />
       </div>
+      {watch("dropOffMapCollectType").entityTypeName ===
+        "CollectDropOffEntity" && (
+        <div className="o-Form__Group">
+          <FormRadioInput
+            name="wasteFormsStatus"
+            displayName={labels.staticDropOffWasteFormStatus}
+            secondaryDisplayName={labels.staticDropOffWasteFormDescription}
+            isRequired
+            displayMode="vertical"
+            options={[
+              {
+                label: "Sélectionner les déchets acceptés",
+                value: Enum_Dropoffmap_Wasteformsstatus.Accepted,
+              },
+              {
+                label: "Sélectionner les déchets refusés",
+                value: Enum_Dropoffmap_Wasteformsstatus.Refused,
+              },
+            ]}
+          />
+          {watch("wasteFormsStatus") && (
+            <FormSingleMultiselect
+              name="wasteFormsList"
+              label={`${labels.staticDropOffWasteFormList} ${
+                watch("dropOffWasteFormStatus") ===
+                Enum_Dropoffmap_Wasteformsstatus.Accepted
+                  ? "acceptés"
+                  : "refusés"
+              }`}
+              options={wasteFormOptions}
+              isMulti
+              isRequired
+            />
+          )}
+        </div>
+      )}
+
       <div className="o-Form__Group">
         <FormDynamicBlocks
           name="downloadableFiles"
