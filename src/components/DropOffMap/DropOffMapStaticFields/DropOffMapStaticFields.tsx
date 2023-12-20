@@ -71,6 +71,10 @@ export default function DropOffMapStaticFields({
       statusFilter: "published",
     },
   });
+  const dropOffMapCollectTypeWatched = watch("dropOffMapCollectType");
+  const dynamicFieldsOptions: Array<TDynamicFieldConfiguration> = [
+    { option: "ComponentBlocksDownloadBlock" },
+  ];
 
   function dropOffMapCollectTypesSelectDisplayTransformFunction(
     wasteFamily: CollectEntity,
@@ -117,10 +121,6 @@ export default function DropOffMapStaticFields({
       setWasteFormOptions(mappedDropOffMapCollectTypes?.filter(removeNulls));
     }
   }, [wasteFormData]);
-
-  const dynamicFieldsOptions: Array<TDynamicFieldConfiguration> = [
-    { option: "ComponentBlocksDownloadBlock" },
-  ];
 
   return (
     <>
@@ -178,42 +178,44 @@ export default function DropOffMapStaticFields({
           isVisible
         />
       </div>
-      {watch("dropOffMapCollectType").entityTypeName ===
-        "CollectDropOffEntity" && (
-        <div className="o-Form__Group">
-          <FormRadioInput
-            name="wasteFormsStatus"
-            displayName={labels.staticDropOffWasteFormStatus}
-            secondaryDisplayName={labels.staticDropOffWasteFormDescription}
-            isRequired
-            displayMode="vertical"
-            options={[
-              {
-                label: "Sélectionner les déchets acceptés",
-                value: Enum_Dropoffmap_Wasteformsstatus.Accepted,
-              },
-              {
-                label: "Sélectionner les déchets refusés",
-                value: Enum_Dropoffmap_Wasteformsstatus.Refused,
-              },
-            ]}
-          />
-          {watch("wasteFormsStatus") && (
-            <FormSingleMultiselect
-              name="wasteFormsList"
-              label={`${labels.staticDropOffWasteFormList} ${
-                watch("dropOffWasteFormStatus") ===
-                Enum_Dropoffmap_Wasteformsstatus.Accepted
-                  ? "acceptés"
-                  : "refusés"
-              }`}
-              options={wasteFormOptions}
-              isMulti
+      {dropOffMapCollectTypeWatched !== undefined &&
+        dropOffMapCollectTypeWatched !== null &&
+        dropOffMapCollectTypeWatched.entityTypeName ===
+          "CollectDropOffEntity" && (
+          <div className="o-Form__Group">
+            <FormRadioInput
+              name="wasteFormsStatus"
+              displayName={labels.staticDropOffWasteFormStatus}
+              secondaryDisplayName={labels.staticDropOffWasteFormDescription}
               isRequired
+              displayMode="vertical"
+              options={[
+                {
+                  label: "Sélectionner les déchets acceptés",
+                  value: Enum_Dropoffmap_Wasteformsstatus.Accepted,
+                },
+                {
+                  label: "Sélectionner les déchets refusés",
+                  value: Enum_Dropoffmap_Wasteformsstatus.Refused,
+                },
+              ]}
             />
-          )}
-        </div>
-      )}
+            {watch("wasteFormsStatus") && (
+              <FormSingleMultiselect
+                name="wasteFormsList"
+                label={`${labels.staticDropOffWasteFormList} ${
+                  watch("dropOffWasteFormStatus") ===
+                  Enum_Dropoffmap_Wasteformsstatus.Accepted
+                    ? "acceptés"
+                    : "refusés"
+                }`}
+                options={wasteFormOptions}
+                isMulti
+                isRequired
+              />
+            )}
+          </div>
+        )}
 
       <div className="o-Form__Group">
         <FormDynamicBlocks
