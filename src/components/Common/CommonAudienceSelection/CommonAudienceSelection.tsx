@@ -21,6 +21,7 @@ export default function CommonAudienceSelection() {
   const requiredMessage = "Ce champ est obligatoire";
   const noAudienceAvailableMessage =
     "Merci d'activer au moins un usager afin de pouvoir enregistrer ce formulaire";
+  const noAudienceSelectedMessage = "Aucune audience sélectionnée";
 
   /* Methods */
   const handleStartModal = () => {
@@ -143,50 +144,58 @@ export default function CommonAudienceSelection() {
               {noAudienceAvailableMessage}
             </span>
           ) : (
-            <ul className="c-CommonAudienceSelection__List">
-              {selectedAudiences &&
-                (selectedAudiences.length > 1 ? (
-                  selectedAudiences?.length === audiencesNumberFromContract ? (
-                    <li>{labels.allAudiences}</li>
+            <>
+              {selectedAudiences && selectedAudiences.length > 0 ? (
+                <ul className="c-CommonAudienceSelection__List">
+                  {selectedAudiences.length > 1 ? (
+                    selectedAudiences.length === audiencesNumberFromContract ? (
+                      <li>{labels.allAudiences}</li>
+                    ) : (
+                      selectedAudiences.map((audience, index) => (
+                        <li key={index}>{audience.label}</li>
+                      ))
+                    )
                   ) : (
-                    selectedAudiences.map((audience, index) => {
-                      return <li key={index}>{audience.label}</li>;
-                    })
-                  )
-                ) : (
-                  selectedAudiences.length === 1 && (
-                    <li>{selectedAudiences[0].label}</li>
-                  )
-                ))}
-            </ul>
-          )}
-          <CommonButton
-            label={labels.modalOpenningBtn}
-            type="button"
-            style="secondary"
-            isDisabled={
-              !audiencesNumberFromContract || audiencesNumberFromContract <= 1
-            }
-            onClick={() => handleStartModal()}
-          />
-          <ErrorMessage
-            errors={errors}
-            name="audiences"
-            render={({ message }: { message: string }) => (
-              <CommonFormErrorText
-                message={message}
-                errorId={`audiences_error`}
+                    selectedAudiences.length === 1 && (
+                      <li>{selectedAudiences[0].label}</li>
+                    )
+                  )}
+                </ul>
+              ) : (
+                <span className="c-CommonAudienceSelection__NoAudienceAvailableMessage">
+                  {noAudienceSelectedMessage}
+                </span>
+              )}
+              <CommonButton
+                label={labels.modalOpenningBtn}
+                type="button"
+                style="secondary"
+                isDisabled={
+                  !audiencesNumberFromContract ||
+                  audiencesNumberFromContract <= 1
+                }
+                onClick={() => handleStartModal()}
               />
-            )}
+              <ErrorMessage
+                errors={errors}
+                name="audiences"
+                render={({ message }: { message: string }) => (
+                  <CommonFormErrorText
+                    message={message}
+                    errorId={`audiences_error`}
+                  />
+                )}
+              />
+            </>
+          )}
+          <AudienceModal
+            modalRef={modalRef}
+            onValidate={setAudiences}
+            selectedAudiences={selectedAudiences}
+            audienceOptions={audienceOptions ?? []}
           />
         </>
       )}
-      <AudienceModal
-        modalRef={modalRef}
-        onValidate={setAudiences}
-        selectedAudiences={selectedAudiences}
-        audienceOptions={audienceOptions ?? []}
-      />
     </>
   );
 }

@@ -135,13 +135,6 @@ exports[`CommonAudienceSelection renders without audiences 1`] = `
   >
     Merci d'activer au moins un usager afin de pouvoir enregistrer ce formulaire
   </span>
-  <button
-    class="c-CommonButton c-CommonButton_disabled c-CommonButton_secondary c-CommonButton_fontSmall"
-    disabled=""
-    type="button"
-  >
-    Sélectionner les usagers
-  </button>
    
   <div
     id="modal-portal"

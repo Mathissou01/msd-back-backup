@@ -74,7 +74,7 @@ describe("CommonAudienceSelection", () => {
       noAudienceAvailableMessage,
     );
     expect(noAudienceAvailableText).toBeInTheDocument();
-    expect(await container).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   it("has working behaviour when having single audience and clicking button", async () => {
@@ -92,7 +92,7 @@ describe("CommonAudienceSelection", () => {
     expect(await screen.findByText(individualsText)).toBeInTheDocument();
     await fireEvent.click(button);
     expect(await screen.findByText(audienceModalTitle)).toBeInTheDocument();
-    expect(await container).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   it("has working behaviour when having two audiences and clicking button", async () => {
@@ -123,7 +123,7 @@ describe("CommonAudienceSelection", () => {
     const selectUsersButton = await screen.findByText(openModalButtonLabel);
     expect(selectUsersButton).toBeInTheDocument();
     expect(await screen.findByText(allAudiencesText)).toBeInTheDocument();
-    expect(await container).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   it("has working behaviour when having two audiences already selected not matching all available audiences", async () => {
@@ -138,7 +138,7 @@ describe("CommonAudienceSelection", () => {
     expect(selectUsersButton).toBeInTheDocument();
     expect(await screen.findByText(individualsText)).toBeInTheDocument();
     expect(await screen.findByText(collectivesText)).toBeInTheDocument();
-    expect(await container).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   it("has working behaviour when having two audiences selected and clicking on submitButton in AudienceModal", async () => {
@@ -156,6 +156,6 @@ describe("CommonAudienceSelection", () => {
     expect(modalSubmitButton).toBeInTheDocument();
     await fireEvent.click(modalSubmitButton);
     expect(await screen.findByText(allAudiencesText)).toBeInTheDocument();
-    expect(await container).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
