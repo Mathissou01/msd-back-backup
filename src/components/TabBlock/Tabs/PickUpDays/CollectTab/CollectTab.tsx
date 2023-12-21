@@ -40,7 +40,7 @@ export function CollectTab() {
       title: "Nom de la collecte",
       flux: "Flux",
       secteur: "Secteur",
-      cities: "Communes",
+      cities: "Commune",
       modification: "Modification",
     },
   };
@@ -180,8 +180,9 @@ export function CollectTab() {
                 name: pickUpDays.attributes.name,
                 flow: pickUpDays.attributes.flow?.data?.attributes?.name || "",
                 cities:
-                  pickUpDays.attributes.cities?.data?.[0]?.attributes?.name ||
-                  "",
+                  pickUpDays.attributes.cities?.data
+                    ?.map((city) => city?.attributes?.name)
+                    .join(", ") || "",
                 secteur: pickUpDays.attributes.sectorizations?.data
                   ? pickUpDays.attributes.sectorizations?.data?.map(
                       (sector, index) =>
