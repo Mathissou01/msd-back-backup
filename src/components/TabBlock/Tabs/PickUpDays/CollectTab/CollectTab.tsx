@@ -27,6 +27,7 @@ interface IPickUpTableRow extends IDefaultTableRow {
   name: string;
   flow: string;
   secteur: React.ReactNode[];
+  cities: string;
   modification: string;
 }
 
@@ -39,6 +40,7 @@ export function CollectTab() {
       title: "Nom de la collecte",
       flux: "Flux",
       secteur: "Secteur",
+      cities: "Communes",
       modification: "Modification",
     },
   };
@@ -128,7 +130,13 @@ export function CollectTab() {
       cell: (row) => row.secteur,
       sortable: false,
     },
-
+    {
+      id: "cities.name",
+      name: tableLabels.columns.cities,
+      selector: (row) => row.cities,
+      cell: (row) => row.cities,
+      sortable: false,
+    },
     {
       id: "updatedAt",
       name: tableLabels.columns.modification,
@@ -171,6 +179,9 @@ export function CollectTab() {
                 editState: false,
                 name: pickUpDays.attributes.name,
                 flow: pickUpDays.attributes.flow?.data?.attributes?.name || "",
+                cities:
+                  pickUpDays.attributes.cities?.data?.[0]?.attributes?.name ||
+                  "",
                 secteur: pickUpDays.attributes.sectorizations?.data
                   ? pickUpDays.attributes.sectorizations?.data?.map(
                       (sector, index) =>

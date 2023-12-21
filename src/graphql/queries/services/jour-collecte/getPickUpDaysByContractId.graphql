@@ -13,6 +13,14 @@ query getPickUpDaysByContractId(
       attributes {
         name
         updatedAt
+        cities {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
         collectDoorToDoor {
           data {
             id

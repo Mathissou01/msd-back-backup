@@ -19810,6 +19810,14 @@ export type GetPickUpDaysByContractIdQuery = {
         __typename?: "PickUpDay";
         name: string;
         updatedAt?: any | null;
+        cities?: {
+          __typename?: "CityRelationResponseCollection";
+          data: Array<{
+            __typename?: "CityEntity";
+            id?: string | null;
+            attributes?: { __typename?: "City"; name?: string | null } | null;
+          }>;
+        } | null;
         collectDoorToDoor?: {
           __typename?: "CollectDoorToDoorEntityResponse";
           data?: {
@@ -37969,6 +37977,14 @@ export const GetPickUpDaysByContractIdDocument = gql`
         attributes {
           name
           updatedAt
+          cities {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
           collectDoorToDoor {
             data {
               id
